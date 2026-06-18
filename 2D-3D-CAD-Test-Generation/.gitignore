@@ -1,0 +1,29 @@
+# Secrets — NEVER commit the API key
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Pipeline artifacts
+output/*.sldprt
+output/*.SLDPRT
+debug_extraction.json
+*.log
+
+# Extraction cache (hashed API results)
+.extraction_cache/
+**/.extraction_cache/
+
+# Token & cost ledger (run artifacts)
+token_usage_log.txt
+token_usage_log.jsonl
+**/token_usage_log.*
+
+# OS
+.DS_Store
+Thumbs.db
