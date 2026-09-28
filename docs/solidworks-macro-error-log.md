@@ -226,7 +226,9 @@ fixtures.
   disagrees with `qty` or a position falls outside the envelope. Existing
   extractions (empty list) are byte-identical; this lifts the 117-C-style
   "14 holes collapse to stacked points" failure once a drawing is re-extracted.
-- **CI:** `.github/workflows/tests.yml` runs the full pytest suite on every push and
+- **CI** *(correction 2026-09-28: this workflow file is **not** in the repository.
+  It wasn't part of the uploaded code, so there is currently no CI. Re-add it
+  before relying on this guard.)*: `.github/workflows/tests.yml` runs the full pytest suite on every push and
   PR (Ubuntu, Python 3.11; pywin32 is Windows-guarded so the non-SolidWorks half
   runs cleanly), so a regression can never merge silently.
 - **Batch mode (scale):** `--batch <dir>` (`pipeline/batch.py`) runs the full

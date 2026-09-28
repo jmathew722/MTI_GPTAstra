@@ -30,6 +30,11 @@ outputs fail on this schema (use forced tool call + Pydantic repair retry);
 schema fields use non-null defaults; SolidWorks COM needs late-bound Dispatch +
 NULL VARIANTs.
 
+> **Note (2026-09-28):** the sections below are the original v1 design. Where they
+> conflict with the v2 summary above, **v2 wins**: extraction uses
+> `claude-sonnet-4-6` (overridable via `EXTRACTION_MODEL`) with a **forced tool
+> call**, not `claude-opus-4-8` with `messages.parse` structured outputs.
+
 ## Goal
 
 Take a 2D engineering drawing (image or PDF), extract every dimension / tolerance /

@@ -135,17 +135,27 @@ geometry or a hand-verified dimension/placement key per part (see §5).
 - Open watch-list items in the error log (FullyDefineSketch arg shape, unit
   system application, cbore face).
 
-### 3.5 Doc / repo drift (fix when touched)
-- README and error log mention `.github/workflows/tests.yml` CI — **the file
-  does not exist**.
-- The design spec (2026-06-11) says `claude-opus-4-8` + `messages.parse`. The code uses
-  `claude-sonnet-4-6` + a forced tool call (the spec's v2 summary notes the change,
-  but the body is stale).
-- Stray root files `extraction_115C/116C/117C.json` duplicate `output/` copies.
+### 3.5 Doc / repo drift
+
+Fixed 2026-09-28:
+- Added a root `README.md`.
+- `.gitignore` now blocks every `.env` / `.env.*` at any depth. Verified that no
+  `.env` or API key was ever committed.
+- The error log's CI entry is annotated: `.github/workflows/tests.yml` does
+  **not** exist, so there is **no CI yet**.
+- The 2026-06-11 spec is annotated: its v1 body (`claude-opus-4-8` +
+  `messages.parse`) is superseded by the v2 summary (`claude-sonnet-4-6` + forced
+  tool call).
+
+Still open (fix when touched):
+- No CI. Re-adding the workflow needs a green local test run first.
+- Stray code-root files `extraction_115C/116C/117C.json` duplicate the `output/` copies.
 - `Deliverables/` duplicates `output/` for the 5 built parts.
 - `.SLDPRT` binaries are committed to git (no LFS).
-- `.env.template` suggests `claude-opus-4-8`. Current models are Opus 5.5 /
-  Fable 5.1 / Sonnet 5.
+- The `.env.template` model hint and the `usage_log.py` price table only know
+  `claude-sonnet-4-6` / `claude-opus-4-8`. Unknown models (e.g. Opus 5.5) are
+  priced at the Sonnet fallback, so costs would be under-reported. Update both
+  together, as a code change.
 
 ## 4. Next phase — decided 2026-09-28 (designs written, no code yet)
 

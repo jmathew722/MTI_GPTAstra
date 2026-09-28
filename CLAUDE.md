@@ -18,7 +18,7 @@ Read it before starting non-trivial work.
 
 ```
 mti-2d-3d/
-├── CLAUDE.md, STATE.md            ← start here
+├── README.md, CLAUDE.md, STATE.md ← start here
 ├── 2D-3D-CAD-Test-Generation/     ← all code (run commands from this dir)
 │   ├── main.py                    CLI: --drawing | --from-json | --batch | --views-folder
 │   ├── run_models.py              end-to-end COM batch driver (auto-resolves ambiguities!)
