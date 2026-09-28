@@ -1,5 +1,7 @@
-# Secrets — NEVER commit the API key
+# Secrets — NEVER commit the API key (any .env variant; the template is safe)
 .env
+.env.*
+!.env.template
 
 # Python
 __pycache__/
