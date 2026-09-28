@@ -3,6 +3,11 @@
 **Last updated:** 2026-09-28 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **Status: preliminary.** Everything in the next-phase sections (§4, §5) is design
+> only. No pipeline code or infrastructure has changed yet. Review the
+> [PRD](https://claude.ai/code/artifact/b83a3b9b-12f5-457f-a1a8-eb9b0f5f6cc0)
+> (Claude Docs; ask ggould for access) and the specs before implementation starts.
+>
 > Update this file when a milestone lands, a part's status changes, or an open
 > decision is made. Keep numbers sourced: link the file they came from.
 
