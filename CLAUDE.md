@@ -31,6 +31,7 @@ mti-2d-3d/
 ├── NewVerifiedDrawings/           source drawings, flat: <part>.png, <part>_front_view.png, <part>_side_view.png
 ├── ViewDefinedDrawings/           source drawings, one folder per part (<part>_front/_side/.png)
 ├── docs/
+│   ├── PRD.md                          ← product requirements (goals, requirements, success targets)
 │   ├── solidworks-macro-error-log.md   ← every runtime failure + the generator rule it produced
 │   └── superpowers/specs/              design specs (dated)
 └── graphify-out/                  knowledge graph of the repo (GRAPH_REPORT.md, graph.html)

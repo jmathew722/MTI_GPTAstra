@@ -79,7 +79,7 @@ Copy `output/<Part>/` to any SolidWorks machine and follow `macros/README.md`.
 | [docs/solidworks-macro-error-log.md](docs/solidworks-macro-error-log.md) | Every real SolidWorks failure and the generator rule it produced |
 | [Roadmap](docs/superpowers/specs/2026-09-28-ai-cad-roadmap-design.md) | Next-phase decisions and architecture, plus specs for [A: Feature IR v2](docs/superpowers/specs/2026-09-28-feature-ir-v2-design.md), [B: auditor loop](docs/superpowers/specs/2026-09-28-auditor-loop-design.md) and [C: placement benchmark](docs/superpowers/specs/2026-09-28-placement-benchmark-design.md) |
 | [June 2026 pipeline design](docs/superpowers/specs/2026-06-11-2d-to-3d-solidworks-pipeline-design.md) | Original design of the current pipeline |
-| [PRD](https://claude.ai/code/artifact/b83a3b9b-12f5-457f-a1a8-eb9b0f5f6cc0) | Product requirements for review (Claude Docs; ask ggould for access) |
+| [docs/PRD.md](docs/PRD.md) | Product requirements: problem, goals, requirements, success targets, open questions for review |
 
 ## Knowledge graph
 

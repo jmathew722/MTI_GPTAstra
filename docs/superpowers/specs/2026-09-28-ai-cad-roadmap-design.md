@@ -1,7 +1,7 @@
 # AI CAD Roadmap — Design (umbrella)
 
 **Date:** 2026-09-28 · **Status:** preliminary. Approved in brainstorming; specs A–C written, D is a placeholder; awaiting collaborator review.
-**PRD for review:** [MTI 2D→3D AI CAD PRD](https://claude.ai/code/artifact/b83a3b9b-12f5-457f-a1a8-eb9b0f5f6cc0) (Claude Docs)
+**PRD for review:** [docs/PRD.md](../../PRD.md)
 **Author:** ggould (MalteseWarrior) with Claude · **Builds on:** [2026-06-11 pipeline design](2026-06-11-2d-to-3d-solidworks-pipeline-design.md)
 
 ## Problem
