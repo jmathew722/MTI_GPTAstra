@@ -1,0 +1,722 @@
+{
+  "2D-3D-CAD-Test-Generation/conftest.py": {
+    "mtime": 1790612445.5112176,
+    "seen": 1790614531.6852827,
+    "ast_hash": "1faad00ddb2b40f81e300c11832e36bf",
+    "semantic_hash": "1faad00ddb2b40f81e300c11832e36bf"
+  },
+  "2D-3D-CAD-Test-Generation/extraction_115C.json": {
+    "mtime": 1790612445.5150592,
+    "seen": 1790614531.685291,
+    "ast_hash": "362312655e722819346086403d86e6d6",
+    "semantic_hash": "362312655e722819346086403d86e6d6"
+  },
+  "2D-3D-CAD-Test-Generation/extraction_116C.json": {
+    "mtime": 1790612445.518048,
+    "seen": 1790614531.6852942,
+    "ast_hash": "d3fed74461c9aaa611ce7a63851473e5",
+    "semantic_hash": "d3fed74461c9aaa611ce7a63851473e5"
+  },
+  "2D-3D-CAD-Test-Generation/extraction_117C.json": {
+    "mtime": 1790612445.5200536,
+    "seen": 1790614531.6852956,
+    "ast_hash": "e1e08409eda342097a3de13636205fa2",
+    "semantic_hash": "e1e08409eda342097a3de13636205fa2"
+  },
+  "2D-3D-CAD-Test-Generation/main.py": {
+    "mtime": 1790612445.5231102,
+    "seen": 1790614531.6852973,
+    "ast_hash": "a69d5d916dd96be4b030eec648dc012a",
+    "semantic_hash": "a69d5d916dd96be4b030eec648dc012a"
+  },
+  "2D-3D-CAD-Test-Generation/output/115_C-RevB/115_C-RevB_build_plan.json": {
+    "mtime": 1790612445.5307355,
+    "seen": 1790614531.6852982,
+    "ast_hash": "d4699af391bd1cb788e0647384280fa6",
+    "semantic_hash": "d4699af391bd1cb788e0647384280fa6"
+  },
+  "2D-3D-CAD-Test-Generation/output/115_C-RevB/115_C-RevB_extraction.json": {
+    "mtime": 1790612445.5336788,
+    "seen": 1790614531.6852996,
+    "ast_hash": "362312655e722819346086403d86e6d6",
+    "semantic_hash": "362312655e722819346086403d86e6d6"
+  },
+  "2D-3D-CAD-Test-Generation/output/116-C-Rev90B/116-C-Rev90B_build_plan.json": {
+    "mtime": 1790612445.565047,
+    "seen": 1790614531.6853008,
+    "ast_hash": "fe2f161dd83d737692a920b6c33c397b",
+    "semantic_hash": "fe2f161dd83d737692a920b6c33c397b"
+  },
+  "2D-3D-CAD-Test-Generation/output/116-C-Rev90B/116-C-Rev90B_extraction.json": {
+    "mtime": 1790612445.566989,
+    "seen": 1790614531.685302,
+    "ast_hash": "d3fed74461c9aaa611ce7a63851473e5",
+    "semantic_hash": "d3fed74461c9aaa611ce7a63851473e5"
+  },
+  "2D-3D-CAD-Test-Generation/output/117-C-RevB/117-C-RevB_build_plan.json": {
+    "mtime": 1790612445.5877986,
+    "seen": 1790614531.685303,
+    "ast_hash": "20ea45afab52b0d905442e9bfeb9589d",
+    "semantic_hash": "20ea45afab52b0d905442e9bfeb9589d"
+  },
+  "2D-3D-CAD-Test-Generation/output/117-C-RevB/117-C-RevB_extraction.json": {
+    "mtime": 1790612445.5912423,
+    "seen": 1790614531.6853042,
+    "ast_hash": "e1e08409eda342097a3de13636205fa2",
+    "semantic_hash": "e1e08409eda342097a3de13636205fa2"
+  },
+  "2D-3D-CAD-Test-Generation/output/135-A/135-A_build_plan.json": {
+    "mtime": 1790612445.62015,
+    "seen": 1790614531.6853054,
+    "ast_hash": "7fcfd4aae3ec0dfb178bec654fffa373",
+    "semantic_hash": "7fcfd4aae3ec0dfb178bec654fffa373"
+  },
+  "2D-3D-CAD-Test-Generation/output/135-A/135-A_extraction.json": {
+    "mtime": 1790612445.6220777,
+    "seen": 1790614531.6853063,
+    "ast_hash": "aec26c1fa47ab987e8098f7d0540d54c",
+    "semantic_hash": "aec26c1fa47ab987e8098f7d0540d54c"
+  },
+  "2D-3D-CAD-Test-Generation/output/A040911E/A040911E_extraction.json": {
+    "mtime": 1790612445.6481128,
+    "seen": 1790614531.6853075,
+    "ast_hash": "1afc32221ebb91512d145f9cbbd16beb",
+    "semantic_hash": "1afc32221ebb91512d145f9cbbd16beb"
+  },
+  "2D-3D-CAD-Test-Generation/output/A040921E/A040921E_extraction.json": {
+    "mtime": 1790612445.662813,
+    "seen": 1790614531.6853087,
+    "ast_hash": "dcd78b6af30bd761e7921643e5f5a3d6",
+    "semantic_hash": "dcd78b6af30bd761e7921643e5f5a3d6"
+  },
+  "2D-3D-CAD-Test-Generation/output/SB11033/SB11033_extraction.json": {
+    "mtime": 1790612445.6767871,
+    "seen": 1790614531.6853096,
+    "ast_hash": "19ba4f8315a8ef214bc761d456610312",
+    "semantic_hash": "19ba4f8315a8ef214bc761d456610312"
+  },
+  "2D-3D-CAD-Test-Generation/output/SB11780/SB11780_extraction.json": {
+    "mtime": 1790612445.6885085,
+    "seen": 1790614531.6853106,
+    "ast_hash": "4fe486414c76d1af34a96387a74d2d30",
+    "semantic_hash": "4fe486414c76d1af34a96387a74d2d30"
+  },
+  "2D-3D-CAD-Test-Generation/output/SB11842/SB11842_extraction.json": {
+    "mtime": 1790612445.700523,
+    "seen": 1790614531.6853116,
+    "ast_hash": "3b72f3dae63a97d593b0d64b39cde280",
+    "semantic_hash": "3b72f3dae63a97d593b0d64b39cde280"
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/__init__.py": {
+    "mtime": 1790612445.7075508,
+    "seen": 1790614531.6853125,
+    "ast_hash": "87aa636d11e99471b1b32517c603c01d",
+    "semantic_hash": "87aa636d11e99471b1b32517c603c01d"
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/batch.py": {
+    "mtime": 1790612445.7095604,
+    "seen": 1790614531.6853137,
+    "ast_hash": "f13d64cf58682aed2c855fc612eb2dd1",
+    "semantic_hash": "f13d64cf58682aed2c855fc612eb2dd1"
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/extractor.py": {
+    "mtime": 1790612445.7105558,
+    "seen": 1790614531.685315,
+    "ast_hash": "23a5e2295fa457ea2ac3b68fca5c4566",
+    "semantic_hash": "23a5e2295fa457ea2ac3b68fca5c4566"
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/macro_audit.py": {
+    "mtime": 1790612445.712556,
+    "seen": 1790614531.685316,
+    "ast_hash": "a4c500af005e918489bb4639ebc91d87",
+    "semantic_hash": "a4c500af005e918489bb4639ebc91d87"
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/macro_generator.py": {
+    "mtime": 1790612445.7159457,
+    "seen": 1790614531.6853175,
+    "ast_hash": "50a3247dbafb9ca0c03378c083831174",
+    "semantic_hash": "50a3247dbafb9ca0c03378c083831174"
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/model_validator.py": {
+    "mtime": 1790612445.7169602,
+    "seen": 1790614531.6853187,
+    "ast_hash": "7712dc522ccf9129d6daa94a99dfff41",
+    "semantic_hash": "7712dc522ccf9129d6daa94a99dfff41"
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/schema.py": {
+    "mtime": 1790612445.7189608,
+    "seen": 1790614531.6853197,
+    "ast_hash": "a939fafa14d51c9e7dcd4251f3a34678",
+    "semantic_hash": "a939fafa14d51c9e7dcd4251f3a34678"
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/solidworks_builder.py": {
+    "mtime": 1790612445.720952,
+    "seen": 1790614531.6853206,
+    "ast_hash": "dcc324095c10b7d94ebe551c1766c5af",
+    "semantic_hash": "dcc324095c10b7d94ebe551c1766c5af"
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/usage_log.py": {
+    "mtime": 1790612445.7228367,
+    "seen": 1790614531.6853218,
+    "ast_hash": "6cdbf7bcce66256cab2d2b95ffe82cfa",
+    "semantic_hash": "6cdbf7bcce66256cab2d2b95ffe82cfa"
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/validator.py": {
+    "mtime": 1790612445.7239344,
+    "seen": 1790614531.6853225,
+    "ast_hash": "7a317f90d00679dfda5d47b51dcef5b9",
+    "semantic_hash": "7a317f90d00679dfda5d47b51dcef5b9"
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/view_ingest.py": {
+    "mtime": 1790612445.7264602,
+    "seen": 1790614531.6853235,
+    "ast_hash": "dde43948c27f157300bdaaf77650c955",
+    "semantic_hash": "dde43948c27f157300bdaaf77650c955"
+  },
+  "2D-3D-CAD-Test-Generation/run_models.py": {
+    "mtime": 1790612445.7313023,
+    "seen": 1790614531.6853242,
+    "ast_hash": "cd3ad892ebf0f8a9b97872f419a8ca09",
+    "semantic_hash": "cd3ad892ebf0f8a9b97872f419a8ca09"
+  },
+  "2D-3D-CAD-Test-Generation/setup.py": {
+    "mtime": 1790612445.7343736,
+    "seen": 1790614531.6853254,
+    "ast_hash": "ddb8d07e4dd7622cb9fb8df898a3c4af",
+    "semantic_hash": "ddb8d07e4dd7622cb9fb8df898a3c4af"
+  },
+  "2D-3D-CAD-Test-Generation/tests/__init__.py": {
+    "mtime": 1790612445.7388098,
+    "seen": 1790614531.6853263,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_extractor.py": {
+    "mtime": 1790612445.758868,
+    "seen": 1790614531.685327,
+    "ast_hash": "0f4677c6d4bb49131d5f6b2a6fbcfd6f",
+    "semantic_hash": "0f4677c6d4bb49131d5f6b2a6fbcfd6f"
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_golden_macros.py": {
+    "mtime": 1790612445.7607982,
+    "seen": 1790614531.6853282,
+    "ast_hash": "daa7bc2c6b1a02e206ad407039d4cdf1",
+    "semantic_hash": "daa7bc2c6b1a02e206ad407039d4cdf1"
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_macro_generator.py": {
+    "mtime": 1790612445.7640433,
+    "seen": 1790614531.6853292,
+    "ast_hash": "9d44663bee56b361058acd521c26e1ea",
+    "semantic_hash": "9d44663bee56b361058acd521c26e1ea"
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_multiview.py": {
+    "mtime": 1790612445.7660458,
+    "seen": 1790614531.68533,
+    "ast_hash": "cbcbb25ce74eea61913cb25dda8072b1",
+    "semantic_hash": "cbcbb25ce74eea61913cb25dda8072b1"
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_reliability_hardening.py": {
+    "mtime": 1790612445.769041,
+    "seen": 1790614531.685331,
+    "ast_hash": "d815c571826cf93123552a1d60bf16e3",
+    "semantic_hash": "d815c571826cf93123552a1d60bf16e3"
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_unit_converter.py": {
+    "mtime": 1790612445.7710466,
+    "seen": 1790614531.685332,
+    "ast_hash": "62587a9fc74d4d7bda10fc9def5c5bc4",
+    "semantic_hash": "62587a9fc74d4d7bda10fc9def5c5bc4"
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_usage_log.py": {
+    "mtime": 1790612445.7730472,
+    "seen": 1790614531.685333,
+    "ast_hash": "c112c9661d76e40881d18068c761d90f",
+    "semantic_hash": "c112c9661d76e40881d18068c761d90f"
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_validator.py": {
+    "mtime": 1790612445.7750432,
+    "seen": 1790614531.685334,
+    "ast_hash": "7418aa5806cd38aa13476871b221994f",
+    "semantic_hash": "7418aa5806cd38aa13476871b221994f"
+  },
+  "2D-3D-CAD-Test-Generation/utils/__init__.py": {
+    "mtime": 1790612445.7772157,
+    "seen": 1790614531.6853347,
+    "ast_hash": "cec4f15c02e1df998fab4599aba2240e",
+    "semantic_hash": "cec4f15c02e1df998fab4599aba2240e"
+  },
+  "2D-3D-CAD-Test-Generation/utils/image_prep.py": {
+    "mtime": 1790612445.7791085,
+    "seen": 1790614531.6853359,
+    "ast_hash": "8d7476c6255b7e5cb2f90b20277af64a",
+    "semantic_hash": "8d7476c6255b7e5cb2f90b20277af64a"
+  },
+  "2D-3D-CAD-Test-Generation/utils/logger.py": {
+    "mtime": 1790612445.7801065,
+    "seen": 1790614531.6853366,
+    "ast_hash": "06ee67d1acfff2c36fdc14c1f9bb6843",
+    "semantic_hash": "06ee67d1acfff2c36fdc14c1f9bb6843"
+  },
+  "2D-3D-CAD-Test-Generation/utils/unit_converter.py": {
+    "mtime": 1790612445.78212,
+    "seen": 1790614531.685338,
+    "ast_hash": "132822514c0080fd6c87807a97efd9c9",
+    "semantic_hash": "132822514c0080fd6c87807a97efd9c9"
+  },
+  "2D-3D-CAD-Test-Generation/Deliverables/A040911E/A040911E_design_decisions.txt": {
+    "mtime": 1790612445.4716823,
+    "seen": 1790614531.6853392,
+    "ast_hash": "3df5ceb36a34dc483e81e29b2e6089e4",
+    "semantic_hash": "3df5ceb36a34dc483e81e29b2e6089e4"
+  },
+  "2D-3D-CAD-Test-Generation/Deliverables/A040921E/A040921E_design_decisions.txt": {
+    "mtime": 1790612445.4816837,
+    "seen": 1790614531.6853402,
+    "ast_hash": "71ce594b2249b919e177165be557237c",
+    "semantic_hash": "71ce594b2249b919e177165be557237c"
+  },
+  "2D-3D-CAD-Test-Generation/Deliverables/SB11033/SB11033_design_decisions.txt": {
+    "mtime": 1790612445.489835,
+    "seen": 1790614531.6853411,
+    "ast_hash": "699f018e725befd73c8717bd433ba293",
+    "semantic_hash": "699f018e725befd73c8717bd433ba293"
+  },
+  "2D-3D-CAD-Test-Generation/Deliverables/SB11780/SB11780_design_decisions.txt": {
+    "mtime": 1790612445.4986813,
+    "seen": 1790614531.6853423,
+    "ast_hash": "ba2a9c801094b141da8b337f1bf4663e",
+    "semantic_hash": "ba2a9c801094b141da8b337f1bf4663e"
+  },
+  "2D-3D-CAD-Test-Generation/Deliverables/SB11842/SB11842_design_decisions.txt": {
+    "mtime": 1790612445.5076315,
+    "seen": 1790614531.6853433,
+    "ast_hash": "578f557e28d35b843677bf41d5bc849d",
+    "semantic_hash": "578f557e28d35b843677bf41d5bc849d"
+  },
+  "2D-3D-CAD-Test-Generation/README.md": {
+    "mtime": 1790612445.5096724,
+    "seen": 1790614531.6853442,
+    "ast_hash": "eb8b28f344838ee2a161942678baf18e",
+    "semantic_hash": "eb8b28f344838ee2a161942678baf18e"
+  },
+  "2D-3D-CAD-Test-Generation/output/115_C-RevB/115 C-RevB_verification_report.txt": {
+    "mtime": 1790612445.528667,
+    "seen": 1790614531.6853452,
+    "ast_hash": "20a28ef720c26d94b12daf848cd8b3b3",
+    "semantic_hash": "20a28ef720c26d94b12daf848cd8b3b3"
+  },
+  "2D-3D-CAD-Test-Generation/output/115_C-RevB/macros/README.md": {
+    "mtime": 1790612445.557888,
+    "seen": 1790614531.6853464,
+    "ast_hash": "b275d9c354c80c44855d40931bcc2f60",
+    "semantic_hash": "b275d9c354c80c44855d40931bcc2f60"
+  },
+  "2D-3D-CAD-Test-Generation/output/116-C-Rev90B/116-C-Rev90B_verification_report.txt": {
+    "mtime": 1790612445.5699854,
+    "seen": 1790614531.685347,
+    "ast_hash": "92232564450938a1f510dc51a1ed9435",
+    "semantic_hash": "92232564450938a1f510dc51a1ed9435"
+  },
+  "2D-3D-CAD-Test-Generation/output/116-C-Rev90B/macros/README.md": {
+    "mtime": 1790612445.584648,
+    "seen": 1790614531.685348,
+    "ast_hash": "cb705b908c8ba0ccbb12f2fab05f112b",
+    "semantic_hash": "cb705b908c8ba0ccbb12f2fab05f112b"
+  },
+  "2D-3D-CAD-Test-Generation/output/117-C-RevB/117-C-RevB_verification_report.txt": {
+    "mtime": 1790612445.594305,
+    "seen": 1790614531.6853492,
+    "ast_hash": "933e97ee50be7b236ef390dd2c6f4a0d",
+    "semantic_hash": "933e97ee50be7b236ef390dd2c6f4a0d"
+  },
+  "2D-3D-CAD-Test-Generation/output/117-C-RevB/macros/README.md": {
+    "mtime": 1790612445.6150193,
+    "seen": 1790614531.6853502,
+    "ast_hash": "a7a33239368885ee9f0283e793559bf8",
+    "semantic_hash": "a7a33239368885ee9f0283e793559bf8"
+  },
+  "2D-3D-CAD-Test-Generation/output/135-A/135-A_verification_report.txt": {
+    "mtime": 1790612445.6250346,
+    "seen": 1790614531.6853511,
+    "ast_hash": "aa4b3de478a7235f1aea5238c4421d32",
+    "semantic_hash": "aa4b3de478a7235f1aea5238c4421d32"
+  },
+  "2D-3D-CAD-Test-Generation/output/135-A/macros/README.md": {
+    "mtime": 1790612445.637121,
+    "seen": 1790614531.685352,
+    "ast_hash": "82443be55166d9b62109d03c77133560",
+    "semantic_hash": "82443be55166d9b62109d03c77133560"
+  },
+  "2D-3D-CAD-Test-Generation/output/A040911E/A040911E_design_decisions.txt": {
+    "mtime": 1790612445.6451163,
+    "seen": 1790614531.6853533,
+    "ast_hash": "3df5ceb36a34dc483e81e29b2e6089e4",
+    "semantic_hash": "3df5ceb36a34dc483e81e29b2e6089e4"
+  },
+  "2D-3D-CAD-Test-Generation/output/A040911E/A040911E_verification_report.txt": {
+    "mtime": 1790612445.6508281,
+    "seen": 1790614531.685354,
+    "ast_hash": "1c3f30d5a657808449dbdae1e51fad92",
+    "semantic_hash": "1c3f30d5a657808449dbdae1e51fad92"
+  },
+  "2D-3D-CAD-Test-Generation/output/A040921E/A040921E_design_decisions.txt": {
+    "mtime": 1790612445.659838,
+    "seen": 1790614531.685359,
+    "ast_hash": "71ce594b2249b919e177165be557237c",
+    "semantic_hash": "71ce594b2249b919e177165be557237c"
+  },
+  "2D-3D-CAD-Test-Generation/output/A040921E/A040921E_verification_report.txt": {
+    "mtime": 1790612445.6648226,
+    "seen": 1790614531.6853602,
+    "ast_hash": "64fccd35bd69718fd1c75763f648aa64",
+    "semantic_hash": "64fccd35bd69718fd1c75763f648aa64"
+  },
+  "2D-3D-CAD-Test-Generation/output/SB11033/SB11033_design_decisions.txt": {
+    "mtime": 1790612445.6738107,
+    "seen": 1790614531.6853611,
+    "ast_hash": "699f018e725befd73c8717bd433ba293",
+    "semantic_hash": "699f018e725befd73c8717bd433ba293"
+  },
+  "2D-3D-CAD-Test-Generation/output/SB11033/SB11033_verification_report.txt": {
+    "mtime": 1790612445.6783876,
+    "seen": 1790614531.685362,
+    "ast_hash": "d37d632e2fd866f87093992af9132ede",
+    "semantic_hash": "d37d632e2fd866f87093992af9132ede"
+  },
+  "2D-3D-CAD-Test-Generation/output/SB11780/SB11780_design_decisions.txt": {
+    "mtime": 1790612445.6855152,
+    "seen": 1790614531.685363,
+    "ast_hash": "ba2a9c801094b141da8b337f1bf4663e",
+    "semantic_hash": "ba2a9c801094b141da8b337f1bf4663e"
+  },
+  "2D-3D-CAD-Test-Generation/output/SB11780/SB11780_verification_report.txt": {
+    "mtime": 1790612445.689498,
+    "seen": 1790614531.685364,
+    "ast_hash": "11ba766bd1a8478708bf646b5061d3d5",
+    "semantic_hash": "11ba766bd1a8478708bf646b5061d3d5"
+  },
+  "2D-3D-CAD-Test-Generation/output/SB11842/SB11842_design_decisions.txt": {
+    "mtime": 1790612445.697443,
+    "seen": 1790614531.685365,
+    "ast_hash": "578f557e28d35b843677bf41d5bc849d",
+    "semantic_hash": "578f557e28d35b843677bf41d5bc849d"
+  },
+  "2D-3D-CAD-Test-Generation/output/SB11842/SB11842_verification_report.txt": {
+    "mtime": 1790612445.702561,
+    "seen": 1790614531.685366,
+    "ast_hash": "0548c4fc2888767930d0d00f9b2d116f",
+    "semantic_hash": "0548c4fc2888767930d0d00f9b2d116f"
+  },
+  "2D-3D-CAD-Test-Generation/requirements.txt": {
+    "mtime": 1790612445.7282996,
+    "seen": 1790614531.685367,
+    "ast_hash": "6113ab7d0c0c11b250ae824516dcc152",
+    "semantic_hash": "6113ab7d0c0c11b250ae824516dcc152"
+  },
+  "2D-3D-CAD-Test-Generation/templates/README.md": {
+    "mtime": 1790612445.7372992,
+    "seen": 1790614531.6853683,
+    "ast_hash": "0b92314df2a2df5da84cb0a7bc2fef0a",
+    "semantic_hash": "0b92314df2a2df5da84cb0a7bc2fef0a"
+  },
+  "2D-3D-CAD-Test-Generation/tests/golden/bracket/macros/README.md": {
+    "mtime": 1790612445.7529142,
+    "seen": 1790614531.6853695,
+    "ast_hash": "d02c6a5442c2d2fe38159a49aa30ae96",
+    "semantic_hash": "d02c6a5442c2d2fe38159a49aa30ae96"
+  },
+  "docs/solidworks-macro-error-log.md": {
+    "mtime": 1790612446.115217,
+    "seen": 1790614531.6853707,
+    "ast_hash": "2e921feddf86e61074e6637bc651530f",
+    "semantic_hash": "2e921feddf86e61074e6637bc651530f"
+  },
+  "docs/superpowers/specs/2026-06-11-2d-to-3d-solidworks-pipeline-design.md": {
+    "mtime": 1790612446.120531,
+    "seen": 1790614531.6853714,
+    "ast_hash": "28eddefe61947258aa6eb44fd50bf591",
+    "semantic_hash": "28eddefe61947258aa6eb44fd50bf591"
+  },
+  "DrawingPDFs/A001131E.PDF": {
+    "mtime": 1790612445.7887218,
+    "seen": 1790614531.6853726,
+    "ast_hash": "c95a23b192ed72d3255e12019af94353",
+    "semantic_hash": "c95a23b192ed72d3255e12019af94353"
+  },
+  "DrawingPDFs/A001151E.PDF": {
+    "mtime": 1790612445.7983472,
+    "seen": 1790614531.6853738,
+    "ast_hash": "fc939175652d201739edfe243494af90",
+    "semantic_hash": "fc939175652d201739edfe243494af90"
+  },
+  "DrawingPDFs/A001171E.PDF": {
+    "mtime": 1790612445.8043232,
+    "seen": 1790614531.6853747,
+    "ast_hash": "5902c0cbe8f32b9b835cba52c9e11bae",
+    "semantic_hash": "5902c0cbe8f32b9b835cba52c9e11bae"
+  },
+  "DrawingPDFs/A001351E.PDF": {
+    "mtime": 1790612445.8115854,
+    "seen": 1790614531.6853757,
+    "ast_hash": "b92380b36285cbbafe0a401704519ee5",
+    "semantic_hash": "b92380b36285cbbafe0a401704519ee5"
+  },
+  "NewVerifiedDrawings/0014630E.png": {
+    "mtime": 1790612445.816584,
+    "seen": 1790614531.685377,
+    "ast_hash": "6f9fa39fce0b9bdeb8538220beb20a7b",
+    "semantic_hash": "6f9fa39fce0b9bdeb8538220beb20a7b"
+  },
+  "NewVerifiedDrawings/0014630E_front_view (1).png": {
+    "mtime": 1790612445.821581,
+    "seen": 1790614531.685378,
+    "ast_hash": "66958d0e428e491dc077a18d1daa6184",
+    "semantic_hash": "66958d0e428e491dc077a18d1daa6184"
+  },
+  "NewVerifiedDrawings/0014630E_side_view (1).png": {
+    "mtime": 1790612445.8285918,
+    "seen": 1790614531.685379,
+    "ast_hash": "99ca2757b213b7ab42e9e05501015e04",
+    "semantic_hash": "99ca2757b213b7ab42e9e05501015e04"
+  },
+  "NewVerifiedDrawings/16247 (1).png": {
+    "mtime": 1790612445.8306334,
+    "seen": 1790614531.68538,
+    "ast_hash": "80ce214d103491dbc296dfbe810120ab",
+    "semantic_hash": "80ce214d103491dbc296dfbe810120ab"
+  },
+  "NewVerifiedDrawings/16247_front_view (1).png": {
+    "mtime": 1790612445.834285,
+    "seen": 1790614531.6853812,
+    "ast_hash": "3ae013911a096c995a35f867efebf867",
+    "semantic_hash": "3ae013911a096c995a35f867efebf867"
+  },
+  "NewVerifiedDrawings/16247_side_view.png": {
+    "mtime": 1790612445.8371656,
+    "seen": 1790614531.6853821,
+    "ast_hash": "70f510414c334b7652d72c7b6111ed69",
+    "semantic_hash": "70f510414c334b7652d72c7b6111ed69"
+  },
+  "NewVerifiedDrawings/A001211E_front_view (1).png": {
+    "mtime": 1790612445.8427777,
+    "seen": 1790614531.6853833,
+    "ast_hash": "a73ec9e84e0020406f67d836d093e6f6",
+    "semantic_hash": "a73ec9e84e0020406f67d836d093e6f6"
+  },
+  "NewVerifiedDrawings/A001211E_side_view.png": {
+    "mtime": 1790612445.8468,
+    "seen": 1790614531.6853843,
+    "ast_hash": "d7ecc2c04498668557af58b8daefc804",
+    "semantic_hash": "d7ecc2c04498668557af58b8daefc804"
+  },
+  "NewVerifiedDrawings/A001271E (1).png": {
+    "mtime": 1790612445.848786,
+    "seen": 1790614531.6853855,
+    "ast_hash": "ace8f85dba4f3812d966d2574871f566",
+    "semantic_hash": "ace8f85dba4f3812d966d2574871f566"
+  },
+  "NewVerifiedDrawings/A001271E_front_view (1).png": {
+    "mtime": 1790612445.8538666,
+    "seen": 1790614531.685388,
+    "ast_hash": "dd574d42d712acf850b348fc37a68943",
+    "semantic_hash": "dd574d42d712acf850b348fc37a68943"
+  },
+  "NewVerifiedDrawings/A001271E_side_view (1).png": {
+    "mtime": 1790612445.857898,
+    "seen": 1790614531.685389,
+    "ast_hash": "18a6598526030b76a4406413988a7c41",
+    "semantic_hash": "18a6598526030b76a4406413988a7c41"
+  },
+  "NewVerifiedDrawings/A001291E_front_view.png": {
+    "mtime": 1790612445.8629262,
+    "seen": 1790614531.68539,
+    "ast_hash": "0ec9a008e285e506a1b8999a3c6d20e7",
+    "semantic_hash": "0ec9a008e285e506a1b8999a3c6d20e7"
+  },
+  "NewVerifiedDrawings/A001291E_side_view (1).png": {
+    "mtime": 1790612445.8658621,
+    "seen": 1790614531.6853914,
+    "ast_hash": "4dc0a28775ddfbca5e24c97b7e712987",
+    "semantic_hash": "4dc0a28775ddfbca5e24c97b7e712987"
+  },
+  "NewVerifiedDrawings/A001561E_side_view (1).png": {
+    "mtime": 1790612445.866899,
+    "seen": 1790614531.6853924,
+    "ast_hash": "36eacc13352da23af6e9261c3e7ee9cc",
+    "semantic_hash": "36eacc13352da23af6e9261c3e7ee9cc"
+  },
+  "NewVerifiedDrawings/A001581E_side_view (1).png": {
+    "mtime": 1790612445.870956,
+    "seen": 1790614531.6853936,
+    "ast_hash": "b19db1a2c81e793e45a11142c8146e00",
+    "semantic_hash": "b19db1a2c81e793e45a11142c8146e00"
+  },
+  "NewVerifiedDrawings/A001591E (1).png": {
+    "mtime": 1790612445.8739178,
+    "seen": 1790614531.6853948,
+    "ast_hash": "1466bc9c4a9bcd5cdbb26c897cb7c70a",
+    "semantic_hash": "1466bc9c4a9bcd5cdbb26c897cb7c70a"
+  },
+  "NewVerifiedDrawings/A001591E_front_view (1).png": {
+    "mtime": 1790612445.8789845,
+    "seen": 1790614531.6853957,
+    "ast_hash": "1e5bc9c83293c91c246db97416b3b159",
+    "semantic_hash": "1e5bc9c83293c91c246db97416b3b159"
+  },
+  "NewVerifiedDrawings/A001601E (1).png": {
+    "mtime": 1790612445.8847246,
+    "seen": 1790614531.6853967,
+    "ast_hash": "7e9e0f36d516e6f610520b057f6537f6",
+    "semantic_hash": "7e9e0f36d516e6f610520b057f6537f6"
+  },
+  "NewVerifiedDrawings/A001601E_side_view (1).png": {
+    "mtime": 1790612445.88981,
+    "seen": 1790614531.6853979,
+    "ast_hash": "5822ab2877dfe19299714b9ae998685b",
+    "semantic_hash": "5822ab2877dfe19299714b9ae998685b"
+  },
+  "NewVerifiedDrawings/A001621E (1).png": {
+    "mtime": 1790612445.893759,
+    "seen": 1790614531.6853988,
+    "ast_hash": "6ea16d6dff4d959df0936d620f75119c",
+    "semantic_hash": "6ea16d6dff4d959df0936d620f75119c"
+  },
+  "NewVerifiedDrawings/A001621E_front_view (1).png": {
+    "mtime": 1790612445.8978612,
+    "seen": 1790614531.6853998,
+    "ast_hash": "7488e08fd5d38058c2c534925cd70167",
+    "semantic_hash": "7488e08fd5d38058c2c534925cd70167"
+  },
+  "NewVerifiedDrawings/A001621E_side_view (1).png": {
+    "mtime": 1790612445.9028826,
+    "seen": 1790614531.6854005,
+    "ast_hash": "ae01a544ce81466ea176a9e34b70f2e4",
+    "semantic_hash": "ae01a544ce81466ea176a9e34b70f2e4"
+  },
+  "NewVerifiedDrawings/A001821M (1).png": {
+    "mtime": 1790612445.9058921,
+    "seen": 1790614531.6854017,
+    "ast_hash": "83fcc7a78fcdc6a8b2f50fc7dfe9f242",
+    "semantic_hash": "83fcc7a78fcdc6a8b2f50fc7dfe9f242"
+  },
+  "NewVerifiedDrawings/A001821M_front_view.png": {
+    "mtime": 1790612445.907884,
+    "seen": 1790614531.6854026,
+    "ast_hash": "b31a5a9601cb96d1bffc986bc24f696b",
+    "semantic_hash": "b31a5a9601cb96d1bffc986bc24f696b"
+  },
+  "NewVerifiedDrawings/A001821M_side_view (1).png": {
+    "mtime": 1790612445.910892,
+    "seen": 1790614531.6854038,
+    "ast_hash": "6ad9e853d1b7e4b36f96b3c91db6b048",
+    "semantic_hash": "6ad9e853d1b7e4b36f96b3c91db6b048"
+  },
+  "NewVerifiedDrawings/A001901E.png": {
+    "mtime": 1790612445.9144611,
+    "seen": 1790614531.6854048,
+    "ast_hash": "ff23561266e0d91fa7befb2f84fcec58",
+    "semantic_hash": "ff23561266e0d91fa7befb2f84fcec58"
+  },
+  "NewVerifiedDrawings/A001901E_front_view (1).png": {
+    "mtime": 1790612445.9179108,
+    "seen": 1790614531.6854057,
+    "ast_hash": "b455dca2a23b01e24aaf0afd151bad88",
+    "semantic_hash": "b455dca2a23b01e24aaf0afd151bad88"
+  },
+  "NewVerifiedDrawings/A001901E_side_view (1).png": {
+    "mtime": 1790612445.9199996,
+    "seen": 1790614531.6854067,
+    "ast_hash": "4c22109c0ad3a31afb71d458480624b9",
+    "semantic_hash": "4c22109c0ad3a31afb71d458480624b9"
+  },
+  "ViewDefinedDrawings/A040911E-20260618T093212Z-3-001/A040911E/A040911E.png": {
+    "mtime": 1790612445.9313028,
+    "seen": 1790614531.6854076,
+    "ast_hash": "03214bd3356b4726213641c890a5e3d4",
+    "semantic_hash": "03214bd3356b4726213641c890a5e3d4"
+  },
+  "ViewDefinedDrawings/A040911E-20260618T093212Z-3-001/A040911E/A040911E_front.png": {
+    "mtime": 1790612445.9363034,
+    "seen": 1790614531.6854088,
+    "ast_hash": "58f2748c2af3b0e3a82c4eb408d33ee0",
+    "semantic_hash": "58f2748c2af3b0e3a82c4eb408d33ee0"
+  },
+  "ViewDefinedDrawings/A040911E-20260618T093212Z-3-001/A040911E/A040911E_side.png": {
+    "mtime": 1790612445.938815,
+    "seen": 1790614531.6854098,
+    "ast_hash": "1c274422f34ce9f67f5eb204a03141b9",
+    "semantic_hash": "1c274422f34ce9f67f5eb204a03141b9"
+  },
+  "ViewDefinedDrawings/A040921E-20260618T093224Z-3-001/A040921E/A040921E.png": {
+    "mtime": 1790612445.9511323,
+    "seen": 1790614531.6854107,
+    "ast_hash": "742cda4b090d8dbaf34827d7b3bd867e",
+    "semantic_hash": "742cda4b090d8dbaf34827d7b3bd867e"
+  },
+  "ViewDefinedDrawings/A040921E-20260618T093224Z-3-001/A040921E/A040921E_front.png": {
+    "mtime": 1790612445.955125,
+    "seen": 1790614531.6854117,
+    "ast_hash": "b89b3df3952142f8f57bf1a440b4a33e",
+    "semantic_hash": "b89b3df3952142f8f57bf1a440b4a33e"
+  },
+  "ViewDefinedDrawings/A040921E-20260618T093224Z-3-001/A040921E/A040921E_side.png": {
+    "mtime": 1790612445.9591262,
+    "seen": 1790614531.685413,
+    "ast_hash": "258ef72c14fd4bdea03849c7b5b3af10",
+    "semantic_hash": "258ef72c14fd4bdea03849c7b5b3af10"
+  },
+  "ViewDefinedDrawings/SB11033-20260618T093243Z-3-001/SB11033/SB11033.png": {
+    "mtime": 1790612445.9851935,
+    "seen": 1790614531.6854138,
+    "ast_hash": "d2e5f1ff7a7da05c477aca4c2903ed3b",
+    "semantic_hash": "d2e5f1ff7a7da05c477aca4c2903ed3b"
+  },
+  "ViewDefinedDrawings/SB11033-20260618T093243Z-3-001/SB11033/SB11033_front.png": {
+    "mtime": 1790612445.9914,
+    "seen": 1790614531.685415,
+    "ast_hash": "2f679c5805cf5abe6fdc919c2125dc8e",
+    "semantic_hash": "2f679c5805cf5abe6fdc919c2125dc8e"
+  },
+  "ViewDefinedDrawings/SB11033-20260618T093243Z-3-001/SB11033/SB11033_side.png": {
+    "mtime": 1790612445.9970856,
+    "seen": 1790614531.6854157,
+    "ast_hash": "2ad6dec5949a7b42047da62f2631bfad",
+    "semantic_hash": "2ad6dec5949a7b42047da62f2631bfad"
+  },
+  "ViewDefinedDrawings/SB11780-20260618T093317Z-3-001/SB11780/SB11780.png": {
+    "mtime": 1790612446.021858,
+    "seen": 1790614531.685417,
+    "ast_hash": "a4dfe06b430cd3471e4acabf691ff29e",
+    "semantic_hash": "a4dfe06b430cd3471e4acabf691ff29e"
+  },
+  "ViewDefinedDrawings/SB11780-20260618T093317Z-3-001/SB11780/SB11780_front.png": {
+    "mtime": 1790612446.0278785,
+    "seen": 1790614531.685418,
+    "ast_hash": "4b28d180db25d49d2b02511fa8c18f14",
+    "semantic_hash": "4b28d180db25d49d2b02511fa8c18f14"
+  },
+  "ViewDefinedDrawings/SB11780-20260618T093317Z-3-001/SB11780/SB11780_side.png": {
+    "mtime": 1790612446.0440538,
+    "seen": 1790614531.6854188,
+    "ast_hash": "f89c2aa49b01b06b840e79037dfe6e71",
+    "semantic_hash": "f89c2aa49b01b06b840e79037dfe6e71"
+  },
+  "ViewDefinedDrawings/SB11842-20260618T093328Z-3-001/SB11842/SB11842.png": {
+    "mtime": 1790612446.0928938,
+    "seen": 1790614531.6854198,
+    "ast_hash": "9987ea8ec6f08f52e2c5d48df82bb78f",
+    "semantic_hash": "9987ea8ec6f08f52e2c5d48df82bb78f"
+  },
+  "ViewDefinedDrawings/SB11842-20260618T093328Z-3-001/SB11842/SB11842_front.png": {
+    "mtime": 1790612446.105614,
+    "seen": 1790614531.6854208,
+    "ast_hash": "b2054452f23fbe2b3abad5d90b1a6305",
+    "semantic_hash": "b2054452f23fbe2b3abad5d90b1a6305"
+  },
+  "ViewDefinedDrawings/SB11842-20260618T093328Z-3-001/SB11842/SB11842_side.png": {
+    "mtime": 1790612446.1126728,
+    "seen": 1790614531.6854215,
+    "ast_hash": "09233edb247f2e8eb73c9c1dcad8163b",
+    "semantic_hash": "09233edb247f2e8eb73c9c1dcad8163b"
+  }
+}
