@@ -32,6 +32,7 @@ mti-2d-3d/
 ├── ViewDefinedDrawings/           source drawings, one folder per part (<part>_front/_side/.png)
 ├── docs/
 │   ├── PRD.md                          ← product requirements (goals, requirements, success targets)
+│   ├── PRD-aws.md, PRD-azure.md        ← the two hosting options (same sections, compare side by side)
 │   ├── solidworks-macro-error-log.md   ← every runtime failure + the generator rule it produced
 │   └── superpowers/specs/              design specs (dated)
 └── graphify-out/                  knowledge graph of the repo (GRAPH_REPORT.md, graph.html)

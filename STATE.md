@@ -174,6 +174,9 @@ Key decisions:
 - The LLM output is a **constrained IR**, not free-form code.
 - Ground truth is **MTI reference models**.
 - The pipeline is **evolved in place**.
+- **Hosting is still open:** [AWS](docs/PRD-aws.md) (Bedrock + AgentCore) vs
+  [Azure](docs/PRD-azure.md) (Foundry + Azure Functions). Both clouds host Opus 5.5
+  and GPT-6 Astra; the code stays the same apart from the provider backend.
 
 Why BenchCAD isn't enough: Astra's 95.9% (Opus 5 82.1%, Fable 5.1 84.3%) is scored
 by volume IoU and Chamfer distance, which barely penalize a misplaced hole.

@@ -80,6 +80,7 @@ Copy `output/<Part>/` to any SolidWorks machine and follow `macros/README.md`.
 | [Roadmap](docs/superpowers/specs/2026-09-28-ai-cad-roadmap-design.md) | Next-phase decisions and architecture, plus specs for [A: Feature IR v2](docs/superpowers/specs/2026-09-28-feature-ir-v2-design.md), [B: auditor loop](docs/superpowers/specs/2026-09-28-auditor-loop-design.md) and [C: placement benchmark](docs/superpowers/specs/2026-09-28-placement-benchmark-design.md) |
 | [June 2026 pipeline design](docs/superpowers/specs/2026-06-11-2d-to-3d-solidworks-pipeline-design.md) | Original design of the current pipeline |
 | [docs/PRD.md](docs/PRD.md) | Product requirements: problem, goals, requirements, success targets, open questions for review |
+| [docs/PRD-aws.md](docs/PRD-aws.md) · [docs/PRD-azure.md](docs/PRD-azure.md) | The two hosting options for the MCP connector and model access (Bedrock + AgentCore vs Foundry + Azure Functions) |
 
 ## Knowledge graph
 

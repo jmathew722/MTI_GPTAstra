@@ -230,6 +230,28 @@ gate) or escalate it to a person. Every attempt is written to the part's audit l
   OS, and a SolidWorks worker runs on the Windows host.
   [Roadmap §D](superpowers/specs/2026-09-28-ai-cad-roadmap-design.md)
 
+## Deployment options
+
+This PRD is cloud-neutral: every requirement above holds wherever it runs.
+Development uses the direct Anthropic and OpenAI APIs with a local stdio MCP
+server. For shared use, two hosting options are specified as supplements with
+identical sections:
+
+| | [Option 1: AWS](PRD-aws.md) | [Option 2: Azure](PRD-azure.md) |
+| --- | --- | --- |
+| Model access | Amazon Bedrock (Opus 5.5 and GPT-6 Astra both GA) | Microsoft Foundry (Opus 5.5 hosted on Azure and GPT-6 Astra both GA) |
+| MCP server | Bedrock AgentCore Runtime + Gateway | Azure Functions (or Container Apps) + optional API Management |
+| Sign-in | Cognito or the org IdP (OAuth) | Microsoft Entra ID (built-in MCP auth) |
+| Artifacts and ledgers | S3 | Blob Storage |
+| Secrets | Secrets Manager (models use IAM) | Key Vault (managed identity) |
+| SolidWorks job queue | SQS | Service Bus |
+| SolidWorks worker | MTI on-prem PC, or Windows EC2 | MTI on-prem PC, or Windows Azure VM |
+| Extraction model caveat | Confirm the Sonnet-class model in the chosen region | Sonnet 4.6 is Anthropic-hosted only; use Sonnet 5 / 5.5 to stay on Azure |
+| Jev | External API (not on AWS) | External API (not on Azure) |
+
+Both options keep the same code. Only the model-provider backend (requirement A6)
+and the deployment wrapper for the MCP server (D1) differ.
+
 ## Milestones and sequencing
 
 The work runs A → B → C → D. Each phase starts only when the gate before it is met,
@@ -293,6 +315,7 @@ Tick each one once it has an answer, and write the answer beside it in the PR.
 - [ ] Should the retry budget also have a total cap per part (for example 4 planner calls) to bound cost? Decide once the first cost data is in.
 - [ ] Which pinned model is the auditor's reviewer? An Opus 5.5 reviewer risks favoring Opus plans; the reviewer-swap run measures this.
 - [ ] Should a free-form CadQuery arm be added to the benchmark now, or only if the IR looks like a handicap?
+- [ ] Which hosting option: [AWS](PRD-aws.md) or [Azure](PRD-azure.md)? The deciding factor is likely which cloud and identity provider MTI and iNDustry Labs already use.
 - [ ] Who owns the Windows + SolidWorks 2024 host, and can it run a persistent worker for the MCP connector?
 - [ ] What target date should each gate have?
 
