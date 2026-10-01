@@ -61,6 +61,29 @@ python -m pytest tests/ -v                                               # tests
 
 Copy `output/<Part>/` to any SolidWorks machine and follow `macros/README.md`.
 
+## Token & cost tracking
+
+Every model completion (extractor today; planner, auditor and Jev as they're
+built) is appended to `output/usage/usage_ledger.jsonl`. Each row records role,
+model, provider, part, benchmark arm, gate, retry attempt, tokens, latency and
+cost. To see what runs cost:
+
+```bash
+cd 2D-3D-CAD-Test-Generation
+python -m pipeline.token_report ./output                                  # terminal tables
+python -m pipeline.token_report ./output --html output/usage/usage_report.html --csv output/usage/usage.csv
+python -m pipeline.token_report ./output --role planner --since 2026-10-01 --reprice
+```
+
+The report shows total spend, average cost per part, cost by role (builder vs.
+auditor), by model and provider, by benchmark arm, and the cost of retries. The
+HTML dashboard is a single offline file.
+
+Prices live in `config/pricing.json`, per provider and model, each with a source
+and date. A price that isn't confirmed is `null`, and those rows show as
+**unpriced** rather than being guessed. Fill the price in, then re-run with
+`--reprice`. The ledger and the generated reports are gitignored.
+
 ## Secrets
 
 - The API key lives only in `2D-3D-CAD-Test-Generation/.env`, which is created from

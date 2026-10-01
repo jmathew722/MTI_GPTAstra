@@ -150,8 +150,11 @@ P0 items are needed for the first benchmark run. Propose priority changes in the
   recorded macro on SolidWorks 2024 before it ships (an existing hard rule).
 - **Platform.** Extraction, planning, auditing, CadQuery and scoring run on any OS.
   Only SolidWorks builds need the Windows + SolidWorks 2024 host.
-- **Cost visibility.** Tokens, dollars and wall time are logged per attempt. No paid
-  extraction is ever lost; it is saved even when BLOCKED.
+- **Cost visibility.** Tokens, dollars and wall time are logged for every completion
+  (role, model, provider, part, arm, gate, attempt) by `pipeline/token_tracker.py`,
+  and reported per part and per role by `python -m pipeline.token_report` (terminal,
+  CSV, offline HTML dashboard). No paid extraction is ever lost; it is saved even
+  when BLOCKED.
 - **Reproducibility.** Every benchmark run pins model IDs, prompt hashes, schema and
   auditor versions, the Jev calibration and the git commit.
 - **Confidentiality.** MTI drawings and reference models stay out of public places.

@@ -47,7 +47,7 @@ pipeline/ir/
   from_v1.py            plan_from_v1(DrawingData) -> BuildPlan (migration + baseline planner)
   compile_cadquery.py   BuildPlan -> CadQuery script text (deterministic) + run in subprocess
   compile_solidworks.py BuildPlan (+ feature_map) -> VBA package, reusing macro_generator emitters
-pipeline/planner.py     Planner protocol + AnthropicPlanner, OpenAIPlanner (forced tool/function call)
+pipeline/planner.py     Planner protocol + AnthropicPlanner, OpenAIPlanner (tool/function call; auto + strict on Opus 5.5)
 ```
 
 ## The part frame
@@ -141,7 +141,14 @@ are reported, never built.
 ## Planner
 
 - `Planner.plan(drawing_data, view_images, history=[]) -> BuildPlan`, with the
-  same forced-tool-call and Pydantic repair-retry pattern as `extractor.py`.
+  same tool-call and Pydantic repair-retry pattern as `extractor.py`, with one
+  difference. **Opus 5.5 rejects forced `tool_choice` (`any` / named tool) with a
+  400**, so the planner uses `tool_choice: auto` + `strict: true` on the plan tool
+  and tells the model explicitly to call it. If no tool call comes back, that
+  counts as a repair-retry failure.
+- Every planner completion is recorded with
+  `record_completion(..., role="planner")` inside `scope(gate=..., attempt=...)`
+  (see `pipeline/token_tracker.py`).
 - There are two implementations, `AnthropicPlanner` (Opus 5.5) and
   `OpenAIPlanner` (`gpt-6-astra`, function calling with the same JSON schema).
   Model IDs are pinned in config, never hard-coded in call sites.

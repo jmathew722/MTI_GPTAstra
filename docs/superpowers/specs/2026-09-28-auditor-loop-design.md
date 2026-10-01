@@ -145,6 +145,11 @@ while True:
   `ts, part, attempt, gate, plan_hash, planner_model, auditor_version, findings[], verdict, tokens, cost`.
 - Plans are stored alongside as `plan_v<attempt>.json`, so any rejection can be
   replayed.
+- Token and cost figures come from the shared token tracker
+  (`pipeline/token_tracker.py`). The LLM reviewer records as
+  `role="auditor_reviewer"` and Jev as `role="jev"`, both inside
+  `scope(gate=..., attempt=...)`. `python -m pipeline.token_report` then shows the
+  auditor's share of spend and the cost of each retry.
 - `python -m pipeline.audit.rollup` → `docs/audit-rejections.md`: the most
   frequent checks, by planner model and by part family. This is the
   institutional-memory successor to `docs/solidworks-macro-error-log.md`, the
