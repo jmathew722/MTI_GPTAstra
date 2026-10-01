@@ -30,6 +30,7 @@ from pathlib import Path
 # Importing the extractor loads .env (ANTHROPIC_API_KEY, SOLIDWORKS_TEMPLATE_PATH).
 from pipeline.extractor import DEFAULT_MODEL, extract_drawing_data_multiview
 from pipeline.schema import DrawingData
+from pipeline.token_tracker import LEDGER_NAME, TokenTracker, scope
 from pipeline.usage_log import record_run
 from pipeline.validator import format_verification_report, run_verification
 from pipeline.view_ingest import IMAGE_SUFFIXES, PartViews, discover_parts
@@ -477,7 +478,8 @@ def process_part(part: PartViews, output_root: Path, sw_app, template_path: str 
     print(f"  [1/4] extracting views: {', '.join(v for v, _ in _ordered_views_with_full(part)) or 'none'}")
 
     usage: dict = {}
-    data = extract_part(part, cache_dir, usage)
+    with scope(part=name):
+        data = extract_part(part, cache_dir, usage)
     record_run(output_root, data.get("part_number") or name, os.getenv("EXTRACTION_MODEL") or DEFAULT_MODEL, usage)
 
     print("  [2/4] auto-resolving unknowns")
@@ -553,13 +555,15 @@ def main() -> int:
     sw_app = connect_to_solidworks()
 
     results = []
-    for folder in args.folders:
-        root = Path(folder)
-        if not root.is_dir():
-            print(f"[skip] not a directory: {root}")
-            continue
-        for part in find_parts(root):
-            results.append(process_part(part, output_root, sw_app, template_path))
+    tracker = TokenTracker(output_root / "usage" / LEDGER_NAME)
+    with tracker.activate():
+        for folder in args.folders:
+            root = Path(folder)
+            if not root.is_dir():
+                print(f"[skip] not a directory: {root}")
+                continue
+            for part in find_parts(root):
+                results.append(process_part(part, output_root, sw_app, template_path))
 
     print("\n" + "=" * 60)
     print(f"{'PART':14s} {'STATUS':14s} {'BUILT':>6s} {'SKIP':>5s}  REPORT")

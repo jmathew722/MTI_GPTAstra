@@ -58,15 +58,18 @@ def _prepare_and_extract(args) -> dict | None:
     import os as _os
     from pipeline.extractor import DEFAULT_MODEL
 
+    from pipeline.token_tracker import scope
+
     usage: dict[str, int] = {}
     try:
-        data = extract_drawing_data(
-            prepared.base64,
-            media_type=prepared.media_type,
-            prep_warnings=prepared.warnings,
-            cache_dir=_extract_cache_dir(args),
-            usage_out=usage,
-        )
+        with scope(part=Path(args.drawing).stem):
+            data = extract_drawing_data(
+                prepared.base64,
+                media_type=prepared.media_type,
+                prep_warnings=prepared.warnings,
+                cache_dir=_extract_cache_dir(args),
+                usage_out=usage,
+            )
         # Record tokens + cost for this API run into the output-root ledger.
         from pipeline.usage_log import record_run
 
@@ -118,12 +121,14 @@ def _extract_one_drawing(path: Path, page: int, cache_dir: Path | None) -> dict:
     """Image-prep + Claude extraction for a single drawing file (used by batch)."""
     from utils.image_prep import prepare_image
     from pipeline.extractor import extract_drawing_data
+    from pipeline.token_tracker import scope
 
     prepared = prepare_image(str(path), page=page, return_details=True)
-    return extract_drawing_data(
-        prepared.base64, media_type=prepared.media_type, prep_warnings=prepared.warnings,
-        cache_dir=cache_dir,
-    )
+    with scope(part=path.stem):
+        return extract_drawing_data(
+            prepared.base64, media_type=prepared.media_type, prep_warnings=prepared.warnings,
+            cache_dir=cache_dir,
+        )
 
 
 def _run_batch(args) -> int:
@@ -216,9 +221,12 @@ def _run_views_folder(args) -> int:
         console.print(f"[1/2] {part.name}: extracting views ({present})...")
         for w in part.warnings:
             console.print(f"  [yellow]warning:[/yellow] {w}")
+        from pipeline.token_tracker import scope
+
         usage: dict = {}
         try:
-            data = _extract_part_views(part, args.page, cache_dir, usage)
+            with scope(part=part.name):
+                data = _extract_part_views(part, args.page, cache_dir, usage)
         except Exception as e:
             console.print(f"  [red]Extraction failed:[/red] {type(e).__name__}: {e}")
             from pipeline.batch import BatchRow
@@ -287,6 +295,16 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    # Every model completion in this run lands in <output>/usage/usage_ledger.jsonl
+    # (report with: python -m pipeline.token_report <output>).
+    from pipeline.token_tracker import LEDGER_NAME, TokenTracker
+
+    tracker = TokenTracker(Path(args.output) / "usage" / LEDGER_NAME)
+    with tracker.activate():
+        return _run(args)
+
+
+def _run(args) -> int:
     console.print(Panel("2D -> 3D SolidWorks Pipeline", style="bold blue"))
 
     # --- Batch mode: process a whole directory and write a triage CSV ---

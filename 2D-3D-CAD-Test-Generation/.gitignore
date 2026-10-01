@@ -26,6 +26,11 @@ token_usage_log.txt
 token_usage_log.jsonl
 **/token_usage_log.*
 
+# Per-completion token ledger + generated reports (pipeline/token_tracker.py)
+**/usage/usage_ledger.jsonl
+**/usage/usage_report.html
+**/usage/usage*.csv
+
 # OS
 .DS_Store
 Thumbs.db

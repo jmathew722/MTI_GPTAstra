@@ -19,6 +19,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import time
 from pathlib import Path
 from typing import Any, Optional, Union
 
@@ -26,6 +27,7 @@ from dotenv import load_dotenv
 from pydantic import ValidationError
 
 from pipeline.schema import DrawingData
+from pipeline.token_tracker import record_cache_hit, record_completion
 from utils.logger import get_logger
 
 log = get_logger()
@@ -215,7 +217,8 @@ def _call(client, model: str, messages: list[dict[str, Any]]):
     # in a batch — so within the cache window nearly all calls read it at ~10%
     # cost. The image carries its own cache breakpoint (see _image_block).
     system = [{"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}]
-    return client.messages.create(
+    started = time.perf_counter()
+    response = client.messages.create(
         model=model,
         max_tokens=MAX_TOKENS,
         system=system,
@@ -223,6 +226,10 @@ def _call(client, model: str, messages: list[dict[str, Any]]):
         tools=[_drawing_data_tool()],
         tool_choice={"type": "tool", "name": TOOL_NAME},
     )
+    # One ledger row per completion (no-op unless a TokenTracker is active).
+    record_completion(response, model=model, provider="anthropic", role="extractor",
+                      latency_ms=(time.perf_counter() - started) * 1000)
+    return response
 
 
 def _find_tool_use(response) -> Any:
@@ -354,6 +361,7 @@ def extract_drawing_data_multiview(
     cached = _cache_lookup(cache_dir, key)
     if cached is not None:
         log.info("Multi-view extraction cache HIT (%s…) — skipping API call.", key[:12])
+        record_cache_hit(model=model, provider="anthropic", role="extractor")
         if usage_out is not None:
             usage_out["cache_hits"] = usage_out.get("cache_hits", 0) + 1
         return cached
@@ -463,6 +471,7 @@ def extract_drawing_data(
     cached = _cache_lookup(cache_dir, key)
     if cached is not None:
         log.info("Extraction cache HIT (%s…) — skipping API call.", key[:12])
+        record_cache_hit(model=model, provider="anthropic", role="extractor")
         if usage_out is not None:
             usage_out.setdefault("cache_hits", 0)
             usage_out["cache_hits"] += 1
