@@ -4,10 +4,11 @@ Appends one row per extraction run to a human-readable ``token_usage_log.txt``
 (and a machine-readable ``token_usage_log.jsonl`` used to recompute the running
 total) at the output root, so the cost of every API call is tracked over time.
 
-Prices are USD per MILLION tokens, from the Anthropic pricing reference
-(claude-api skill, cached 2026-06-04). Prompt-caching multipliers:
-cache WRITE (5-min TTL) = 1.25x input, cache READ = 0.10x input.
-Update PRICING if Anthropic changes published prices.
+Prices are USD per MILLION tokens, read from ``config/pricing.json`` (the
+"anthropic" provider section) — edit prices there, not here. This per-run summary
+is kept for continuity; the per-completion ledger in ``pipeline/token_tracker.py``
+(by role, model, provider, part, gate, attempt) is the source of truth for cost
+reporting (``python -m pipeline.token_report``).
 """
 from __future__ import annotations
 
@@ -15,11 +16,26 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-# USD per 1,000,000 tokens.
-PRICING: dict[str, dict[str, float]] = {
-    "claude-sonnet-4-6": {"input": 3.00, "output": 15.00, "cache_write": 3.75, "cache_read": 0.30},
-    "claude-opus-4-8": {"input": 5.00, "output": 25.00, "cache_write": 6.25, "cache_read": 0.50},
-}
+# USD per 1,000,000 tokens — the "anthropic" provider rates from config/pricing.json,
+# the single price table shared with the per-completion tracker
+# (pipeline/token_tracker.py, which supersedes this per-run summary).
+_PRICING_PATH = Path(__file__).resolve().parent.parent / "config" / "pricing.json"
+
+
+def _load_anthropic_pricing() -> dict[str, dict[str, float]]:
+    try:
+        providers = json.loads(_PRICING_PATH.read_text(encoding="utf-8")).get("providers", {})
+    except (OSError, json.JSONDecodeError):
+        providers = {}
+    keys = ("input", "output", "cache_write", "cache_read")
+    return {
+        model: {k: float(p[k]) for k in keys}
+        for model, p in providers.get("anthropic", {}).items()
+        if all(p.get(k) is not None for k in keys)
+    }
+
+
+PRICING: dict[str, dict[str, float]] = _load_anthropic_pricing()
 # Used when the model isn't in PRICING (keeps the ledger working, flags unknown).
 _FALLBACK = {"input": 3.00, "output": 15.00, "cache_write": 3.75, "cache_read": 0.30}
 

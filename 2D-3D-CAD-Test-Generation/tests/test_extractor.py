@@ -261,3 +261,49 @@ def test_max_long_edge_env_override(monkeypatch):
         monkeypatch.delenv("MAX_IMAGE_LONG_EDGE", raising=False)
         importlib.reload(image_prep)
     assert image_prep.MAX_LONG_EDGE == 2576
+
+
+class TestTokenTrackerIntegration:
+    """Every extraction completion lands in the per-completion ledger (role=extractor)."""
+
+    def _rows(self, path):
+        import json
+        return [json.loads(l) for l in path.read_text(encoding="utf-8").splitlines() if l.strip()]
+
+    def test_one_row_per_api_call(self, patch_client, tmp_path):
+        from pipeline.token_tracker import TokenTracker
+
+        first = tool_response(make_drawing_dict(0.5))
+        first.usage = FakeUsage(input_tokens=1000, output_tokens=200, cache_read_input_tokens=500)
+        second = tool_response(make_drawing_dict(0.92))
+        second.usage = FakeUsage(input_tokens=100, output_tokens=150, cache_read_input_tokens=4000)
+        patch_client([first, second])
+
+        ledger = tmp_path / "usage_ledger.jsonl"
+        with TokenTracker(ledger).activate(part="P-1"):
+            extract_drawing_data("ZmFrZQ==", model="claude-sonnet-4-6")
+
+        rows = self._rows(ledger)
+        assert len(rows) == 2  # initial + low-confidence re-query
+        assert {r["role"] for r in rows} == {"extractor"}
+        assert {r["provider"] for r in rows} == {"anthropic"}
+        assert rows[0]["part"] == "P-1" and rows[0]["input_tokens"] == 1000
+        assert rows[1]["cache_read_tokens"] == 4000
+        assert all(r["priced"] and r["latency_ms"] is not None for r in rows)
+
+    def test_cache_hit_recorded_as_free_row(self, patch_client, tmp_path):
+        from pipeline.token_tracker import TokenTracker
+
+        patch_client([tool_response(make_drawing_dict(0.95))])
+        extract_drawing_data("ZmFrZQ==", cache_dir=tmp_path / "c")  # populate (no tracker)
+        ledger = tmp_path / "usage_ledger.jsonl"
+        with TokenTracker(ledger).activate(part="P-2"):
+            extract_drawing_data("ZmFrZQ==", cache_dir=tmp_path / "c")
+        rows = self._rows(ledger)
+        assert len(rows) == 1
+        assert rows[0]["cache_hit"] is True and rows[0]["cost_usd"] == 0.0
+
+    def test_no_tracker_means_no_ledger(self, patch_client, tmp_path):
+        patch_client([tool_response(make_drawing_dict(0.95))])
+        extract_drawing_data("ZmFrZQ==")
+        assert not list(tmp_path.glob("**/*.jsonl"))

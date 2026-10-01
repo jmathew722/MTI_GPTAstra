@@ -67,7 +67,10 @@ inbound firewall port.
 - **Code impact:**
   - The planner / extractor provider layer (core PRD requirement A6) gets a
     `bedrock` backend next to `anthropic` and `openai`.
-  - The forced-tool-call pattern and Pydantic repair retry stay the same.
+  - The tool-call pattern and Pydantic repair retry stay the same. Opus 5.5
+    rejects *forced* `tool_choice`, so it uses `auto` + `strict: true` (spec A).
+  - Every completion is still recorded by the token tracker, with `provider`
+    set to this cloud, so reports compare clouds side by side.
   - `usage_log.py` needs Bedrock prices for each pinned model.
 
 ## MCP server hosting

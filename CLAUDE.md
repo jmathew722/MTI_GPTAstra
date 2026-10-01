@@ -57,9 +57,16 @@ python main.py --drawing <file> --validate-only --debug      # extract + verify,
 python main.py --from-json output/<P>/<P>_extraction.json    # regenerate macros, no API cost
 python main.py --views-folder <dir> --output ./output        # multi-view parts
 python run_models.py <folder> --output ./output              # COM build, Windows + SW2024 only
-python -m pytest tests/ -v                                   # tests (pytest must be installed)
+python -m pytest tests/ -v                                   # tests (188 passing as of 2026-10-01)
 UPDATE_GOLDEN=1 python -m pytest tests/test_golden_macros.py # accept an intended macro change
+python -m pipeline.token_report ./output --html output/usage/usage_report.html  # token & cost report
 ```
+
+Token tracking: every model completion is appended to
+`<output>/usage/usage_ledger.jsonl` (role, model, provider, part, arm, gate,
+attempt, tokens, latency, cost). Prices live in `config/pricing.json` (per provider
+and model, with `as_of` and `source`). A `null` price makes the row *unpriced*; it
+is never guessed. Use `--reprice` after filling one in.
 
 Env vars: `ANTHROPIC_API_KEY` (required), `EXTRACTION_MODEL` (default
 `claude-sonnet-4-6`), `EXTRACTION_CONFIDENCE_THRESHOLD`, `MAX_IMAGE_LONG_EDGE`
@@ -86,7 +93,17 @@ Env vars: `ANTHROPIC_API_KEY` (required), `EXTRACTION_MODEL` (default
 9. **A paid extraction is never lost:** extraction JSON is written for every
    run, READY or BLOCKED. Fix BLOCKED parts by patching JSON + `--from-json`.
 10. **Strict structured outputs reject this schema** — keep the forced tool
-    call + Pydantic repair retry in `extractor.py`.
+    call + Pydantic repair retry in `extractor.py`. **Caveat:** forced
+    `tool_choice` (`any` / named tool) returns a 400 on Claude Opus 5.5,
+    Sonnet 5.5 and Fable 5.1. It works only because extraction runs on
+    `claude-sonnet-4-6`. Code on those models (the IR planner, any extractor
+    model upgrade) must use `tool_choice: auto` + `strict: true` on the tool
+    and an explicit instruction to call it, and keep the Pydantic repair retry.
+11. **Every model call is recorded.** Call
+    `pipeline.token_tracker.record_completion(response, model=..., provider=..., role=...)`
+    right after each completion (roles: `extractor`, `planner`, `auditor_reviewer`,
+    `jev`, `other`), inside `scope(gate=..., attempt=...)` where relevant. With no
+    active tracker it does nothing, so it's always safe to call.
 
 ## When a macro fails on a real SolidWorks machine
 

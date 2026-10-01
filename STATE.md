@@ -41,7 +41,8 @@
 | Direct COM build | `pipeline/solidworks_builder.py` | Working on Windows + SW2024 |
 | End-to-end batch COM driver w/ auto-resolution of ambiguities + design-decision report | `run_models.py` | Working (see caveat §3.3) |
 | Batch triage CSV | `pipeline/batch.py` | Working |
-| Test suite (8 files, golden macro snapshots) | `tests/` | Present — **not run this session** (pytest not installed on this machine) |
+| Test suite (10 files, golden macro snapshots) | `tests/` | **188 passing** (2026-10-01, Windows, Python 3.13) |
+| Per-completion token & cost tracking + report/dashboard | `pipeline/token_tracker.py`, `pipeline/token_report.py`, `config/pricing.json` | Working; wired into extraction. Planner/auditor/Jev record through the same API when built |
 
 ## 2. Part inventory
 
@@ -147,14 +148,15 @@ Fixed 2026-09-28:
   tool call).
 
 Still open (fix when touched):
-- No CI. Re-adding the workflow needs a green local test run first.
+- No CI yet. The suite is green locally (188 tests), so the workflow can be re-added.
 - Stray code-root files `extraction_115C/116C/117C.json` duplicate the `output/` copies.
 - `Deliverables/` duplicates `output/` for the 5 built parts.
 - `.SLDPRT` binaries are committed to git (no LFS).
-- The `.env.template` model hint and the `usage_log.py` price table only know
-  `claude-sonnet-4-6` / `claude-opus-4-8`. Unknown models (e.g. Opus 5.5) are
-  priced at the Sonnet fallback, so costs would be under-reported. Update both
-  together, as a code change.
+- Prices now live in `config/pricing.json` (Opus 5.5, Sonnet 5/5.5, Astra on
+  Foundry, Jev, ...), and the new tracker marks unknown prices *unpriced* instead of
+  guessing. Still open: the legacy `usage_log.record_run` summary keeps its Sonnet
+  fallback for unknown models; the Bedrock and direct-OpenAI prices are `null` until
+  confirmed; the `.env.template` model hint is still `claude-opus-4-8`.
 
 ## 4. Next phase — decided 2026-09-28 (designs written, no code yet)
 
@@ -183,8 +185,7 @@ by volume IoU and Chamfer distance, which barely penalize a misplaced hole.
 
 ## 5. Prerequisites the next phase needs
 
-- `pip install -r 2D-3D-CAD-Test-Generation/requirements.txt` on the dev machine
-  (pytest currently missing) and confirm the suite is green.
+- ~~Install requirements and confirm the suite is green~~ Done 2026-10-01: 188 tests pass.
 - A **ground-truth key** for a benchmark set: per part, the true dimensions and
   feature positions (hand-verified from the drawing, or measured from a reference
   `.SLDPRT` made by an engineer).
