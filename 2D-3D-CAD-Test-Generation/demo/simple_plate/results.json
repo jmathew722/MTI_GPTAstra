@@ -1,0 +1,351 @@
+[
+  {
+    "arm": "no_api",
+    "gate": "READY",
+    "sldprt": "out_no_api\\MOUNTINGPLATE.SLDPRT",
+    "exports": [
+      "DEMO-PLATE-001_no_api.png",
+      "DEMO-PLATE-001_no_api.step"
+    ],
+    "built": [
+      "F001",
+      "F002",
+      "F003",
+      "F004"
+    ],
+    "skipped": [],
+    "validator": "PASSED",
+    "validator_failed": [],
+    "measured": {
+      "bbox_mm": [
+        100.0,
+        60.0,
+        10.0
+      ],
+      "volume_mm3": 54782.9,
+      "cylinders": [
+        {
+          "center": [
+            10.0,
+            10.0
+          ],
+          "diameter": 8.0
+        },
+        {
+          "center": [
+            10.0,
+            50.0
+          ],
+          "diameter": 8.0
+        },
+        {
+          "center": [
+            50.0,
+            30.0
+          ],
+          "diameter": 20.0
+        },
+        {
+          "center": [
+            90.0,
+            10.0
+          ],
+          "diameter": 8.0
+        },
+        {
+          "center": [
+            90.0,
+            50.0
+          ],
+          "diameter": 8.0
+        }
+      ]
+    },
+    "score": {
+      "holes_placed": 5,
+      "holes_expected": 5,
+      "bbox_ok": true,
+      "volume_err_pct": 0.0,
+      "extra_cylinders": 0,
+      "matches": [
+        {
+          "expected": {
+            "diameter": 8,
+            "center": [
+              10,
+              10
+            ]
+          },
+          "built": {
+            "center": [
+              10.0,
+              10.0
+            ],
+            "diameter": 8.0
+          },
+          "pos_err_mm": 0.0,
+          "dia_err_mm": 0.0,
+          "ok": true
+        },
+        {
+          "expected": {
+            "diameter": 8,
+            "center": [
+              90,
+              10
+            ]
+          },
+          "built": {
+            "center": [
+              90.0,
+              10.0
+            ],
+            "diameter": 8.0
+          },
+          "pos_err_mm": 0.0,
+          "dia_err_mm": 0.0,
+          "ok": true
+        },
+        {
+          "expected": {
+            "diameter": 8,
+            "center": [
+              10,
+              50
+            ]
+          },
+          "built": {
+            "center": [
+              10.0,
+              50.0
+            ],
+            "diameter": 8.0
+          },
+          "pos_err_mm": 0.0,
+          "dia_err_mm": 0.0,
+          "ok": true
+        },
+        {
+          "expected": {
+            "diameter": 8,
+            "center": [
+              90,
+              50
+            ]
+          },
+          "built": {
+            "center": [
+              90.0,
+              50.0
+            ],
+            "diameter": 8.0
+          },
+          "pos_err_mm": 0.0,
+          "dia_err_mm": 0.0,
+          "ok": true
+        },
+        {
+          "expected": {
+            "diameter": 20,
+            "center": [
+              50,
+              30
+            ]
+          },
+          "built": {
+            "center": [
+              50.0,
+              30.0
+            ],
+            "diameter": 20.0
+          },
+          "pos_err_mm": 0.0,
+          "dia_err_mm": 0.0,
+          "ok": true
+        }
+      ],
+      "errors": [],
+      "axis_order": "as-is"
+    },
+    "notes": [
+      "F004: EDGES INFERRED - 2 edge(s) of F003 (where it meets earlier features); verify against the drawing."
+    ],
+    "decisions": []
+  },
+  {
+    "arm": "astra",
+    "gate": "READY",
+    "sldprt": "out_astra\\MOUNTINGPLATE.sldprt",
+    "exports": [
+      "DEMO-PLATE-001_astra.png",
+      "DEMO-PLATE-001_astra.step"
+    ],
+    "built": [
+      "F001",
+      "F002",
+      "F003",
+      "F004"
+    ],
+    "skipped": [],
+    "validator": "PASSED",
+    "validator_failed": [],
+    "measured": {
+      "bbox_mm": [
+        100.0,
+        60.0,
+        10.0
+      ],
+      "volume_mm3": 54782.9,
+      "cylinders": [
+        {
+          "center": [
+            10.0,
+            10.0
+          ],
+          "diameter": 8.0
+        },
+        {
+          "center": [
+            10.0,
+            50.0
+          ],
+          "diameter": 8.0
+        },
+        {
+          "center": [
+            50.0,
+            30.0
+          ],
+          "diameter": 20.0
+        },
+        {
+          "center": [
+            90.0,
+            10.0
+          ],
+          "diameter": 8.0
+        },
+        {
+          "center": [
+            90.0,
+            50.0
+          ],
+          "diameter": 8.0
+        }
+      ]
+    },
+    "score": {
+      "holes_placed": 5,
+      "holes_expected": 5,
+      "bbox_ok": true,
+      "volume_err_pct": 0.0,
+      "extra_cylinders": 0,
+      "matches": [
+        {
+          "expected": {
+            "diameter": 8,
+            "center": [
+              10,
+              10
+            ]
+          },
+          "built": {
+            "center": [
+              10.0,
+              10.0
+            ],
+            "diameter": 8.0
+          },
+          "pos_err_mm": 0.0,
+          "dia_err_mm": 0.0,
+          "ok": true
+        },
+        {
+          "expected": {
+            "diameter": 8,
+            "center": [
+              90,
+              10
+            ]
+          },
+          "built": {
+            "center": [
+              90.0,
+              10.0
+            ],
+            "diameter": 8.0
+          },
+          "pos_err_mm": 0.0,
+          "dia_err_mm": 0.0,
+          "ok": true
+        },
+        {
+          "expected": {
+            "diameter": 8,
+            "center": [
+              10,
+              50
+            ]
+          },
+          "built": {
+            "center": [
+              10.0,
+              50.0
+            ],
+            "diameter": 8.0
+          },
+          "pos_err_mm": 0.0,
+          "dia_err_mm": 0.0,
+          "ok": true
+        },
+        {
+          "expected": {
+            "diameter": 8,
+            "center": [
+              90,
+              50
+            ]
+          },
+          "built": {
+            "center": [
+              90.0,
+              50.0
+            ],
+            "diameter": 8.0
+          },
+          "pos_err_mm": 0.0,
+          "dia_err_mm": 0.0,
+          "ok": true
+        },
+        {
+          "expected": {
+            "diameter": 20,
+            "center": [
+              50,
+              30
+            ]
+          },
+          "built": {
+            "center": [
+              50.0,
+              30.0
+            ],
+            "diameter": 20.0
+          },
+          "pos_err_mm": 0.0,
+          "dia_err_mm": 0.0,
+          "ok": true
+        }
+      ],
+      "errors": [],
+      "axis_order": "as-is"
+    },
+    "notes": [
+      "F004: EDGES INFERRED - 2 edge(s) of F003 (where it meets earlier features); verify against the drawing."
+    ],
+    "decisions": [
+      "Circular/angular spacing for F002 (2 instances @ 80 deg) recorded as a NOTE only \u2014 not used for linear feasibility or auto-patterning.",
+      "Hole pattern H001 (4 holes): pattern flag cleared for the verification gate. Instances are still placed from instance_positions or a bolt-circle diameter + feature quantity when the drawing grounds them."
+    ]
+  }
+]

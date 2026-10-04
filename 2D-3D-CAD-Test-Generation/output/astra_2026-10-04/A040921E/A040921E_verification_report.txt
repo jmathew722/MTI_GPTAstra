@@ -1,0 +1,31 @@
+VERIFICATION REPORT
+===================
+Part: A040921E    Units: inch    Standard: unknown    Confidence: 0.88
+Total dimensions extracted: 10
+Hole callouts extracted: 1
+Features identified: 4  (build order: 4)
+Dimensions flagged ambiguous: 0
+Dimensional closure: PASS  (2 chain(s) checked)
+Unit consistency: PASS
+View consistency: PASS
+Feature feasibility: PASS
+Derived dimensions computed: 2  ->  D009, D010
+
+DRAWING COMPLETENESS SCORE (Phase 4):
+  Geometry completeness:  100%
+  Dimension completeness: 100%
+  Cross-view consistency: 100%
+  Feature confidence:     88%
+  Macro readiness:        97%
+
+WARNINGS:
+  [WARN]  extraction: No title block is supplied. Part identification, revision, material, finish, scale, general tolerances, and governing drawing standard cannot be established.
+  [WARN]  extraction: Inches are inferred from the decimal dimension conventions and geometry; no explicit unit declaration is visible.
+  [WARN]  extraction: The asterisk attached to the 3.000 length has no corresponding note in the supplied images. Resolve its meaning before manufacture.
+  [WARN]  extraction: The centered upper feature is interpreted as a through-wall end slot, 1.062 wide and .75 deep axially from datum A. Its topology is supported by the sectional hatching and local detail, but no explicit SLOT or THRU callout is present; confirm this interpretation before production.
+  [WARN]  extraction: The parallelism frame is written in the order symbol | A | .001. Its intended meaning is clear enough to extract, but governing-standard compliance cannot be confirmed.
+  [WARN]  extraction: The .09 X 45° TYP callout is interpreted to cover the two depicted bore-mouth chamfers. Any broader application to other edges is unspecified.
+  [WARN]  extraction: Dimensions lacking explicit tolerances cannot be assigned manufacturing tolerances from the supplied crops.
+  [WARN]  extraction: Could not classify view for A040921E.png; skipped.
+
+OVERALL STATUS: READY TO BUILD

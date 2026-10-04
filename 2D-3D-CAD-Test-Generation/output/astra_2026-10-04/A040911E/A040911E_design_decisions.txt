@@ -1,0 +1,123 @@
+DESIGN DECISION & VERIFICATION REPORT — A040911E
+Generated 2026-10-04 by the automated 2D->3D SolidWorks pipeline.
+==============================================================================
+
+BUILD SUMMARY
+------------------------------------------------------------------------------
+  SolidWorks file:        C:\Users\gingw\AppData\Local\Temp\claude\C--Users-gingw-Desktop-AILOTFALL-mti-2d-3d\bd3b716b-4146-4cd5-bdaa-2cea4561715a\scratchpad\astra_built\A040911E\A040911E.sldprt
+  Features built:         3 (F001, F002, F006)
+  Features skipped:       F003 (hole), F005 (hole)
+  Features not attempted: F004
+  Extraction confidence:  68%
+  Model validation:       FAILED
+  Feature completeness:   3/6 built (missing F003, F004, F005)
+    FAIL: Feature completeness: 3/6 built (50%).
+    FAIL: INCOMPLETE: F003 hole x3 not built (build skipped/failed) - Three axial through clearance holes. Full readable callout: DR. & C'BO
+    FAIL: INCOMPLETE: F004 extrude_cut x3 not built (not in build_order) - Three .38-deep coaxial counterbores on F003 from the left-hand axial f
+    FAIL: INCOMPLETE: F005 hole x2 not built (build skipped/failed) - Two equatorial axial hole locations. Callout is cropped out. Diameter,
+  Solid volume:           423,023.5 mm^3
+  Bounding box (mm):      [165.0492, 165.0492, 38.1]
+
+1. AUTOMATED DESIGN DECISIONS  (90%-confidence defaults — review before production)
+------------------------------------------------------------------------------
+  - Feature F004 (extrude_cut) has no diameter or length+width profile dimension (geometry ambiguous); omitted and left for manual modeling.
+
+2. EXTRACTED DIMENSIONS  (19)
+------------------------------------------------------------------------------
+  ID    Type      Value  Unit  Tol +/-        Applies To                                         Notes
+  ----  --------  -----  ----  -------------  -------------------------------------------------  --------------------------------------------------
+  D001  diameter  6.498  inch  +0/-0.002      outside_diameter                                   Printed 6.498 DIA +.000/-.002. Limits 6.496 to 6.4
+  D002  diameter  4.5    inch  +0.003/-0      central_through_bore_diameter                      Printed 4.500 DIA +.003/-.000. Limits 4.500 to 4.5
+  D003  linear    2.875  inch  +0.005/-0.005  upper_screw_hole_y_from_center
+  D004  linear    1.438  inch  +0.005/-0.005  lower_screw_hole_row_offset_below_center           Lower row y = -1.438.
+  D005  linear    2.49   inch  +0.005/-0.005  lower_left_screw_hole_x_offset_from_center         Printed 2.490. Left x = -2.490. Equal opposite rig
+  D006  linear    2.75   inch  +0/-0          left_equatorial_hole_x_offset_from_center          Left x = -2.75 and y = 0. Right x = +2.75 is symme
+  D007  depth     0.38   inch  +0/-0          counterbore_depth                                  DR. & C'BORE .38 DP. FOR .250 SOC. HD. CAP SCR. 3-
+  D008  linear    0.25   inch  +0/-0          nominal_socket_head_cap_screw_size                 Fastener nominal size only, NOT a drill diameter,
+  D009  linear    1.5    inch  +0/-0          axial_thickness                                    Printed 1.500. No explicit tolerance; general tole
+  D010  linear    0.06   inch  +0/-0          typical_chamfer_leg                                Printed .06 x 45 degrees TYP. Partial duplicate no
+  D011  angular   45     inch  +0/-0          typical_chamfer_angle                              Actual unit is DEGREES. Required schema allows onl
+  D012  linear    0.001  inch  +0/-0          outside_diameter_concentricity_to_bore_axis        Legacy-order frame: concentricity symbol | A | .00
+  D013  linear    0.001  inch  +0/-0          right_axial_face_perpendicularity_to_bore_axis     Frame: perpendicularity symbol | A | .001. Associa
+  D014  linear    1.998  inch  +0/-0          nominal_diametral_wall_allowance                   Derived, not printed: 6.498 - 4.500 = 1.998. Not a
+  D015  linear    0.999  inch  +0/-0          nominal_radial_wall_thickness                      Derived, not printed: (6.498 - 4.500)/2 = .999, fo
+  D016  linear    1.12   inch  +0/-0          remaining_through_drill_length_beyond_counterbore  Derived, not printed: 1.500 - .380 = 1.120.
+  D020  linear    2.49   inch  +0/-0          inferred_lower_right_screw_hole_x_from_center      Derived by depicted left-right symmetry from D005;
+  D021  linear    2.75   inch  +0/-0          inferred_right_equatorial_hole_x_from_center       Derived by depicted left-right symmetry from D006;
+  D022  linear    3.249  inch  +0/-0          nominal_center_offset_from_envelope_edges          Derived: 6.498/2 = 3.249. Used to convert front ce
+
+  Geometric tolerances:
+    - concentricity 0.001 (datum A)
+    - perpendicularity 0.001 (datum A)
+
+3. FEATURES
+------------------------------------------------------------------------------
+  F001   extrude_boss   BUILT              Front-plane OD 6.498 disk extruded axially 1.500. F002 remov
+  F002   extrude_cut    BUILT              Concentric 4.500 through bore establishing datum axis A.
+  F003   hole           SKIPPED            Three axial through clearance holes. Full readable callout: 
+  F004   extrude_cut    NOT BUILT          Three .38-deep coaxial counterbores on F003 from the left-ha
+  F005   hole           SKIPPED            Two equatorial axial hole locations. Callout is cropped out.
+  F006   chamfer        BUILT              Typical .06 x 45-degree chamfers at four circular ring edges
+
+4. CONCERNS & ISSUES FOR HUMAN VERIFICATION
+------------------------------------------------------------------------------
+  - Extraction note: Re-examination confirms no title block or general-tolerance block is supplied. Identity, revision, scale, material, formal standard and unspecified tolerances remain unknown.
+  - Extraction note: Inch units are strongly inferred from decimal dimensions and .250 socket-head-cap-screw designation, not a visible units declaration.
+  - Extraction note: The reporting validator rejects unknown hole diameters represented by zero and requires positive numeric dimensions. Therefore hole_callouts remains empty rather than inventing diameters. Complete readable small-hole callout information and nominal instance coordinates are preserved in F003-F005. No diameter was measured from image scale.
+  - Extraction note: Drill and counterbore diameters for F003/F004 are not specified. .250 is nominal screw size, not either machining diameter. Obtain approved screw standard and clearance specifications before manufacture.
+  - Extraction note: F005's leader runs outside the supplied front crop. Recover the missing callout to determine diameter, type, depth/through condition, fit, threads and secondary details.
+  - Extraction note: The three screw-hole instances are interpreted as upper and lower pair. Their Cartesian positions approximate a radius-2.875, 120-degree arrangement, but no bolt-circle or equal-angle annotation is printed. Do not force exact equal-angular spacing in place of shown Cartesian dimensions.
+  - Extraction note: Right-hand hole x positions are symmetry-inferred, not independently dimensioned. Nominal edge-referenced positions use ring center (3.249,3.249). Feature position_known fields refer to the first directly located instance, not validation of all inferred positions.
+  - Extraction note: Surface-texture values 63 and 125 are legible. Microinch roughness is likely; parameter, units and governing standard require confirmation.
+  - Extraction note: The typical chamfer is depicted at four ring edges in section. Its application to small-hole edges is not established.
+  - Extraction note: D011 is 45 degrees; the inch field is solely a schema limitation.
+  - Extraction note: No REF or parenthesized dimension is visible. Derived checks are nominal arithmetic, not additional controlling dimensions or independently verified manufacturing tolerances.
+  - Extraction note: Missing diameter records were not assigned fabricated positive values. Missing values require human resolution as described in F003-F005; D017-D019 are unused identifiers.
+  - Extraction note: Manufacturing-ready geometry remains blocked by missing small-hole specifications, unconfirmed inferred symmetry, and unavailable general tolerances.
+  - Extraction note: Could not classify view for A040911E.png; skipped.
+  - VERIFY/ADD feature F004 (extrude_cut) manually — ambiguous profile.
+  - Feature F003 (hole) was SKIPPED during the build: hole F003 has no diameter dimension.
+  - Feature F005 (hole) was SKIPPED during the build: hole F005 has no diameter dimension.
+
+==============================================================================
+APPENDIX — full Phase-1 verification report
+==============================================================================
+VERIFICATION REPORT
+===================
+Part: A040911E    Units: inch    Standard: unknown    Confidence: 0.68
+Total dimensions extracted: 19
+Hole callouts extracted: 0
+Features identified: 6  (build order: 5)
+Dimensions flagged ambiguous: 0
+Dimensional closure: PASS  (4 chain(s) checked)
+Unit consistency: PASS
+View consistency: FAIL
+Feature feasibility: PASS
+Derived dimensions computed: 6  ->  D014, D015, D016, D020, D021, D022
+
+DRAWING COMPLETENESS SCORE (Phase 4):
+  Geometry completeness:  100%
+  Dimension completeness: 100%
+  Cross-view consistency: 100%
+  Feature confidence:     68%
+  Macro readiness:        92%
+
+WARNINGS:
+  [WARN]  extraction: Re-examination confirms no title block or general-tolerance block is supplied. Identity, revision, scale, material, formal standard and unspecified tolerances remain unknown.
+  [WARN]  extraction: Inch units are strongly inferred from decimal dimensions and .250 socket-head-cap-screw designation, not a visible units declaration.
+  [WARN]  extraction: The reporting validator rejects unknown hole diameters represented by zero and requires positive numeric dimensions. Therefore hole_callouts remains empty rather than inventing diameters. Complete readable small-hole callout information and nominal instance coordinates are preserved in F003-F005. No diameter was measured from image scale.
+  [WARN]  extraction: Drill and counterbore diameters for F003/F004 are not specified. .250 is nominal screw size, not either machining diameter. Obtain approved screw standard and clearance specifications before manufacture.
+  [WARN]  extraction: F005's leader runs outside the supplied front crop. Recover the missing callout to determine diameter, type, depth/through condition, fit, threads and secondary details.
+  [WARN]  extraction: The three screw-hole instances are interpreted as upper and lower pair. Their Cartesian positions approximate a radius-2.875, 120-degree arrangement, but no bolt-circle or equal-angle annotation is printed. Do not force exact equal-angular spacing in place of shown Cartesian dimensions.
+  [WARN]  extraction: Right-hand hole x positions are symmetry-inferred, not independently dimensioned. Nominal edge-referenced positions use ring center (3.249,3.249). Feature position_known fields refer to the first directly located instance, not validation of all inferred positions.
+  [WARN]  extraction: Surface-texture values 63 and 125 are legible. Microinch roughness is likely; parameter, units and governing standard require confirmation.
+  [WARN]  extraction: The typical chamfer is depicted at four ring edges in section. Its application to small-hole edges is not established.
+  [WARN]  extraction: D011 is 45 degrees; the inch field is solely a schema limitation.
+  [WARN]  extraction: No REF or parenthesized dimension is visible. Derived checks are nominal arithmetic, not additional controlling dimensions or independently verified manufacturing tolerances.
+  [WARN]  extraction: Missing diameter records were not assigned fabricated positive values. Missing values require human resolution as described in F003-F005; D017-D019 are unused identifiers.
+  [WARN]  extraction: Manufacturing-ready geometry remains blocked by missing small-hole specifications, unconfirmed inferred symmetry, and unavailable general tolerances.
+  [WARN]  extraction: Could not classify view for A040911E.png; skipped.
+  [WARN]  Feature F004 is not in build_order and will not be built.
+  [WARN]  Dimension D009 cites view 'side', which is not among the identified views.
+
+OVERALL STATUS: READY TO BUILD

@@ -1,0 +1,111 @@
+DESIGN DECISION & VERIFICATION REPORT — SB11842
+Generated 2026-10-04 by the automated 2D->3D SolidWorks pipeline.
+==============================================================================
+
+BUILD SUMMARY
+------------------------------------------------------------------------------
+  SolidWorks file:        C:\Users\gingw\AppData\Local\Temp\claude\C--Users-gingw-Desktop-AILOTFALL-mti-2d-3d\bd3b716b-4146-4cd5-bdaa-2cea4561715a\scratchpad\astra_built\SB11842\SB11842.sldprt
+  Features built:         2 (F001, F005)
+  Features skipped:       F002 (hole), F006 (chamfer)
+  Features not attempted: F003, F004
+  Extraction confidence:  84%
+  Model validation:       FAILED
+  Feature completeness:   2/6 built (missing F002, F003, F004, F006)
+    FAIL: Feature completeness: 2/6 built (33%).
+    FAIL: INCOMPLETE: F002 hole not built (build skipped/failed) - Concentric 1.50 diameter through bore, shared by both views.
+    FAIL: INCOMPLETE: F003 hole x4 not built (not in build_order) - Four through clearance holes for .312 socket-head screws. Actual drill
+    FAIL: INCOMPLETE: F004 extrude_cut x4 not built (not in build_order) - Four counterbores coaxial with F003 at the same four positions, openin
+    FAIL: INCOMPLETE: F006 chamfer x2 not built (build skipped/failed) - Central-bore edge breaks/chamfers shown at both ends in side view; siz
+  Solid volume:           282,228.9 mm^3
+  Bounding box (mm):      [127.0, 127.0, 22.352]
+
+1. AUTOMATED DESIGN DECISIONS  (90%-confidence defaults — review before production)
+------------------------------------------------------------------------------
+  - Circular/angular spacing for F003 (4 instances @ 3.0052 deg) recorded as a NOTE only — not used for linear feasibility or auto-patterning.
+  - Feature F003 (hole): hole positions are not grounded in the extraction (no instance positions, known position or bolt circle); omitted.
+  - Feature F004 (extrude_cut) has no diameter or length+width profile dimension (geometry ambiguous); omitted and left for manual modeling.
+
+2. EXTRACTED DIMENSIONS  (11)
+------------------------------------------------------------------------------
+  ID    Type      Value  Unit  Tol +/-        Applies To                          Notes
+  ----  --------  -----  ----  -------------  ----------------------------------  --------------------------------------------------
+  D001  linear    2.125  inch  +0.005/-0.005  mounting_hole_radial_offset         2.125 ±.005 TYP; center-to-mounting-hole radial di
+  D002  linear    0.312  inch  +0/-0          nominal_screw_size                  DR. & C'BORE AS SHOWN FOR .312 SOC. HD. SCR. 4 HLS
+  D003  linear    0.88   inch  +0/-0          plate_thickness                     Printed .88, with underline/wavy mark; no REF desi
+  D004  linear    0.06   inch  +0/-0          outside_chamfer_leg                 .06 X 45° at right-hand outside edge. No explicit
+  D005  angular   45     inch  +0/-0          outside_chamfer_angle               Value is in degrees; schema unit field allows leng
+  D006  diameter  5      inch  +0/-0          outside_diameter                    5.00 DIA. No explicit tolerance.
+  D007  diameter  1.5    inch  +0/-0          central_bore_diameter               1.50 DIA. No explicit tolerance. Dimension takes p
+  D008  linear    0.5    inch  +0/-0          rear_face_to_counterbore_shoulder   .50 measures the remaining small-hole length from
+  D009  depth     0.38   inch  +0/-0          counterbore_depth                   Derived .88 - .50 = .38, measured from right/front
+  D010  diameter  4.25   inch  +0/-0          mounting_pitch_circle_diameter      Derived nominal value: 2 × 2.125 = 4.250.
+  D011  linear    0.375  inch  +0/-0          cardinal_hole_center_to_outer_edge  Derived nominal value: 5.00/2 - 2.125 = .375.
+
+  Hole callouts:
+    - H001: thru ø1.5 inch THRU, qty 1
+
+3. FEATURES
+------------------------------------------------------------------------------
+  F001   extrude_boss   BUILT              Circular solid base, diameter 5.00, thickness .88; origin at
+  F002   hole           SKIPPED            Concentric 1.50 diameter through bore, shared by both views.
+  F003   hole           NOT BUILT          Four through clearance holes for .312 socket-head screws. Ac
+  F004   extrude_cut    NOT BUILT          Four counterbores coaxial with F003 at the same four positio
+  F005   chamfer        BUILT              Front/right outside circular edge chamfer .06 × 45°. Opposit
+  F006   chamfer        SKIPPED            Central-bore edge breaks/chamfers shown at both ends in side
+
+4. CONCERNS & ISSUES FOR HUMAN VERIFICATION
+------------------------------------------------------------------------------
+  - Extraction note: Title block absent: part name, part number, revision, material, finish, scale, standard and general tolerances are unknown.
+  - Extraction note: Units inferred as inches from dimensions and .312 socket-head screw terminology; no units statement is visible.
+  - Extraction note: Four-hole counterbore callout is fully transcribed in D002/F004, but cannot be represented faithfully in hole_callouts: that schema requires a positive known hole diameter, and none is provided. F003 carries all four edge-referenced center positions instead. Human confirmation of clearance diameter and counterbore diameter is REQUIRED before building. Do not substitute the nominal .312 screw size for hole diameter.
+  - Extraction note: Counterbore depth is derived as .88 - .50 = .38. The printed .50 measures from the rear face to the shoulder, not from the counterbore opening.
+  - Extraction note: Central-bore entrance chamfer sizes and scope of the .06 × 45° callout require human confirmation.
+  - Extraction note: Views are not reliably to scale. Front central-bore proportions differ from the explicit 1.50 DIA side-view dimension, and axial proportions do not match the stated thickness/web dimensions. Do not extract missing sizes by measuring the images.
+  - Extraction note: Side-view marking instruction reads STAMP: SB 11842 and points to the cylindrical outside surface. This is not a confirmed title-block part number. Marking height, precise location and depth are not specified.
+  - Extraction note: A cropped '42' fragment at the lower-left of the front image cannot be associated with a complete callout; it is not treated as a dimension.
+  - Extraction note: All mounting-hole coordinates are nominal, derived from the dimensioned cardinal offsets and 5.00 OD. No threads or GD&T are specified.
+  - Extraction note: Could not classify view for SB11842.png; skipped.
+  - ADD the holes for F003 manually per the drawing callouts.
+  - VERIFY/ADD feature F004 (extrude_cut) manually — ambiguous profile.
+  - Feature F002 (hole) was SKIPPED during the build: FeatureCut4 returned None for F002 (both directions).
+  - Feature F006 (chamfer) was SKIPPED during the build: chamfer F006 has no distance dimension.
+
+==============================================================================
+APPENDIX — full Phase-1 verification report
+==============================================================================
+VERIFICATION REPORT
+===================
+Part: SB11842    Units: inch    Standard: unknown    Confidence: 0.84
+Total dimensions extracted: 11
+Hole callouts extracted: 1
+Features identified: 6  (build order: 4)
+Dimensions flagged ambiguous: 0
+Dimensional closure: PASS  (3 chain(s) checked)
+Unit consistency: PASS
+View consistency: FAIL
+Feature feasibility: PASS
+Derived dimensions computed: 3  ->  D009, D010, D011
+
+DRAWING COMPLETENESS SCORE (Phase 4):
+  Geometry completeness:  100%
+  Dimension completeness: 100%
+  Cross-view consistency: 100%
+  Feature confidence:     84%
+  Macro readiness:        96%
+
+WARNINGS:
+  [WARN]  extraction: Title block absent: part name, part number, revision, material, finish, scale, standard and general tolerances are unknown.
+  [WARN]  extraction: Units inferred as inches from dimensions and .312 socket-head screw terminology; no units statement is visible.
+  [WARN]  extraction: Four-hole counterbore callout is fully transcribed in D002/F004, but cannot be represented faithfully in hole_callouts: that schema requires a positive known hole diameter, and none is provided. F003 carries all four edge-referenced center positions instead. Human confirmation of clearance diameter and counterbore diameter is REQUIRED before building. Do not substitute the nominal .312 screw size for hole diameter.
+  [WARN]  extraction: Counterbore depth is derived as .88 - .50 = .38. The printed .50 measures from the rear face to the shoulder, not from the counterbore opening.
+  [WARN]  extraction: Central-bore entrance chamfer sizes and scope of the .06 × 45° callout require human confirmation.
+  [WARN]  extraction: Views are not reliably to scale. Front central-bore proportions differ from the explicit 1.50 DIA side-view dimension, and axial proportions do not match the stated thickness/web dimensions. Do not extract missing sizes by measuring the images.
+  [WARN]  extraction: Side-view marking instruction reads STAMP: SB 11842 and points to the cylindrical outside surface. This is not a confirmed title-block part number. Marking height, precise location and depth are not specified.
+  [WARN]  extraction: A cropped '42' fragment at the lower-left of the front image cannot be associated with a complete callout; it is not treated as a dimension.
+  [WARN]  extraction: All mounting-hole coordinates are nominal, derived from the dimensioned cardinal offsets and 5.00 OD. No threads or GD&T are specified.
+  [WARN]  extraction: Could not classify view for SB11842.png; skipped.
+  [WARN]  Feature F004 is not in build_order and will not be built.
+  [WARN]  Feature F003 is not in build_order and will not be built.
+  [WARN]  Dimension D003 cites view 'side', which is not among the identified views.
+
+OVERALL STATUS: READY TO BUILD

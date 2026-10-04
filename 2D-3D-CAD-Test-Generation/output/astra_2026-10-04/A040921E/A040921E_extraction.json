@@ -1,0 +1,430 @@
+{
+  "part_name": "A040921E",
+  "part_number": "A040921E",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "",
+  "material": "",
+  "finish": "",
+  "general_tolerance": "",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Annular end view showing outside diameter, bore diameter, and a single centered slot at the 12 o'clock position.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Horizontal and vertical centerlines establish the common center of the outside diameter and bore. The upper slot is centered on the vertical centerline; its width is marked CENT."
+    },
+    {
+      "view_type": "Section",
+      "description": "Right-plane longitudinal sectional side view. Hatched upper and lower walls establish a hollow cylindrical part. The unhatched upper-left wall region is interpreted as the axial end slot, extending 0.75 from the left end. Left end is datum A; right end has a parallelism control.",
+      "dimensions_shown": [
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Horizontal centerline is the cylinder/bore axis. Datum A is identified at the left axial end face."
+    },
+    {
+      "view_type": "Detail",
+      "description": "Unlabeled broken local view above the front view, showing the centered rectangular end-slot outline. No independent depth dimension or view-direction designation is provided.",
+      "dimensions_shown": [],
+      "visible_features": [
+        "F003"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Vertical centerline bisects the rectangular slot outline."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "diameter",
+      "value": 10.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "outside_diameter",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 10.50 DIA. No explicit dimensional tolerance is supplied."
+    },
+    {
+      "id": "D002",
+      "type": "diameter",
+      "value": 9.002,
+      "unit": "inch",
+      "tolerance_plus": 0.002,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "unilateral",
+      "applies_to": "bore_diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 9.002 DIA with +.002 / -.000. Permitted diameter limits are 9.002 to 9.004."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 1.062,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "slot_width",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed CENT. 1.062. Slot centered at the top vertical centerline; CENT. is a centering instruction, not a reference-dimension designation."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 3.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "axial_length",
+      "feature_ref": "F001",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 3.000 with an asterisk above. The asterisk's associated note is not included in the supplied images."
+    },
+    {
+      "id": "D005",
+      "type": "depth",
+      "value": 0.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "axial_slot_depth",
+      "feature_ref": "F003",
+      "view": "Section",
+      "datum_ref": "A",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .75 from the left end face to the vertical boundary in the upper wall. Interpreted as depth of the end slot because this upper-left region is unhatched and corresponds to the slot in the front view."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 0.09,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "chamfer_leg_size",
+      "feature_ref": "F004",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .09 X 45\u00b0 TYP; leader points to the bore/end-face intersection. Both bore mouths are depicted chamfered. The cropped note in the front image is a duplicate of this callout."
+    },
+    {
+      "id": "D007",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "chamfer_angle",
+      "feature_ref": "F004",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Angle is 45 degrees. The schema permits only length units in the unit field; inch here is the drawing's length-unit context, not the angle's unit."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_end_face_parallelism_tolerance",
+      "feature_ref": "F001",
+      "view": "Section",
+      "datum_ref": "A",
+      "gdt_symbol": "parallelism",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Feature-control frame reads parallelism | A | .001 in the supplied drawing. Interpreted as right end face parallel to datum A within .001. This is a geometric tolerance, not a size tolerance; frame order is not modern standard order."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 0.749,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_radial_wall_thickness",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived, not printed: (10.50 - 9.002) / 2 = .749. Nominal only; actual wall thickness depends on diameter tolerances."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 2.25,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "remaining_axial_length_behind_slot",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived, not printed: 3.000 - .75 = 2.25, based on the end-slot interpretation."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 9.002,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 0.0,
+      "y_position": 0.0,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          5.25,
+          5.25
+        ]
+      ],
+      "feature_ref": "F002",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Base circular blank, outside diameter 10.50, extruded 3.000 along the bore axis from the front plane. Left axial face in the side section is datum A. Bore is removed by F002.",
+      "related_dimensions": [
+        "D001",
+        "D004",
+        "D008",
+        "D009"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D004",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_cut",
+      "description": "Concentric 9.002 +.002/-.000 through bore. Remove through the complete 3.000 axial length to form the annular body.",
+      "related_dimensions": [
+        "D002",
+        "D004"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D004",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Single rectangular end slot centered on the 12 o'clock radial direction, width 1.062. Cut from datum-A end axially .75 and through the radial wall from bore to outside surface. Through-wall extent and axial-depth assignment are interpreted jointly from the front outline, upper detail, and unhatched portion of the side section; no independent radial depth is specified.",
+      "related_dimensions": [
+        "D003",
+        "D005",
+        "D010"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D005",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "chamfer",
+      "description": "Apply .09 by 45-degree typical chamfers at both bore mouths, interrupted where the slot removes the end edge. Do not extend the typical callout to unrelated outside or slot edges without confirmation.",
+      "related_dimensions": [
+        "D006",
+        "D007"
+      ],
+      "sketch_plane": "side",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [
+    {
+      "symbol": "parallelism",
+      "value": 0.001,
+      "datum": "A"
+    }
+  ],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Vertical plane containing the cylinder axis and the front-view vertical centerline",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004"
+        ],
+        "description": "The annular body and bore are coaxial; the single upper slot is centered left-to-right. The complete slotted part is not symmetric top-to-bottom or between axial ends."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F004"
+        ],
+        "description": "Outer cylinder, central through bore, and bore-mouth chamfers share the axis identified by the view centerlines."
+      }
+    ],
+    "equal_spacing": [],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D009",
+          "D002",
+          "D009"
+        ],
+        "description": "Nominal outside diameter = radial wall + bore diameter + radial wall: .749 + 9.002 + .749 = 10.50."
+      },
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D005",
+          "D010"
+        ],
+        "description": "Axial length = interpreted end-slot depth + remaining axial length: .75 + 2.25 = 3.000."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D009",
+      "D010"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004"
+  ],
+  "warnings": [
+    "No title block is supplied. Part identification, revision, material, finish, scale, general tolerances, and governing drawing standard cannot be established.",
+    "Inches are inferred from the decimal dimension conventions and geometry; no explicit unit declaration is visible.",
+    "The asterisk attached to the 3.000 length has no corresponding note in the supplied images. Resolve its meaning before manufacture.",
+    "The centered upper feature is interpreted as a through-wall end slot, 1.062 wide and .75 deep axially from datum A. Its topology is supported by the sectional hatching and local detail, but no explicit SLOT or THRU callout is present; confirm this interpretation before production.",
+    "The parallelism frame is written in the order symbol | A | .001. Its intended meaning is clear enough to extract, but governing-standard compliance cannot be confirmed.",
+    "The .09 X 45\u00b0 TYP callout is interpreted to cover the two depicted bore-mouth chamfers. Any broader application to other edges is unspecified.",
+    "Dimensions lacking explicit tolerances cannot be assigned manufacturing tolerances from the supplied crops.",
+    "Could not classify view for A040921E.png; skipped."
+  ],
+  "confidence": 0.88
+}

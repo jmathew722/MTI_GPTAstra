@@ -1,0 +1,36 @@
+VERIFICATION REPORT
+===================
+Part: SB11780    Units: inch    Standard: unknown    Confidence: 0.73
+Total dimensions extracted: 17
+Hole callouts extracted: 0
+Features identified: 6  (build order: 6)
+Dimensions flagged ambiguous: 0
+Dimensional closure: PASS  (3 chain(s) checked)
+Unit consistency: PASS
+View consistency: FAIL
+Feature feasibility: PASS
+Derived dimensions computed: 4  ->  D014, D015, D016, D017
+
+DRAWING COMPLETENESS SCORE (Phase 4):
+  Geometry completeness:  100%
+  Dimension completeness: 100%
+  Cross-view consistency: 100%
+  Feature confidence:     73%
+  Macro readiness:        93%
+
+WARNINGS:
+  [WARN]  extraction: No title block is supplied: part identification, revision, scale, explicit drawing standard, material grade, and general tolerances cannot be established.
+  [WARN]  extraction: Inches are inferred from the dimension conventions and shaft callouts; an explicit units declaration is absent.
+  [WARN]  extraction: Datum A identifier is visible beside the front-view keyway dimensions, but its exact feature attachment is not unambiguous. Do not assume it is the shaft axis without confirmation. Datum B is the left collar inner shoulder.
+  [WARN]  extraction: The .06 C/R BOTH ENDS numerical callout is clear, but its abbreviation requires confirmation; corner radius is the provisional interpretation.
+  [WARN]  extraction: The .125 R MAX TYP callout does not specify a unique fillet radius. The feature describes four matching root transitions, but the chosen radius must respect the maximum.
+  [WARN]  extraction: If equal .88-wide end collars were intended, 75.125 + 2(.88) would equal 76.885, differing from the printed overall length by .005. Extraction instead preserves the printed values and derives a .875 right collar; exact axial mirror symmetry is not established.
+  [WARN]  extraction: The stock diameter is expressly REF, despite its printed ±.0015 range. Derived keyway radial coordinates are therefore nominal and must not replace the controlling 2.218 dimension.
+  [WARN]  extraction: Keyway full axial extent is inferred from the longitudinal edges; no separate axial keyway length or termination dimension is printed.
+  [WARN]  extraction: MACHINE CENTERS PERMITTED is an allowance for optional manufacturing centers, not a dimensioned center-hole requirement; no holes have been invented.
+  [WARN]  extraction: CFS likely denotes cold-finished steel; the associated H surface marking has no supplied legend.
+  [WARN]  extraction: The neck features use the available extrude_cut category to describe annular material removal. Their dimensional source is the side view; a CAD implementation must use an annular axial cut or a revolved cut, not blindly extrude a side-view rectangle.
+  [WARN]  extraction: Could not classify view for SB11780.png; skipped.
+  [WARN]  Dimension D001 cites view 'side', which is not among the identified views.
+
+OVERALL STATUS: READY TO BUILD

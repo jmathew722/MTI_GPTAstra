@@ -1,0 +1,20 @@
+{
+  "_readme": "Exact answer for DEMO-PLATE-001. Units mm, drawing frame: plate lower-left corner at the origin, +x along the 100 edge, +y along the 60 edge, extruded +z. make_drawing.py renders the drawing from this file; score.py scores built parts against it.",
+  "part_number": "DEMO-PLATE-001",
+  "units": "mm",
+  "plate": {"length": 100, "width": 60, "thickness": 10},
+  "corner_holes": {"diameter": 8, "positions": [[10, 10], [90, 10], [10, 50], [90, 50]]},
+  "center_bore": {"diameter": 20, "position": [50, 30], "chamfer": 1},
+  "expected": {
+    "bbox_mm": [100, 60, 10],
+    "volume_mm3_no_chamfer": 54847.8,
+    "volume_mm3": 54782.9,
+    "cylinders": [
+      {"diameter": 8, "center": [10, 10]},
+      {"diameter": 8, "center": [90, 10]},
+      {"diameter": 8, "center": [10, 50]},
+      {"diameter": 8, "center": [90, 50]},
+      {"diameter": 20, "center": [50, 30]}
+    ]
+  }
+}

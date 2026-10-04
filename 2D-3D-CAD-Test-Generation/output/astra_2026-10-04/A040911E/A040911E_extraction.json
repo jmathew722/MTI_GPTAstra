@@ -1,0 +1,659 @@
+{
+  "part_name": "A040911E",
+  "part_number": "A040911E",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "",
+  "material": "",
+  "finish": "Surface-texture values: 63 on OD, bore, and right axial face; 125 on left axial face. Microinch roughness is inferred; parameter and units are not explicitly given.",
+  "general_tolerance": "",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Annular part with upper and lower-pair screw holes and two additional equatorial holes. A leader from the right equatorial hole extends outside the crop.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D012"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Horizontal and vertical ring centerlines; upper hole on vertical centerline, equatorial pair on horizontal centerline; lower holes share a horizontal locating line. Local hole center marks."
+    },
+    {
+      "view_type": "Section",
+      "description": "Supplied side view on Right Plane is an axial section through the ring and upper screw hole. Shows bore, counterbored through hole, axial thickness, and four ring-edge chamfers. No section designation is visible. Left-edge text fragments are from the adjacent front view.",
+      "dimensions_shown": [
+        "D009",
+        "D010",
+        "D011",
+        "D013"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F006"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Horizontal centerlines identify main bore axis and upper screw-hole axis. Material is section-hatched."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "diameter",
+      "value": 6.498,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.002,
+      "tolerance_type": "unilateral",
+      "applies_to": "outside_diameter",
+      "feature_ref": "F001",
+      "view": "front",
+      "datum_ref": "A",
+      "gdt_symbol": "concentricity",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 6.498 DIA +.000/-.002. Limits 6.496 to 6.498. Associated concentricity tolerance is D012."
+    },
+    {
+      "id": "D002",
+      "type": "diameter",
+      "value": 4.5,
+      "unit": "inch",
+      "tolerance_plus": 0.003,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "unilateral",
+      "applies_to": "central_through_bore_diameter",
+      "feature_ref": "F002",
+      "view": "front",
+      "datum_ref": "A",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 4.500 DIA +.003/-.000. Limits 4.500 to 4.503. Bore establishes datum axis A."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 2.875,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "upper_screw_hole_y_from_center",
+      "feature_ref": "F003",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 1.438,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "lower_screw_hole_row_offset_below_center",
+      "feature_ref": "F003",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Lower row y = -1.438."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 2.49,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "lower_left_screw_hole_x_offset_from_center",
+      "feature_ref": "F003",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.490. Left x = -2.490. Equal opposite right x is symmetry-inferred, not separately dimensioned."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 2.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_equatorial_hole_x_offset_from_center",
+      "feature_ref": "F005",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Left x = -2.75 and y = 0. Right x = +2.75 is symmetry-inferred. No explicit tolerance; general tolerance unavailable."
+    },
+    {
+      "id": "D007",
+      "type": "depth",
+      "value": 0.38,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "counterbore_depth",
+      "feature_ref": "F004",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DR. & C'BORE .38 DP. FOR .250 SOC. HD. CAP SCR. 3-HLS. Depth applies to counterbore. No explicit tolerance."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_socket_head_cap_screw_size",
+      "feature_ref": "F003",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Fastener nominal size only, NOT a drill diameter, counterbore diameter, or thread specification."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 1.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "axial_thickness",
+      "feature_ref": "F001",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.500. No explicit tolerance; general tolerance unavailable."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "typical_chamfer_leg",
+      "feature_ref": "F006",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .06 x 45 degrees TYP. Partial duplicate note at upper-right edge of front crop. No explicit tolerance."
+    },
+    {
+      "id": "D011",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "typical_chamfer_angle",
+      "feature_ref": "F006",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Actual unit is DEGREES. Required schema allows only length units; inch is a schema placeholder, not the angle unit. No explicit angular tolerance."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "outside_diameter_concentricity_to_bore_axis",
+      "feature_ref": "F001",
+      "view": "front",
+      "datum_ref": "A",
+      "gdt_symbol": "concentricity",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Legacy-order frame: concentricity symbol | A | .001. No diameter modifier visible."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_axial_face_perpendicularity_to_bore_axis",
+      "feature_ref": "F001",
+      "view": "side",
+      "datum_ref": "A",
+      "gdt_symbol": "perpendicularity",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Frame: perpendicularity symbol | A | .001. Associated with right axial face."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 1.998,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_diametral_wall_allowance",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived, not printed: 6.498 - 4.500 = 1.998. Not an independent controlling dimension."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 0.999,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_radial_wall_thickness",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived, not printed: (6.498 - 4.500)/2 = .999, for nominal concentric geometry."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 1.12,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "remaining_through_drill_length_beyond_counterbore",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived, not printed: 1.500 - .380 = 1.120."
+    },
+    {
+      "id": "D020",
+      "type": "linear",
+      "value": 2.49,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "inferred_lower_right_screw_hole_x_from_center",
+      "feature_ref": "F003",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived by depicted left-right symmetry from D005; no separately printed dimension or explicit symmetry control. Confirm before manufacture."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 2.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "inferred_right_equatorial_hole_x_from_center",
+      "feature_ref": "F005",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived by depicted left-right symmetry from D006; confirm before manufacture."
+    },
+    {
+      "id": "D022",
+      "type": "linear",
+      "value": 3.249,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_center_offset_from_envelope_edges",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: 6.498/2 = 3.249. Used to convert front center-relative positions to nominal lower-left-envelope coordinates."
+    }
+  ],
+  "hole_callouts": [],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Front-plane OD 6.498 disk extruded axially 1.500. F002 removes the central bore to produce the annular front profile. Front-view ring center is model origin.",
+      "related_dimensions": [
+        "D001",
+        "D009",
+        "D012",
+        "D013",
+        "D014",
+        "D015",
+        "D022"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D009",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_cut",
+      "description": "Concentric 4.500 through bore establishing datum axis A.",
+      "related_dimensions": [
+        "D002",
+        "D009"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D009",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "hole",
+      "description": "Three axial through clearance holes. Full readable callout: DR. & C'BORE .38 DP. FOR .250 SOC. HD. CAP SCR. 3-HLS. Drill diameter UNKNOWN; requires human resolution. Center-relative positions [[0,2.875],[-2.490,-1.438],[2.490,-1.438]]. Nominal lower-left-envelope instance_positions [[3.249,6.124],[0.759,1.811],[5.739,1.811]]. Lower-right x is inferred from symmetry. Upper hole is shown through in section. F004 supplies counterbores on these same holes.",
+      "related_dimensions": [
+        "D003",
+        "D004",
+        "D005",
+        "D008",
+        "D009",
+        "D016",
+        "D020"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D009",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 2.875,
+      "position_known": true,
+      "quantity": 3
+    },
+    {
+      "id": "F004",
+      "type": "extrude_cut",
+      "description": "Three .38-deep coaxial counterbores on F003 from the left-hand axial face in side section. Counterbore diameter UNKNOWN; requires human resolution. These are secondary operations on the same three holes, not three additional holes.",
+      "related_dimensions": [
+        "D007",
+        "D008"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D007",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 2.875,
+      "position_known": true,
+      "quantity": 3
+    },
+    {
+      "id": "F005",
+      "type": "hole",
+      "description": "Two equatorial axial hole locations. Callout is cropped out. Diameter, type, depth, through/blind condition, fit, threads and secondary treatments UNKNOWN and require human resolution. Center-relative positions [[-2.75,0],[2.75,0]]. Nominal lower-left-envelope instance_positions [[0.499,3.249],[5.999,3.249]]. Right-hand x is symmetry-inferred. Concentric circles alone do not establish counterbore/countersink/thread type.",
+      "related_dimensions": [
+        "D006",
+        "D021"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": -2.75,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 2
+    },
+    {
+      "id": "F006",
+      "type": "chamfer",
+      "description": "Typical .06 x 45-degree chamfers at four circular ring edges: OD and ID at both axial faces, as shown in section. Application to small-hole edges is not established.",
+      "related_dimensions": [
+        "D010",
+        "D011"
+      ],
+      "sketch_plane": "side",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    }
+  ],
+  "geometric_tolerances": [
+    {
+      "symbol": "concentricity",
+      "value": 0.001,
+      "datum": "A"
+    },
+    {
+      "symbol": "perpendicularity",
+      "value": 0.001,
+      "datum": "A"
+    }
+  ],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Axial plane containing the front-view vertical centerline",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006"
+        ],
+        "description": "Depicted left-right symmetry used for inferred right-hand hole x positions. No explicit symmetry note is visible; confirm before manufacture."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F002"
+        ],
+        "description": "Nominal concentric OD and central bore; OD concentricity .001 to bore datum A."
+      },
+      {
+        "feature_ids": [
+          "F003",
+          "F004"
+        ],
+        "description": "Each of three screw holes is coaxial with its corresponding counterbore; the three axes are distinct."
+      }
+    ],
+    "equal_spacing": [],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D002",
+          "D014"
+        ],
+        "description": "Derived nominal diameter closure: 6.498 = 4.500 + 1.998."
+      },
+      {
+        "total_dimension_id": "D014",
+        "component_dimension_ids": [
+          "D015",
+          "D015"
+        ],
+        "description": "Derived two-wall closure: 1.998 = .999 + .999."
+      },
+      {
+        "total_dimension_id": "D009",
+        "component_dimension_ids": [
+          "D007",
+          "D016"
+        ],
+        "description": "Derived axial closure: 1.500 = .380 + 1.120."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D022",
+          "D022"
+        ],
+        "description": "Diameter = twice nominal radius: 6.498 = 3.249 + 3.249."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D014",
+      "D015",
+      "D016",
+      "D020",
+      "D021",
+      "D022"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F005",
+    "F006"
+  ],
+  "warnings": [
+    "Re-examination confirms no title block or general-tolerance block is supplied. Identity, revision, scale, material, formal standard and unspecified tolerances remain unknown.",
+    "Inch units are strongly inferred from decimal dimensions and .250 socket-head-cap-screw designation, not a visible units declaration.",
+    "The reporting validator rejects unknown hole diameters represented by zero and requires positive numeric dimensions. Therefore hole_callouts remains empty rather than inventing diameters. Complete readable small-hole callout information and nominal instance coordinates are preserved in F003-F005. No diameter was measured from image scale.",
+    "Drill and counterbore diameters for F003/F004 are not specified. .250 is nominal screw size, not either machining diameter. Obtain approved screw standard and clearance specifications before manufacture.",
+    "F005's leader runs outside the supplied front crop. Recover the missing callout to determine diameter, type, depth/through condition, fit, threads and secondary details.",
+    "The three screw-hole instances are interpreted as upper and lower pair. Their Cartesian positions approximate a radius-2.875, 120-degree arrangement, but no bolt-circle or equal-angle annotation is printed. Do not force exact equal-angular spacing in place of shown Cartesian dimensions.",
+    "Right-hand hole x positions are symmetry-inferred, not independently dimensioned. Nominal edge-referenced positions use ring center (3.249,3.249). Feature position_known fields refer to the first directly located instance, not validation of all inferred positions.",
+    "Surface-texture values 63 and 125 are legible. Microinch roughness is likely; parameter, units and governing standard require confirmation.",
+    "The typical chamfer is depicted at four ring edges in section. Its application to small-hole edges is not established.",
+    "D011 is 45 degrees; the inch field is solely a schema limitation.",
+    "No REF or parenthesized dimension is visible. Derived checks are nominal arithmetic, not additional controlling dimensions or independently verified manufacturing tolerances.",
+    "Missing diameter records were not assigned fabricated positive values. Missing values require human resolution as described in F003-F005; D017-D019 are unused identifiers.",
+    "Manufacturing-ready geometry remains blocked by missing small-hole specifications, unconfirmed inferred symmetry, and unavailable general tolerances.",
+    "Could not classify view for A040911E.png; skipped."
+  ],
+  "confidence": 0.68
+}

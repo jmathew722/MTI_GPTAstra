@@ -1,0 +1,502 @@
+{
+  "part_name": "SB11842",
+  "part_number": "SB11842",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "",
+  "material": "",
+  "finish": "",
+  "general_tolerance": "",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Circular plate, concentric bore, four cardinal counterbored mounting holes; base profile on front plane.",
+      "dimensions_shown": [
+        "D001",
+        "D002"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005",
+        "F006"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Orthogonal centerlines establish the plate center, concentric bore and four cardinal hole centers."
+    },
+    {
+      "view_type": "Right",
+      "description": "Side view showing thickness, OD, central through bore, edge chamfers and one representative stepped mounting hole. Counterbores open to the right-hand face.",
+      "dimensions_shown": [
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008"
+      ],
+      "visible_features": [
+        "F001",
+        "F005"
+      ],
+      "hidden_features": [
+        "F002",
+        "F003",
+        "F004",
+        "F006"
+      ],
+      "centerline_notes": "Axial centerlines through the central bore and mounting holes; dashed boundaries show the central through bore and mounting-hole shoulder."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 2.125,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "mounting_hole_radial_offset",
+      "feature_ref": "F003",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "2.125 \u00b1.005 TYP; center-to-mounting-hole radial distance at all four cardinal positions."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 0.312,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_screw_size",
+      "feature_ref": "",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DR. & C'BORE AS SHOWN FOR .312 SOC. HD. SCR. 4 HLS. Screw size only, NOT a hole diameter. No explicit tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 0.88,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "plate_thickness",
+      "feature_ref": "F001",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .88, with underline/wavy mark; no REF designation or explicit tolerance."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "outside_chamfer_leg",
+      "feature_ref": "F005",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".06 X 45\u00b0 at right-hand outside edge. No explicit tolerance."
+    },
+    {
+      "id": "D005",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "outside_chamfer_angle",
+      "feature_ref": "F005",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Value is in degrees; schema unit field allows length units only. No explicit tolerance."
+    },
+    {
+      "id": "D006",
+      "type": "diameter",
+      "value": 5.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "outside_diameter",
+      "feature_ref": "F001",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "5.00 DIA. No explicit tolerance."
+    },
+    {
+      "id": "D007",
+      "type": "diameter",
+      "value": 1.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "central_bore_diameter",
+      "feature_ref": "F002",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.50 DIA. No explicit tolerance. Dimension takes precedence over front-view proportions."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "rear_face_to_counterbore_shoulder",
+      "feature_ref": "F004",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".50 measures the remaining small-hole length from left/rear face to shoulder, NOT the recess depth from right/front face. No explicit tolerance."
+    },
+    {
+      "id": "D009",
+      "type": "depth",
+      "value": 0.38,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "counterbore_depth",
+      "feature_ref": "F004",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived .88 - .50 = .38, measured from right/front face. Tolerance unknown."
+    },
+    {
+      "id": "D010",
+      "type": "diameter",
+      "value": 4.25,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "mounting_pitch_circle_diameter",
+      "feature_ref": "F003",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value: 2 \u00d7 2.125 = 4.250."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "cardinal_hole_center_to_outer_edge",
+      "feature_ref": "F003",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value: 5.00/2 - 2.125 = .375."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 1.5,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 0.0,
+      "y_position": 0.0,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          2.5,
+          2.5
+        ]
+      ],
+      "feature_ref": "F002",
+      "view": "side"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Circular solid base, diameter 5.00, thickness .88; origin at plate center.",
+      "related_dimensions": [
+        "D003",
+        "D006"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D003",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Concentric 1.50 diameter through bore, shared by both views.",
+      "related_dimensions": [
+        "D007"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "hole",
+      "description": "Four through clearance holes for .312 socket-head screws. Actual drilled diameter is UNSPECIFIED. Center-relative positions in inches: (-2.125,0), (0,2.125), (2.125,0), (0,-2.125). Edge-referenced instance_positions: [[0.375,2.5],[2.5,4.625],[4.625,2.5],[2.5,0.375]]. Do not build until hole diameter is confirmed.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D010",
+        "D011"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F004",
+      "type": "extrude_cut",
+      "description": "Four counterbores coaxial with F003 at the same four positions, opening toward the right/front face, derived depth .38. Counterbore diameter is UNSPECIFIED. Original callout: DR. & C'BORE AS SHOWN FOR .312 SOC. HD. SCR. 4 HLS.",
+      "related_dimensions": [
+        "D002",
+        "D003",
+        "D008",
+        "D009"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D009",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F005",
+      "type": "chamfer",
+      "description": "Front/right outside circular edge chamfer .06 \u00d7 45\u00b0. Opposite outside edge is not shown chamfered.",
+      "related_dimensions": [
+        "D004",
+        "D005"
+      ],
+      "sketch_plane": "side",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F006",
+      "type": "chamfer",
+      "description": "Central-bore edge breaks/chamfers shown at both ends in side view; size unspecified. Confirm whether the .06 \u00d7 45\u00b0 callout is intended to apply to these as well.",
+      "related_dimensions": [],
+      "sketch_plane": "side",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Vertical axial plane through plate center",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006"
+        ],
+        "description": "Left-right symmetry of front profile and cardinal hole arrangement."
+      },
+      {
+        "plane": "Horizontal axial plane through plate center",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006"
+        ],
+        "description": "Top-bottom symmetry of front profile and cardinal hole arrangement. No mid-thickness symmetry is implied."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F005",
+          "F006"
+        ],
+        "description": "Main OD, central bore and circular edge treatments share the plate axis."
+      },
+      {
+        "feature_ids": [
+          "F003",
+          "F004"
+        ],
+        "description": "Each mounting hole is coaxial with its own counterbore; the four individual axes are distinct."
+      }
+    ],
+    "equal_spacing": [],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D003",
+        "component_dimension_ids": [
+          "D008",
+          "D009"
+        ],
+        "description": ".88 thickness = .50 rear web + .38 front recess depth."
+      },
+      {
+        "total_dimension_id": "D010",
+        "component_dimension_ids": [
+          "D001",
+          "D001"
+        ],
+        "description": "4.250 opposing-hole spacing = 2.125 + 2.125."
+      },
+      {
+        "total_dimension_id": "D006",
+        "component_dimension_ids": [
+          "D011",
+          "D010",
+          "D011"
+        ],
+        "description": "5.00 OD = .375 edge-to-center + 4.250 opposing-center distance + .375 center-to-edge."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D009",
+      "D010",
+      "D011"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F005",
+    "F006"
+  ],
+  "warnings": [
+    "Title block absent: part name, part number, revision, material, finish, scale, standard and general tolerances are unknown.",
+    "Units inferred as inches from dimensions and .312 socket-head screw terminology; no units statement is visible.",
+    "Four-hole counterbore callout is fully transcribed in D002/F004, but cannot be represented faithfully in hole_callouts: that schema requires a positive known hole diameter, and none is provided. F003 carries all four edge-referenced center positions instead. Human confirmation of clearance diameter and counterbore diameter is REQUIRED before building. Do not substitute the nominal .312 screw size for hole diameter.",
+    "Counterbore depth is derived as .88 - .50 = .38. The printed .50 measures from the rear face to the shoulder, not from the counterbore opening.",
+    "Central-bore entrance chamfer sizes and scope of the .06 \u00d7 45\u00b0 callout require human confirmation.",
+    "Views are not reliably to scale. Front central-bore proportions differ from the explicit 1.50 DIA side-view dimension, and axial proportions do not match the stated thickness/web dimensions. Do not extract missing sizes by measuring the images.",
+    "Side-view marking instruction reads STAMP: SB 11842 and points to the cylindrical outside surface. This is not a confirmed title-block part number. Marking height, precise location and depth are not specified.",
+    "A cropped '42' fragment at the lower-left of the front image cannot be associated with a complete callout; it is not treated as a dimension.",
+    "All mounting-hole coordinates are nominal, derived from the dimensioned cardinal offsets and 5.00 OD. No threads or GD&T are specified.",
+    "Could not classify view for SB11842.png; skipped."
+  ],
+  "confidence": 0.84
+}

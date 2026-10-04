@@ -1,0 +1,792 @@
+{
+  "part_name": "SB11033",
+  "part_number": "SB11033",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "",
+  "material": "",
+  "finish": "",
+  "general_tolerance": "",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Axial view of circular flange, projecting shaft, rear pilot, and four mounting holes. Cutting plane A-A passes through the vertical pair of holes.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F004",
+        "F006",
+        "F007"
+      ],
+      "hidden_features": [
+        "F003"
+      ],
+      "centerline_notes": "Horizontal and vertical axes establish the common axis of flange, shaft, pilot and bolt circle. Four hole centers are at cardinal positions. A-A is a section identifier, not a datum."
+    },
+    {
+      "view_type": "Section",
+      "description": "Section A-A, supplied as the side view on the Right Plane. Shows solid stepped shaft and pilot, flange thickness, two intersected mounting holes, shoulder radii and chamfers.",
+      "dimensions_shown": [
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010",
+        "D011",
+        "D012",
+        "D013",
+        "D014",
+        "D015",
+        "D016",
+        "D017"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005",
+        "F006",
+        "F007",
+        "F008"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Longitudinal centerline is the common rotational axis. The unhatched passages above and below the axis are two of the four flange holes; the central shaft and pilot are solid."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "diameter",
+      "value": 0.218,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "mounting_hole_diameter",
+      "feature_ref": "F004",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Callout: .218 DRILL THRU, 4-HLS. EQUALLY SPACED. No tolerance block supplied."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 0.781,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_hole_center_offset_from_axis",
+      "feature_ref": "F004",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 0.781,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "top_hole_center_offset_from_axis",
+      "feature_ref": "F004",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D004",
+      "type": "diameter",
+      "value": 1.562,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "bolt_circle_diameter",
+      "feature_ref": "F004",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": true,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.562 DIA. REF. B.C.; use controlling .781 +/- .005 hole-center offsets."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 1.971,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "overall_axial_length",
+      "feature_ref": "",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": true,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Overall length from pilot end to shaft end, marked REF."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 1.781,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "flange_rear_face_to_shaft_end",
+      "feature_ref": "F002",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "flange_thickness",
+      "feature_ref": "F001",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 0.19,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "pilot_projection_from_flange_rear_face",
+      "feature_ref": "F003",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D009",
+      "type": "diameter",
+      "value": 1.938,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "flange_outer_diameter",
+      "feature_ref": "F001",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D010",
+      "type": "diameter",
+      "value": 0.686,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.001,
+      "tolerance_type": "unilateral",
+      "applies_to": "solid_pilot_diameter",
+      "feature_ref": "F003",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .6860 DIA., +.0000/-.0010. Not a bore."
+    },
+    {
+      "id": "D011",
+      "type": "diameter",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "shaft_outer_diameter",
+      "feature_ref": "F002",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D012",
+      "type": "radial",
+      "value": 0.015,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "pilot_to_flange_root_radius_maximum",
+      "feature_ref": "F005",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".015 MAX. R.; upper bound, not an exact nominal radius."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 0.03,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "pilot_end_and_two_flange_outer_edge_chamfers",
+      "feature_ref": "F006",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Three leader branches designate pilot free-end rim and both flange outside rims."
+    },
+    {
+      "id": "D014",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "chamfer_angle_degrees",
+      "feature_ref": "F006",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "45 degrees in .03 x 45\u00b0 CHAM. Unit field uses drawing length unit only because schema has no degree option; this value is angular, not inches."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "shaft_free_end_chamfer_size",
+      "feature_ref": "F007",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D016",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "chamfer_angle_degrees",
+      "feature_ref": "F007",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "45 degrees in .06 x 45\u00b0 CHAM. Unit field uses drawing length unit only because schema has no degree option; this value is angular, not inches."
+    },
+    {
+      "id": "D017",
+      "type": "radial",
+      "value": 0.094,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "shaft_to_flange_shoulder_fillet_radius",
+      "feature_ref": "F008",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 1.406,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "shaft_projection_from_flange_front_face",
+      "feature_ref": "F002",
+      "view": "side",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: 1.781 - .375 = 1.406. Do not impose an independent tolerance."
+    },
+    {
+      "id": "D019",
+      "type": "radial",
+      "value": 0.969,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "flange_radius_for_edge_referenced_positions",
+      "feature_ref": "F001",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: 1.938 / 2 = .969; establishes center relative to lower-left envelope corner."
+    },
+    {
+      "id": "D020",
+      "type": "linear",
+      "value": 0.188,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_or_bottom_hole_center_edge_offset",
+      "feature_ref": "F004",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: .969 - .781 = .188."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 1.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_or_top_hole_center_edge_offset",
+      "feature_ref": "F004",
+      "view": "front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: .969 + .781 = 1.750."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 0.218,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 0.0,
+      "y_position": 0.781,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          0.969,
+          1.75
+        ],
+        [
+          1.75,
+          0.969
+        ],
+        [
+          0.969,
+          0.188
+        ],
+        [
+          0.188,
+          0.969
+        ]
+      ],
+      "feature_ref": "F004",
+      "view": "front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Base circular flange, diameter 1.938, thickness .375. Use axial coordinate z=0 at rear flange face and z=.375 at shaft-side face; front sketch origin at common axis.",
+      "related_dimensions": [
+        "D009",
+        "D007"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D007",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_boss",
+      "description": "Concentric solid diameter 1.000 shaft projecting 1.406 from shaft-side flange face, terminating at z=1.781. Front axial view supplies circular profile; side section supplies diameter and axial extent.",
+      "related_dimensions": [
+        "D011",
+        "D006",
+        "D007",
+        "D018"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D018",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_boss",
+      "description": "Concentric solid pilot, diameter .6860 +.0000/-.0010, projecting .190 from opposite flange face, from z=0 to z=-.190. Dashed center circle in front view represents this rear pilot.",
+      "related_dimensions": [
+        "D010",
+        "D008"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "D008",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "hole",
+      "description": "Four .218 drilled through holes in flange at top, right, bottom and left, equally spaced by 90 degrees about the common axis. Model as a single four-position hole operation; no duplicate pattern feature. Hole passage is through .375 flange thickness.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D007",
+        "D020",
+        "D021"
+      ],
+      "sketch_plane": "front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F005",
+      "type": "fillet",
+      "description": "Pilot-to-flange concave circular root, .015 maximum radius. Exact chosen radius is not prescribed beyond maximum.",
+      "related_dimensions": [
+        "D012"
+      ],
+      "sketch_plane": "side",
+      "depth_dimension_id": "",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F006",
+      "type": "chamfer",
+      "description": ".03 x 45 degree chamfers on pilot free-end circumference and both flange outer circumferences; three leader branches in section.",
+      "related_dimensions": [
+        "D013",
+        "D014"
+      ],
+      "sketch_plane": "side",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 3
+    },
+    {
+      "id": "F007",
+      "type": "chamfer",
+      "description": ".06 x 45 degree chamfer around shaft free-end circumference.",
+      "related_dimensions": [
+        "D015",
+        "D016"
+      ],
+      "sketch_plane": "side",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F008",
+      "type": "fillet",
+      "description": ".094 radius circular shoulder fillet where diameter 1.000 shaft joins flange.",
+      "related_dimensions": [
+        "D017"
+      ],
+      "sketch_plane": "side",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Horizontal axial plane through common axis",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007",
+          "F008"
+        ],
+        "description": "Nominal geometry and cardinal mounting pattern are mirror symmetric across this axial plane, excluding undimensioned stamp."
+      },
+      {
+        "plane": "Vertical axial plane A-A",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007",
+          "F008"
+        ],
+        "description": "Nominal geometry and mounting pattern are mirror symmetric across the section plane. Part is not symmetric end-for-end."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F005",
+          "F006",
+          "F007",
+          "F008"
+        ],
+        "description": "Flange, shaft, pilot and circular edge treatments share the longitudinal axis."
+      }
+    ],
+    "equal_spacing": [],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D005",
+        "component_dimension_ids": [
+          "D008",
+          "D006"
+        ],
+        "description": "Overall reference axial length: .190 + 1.781 = 1.971."
+      },
+      {
+        "total_dimension_id": "D006",
+        "component_dimension_ids": [
+          "D007",
+          "D018"
+        ],
+        "description": "Rear flange face to shaft end: .375 + 1.406 = 1.781."
+      },
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D002",
+          "D002"
+        ],
+        "description": "Nominal bolt-circle diameter equals twice radial center offset: .781 + .781 = 1.562 REF."
+      },
+      {
+        "total_dimension_id": "D009",
+        "component_dimension_ids": [
+          "D019",
+          "D019"
+        ],
+        "description": "Flange diameter equals twice radius: .969 + .969 = 1.938."
+      },
+      {
+        "total_dimension_id": "D019",
+        "component_dimension_ids": [
+          "D020",
+          "D002"
+        ],
+        "description": "Edge-to-axis coordinate: .188 + .781 = .969."
+      },
+      {
+        "total_dimension_id": "D021",
+        "component_dimension_ids": [
+          "D019",
+          "D002"
+        ],
+        "description": "Far cardinal-hole edge coordinate: .969 + .781 = 1.750."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D018",
+      "D019",
+      "D020",
+      "D021"
+    ],
+    "reference_dimension_ids": [
+      "D004",
+      "D005"
+    ]
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F008",
+    "F006",
+    "F007"
+  ],
+  "warnings": [
+    "No title block supplied: part name, official part number, revision, scale, material, finish, general tolerances and drawing standard cannot be established.",
+    "Side view specifies STAMP \"SB-11033\" on shaft cylindrical surface. This is a marking requirement, not verified title-block part identification. Text size, depth, orientation and exact position are not dimensioned; no invented engraving feature is included.",
+    "Units inferred as inches from decimal dimensions and conventional inch drill/chamfer notation; no explicit units legend is supplied.",
+    "Dimensions without explicit tolerances have no determinable tolerance from these cropped views; numeric zero defaults do not mean zero manufacturing tolerance.",
+    "The .015 MAX root radius is an upper-bound specification; selecting .015 for a CAD model is permitted but is not the only conforming radius.",
+    "Angular dimensions D014 and D016 are degrees, despite schema requiring an inch/mm/cm unit field.",
+    "Hole edge-referenced coordinates use the lower-left corner of the nominal circular flange bounding box, not a physical square corner. Opposite cardinal positions follow the four equally spaced hole requirement.",
+    "No center bore is present: section hatching confirms a solid shaft and pilot.",
+    "Could not classify view for SB11033.png; skipped."
+  ],
+  "confidence": 0.95
+}

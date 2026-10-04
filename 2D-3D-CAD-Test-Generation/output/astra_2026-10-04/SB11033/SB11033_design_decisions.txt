@@ -1,0 +1,111 @@
+DESIGN DECISION & VERIFICATION REPORT — SB11033
+Generated 2026-10-04 by the automated 2D->3D SolidWorks pipeline.
+==============================================================================
+
+BUILD SUMMARY
+------------------------------------------------------------------------------
+  SolidWorks file:        C:\Users\gingw\AppData\Local\Temp\claude\C--Users-gingw-Desktop-AILOTFALL-mti-2d-3d\bd3b716b-4146-4cd5-bdaa-2cea4561715a\scratchpad\astra_built\SB11033\SB11033.sldprt
+  Features built:         8 (F001, F002, F003, F004, F005, F008, F006, F007)
+  Extraction confidence:  95%
+  Model validation:       PASSED
+  Feature completeness:   8/8 built
+  Solid volume:           37,129.4 mm^3
+  Bounding box (mm):      [50.0634, 49.2252, 49.2252]
+
+1. AUTOMATED DESIGN DECISIONS  (90%-confidence defaults — review before production)
+------------------------------------------------------------------------------
+  - Circular/angular spacing for F004 (4 instances @ 1.1045 deg) recorded as a NOTE only — not used for linear feasibility or auto-patterning.
+  - Hole pattern H001 (4 holes): pattern flag cleared for the verification gate. Instances are still placed from instance_positions or a bolt-circle diameter + feature quantity when the drawing grounds them.
+
+2. EXTRACTED DIMENSIONS  (21)
+------------------------------------------------------------------------------
+  ID    Type      Value  Unit  Tol +/-        Applies To                                    Notes
+  ----  --------  -----  ----  -------------  --------------------------------------------  --------------------------------------------------
+  D001  diameter  0.218  inch  +0/-0          mounting_hole_diameter                        Callout: .218 DRILL THRU, 4-HLS. EQUALLY SPACED. N
+  D002  linear    0.781  inch  +0.005/-0.005  right_hole_center_offset_from_axis
+  D003  linear    0.781  inch  +0.005/-0.005  top_hole_center_offset_from_axis
+  D004  diameter  1.562  inch  +0/-0          bolt_circle_diameter                          1.562 DIA. REF. B.C.; use controlling .781 +/- .00
+  D005  linear    1.971  inch  +0/-0          overall_axial_length                          Overall length from pilot end to shaft end, marked
+  D006  linear    1.781  inch  +0/-0          flange_rear_face_to_shaft_end
+  D007  linear    0.375  inch  +0/-0          flange_thickness
+  D008  linear    0.19   inch  +0/-0          pilot_projection_from_flange_rear_face
+  D009  diameter  1.938  inch  +0/-0          flange_outer_diameter
+  D010  diameter  0.686  inch  +0/-0.001      solid_pilot_diameter                          Printed .6860 DIA., +.0000/-.0010. Not a bore.
+  D011  diameter  1      inch  +0/-0          shaft_outer_diameter
+  D012  radial    0.015  inch  +0/-0          pilot_to_flange_root_radius_maximum           .015 MAX. R.; upper bound, not an exact nominal ra
+  D013  linear    0.03   inch  +0/-0          pilot_end_and_two_flange_outer_edge_chamfers  Three leader branches designate pilot free-end rim
+  D014  angular   45     inch  +0/-0          chamfer_angle_degrees                         45 degrees in .03 x 45° CHAM. Unit field uses draw
+  D015  linear    0.06   inch  +0/-0          shaft_free_end_chamfer_size
+  D016  angular   45     inch  +0/-0          chamfer_angle_degrees                         45 degrees in .06 x 45° CHAM. Unit field uses draw
+  D017  radial    0.094  inch  +0/-0          shaft_to_flange_shoulder_fillet_radius
+  D018  linear    1.406  inch  +0/-0          shaft_projection_from_flange_front_face       Derived: 1.781 - .375 = 1.406. Do not impose an in
+  D019  radial    0.969  inch  +0/-0          flange_radius_for_edge_referenced_positions   Derived: 1.938 / 2 = .969; establishes center rela
+  D020  linear    0.188  inch  +0/-0          left_or_bottom_hole_center_edge_offset        Derived nominal coordinate: .969 - .781 = .188.
+  D021  linear    1.75   inch  +0/-0          right_or_top_hole_center_edge_offset          Derived nominal coordinate: .969 + .781 = 1.750.
+
+  Hole callouts:
+    - H001: thru ø0.218 inch THRU, qty 1
+
+3. FEATURES
+------------------------------------------------------------------------------
+  F001   extrude_boss   BUILT              Base circular flange, diameter 1.938, thickness .375. Use ax
+  F002   extrude_boss   BUILT              Concentric solid diameter 1.000 shaft projecting 1.406 from 
+  F003   extrude_boss   BUILT              Concentric solid pilot, diameter .6860 +.0000/-.0010, projec
+  F004   hole           BUILT              Four .218 drilled through holes in flange at top, right, bot
+  F005   fillet         BUILT              Pilot-to-flange concave circular root, .015 maximum radius. 
+  F006   chamfer        BUILT              .03 x 45 degree chamfers on pilot free-end circumference and
+  F007   chamfer        BUILT              .06 x 45 degree chamfer around shaft free-end circumference.
+  F008   fillet         BUILT              .094 radius circular shoulder fillet where diameter 1.000 sh
+
+4. CONCERNS & ISSUES FOR HUMAN VERIFICATION
+------------------------------------------------------------------------------
+  - Extraction note: No title block supplied: part name, official part number, revision, scale, material, finish, general tolerances and drawing standard cannot be established.
+  - Extraction note: Side view specifies STAMP "SB-11033" on shaft cylindrical surface. This is a marking requirement, not verified title-block part identification. Text size, depth, orientation and exact position are not dimensioned; no invented engraving feature is included.
+  - Extraction note: Units inferred as inches from decimal dimensions and conventional inch drill/chamfer notation; no explicit units legend is supplied.
+  - Extraction note: Dimensions without explicit tolerances have no determinable tolerance from these cropped views; numeric zero defaults do not mean zero manufacturing tolerance.
+  - Extraction note: The .015 MAX root radius is an upper-bound specification; selecting .015 for a CAD model is permitted but is not the only conforming radius.
+  - Extraction note: Angular dimensions D014 and D016 are degrees, despite schema requiring an inch/mm/cm unit field.
+  - Extraction note: Hole edge-referenced coordinates use the lower-left corner of the nominal circular flange bounding box, not a physical square corner. Opposite cardinal positions follow the four equally spaced hole requirement.
+  - Extraction note: No center bore is present: section hatching confirms a solid shaft and pilot.
+  - Extraction note: Could not classify view for SB11033.png; skipped.
+  - Feature F002 (boss) was built coaxially from its sketch plane; any axial OFFSET from the base face is not modeled — verify it isn't embedded in the base.
+  - Feature F003 (boss) was built coaxially from its sketch plane; any axial OFFSET from the base face is not modeled — verify it isn't embedded in the base.
+
+==============================================================================
+APPENDIX — full Phase-1 verification report
+==============================================================================
+VERIFICATION REPORT
+===================
+Part: SB11033    Units: inch    Standard: unknown    Confidence: 0.95
+Total dimensions extracted: 21
+Hole callouts extracted: 1
+Features identified: 8  (build order: 8)
+Dimensions flagged ambiguous: 0
+Dimensional closure: PASS  (6 chain(s) checked)
+Unit consistency: PASS
+View consistency: FAIL
+Feature feasibility: PASS
+Derived dimensions computed: 4  ->  D018, D019, D020, D021
+
+DRAWING COMPLETENESS SCORE (Phase 4):
+  Geometry completeness:  100%
+  Dimension completeness: 100%
+  Cross-view consistency: 100%
+  Feature confidence:     95%
+  Macro readiness:        99%
+
+WARNINGS:
+  [WARN]  extraction: No title block supplied: part name, official part number, revision, scale, material, finish, general tolerances and drawing standard cannot be established.
+  [WARN]  extraction: Side view specifies STAMP "SB-11033" on shaft cylindrical surface. This is a marking requirement, not verified title-block part identification. Text size, depth, orientation and exact position are not dimensioned; no invented engraving feature is included.
+  [WARN]  extraction: Units inferred as inches from decimal dimensions and conventional inch drill/chamfer notation; no explicit units legend is supplied.
+  [WARN]  extraction: Dimensions without explicit tolerances have no determinable tolerance from these cropped views; numeric zero defaults do not mean zero manufacturing tolerance.
+  [WARN]  extraction: The .015 MAX root radius is an upper-bound specification; selecting .015 for a CAD model is permitted but is not the only conforming radius.
+  [WARN]  extraction: Angular dimensions D014 and D016 are degrees, despite schema requiring an inch/mm/cm unit field.
+  [WARN]  extraction: Hole edge-referenced coordinates use the lower-left corner of the nominal circular flange bounding box, not a physical square corner. Opposite cardinal positions follow the four equally spaced hole requirement.
+  [WARN]  extraction: No center bore is present: section hatching confirms a solid shaft and pilot.
+  [WARN]  extraction: Could not classify view for SB11033.png; skipped.
+  [WARN]  hole callout H001: pattern span 1.562 could not be checked — no envelope dimension (length/width/height) extracted.
+  [WARN]  Hole callout H001 has 4 explicit position(s) but qty=1; using the listed positions.
+  [WARN]  Dimension D005 cites view 'side', which is not among the identified views.
+
+OVERALL STATUS: READY TO BUILD
