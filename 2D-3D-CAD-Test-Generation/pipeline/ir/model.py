@@ -13,9 +13,9 @@ Conventions (decisions recorded in docs/superpowers/plans/2026-10-04-feature-ir-
   faces of F), ``axis(part)``. Edge queries: ``edge_between(<ref>,<ref>)``.
 * **Sketch coordinates (u, v)** are the two GLOBAL axes in the sketch plane:
   front/±Z → (x, y), top/±Y → (x, z), right/±X → (y, z). Never a local frame.
-* **Direction:** ``op: add`` extrudes along the start ref's normal (+ for a base
-  plane, outward for a face). ``op: cut`` goes into the material (against a face's
-  outward normal). ``offset`` moves the start plane along that normal.
+* **Direction:** from a face, ``op: add`` extrudes outward and ``op: cut`` goes into
+  the material. From a base plane, both go along +normal (front +Z, top +Y,
+  right +X). ``offset`` moves the start plane along that normal.
 * A turned part's necks, grooves and shoulders are steps in its ``revolve``
   stations, not separate cuts.
 """
@@ -317,7 +317,9 @@ class BuildPlan(_Base):
                     found.append(Finding(severity="error", code="bad_expr", feature=f.id,
                                          message=f"{path} = {e!r}: {err}"))
                     continue
-                if ungrounded_literals(e) and not f.justification and not path.endswith(("angle", "start_angle")):
+                # Counts ("4X") and angles ("EQ SP") come from callouts, not lengths.
+                if (ungrounded_literals(e) and not f.justification
+                        and not path.endswith(("angle", "start_angle", "count", "count2", "step"))):
                     found.append(Finding(severity="error", code="ungrounded_literal", feature=f.id,
                                          message=f"{path} = {e!r} uses literal(s) "
                                                  f"{sorted(ungrounded_literals(e))} without a justification"))

@@ -98,4 +98,14 @@ the dev set.
 
 ## Status
 - [x] Split fixed: `bench/manifest.yaml` (9 dev parts, held-out pending)
-- [ ] Task 1 · [ ] Task 2 · [ ] Task 3 · [ ] Task 4 · [ ] Task 5 · [ ] Task 6 · [ ] Task 7 · [ ] Task 8
+- [x] Task 1 expressions. Grounding rule tightened: an added/subtracted literal always
+  needs a justification; counts and angles come from callouts.
+- [x] Task 2 BuildPlan + `check()` (Gate-1 core).
+- [ ] Task 3 `plan_from_v1`. Deliberately after Task 4 so migration targets a working compiler.
+- [x] Task 4 CadQuery compiler: prism (rect/circle/slot/polygon), revolve, hole
+  (thru/blind/cbore), pattern (linear/grid/circular), edge_op (`edge_between`), measured
+  feature map, STEP; subprocess runner. Base-plane cuts go +normal (decision).
+- [~] Task 5 golden plans: `demo_plate` (exact answer), `A040921E` (end slot: first
+  correct build), `SB11780` (revolve + necks + keyway: first correct build). Still to do:
+  `SB11033`, `A040911E`, `bracket`.
+- [ ] Task 6 · [ ] Task 7 · [ ] Task 8

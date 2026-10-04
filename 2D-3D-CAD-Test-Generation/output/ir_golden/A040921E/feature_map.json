@@ -1,0 +1,24 @@
+{
+  "part": "A040921E",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -5.25,
+    -5.25,
+    0.0,
+    5.25,
+    5.25,
+    3.0
+  ],
+  "volume": 68.236085,
+  "volume_mm3": 1118189.092,
+  "features": [
+    "F001",
+    "F002"
+  ],
+  "skipped": {
+    "F003": "unresolved: .09 x 45 TYP on the outer and bore end edges"
+  },
+  "holes": {},
+  "edge_points": {}
+}
