@@ -175,6 +175,14 @@ Each one falls into one of six root causes.
 | R5 | **Builder left a sketch open on failure.** When a feature fails after `InsertSketch`, the sketch stays open, and the next feature's `InsertSketch` *closes* it, so the next feature fails too ("Failed to enter sketch mode"). One failure cascades. | builder bug | SB11780 Astra F003 (after F002 failed) |
 | R6 | **Genuinely unknown or ambiguous on the drawing.** A cropped callout (A040911E F005, 2 holes) or an unspecified size ("edge breaks", "R .125 MAX"). The correct outcome is an escalation with a specific question, not a guess. | escalate (PRD B1/B4) | A040911E F005, SB11842 F006, SB11780 F005 |
 
+**False PASS found 2026-10-04 (IR golden-plan work).** SB11033 "PASSED" in both reads,
+but both extractions misread the part. They have a Ø.781 "pilot boss" (.781 is the
+bolt-circle *radius*) and a Ø.686 through bore (the section is fully hatched: there is
+no bore; Ø.686 is a pilot). The extraction was internally consistent, so completeness,
+bbox and the gate all passed it. **Only a reference model can catch a self-consistent
+misread.** That makes MTI reference STEP (PRD C1) a hard requirement, not a nice-to-have.
+The golden plan `tests/golden/ir/SB11033.json` is the corrected reading.
+
 Reading errors are a separate class. June's Sonnet extraction **misread** A040921E's
 1.062 × .75 end slot as a "hub boss" and labeled A040911E's ±2.75 equatorial hole
 offset as `overall_width`. Astra read both correctly. The strict validator caught

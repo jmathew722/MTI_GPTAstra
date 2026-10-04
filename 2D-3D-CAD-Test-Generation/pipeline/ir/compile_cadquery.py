@@ -19,7 +19,9 @@ from pathlib import Path
 from typing import Any, Optional
 
 from pipeline.ir.expr import evaluate
-from pipeline.ir.model import BuildPlan, EdgeOp, Hole, Pattern, Prism, Revolve
+from pipeline.ir.model import (
+    BuildPlan, EdgeOp, Hole, Pattern, Prism, Revolve, resolve_edge_query, resolve_ref,
+)
 
 CODE_ROOT = Path(__file__).resolve().parent.parent.parent
 
@@ -87,7 +89,7 @@ def emit_script(plan: BuildPlan, dims: dict[str, float]) -> str:
         if isinstance(f, Prism):
             prof, note = _profile(f.profile, dims)
             depth = "'thru'" if f.depth == "thru" else _fmt(_num(f.depth, dims))
-            L.append(f"m.prism({f.id!r}, on={f.on!r}, offset={_fmt(_num(f.offset, dims))}, "
+            L.append(f"m.prism({f.id!r}, on={resolve_ref(f.on, dims)!r}, offset={_fmt(_num(f.offset, dims))}, "
                      f"profile={prof}, depth={depth}, op={f.op!r})"
                      f"  # {note}; depth={f.depth}; offset={f.offset}")
         elif isinstance(f, Revolve):
@@ -106,7 +108,7 @@ def emit_script(plan: BuildPlan, dims: dict[str, float]) -> str:
                 if getattr(s, n) is not None:
                     spec[n] = _num(getattr(s, n), dims)
             body = ", ".join(f"'{k}': {v!r}" if isinstance(v, str) else f"'{k}': {_fmt(v)}" for k, v in spec.items())
-            L.append(f"m.hole({f.id!r}, on={f.on!r}, u={_fmt(_num(f.u, dims))}, v={_fmt(_num(f.v, dims))}, "
+            L.append(f"m.hole({f.id!r}, on={resolve_ref(f.on, dims)!r}, u={_fmt(_num(f.u, dims))}, v={_fmt(_num(f.v, dims))}, "
                      f"spec={{{body}}})  # u={f.u}, v={f.v}, d={s.d}"
                      + (f", cbore={s.cbore_d}x{s.cbore_depth}" if s.cbore_d else ""))
         elif isinstance(f, Pattern):
@@ -118,7 +120,8 @@ def emit_script(plan: BuildPlan, dims: dict[str, float]) -> str:
                      f"  # count={f.count}, pitch={f.pitch}")
         elif isinstance(f, EdgeOp):
             L.append(f"m.{'edge_op'}({f.id!r}, operation={f.operation!r}, size={_fmt(_num(f.size, dims))}, "
-                     f"angle={_fmt(_num(f.angle, dims))}, edges={f.edges!r})  # size={f.size}")
+                     f"angle={_fmt(_num(f.angle, dims))}, edges={[resolve_edge_query(q, dims) for q in f.edges]!r})"
+                     f"  # size={f.size}; edges={f.edges}")
     L += ["", "fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)", ""]
     return "\n".join(L)
 

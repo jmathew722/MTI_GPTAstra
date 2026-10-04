@@ -105,7 +105,9 @@ the dev set.
 - [x] Task 4 CadQuery compiler: prism (rect/circle/slot/polygon), revolve, hole
   (thru/blind/cbore), pattern (linear/grid/circular), edge_op (`edge_between`), measured
   feature map, STEP; subprocess runner. Base-plane cuts go +normal (decision).
-- [~] Task 5 golden plans: `demo_plate` (exact answer), `A040921E` (end slot: first
-  correct build), `SB11780` (revolve + necks + keyway: first correct build). Still to do:
-  `SB11033`, `A040911E`, `bracket`.
+- [x] Task 5 golden plans, each read from the FULL drawing sheet: `demo_plate` (exact
+  answer), `A040921E` (end slot), `SB11780` (revolve, necks, keyway), `SB11033` (pilot,
+  flange, boss; no bore; both extractions had misread it), `A040911E` (3 counterbores +
+  2 tapped holes the cropped view hid). Refs gained `face(F,±A,<z>)` / `wall(F,<r>)` for
+  stepped bodies. (`bracket` dropped: synthetic, not a dev drawing.)
 - [ ] Task 6 · [ ] Task 7 · [ ] Task 8

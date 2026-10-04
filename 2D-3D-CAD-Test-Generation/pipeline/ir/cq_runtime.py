@@ -68,11 +68,14 @@ class Model:
             axis = PLANES[args[0]][0]
             return axis, offset * self.k, +1
         if kind == "face":
-            fid, sd = args
+            fid, sd = args[0], args[1]
             tool = self._tool(fid)
-            bb = tool.BoundingBox()
             axis, sign = sd[1], (+1 if sd[0] == "+" else -1)
-            coord = (bb.xmax, bb.ymax, bb.zmax)[_idx(axis)] if sign > 0 else (bb.xmin, bb.ymin, bb.zmin)[_idx(axis)]
+            if len(args) == 3:   # explicit coordinate (stepped bodies)
+                coord = float(args[2]) * self.k
+            else:
+                bb = tool.BoundingBox()
+                coord = (bb.xmax, bb.ymax, bb.zmax)[_idx(axis)] if sign > 0 else (bb.xmin, bb.ymin, bb.zmin)[_idx(axis)]
             return axis, coord + sign * offset * self.k, sign
         raise CompileError(f"{on} can't be a start ref (use plane(...) or face(...))")
 
@@ -249,7 +252,7 @@ class Model:
         kind, args = parse_ref(ref)
         faces = self.solid.Faces()
         if kind == "face":
-            fid, sd = args
+            sd = args[1]
             axis, coord, _ = self._start(ref, 0.0)
             want = cq.Vector(*AXES[axis]) * (1 if sd[0] == "+" else -1)
             out = []
@@ -266,9 +269,13 @@ class Model:
             return [f for f in faces if f.geomType() == "PLANE" and abs((lambda c: (c.x, c.y, c.z))(f.Center())[_idx(axis)]) < TOL * 10]
         if kind == "wall":
             tool = self._tool(args[0])
+            radius = float(args[1]) * self.k if len(args) == 2 else None
             out = []
             for f in faces:
                 if f.geomType() == "PLANE":
+                    continue
+                if radius is not None and (f.geomType() != "CYLINDER" or
+                                           abs(f._geomAdaptor().Cylinder().Radius() - radius) > TOL * 10):
                     continue
                 c = f.Center() if f.geomType() != "CYLINDER" else f.positionAt(0.5, 0.5)
                 if cq.Vertex.makeVertex(c.x, c.y, c.z).distance(tool) < TOL * 10:

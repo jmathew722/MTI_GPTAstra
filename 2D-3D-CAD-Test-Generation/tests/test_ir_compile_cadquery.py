@@ -90,3 +90,49 @@ def test_tie_rod_revolve_necks_and_keyway():
     necks = 2 * math.pi * (R ** 2 - rn ** 2) * 1.016
     assert fm["volume"] < body - necks                 # keyway removed material too
     assert set(fm["skipped"]) == {"F003", "F004"}
+
+
+def load_ref(name):
+    g = json.loads((GOLDEN / f"{name}.json").read_text(encoding="utf-8"))
+    return frozenset(g.get("reference_ids", []))
+
+
+# --- SB11033: stepped revolve, bolt circle, faces picked by coordinate --------- #
+def test_work_backup_pilot_flange_boss_holes_and_edges():
+    plan, dims = load("SB11033")
+    errs = [f for f in plan.check(dims, load_ref("SB11033")) if f.severity == "error"]
+    assert [(f.code, f.feature) for f in errs] == [("unresolved", "F005")]   # .015 MAX R
+    r = build(plan, dims)
+    m, fm = r.model, r.feature_map
+    assert fm["bbox"] == pytest.approx([-0.969, -0.969, 0, 0.969, 0.969, 1.971], abs=1e-6)
+    assert m.contains(0, 0, 1.0) and m.contains(0, 0, 0.1)        # no bore (section fully hatched)
+    assert m.contains(0.3, 0, 0.1) and not m.contains(0.4, 0, 0.1)  # pilot Ø.686
+    assert m.contains(0.45, 0, 1.5) and not m.contains(0.55, 0, 1.5)  # boss Ø1.000
+    holes = fm["holes"]["F002"] + fm["holes"]["F003"]
+    assert len(holes) == 4 and all(h["measured"] and h["d"] == pytest.approx(0.218) for h in holes)
+    assert sorted(round(math.hypot(*h["center"]), 6) for h in holes) == [0.781] * 4
+    assert len(fm["edge_points"]["F004"]) == 1                      # .094 R: boss root only
+    assert len(fm["edge_points"]["F006"]) == 2                      # .03: both flange OD edges
+    assert len(fm["edge_points"]["F007"]) == 1                      # .06: boss end
+    assert "F005" in fm["skipped"]
+
+
+# --- A040911E: 3 counterbored + 2 tapped holes, chamfers TYP --------------------- #
+def test_bearing_counterbores_taps_and_chamfers():
+    plan, dims = load("A040911E")
+    assert not [f for f in plan.check(dims, load_ref("A040911E")) if f.severity != "info"]
+    r = build(plan, dims)
+    m, fm = r.model, r.feature_map
+    R = 6.498 / 2
+    assert fm["bbox"] == pytest.approx([-R, -R, 0, R, R, 1.5], abs=1e-6)
+    cb = [fm["holes"][f][0] for f in ("F002", "F003", "F004")]
+    assert all(h["measured"] for h in cb)
+    assert sorted((round(h["center"][0], 3), round(h["center"][1], 3)) for h in cb) == \
+        [(-2.49, -1.438), (0.0, 2.875), (2.49, -1.438)]
+    assert not m.contains(0, 2.875 + 0.19, 0.2)      # inside Ø.438 counterbore, .38 deep
+    assert m.contains(0, 2.875 + 0.19, 0.6)          #   ... below it, only the Ø.281 drill
+    assert not m.contains(0, 2.875, 1.4)             # drill goes through
+    taps = [fm["holes"][f][0] for f in ("F005", "F006")]
+    assert all(h["measured"] and h["depth"] == pytest.approx(1.0, abs=1e-6) for h in taps)
+    assert m.contains(2.75, 0, 1.2)                  # tapped hole is blind (1.00 DP of 1.500)
+    assert len(fm["edge_points"]["F007"]) == 4

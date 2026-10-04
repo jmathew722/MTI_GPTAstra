@@ -1,0 +1,34 @@
+{
+  "_checked_against": "ViewDefinedDrawings/SB11033 (dev): WORK BACKUP, SECTION A-A + end view. Ø.6860 +.0000/-.0010 pilot x .190; Ø1.938 flange x .375; Ø1.000 boss to the end, 1.781 from the flange's left face; 1.971 REF overall (= .190 + 1.781); section fully hatched across the axis = NO bore. .218 DRILL THRU 4-HLS EQUALLY SPACED on 1.562 DIA. REF B.C. (.781 +-.005 = B.C. radius, both axes). .094 R boss root; .015 MAX. R pilot root; .03 x 45 CHAM both flange edges; .06 x 45 CHAM boss end. STAMP not modeled. Both earlier extractions misread this part (boss Ø.781, a through bore).",
+  "dims": {"D001": 1.971, "D002": 1.781, "D003": 0.375, "D004": 0.19, "D005": 1.938, "D006": 0.686,
+           "D007": 1.0, "D008": 1.562, "D009": 0.218, "D010": 0.781, "D011": 0.015, "D012": 0.094,
+           "D013": 0.03, "D014": 0.06},
+  "reference_ids": ["D001", "D008"],
+  "plan": {
+    "part": "SB11033",
+    "frame": {"origin_kind": "axis_end", "units": "inch", "view_map": {"section_A-A": "+Y", "end": "-Z"}},
+    "features": [
+      {"kind": "revolve", "id": "F001", "rationale": "pilot, flange, boss on one axis; z = 0 at the pilot end",
+       "outer": [
+         {"z": "0", "r": "D006 / 2"}, {"z": "D004", "r": "D006 / 2"},
+         {"z": "D004", "r": "D005 / 2"}, {"z": "D004 + D003", "r": "D005 / 2"},
+         {"z": "D004 + D003", "r": "D007 / 2"}, {"z": "D004 + D002", "r": "D007 / 2"}]},
+      {"kind": "hole", "id": "F002", "rationale": "seed of 4 equally spaced holes at the B.C. radius",
+       "source_callouts": [".218 DRILL THRU 4-HLS. EQUALLY SPACED", "1.562 DIA. REF B.C."],
+       "on": "face(F001,-Z,D004)", "u": "D010", "v": "0", "spec": {"type": "thru", "d": "D009"}},
+      {"kind": "pattern", "id": "F003", "rationale": "4-HLS. EQUALLY SPACED", "seed": "F002",
+       "mode": "circular", "count": "4", "axis": "axis(part)", "step": "equal"},
+      {"kind": "edge_op", "id": "F004", "operation": "fillet", "size": "D012", "rationale": ".094 R at the boss root",
+       "source_callouts": [".094 R."], "edges": ["edge_between(face(F001,+Z,D004 + D003), wall(F001,D007 / 2))"]},
+      {"kind": "edge_op", "id": "F005", "operation": "fillet", "size": "D011", "status": "unresolved",
+       "rationale": ".015 MAX. R at the pilot root: only a maximum is given", "source_callouts": [".015 MAX. R."],
+       "edges": ["edge_between(face(F001,-Z,D004), wall(F001,D006 / 2))"]},
+      {"kind": "edge_op", "id": "F006", "operation": "chamfer", "size": "D013", "rationale": ".03 x 45 both flange edges",
+       "source_callouts": [".03 x 45° CHAM."],
+       "edges": ["edge_between(face(F001,-Z,D004), wall(F001,D005 / 2))",
+                 "edge_between(face(F001,+Z,D004 + D003), wall(F001,D005 / 2))"]},
+      {"kind": "edge_op", "id": "F007", "operation": "chamfer", "size": "D014", "rationale": ".06 x 45 at the boss end",
+       "source_callouts": [".06 x 45° CHAM."], "edges": ["edge_between(face(F001,+Z,D004 + D002), wall(F001,D007 / 2))"]}
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "_checked_against": "ViewDefinedDrawings/A040911E/A040911E.png (dev, FULL sheet): BEARING 4091-B. Ø6.498 +.000/-.002 OD, Ø4.500 +.003/-.000 bore (datum A), 1.500 thick. DR. & C'BORE .38 DP. FOR .250 SOC. HD. CAP SCR. 3-HLS at (0, 2.875) and (+-2.490, -1.438), counterbored from the front face (side view). .375-16 TAP 1.00 DP. 2-HLS at (+-2.75, 0). .06 x 45 TYP on OD and bore edges. The '_front' crop cuts off the tap callout; the full sheet has it.",
+  "dims": {"D001": 6.498, "D002": 4.5, "D003": 1.5, "D004": 2.875, "D005": 2.49, "D006": 1.438,
+           "D007": 0.38, "D008": 0.25, "D009": 2.75, "D010": 1.0, "D011": 0.06},
+  "reference_ids": ["D008"],
+  "plan": {
+    "part": "A040911E",
+    "frame": {"origin_kind": "axis_end", "units": "inch", "view_map": {"front": "-Z", "side": "+X"}},
+    "features": [
+      {"kind": "revolve", "id": "F001", "rationale": "ring; z = 0 at the front (counterbore) face",
+       "outer": [{"z": "0", "r": "D001 / 2"}, {"z": "D003", "r": "D001 / 2"}],
+       "inner": [{"z": "0", "r": "D002 / 2"}, {"z": "D003", "r": "D002 / 2"}]},
+      {"kind": "hole", "id": "F002", "rationale": "top counterbored hole", "on": "face(F001,-Z)",
+       "source_callouts": ["DR. & C'BORE .38 DP. FOR .250 SOC. HD. CAP SCR. 3-HLS."],
+       "u": "0", "v": "D004",
+       "spec": {"type": "cbore", "d": "0.281", "cbore_d": "0.438", "cbore_depth": "D007"},
+       "justification": "drill .281 and c'bore Ø.438 for a .250 SHCS from the SHCS counterbore chart (pipeline/fasteners.py); not printed"},
+      {"kind": "hole", "id": "F003", "rationale": "lower-left counterbored hole", "on": "face(F001,-Z)",
+       "u": "-D005", "v": "-D006",
+       "spec": {"type": "cbore", "d": "0.281", "cbore_d": "0.438", "cbore_depth": "D007"},
+       "justification": "drill .281 and c'bore Ø.438 for a .250 SHCS from the SHCS counterbore chart; not printed"},
+      {"kind": "hole", "id": "F004", "rationale": "lower-right counterbored hole", "on": "face(F001,-Z)",
+       "u": "D005", "v": "-D006",
+       "spec": {"type": "cbore", "d": "0.281", "cbore_d": "0.438", "cbore_depth": "D007"},
+       "justification": "drill .281 and c'bore Ø.438 for a .250 SHCS from the SHCS counterbore chart; not printed"},
+      {"kind": "hole", "id": "F005", "rationale": "left tapped hole", "on": "face(F001,-Z)",
+       "source_callouts": [".375-16 TAP 1.00 DP. 2-HLS."], "u": "-D009", "v": "0",
+       "spec": {"type": "tapped", "d": "0.3125", "depth": "D010", "thread": ".375-16 UNC (cosmetic)"},
+       "justification": "5/16 (.3125) is the standard tap drill for 3/8-16 UNC; thread is cosmetic (CLAUDE.md rule 7)"},
+      {"kind": "hole", "id": "F006", "rationale": "right tapped hole", "on": "face(F001,-Z)", "u": "D009", "v": "0",
+       "spec": {"type": "tapped", "d": "0.3125", "depth": "D010", "thread": ".375-16 UNC (cosmetic)"},
+       "justification": "5/16 (.3125) is the standard tap drill for 3/8-16 UNC; thread is cosmetic"},
+      {"kind": "edge_op", "id": "F007", "operation": "chamfer", "size": "D011",
+       "rationale": ".06 x 45 TYP: OD and bore edges on both faces (side view)", "source_callouts": [".06 x 45° TYP"],
+       "edges": ["edge_between(face(F001,-Z), wall(F001,D001 / 2))", "edge_between(face(F001,+Z), wall(F001,D001 / 2))",
+                 "edge_between(face(F001,-Z), wall(F001,D002 / 2))", "edge_between(face(F001,+Z), wall(F001,D002 / 2))"]}
+    ]
+  }
+}

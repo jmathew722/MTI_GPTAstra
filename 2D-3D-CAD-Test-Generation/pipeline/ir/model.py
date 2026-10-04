@@ -51,9 +51,12 @@ _AXIS = r"[+-][XYZ]"
 _FID = r"F\d{3,}"
 _REF_RES = {
     "plane": re.compile(r"^plane\((front|top|right)\)$"),
-    "face": re.compile(rf"^face\(({_FID}),\s*({_AXIS})\)$"),
+    # optional 3rd arg: the face's coordinate along the axis (expression), needed when
+    # a stepped body has several faces pointing the same way (SB11033's flange faces)
+    "face": re.compile(rf"^face\(({_FID}),\s*({_AXIS})(?:,(.+))?\)$"),
     "axis": re.compile(rf"^axis\(({_FID}|part)\)$"),
-    "wall": re.compile(rf"^wall\(({_FID})\)$"),
+    # optional 2nd arg: radius (expression) to pick one curved face of a stepped body
+    "wall": re.compile(rf"^wall\(({_FID})(?:,(.+))?\)$"),
 }
 _EDGE_RE = re.compile(r"^edge_between\((.+?),\s*((?:plane|face|axis|wall)\(.+\))\)$")
 
@@ -64,7 +67,13 @@ def parse_ref(ref: str) -> tuple[str, tuple[str, ...]]:
     for kind, rx in _REF_RES.items():
         m = rx.match(s)
         if m:
-            return kind, m.groups()
+            groups = tuple(g for g in m.groups() if g is not None)
+            if kind in ("face", "wall") and len(groups) == (3 if kind == "face" else 2):
+                try:
+                    parse(groups[-1])
+                except ExprError as e:
+                    raise ValueError(f"bad expression in {ref!r}: {e}") from e
+            return kind, groups
     raise ValueError(f"not a valid ref: {ref!r}")
 
 
@@ -76,6 +85,29 @@ def parse_edge_query(q: str) -> tuple[str, str]:
     parse_ref(a)
     parse_ref(b)
     return a, b
+
+
+def ref_exprs(ref: str) -> list[str]:
+    """Expressions embedded in a ref (face coordinate, wall radius)."""
+    kind, args = parse_ref(ref)
+    if (kind == "face" and len(args) == 3) or (kind == "wall" and len(args) == 2):
+        return [args[-1]]
+    return []
+
+
+def resolve_ref(ref: str, dims: dict[str, float]) -> str:
+    """The ref with its embedded expression evaluated: ``face(F001,+Z,0.565)``."""
+    kind, args = parse_ref(ref)
+    ex = ref_exprs(ref)
+    if not ex:
+        return ref.replace(" ", "")
+    v = round(evaluate(ex[0], dims).value, 9)
+    return f"{kind}({','.join(list(args[:-1]) + [repr(v)])})"
+
+
+def resolve_edge_query(q: str, dims: dict[str, float]) -> str:
+    a, b = parse_edge_query(q)
+    return f"edge_between({resolve_ref(a, dims)},{resolve_ref(b, dims)})"
 
 
 def ref_features(ref: str) -> set[str]:
@@ -324,6 +356,12 @@ class BuildPlan(_Base):
                                          message=f"{path} = {e!r} uses literal(s) "
                                                  f"{sorted(ungrounded_literals(e))} without a justification"))
             for r in f.refs():
+                for e in ref_exprs(r):
+                    try:
+                        used |= evaluate(e, dims).dim_ids
+                    except ExprError as err:
+                        found.append(Finding(severity="error", code="bad_expr", feature=f.id,
+                                             message=f"{r}: {err}"))
                 for rf in ref_features(r):
                     if rf not in seen:
                         found.append(Finding(severity="error", code="dangling_ref", feature=f.id,
