@@ -315,6 +315,34 @@ fixtures.
 - **Tests:** `test_placement.py::test_planar_extents_maps_both_label_styles_to_100_by_60`,
   `::test_resolver_keeps_width_height_labeled_base`.
 
+## E016 — One failed feature made the next one fail too (sketch left open)
+
+- **Date:** 2026-10-04 · **Part:** SB11780 (Astra extraction) · **Stage:** COM build
+- **Symptom:** F002 failed (no profile), then F003 failed with "Failed to enter
+  sketch mode", even though F003 was fine.
+- **Root cause:** F002's builder raised after `InsertSketch(True)` had opened a sketch.
+  F003's `InsertSketch(True)` then *toggled that sketch closed*, so `ActiveSketch` was
+  `None`.
+- **Fix:** `build_model` calls `_close_open_sketch` in its failure handler, before the
+  skip-or-abort decision.
+- **Rule:** every failure path must leave SolidWorks out of sketch mode.
+
+## E017 — Round parts built off-axis; a bore cut outside the part
+
+- **Date:** 2026-10-04 · **Parts:** A040911E, SB11780 (June JSON); SB11842, A040921E
+  (Astra JSON) · **Stage:** COM build
+- **Symptom:** A040911E "built 5/5", but the bbox was 165 × 150.7 mm for a Ø6.498 disc:
+  the Ø4.5 bore broke through the rim. SB11842's bore "found no material".
+- **Root cause:** two frames. An unplaced circle was centered on the length/width
+  "envelope" (A040911E's mislabeled 2.75 → (0, 1.375")). A placed feature sat at the
+  origin. Astra also wrote one callout in both frames: `x/y_position` (0, 0) but
+  `instance_positions` [[2.5, 2.5]].
+- **Fix:** a circular base defines the part center (`round_base`/`part_center`).
+  Features in a `concentric_group` with a placed feature take its center.
+  Instance positions outside the part are re-framed when the shifted points all fit
+  (`FRAME CORRECTED`). Otherwise the gate BLOCKS.
+- **Tests:** `tests/test_root_cause_fixes.py` (F1, F6).
+
 **Also noted (not a failure):** on the SW 2025 default part template, a sketch on "Front
 Plane" maps to model Y-Z (extrusion along X). Geometry relative to the sketch is
 correct. Scorers must project along each hole's axis rather than assume model XY.

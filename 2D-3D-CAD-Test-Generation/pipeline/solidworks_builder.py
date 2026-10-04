@@ -427,10 +427,25 @@ def _feature_center(model: Optional[DrawingData], feature: Feature, circular: bo
         return (_m(model, feature.offset_x, f"{feature.id}.offset_x"),
                 _m(model, feature.offset_y, f"{feature.id}.offset_y"), False)
     if circular:
-        from pipeline.macro_generator import _envelope
-        length, width = _envelope(model)
-        return (_m(model, (length or 0.0) / 2.0, f"{feature.id}.cx"),
-                _m(model, (width or 0.0) / 2.0, f"{feature.id}.cy"), True)
+        # Coaxial with a placed feature (extracted concentric_groups): use its
+        # center. That is grounded, not assumed. Otherwise use the part center:
+        # the axis of a round part, the envelope center of a plate (R1).
+        from pipeline.macro_generator import part_center, round_base
+        for group in model.relationships.concentric_groups:
+            if feature.id not in group.feature_ids:
+                continue
+            for fid in group.feature_ids:
+                other = model.feature_by_id(fid)
+                if other is not None and other.id != feature.id and other.position_known:
+                    return (_m(model, other.offset_x, f"{feature.id}.cx"),
+                            _m(model, other.offset_y, f"{feature.id}.cy"), False)
+        cx, cy = part_center(model)
+        coaxial_base = round_base(model) is not None and any(
+            feature.id in g.feature_ids and model.build_order and model.build_order[0] in g.feature_ids
+            for g in model.relationships.concentric_groups)
+        is_base = bool(model.build_order) and feature.id == model.build_order[0]
+        return (_m(model, cx, f"{feature.id}.cx"), _m(model, cy, f"{feature.id}.cy"),
+                not (coaxial_base or is_base))
     return 0.0, 0.0, True
 
 
@@ -611,6 +626,49 @@ def build_extrude_boss(sw_doc, feature: Feature, dims: dict[str, float],
     return feat
 
 
+TURNED_FEATURE_RATIO = 0.5  # a cross hole is far smaller than the part's OD
+
+
+def turned_feature_reason(model: Optional[DrawingData], feature: Feature,
+                          dims: dict[str, float]) -> Optional[str]:
+    """Why a circular cut must NOT be built as an extrusion on a round part, or None.
+
+    On a turned part, a circle sketched on a plane that is NOT the base's end plane,
+    with a diameter close to the OD, is a neck, groove or shoulder: a revolved cut.
+    Extruding it drills a sideways hole instead (Astra SB11780 F003/F004 "built" exactly
+    that on 2026-10-04 once the E016 cascade was fixed). Refuse it with the reason, and
+    leave the feature to a revolve in Feature IR v2. Wrong geometry is worse than a gap.
+    """
+    from pipeline.macro_generator import round_base
+
+    if model is None or not model.build_order:
+        return None
+    rb = round_base(model)
+    diameter = dims.get("diameter")
+    base = model.feature_by_id(model.build_order[0])
+    if rb is None or not diameter or base is None:
+        return None
+    if (feature.sketch_plane or "front").lower() == (base.sketch_plane or "front").lower():
+        return None  # a cut on the end plane runs along the axis: bores, holes
+    od = 2 * to_meters(rb[2], model.units.value)
+    if diameter >= TURNED_FEATURE_RATIO * od:
+        return (f"UNSUPPORTED: {feature.id} is a circular cut (Ø{diameter * 1000:.1f} mm, "
+                f"{diameter / od:.0%} of the OD) on a side plane of a turned part: a neck/groove "
+                "that needs a revolved cut (Feature IR v2). Not extruded as a cross hole.")
+    return None
+
+
+def _close_open_sketch(sw_doc) -> None:
+    """Leave sketch mode if a failed feature left a sketch open (never raises)."""
+    try:
+        if sw_doc.SketchManager.ActiveSketch is not None:
+            sw_doc.SketchManager.InsertSketch(True)
+            log.info("  closed a sketch left open by the failed feature")
+        sw_doc.ClearSelection2(True)
+    except Exception as e:  # cleanup must not mask the original failure
+        log.warning("Could not close an open sketch: %s", e)
+
+
 def _total_volume(sw_doc) -> float:
     """Summed solid-body volume in m^3 (0.0 when there is no body yet)."""
     try:
@@ -625,6 +683,9 @@ def build_extrude_cut(sw_doc, feature: Feature, dims: dict[str, float],
     """Cut material from the existing solid at the feature's drawing-frame position."""
     if not _solid_body_exists(sw_doc):
         raise SolidWorksError(f"extrude_cut {feature.id} requires an existing solid body.")
+    reason = turned_feature_reason(model, feature, dims)
+    if reason:
+        raise SolidWorksError(reason)
     _select_plane(sw_doc, feature.sketch_plane)
     sw_doc.SketchManager.InsertSketch(True)
     if sw_doc.SketchManager.ActiveSketch is None:
@@ -658,23 +719,49 @@ def build_hole(sw_doc, feature: Feature, dims: dict[str, float],
         return build_extrude_cut(sw_doc, feature, {"diameter": diameter,
                                                    **({"depth": dims["depth"]} if "depth" in dims else {})}, model)
 
+    from pipeline.macro_generator import (
+        FRAME_FIX_NOTE, SEED_CIRCLE_NOTE, _bolt_circle_diameter, _circle_from_seed, _reframe,
+    )
+
     positions = _hole_positions(model, callout)
-    if not callout.instance_positions and len(positions) > 1 and callout.pattern.value != "linear":
-        model.warnings.append(f"{feature.id}: {BOLT_CIRCLE_ANGLE_NOTE}")
-    _select_plane(sw_doc, feature.sketch_plane)
-    sw_doc.SketchManager.InsertSketch(True)
-    if sw_doc.SketchManager.ActiveSketch is None:
-        raise SolidWorksError("Failed to enter sketch mode for hole.")
-    for i, (x, y) in enumerate(positions):
-        cx, cy = _m(model, x, f"{feature.id}[{i}].x"), _m(model, y, f"{feature.id}[{i}].y")
-        if sw_doc.SketchManager.CreateCircleByRadius(cx, cy, 0, diameter / 2.0) is None:
-            raise SolidWorksError(f"CreateCircleByRadius returned None for hole {feature.id}[{i}].")
+    if not callout.instance_positions and len(positions) > 1:
+        if _bolt_circle_diameter(model, callout):
+            model.warnings.append(f"{feature.id}: {BOLT_CIRCLE_ANGLE_NOTE}")
+        elif _circle_from_seed(model, callout):
+            model.warnings.append(f"{feature.id}: {SEED_CIRCLE_NOTE}")
+    if callout.instance_positions and _reframe(model, [tuple(p) for p in callout.instance_positions])[1]:
+        model.warnings.append(f"{feature.id}: {FRAME_FIX_NOTE}")
+
+    def circles(dia_m: float, what: str) -> None:
+        _select_plane(sw_doc, feature.sketch_plane)
+        sw_doc.SketchManager.InsertSketch(True)
+        if sw_doc.SketchManager.ActiveSketch is None:
+            raise SolidWorksError(f"Failed to enter sketch mode for {what} {feature.id}.")
+        for i, (x, y) in enumerate(positions):
+            cx, cy = _m(model, x, f"{feature.id}[{i}].x"), _m(model, y, f"{feature.id}[{i}].y")
+            if sw_doc.SketchManager.CreateCircleByRadius(cx, cy, 0, dia_m / 2.0) is None:
+                raise SolidWorksError(f"CreateCircleByRadius returned None for {what} {feature.id}[{i}].")
+        _verify_sketch_fully_defined(sw_doc)
+        sw_doc.SketchManager.InsertSketch(True)
+
+    circles(diameter, "hole")
     log.info("  %s: %d hole instance(s) at %s", feature.id, len(positions),
              [(round(x, 4), round(y, 4)) for x, y in positions])
-    _verify_sketch_fully_defined(sw_doc)
-    sw_doc.SketchManager.InsertSketch(True)
     depth = None if (callout.thru or not callout.depth) else _m(model, callout.depth, f"{feature.id}.depth")
-    return _cut(sw_doc, feature.id, depth)
+    feat = _cut(sw_doc, feature.id, depth)
+
+    # Counterbore: a second, wider blind cut at every instance. It starts on the
+    # sketch-plane face, the only face the schema can name. The drawing's cbore
+    # face is not modeled, so it is flagged (error-log watch-list item).
+    if callout.cbore_diameter and callout.cbore_depth:
+        cbore = _m(model, callout.cbore_diameter, f"{feature.id}.cbore_diameter")
+        if cbore <= diameter:
+            raise SolidWorksError(f"{feature.id}: counterbore Ø{callout.cbore_diameter} is not larger than the hole.")
+        circles(cbore, "counterbore")
+        feat = _cut(sw_doc, f"{feature.id}.cbore", _m(model, callout.cbore_depth, f"{feature.id}.cbore_depth"))
+        model.warnings.append(f"{feature.id}: CBORE FACE ASSUMED - counterbore cut from the sketch-plane "
+                              "face; verify it is on the face the drawing shows.")
+    return feat
 
 
 def _infer_edges(sw_doc, feature: Feature, feature_map: dict[str, Any],
@@ -828,9 +915,33 @@ def _pattern_realized_by_seed(feature: Feature, feature_map: dict[str, Any],
     return feature_map[seed_id]
 
 
+def _cut_realized_by_cbore(feature: Feature, dims: dict[str, float], feature_map: dict[str, Any],
+                           model: Optional[DrawingData]) -> Optional[Any]:
+    """A counterbore extracted as its own ``extrude_cut`` (depth only, no profile)
+    whose parent hole already cut the counterbore (A040911E/SB11842 F004, Astra)."""
+    parent_id = feature.parent_feature
+    if model is None or not parent_id or parent_id not in feature_map:
+        return None
+    parent = model.feature_by_id(parent_id)
+    callout = model.hole_callout_for_feature(parent_id) if parent is not None else None
+    if parent is None or parent.type != FeatureType.HOLE or callout is None:
+        return None
+    if not (callout.cbore_diameter and callout.cbore_depth):
+        return None
+    if dims.get("diameter") or planar_extents(model, feature):
+        return None  # it has its own profile: a real cut, not the counterbore
+    model.warnings.append(f"{feature.id}: realized by {parent_id}'s counterbore "
+                          f"(Ø{callout.cbore_diameter:g} x {callout.cbore_depth:g}).")
+    return feature_map[parent_id]
+
+
 def dispatch_feature_builder(sw_doc, feature: Feature, dims: dict[str, float],
                              feature_map: dict[str, Any], model: Optional[DrawingData] = None):
     """Dispatch to the right feature builder. Returns the created feature object."""
+    if feature.type == FeatureType.EXTRUDE_CUT:
+        realized = _cut_realized_by_cbore(feature, dims, feature_map, model)
+        if realized is not None:
+            return realized
     if feature.type == FeatureType.PATTERN:
         realized = _pattern_realized_by_seed(feature, feature_map, model)
         if realized is not None:
@@ -952,6 +1063,10 @@ def build_model(
                     log.warning("Auto-save failed (continuing): %s", e)
 
         except SolidWorksError as e:
+            # A builder that failed after InsertSketch leaves the sketch OPEN; the
+            # next feature's InsertSketch would then CLOSE it and fail too (R5:
+            # SB11780 F003 "Failed to enter sketch mode" after F002 failed).
+            _close_open_sketch(sw_doc)
             if _is_fragile(feature):
                 # Fillets/chamfers are demoted to warnings — do not abort the build.
                 log.warning("  ! %s (%s) failed and was SKIPPED: %s", feature_id, feature.type.value, e)

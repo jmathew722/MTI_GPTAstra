@@ -17,10 +17,11 @@
 
 - A working **2D drawing → SolidWorks** pipeline exists (Claude vision extraction →
   arithmetic verification gate → VBA macros or direct COM build).
-- **2026-10-04: placement + completeness fixes landed.** Rebuilding the same 5
-  parts from their June extractions now builds **22 of 26 features (85%)**, up from
-  10 of 26 (38%). Bolt-circle holes, stacked bosses, fillets and chamfers now build
-  in the COM path (§2.1).
+- **2026-10-04: placement + completeness fixes landed.** The same 5 parts now build
+  **22/26 (85%)** from the June extractions and **23/30 (77%)** from GPT-6 Astra's,
+  up from 10/26 (38%) in June. Every remaining failure is either geometry the schema
+  can't express (→ Feature IR v2) or information missing from the drawing (→ escalate).
+  See §2.1 and the deep dive in §3.0.
 - The model validator now **fails any part missing an extracted feature**, and it
   checks overall dims at 1%. 2 of the 5 parts PASS; the other 3 FAIL for real,
   listed reasons (§2.1). In June all 5 "passed" at 38%.
@@ -48,7 +49,7 @@
 | Extraction on OpenAI (`gpt-6-astra`) | `pipeline/openai_adapter.py` | Working (Responses API) |
 | End-to-end batch COM driver w/ auto-resolution of ambiguities + design-decision report | `run_models.py` | Working (see caveat §3.3) |
 | Batch triage CSV | `pipeline/batch.py` | Working |
-| Test suite (golden macro snapshots, budget, placement, completeness) | `tests/` | **228 passing** (2026-10-04, Windows, Python 3.13) |
+| Test suite (golden macro snapshots, budget, placement, completeness, root-cause fixes) | `tests/` | **243 passing** (2026-10-04, Windows, Python 3.13) |
 | Per-completion token & cost tracking + report/dashboard | `pipeline/token_tracker.py`, `pipeline/token_report.py`, `config/pricing.json` | Working; wired into extraction. Planner/auditor/Jev record through the same API when built |
 
 ### Dev machine (2026-10-04)
@@ -62,42 +63,30 @@ Live API spend so far: see `usage/budget_ledger.jsonl` (gitignored).
 
 ## 2. Part inventory
 
-### 2.1 Rebuilt 2026-10-04 (same June extractions, new builder + strict validator)
+### 2.1 Current results (2026-10-04, after fixes F1–F6)
 
-No API cost: built from `output/<Part>/<Part>_extraction.json` through
-`run_models.resolve_unknowns` → gate → COM build (SW 2025) → `validate_model`.
+No API cost: every saved extraction is rebuilt with
+`python rebuild_from_json.py <extraction.json ...>` (resolve, gate, COM build on
+SW 2025, strict validator). Two readings of the same 5 parts:
 
-| Part | June built | Now built | Validator | Why it still fails |
-|---|---|---|---|---|
-| SB11033 | 3/7 | **7/7** | PASSED | — (bbox now 1.971" long: boss stacked on flange) |
-| SB11842 | 2/5 | **5/5** | PASSED | — (embedded boss reversed, E013) |
-| A040911E | 2/5 | 5/5 *but wrong* | FAILED (correctly) | disc built off-center (frame bug R1), so the bore breaks through the rim; see §3.0 |
-| A040921E | 2/4 | 3/4 | FAILED | June **misread** a 1.062 end slot as a "hub boss" (Astra reads it right); see §3.0 |
-| SB11780 | 1/5 | 2/5 | FAILED | turned shaft: built as a bounding cylinder; necks and keyway need grooves or a revolve |
-| **Total** | **10/26** | **22/26** | 2 PASS / 3 FAIL | |
+| Part | June read: built | Validator | Astra read: built | Validator | What is left (root cause, §3.0) |
+|---|---|---|---|---|---|
+| SB11033 | **7/7** | PASSED | **8/8** | PASSED | — |
+| SB11842 | **5/5** | PASSED | 5/6 | FAILED | Astra: bore-edge chamfer size not on the drawing (R6, escalate) |
+| A040911E | 5/5 | FAILED | 5/6 | FAILED | June: mislabeled `overall_width` 2.75 (reading error, caught by validator). Astra: 2-hole callout cropped on the scan (R6, escalate) |
+| A040921E | 3/4 | FAILED | 3/4 | FAILED | end slot through the ring wall needs expression profiles (R2, IR v2). June also misread it as a boss |
+| SB11780 | 2/5 | FAILED | 2/6 | FAILED | turned shaft: necks, keyway and journals need revolve/grooves (R2, IR v2); refused rather than faked (F6b) |
+| **Total** | **22/26 (85%)** | 2 PASS | **23/30 (77%)** | 1 PASS | every remaining gap is R2 (IR) or R6 (human) |
 
-### 2.2 Same 5 parts end to end on GPT-6 Astra (2026-10-04)
+Progress on the same 5 parts: June 2026 built **10/26** and "PASSED" all 5. Earlier today,
+Astra's read built 18/30. Fixing R1/R3/R4/R5 took it to 23/30, and one gate-blocked part
+(A040911E) now builds. The geometry also got *more correct*, which completeness alone
+doesn't show: A040911E's disc is round again (bbox 165 × 165, was 165 × 150.7).
 
-`run_models.py ../ViewDefinedDrawings` with `gpt-6-astra` extraction. Outputs, reports and
-the token ledger are in `2D-3D-CAD-Test-Generation/output/astra_2026-10-04/`. Cost: **≈ $2.50**
-for 9 calls, at the conservative budget rate (see §1). Re-queries and schema repairs added calls:
-A040911E alone took 4.
-
-| Part | Astra features | Built | Validator | What blocked the rest |
-|---|---|---|---|---|
-| SB11033 | 8 | **8/8** | PASSED | — |
-| A040921E | 4 | 3/4 | FAILED | side-plane rectangular end slot: cut found no material |
-| A040911E | 6 | 3/6 | FAILED | counterbores as separate cuts (no profile); holes with no diameter link; cropped callout |
-| SB11780 | 6 | 2/6 | FAILED | keyway and necks need revolve/side-plane sketches the builder lacks |
-| SB11842 | 6 | 2/6 | FAILED | thru bore cut found no material; bolt holes not grounded; cbores as separate cuts |
-| **Total** | **30** | **18/30** | 1 PASS | |
-
-**Reading vs. building.** Astra's extractions are *richer* than June's: 30 features vs
-26, with keyways, necks, separate counterbore cuts and edge breaks. The builder can't
-express most of those yet. So June JSON + new builder = 22/26, while Astra JSON + the
-same builder = 18/30. The bottleneck is now the **build/IR side**, not reading. That is
-the argument for Feature IR v2 (§4 A). Counterbores, keyways, revolves and side-plane cuts
-are the concrete gap list.
+**Reading vs. building.** Astra's extractions are richer (30 vs 26 features). It got two
+things right that June's Sonnet misread, and it writes UNKNOWN instead of guessing. The
+builder, not the reading, is the limit. Astra cost ≈ $2.50 for 9 calls on these 5 parts
+(conservative rate); the outputs are in `output/astra_2026-10-04/`.
 
 On a simple synthetic plate with a known answer, both a hand-read (no API) extraction
 and Astra's build a part that matches the ground truth exactly
@@ -211,16 +200,17 @@ both downstream; the old one passed them.
 
 Fixes F1–F6 work on today's pipeline. F7–F8 need the PRD sub-projects.
 
-| Fix | What | Root causes | Effort | PRD |
+| Fix | What | Root causes | PRD | Status |
 |---|---|---|---|---|
-| F1 | **One frame per round part.** If the base is a circle, the part center is the origin. Features in a `concentric_group` with the base take its center. Never center a circle on length/width dims of a round part. | R1 | S | A2 |
-| F2 | **Close any open sketch when a feature fails** so one failure can't cascade. | R5 | XS | A5 |
-| F3 | **Synthesize a hole callout from the feature** (pitch/bolt-circle dim + quantity, or offsets) when the extractor gave none. | R4 | S | A3 |
-| F4 | **Fastener clearance table** (drill, cbore Ø, cbore depth for SHCS sizes; ASME B18.3 / Machinery's Handbook). Values are marked `STANDARD-DERIVED` and cited, never silent. | R3 | S | A1 (a cited table is a grounded source) |
-| F5 | **Counterbore in the hole builder:** a second blind cut at the cbore Ø. Merge a cbore-only `extrude_cut` (coaxial, depth only) into its parent hole. | R2 (part) | M | A3 |
-| F6 | **Gate check: every hole instance must lie inside the base profile.** On failure, try the other frame (center vs corner); if neither fits, BLOCK with a finding. | R1 | S | B1 |
-| F7 | **Feature IR v2:** profiles as expressions (slot `D002/2..D001/2`), start face + into-material direction, revolves, grooves, keyways, edges by query. | R2 | L | A1–A5 |
-| F8 | **Escalation, not guessing,** for R6 cases, with the question pre-written ("2-hole callout is cropped: diameter?"). | R6 | M | B1, B4, D3 |
+| F1 | **One frame per round part.** A circular base defines the part center. Features in a `concentric_group` take a placed member's center. Never center a circle on the length/width dims of a round part. | R1 | A2 | ✅ done (E017) |
+| F2 | **Close any open sketch when a feature fails** so one failure can't cascade. | R5 | A5 | ✅ done (E016) |
+| F3 | **Synthesize a hole callout from the feature** when the extractor gave none. Only with a known diameter; otherwise `ESCALATE`. Also: n holes through ONE placed hole when the other instances reproduce the drawing's own dims (`_circle_from_seed`). | R4 | A3 | ✅ done |
+| F4 | **Fastener table** (`pipeline/fasteners.py`: SHCS drill, cbore Ø, cbore depth). Values are marked `STANDARD-DERIVED` and cited. A value read from the drawing is never overwritten. | R3 | A1 | ✅ done; **verify table vs MTI shop standard** |
+| F5 | **Counterbore in the hole builder** (second blind cut). A cbore-only `extrude_cut` is folded into its parent hole. The cbore face is flagged `CBORE FACE ASSUMED`. | R2 (part) | A3 | ✅ done |
+| F6 | **Gate: every hole instance must lie inside the base profile.** Positions written in the other frame are corrected (`FRAME CORRECTED`). If neither frame fits, BLOCK. | R1 | B1 | ✅ done |
+| F6b | **Refuse, don't fake:** a large circular cut on a side plane of a turned part is a neck/groove. The builder refuses it ("needs a revolved cut"); extruding it would drill a sideways hole. | R2 | A3 | ✅ done |
+| F7 | **Feature IR v2:** profiles as expressions (slot `D002/2..D001/2`), start face + into-material direction, revolves, grooves, keyways, edges by query. | R2 | A1–A5 | next (sub-project A) |
+| F8 | **Escalation with a pre-written question** for R6 cases. Today these are `ESCALATE` lines in the design-decisions report. | R6 | B1, B4, D3 | partial |
 
 Prompt changes (both models): state the frame rule for round parts (center = origin;
 `instance_positions` in the same frame as `x/y_position`); sketch an end slot on the plane
@@ -261,7 +251,7 @@ Fixed 2026-09-28:
   tool call).
 
 Still open (fix when touched):
-- No CI yet. The suite is green locally (228 tests), so the workflow can be re-added.
+- No CI yet. The suite is green locally (243 tests), so the workflow can be re-added.
 - Stray code-root files `extraction_115C/116C/117C.json` duplicate the `output/` copies.
 - `Deliverables/` duplicates `output/` for the 5 built parts.
 - `.SLDPRT` binaries are committed to git (no LFS).
@@ -272,6 +262,43 @@ Still open (fix when touched):
   confirmed. (The `.env.template` model hint was fixed 2026-10-04.)
 
 ## 4. Next phase — decided 2026-09-28 (designs written, no code yet)
+
+### 4.0 What today's results mean for the PRD (2026-10-04, for discussion)
+
+1. **Held-out contamination (C4). Needs a decision.** The PRD's *proposed* held-out set
+   is exactly the 5 parts we developed against today. The fixes are general rules
+   (frames, fastener standards, counterbores), not per-part prompt tuning. Even so,
+   these parts are no longer clean held-out data. **Recommendation:** make these 5 the
+   **dev** set (they already have the most diagnostics). Choose the held-out set from
+   parts MTI can supply reference STEP for, and fix the split in `bench/manifest.yaml`
+   *before* any prompt work. The prompt changes in §3.0 are proposed, **not applied**,
+   for this reason.
+2. **Targets vs. today.** Measured on these 5 parts with no reference STEP, so
+   completeness and false approvals only:
+
+   | PRD metric | Target | Today |
+   |---|---|---|
+   | Feature completeness | ≥ 95% | 85% (June read) · 77% (Astra read) |
+   | False approvals | 0 | 0 on these 5 (the validator caught a misplaced build) |
+   | Fillets/chamfers without manual picking | ≥ 90% | built on *inferred* edges where a parent exists; not yet "by edge query" (A3/A5) |
+   | Placement / relative placement / exact-part | 90% / 90% / 60% | **not measurable** without reference STEP (C1). The scorer itself works: the demo plate scores 5/5 at 0.000 mm |
+
+3. **What's left is now cleanly split:** every remaining failure is either geometry
+   the schema can't express (R2: slot, keyway, necks/revolve, one-sided edges) or
+   something not on the drawing (R6: cropped callout, unspecified sizes). That is the
+   case for **sub-project A**, and it gives A a data-driven scope: revolve + groove,
+   through-wall slot as expressions, keyway, start face (counterbore face), edge
+   queries. **R6 is the case for B's escalation path:** the questions already exist as
+   `ESCALATE` lines; B4/D3 turn them into a resolve-and-resume loop.
+4. **Model evidence so far (anecdotal, not the benchmark).** Astra reads more (30 vs 26
+   features). It got A040921E's slot and A040911E's ±2.75 holes right where June's Sonnet
+   misread them. It writes UNKNOWN instead of guessing (R3). Cost: ≈ $0.19–0.33 per call
+   (conservative rate), up to 4 calls on a hard part. **Opus 5.5 has not been run yet.**
+   It needs `tool_choice: auto` (CLAUDE.md rule 10), and C3 needs both models.
+5. **PRD edits to propose:** platform text says "SolidWorks 2024", but the dev host is
+   2025 SP5 and works (E011). The retry-cap open question now has data (4 calls on
+   A040911E; the $20 guard bounds the total). C2 should also count *refused* features
+   (F6b) separately from missing ones, since a refused feature is honest and a fake one isn't.
 
 Umbrella: [AI CAD roadmap](docs/superpowers/specs/2026-09-28-ai-cad-roadmap-design.md).
 Build order A → B → C → D. Each gets an implementation plan before code.
