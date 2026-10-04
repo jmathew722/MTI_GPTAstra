@@ -42,12 +42,26 @@ class CompileError(RuntimeError):
     """The plan can't be built as written (e.g. an ambiguous or empty ref)."""
 
 
+def _guarded(fn):
+    """In non-strict mode a failing feature is recorded as skipped, not fatal (v1 parity)."""
+    def wrapper(self, fid, *a, **kw):
+        if self.strict:
+            return fn(self, fid, *a, **kw)
+        try:
+            return fn(self, fid, *a, **kw)
+        except Exception as e:  # OCC raises assorted types; record and continue
+            self.skipped[fid] = f"failed: {type(e).__name__}: {e}"[:300]
+    wrapper.__name__ = fn.__name__
+    return wrapper
+
+
 def _idx(axis: str) -> int:
     return "XYZ".index(axis)
 
 
 class Model:
-    def __init__(self, part: str, origin_kind: str, units: str):
+    def __init__(self, part: str, origin_kind: str, units: str, strict: bool = True):
+        self.strict = strict
         self.part = part
         self.origin_kind = origin_kind
         self.units = units
@@ -118,6 +132,7 @@ class Model:
         return 4 * max(bb.xlen, bb.ylen, bb.zlen, 1.0)
 
     # -------------------------------------------------------------- prism --
+    @_guarded
     def prism(self, fid: str, *, on: str, offset: float, profile: dict, depth, op: str) -> None:
         axis, coord, outward = self._start(on, offset)
         wp = self._workplane(axis, coord)
@@ -158,6 +173,7 @@ class Model:
         return (coord, u, v)
 
     # ------------------------------------------------------------ revolve --
+    @_guarded
     def revolve(self, fid: str, *, outer: list, inner: list, op: str) -> None:
         if self.origin_kind != "axis_end":
             raise CompileError(f"{fid}: revolve about axis(part) needs frame origin_kind 'axis_end'")
@@ -177,6 +193,7 @@ class Model:
         self._apply(fid, tool, op)
 
     # --------------------------------------------------------------- hole --
+    @_guarded
     def hole(self, fid: str, *, on: str, u: float, v: float, spec: dict) -> None:
         axis, coord, outward = self._start(on, 0.0)
         k = self.k
@@ -202,6 +219,7 @@ class Model:
         self._apply(fid, tool, "cut")
 
     # ------------------------------------------------------------ pattern --
+    @_guarded
     def pattern(self, fid: str, *, seed: str, mode: str, count: int, pitch: float, dir: str,
                 count2: int, pitch2: float, dir2: str, axis: str, step, skip: list[int], op: str) -> None:
         tool = self._tool(seed)
@@ -283,6 +301,7 @@ class Model:
             return out
         raise CompileError(f"{ref} can't be used in an edge query")
 
+    @_guarded
     def edge_op(self, fid: str, *, operation: str, size: float, angle: float, edges: list[str]) -> None:
         targets = []
         for q in edges:

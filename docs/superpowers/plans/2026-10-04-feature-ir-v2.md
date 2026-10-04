@@ -101,7 +101,11 @@ the dev set.
 - [x] Task 1 expressions. Grounding rule tightened: an added/subtracted literal always
   needs a justification; counts and angles come from callouts.
 - [x] Task 2 BuildPlan + `check()` (Gate-1 core).
-- [ ] Task 3 `plan_from_v1`. Deliberately after Task 4 so migration targets a working compiler.
+- [x] Task 3 `plan_from_v1`: all 13 saved extractions migrate with no structural
+  errors; values traced to D-IDs (untraced ones carry a justification). The demo plate
+  baseline compiles to the exact answer from either reading. As a floor, it builds about
+  what v1 builds (e.g. June SB11842 6 planned / 1 unresolved) and marks the rest unresolved.
+  Runtime gained non-strict mode (failures become recorded skips, v1 parity).
 - [x] Task 4 CadQuery compiler: prism (rect/circle/slot/polygon), revolve, hole
   (thru/blind/cbore), pattern (linear/grid/circular), edge_op (`edge_between`), measured
   feature map, STEP; subprocess runner. Base-plane cuts go +normal (decision).
