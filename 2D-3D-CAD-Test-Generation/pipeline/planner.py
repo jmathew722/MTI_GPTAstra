@@ -96,6 +96,9 @@ never "unresolved"; the report flags them for review:
   dimensioned (e.g. "2-HLS" at +-2.75, or a 3-hole pattern given as 2.875 / 2.490 / 1.438) are
   placed symmetrically.
 - Extents the views show: a keyway or slot runs exactly as far as its lines run in the views.
+- Blind drilled holes: a printed drill depth is to the FULL DIAMETER (standard drafting
+  convention; ASME Y14.5). Model a flat-bottom blind hole of that depth; the drill point is
+  cosmetic. Plan it; the drill-point angle is not a question for a human.
 Use "unresolved" only when the drawing gives NO basis.
 
 NEVER GUESS. If the drawing does not settle something (an edge break given only as "TYP" without

@@ -175,13 +175,15 @@ Each one falls into one of six root causes.
 | R5 | **Builder left a sketch open on failure.** When a feature fails after `InsertSketch`, the sketch stays open, and the next feature's `InsertSketch` *closes* it, so the next feature fails too ("Failed to enter sketch mode"). One failure cascades. | builder bug | SB11780 Astra F003 (after F002 failed) |
 | R6 | **Genuinely unknown or ambiguous on the drawing.** A cropped callout (A040911E F005, 2 holes) or an unspecified size ("edge breaks", "R .125 MAX"). The correct outcome is an escalation with a specific question, not a guess. | escalate (PRD B1/B4) | A040911E F005, SB11842 F006, SB11780 F005 |
 
-**False PASS found 2026-10-04 (IR golden-plan work).** SB11033 "PASSED" in both reads,
-but both extractions misread the part. They have a Ø.781 "pilot boss" (.781 is the
-bolt-circle *radius*) and a Ø.686 through bore (the section is fully hatched: there is
-no bore; Ø.686 is a pilot). The extraction was internally consistent, so completeness,
+**False PASS found 2026-10-04 (IR golden-plan work).** SB11033 "PASSED" in v1 from
+**June's (Sonnet) extraction**, which misread the part. It had a Ø.781 "pilot boss" (.781
+is the bolt-circle *radius*) and a Ø.686 through bore (the section is fully hatched: there
+is no bore; Ø.686 is a pilot). That extraction was internally consistent, so completeness,
 bbox and the gate all passed it. **Only a reference model can catch a self-consistent
 misread.** That makes MTI reference STEP (PRD C1) a hard requirement, not a nice-to-have.
-The golden plan `tests/golden/ir/SB11033.json` is the corrected reading.
+*Correction (later the same day):* this section first said both extractions misread it.
+**GPT-6 Astra's extraction read SB11033 correctly**, and v1 built from it scores IoU 1.0
+against the golden plan.
 
 Reading errors are a separate class. June's Sonnet extraction **misread** A040921E's
 1.062 × .75 end slot as a "hub boss" and labeled A040911E's ±2.75 equatorial hole
@@ -271,6 +273,35 @@ Still open (fix when touched):
 
 ## 4. Next phase — decided 2026-09-28 (designs written, no code yet)
 
+### 4.2 End to end on all 9 dev parts: IR vs v1 (2026-10-04, Task 8)
+
+One command per part: `python ir_run.py --split dev --solidworks` (or `main.py --drawing X --ir
+--engine com`). Same extraction for both paths. v1 was exported to STEP and both were scored
+against the golden plans where they exist (`ir_compare.py` → `output/ir_runs/v1_vs_ir.md`).
+
+| Part | v1 built | v1 validator | v1 IoU | IR Gate 1 | IR planned | IR questions | IR SolidWorks | IR IoU |
+|---|---|---|---|---|---|---|---|---|
+| A040911E | 5/6 | FAILED | 0.992 | OK | 7 | 0 | ✅ verified | **1.000** |
+| A040921E | 3/4 | FAILED | 0.988 | OK | 3 | 1 | ✅ | **0.997** |
+| SB11033 | 8/8 | PASSED | 1.000 | OK | 6 | 1 | ✅ | 0.9996 (tie) |
+| SB11780 | 2/6 | FAILED | 0.960 | OK | 2 | 2 | ✅ | **0.986** |
+| SB11842 | 5/6 | FAILED | — | OK | 5 | 1 | ✅ | — |
+| 115-C | 4/7 | FAILED | — | OK | 6 | 1 | ✅ | — |
+| 116-C | 2/5 | FAILED | — | OK | 5 | 1 | ✅ | — |
+| 117-C | 7/9 | FAILED | — | OK | 13 | 1 | ✅ | — |
+| 135-A | 1/3 | FAILED | — | OK | 3 | 0 | ✅ | — |
+
+- **IR is never worse** (SB11033 is a tie within 0.0004) **and is the only path that delivers a
+  verified part for all 9.** v1 passes 1 of 9. Every remaining IR gap is a written question for
+  a human: undimensioned corner radii, "R MAX", "C/R", "TYP" edges.
+- **The plan's acceptance rule ("replace v1 where not worse") is met.** `--ir` stays opt-in until
+  the team agrees to flip the default.
+- **Cost:** a full drawing → part run is about $0.2–0.5 per part (planning), plus about $0.5 for a
+  part not yet extracted. The whole dev set cost $4.39; total API spend is **$11.70 of $20**.
+- **Policy added from the plates:** a blind drill depth is to full diameter (ASME convention),
+  so it's planned, not asked. This cut plate questions from 12 to 3.
+- SolidWorks crashed once mid-comparison on v1's 135-A build. `ir_compare.py` now reconnects.
+
 ### 4.1 Feature IR v2 status (2026-10-04)
 
 **Model decision: GPT-6 Astra only. No Opus-vs-Astra benchmark** (user decision, PRD updated).
@@ -286,8 +317,8 @@ compiled to a CadQuery reference and then to native SolidWorks (`python ir_plan.
 | A040921E | **0.997** | — | 1 (.09 TYP edges) | ✅ | $0.17 |
 | SB11780 | 0.986 | — | 2 (R MAX, C/R) | ✅ | $0.21 |
 
-- **Astra's planner corrected the misread extraction on SB11033** by reading the section view:
-  no bore, Ø1.000 boss.
+- SB11033: Astra's extraction was already correct (solid pilot, Ø1.000 shaft). The misread
+  extraction was June's Sonnet one (see §3.0).
 - **Open drawing question for MTI:** does SB11780's keyway run end to end (Astra) or only along the
   body between the necks (golden plan)? That one call is the whole IoU gap.
 - **Prompt policy learned on dev parts:** standard fastener and tap-drill sizes and drawn symmetry are

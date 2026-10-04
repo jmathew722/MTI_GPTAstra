@@ -21,10 +21,10 @@ from pipeline.validator import run_verification
 from run_models import resolve_unknowns
 
 
-def rebuild(sw_app, src: Path, out_root: Path) -> dict:
+def rebuild(sw_app, src: Path, out_root: Path, step: bool = False, name: str = "") -> dict:
     from pipeline.solidworks_builder import build_model
 
-    name = src.stem.replace("_extraction", "")
+    name = name or src.stem.replace("_extraction", "")
     data = json.loads(src.read_text(encoding="utf-8"))
     decisions, concerns = resolve_unknowns(data, name)
     model, report = run_verification(data)
@@ -38,6 +38,10 @@ def rebuild(sw_app, src: Path, out_root: Path) -> dict:
                             strict=False, skipped_out=skipped)
     built = [f for f in model.build_order if f not in {s[0] for s in skipped}]
     v = validate_model(doc, model, built_feature_ids=built)
+    if step:  # neutral export so the result can be scored against other geometry
+        step_path = (out_root / name / f"{name}_v1.step").resolve()
+        doc.SaveAs3(str(step_path), 0, 1)
+        row["step"] = str(step_path) if step_path.exists() else ""
     row.update(sldprt=path, built=len(built), expected=len(model.features), skipped=skipped,
                validator="PASSED" if v["ok"] else "FAILED", failed=v["failed"],
                flags=[w for w in model.warnings if any(k in w for k in

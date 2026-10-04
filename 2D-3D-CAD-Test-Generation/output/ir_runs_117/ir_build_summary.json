@@ -1,0 +1,46 @@
+[
+  {
+    "part": "117-C",
+    "gate1": "OK",
+    "unresolved": [
+      "F008",
+      "F009",
+      "F010",
+      "F011",
+      "F014"
+    ],
+    "reference_step": "output\\ir_runs_117\\117-C\\reference.step",
+    "volume": 15.194803,
+    "cq_skipped": {
+      "F008": "unresolved: Front left port: what drill-point angle and depth convention define the depicted conical bottom and its intersection with the opposing port?",
+      "F009": "unresolved: Second front port inherits the unresolved drill-bottom definition of F008.",
+      "F010": "unresolved: Rear left port: confirm drill-point angle and .50 depth datum/convention before constructing the communicating opposed drillings.",
+      "F011": "unresolved: Second rear port inherits the unresolved drill-bottom definition of F010.",
+      "F014": "unresolved: What radius applies to the four visibly rounded plate-outline corners?",
+      "F015": "unsupported: Left installed dowel is a separate component; IR has no separate-body/component operation and must not fuse it to the plate.",
+      "F016": "unsupported: Upper installed dowel is a separate component, not an integral plate boss."
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_117\\117-C\\117-C_ir.sldprt",
+    "sw_bbox_ok": true,
+    "sw_volume_ok": true,
+    "sw_features": {
+      "F001": "built",
+      "F002": "built",
+      "F003": "built",
+      "F004": "built",
+      "F005": "built",
+      "F006": "built",
+      "F007": "built",
+      "F008": "skipped (unresolved: Front left port: what drill-point angle and depth convention define the depicted conical bottom and its intersection with the opposing port?)",
+      "F009": "skipped (unresolved: Second front port inherits the unresolved drill-bottom definition of F008.)",
+      "F010": "skipped (unresolved: Rear left port: confirm drill-point angle and .50 depth datum/convention before constructing the communicating opposed drillings.)",
+      "F011": "skipped (unresolved: Second rear port inherits the unresolved drill-bottom definition of F010.)",
+      "F012": "built",
+      "F013": "built (prism copies)",
+      "F014": "skipped (unresolved: What radius applies to the four visibly rounded plate-outline corners?)",
+      "F015": "skipped (unsupported: Left installed dowel is a separate component; IR has no separate-body/component operation and must not fuse it to the plate.)",
+      "F016": "skipped (unsupported: Upper installed dowel is a separate component, not an integral plate boss.)"
+    }
+  }
+]

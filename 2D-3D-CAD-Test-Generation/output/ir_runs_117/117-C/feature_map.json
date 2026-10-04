@@ -1,0 +1,220 @@
+{
+  "part": "117-C",
+  "units": "inch",
+  "origin_kind": "corner",
+  "bbox": [
+    0.0,
+    0.0,
+    0.0,
+    4.44,
+    3.81,
+    1.0
+  ],
+  "volume": 15.194803,
+  "volume_mm3": 248998.211,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F012",
+    "F013"
+  ],
+  "skipped": {
+    "F008": "unresolved: Front left port: what drill-point angle and depth convention define the depicted conical bottom and its intersection with the opposing port?",
+    "F009": "unresolved: Second front port inherits the unresolved drill-bottom definition of F008.",
+    "F010": "unresolved: Rear left port: confirm drill-point angle and .50 depth datum/convention before constructing the communicating opposed drillings.",
+    "F011": "unresolved: Second rear port inherits the unresolved drill-bottom definition of F010.",
+    "F014": "unresolved: What radius applies to the four visibly rounded plate-outline corners?",
+    "F015": "unsupported: Left installed dowel is a separate component; IR has no separate-body/component operation and must not fuse it to the plate.",
+    "F016": "unsupported: Upper installed dowel is a separate component, not an integral plate boss."
+  },
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          0.625,
+          0.625
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          0.625,
+          0.625
+        ],
+        "d": 0.65625,
+        "depth": 1.0,
+        "axis": "Z"
+      }
+    ],
+    "F003": [
+      {
+        "planned_center": [
+          3.815,
+          0.625
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          3.815,
+          0.625
+        ],
+        "d": 0.65625,
+        "depth": 1.0,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          0.625,
+          3.185
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          0.625,
+          3.185
+        ],
+        "d": 0.65625,
+        "depth": 1.0,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          3.815,
+          3.185
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          3.815,
+          3.185
+        ],
+        "d": 0.65625,
+        "depth": 1.0,
+        "axis": "Z"
+      }
+    ],
+    "F004": [
+      {
+        "planned_center": [
+          4.155,
+          1.905
+        ],
+        "planned_d": 0.28125,
+        "measured": true,
+        "center": [
+          4.155,
+          1.905
+        ],
+        "d": 0.28125,
+        "depth": 0.31,
+        "axis": "Z"
+      }
+    ],
+    "F005": [
+      {
+        "planned_center": [
+          2.225,
+          0.625
+        ],
+        "planned_d": 0.28125,
+        "measured": true,
+        "center": [
+          2.225,
+          0.625
+        ],
+        "d": 0.28125,
+        "depth": 0.31,
+        "axis": "Z"
+      }
+    ],
+    "F006": [
+      {
+        "planned_center": [
+          0.285,
+          1.905
+        ],
+        "planned_d": 0.25,
+        "measured": true,
+        "center": [
+          0.285,
+          1.905
+        ],
+        "d": 0.25,
+        "depth": 0.31,
+        "axis": "Z"
+      }
+    ],
+    "F007": [
+      {
+        "planned_center": [
+          2.215,
+          3.185
+        ],
+        "planned_d": 0.25,
+        "measured": true,
+        "center": [
+          2.215,
+          3.185
+        ],
+        "d": 0.25,
+        "depth": 0.31,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {},
+  "starts": {
+    "F001": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F004": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F005": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F006": {
+      "axis": "Z",
+      "coord": 1.0,
+      "dir": -1
+    },
+    "F007": {
+      "axis": "Z",
+      "coord": 1.0,
+      "dir": -1
+    },
+    "F012": {
+      "axis": "Z",
+      "coord": 1.0,
+      "dir": -1,
+      "thru": false
+    }
+  },
+  "volume_after": {
+    "F001": 16.9164,
+    "F002": 16.578157236,
+    "F003": 15.563428945,
+    "F004": 15.544169816,
+    "F005": 15.524910688,
+    "F006": 15.509693598,
+    "F007": 15.494476509,
+    "F012": 15.344639794,
+    "F013": 15.194803078
+  }
+}

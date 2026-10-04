@@ -1,0 +1,112 @@
+[
+  {
+    "part": "115-C",
+    "extraction": "reused output\\ir_runs\\115-C\\115-C_extraction.json",
+    "plan_attempts": 1,
+    "gate1": "OK",
+    "planned": 6,
+    "questions": [
+      "F007: What radius is required for the four exterior corners rounded in the broad-face view? No radius is dimensioned."
+    ],
+    "flagged": [
+      "F004: Per ASME Y14.5 drafting convention, the printed blind drilling depth is to full diameter. Model a flat bottom at D015 from the ground face; the drawn drill point is cosmetic.",
+      "F006: ASME Y14.5 blind-drill depth convention: D019 is the full-diameter drilling depth, modeled flat-bottomed. The 3/8-18 NPTF thread is cosmetic only; D019 does not specify thread engagement. Right-face global sketch coordinates are (y,z)."
+    ],
+    "reference_step": "output\\ir_runs\\115-C\\reference.step",
+    "volume": 11.50794,
+    "cq_skipped": {
+      "F007": "unresolved: What radius is required for the four exterior corners rounded in the broad-face view? No radius is dimensioned."
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\115-C\\115C_ir.SLDPRT",
+    "sw_features": {
+      "F001": "built",
+      "F002": "built",
+      "F003": "built",
+      "F004": "built (drill + counterbore)",
+      "F005": "built (drill + counterbore)",
+      "F006": "built",
+      "F007": "skipped (unresolved: What radius is required for the four exterior corners rounded in the broad-face view? No radius is dimensioned.)"
+    },
+    "cost_usd": 0.204,
+    "error": ""
+  },
+  {
+    "part": "116-C",
+    "extraction": "reused output\\ir_runs\\116-C\\116-C_extraction.json",
+    "plan_attempts": 1,
+    "gate1": "OK",
+    "planned": 5,
+    "questions": [
+      "F006: What radius is required on the four rounded outside plan corners? No radius is specified."
+    ],
+    "flagged": [
+      "F002: The plan view shows equal opposite edge margins and a symmetric rectangular mounting-hole layout. Locate the pattern centrally in the block using half the difference between envelope size and center spacing.",
+      "F004: Use extracted lower limits D012 and D013 for the limit-dimensioned counterbore. The full sheet reads .111 above .113 for depth; interpret these as the two limits despite reversed order. The printed .50 drilling depth is full-diameter depth under standard drafting convention (ASME Y14.5); model a flat bottom and omit the cosmetic drill point. Position from the right mounting column and upper mounting row using the printed offsets."
+    ],
+    "reference_step": "output\\ir_runs\\116-C\\reference.step",
+    "volume": 12.271657,
+    "cq_skipped": {
+      "F006": "unresolved: What radius is required on the four rounded outside plan corners? No radius is specified."
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\116-C\\116-C_ir.SLDPRT",
+    "sw_features": {
+      "F001": "built",
+      "F002": "built",
+      "F003": "built",
+      "F004": "built (drill + counterbore)",
+      "F005": "built (drill + counterbore)",
+      "F006": "skipped (unresolved: What radius is required on the four rounded outside plan corners? No radius is specified.)"
+    },
+    "cost_usd": 0.1726,
+    "error": ""
+  },
+  {
+    "part": "117-C",
+    "extraction": "reused output\\ir_runs\\117-C\\117-C_extraction.json",
+    "plan_attempts": 1,
+    "gate1": "OK",
+    "planned": 13,
+    "questions": [
+      "F014: What radius is required on the four visibly rounded plate-outline corners? No radius is dimensioned."
+    ],
+    "flagged": [
+      "F004: ASME Y14.5 blind-drilling convention: .50 depth is the full-diameter depth from the front face. Model the exact blind depth with a flat bottom; the depicted drill point is cosmetic.",
+      "F006: ASME Y14.5 blind-drilling convention: .50 is the full-diameter depth measured from the rear face, as depicted in the bottom view, not additional depth below the counterbore. Use an exact flat-bottom blind hole; drill-point geometry is cosmetic.",
+      "F010: ASME Y14.5 full-diameter blind-hole depth convention; model a flat-bottom hole at the printed depth.",
+      "F011: ASME Y14.5 full-diameter blind-hole depth convention; model a flat-bottom hole at the printed depth.",
+      "F012: Model the printed nominal reamed diameter and full-diameter blind depth. Numeric press-fit limits are not supplied and require manufacturing specification; no interference value is invented.",
+      "F013: Model the printed nominal reamed diameter and full-diameter blind depth. Numeric press-fit limits are not supplied and require manufacturing specification; no interference value is invented."
+    ],
+    "reference_step": "output\\ir_runs\\117-C\\reference.step",
+    "volume": 14.047924,
+    "cq_skipped": {
+      "F014": "unresolved: What radius is required on the four visibly rounded plate-outline corners? No radius is dimensioned.",
+      "F015": "unsupported: Left rear installed dowel is a separate supplied component; IR v2 has no separate-body/component operation and must not fuse it into the plate.",
+      "F016": "unsupported: Upper rear installed dowel is a second separate component, not an integral plate boss."
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\117-C\\117-C_ir.SLDPRT",
+    "sw_features": {
+      "F001": "built",
+      "F002": "built",
+      "F003": "built",
+      "F004": "built",
+      "F005": "built",
+      "F006": "built",
+      "F007": "built",
+      "F008": "built",
+      "F009": "built",
+      "F010": "built",
+      "F011": "built",
+      "F012": "built",
+      "F013": "built",
+      "F014": "skipped (unresolved: What radius is required on the four visibly rounded plate-outline corners? No radius is dimensioned.)",
+      "F015": "skipped (unsupported: Left rear installed dowel is a separate supplied component; IR v2 has no separate-body/component operation and must not fuse it into the plate.)",
+      "F016": "skipped (unsupported: Upper rear installed dowel is a second separate component, not an integral plate boss.)"
+    },
+    "cost_usd": 0.2773,
+    "error": ""
+  }
+]

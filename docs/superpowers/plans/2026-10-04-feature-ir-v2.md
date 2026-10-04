@@ -126,4 +126,8 @@ the dev set.
   (standards, drawn symmetry), cuts overshoot (E019), trust the drawing over the extraction.
   Dev results vs golden: SB11033 IoU 0.9996, A040911E 0.9989 (5/5 holes), A040921E 0.997,
   SB11780 0.986 (keyway length: open question). All four build in SolidWorks, verified per feature.
-- [ ] Task 8
+- [x] Task 8 end to end: `pipeline/ir_pipeline.py`, `ir_run.py` (`--split dev`,
+  `--reuse-plans`), `main.py --ir`, `ir_compare.py`. All 9 dev parts: Gate 1 OK and SolidWorks
+  verified per feature. IR >= v1 on every part with a golden plan (SB11033 tie). Prism-seed
+  patterns compiled in SolidWorks (117-C). Acceptance rule met; `--ir` is opt-in until the team
+  flips the default.

@@ -28,21 +28,40 @@ from pipeline.ir.model import BuildPlan
 HOLE_TOL = 0.005  # drawing units: 3-place inch tolerance class
 
 
+# Exact 90-degree rotations that realise the 6 axis permutations (signs come from the mirrors).
+_PERMS = {"xyz": [], "yxz": [("Z", 90)], "xzy": [("X", 90)], "zyx": [("Y", 90)],
+          "yzx": [("Z", 90), ("X", 90)], "zxy": [("X", 90), ("Z", 90)]}
+_AXV = {"X": (1, 0, 0), "Y": (0, 1, 0), "Z": (0, 0, 1)}
+
+
+def _ext(bb) -> tuple[float, float, float]:
+    return (bb.xlen, bb.ylen, bb.zlen)
+
+
 def _align_candidates(src: cq.Shape, dst: cq.Shape):
-    """src transformed so its bbox sits on dst's bbox, over flips and x/y swaps."""
+    """src placed on dst's bbox center over all 48 signed axis permutations, skipping
+    any whose bbox extents can't match (a plate on its edge, a shaft along the wrong axis).
+    Only exact rotations and mirrors are used: transformGeometry converts to NURBS and
+    drifts about 1% in volume. SolidWorks exports land in model axes that differ from
+    the IR frame (this template's Front plane is model YZ), hence the permutations."""
     sb, db = src.BoundingBox(), dst.BoundingBox()
     sc = cq.Vector((sb.xmin + sb.xmax) / 2, (sb.ymin + sb.ymax) / 2, (sb.zmin + sb.zmax) / 2)
     dc = cq.Vector((db.xmin + db.xmax) / 2, (db.ymin + db.ymax) / 2, (db.zmin + db.zmax) / 2)
     centered = src.translate(-sc)
-    for swap in (False, True):
-        base = centered.rotate(cq.Vector(0, 0, 0), cq.Vector(0, 0, 1), 90) if swap else centered
+    dext = _ext(db)
+    for name, rots in _PERMS.items():
+        base = centered
+        for axis, ang in rots:
+            base = base.rotate(cq.Vector(0, 0, 0), cq.Vector(*_AXV[axis]), ang)
+        bext = _ext(base.BoundingBox())
+        if any(abs(a - b) > 0.05 * max(b, 1e-9) for a, b in zip(bext, dext)):
+            continue
         for fx, fy, fz in itertools.product((1, -1), repeat=3):
-            # exact mirrors (transformGeometry would convert to NURBS and drift ~1% in volume)
             s = base
             for flip, plane in ((fx, "YZ"), (fy, "XZ"), (fz, "XY")):
                 if flip < 0:
                     s = s.mirror(plane, (0, 0, 0))
-            yield (swap, fx, fy, fz), s.translate(dc)
+            yield (name, fx, fy, fz), s.translate(dc)
 
 
 def iou(a: cq.Shape, b: cq.Shape) -> tuple[float, Any]:

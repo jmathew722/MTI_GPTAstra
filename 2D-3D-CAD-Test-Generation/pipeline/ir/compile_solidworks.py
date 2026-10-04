@@ -146,6 +146,7 @@ class _SW:
         self.k = UNIT_M[plan.frame.units]
         self.doc = create_new_part(sw_app, template)
         self.report = SwBuildReport(plan.part, None)
+        self.flips: dict[str, bool] = {}   # direction each feature was verified with (pattern copies reuse it)
 
     # ---------------------------------------------------------------- utils --
     def n(self, expr) -> float:
@@ -211,6 +212,7 @@ class _SW:
             res.attempts = attempt
             if feat is not None and self.check(fid, attempt):
                 res.status, res.sw_volume = "built", self.volume()
+                self.flips[fid] = flip
                 return res
             if feat is not None:
                 self.doc.EditUndo2(1)
@@ -220,21 +222,25 @@ class _SW:
         return res
 
     # -------------------------------------------------------------- features --
-    def prism(self, f: Prism) -> SwFeatureResult:
+    def prism(self, f: Prism, shift: Vec = (0.0, 0.0, 0.0), flip: Optional[bool] = None) -> SwFeatureResult:
+        """Build a prism; ``shift`` (IR units) and a fixed ``flip`` are used for pattern copies."""
         st = self.fmap["starts"][f.id]
         axis, coord, d = st["axis"], st["coord"], st["dir"]
+        ai = "XYZ".index(axis)
+        coord += shift[ai]
+        su, sv = [shift[i] for i in range(3) if i != ai]
         plane, sign = self.sketch_on(axis)
         sm = self.doc.SketchManager
         p = f.profile
         if p.shape == "rect":
-            w, h, u, v = self.n(p.w), self.n(p.h), self.n(p.u), self.n(p.v)
+            w, h, u, v = self.n(p.w), self.n(p.h), self.n(p.u) + su, self.n(p.v) + sv
             if p.anchor == "center":
                 u, v = u - w / 2, v - h / 2
             corners = [self.pt(plane, self.in_plane(axis, a, b)) for a, b in ((u, v), (u + w, v + h))]
             (x1, y1), (x2, y2) = corners
             sm.CreateCornerRectangle(x1, y1, 0, x2, y2, 0)
         elif p.shape == "circle":
-            cx, cy = self.pt(plane, self.in_plane(axis, self.n(p.u), self.n(p.v)))
+            cx, cy = self.pt(plane, self.in_plane(axis, self.n(p.u) + su, self.n(p.v) + sv))
             sm.CreateCircleByRadius(cx, cy, 0, self.n(p.d) * self.k / 2)
         else:
             sm.InsertSketch(True)
@@ -243,8 +249,14 @@ class _SW:
         start = coord * self.k * sign
         thru = st.get("thru", False)
         depth = None if thru else self.n(f.depth) * self.k
-        return self.with_retry(f.id, lambda flip: self.extrude(
-            cut=f.op == "cut", reverse=((d * sign) < 0) != flip, depth=depth, start=start, thru=thru))
+
+        def make(fl):
+            return self.extrude(cut=f.op == "cut", reverse=((d * sign) < 0) != fl, depth=depth, start=start, thru=thru)
+
+        if flip is not None:   # a pattern copy: same direction as the verified seed, checked as a whole
+            feat = make(flip)
+            return SwFeatureResult(f.id, "built" if feat is not None else "failed", attempts=1)
+        return self.with_retry(f.id, make)
 
     def holes(self, fid: str, centers: list[list[float]], spec: dict, axis: str, coord: float, d: int):
         plane, sign = self.sketch_on(axis)
@@ -291,11 +303,39 @@ class _SW:
 
     def pattern(self, f: Pattern) -> SwFeatureResult:
         seed = self.plan.feature(f.seed)
+        if isinstance(seed, Prism) and f.mode in ("linear", "grid"):
+            return self.prism_pattern(f, seed)
         if not isinstance(seed, Hole):
-            return SwFeatureResult(f.id, "failed", note="only hole patterns are compiled for SolidWorks yet")
+            return SwFeatureResult(f.id, "failed", note="only hole patterns and linear/grid prism "
+                                                        "patterns are compiled for SolidWorks yet")
         st = self.fmap["starts"][seed.id]
         centers = [h["planned_center"] for h in self.fmap["holes"].get(f.id, [])]
         return self.holes(f.id, centers, seed.spec, st["axis"], st["coord"], st["dir"])
+
+    def prism_pattern(self, f: Pattern, seed: Prism) -> SwFeatureResult:
+        """Linear/grid copies of a prism seed: replayed shifted, then verified as a whole."""
+        unit = {"X": (1, 0, 0), "Y": (0, 1, 0), "Z": (0, 0, 1)}
+
+        def vec(direction: str, dist: float) -> Vec:
+            s = 1 if direction[0] == "+" else -1
+            return tuple(s * dist * c for c in unit[direction[1]])  # type: ignore
+
+        n1, p1 = int(round(self.n(f.count))), self.n(f.pitch)
+        n2, p2 = (int(round(self.n(f.count2))), self.n(f.pitch2)) if f.mode == "grid" else (1, 0.0)
+        flip = self.flips.get(seed.id, False)
+        k = 0
+        for j in range(n2):
+            for i in range(n1):
+                if (i, j) != (0, 0) and k not in f.skip:
+                    a, b = vec(f.dir, i * p1), vec(f.dir2, j * p2)
+                    r = self.prism(seed, shift=tuple(a[m] + b[m] for m in range(3)), flip=flip)  # type: ignore
+                    if r.status != "built":
+                        return SwFeatureResult(f.id, "failed", note=f"copy {i},{j} failed")
+                k += 1
+        ok = self.check(f.id, 1)
+        return SwFeatureResult(f.id, "built" if ok else "mismatch", sw_volume=self.volume(),
+                               ref_volume=self.fmap.get("volume_after", {}).get(f.id), attempts=1,
+                               note="prism copies")
 
     def revolve(self, f: Revolve) -> SwFeatureResult:
         # sketch on the base plane that contains IR z and IR x (normal = IR y)

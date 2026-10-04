@@ -1,0 +1,166 @@
+{
+  "dims": {
+    "D001": 2.4985,
+    "D002": 76.88,
+    "D003": 75.125,
+    "D004": 0.88,
+    "D005": 1.016,
+    "D006": 1.734,
+    "D007": 0.5,
+    "D008": 2.218,
+    "D009": 0.06,
+    "D010": 0.125,
+    "D011": 0.002,
+    "D012": 0.002,
+    "D013": 0.002,
+    "D014": 0.875,
+    "D015": 73.093,
+    "D016": 0.2805,
+    "D017": 0.96875
+  },
+  "reference_ids": [
+    "D001"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB11780",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "side": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Solid tie rod with two circumferential necks; preserve the printed axial dimensions rather than imposing equal collar widths.",
+        "source_callouts": [
+          "2.4985 \u00b1.0015 \u2300 REF",
+          "76.88",
+          "75.125",
+          ".88",
+          "1.016 TYP",
+          "1.734 \u2300"
+        ],
+        "status": "planned",
+        "justification": "The main body and both end collars retain the reference stock diameter shown. The matching necks use the common diameter and TYP width. The right collar width follows from overall length minus shoulder spacing minus left collar width, rather than assumed axial symmetry.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D004 + D005",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D004 + D005",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D004 + D003 - D005",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D004 + D003 - D005",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D004 + D003",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D004 + D003",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D001 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Centered external axial keyway with floor located from the opposite OD tangent; the necks naturally interrupt the cut.",
+        "source_callouts": [
+          ".500 +.002 -.000 CENT.",
+          "2.218"
+        ],
+        "status": "planned",
+        "justification": "The end view places the keyway on the +X side, centered about y=0. Longitudinal lines show the keyway traversing the central body and end collars without blind terminations. Extend the cutter beyond both end faces and beyond the OD. Floor coordinate is the controlling opposite-tangent dimension minus nominal stock radius.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "-D004",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D007",
+          "anchor": "corner",
+          "u": "D008 - D001 / 2",
+          "v": "-D007 / 2"
+        },
+        "depth": "D002 + 2 * D004",
+        "op": "cut"
+      },
+      {
+        "id": "F003",
+        "rationale": "What exact radius should be used at the four neck roots? The drawing specifies only a maximum.",
+        "source_callouts": [
+          ".125 R MAX TYP"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D010",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D004),wall(F001,D006 / 2))",
+          "edge_between(face(F001,-Z,D004 + D005),wall(F001,D006 / 2))",
+          "edge_between(face(F001,+Z,D004 + D003 - D005),wall(F001,D006 / 2))",
+          "edge_between(face(F001,-Z,D004 + D003),wall(F001,D006 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Does .06 C/R require a radius or allow a chamfer at the two outer end corners? Confirm treatment before execution.",
+        "source_callouts": [
+          ".06 C/R BOTH ENDS"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D009",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D001 / 2))",
+          "edge_between(face(F001,+Z,D002),wall(F001,D001 / 2))"
+        ]
+      }
+    ],
+    "notes": [
+      "Drawing title: TIE ROD; tool number SB11780; model 120ME. Material note: MAT'L ~ 1018.",
+      "The full-sheet title block explicitly specifies inches, third-angle projection, two-place dimensions \u00b1.02, three-place dimensions \u00b1.010, and angular dimensions \u00b11\u00b0. These supersede the extraction warnings claiming the title block and units are absent.",
+      "D001 is reference stock diameter; modeled at nominal value. D008 remains the controlling keyway-floor dimension from the opposite tangent.",
+      "Right collar nominal width is D002 - D003 - D004 = D014; central body length is D003 - 2 * D005 = D015.",
+      "D011 and D012 specify shoulder perpendicularity to datum A; D013 specifies right shoulder parallelism to datum B. Datum B is the left collar inner shoulder. Confirm datum A attachment for inspection; these tolerances do not add nominal geometry.",
+      "MACHINE CENTERS PERMITTED is optional, not a requirement for center holes. No bore is shown; the dashed end-view circle represents the neck diameter.",
+      "Unresolved edge treatments are not to be executed using their maximum or provisional values. CFS/H surface notation is retained as drawing information, not additional geometry."
+    ]
+  }
+}

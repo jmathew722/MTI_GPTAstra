@@ -1,0 +1,127 @@
+{
+  "part": "SB11842",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -2.5,
+    -2.5,
+    0.0,
+    2.5,
+    2.5,
+    0.88
+  ],
+  "volume": 15.201183,
+  "volume_mm3": 249102.758,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004"
+  ],
+  "skipped": {
+    "F005": "failed: StdFail_NotDone: BRep_API: command not done",
+    "F006": "unresolved: What size and angle apply to the two depicted bore entrance edge breaks; does the outside chamfer callout also cover them?"
+  },
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          0.0,
+          0.0
+        ],
+        "planned_d": 1.5,
+        "measured": true,
+        "center": [
+          0.0,
+          0.0
+        ],
+        "d": 1.5,
+        "depth": 0.88,
+        "axis": "Z"
+      }
+    ],
+    "F003": [
+      {
+        "planned_center": [
+          2.125,
+          0.0
+        ],
+        "planned_d": 0.344,
+        "measured": true,
+        "center": [
+          2.125,
+          0.0
+        ],
+        "d": 0.344,
+        "depth": 0.5,
+        "axis": "Z"
+      }
+    ],
+    "F004": [
+      {
+        "planned_center": [
+          0.0,
+          2.125
+        ],
+        "planned_d": 0.344,
+        "measured": true,
+        "center": [
+          0.0,
+          2.125
+        ],
+        "d": 0.344,
+        "depth": 0.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -2.125,
+          0.0
+        ],
+        "planned_d": 0.344,
+        "measured": true,
+        "center": [
+          -2.125,
+          0.0
+        ],
+        "d": 0.344,
+        "depth": 0.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -0.0,
+          -2.125
+        ],
+        "planned_d": 0.344,
+        "measured": true,
+        "center": [
+          -0.0,
+          -2.125
+        ],
+        "d": 0.344,
+        "depth": 0.5,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {},
+  "starts": {
+    "F002": {
+      "axis": "Z",
+      "coord": 0.88,
+      "dir": -1
+    },
+    "F003": {
+      "axis": "Z",
+      "coord": 0.88,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 17.278759595,
+    "F002": 15.723671231,
+    "F003": 15.593049165,
+    "F004": 15.201182967
+  }
+}

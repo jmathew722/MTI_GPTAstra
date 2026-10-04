@@ -1,0 +1,399 @@
+{
+  "part_name": "KEY",
+  "part_number": "135-A",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "KEY STOCK",
+  "finish": "",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1 .03; 3 PLACE DIM. \u00b1 [blank]; ANGULAR DIM. \u00b1 [blank].",
+  "views": [
+    {
+      "view_type": "Top",
+      "description": "Upper view: rectangular face with two concentric through-hole and counterbore outlines; third-angle projection.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D007"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Cross centerlines locate two hole axes on a common row. Each counterbore is concentric with its clearance hole."
+    },
+    {
+      "view_type": "Front",
+      "description": "Lower view: rectangular elevation. Hidden stepped hole profiles show counterbores entering the top face and smaller holes continuing through the bottom.",
+      "dimensions_shown": [
+        "D006"
+      ],
+      "visible_features": [
+        "F001"
+      ],
+      "hidden_features": [
+        "F002",
+        "F003"
+      ],
+      "centerline_notes": "Vertical hole centerlines align with both centers in the top view."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 3.0,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_length",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 3.00; two-place general tolerance applies."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_edge_to_first_hole_axis",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .500. No explicit tolerance; three-place general tolerance entry is blank. Default zero tolerance fields do not imply exactness."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 2.0,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "hole_center_spacing",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.000 \u00b1 .005."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "top_view_upper_edge_to_hole_centerline",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .500 \u00b1 .005; locates the common hole row."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.001,
+      "tolerance_type": "unilateral",
+      "applies_to": "overall_width",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.000 +.000/-.001; limits 0.999 to 1.000."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "body_thickness",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.00; two-place general tolerance applies."
+    },
+    {
+      "id": "D007",
+      "type": "thread",
+      "value": 0.312,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "mating_screw_nominal_size",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Full leader callout: DR. & C'BORE FOR .312-18 SOC. HD. SCR. 2 HLS. This specifies mating socket-head screws, NOT tapped holes and NOT the clearance drill diameter. 18 denotes threads per inch. No thread class or series is explicitly given."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "second_hole_axis_to_right_edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal dimension: D001 - D002 - D003 = 3.00 - .500 - 2.000 = .500. Not printed; no independent tolerance."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 2.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_edge_to_second_hole_axis",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: D002 + D003 = .500 + 2.000 = 2.500. Not printed; no independent tolerance."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "top_view_lower_edge_to_hole_centerline",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: D005 - D004 = 1.000 - .500 = .500. Controlling offset is from the upper edge. Not printed; no independent tolerance."
+    }
+  ],
+  "hole_callouts": [],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Rectangular key-stock base: 3.00 long by 1.000 wide, extruded 1.00 thick. In-plane coordinate origin is the lower-left corner of the top view.",
+      "related_dimensions": [
+        "D001",
+        "D005",
+        "D006"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D006",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Two through clearance holes for .312-18 socket-head screws, normal to the top face. Nominal edge-referenced instance positions, in inches: [[0.500,0.500],[2.500,0.500]]. Linear spacing 2.000 \u00b1 .005. Hole diameter is unspecified and requires confirmation; .312 is the screw designation, not an authorized clearance diameter.",
+      "related_dimensions": [
+        "D002",
+        "D003",
+        "D004",
+        "D007",
+        "D008",
+        "D009",
+        "D010"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Two flat-bottom counterbores entering the top face, coaxial with the two through holes at nominal edge-referenced positions [[0.500,0.500],[2.500,0.500]] inches. Counterbore diameter and depth are unspecified and require confirmation.",
+      "related_dimensions": [
+        "D002",
+        "D003",
+        "D004",
+        "D007"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Mid-length plane x = 1.500",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003"
+        ],
+        "description": "Nominal end offsets are both .500. Right offset is derived, not independently controlled."
+      },
+      {
+        "plane": "Mid-width plane y = .500",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003"
+        ],
+        "description": "Nominal hole row is centered across the width. Separate width and upper-edge-offset tolerances mean exact symmetry is not required."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F002",
+          "F003"
+        ],
+        "description": "Each counterbore is coaxial with its corresponding through hole. The two separate hole locations are not coaxial with each other."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "F002",
+        "qty": 2,
+        "spacing_value": 2.0,
+        "computed_from": "Printed D003 = 2.000; coordinate check 2.500 - .500 = 2.000."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D002",
+          "D003",
+          "D008"
+        ],
+        "description": "Nominal longitudinal closure: 3.000 = .500 + 2.000 + .500."
+      },
+      {
+        "total_dimension_id": "D009",
+        "component_dimension_ids": [
+          "D002",
+          "D003"
+        ],
+        "description": "Second-hole X coordinate: 2.500 = .500 + 2.000."
+      },
+      {
+        "total_dimension_id": "D005",
+        "component_dimension_ids": [
+          "D004",
+          "D010"
+        ],
+        "description": "Nominal transverse closure: 1.000 = .500 upper-edge offset + .500 derived lower-edge offset."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D008",
+      "D009",
+      "D010"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003"
+  ],
+  "warnings": [
+    "The actual clearance-hole diameter, counterbore diameter, and counterbore depth are not specified. Human confirmation or an authorized shop standard is required before building the holes.",
+    "The reporting tool requires a positive hole diameter and rejects an unknown diameter encoded as zero. Consequently hole_callouts is empty rather than inventing a diameter. The complete two-hole callout is preserved in D007, and its through/counterbore interpretation, quantity, positions, and spacing are preserved in F002/F003 and relationships.",
+    "The three-place and angular general tolerance entries are blank. The printed .500 left-edge offset therefore has no recoverable tolerance.",
+    "No ASME, ISO, or DIN standard is explicitly named. Inch units and third-angle projection are explicit.",
+    "KEY STOCK identifies stock form but no alloy, grade, or hardness. Heat-treatment and finish requirements are not supplied.",
+    "135-A is the complete drawing/part number; the A suffix is not assumed to be a separate revision. The change table is blank.",
+    "Title block also lists MODEL No. 250BX.",
+    "No GD&T feature-control frames, datum identifiers, fillet dimensions, or chamfer dimensions are shown.",
+    "Hole positions are nominal coordinates derived from the printed offsets and spacing. Preserve the upper-edge transverse offset as controlling rather than imposing exact mid-width symmetry.",
+    "Build order is conditional on resolving missing hole and counterbore sizes; do not infer sizes from pictorial scale."
+  ],
+  "confidence": 0.88
+}
