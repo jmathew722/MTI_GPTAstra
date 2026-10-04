@@ -1,4 +1,28 @@
-# Graph Report - mti-2d-3d  (2026-09-28)
+# Graph Report - mti-2d-3d  (2026-09-28, AST update 2026-10-04)
+
+## Update 2026-10-04 (AST layer only, `graphify-out/ast_update.py`)
+
+The semantic graph below was built on 2026-09-28 at the initial-code commit. The `/graphify`
+skill isn't available on the current dev host, so the **code layer** was refreshed
+deterministically with Python `ast` (no LLM): 51 changed or new Python files re-extracted,
+following graphify's id and label conventions. Every refreshed node and edge is tagged
+`"_update": "ast-2026-10-04"`. The semantic nodes (rationale, concepts, drawings) are unchanged.
+Run the full semantic refresh (`/graphify . --update`) when the skill is available.
+
+- **1,184 nodes · 2,787 edges** (was 813 · 1,792). `built_at_commit` = `7b099b3`.
+- **New communities:** Feature IR v2 (plans, compilers) · GPT-6 Astra Planner · API Budget
+  Guard ($20 cap) · Placement & Root-Cause Fixes · Demo Plate (known answer) · Benchmark Split ·
+  Graph Tooling. The token tracker files (added after the semantic build) joined Token Cost Ledger.
+- **Main new paths:**
+  `ir_pipeline.run_part` → `planner.OpenAIPlanner` → `ir.model.BuildPlan.check` →
+  `ir.compile_cadquery.emit_script/run_script` → `ir.compile_solidworks.compile_solidworks`;
+  the extractor and planner → `budget.preflight/charge` → `token_tracker.record_completion`;
+  `run_models.resolve_unknowns` → `fasteners` / `macro_generator._hole_positions` →
+  `solidworks_builder.build_hole`.
+- **Highest-degree refreshed nodes:** `run_verification()` (70), `solidworks_builder.py` (63),
+  `macro_generator.py` (62), `main.py` (48), `generate_macro_package()` (46), `run_models.py`
+  (41), `resolve_unknowns()` (40), `extract_drawing_data()` (36).
+- Test record for the day: `docs/test-reports/2026-10-04-test-report.md`.
 
 ## Corpus Check
 - Large corpus: 121 files · ~514,936 words. Semantic extraction will be expensive (many Claude tokens). Consider running on a subfolder.

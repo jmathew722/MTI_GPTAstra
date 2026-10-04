@@ -15,6 +15,14 @@
 
 ## TL;DR
 
+> **Full record of the 2026-10-04 test day** (every test run, success, failure, cost and
+> decision): [docs/test-reports/2026-10-04-test-report.md](docs/test-reports/2026-10-04-test-report.md).
+>
+> **As of end of day 2026-10-04:** all 9 dev parts go drawing → GPT-6 Astra extraction + plan →
+> CadQuery reference → native SolidWorks with every feature verified (§4.2). IR ≥ v1 on every
+> scored part (IoU 0.986–1.000); 9 open human questions; 340 tests pass; API spend $11.70 of
+> the $20 cap. Model: GPT-6 Astra only.
+
 - A working **2D drawing → SolidWorks** pipeline exists (Claude vision extraction →
   arithmetic verification gate → VBA macros or direct COM build).
 - **2026-10-04: placement + completeness fixes landed.** The same 5 parts now build

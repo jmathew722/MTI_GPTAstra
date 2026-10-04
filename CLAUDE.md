@@ -31,6 +31,7 @@ mti-2d-3d/
 ├── NewVerifiedDrawings/           source drawings, flat: <part>.png, <part>_front_view.png, <part>_side_view.png
 ├── ViewDefinedDrawings/           source drawings, one folder per part (<part>_front/_side/.png)
 ├── docs/
+│   ├── test-reports/                   ← dated test-day records (results, failures, costs, decisions)
 │   ├── PRD.md                          ← product requirements (goals, requirements, success targets)
 │   ├── PRD-aws.md, PRD-azure.md        ← the two hosting options (same sections, compare side by side)
 │   ├── solidworks-macro-error-log.md   ← every runtime failure + the generator rule it produced
@@ -144,7 +145,10 @@ Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KE
   an open decision gets made.
 - **Knowledge graph:** `graphify-out/GRAPH_REPORT.md` summarizes structure; for
   "how does X connect to Y" questions run `graphify query "<question>"`. After
-  large changes, refresh with `/graphify . --update`.
+  large changes, refresh with `/graphify . --update`; where that skill isn't
+  available, `python graphify-out/ast_update.py` refreshes the code layer (no LLM).
+- **Test days:** record each one in `docs/test-reports/YYYY-MM-DD-test-report.md`
+  (what ran, successes, failures, costs from `usage/budget_ledger.jsonl`, decisions, next steps).
 
 ## Next phase (designed 2026-09-28 — read before building)
 
