@@ -343,6 +343,31 @@ fixtures.
   (`FRAME CORRECTED`). Otherwise the gate BLOCKS.
 - **Tests:** `tests/test_root_cause_fixes.py` (F1, F6).
 
+## E018 — IR SolidWorks compiler: new APIs verified; two traps found
+
+- **Date:** 2026-10-04 · **Parts:** IR golden plans (SB11033, A040911E) · **Stage:**
+  `pipeline/ir/compile_solidworks.py`
+- **Verified live (hard rule 1):** `FeatureRevolve2` on the active sketch with a
+  centerline (exact volume). FeatureExtrusion3/FeatureCut4 start offsets
+  (`T0=3`, `StartOffset`, `FlipStartOffset`). `Edge.GetClosestPointOn` +
+  `Entity.Select4` for edges. Template plane mapping measured by `probe_plane_map`:
+  on this SW 2025 template Front = model YZ (+X normal), Top = XY, Right = XZ.
+- **Trap 1: select-by-coordinate is a view ray pick.** `SelectByID2("", "EDGE", x,y,z)`
+  shoots a ray along the current view. On A040911E the point on the z = 0 bore edge
+  selected the z = 1.5 edge behind it, so the chamfer volume mismatched. On SB11033 the
+  boss-end point picked an edge at z = .659 and the chamfer failed. **Fix:** nearest body
+  edge by true 3D distance (`GetClosestPointOn`), then `Select4`.
+- **Trap 2: Through All – Both from a base plane that misses the body returns None.**
+  SB11033's holes sat at r = .781 on the Front plane (the pilot end, empty there).
+  **Fix:** cut *Through All* from the resolved start face (`starts` in the feature map),
+  into the material, with the direction retried.
+- **Also:** a counterbored hole is verified only after BOTH cuts (the reference volume
+  includes the counterbore).
+- **Result:** all 5 golden plans build in SolidWorks with every feature's volume matching
+  the CadQuery reference (`python ir_build.py tests/golden/ir/*.json --solidworks`).
+- **Rule:** select topology by geometry (nearest entity), never by a view-dependent pick.
+  Verify every feature against the reference volume, and undo and retry flipped on a mismatch.
+
 **Also noted (not a failure):** on the SW 2025 default part template, a sketch on "Front
 Plane" maps to model Y-Z (extrusion along X). Geometry relative to the sketch is
 correct. Scorers must project along each hole's axis rather than assume model XY.

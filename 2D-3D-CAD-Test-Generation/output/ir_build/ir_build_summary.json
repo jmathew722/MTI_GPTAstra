@@ -1,0 +1,112 @@
+[
+  {
+    "part": "DEMO-PLATE-001",
+    "gate1": "OK",
+    "unresolved": [],
+    "reference_step": "output\\ir_build\\DEMO-PLATE-001\\reference.step",
+    "volume": 54782.8618,
+    "cq_skipped": {},
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_build\\DEMO-PLATE-001\\DEMO-PLATE-001_ir.SLDPRT",
+    "sw_bbox_ok": true,
+    "sw_volume_ok": true,
+    "sw_features": {
+      "F001": "built",
+      "F002": "built",
+      "F003": "built",
+      "F004": "built",
+      "F005": "built (2 edges selected by nearest point)"
+    }
+  },
+  {
+    "part": "A040921E",
+    "gate1": "OK",
+    "unresolved": [
+      "F003"
+    ],
+    "reference_step": "output\\ir_build\\A040921E\\reference.step",
+    "volume": 68.236085,
+    "cq_skipped": {
+      "F003": "unresolved: .09 x 45 TYP on the outer and bore end edges"
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_build\\A040921E\\A040921E_ir.SLDPRT",
+    "sw_bbox_ok": true,
+    "sw_volume_ok": true,
+    "sw_features": {
+      "F001": "built",
+      "F002": "built",
+      "F003": "skipped (unresolved: .09 x 45 TYP on the outer and bore end edges)"
+    }
+  },
+  {
+    "part": "SB11780",
+    "gate1": "OK",
+    "unresolved": [
+      "F003",
+      "F004"
+    ],
+    "reference_step": "output\\ir_build\\SB11780\\reference.step",
+    "volume": 361.822372,
+    "cq_skipped": {
+      "F003": "unresolved: .125 R MAX TYP: only a maximum is given; the radius to use needs a human",
+      "F004": "unresolved: .06 C/R BOTH ENDS: chamfer OR radius is the shop's choice; needs a human"
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_build\\SB11780\\SB11780_ir.SLDPRT",
+    "sw_bbox_ok": true,
+    "sw_volume_ok": true,
+    "sw_features": {
+      "F001": "built",
+      "F002": "built",
+      "F003": "skipped (unresolved: .125 R MAX TYP: only a maximum is given; the radius to use needs a human)",
+      "F004": "skipped (unresolved: .06 C/R BOTH ENDS: chamfer OR radius is the shop's choice; needs a human)"
+    }
+  },
+  {
+    "part": "SB11033",
+    "gate1": "OK",
+    "unresolved": [
+      "F005"
+    ],
+    "reference_step": "output\\ir_build\\SB11033\\reference.step",
+    "volume": 2.22005,
+    "cq_skipped": {
+      "F005": "unresolved: .015 MAX. R at the pilot root: only a maximum is given"
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_build\\SB11033\\SB11033_ir.SLDPRT",
+    "sw_bbox_ok": true,
+    "sw_volume_ok": true,
+    "sw_features": {
+      "F001": "built",
+      "F002": "built",
+      "F003": "built",
+      "F004": "built (1 edges selected by nearest point)",
+      "F005": "skipped (unresolved: .015 MAX. R at the pilot root: only a maximum is given)",
+      "F006": "built (2 edges selected by nearest point)",
+      "F007": "built (1 edges selected by nearest point)"
+    }
+  },
+  {
+    "part": "A040911E",
+    "gate1": "OK",
+    "unresolved": [],
+    "reference_step": "output\\ir_build\\A040911E\\reference.step",
+    "volume": 25.22959,
+    "cq_skipped": {},
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_build\\A040911E\\A040911E_ir.SLDPRT",
+    "sw_bbox_ok": true,
+    "sw_volume_ok": true,
+    "sw_features": {
+      "F001": "built",
+      "F002": "built (drill + counterbore)",
+      "F003": "built (drill + counterbore)",
+      "F004": "built (drill + counterbore)",
+      "F005": "built",
+      "F006": "built",
+      "F007": "built (4 edges selected by nearest point)"
+    }
+  }
+]

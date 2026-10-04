@@ -73,6 +73,8 @@ class Model:
         self.holes: dict[str, list[dict]] = {}
         self.edge_points: dict[str, list[list[float]]] = {}
         self.skipped: dict[str, str] = {}
+        self.starts: dict[str, dict] = {}         # resolved start plane per prism/hole (drawing units)
+        self.volume_after: dict[str, float] = {}  # solid volume after each feature (drawing units^3)
 
     # ------------------------------------------------------------------ refs --
     def _start(self, on: str, offset: float) -> tuple[str, float, int]:
@@ -111,6 +113,10 @@ class Model:
 
     # -------------------------------------------------------------- apply --
     def _apply(self, fid: str, tool: cq.Shape, op: str) -> None:
+        self._apply_inner(fid, tool, op)
+        self.volume_after[fid] = round(self.solid.Volume() / self.k ** 3, 9)
+
+    def _apply_inner(self, fid: str, tool: cq.Shape, op: str) -> None:
         self.tools[fid] = tool
         self.order.append(fid)
         if self.solid is None:
@@ -135,6 +141,10 @@ class Model:
     @_guarded
     def prism(self, fid: str, *, on: str, offset: float, profile: dict, depth, op: str) -> None:
         axis, coord, outward = self._start(on, offset)
+        is_face0 = parse_ref(on)[0] == "face"
+        self.starts[fid] = {"axis": axis, "coord": round(coord / self.k, 9),
+                            "dir": (outward if (op == "add" or not is_face0) else -outward),
+                            "thru": depth == "thru"}
         wp = self._workplane(axis, coord)
         k = self.k
         shape = profile["shape"]
@@ -199,6 +209,7 @@ class Model:
         k = self.k
         into = -outward if parse_ref(on)[0] == "face" else +1
         start = self._point(axis, coord, u * k, v * k)
+        self.starts[fid] = {"axis": axis, "coord": round(coord / k, 9), "dir": into}
         d = spec["d"] * k
         dvec = [0.0, 0.0, 0.0]
         dvec[_idx(axis)] = float(into)
@@ -323,6 +334,7 @@ class Model:
         self.tools[fid] = new
         self.order.append(fid)
         self.solid = new.clean()
+        self.volume_after[fid] = round(self.solid.Volume() / k ** 3, 9)
 
     def contains(self, x: float, y: float, z: float) -> bool:
         """Is the point (drawing units) inside the solid? (tests, Gate 2 probes)"""
@@ -379,6 +391,8 @@ class Model:
             "skipped": self.skipped,
             "holes": self.measure_holes(),
             "edge_points": self.edge_points,
+            "starts": self.starts,
+            "volume_after": self.volume_after,
         }
 
     def finish(self, out_dir: Optional[str] = None) -> dict[str, Any]:

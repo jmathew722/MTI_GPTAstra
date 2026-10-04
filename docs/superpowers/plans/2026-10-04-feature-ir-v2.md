@@ -114,4 +114,10 @@ the dev set.
   flange, boss; no bore; both extractions had misread it), `A040911E` (3 counterbores +
   2 tapped holes the cropped view hid). Refs gained `face(F,±A,<z>)` / `wall(F,<r>)` for
   stepped bodies. (`bracket` dropped: synthetic, not a dev drawing.)
-- [ ] Task 6 · [ ] Task 7 · [ ] Task 8
+- [x] Task 6 SolidWorks compiler (COM): replays the plan against the CadQuery feature map
+  and checks volume after EVERY feature (undo + flipped retry on mismatch). Template plane
+  map measured at runtime. Revolve, start offsets and edge selection by nearest 3D point
+  verified live (error log E018). **All 5 golden plans build natively and match the
+  reference.** Not yet: non-hole patterns, slot/polygon profiles, side-plane prisms in SW;
+  VBA emission from the IR.
+- [ ] Task 7 · [ ] Task 8

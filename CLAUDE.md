@@ -58,7 +58,8 @@ python main.py --from-json output/<P>/<P>_extraction.json    # regenerate macros
 python main.py --views-folder <dir> --output ./output        # multi-view parts
 python run_models.py <folder> --output ./output              # COM build, Windows + SolidWorks only
 python rebuild_from_json.py output/<P>/<P>_extraction.json   # rebuild saved extractions in SW, no API cost
-python -m pytest tests/ -v                                   # tests (243 passing as of 2026-10-04)
+python ir_build.py tests/golden/ir/*.json --solidworks       # Feature IR: CadQuery reference + native SW, verified per feature
+python -m pytest tests/ -v                                   # tests (322 passing as of 2026-10-04)
 UPDATE_GOLDEN=1 python -m pytest tests/test_golden_macros.py # accept an intended macro change
 python -m pipeline.token_report ./output --html output/usage/usage_report.html  # token & cost report
 ```
