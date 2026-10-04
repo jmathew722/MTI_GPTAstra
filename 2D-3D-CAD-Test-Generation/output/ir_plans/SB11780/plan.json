@@ -1,0 +1,168 @@
+{
+  "dims": {
+    "D001": 2.4985,
+    "D002": 76.88,
+    "D003": 75.125,
+    "D004": 0.88,
+    "D005": 1.016,
+    "D006": 1.734,
+    "D007": 0.5,
+    "D008": 2.218,
+    "D009": 0.06,
+    "D010": 0.125,
+    "D011": 0.002,
+    "D012": 0.002,
+    "D013": 0.002,
+    "D014": 0.875,
+    "D015": 73.093,
+    "D016": 0.2805,
+    "D017": 0.96875
+  },
+  "reference_ids": [
+    "D001"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB11780",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "side": "-Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Solid shaft with both reduced necks and unequal end collars; axial stations preserve all printed length dimensions.",
+        "source_callouts": [
+          "76.88",
+          "75.125",
+          ".88",
+          "1.016 TYP",
+          "1.734 \u2300",
+          "2.4985 \u00b1.0015 \u2300 REF"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D004 + D005",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D004 + D005",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D004 + D003 - D005",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D004 + D003 - D005",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D004 + D003",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D004 + D003",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D001 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Cut the longitudinal external keyway toward +X from its floor, centered about y=0. Continuous longitudinal edges indicate an end-to-end cut, naturally interrupted by both smaller necks.",
+        "source_callouts": [
+          ".500 +.002 -.000 CENT.",
+          "2.218"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(right)",
+        "offset": "D008 - D001 / 2",
+        "profile": {
+          "shape": "rect",
+          "w": "D007",
+          "h": "D002",
+          "anchor": "corner",
+          "u": "-D007 / 2",
+          "v": "0"
+        },
+        "depth": "D001 - D008",
+        "op": "cut"
+      },
+      {
+        "id": "F003",
+        "rationale": "What exact radius is required at the four neck roots? The specified maximum does not define a unique radius.",
+        "source_callouts": [
+          ".125 R MAX TYP"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D010",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D004),wall(F001,D006 / 2))",
+          "edge_between(face(F001,-Z,D004 + D005),wall(F001,D006 / 2))",
+          "edge_between(face(F001,+Z,D004 + D003 - D005),wall(F001,D006 / 2))",
+          "edge_between(face(F001,-Z,D004 + D003),wall(F001,D006 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Does C/R require a radius or allow a chamfer? Resolve the treatment before applying it to the outside end edges.",
+        "source_callouts": [
+          ".06 C/R BOTH ENDS"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D009",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,0),wall(F001,D001 / 2))",
+          "edge_between(face(F001,+Z,D002),wall(F001,D001 / 2))"
+        ]
+      }
+    ],
+    "notes": [
+      "Tie Rod, tool number SB11780, model 120 ME. Full sheet specifies dimensions in inches and material 1018; CFS is marked at the stock surface.",
+      "Origin is the left end-face center; +Z points toward the right end. The front-view keyway opens toward +X and is centered about y=0.",
+      "Use nominal D001 reference stock diameter for the model. D008 controls keyway floor position from the opposite outside tangent; do not substitute an independently specified radial depth.",
+      "Right collar width is D002 - D004 - D003 (D014); central body length is D003 - 2 * D005 (D015). Do not force equal collar widths.",
+      "Full-sheet title block gives two-place dimensions \u00b1.02, three-place dimensions \u00b1.010, and angular dimensions \u00b11\u00b0. These were omitted by the extraction.",
+      "Retain geometric tolerances as inspection requirements: left collar inner shoulder perpendicular to A within D011; right collar inner shoulder perpendicular to A within D012 and parallel to B within D013. Datum B is the left collar inner shoulder; confirm datum A attachment before inspection setup.",
+      "MACHINE CENTERS PERMITTED allows optional manufacturing centers but does not require dimensioned holes. None are modeled.",
+      "The dashed circle in the end view represents the neck diameter, not an axial bore. The broken side view represents a continuous solid shaft, not separate bodies.",
+      "Unresolved edge operations are placeholders only; do not apply their listed maximum or provisional radii until clarified."
+    ]
+  }
+}

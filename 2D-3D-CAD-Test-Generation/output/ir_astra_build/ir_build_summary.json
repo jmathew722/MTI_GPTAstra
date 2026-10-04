@@ -1,0 +1,48 @@
+[
+  {
+    "part": "A040921E",
+    "gate1": "OK",
+    "unresolved": [
+      "F004"
+    ],
+    "reference_step": "output\\ir_astra_build\\A040921E\\reference.step",
+    "volume": 68.009796,
+    "cq_skipped": {
+      "F004": "unresolved: What size and method of edge break are required for the remaining sharp outside and slot corners?"
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_astra_build\\A040921E\\A040921E_ir.sldprt",
+    "sw_bbox_ok": true,
+    "sw_volume_ok": true,
+    "sw_features": {
+      "F001": "built",
+      "F002": "built (2 edges selected by nearest point)",
+      "F003": "built",
+      "F004": "skipped (unresolved: What size and method of edge break are required for the remaining sharp outside and slot corners?)"
+    }
+  },
+  {
+    "part": "SB11780",
+    "gate1": "OK",
+    "unresolved": [
+      "F003",
+      "F004"
+    ],
+    "reference_step": "output\\ir_astra_build\\SB11780\\reference.step",
+    "volume": 361.583595,
+    "cq_skipped": {
+      "F003": "unresolved: What exact neck-root radius is required? The drawing specifies only a maximum.",
+      "F004": "unresolved: Does C/R require a chamfer or a radius at the two outside end edges? Resolve the treatment before execution."
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_astra_build\\SB11780\\SB11780_ir.SLDPRT",
+    "sw_bbox_ok": true,
+    "sw_volume_ok": true,
+    "sw_features": {
+      "F001": "built",
+      "F002": "built",
+      "F003": "skipped (unresolved: What exact neck-root radius is required? The drawing specifies only a maximum.)",
+      "F004": "skipped (unresolved: Does C/R require a chamfer or a radius at the two outside end edges? Resolve the treatment before execution.)"
+    }
+  }
+]

@@ -368,6 +368,21 @@ fixtures.
 - **Rule:** select topology by geometry (nearest entity), never by a view-dependent pick.
   Verify every feature against the reference volume, and undo and retry flipped on a mismatch.
 
+## E019 — Cuts ending exactly on a surface: fine in CadQuery, rejected by SolidWorks
+
+- **Date:** 2026-10-04 · **Parts:** A040921E slot, SB11780 keyway (GPT-6 Astra plans) · **Stage:**
+  IR SolidWorks compiler, per-feature volume check
+- **Symptom:** "no direction matched the reference volume" on one cut per part. The CadQuery
+  reference built both cuts fine.
+- **Root cause:** the planned cut profile ended EXACTLY on the outer surface: slot height `D001/2`
+  touching the OD, and keyway depth reaching the OD tangent with its length ending on both end
+  faces. OpenCascade tolerates zero-thickness coincident/tangent boundaries; SolidWorks rejects them.
+- **Fix:** planner rule "CUTS MUST OVERSHOOT": a cut meant to break through a surface extends past
+  it using a larger existing dimension (or depth `thru`). Only the overshoot leaves the part, so the
+  geometry is unchanged. Re-planned, both parts build and verify.
+- **Rule:** a through-cut never ends on the surface it breaks. (Candidate deterministic Gate-1
+  lint: flag cut extents that coincide with the base envelope.)
+
 **Also noted (not a failure):** on the SW 2025 default part template, a sketch on "Front
 Plane" maps to model Y-Z (extrusion along X). Geometry relative to the sketch is
 correct. Scorers must project along each hole's axis rather than assume model XY.

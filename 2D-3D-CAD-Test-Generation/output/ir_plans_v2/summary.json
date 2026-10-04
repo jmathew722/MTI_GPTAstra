@@ -1,0 +1,65 @@
+[
+  {
+    "part": "A040911E",
+    "attempts": 2,
+    "error": "",
+    "cost_usd_budget_rate": 0.4499,
+    "findings": [],
+    "score": {
+      "features": 7,
+      "unresolved": [],
+      "gate1_errors": [],
+      "compiled": true,
+      "iou": 0.9989,
+      "alignment": [
+        false,
+        -1,
+        1,
+        1
+      ],
+      "volume_err": 0.0011,
+      "bbox_err": 0.0,
+      "holes_matched": 5,
+      "holes_missing": 0,
+      "holes_extra": 0,
+      "holes_expected": 5,
+      "cq_skipped": []
+    }
+  },
+  {
+    "part": "SB11780",
+    "attempts": 1,
+    "error": "",
+    "cost_usd_budget_rate": 0.2016,
+    "findings": [
+      "error:unresolved:F003",
+      "error:unresolved:F004"
+    ],
+    "score": {
+      "features": 4,
+      "unresolved": [
+        "F003",
+        "F004"
+      ],
+      "gate1_errors": [],
+      "compiled": true,
+      "iou": 0.9862,
+      "alignment": [
+        false,
+        1,
+        -1,
+        1
+      ],
+      "volume_err": -0.0007,
+      "bbox_err": 0.0101,
+      "holes_matched": 0,
+      "holes_missing": 0,
+      "holes_extra": 0,
+      "holes_expected": 0,
+      "cq_skipped": [
+        "F003",
+        "F004"
+      ]
+    }
+  }
+]

@@ -1,0 +1,233 @@
+{
+  "dims": {
+    "D001": 0.218,
+    "D002": 0.781,
+    "D003": 0.781,
+    "D004": 1.562,
+    "D005": 1.971,
+    "D006": 1.781,
+    "D007": 0.375,
+    "D008": 0.19,
+    "D009": 1.938,
+    "D010": 0.686,
+    "D011": 1.0,
+    "D012": 0.015,
+    "D013": 0.03,
+    "D014": 45.0,
+    "D015": 0.06,
+    "D016": 45.0,
+    "D017": 0.094,
+    "D018": 1.406,
+    "D019": 0.969,
+    "D020": 0.188,
+    "D021": 1.75
+  },
+  "reference_ids": [
+    "D004",
+    "D005"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-11033",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "+Z",
+        "section A-A": "axis +Z points right; z=0 at pilot free end"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the solid pilot, flange and shaft as one stepped body; section hatching confirms there is no axial bore. Use controlling lengths rather than the reference overall length.",
+        "source_callouts": [
+          ".6860 DIA. +.0000/-.0010",
+          ".190",
+          "1.938 DIA.",
+          ".375",
+          "1.000 DIA.",
+          "1.781",
+          "1.971 REF."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D010 / 2"
+          },
+          {
+            "z": "D008",
+            "r": "D010 / 2"
+          },
+          {
+            "z": "D008",
+            "r": "D009 / 2"
+          },
+          {
+            "z": "D008 + D007",
+            "r": "D009 / 2"
+          },
+          {
+            "z": "D008 + D007",
+            "r": "D011 / 2"
+          },
+          {
+            "z": "D008 + D006",
+            "r": "D011 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Apply the specified concave radius at the shaft-to-flange shoulder.",
+        "source_callouts": [
+          ".094 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D017",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D008 + D007),wall(F001,D011 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "The three leader branches identify the pilot free-end rim and both flange outer rims.",
+        "source_callouts": [
+          ".03 x 45\u00b0 CHAM."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D013",
+        "angle": "D014",
+        "edges": [
+          "edge_between(face(F001,-Z,0),wall(F001,D010 / 2))",
+          "edge_between(face(F001,-Z,D008),wall(F001,D009 / 2))",
+          "edge_between(face(F001,+Z,D008 + D007),wall(F001,D009 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Chamfer the shaft free-end circumference.",
+        "source_callouts": [
+          ".06 x 45\u00b0 CHAM."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D015",
+        "angle": "D016",
+        "edges": [
+          "edge_between(face(F001,+Z,D008 + D006),wall(F001,D011 / 2))"
+        ]
+      },
+      {
+        "id": "F005",
+        "rationale": "Drill the right-hand flange hole at the controlling radial offset, using axis-centered global coordinates.",
+        "source_callouts": [
+          ".218 DRILL THRU",
+          "4-HLS. EQUALLY SPACED",
+          ".781 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z,D008 + D007)",
+        "u": "D002",
+        "v": "0",
+        "spec": {
+          "type": "thru",
+          "d": "D001",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Repeat the seed at the four cardinal positions. D002 and D003 give equal nominal radial offsets; D004 is the reference bolt-circle diameter.",
+        "source_callouts": [
+          "4-HLS. EQUALLY SPACED",
+          ".781 \u00b1.005",
+          "1.562 DIA. REF. B.C."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F005",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "90",
+        "skip": []
+      },
+      {
+        "id": "F007",
+        "rationale": "What nominal pilot-to-flange root radius should be modeled? The drawing specifies only a maximum.",
+        "source_callouts": [
+          ".015 MAX. R."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D012",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D008),wall(F001,D010 / 2))"
+        ]
+      },
+      {
+        "id": "F008",
+        "rationale": "Stamped text on the shaft is outside the available IR primitives; text size, depth, orientation and exact location also require definition.",
+        "source_callouts": [
+          "STAMP- \"SB-11033\""
+        ],
+        "status": "unsupported",
+        "justification": "Zero-size profile and depth are non-geometric placeholders for the printed STAMP- \"SB-11033\" requirement, not proposed marking dimensions. Do not execute this unsupported feature.",
+        "kind": "prism",
+        "on": "wall(F001,D011 / 2)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "0",
+          "h": "0",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "0",
+        "op": "cut"
+      }
+    ],
+    "notes": [
+      "The full-sheet title block identifies WORK BACKUP, tool SB-11033, model AMF WELDER; use with SB-11031.",
+      "Dimensions are explicitly in inches; third-angle projection. Title-block general tolerances: 2-place dimensions \u00b1.020, 3-place dimensions \u00b1.010. The angular tolerance value is not legible; do not invent it. Explicit dimension tolerances take precedence.",
+      "Material requirement: MAT'L. ~ 4150 H.T. R/C 40-45.",
+      "D008 + D006 agrees with reference overall length D005. Shaft projection is D006 - D007; the extracted D018 is derived, not an independent dimension.",
+      "The four-hole circular pattern satisfies both controlling nominal offsets D002 and D003. Do not use the extraction's corner-referenced D019\u2013D021 coordinates with this axis-end frame.",
+      "The unresolved MAX-radius feature must not be executed as an exact .015 fillet without approval."
+    ]
+  }
+}

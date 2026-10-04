@@ -1,0 +1,115 @@
+[
+  {
+    "part": "SB11780",
+    "attempts": 1,
+    "error": "",
+    "cost_usd_budget_rate": 0.1985,
+    "findings": [
+      "error:unresolved:F003",
+      "error:unresolved:F004"
+    ],
+    "score": {
+      "features": 4,
+      "unresolved": [
+        "F003",
+        "F004"
+      ],
+      "gate1_errors": [],
+      "compiled": true,
+      "iou": 0.9862,
+      "alignment": [
+        false,
+        1,
+        -1,
+        1
+      ],
+      "volume_err": -0.0007,
+      "bbox_err": 0.0101,
+      "holes_matched": 0,
+      "holes_missing": 0,
+      "holes_extra": 0,
+      "holes_expected": 0,
+      "cq_skipped": [
+        "F003",
+        "F004"
+      ]
+    }
+  },
+  {
+    "part": "SB11033",
+    "attempts": 1,
+    "error": "",
+    "cost_usd_budget_rate": 0.215,
+    "findings": [
+      "error:unresolved:F007",
+      "info:unsupported:F008"
+    ],
+    "score": {
+      "features": 8,
+      "unresolved": [
+        "F007"
+      ],
+      "gate1_errors": [],
+      "compiled": true,
+      "iou": 0.9996,
+      "alignment": [
+        true,
+        1,
+        1,
+        1
+      ],
+      "volume_err": -0.0004,
+      "bbox_err": 0.0,
+      "holes_matched": 4,
+      "holes_missing": 0,
+      "holes_extra": 0,
+      "holes_expected": 4,
+      "cq_skipped": [
+        "F007",
+        "F008"
+      ]
+    }
+  },
+  {
+    "part": "A040911E",
+    "attempts": 2,
+    "error": "",
+    "cost_usd_budget_rate": 0.4417,
+    "findings": [
+      "error:unresolved:F003",
+      "error:unresolved:F004",
+      "error:unresolved:F005",
+      "error:unresolved:F007"
+    ],
+    "score": {
+      "features": 7,
+      "unresolved": [
+        "F003",
+        "F004",
+        "F005",
+        "F007"
+      ],
+      "gate1_errors": [],
+      "compiled": true,
+      "iou": 0.9822,
+      "alignment": [
+        false,
+        1,
+        1,
+        1
+      ],
+      "volume_err": 0.0181,
+      "bbox_err": 0.0,
+      "holes_matched": 1,
+      "holes_missing": 4,
+      "holes_extra": 0,
+      "holes_expected": 5,
+      "cq_skipped": [
+        "F003",
+        "F004",
+        "F005",
+        "F007"
+      ]
+    }
+  }
+]

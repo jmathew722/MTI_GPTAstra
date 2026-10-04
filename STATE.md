@@ -271,6 +271,29 @@ Still open (fix when touched):
 
 ## 4. Next phase — decided 2026-09-28 (designs written, no code yet)
 
+### 4.1 Feature IR v2 status (2026-10-04)
+
+**Model decision: GPT-6 Astra only. No Opus-vs-Astra benchmark** (user decision, PRD updated).
+
+Astra *plans* each dev part from the drawing images plus its extraction, and the plan is
+compiled to a CadQuery reference and then to native SolidWorks (`python ir_plan.py <parts>`,
+`python ir_build.py output/ir_plans*/<P>/plan.json --solidworks`):
+
+| Dev part | IoU vs golden plan | Holes | Unresolved (human questions) | SolidWorks (verified per feature) | Planner cost |
+|---|---|---|---|---|---|
+| SB11033 | **0.9996** | 4/4 | 1 (.015 MAX R) | ✅ | $0.22 |
+| A040911E | **0.9989** | 5/5 | 0 | ✅ | $0.45 |
+| A040921E | **0.997** | — | 1 (.09 TYP edges) | ✅ | $0.17 |
+| SB11780 | 0.986 | — | 2 (R MAX, C/R) | ✅ | $0.21 |
+
+- **Astra's planner corrected the misread extraction on SB11033** by reading the section view:
+  no bore, Ø1.000 boss.
+- **Open drawing question for MTI:** does SB11780's keyway run end to end (Astra) or only along the
+  body between the necks (golden plan)? That one call is the whole IoU gap.
+- **Prompt policy learned on dev parts:** standard fastener and tap-drill sizes and drawn symmetry are
+  *grounded*, so they're planned and flagged, not unresolved; through-cuts overshoot (E019).
+- **API spend to date:** $6.66 of the $20 cap.
+
 ### 4.0 What today's results mean for the PRD (2026-10-04, for discussion)
 
 1. **Held-out contamination (C4). Needs a decision.** The PRD's *proposed* held-out set

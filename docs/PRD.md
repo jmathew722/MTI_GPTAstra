@@ -62,6 +62,9 @@ Measured results on the five parts built to `.SLDPRT` (June 18, 2026):
 > - **Remaining failures** trace to six root causes (R1–R6). The largest, R2, is
 >   geometry the current schema can't express. That is the case for sub-project A.
 > - A **hard $20 API budget guard** now applies to every paid call.
+> - **Decision (2026-10-04, ggould): GPT-6 Astra only.** Published CAD benchmarks already show
+>   Astra ahead, so the Opus-vs-Astra comparison (C3/C5, Goal 5) is dropped. The benchmark
+>   machinery remains for measuring *this pipeline* against MTI reference STEP.
 
 Where it breaks (as of June 2026):
 

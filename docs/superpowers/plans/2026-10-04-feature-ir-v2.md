@@ -120,4 +120,10 @@ the dev set.
   verified live (error log E018). **All 5 golden plans build natively and match the
   reference.** Not yet: non-hole patterns, slot/polygon profiles, side-plane prisms in SW;
   VBA emission from the IR.
-- [ ] Task 7 · [ ] Task 8
+- [x] Task 7 planner (`pipeline/planner.py`, `ir_plan.py`): **GPT-6 Astra only** (decision
+  2026-10-04: no model benchmark; Anthropic path removed). Repair loop on schema/Gate-1 errors;
+  budget guard + token ledger. Prompt policies learned on dev parts: grounded-not-printed
+  (standards, drawn symmetry), cuts overshoot (E019), trust the drawing over the extraction.
+  Dev results vs golden: SB11033 IoU 0.9996, A040911E 0.9989 (5/5 holes), A040921E 0.997,
+  SB11780 0.986 (keyway length: open question). All four build in SolidWorks, verified per feature.
+- [ ] Task 8

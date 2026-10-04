@@ -1,0 +1,221 @@
+{
+  "dims": {
+    "D001": 6.498,
+    "D002": 4.5,
+    "D003": 2.875,
+    "D004": 1.438,
+    "D005": 2.49,
+    "D006": 2.75,
+    "D007": 0.38,
+    "D008": 0.25,
+    "D009": 1.5,
+    "D010": 0.06,
+    "D011": 45.0,
+    "D012": 0.001,
+    "D013": 0.001,
+    "D014": 1.998,
+    "D015": 0.999,
+    "D016": 1.12,
+    "D020": 2.49,
+    "D021": 2.75,
+    "D022": 3.249
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "4091-B BEARING",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "side": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the annular bearing with the concentric through bore shown in section.",
+        "source_callouts": [
+          "6.498 DIA +.000/-.002",
+          "4.500 DIA +.003/-.000",
+          "1.500"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D009",
+            "r": "D001 / 2"
+          }
+        ],
+        "inner": [
+          {
+            "z": "0",
+            "r": "D002 / 2"
+          },
+          {
+            "z": "D009",
+            "r": "D002 / 2"
+          }
+        ],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Chamfer the four main ring edges explicitly shown in section, not the small-hole edges.",
+        "source_callouts": [
+          ".06 x 45\u00b0 TYP."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D010",
+        "angle": "D011",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D001 / 2))",
+          "edge_between(face(F001,+Z),wall(F001,D001 / 2))",
+          "edge_between(face(F001,-Z),wall(F001,D002 / 2))",
+          "edge_between(face(F001,+Z),wall(F001,D002 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Upper through clearance hole counterbored from the front face, the left end in section.",
+        "source_callouts": [
+          "DR. & C'BORE .28 DP. FOR .250 SOC. HD. CAP SCR. 3-HLS.",
+          "2.875 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "The supplied ASME B18.3 normal-fit SHCS chart gives .281 drill and .438 counterbore for the D008 .250 screw. The full-sheet callout reads .28 DP., overriding extracted D007=.38 and the chart default depth.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "0",
+        "v": "D003",
+        "spec": {
+          "type": "cbore",
+          "d": "0.281",
+          "depth": "D009",
+          "cbore_d": "0.438",
+          "cbore_depth": "0.28",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F004",
+        "rationale": "Lower-left counterbored through hole located by the printed Cartesian dimensions.",
+        "source_callouts": [
+          "DR. & C'BORE .28 DP. FOR .250 SOC. HD. CAP SCR. 3-HLS.",
+          "2.490 \u00b1.005",
+          "1.438 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "The supplied ASME B18.3 normal-fit SHCS chart gives .281 drill and .438 counterbore for the D008 .250 screw. The full-sheet .28 DP. overrides extracted D007=.38.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D005",
+        "v": "-D004",
+        "spec": {
+          "type": "cbore",
+          "d": "0.281",
+          "depth": "D009",
+          "cbore_d": "0.438",
+          "cbore_depth": "0.28",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Lower-right counterbored through hole mirrors the lower-left about the vertical centerline.",
+        "source_callouts": [
+          "DR. & C'BORE .28 DP. FOR .250 SOC. HD. CAP SCR. 3-HLS.",
+          "2.490 \u00b1.005",
+          "1.438 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Depicted symmetry establishes x=+D005, y=-D004. The supplied ASME B18.3 normal-fit SHCS chart gives .281 drill and .438 counterbore for the D008 .250 screw. The full-sheet .28 DP. overrides extracted D007=.38.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D005",
+        "v": "-D004",
+        "spec": {
+          "type": "cbore",
+          "d": "0.281",
+          "depth": "D009",
+          "cbore_d": "0.438",
+          "cbore_depth": "0.28",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Left equatorial blind tapped hole specified by the full-sheet callout omitted from the crop extraction.",
+        "source_callouts": [
+          ".375-16 TAP 1.00 DP. 2-HLS.",
+          "2.75"
+        ],
+        "status": "planned",
+        "justification": "The full-sheet callout supplies the unextracted 1.00-inch depth and .375-16 thread. Standard tap drill for 3/8-16 UNC is 5/16 inch (.3125). Threads are cosmetic; no additional drill overtravel is inferred.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D006",
+        "v": "0",
+        "spec": {
+          "type": "tapped",
+          "d": "0.3125",
+          "depth": "1.00",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "3/8-16 UNC"
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Right equatorial blind tapped hole mirrors the left across the vertical centerline.",
+        "source_callouts": [
+          ".375-16 TAP 1.00 DP. 2-HLS.",
+          "2.75"
+        ],
+        "status": "planned",
+        "justification": "The front view depicts the pair at x=\u00b1D006. The full-sheet callout supplies the unextracted 1.00-inch depth and .375-16 thread. Standard tap drill for 3/8-16 UNC is 5/16 inch (.3125). Threads are cosmetic; no extra drill overtravel is inferred.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D006",
+        "v": "0",
+        "spec": {
+          "type": "tapped",
+          "d": "0.3125",
+          "depth": "1.00",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "3/8-16 UNC"
+        }
+      }
+    ],
+    "notes": [
+      "Drawing title BEARING, number 4091-B, model 100TFW; extraction identifier A040911E. Material AMPCO #18 BRONZE.",
+      "Origin is the bore-axis intersection with the counterbored face, at the left in section; the body extends toward +Z.",
+      "The full sheet specifies inches and third-angle projection. General tolerances: 2-place \u00b1.02, 3-place \u00b1.010, angular \u00b11\u00b0; specific tolerances override these.",
+      "Datum A is the bore axis. D012 OD concentricity .001 and D013 rear-face perpendicularity .001 are inspection requirements, not solid features. Surface finishes 63 and 125 likewise remain manufacturing annotations.",
+      "The counterbore depth is read as .28 on the full sheet, correcting D007=.38; verify that transcription during drawing review.",
+      "Keep the printed Cartesian hole positions rather than imposing an exact circular pattern. Tapped holes use nominal cylindrical tap-drill geometry; drill points and extra drilling allowance are not specified."
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "part": "A040911E",
+  "attempts": 2,
+  "error": "",
+  "cost_usd_budget_rate": 0.4417,
+  "findings": [
+    "error:unresolved:F003",
+    "error:unresolved:F004",
+    "error:unresolved:F005",
+    "error:unresolved:F007"
+  ],
+  "score": {
+    "features": 7,
+    "unresolved": [
+      "F003",
+      "F004",
+      "F005",
+      "F007"
+    ],
+    "gate1_errors": [],
+    "compiled": true,
+    "iou": 0.9822,
+    "alignment": [
+      false,
+      1,
+      1,
+      1
+    ],
+    "volume_err": 0.0181,
+    "bbox_err": 0.0,
+    "holes_matched": 1,
+    "holes_missing": 4,
+    "holes_extra": 0,
+    "holes_expected": 5,
+    "cq_skipped": [
+      "F003",
+      "F004",
+      "F005",
+      "F007"
+    ]
+  }
+}

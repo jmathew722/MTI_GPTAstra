@@ -1,0 +1,35 @@
+{
+  "part": "SB11033",
+  "attempts": 1,
+  "error": "",
+  "cost_usd_budget_rate": 0.215,
+  "findings": [
+    "error:unresolved:F007",
+    "info:unsupported:F008"
+  ],
+  "score": {
+    "features": 8,
+    "unresolved": [
+      "F007"
+    ],
+    "gate1_errors": [],
+    "compiled": true,
+    "iou": 0.9996,
+    "alignment": [
+      true,
+      1,
+      1,
+      1
+    ],
+    "volume_err": -0.0004,
+    "bbox_err": 0.0,
+    "holes_matched": 4,
+    "holes_missing": 0,
+    "holes_extra": 0,
+    "holes_expected": 4,
+    "cq_skipped": [
+      "F007",
+      "F008"
+    ]
+  }
+}
