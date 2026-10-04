@@ -1,6 +1,6 @@
 # STATE.md — where mti-2d-3d stands
 
-**Last updated:** 2026-09-28 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
+**Last updated:** 2026-10-04 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
 > **Status: preliminary.** Everything in the next-phase sections (§4, §5) is design
@@ -43,6 +43,15 @@
 | Batch triage CSV | `pipeline/batch.py` | Working |
 | Test suite (10 files, golden macro snapshots) | `tests/` | **188 passing** (2026-10-01, Windows, Python 3.13) |
 | Per-completion token & cost tracking + report/dashboard | `pipeline/token_tracker.py`, `pipeline/token_report.py`, `config/pricing.json` | Working; wired into extraction. Planner/auditor/Jev record through the same API when built |
+
+### Dev machine (2026-10-04)
+
+Python 3.13 venv at `.venv` (via `uv`); **195 tests pass**. SolidWorks here is
+**2025 SP5** (`D:\SOLIDWORKS`, rev 33.5), not 2024. The COM build works after fixing the
+pinned constants typelib (error log E011): SB11033 rebuilt with the same result as in June.
+Extraction now runs through `EXTRACTION_PROVIDER` (default **openai**, model `gpt-6-astra`)
+via `pipeline/openai_adapter.py`; not yet exercised against the live OpenAI API.
+Direct-OpenAI `gpt-6-astra` price in `config/pricing.json` is still `null` (rows show as unpriced).
 
 ## 2. Part inventory
 

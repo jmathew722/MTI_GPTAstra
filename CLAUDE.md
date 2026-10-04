@@ -6,7 +6,7 @@ rule here turns out wrong, fix it here in the same change.
 ## What this project is
 
 AI pipeline that turns a 2D engineering drawing (PDF/PNG, one or several
-orthographic views) into a parametric **SolidWorks 2024** part for MTI
+orthographic views) into a parametric **SolidWorks** part (written for 2024, verified on 2025 SP5) for MTI
 (iNDustry Labs / AILOT). The hard problem is not reading dimensions — it is
 **relative placement**: putting every feature in the right place, on the right
 face, referenced from the right datum.
@@ -57,7 +57,7 @@ python main.py --drawing <file> --validate-only --debug      # extract + verify,
 python main.py --from-json output/<P>/<P>_extraction.json    # regenerate macros, no API cost
 python main.py --views-folder <dir> --output ./output        # multi-view parts
 python run_models.py <folder> --output ./output              # COM build, Windows + SW2024 only
-python -m pytest tests/ -v                                   # tests (188 passing as of 2026-10-01)
+python -m pytest tests/ -v                                   # tests (195 passing as of 2026-10-04)
 UPDATE_GOLDEN=1 python -m pytest tests/test_golden_macros.py # accept an intended macro change
 python -m pipeline.token_report ./output --html output/usage/usage_report.html  # token & cost report
 ```
@@ -68,8 +68,9 @@ attempt, tokens, latency, cost). Prices live in `config/pricing.json` (per provi
 and model, with `as_of` and `source`). A `null` price makes the row *unpriced*; it
 is never guessed. Use `--reprice` after filling one in.
 
-Env vars: `ANTHROPIC_API_KEY` (required), `EXTRACTION_MODEL` (default
-`claude-sonnet-4-6`), `EXTRACTION_CONFIDENCE_THRESHOLD`, `MAX_IMAGE_LONG_EDGE`
+Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KEY`
+(required for openai) / `ANTHROPIC_API_KEY` (required for anthropic), `EXTRACTION_MODEL`
+(default `gpt-6-astra` / `claude-sonnet-4-6`), `EXTRACTION_CONFIDENCE_THRESHOLD`, `MAX_IMAGE_LONG_EDGE`
 (2576), `MACRO_READINESS_THRESHOLD`, `SOLIDWORKS_TEMPLATE_PATH`. Never commit `.env`.
 
 ## Hard rules (learned the hard way — see docs/solidworks-macro-error-log.md)

@@ -307,3 +307,94 @@ class TestTokenTrackerIntegration:
         patch_client([tool_response(make_drawing_dict(0.95))])
         extract_drawing_data("ZmFrZQ==")
         assert not list(tmp_path.glob("**/*.jsonl"))
+
+
+# --- OpenAI backend (Responses API) ------------------------------------------ #
+class TestOpenAIAdapter:
+    def _resp(self, args, refusal=None, reasoning=True):
+        from types import SimpleNamespace as NS
+
+        def dump(d):
+            return lambda exclude_none=True: d
+
+        out = []
+        if reasoning:
+            out.append(NS(type="reasoning", model_dump=dump({"type": "reasoning", "id": "rs_1", "summary": []})))
+        if args is not None:
+            out.append(NS(type="function_call", call_id="call_1", name="report_drawing_data", arguments=args,
+                          model_dump=dump({"type": "function_call", "call_id": "call_1"})))
+        if refusal:
+            out.append(NS(type="message", content=[NS(type="refusal", refusal=refusal)]))
+        usage = NS(input_tokens=1000, output_tokens=50, input_tokens_details=NS(cached_tokens=200))
+        return NS(output=out, usage=usage, incomplete_details=None)
+
+    def test_response_becomes_tool_use_block(self):
+        from pipeline.openai_adapter import _convert_response
+        r = _convert_response(self._resp('{"a": 1}'))
+        assert r.stop_reason == "tool_use"
+        tool = [b for b in r.content if b.type == "tool_use"][0]
+        assert tool.input == {"a": 1} and tool.id == "call_1"
+
+    def test_usage_normalizes_with_cached_tokens(self):
+        from pipeline.openai_adapter import _convert_response
+        from pipeline.token_tracker import normalize_usage
+        n = normalize_usage(_convert_response(self._resp("{}")))
+        assert (n["input_tokens"], n["cache_read_tokens"], n["output_tokens"]) == (800, 200, 50)
+
+    def test_refusal_maps_to_refusal_stop_reason(self):
+        from pipeline.openai_adapter import _convert_response
+        assert _convert_response(self._resp(None, refusal="no")).stop_reason == "refusal"
+
+    def test_reasoning_items_are_replayed_and_open_calls_answered(self):
+        from types import SimpleNamespace as NS
+        from pipeline.openai_adapter import _convert_input, _convert_response
+        resp = _convert_response(self._resp('{"x": 1}'))
+        msgs = [
+            {"role": "user", "content": [
+                {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": "QQ=="},
+                 "cache_control": {"type": "ephemeral"}},
+                {"type": "text", "text": "go"}]},
+            {"role": "assistant", "content": resp.content},
+            # multi-view re-query: user turn WITHOUT a tool_result
+            {"role": "user", "content": [{"type": "text", "text": "again"}]},
+        ]
+        items = _convert_input(msgs)
+        kinds = [i.get("type") or i.get("role") for i in items]
+        assert kinds == ["user", "reasoning", "function_call", "function_call_output", "user"]
+        assert items[0]["content"][0]["image_url"].startswith("data:image/png;base64,")
+        assert items[3]["call_id"] == "call_1"
+        assert "cache_control" not in str(items)
+
+    def test_forced_tool_choice_rejection_falls_back_to_auto(self):
+        import openai
+        from types import SimpleNamespace as NS
+        from pipeline.openai_adapter import _Messages
+        calls = []
+
+        class Responses:
+            def create(self, **kw):
+                calls.append(kw["tool_choice"])
+                if len(calls) == 1:
+                    raise openai.BadRequestError(
+                        "tool_choice not supported", response=NS(request=None, status_code=400, headers={}),
+                        body=None)
+                return TestOpenAIAdapter()._resp("{}")
+
+        tool = {"name": "report_drawing_data", "input_schema": {"type": "object"}}
+        r = _Messages(NS(responses=Responses())).create(
+            model="m", max_tokens=10, system="s", tools=[tool],
+            messages=[{"role": "user", "content": "hi"}],
+            tool_choice={"type": "tool", "name": "report_drawing_data"})
+        assert calls[1] == "auto" and r.stop_reason == "tool_use"
+
+    def test_missing_openai_key_is_clear(self, monkeypatch):
+        monkeypatch.setenv("EXTRACTION_PROVIDER", "openai")
+        monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+        monkeypatch.delenv("OPEN_API_KEY", raising=False)
+        with pytest.raises(EnvironmentError, match="OPENAI_API_KEY"):
+            extractor._build_client(3)
+
+    def test_unknown_provider_rejected(self, monkeypatch):
+        monkeypatch.setenv("EXTRACTION_PROVIDER", "nope")
+        with pytest.raises(EnvironmentError, match="EXTRACTION_PROVIDER"):
+            extractor._provider()

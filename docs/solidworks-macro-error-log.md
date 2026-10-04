@@ -245,6 +245,19 @@ fixtures.
   readiness* percentage (`compute_readiness`). Advisory by default; set
   `MACRO_READINESS_THRESHOLD` (e.g. `0.95`) to hard-gate low-readiness drawings.
 
+## E011 — COM connect fails on SolidWorks 2025: constants type library pinned to 2024
+
+- **Date:** 2026-10-04 · **Part:** SB11033 (smoke test) · **Stage:** COM build, `connect_to_solidworks`
+- **Symptom:** `SolidWorksError: ... 'Library not registered.'` before any part is created.
+- **Root cause:** `_SW_CONST_TYPELIB` hard-coded major version 20. The constants
+  typelib registers one version per release, keyed in **hex** (SolidWorks 2025 =
+  `21.0` = 33 decimal), so the 2024 value does not exist on a 2025 install.
+- **Fix:** `_ensure_constants_typelib` tries majors (34, 33, 32, 20) newest first.
+- **Rule:** never pin a SolidWorks type-library version; probe for it.
+- **Result:** after the fix SB11033 builds on SW 2025 (33.5) identically to the
+  2026-06-18 run: F001/F002/F003 built, F005/F006 chamfer and F007 fillet skipped (known, §3.2).
+- **Test:** none (needs a live SolidWorks); verified by the smoke build above.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `FullyDefineSketch` argument shape varies by SW version — currently wrapped

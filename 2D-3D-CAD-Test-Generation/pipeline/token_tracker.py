@@ -196,6 +196,8 @@ class TokenTracker:
         self.ledger_path = Path(ledger_path)
         self.pricing = pricing if pricing is not None else Pricing.load()
         self.run_id = run_id or _new_run_id()
+        self.running_cost = 0.0   # priced rows only, this tracker's lifetime
+        self.running_unpriced = 0
 
     @contextmanager
     def activate(self, **fields: Any) -> Iterator["TokenTracker"]:
@@ -235,7 +237,24 @@ class TokenTracker:
             **tokens,
         )
         self._append(rec)
+        self._announce(rec)
         return rec
+
+    def _announce(self, rec: UsageRecord) -> None:
+        """One live console line per completion, with the running total."""
+        if rec.priced:
+            self.running_cost += rec.cost_usd or 0.0
+        else:
+            self.running_unpriced += 1
+        if rec.cache_hit:
+            log.info("[usage] %s %s: cache hit, $0", rec.role, rec.part or "-")
+            return
+        cost = f"${rec.cost_usd:.4f}" if rec.priced else "unpriced"
+        total = f"${self.running_cost:.4f}" + (
+            f" (+{self.running_unpriced} unpriced)" if self.running_unpriced else "")
+        log.info("[usage] %s %s %s: in=%d out=%d cache_rd=%d -> %s | run total %s",
+                 rec.role, rec.part or "-", rec.model, rec.input_tokens, rec.output_tokens,
+                 rec.cache_read_tokens, cost, total)
 
     def _append(self, rec: UsageRecord) -> None:
         try:

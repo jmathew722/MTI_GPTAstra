@@ -112,10 +112,27 @@ def _const(name: str, default: Optional[int] = None) -> int:
     return default
 
 
-# SOLIDWORKS 2024 Constant type library — loading this by CLSID/version populates
+# SOLIDWORKS Constant type library — loading this by CLSID/version populates
 # win32com.client.constants with the swConst enums (swDocPART, swSketchSegment_*, etc.)
-# without needing GetTypeInfo() on a live SolidWorks object.
-_SW_CONST_TYPELIB = ("{4687F359-55D0-4CD3-B6CF-2EB42C11F989}", 0, 20, 0)
+# without needing GetTypeInfo() on a live SolidWorks object. The major version
+# tracks the release and the registry shows it in hex (SolidWorks 2025 registers as
+# "21.0" = 33 decimal); newest first, first one registered wins. 20 is the value the
+# generator was originally written against (2024).
+_SW_CONST_TYPELIB_GUID = "{4687F359-55D0-4CD3-B6CF-2EB42C11F989}"
+_SW_CONST_TYPELIB_MAJORS = (34, 33, 32, 20)
+
+
+def _ensure_constants_typelib(gencache) -> None:
+    last: Exception | None = None
+    for major in _SW_CONST_TYPELIB_MAJORS:
+        try:
+            gencache.EnsureModule(_SW_CONST_TYPELIB_GUID, 0, major, 0)
+            log.info("Loaded SolidWorks constants type library %d.0", major)
+            return
+        except Exception as e:  # not registered on this install: try the next version
+            last = e
+    raise SolidWorksError(f"No SolidWorks constants type library found (tried majors "
+                          f"{_SW_CONST_TYPELIB_MAJORS}): {last}")
 
 
 def connect_to_solidworks():
@@ -141,7 +158,7 @@ def connect_to_solidworks():
     from win32com.client import gencache  # type: ignore
 
     pythoncom.CoInitialize()
-    gencache.EnsureModule(*_SW_CONST_TYPELIB)
+    _ensure_constants_typelib(gencache)
 
     sw_app = None
     try:
