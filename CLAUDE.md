@@ -57,10 +57,16 @@ python main.py --drawing <file> --validate-only --debug      # extract + verify,
 python main.py --from-json output/<P>/<P>_extraction.json    # regenerate macros, no API cost
 python main.py --views-folder <dir> --output ./output        # multi-view parts
 python run_models.py <folder> --output ./output              # COM build, Windows + SW2024 only
-python -m pytest tests/ -v                                   # tests (195 passing as of 2026-10-04)
+python -m pytest tests/ -v                                   # tests (228 passing as of 2026-10-04)
 UPDATE_GOLDEN=1 python -m pytest tests/test_golden_macros.py # accept an intended macro change
 python -m pipeline.token_report ./output --html output/usage/usage_report.html  # token & cost report
 ```
+
+API budget: every paid call is checked BEFORE it is sent against a hard cap
+(`API_BUDGET_USD`, default **$20**, across all runs on the machine; ledger
+`usage/budget_ledger.jsonl`). A call whose worst case would cross the cap raises
+`BudgetExceeded` and the run stops with exit code 9 (`pipeline/budget.py`).
+Unpriced models are charged at the highest listed rate, so the cap is conservative.
 
 Token tracking: every model completion is appended to
 `<output>/usage/usage_ledger.jsonl` (role, model, provider, part, arm, gate,
@@ -105,6 +111,12 @@ Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KE
     right after each completion (roles: `extractor`, `planner`, `auditor_reviewer`,
     `jev`, `other`), inside `scope(gate=..., attempt=...)` where relevant. With no
     active tracker it does nothing, so it's always safe to call.
+12. **Every paid call goes through the budget guard:** `budget.preflight(...)`
+    before the request, `budget.charge(...)` after. Never catch `BudgetExceeded`
+    in a per-item loop; it must stop the whole run.
+13. **"Built" means it changed the part.** Check volume after bosses (E013).
+    Never call a selection-based feature (fillet/chamfer) without a verified
+    selection (E012). The validator FAILS a part missing any extracted feature.
 
 ## When a macro fails on a real SolidWorks machine
 

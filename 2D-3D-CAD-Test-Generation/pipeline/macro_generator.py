@@ -43,6 +43,7 @@ Public entry point: :func:`generate_macro_package`.
 from __future__ import annotations
 
 import json
+import math
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -226,6 +227,28 @@ def _effective_spacing(model: DrawingData, h: HoleCallout) -> tuple[float, int]:
     return 0.0, h.qty
 
 
+BOLT_CIRCLE_ANGLE_NOTE = ("ANGLE ASSUMED: bolt-circle holes start at 0 deg (+X); "
+                          "verify the clocking against the drawing.")
+_BOLT_CIRCLE_LABEL = re.compile(r"bolt.?circle|pitch.?circle|\bpcd\b|\bb\.?c\b", re.IGNORECASE)
+
+
+def _bolt_circle_diameter(model: DrawingData, h: HoleCallout) -> Optional[float]:
+    """The bolt/pitch circle DIAMETER for this callout, from a dimension labeled as
+    the bolt circle: a diameter as-is, or a radius (``bolt_circle_radius``, or a
+    radial dim) doubled. Extractors write both forms."""
+    for d in model.dimensions:
+        label = d.applies_to or ""
+        if not _BOLT_CIRCLE_LABEL.search(label):
+            continue
+        if d.feature_ref and d.feature_ref not in (h.id, h.feature_ref):
+            continue
+        if d.type.value == "diameter":
+            return d.value
+        if d.type.value == "radial" or "radius" in label.lower():
+            return 2.0 * d.value
+    return None
+
+
 def _hole_positions(model: DrawingData, h: HoleCallout) -> list[tuple[float, float]]:
     """Instance centers in the DRAWING FRAME (base plate lower-left corner at origin).
 
@@ -244,6 +267,18 @@ def _hole_positions(model: DrawingData, h: HoleCallout) -> list[tuple[float, flo
     length, width = _envelope(model)
     ecx = (length / 2.0) if length else 0.0
     ecy = (width / 2.0) if width else 0.0
+
+    # Bolt circle: radius and count are both read from the drawing, so the
+    # instances are grounded. The part center is the envelope center (the origin
+    # for a round part). The start angle is not dimensioned on a typical callout,
+    # so the first hole sits at 0 deg (+X) - see BOLT_CIRCLE_ANGLE_NOTE.
+    bc = _bolt_circle_diameter(model, h)
+    feat = model.feature_by_id(h.feature_ref) if h.feature_ref else None
+    n = max(h.qty, feat.quantity if feat else 1)
+    if bc and n > 1:
+        r = bc / 2.0
+        return [(ecx + r * math.cos(2 * math.pi * i / n), ecy + r * math.sin(2 * math.pi * i / n))
+                for i in range(n)]
     spacing, qty = _effective_spacing(model, h)
     # A grounded spacing lays out a centered row for linear/unspecified patterns.
     # Circular patterns lack a bolt-circle radius in the schema, so they are left

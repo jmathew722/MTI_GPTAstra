@@ -29,8 +29,11 @@ from typing import Any, Optional, Union
 from dotenv import load_dotenv
 from pydantic import ValidationError
 
+from pipeline import budget
 from pipeline.schema import DrawingData
-from pipeline.token_tracker import normalize_usage, record_cache_hit, record_completion
+from pipeline.token_tracker import (
+    current_scope, normalize_usage, record_cache_hit, record_completion,
+)
 from utils.logger import get_logger
 
 log = get_logger()
@@ -246,6 +249,8 @@ def _call(client, model: str, messages: list[dict[str, Any]]):
     # in a batch — so within the cache window nearly all calls read it at ~10%
     # cost. The image carries its own cache breakpoint (see _image_block).
     system = [{"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}]
+    # Hard spend cap: reserve this call's worst case first (raises BudgetExceeded).
+    budget.preflight(_provider(), model, budget.estimate_input_tokens(system, messages), MAX_TOKENS)
     started = time.perf_counter()
     response = client.messages.create(
         model=model,
@@ -258,6 +263,8 @@ def _call(client, model: str, messages: list[dict[str, Any]]):
     # One ledger row per completion (no-op unless a TokenTracker is active).
     record_completion(response, model=model, provider=_provider(), role="extractor",
                       latency_ms=(time.perf_counter() - started) * 1000)
+    budget.charge(response, _provider(), model, role="extractor",
+                  part=str(current_scope().get("part") or ""))
     return response
 
 

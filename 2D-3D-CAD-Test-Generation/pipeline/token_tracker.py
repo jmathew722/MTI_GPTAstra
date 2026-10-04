@@ -272,6 +272,11 @@ def current_tracker() -> Optional[TokenTracker]:
     return _CTX.get()[0]
 
 
+def current_scope() -> dict:
+    """The active scope tags (part, arm, gate, ...), even with no tracker active."""
+    return dict(_CTX.get()[1])
+
+
 @contextmanager
 def scope(**fields: Any) -> Iterator[None]:
     """Add/override tags (role, gate, attempt, part, arm, ...) for rows recorded inside."""

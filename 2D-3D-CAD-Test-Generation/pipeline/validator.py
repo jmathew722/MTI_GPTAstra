@@ -261,11 +261,27 @@ def _check_pattern_envelopes(model: DrawingData, report: ValidationReport) -> No
                 f"{max_envelope:g} {model.units.value}."
             )
 
+    # Explicit instance positions are the ground truth for a pattern's extent. The
+    # qty x spacing formula assumes ONE straight row, so it calls a 2x2 grid with
+    # 80 pitch a 240-long row (DEMO-PLATE-001, 2026-10-04). Use the real extents.
+    def _positions_for(ref: str) -> list[list[float]]:
+        h = model.hole_callout_by_id(ref) or model.hole_callout_for_feature(ref)
+        return [p for p in (h.instance_positions if h else []) if len(p) == 2]
+
+    def _check_positions(pts: list[list[float]], label: str) -> None:
+        span = max(max(p[i] for p in pts) - min(p[i] for p in pts) for i in (0, 1))
+        _check(span, len(pts), span or 1.0, label)
+
     for h in model.hole_callouts:
-        if h.pattern != PatternKind.NONE:
+        pts = _positions_for(h.id)
+        if len(pts) >= 2:
+            _check_positions(pts, f"hole callout {h.id}")
+        elif h.pattern != PatternKind.NONE:
             span = (h.qty - 1) * h.pattern_spacing
             _check(span, h.qty, h.pattern_spacing, f"hole callout {h.id}")
     for s in model.relationships.equal_spacing:
+        if len(_positions_for(s.feature_ref)) >= 2:
+            continue  # extents already checked from the instance positions above
         span = (s.qty - 1) * s.spacing_value
         _check(span, s.qty, s.spacing_value, f"equal-spacing note for {s.feature_ref}")
 

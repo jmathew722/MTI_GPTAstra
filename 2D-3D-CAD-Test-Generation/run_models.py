@@ -154,7 +154,16 @@ def _planar_pair(feat: dict, data: dict) -> bool:
             labels.add("length")
         if "width" in a:
             labels.add("width")
-    return {"length", "width"} <= labels
+    if {"length", "width"} <= labels:
+        return True
+    # Also accept width/height or length/height pairs (the builder maps them to x/y).
+    from pipeline.schema import Feature
+    from pipeline.solidworks_builder import planar_extents
+    try:
+        model = DrawingData.model_validate(data)
+        return planar_extents(model, Feature.model_validate(feat)) is not None
+    except Exception:
+        return False
 
 
 def _has_depth(feat: dict, data: dict) -> bool:
@@ -261,8 +270,9 @@ def resolve_unknowns(data: dict, part_name: str) -> tuple[list[str], list[str]]:
     for h in data.get("hole_callouts", []):
         if h.get("pattern", "none") != "none":
             decisions.append(
-                f"Hole pattern {h.get('id')} ({h.get('qty')} holes) recorded as a note; holes are "
-                f"NOT auto-placed (bolt-circle position + circular pattern need manual placement)."
+                f"Hole pattern {h.get('id')} ({h.get('qty')} holes): pattern flag cleared for the "
+                f"verification gate. Instances are still placed from instance_positions or a "
+                f"bolt-circle diameter + feature quantity when the drawing grounds them."
             )
             h["pattern"], h["qty"], h["pattern_spacing"] = "none", 1, 0.0
 
@@ -300,6 +310,18 @@ def resolve_unknowns(data: dict, part_name: str) -> tuple[list[str], list[str]]:
             if rev["id"] not in data.get("build_order", []):
                 bo = [rev["id"]]
 
+    # 5b) Features the extractor defined but left out of build_order: slot
+    #     buildable ones back in (cuts/holes before fillets/chamfers) and say so.
+    if rev is None:
+        for f in data.get("features", []):
+            if f["id"] in bo or f.get("type") not in (_BOSS, _CUT, "hole", "pattern", *_FRAGILE):
+                continue
+            first_fragile = next((i for i, fid in enumerate(bo)
+                                  if (_feat(data, fid) or {}).get("type") in _FRAGILE), len(bo))
+            bo.insert(len(bo) if f.get("type") in _FRAGILE else first_fragile, f["id"])
+            decisions.append(f"Feature {f['id']} ({f.get('type')}) was extracted but missing from "
+                             f"build_order; added to the build.")
+
     # 6) Build-order: ensure a solid base feature comes first.
     if bo:
         first = _feat(data, bo[0])
@@ -324,11 +346,17 @@ def resolve_unknowns(data: dict, part_name: str) -> tuple[list[str], list[str]]:
         ftype = feat.get("type")
         if ftype in _FRAGILE:
             continue  # fillets/chamfers degrade to a skip in the builder
+        if ftype == "hole" and _hole_grounded(data, feat):
+            continue  # builder places every instance (pipeline.solidworks_builder.build_hole)
+        seed = _feat(data, feat.get("parent_feature") or "")
+        if (ftype == "pattern" and seed is not None and seed.get("type") == "hole"
+                and _hole_grounded(data, seed)):
+            continue  # realized by the seed hole's instances (builder: _pattern_realized_by_seed)
         if ftype in ("hole", "pattern"):
             bo.remove(fid)
             decisions.append(
-                f"Feature {fid} ({ftype}): drilled/patterned holes are not auto-placed "
-                f"(bolt-circle position + circular pattern need manual placement); omitted."
+                f"Feature {fid} ({ftype}): hole positions are not grounded in the extraction "
+                f"(no instance positions, known position or bolt circle); omitted."
             )
             concerns.append(f"ADD the holes for {fid} manually per the drawing callouts.")
             continue
@@ -402,7 +430,13 @@ def write_report(
     if validation is not None:
         vol = validation.get("volume_mm3")
         bbox = validation.get("bounding_box_mm")
-        add(f"  Model validation:       {'PASSED' if validation.get('ok') else 'completed with issues'}")
+        add(f"  Model validation:       {'PASSED' if validation.get('ok') else 'FAILED'}")
+        comp = validation.get("completeness")
+        if comp:
+            add(f"  Feature completeness:   {comp['built']}/{comp['expected']} built"
+                + (f" (missing {', '.join(comp['missing'])})" if comp["missing"] else ""))
+        for f in validation.get("failed", []):
+            add(f"    FAIL: {f}")
         if vol:
             add(f"  Solid volume:           {vol:,.1f} mm^3")
         if bbox:
@@ -466,6 +500,23 @@ def write_report(
 # --------------------------------------------------------------------------- #
 # Per-part pipeline
 # --------------------------------------------------------------------------- #
+def _hole_grounded(data: dict, feat: dict) -> bool:
+    """True when every instance of a hole feature can be placed from extracted data."""
+    from pipeline.macro_generator import _bolt_circle_diameter
+    from pipeline.schema import HoleCallout
+
+    h = next((h for h in data.get("hole_callouts", []) if h.get("feature_ref") == feat["id"]), None)
+    if h is None:
+        return bool(feat.get("position_known"))
+    if h.get("instance_positions") or (h.get("position_known") and max(h.get("qty", 1), feat.get("quantity", 1)) == 1):
+        return True
+    try:
+        model = DrawingData.model_validate(data)
+        return bool(_bolt_circle_diameter(model, HoleCallout.model_validate(h)))
+    except Exception:
+        return False
+
+
 def process_part(part: PartViews, output_root: Path, sw_app, template_path: str | None) -> dict:
     from pipeline.model_validator import validate_model
     from pipeline.solidworks_builder import build_model
@@ -509,7 +560,7 @@ def process_part(part: PartViews, output_root: Path, sw_app, template_path: str 
             )
             skipped_ids = {s[0] for s in skipped}
             built = [fid for fid in model.build_order if fid not in skipped_ids]
-            validation = validate_model(sw_doc, model)
+            validation = validate_model(sw_doc, model, built_feature_ids=built)
             status = "BUILT"
         except Exception as e:
             concerns.append(f"SolidWorks build raised: {type(e).__name__}: {e}")
@@ -575,5 +626,15 @@ def main() -> int:
     return 0 if n_ok == len(results) else 8
 
 
+def _run_with_budget_stop(fn) -> int:
+    """Run ``fn``; on a spend-cap stop print why and exit 9 (no traceback)."""
+    from pipeline.budget import BudgetExceeded
+    try:
+        return fn()
+    except BudgetExceeded as e:
+        print(f"\n*** STOPPED: {e}", file=sys.stderr)
+        return 9
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(_run_with_budget_stop(main))

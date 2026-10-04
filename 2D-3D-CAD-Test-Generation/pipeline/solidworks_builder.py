@@ -1,4 +1,4 @@
-"""SolidWorks 2024 model builder via the Windows COM API.
+"""SolidWorks model builder via the Windows COM API (written for 2024, verified on 2025 SP5).
 
 WINDOWS ONLY. ``win32com``/``pythoncom`` are imported lazily *inside* functions
 so this module imports cleanly on any platform (macOS/Linux); the Windows-only
@@ -387,164 +387,380 @@ def _solid_body_exists(sw_doc) -> bool:
         return True
 
 
+def _g(obj, name: str):
+    """Read a zero-argument COM member that late binding may expose as either a
+    property or a method (``Feature.GetFaces``, ``Face2.GetEdges``, ...).
+
+    A returned dispatch object is itself "callable" under pywin32, so only call
+    plain bound methods.
+    """
+    value = getattr(obj, name)
+    try:
+        from win32com.client.dynamic import CDispatch  # type: ignore
+    except ImportError:  # pragma: no cover - non-Windows
+        CDispatch = ()  # type: ignore
+    if value is None or isinstance(value, (tuple, list, CDispatch)):
+        return value
+    return value() if callable(value) else value
+
+
+def _m(model: DrawingData, value: float, what: str) -> float:
+    """A drawing-units coordinate in meters (positions may be 0 or negative;
+    ``to_meters`` rejects negatives, so convert the magnitude and restore the sign)."""
+    if not value:
+        return 0.0
+    meters = assert_meters(to_meters(abs(value), model.units.value), what)
+    return meters if value > 0 else -meters
+
+
+def _feature_center(model: Optional[DrawingData], feature: Feature, circular: bool) -> tuple[float, float, bool]:
+    """Sketch anchor in the DRAWING FRAME, meters: ``(x, y, assumed)``.
+
+    Same rules as the VBA path (pipeline/macro_generator.py, error log E003): a
+    known offset is used as-is; an unplaced circle sits at the plate-envelope center
+    (the origin for a round part); an unplaced rectangle has its lower-left corner
+    at the origin. ``assumed`` is True when the position was not read from the drawing.
+    """
+    if model is None:
+        return 0.0, 0.0, not feature.position_known
+    if feature.position_known:
+        return (_m(model, feature.offset_x, f"{feature.id}.offset_x"),
+                _m(model, feature.offset_y, f"{feature.id}.offset_y"), False)
+    if circular:
+        from pipeline.macro_generator import _envelope
+        length, width = _envelope(model)
+        return (_m(model, (length or 0.0) / 2.0, f"{feature.id}.cx"),
+                _m(model, (width or 0.0) / 2.0, f"{feature.id}.cy"), True)
+    return 0.0, 0.0, True
+
+
+def planar_extents(model: DrawingData, feature: Feature) -> Optional[tuple[float, float]]:
+    """The rectangle's (x, y) size in drawing units, from the feature's two in-plane
+    linear dimensions, by canonical label (``pipeline.schema.canonicalize_applies_to``).
+
+    Extractors name the same plate both ways: "length 100 / width 60" (hand) and
+    "overall_width 100 / overall_height 60" (GPT-6 Astra, 2026-10-04). In the view,
+    length or width runs along x when paired with the next one down; height is
+    always vertical (y). Returns None unless exactly one pair is found.
+    """
+    from pipeline.schema import canonicalize_applies_to
+
+    by_token: dict[str, float] = {}
+    for did in feature.related_dimensions:
+        d = model.dimension_by_id(did)
+        if d is None or did == feature.depth_dimension_id or d.type.value != "linear":
+            continue
+        token = canonicalize_applies_to(d.applies_to)
+        if token in ("length", "width", "height"):
+            by_token.setdefault(token, d.value)
+    for x_tok, y_tok in (("length", "width"), ("width", "height"), ("length", "height")):
+        if x_tok in by_token and y_tok in by_token and len(by_token) == 2:
+            return by_token[x_tok], by_token[y_tok]
+    return None
+
+
+def _draw_profile(sw_doc, feature: Feature, dims: dict[str, float], model: Optional[DrawingData],
+                  what: str) -> None:
+    """Circle (centered) or rectangle (lower-left corner) at the feature's anchor."""
+    diameter = dims.get("diameter") or dims.get("hole_diameter")
+    length = dims.get("length") or dims.get("width")
+    width = dims.get("width") or dims.get("length")
+    xy = planar_extents(model, feature) if (model is not None and not diameter) else None
+    if xy:
+        length, width = _m(model, xy[0], f"{feature.id}.x_size"), _m(model, xy[1], f"{feature.id}.y_size")
+    cx, cy, assumed = _feature_center(model, feature, circular=bool(diameter))
+    if assumed and model is not None and feature.id != (model.build_order or [""])[0]:
+        model.warnings.append(f"{feature.id}: POSITION ASSUMED (drawing frame default) - verify.")
+    if diameter:
+        if sw_doc.SketchManager.CreateCircleByRadius(cx, cy, 0, diameter / 2.0) is None:
+            raise SolidWorksError(f"CreateCircleByRadius returned None for {what} {feature.id}.")
+    elif length and width:
+        if sw_doc.SketchManager.CreateCornerRectangle(cx, cy, 0, cx + length, cy + width, 0) is None:
+            raise SolidWorksError(f"CreateCornerRectangle returned None for {what} {feature.id}.")
+    else:
+        raise SolidWorksError(f"{what} {feature.id} needs a diameter or length+width; got {dims}.")
+
+
+def _start_offset(model: Optional[DrawingData], feature: Feature) -> float:
+    """Axial start offset (meters) for a boss stacked on earlier bosses.
+
+    Grounded in a dimension chain: when this boss's depth and earlier bosses' depths
+    (same sketch plane) are components of one chain, e.g. overall 1.971 = boss 1.781
+    + flange 0.190, the boss starts where those earlier bosses end. Without such a
+    chain the boss starts on its sketch plane (offset 0), as before.
+    """
+    if model is None or not feature.depth_dimension_id:
+        return 0.0
+    chains = [set(c.component_dimension_ids) for c in model.relationships.dimension_chains]
+    mine = [c for c in chains if feature.depth_dimension_id in c]
+    if not mine:
+        return 0.0
+    offset = 0.0
+    for fid in model.build_order:
+        if fid == feature.id:
+            break
+        other = model.feature_by_id(fid)
+        if (other is None or other.type != FeatureType.EXTRUDE_BOSS
+                or (other.sketch_plane or "front") != (feature.sketch_plane or "front")
+                or not other.depth_dimension_id):
+            continue
+        if any(other.depth_dimension_id in c for c in mine):
+            d = model.dimension_by_id(other.depth_dimension_id)
+            if d is not None:
+                offset += to_meters(d.value, d.unit.value)
+    return offset
+
+
+def _reselect_last_sketch(sw_doc) -> None:
+    """Select the most recent sketch by walking the tree (by object, never by
+    name: E005/E006) so a failed cut can be retried on the same profile."""
+    feat, last = _g(sw_doc, "FirstFeature"), None
+    while feat is not None:
+        if _g(feat, "GetTypeName2") == "ProfileFeature":
+            last = feat
+        feat = _g(feat, "GetNextFeature")
+    sw_doc.ClearSelection2(True)
+    if last is not None:
+        last.Select2(False, 0)
+
+
+def _cut(sw_doc, feature_id: str, depth: Optional[float]):
+    """Direction-proof cut on the active sketch (E005): Through All - Both for a
+    thru cut; blind cuts try +normal, then retry flipped."""
+    # FeatureCut4(Sd, Flip, Dir, T1, T2, D1, D2, Dchk1, Dchk2, Ddir1, Ddir2, Dang1, Dang2,
+    #   OffsetReverse1, OffsetReverse2, TranslateSurface1, TranslateSurface2, NormalCut,
+    #   UseFeatScope, UseAutoSelect, AssemblyFeatureScope, AutoSelectComponents,
+    #   PropagateFeatureToParts, T0, StartOffset, FlipStartOffset, OptimizeGeometry)
+    def attempt(flip_dir: bool, end: int):
+        return sw_doc.FeatureManager.FeatureCut4(
+            True, False, flip_dir, end, 0, depth or 0.0, 0.01,
+            False, False, False, False, to_radians(0), to_radians(0),
+            False, False, False, False, False,
+            True, True, True, True, False, 0, 0, False, False,
+        )
+    if depth is None:
+        feat = attempt(False, 9)  # swEndCondThroughAllBoth
+        if feat is None:
+            _reselect_last_sketch(sw_doc)
+            feat = attempt(True, 1)  # swEndCondThroughAll
+    else:
+        assert_meters(depth, f"{feature_id}.cut_depth")
+        feat = attempt(True, 0)  # Blind, into the +normal side (where bodies extrude)
+        if feat is None:
+            _reselect_last_sketch(sw_doc)
+            feat = attempt(False, 0)
+    if feat is None:
+        raise SolidWorksError(f"FeatureCut4 returned None for {feature_id} (both directions).")
+    return feat
+
+
 # --------------------------------------------------------------------------- #
 # Feature builders — each returns the created feature object (or None on skip)
 # --------------------------------------------------------------------------- #
-def build_extrude_boss(sw_doc, feature: Feature, dims: dict[str, float]):
-    """Create the solid base body: a rectangular or circular extruded boss."""
+def build_extrude_boss(sw_doc, feature: Feature, dims: dict[str, float],
+                       model: Optional[DrawingData] = None):
+    """Extruded boss: base body, or a boss stacked on it (see :func:`_start_offset`)."""
     _select_plane(sw_doc, feature.sketch_plane)
     sw_doc.SketchManager.InsertSketch(True)
     if sw_doc.SketchManager.ActiveSketch is None:
         raise SolidWorksError("Failed to enter sketch mode for extrude_boss.")
-
-    diameter = dims.get("diameter") or dims.get("hole_diameter")
-    length = dims.get("length") or dims.get("width")
-    width = dims.get("width") or dims.get("length")
-
-    if diameter:
-        r = diameter / 2.0
-        # Circle centered at origin.
-        if sw_doc.SketchManager.CreateCircleByRadius(0, 0, 0, r) is None:
-            raise SolidWorksError("CreateCircleByRadius returned None for extrude_boss.")
-    elif length and width:
-        # Center rectangle around the origin.
-        hl, hw = length / 2.0, width / 2.0
-        if sw_doc.SketchManager.CreateCenterRectangle(0, 0, 0, hl, hw, 0) is None:
-            raise SolidWorksError("CreateCenterRectangle returned None for extrude_boss.")
-    else:
-        raise SolidWorksError(
-            f"extrude_boss {feature.id} needs either a diameter or length+width; got {dims}."
-        )
-    _origin_relation_for_rectangle(sw_doc)
+    _draw_profile(sw_doc, feature, dims, model, "extrude_boss")
     _verify_sketch_fully_defined(sw_doc)
 
     depth = dims.get("depth") or dims.get("height") or dims.get("thickness")
     if not depth:
         raise SolidWorksError(f"extrude_boss {feature.id} has no depth/height dimension.")
     assert_meters(depth, f"{feature.id}.extrude_depth")
+    start = _start_offset(model, feature)
 
     sw_doc.SketchManager.InsertSketch(True)  # close the sketch
+    before = _total_volume(sw_doc)
+
     # FeatureExtrusion3(Sd, Flip, Dir, T1, T2, D1, D2, Dchk1, Dchk2, Ddir1, Ddir2,
     #   Dang1, Dang2, OffsetReverse1, OffsetReverse2, TranslateSurface1, TranslateSurface2,
     #   Merge, UseFeatScope, UseAutoSelect, T0, StartOffset, FlipStartOffset)
-    feat = sw_doc.FeatureManager.FeatureExtrusion3(
-        True, False, False, 0, 0, depth, 0.01,
-        False, False, False, False,
-        to_radians(0), to_radians(0),
-        False, False, False, False,
-        True, True, True, 0, 0, False,
-    )
+    # T0 = 3 (swStartOffset) when stacked; verified live on SW 2025 (2026-10-04).
+    def extrude(reverse: bool):
+        return sw_doc.FeatureManager.FeatureExtrusion3(
+            True, False, reverse, 0, 0, depth, 0.01,
+            False, False, False, False,
+            to_radians(0), to_radians(0),
+            False, False, False, False,
+            True, True, True, 3 if start else 0, start, False,
+        )
+
+    feat = extrude(False)
     if feat is None:
         raise SolidWorksError(f"FeatureExtrusion3 returned None for {feature.id}.")
     if not _solid_body_exists(sw_doc):
         raise SolidWorksError(f"No solid body exists after base extrude {feature.id} (volume=0).")
+
+    # A boss that lands entirely inside the existing body adds no material and has
+    # no faces of its own: a silent failure (SB11842 F002, 2026-10-04). Undo it and
+    # extrude the other way, the boss form of direction-proof cuts (E005).
+    if before > 0 and _total_volume(sw_doc) <= before * (1 + 1e-9):
+        log.warning("  %s added no material (embedded in the body); retrying reversed.", feature.id)
+        sw_doc.EditUndo2(1)
+        _reselect_last_sketch(sw_doc)
+        feat = extrude(True)
+        if feat is None or _total_volume(sw_doc) <= before * (1 + 1e-9):
+            raise SolidWorksError(f"extrude_boss {feature.id} adds no material in either direction.")
+        if model is not None:
+            model.warnings.append(f"{feature.id}: DIRECTION ASSUMED - boss was embedded in the body "
+                                  "on the +normal side, extruded on the -normal side instead; verify.")
     return feat
 
 
-def build_extrude_cut(sw_doc, feature: Feature, dims: dict[str, float]):
-    """Cut material from the existing solid. Requires a base body first."""
+def _total_volume(sw_doc) -> float:
+    """Summed solid-body volume in m^3 (0.0 when there is no body yet)."""
+    try:
+        bodies = sw_doc.GetBodies2(0, False) or ()
+        return sum(float(b.GetMassProperties(1000.0)[3]) for b in bodies)
+    except Exception:
+        return 0.0
+
+
+def build_extrude_cut(sw_doc, feature: Feature, dims: dict[str, float],
+                      model: Optional[DrawingData] = None):
+    """Cut material from the existing solid at the feature's drawing-frame position."""
     if not _solid_body_exists(sw_doc):
         raise SolidWorksError(f"extrude_cut {feature.id} requires an existing solid body.")
-
     _select_plane(sw_doc, feature.sketch_plane)
     sw_doc.SketchManager.InsertSketch(True)
     if sw_doc.SketchManager.ActiveSketch is None:
         raise SolidWorksError("Failed to enter sketch mode for extrude_cut.")
-
-    diameter = dims.get("diameter") or dims.get("hole_diameter")
-    length = dims.get("length")
-    width = dims.get("width")
-    if diameter:
-        if sw_doc.SketchManager.CreateCircleByRadius(0, 0, 0, diameter / 2.0) is None:
-            raise SolidWorksError("CreateCircleByRadius returned None for extrude_cut.")
-    elif length and width:
-        if sw_doc.SketchManager.CreateCenterRectangle(0, 0, 0, length / 2.0, width / 2.0, 0) is None:
-            raise SolidWorksError("CreateCenterRectangle returned None for extrude_cut.")
-    else:
-        raise SolidWorksError(f"extrude_cut {feature.id} needs diameter or length+width; got {dims}.")
+    _draw_profile(sw_doc, feature, dims, model, "extrude_cut")
     _verify_sketch_fully_defined(sw_doc)
     sw_doc.SketchManager.InsertSketch(True)
-
-    depth = dims.get("depth")
-    through_all = depth is None  # no depth → cut through everything
-    if depth:
-        assert_meters(depth, f"{feature.id}.cut_depth")
-    # FeatureCut4 with through-all flag when no blind depth is given. Dir=True:
-    # the cut must advance INTO the body, which extrudes on the +normal side of
-    # the sketch plane (with Dir=False the cut runs the opposite way, removes no
-    # material, and FeatureCut4 returns None).
-    feat = sw_doc.FeatureManager.FeatureCut4(
-        True, False, True,
-        0 if not through_all else 1,  # endCondition: 0=Blind, 1=ThroughAll
-        0, depth or 0.0, 0.01,
-        False, False, False, False,
-        to_radians(0), to_radians(0),
-        False, False, False, False, False,
-        True, True, True, True, False, 0, 0, False, False,
-    )
-    if feat is None:
-        raise SolidWorksError(f"FeatureCut4 returned None for {feature.id}.")
-    return feat
+    return _cut(sw_doc, feature.id, dims.get("depth"))
 
 
-def build_hole(sw_doc, feature: Feature, dims: dict[str, float]):
-    """Create a hole. Implemented as a simple circular cut for portability.
+def build_hole(sw_doc, feature: Feature, dims: dict[str, float],
+               model: Optional[DrawingData] = None):
+    """Every instance of a hole callout as circles in ONE sketch, then one cut.
 
-    The full Hole Wizard (counterbore/countersink/threaded) requires extensive
-    callout data the extractor does not reliably provide; a simple through/blind
-    circular cut is the robust default. Counterbore/countersink/thread variants
-    would extend this with HoleWizard5 once richer callouts are available.
+    Positions come from :func:`pipeline.macro_generator._hole_positions` (shared
+    with the VBA path so the two cannot drift): explicit instance positions, a
+    grounded linear row, or a bolt circle (diameter + count read from the drawing).
+    Simple circular cut only; counterbore/countersink/thread are not modeled here.
     """
+    from pipeline.macro_generator import BOLT_CIRCLE_ANGLE_NOTE, _hole_positions
+
     if not _solid_body_exists(sw_doc):
         raise SolidWorksError(f"hole {feature.id} requires an existing solid body.")
     diameter = dims.get("hole_diameter") or dims.get("diameter")
+    callout = model.hole_callout_for_feature(feature.id) if model is not None else None
+    if callout is not None and callout.diameter:
+        diameter = _m(model, callout.diameter, f"{feature.id}.hole_diameter")
     if not diameter:
         raise SolidWorksError(f"hole {feature.id} has no diameter dimension.")
-    # Reuse the cut path with the resolved diameter.
-    return build_extrude_cut(sw_doc, feature, {"diameter": diameter, **({"depth": dims["depth"]} if "depth" in dims else {})})
+    if callout is None:
+        return build_extrude_cut(sw_doc, feature, {"diameter": diameter,
+                                                   **({"depth": dims["depth"]} if "depth" in dims else {})}, model)
+
+    positions = _hole_positions(model, callout)
+    if not callout.instance_positions and len(positions) > 1 and callout.pattern.value != "linear":
+        model.warnings.append(f"{feature.id}: {BOLT_CIRCLE_ANGLE_NOTE}")
+    _select_plane(sw_doc, feature.sketch_plane)
+    sw_doc.SketchManager.InsertSketch(True)
+    if sw_doc.SketchManager.ActiveSketch is None:
+        raise SolidWorksError("Failed to enter sketch mode for hole.")
+    for i, (x, y) in enumerate(positions):
+        cx, cy = _m(model, x, f"{feature.id}[{i}].x"), _m(model, y, f"{feature.id}[{i}].y")
+        if sw_doc.SketchManager.CreateCircleByRadius(cx, cy, 0, diameter / 2.0) is None:
+            raise SolidWorksError(f"CreateCircleByRadius returned None for hole {feature.id}[{i}].")
+    log.info("  %s: %d hole instance(s) at %s", feature.id, len(positions),
+             [(round(x, 4), round(y, 4)) for x, y in positions])
+    _verify_sketch_fully_defined(sw_doc)
+    sw_doc.SketchManager.InsertSketch(True)
+    depth = None if (callout.thru or not callout.depth) else _m(model, callout.depth, f"{feature.id}.depth")
+    return _cut(sw_doc, feature.id, depth)
 
 
-def build_fillet(sw_doc, feature: Feature, dims: dict[str, float]):
-    """Apply a constant-radius fillet. FRAGILE — wrapped by the orchestrator.
+def _infer_edges(sw_doc, feature: Feature, feature_map: dict[str, Any],
+                 model: Optional[DrawingData]) -> list:
+    """Edges to fillet/chamfer, inferred from ``parent_feature`` (schema has no edge ids).
 
-    Selects edges of the most recent feature when no explicit edge data exists.
-    On failure the orchestrator records a warning and continues.
+    Rule (verified live on SW 2025, 2026-10-04):
+      1. edges of the parent's faces whose OTHER face belongs to a feature built
+         before the parent: where the parent meets earlier geometry (a boss's base,
+         a bore's mouth);
+      2. if none (the parent is the base body): the edges between the parent's own
+         faces (its outer rims).
+    Always flagged EDGES INFERRED, since the drawing's leader is not read.
     """
+    parent_id = feature.parent_feature
+    parent = feature_map.get(parent_id) if parent_id else None
+    if parent is None:
+        raise SolidWorksError(
+            f"{feature.type.value} {feature.id}: no built parent_feature ({parent_id or 'none'}) "
+            "to infer edges from; the schema carries no edge ids.")
+    order = list(feature_map)
+    earlier = {feature_map[f].Name for f in order[: order.index(parent_id)]}
+    pname = parent.Name
+    meets, rims = [], []
+    for face in _g(parent, "GetFaces") or ():
+        for edge in _g(face, "GetEdges") or ():
+            pair = _g(edge, "GetTwoAdjacentFaces2") or ()
+            owners = [_g(f, "GetFeature").Name for f in pair if f is not None]
+            others = [o for o in owners if o != pname]
+            if others and all(o in earlier for o in others):
+                meets.append(edge)
+            elif owners and not others:
+                rims.append(edge)
+    edges, rule = (meets, "where it meets earlier features") if meets else (rims, "its own rims")
+    if not edges:
+        raise SolidWorksError(f"{feature.id}: no candidate edges found on parent {parent_id}.")
+    if model is not None:
+        model.warnings.append(
+            f"{feature.id}: EDGES INFERRED - {len(edges)} edge(s) of {parent_id} ({rule}); "
+            "verify against the drawing.")
+    sw_doc.ClearSelection2(True)
+    data = _g(sw_doc.SelectionManager, "CreateSelectData")
+    for e in edges:
+        e.Select4(True, data)
+    return edges
+
+
+def _empty_variant():
+    import pythoncom  # type: ignore
+    from win32com.client import VARIANT  # type: ignore
+    return VARIANT(pythoncom.VT_EMPTY, None)
+
+
+def build_fillet(sw_doc, feature: Feature, dims: dict[str, float],
+                 model: Optional[DrawingData] = None, feature_map: Optional[dict[str, Any]] = None):
+    """Constant-radius fillet on edges inferred from ``parent_feature``. FRAGILE."""
     radius = dims.get("fillet_radius") or dims.get("radius") or next(iter(dims.values()), None)
     if not radius:
         raise SolidWorksError(f"fillet {feature.id} has no radius dimension.")
     assert_meters(radius, f"{feature.id}.fillet_radius")
-
-    # Select all edges of the part by selecting the solid body's edges is non-trivial
-    # without topology data; select the last feature so SW fillets its edges.
-    sw_doc.ClearSelection2(True)
-    # FeatureFillet3(Options, R1, Ftyp, OverflowType, ...) — minimal constant-radius form.
-    feat = sw_doc.FeatureManager.FeatureFillet3(
-        195,  # default fillet options bitmask (propagate, etc.)
-        radius, 0, 0, 0, 0, 0,
-        _null_dispatch(), _null_dispatch(), _null_dispatch(), _null_dispatch(),
-        _null_dispatch(), _null_dispatch(), _null_dispatch(),
-    )
+    _infer_edges(sw_doc, feature, feature_map or {}, model)
+    # FeatureFillet3(Options, R1, Dist2, Rho, Ftyp, OverflowType, ConicRhoType, Radii,
+    #   Dist2Arr, RhoArr, SetBackDistances, PointArr, PointDist2Arr, PointRhoArr):
+    # 14 args as the macro recorder writes them; the 7 arrays must be EMPTY Variants
+    # (a null dispatch is a type mismatch). Verified live on SW 2025 (E012).
+    arrays = [_empty_variant() for _ in range(7)]
+    feat = sw_doc.FeatureManager.FeatureFillet3(195, radius, 0.0, 0.0, 0, 0, 0, *arrays)
     if feat is None:
-        raise SolidWorksError(f"FeatureFillet3 returned None for {feature.id} (no edges selected?).")
+        raise SolidWorksError(f"FeatureFillet3 returned None for {feature.id}.")
     return feat
 
 
-def build_chamfer(sw_doc, feature: Feature, dims: dict[str, float]):
-    """Apply a chamfer. FRAGILE — wrapped by the orchestrator like fillet."""
-    distance = dims.get("chamfer") or dims.get("length") or next(
+def build_chamfer(sw_doc, feature: Feature, dims: dict[str, float],
+                  model: Optional[DrawingData] = None, feature_map: Optional[dict[str, Any]] = None):
+    """Distance x angle chamfer on edges inferred from ``parent_feature``. FRAGILE."""
+    distance = dims.get("chamfer") or dims.get("chamfer_size") or dims.get("length") or next(
         (v for k, v in dims.items() if k != "angle"), None
     )
     if not distance:
         raise SolidWorksError(f"chamfer {feature.id} has no distance dimension.")
     assert_meters(distance, f"{feature.id}.chamfer_distance")
-    angle = dims.get("angle", to_radians(45))  # default 45° if unspecified (already radians)
-
-    sw_doc.ClearSelection2(True)
-    # InsertFeatureChamfer(Width, Angle, Flip, Type, OtherDist, VertexChamDist, VertexChamDist2)
-    feat = sw_doc.FeatureManager.InsertFeatureChamfer(
-        4, 1, distance, angle, 0, 0, 0, 0
-    )
+    angle = dims.get("angle", to_radians(45))  # default 45 deg if unspecified (already radians)
+    _infer_edges(sw_doc, feature, feature_map or {}, model)
+    # InsertFeatureChamfer(Options, ChamferType, Width, Angle, OtherDist,
+    #   VertexChamDist1, VertexChamDist2, VertexChamDist3); type 1 = angle-distance.
+    feat = sw_doc.FeatureManager.InsertFeatureChamfer(4, 1, distance, angle, 0, 0, 0, 0)
     if feat is None:
         raise SolidWorksError(f"InsertFeatureChamfer returned None for {feature.id}.")
     return feat
@@ -585,17 +801,50 @@ _BUILDERS = {
 }
 
 
-def dispatch_feature_builder(sw_doc, feature: Feature, dims: dict[str, float], feature_map: dict[str, Any]):
+def _pattern_realized_by_seed(feature: Feature, feature_map: dict[str, Any],
+                              model: Optional[DrawingData]) -> Optional[Any]:
+    """A pattern whose seed is a hole that already placed every instance.
+
+    Extractors often emit BOTH a multi-instance hole (instance positions / bolt
+    circle) AND a separate "circular pattern" feature for the same holes. The hole
+    builder has already cut all of them, so patterning again would double them.
+    Returns the seed's feature object (the pattern is realized), or None.
+    """
+    from pipeline.macro_generator import _hole_positions
+
+    seed_id = feature.parent_feature
+    if model is None or not seed_id or seed_id not in feature_map:
+        return None
+    seed = model.feature_by_id(seed_id)
+    callout = model.hole_callout_for_feature(seed_id) if seed is not None else None
+    if seed is None or seed.type != FeatureType.HOLE or callout is None:
+        return None
+    placed = len(_hole_positions(model, callout))
+    if placed < max(2, feature.quantity):
+        return None
+    model.warnings.append(f"{feature.id}: pattern realized by seed {seed_id} "
+                          f"({placed} instances already cut); no extra pattern feature.")
+    log.info("  %s realized by %s's %d instances", feature.id, seed_id, placed)
+    return feature_map[seed_id]
+
+
+def dispatch_feature_builder(sw_doc, feature: Feature, dims: dict[str, float],
+                             feature_map: dict[str, Any], model: Optional[DrawingData] = None):
     """Dispatch to the right feature builder. Returns the created feature object."""
     if feature.type == FeatureType.PATTERN:
+        realized = _pattern_realized_by_seed(feature, feature_map, model)
+        if realized is not None:
+            return realized
         return build_pattern(sw_doc, feature, dims, feature_map)
     entry = _BUILDERS.get(feature.type)
     if entry is None:
         raise SolidWorksError(
             f"Feature type {feature.type.value!r} ({feature.id}) is not yet supported by the builder."
         )
-    builder, _fragile = entry
-    return builder(sw_doc, feature, dims)
+    builder, fragile = entry
+    if fragile:
+        return builder(sw_doc, feature, dims, model, feature_map)
+    return builder(sw_doc, feature, dims, model)
 
 
 def _is_fragile(feature: Feature) -> bool:
@@ -677,7 +926,7 @@ def build_model(
 
         try:
             try:
-                result = dispatch_feature_builder(sw_doc, feature, dims, feature_map)
+                result = dispatch_feature_builder(sw_doc, feature, dims, feature_map, model=model)
             except SolidWorksError:
                 raise
             except Exception as e:

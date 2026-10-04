@@ -4,7 +4,8 @@
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
 > **Status: preliminary.** Everything in the next-phase sections (§4, §5) is design
-> only. No pipeline code or infrastructure has changed yet. Review the
+> only. The current pipeline was hardened on 2026-10-04 (§1, §2.1), but the Feature
+> IR, auditor loop and benchmark are not built. Review the
 > [PRD](docs/PRD.md) and the specs before implementation starts.
 >
 > Update this file when a milestone lands, a part's status changes, or an open
@@ -16,12 +17,16 @@
 
 - A working **2D drawing → SolidWorks** pipeline exists (Claude vision extraction →
   arithmetic verification gate → VBA macros or direct COM build).
-- **Dimension reading is good; feature placement is not.** Across the 5 parts
-  built to `.SLDPRT`, only **10 of 26 extracted features were built** (38%).
-  Holes on bolt circles/patterns, fillets and chamfers are the main losses.
-- The model validator reports **PASSED on all 5** despite that, because it only
-  checks bounding box / volume. There is currently **no check that fails an
-  incomplete part** — this is the most important gap.
+- **2026-10-04: placement + completeness fixes landed.** Rebuilding the same 5
+  parts from their June extractions now builds **22 of 26 features (85%)**, up from
+  10 of 26 (38%). Bolt-circle holes, stacked bosses, fillets and chamfers now build
+  in the COM path (§2.1).
+- The model validator now **fails any part missing an extracted feature**, and it
+  checks overall dims at 1%. 2 of the 5 parts PASS; the other 3 FAIL for real,
+  listed reasons (§2.1). In June all 5 "passed" at 38%.
+- **Extraction runs on GPT-6 Astra** (OpenAI Responses API) behind a **hard $20 API
+  budget guard**. A simple demo part built from Astra's reading matches the ground
+  truth exactly ([demo](2D-3D-CAD-Test-Generation/demo/simple_plate/README.md)).
 - Next phase is **designed, not built** (§4): a Feature IR with CadQuery +
   SolidWorks compilers, an **auditor agent with retries**, a **Jev decision
   layer**, and a **placement-aware benchmark** (Opus 5.5 vs GPT-6 Astra).
@@ -38,22 +43,69 @@
 | Verification gate: dimensional closure, unit consistency, pattern feasibility, readiness score | `pipeline/validator.py` | Working |
 | VBA macro package (00_setup … ZZ_final_verify, RUN_ALL, PASS/FAIL log, stop-on-fail) | `pipeline/macro_generator.py` | Working; exercised on real SW for 135-A |
 | Static macro audit (banned APIs, structural defects) — fails generation | `pipeline/macro_audit.py` | Working |
-| Direct COM build | `pipeline/solidworks_builder.py` | Working on Windows + SW2024 |
+| Direct COM build | `pipeline/solidworks_builder.py` | Working on SW 2025 SP5: holes at drawing positions / bolt circles, stacked bosses, fillets + chamfers with inferred edges (E012–E013) |
+| Hard API spend cap (default $20, preflight worst case, stops the run) | `pipeline/budget.py` | Working |
+| Extraction on OpenAI (`gpt-6-astra`) | `pipeline/openai_adapter.py` | Working (Responses API) |
 | End-to-end batch COM driver w/ auto-resolution of ambiguities + design-decision report | `run_models.py` | Working (see caveat §3.3) |
 | Batch triage CSV | `pipeline/batch.py` | Working |
-| Test suite (10 files, golden macro snapshots) | `tests/` | **188 passing** (2026-10-01, Windows, Python 3.13) |
+| Test suite (golden macro snapshots, budget, placement, completeness) | `tests/` | **228 passing** (2026-10-04, Windows, Python 3.13) |
 | Per-completion token & cost tracking + report/dashboard | `pipeline/token_tracker.py`, `pipeline/token_report.py`, `config/pricing.json` | Working; wired into extraction. Planner/auditor/Jev record through the same API when built |
 
 ### Dev machine (2026-10-04)
 
-Python 3.13 venv at `.venv` (via `uv`); **195 tests pass**. SolidWorks here is
-**2025 SP5** (`D:\SOLIDWORKS`, rev 33.5), not 2024. The COM build works after fixing the
-pinned constants typelib (error log E011): SB11033 rebuilt with the same result as in June.
-Extraction now runs through `EXTRACTION_PROVIDER` (default **openai**, model `gpt-6-astra`)
-via `pipeline/openai_adapter.py`; not yet exercised against the live OpenAI API.
-Direct-OpenAI `gpt-6-astra` price in `config/pricing.json` is still `null` (rows show as unpriced).
+Python 3.13 venv at `.venv` (via `uv`). SolidWorks here is **2025 SP5**
+(`D:\SOLIDWORKS`, rev 33.5), not 2024. The COM build needed the constants-typelib fix (E011).
+Extraction runs on `gpt-6-astra` (`EXTRACTION_PROVIDER=openai`). The direct-OpenAI price is
+still `null` in `config/pricing.json`: the token report shows those rows as *unpriced*, and the
+budget guard charges them at the Azure Standard rate ($10/$50 per 1M) to stay conservative.
+Live API spend so far: see `usage/budget_ledger.jsonl` (gitignored).
 
 ## 2. Part inventory
+
+### 2.1 Rebuilt 2026-10-04 (same June extractions, new builder + strict validator)
+
+No API cost: built from `output/<Part>/<Part>_extraction.json` through
+`run_models.resolve_unknowns` → gate → COM build (SW 2025) → `validate_model`.
+
+| Part | June built | Now built | Validator | Why it still fails |
+|---|---|---|---|---|
+| SB11033 | 3/7 | **7/7** | PASSED | — (bbox now 1.971" long: boss stacked on flange) |
+| SB11842 | 2/5 | **5/5** | PASSED | — (embedded boss reversed, E013) |
+| A040911E | 2/5 | **5/5** | FAILED | extracted `overall_width` 2.75 matches no model extent: likely mislabeled, needs a human look |
+| A040921E | 2/4 | 3/4 | FAILED | F003 hub boss has no usable profile (width + step only) |
+| SB11780 | 1/5 | 2/5 | FAILED | turned shaft: built as a bounding cylinder; needs a revolve |
+| **Total** | **10/26** | **22/26** | 2 PASS / 3 FAIL | |
+
+### 2.2 Same 5 parts end to end on GPT-6 Astra (2026-10-04)
+
+`run_models.py ../ViewDefinedDrawings` with `gpt-6-astra` extraction. Outputs, reports and
+the token ledger are in `2D-3D-CAD-Test-Generation/output/astra_2026-10-04/`. Cost: **≈ $2.50**
+for 9 calls, at the conservative budget rate (see §1). Re-queries and schema repairs added calls:
+A040911E alone took 4.
+
+| Part | Astra features | Built | Validator | What blocked the rest |
+|---|---|---|---|---|
+| SB11033 | 8 | **8/8** | PASSED | — |
+| A040921E | 4 | 3/4 | FAILED | side-plane rectangular end slot: cut found no material |
+| A040911E | 6 | 3/6 | FAILED | counterbores as separate cuts (no profile); holes with no diameter link; cropped callout |
+| SB11780 | 6 | 2/6 | FAILED | keyway and necks need revolve/side-plane sketches the builder lacks |
+| SB11842 | 6 | 2/6 | FAILED | thru bore cut found no material; bolt holes not grounded; cbores as separate cuts |
+| **Total** | **30** | **18/30** | 1 PASS | |
+
+**Reading vs. building.** Astra's extractions are *richer* than June's: 30 features vs
+26, with keyways, necks, separate counterbore cuts and edge breaks. The builder can't
+express most of those yet. So June JSON + new builder = 22/26, while Astra JSON + the
+same builder = 18/30. The bottleneck is now the **build/IR side**, not reading. That is
+the argument for Feature IR v2 (§4 A). Counterbores, keyways, revolves and side-plane cuts
+are the concrete gap list.
+
+On a simple synthetic plate with a known answer, both a hand-read (no API) extraction
+and Astra's build a part that matches the ground truth exactly
+([demo](2D-3D-CAD-Test-Generation/demo/simple_plate/README.md)).
+
+Still flagged as assumptions in each build (never silent): `EDGES INFERRED` for every
+fillet/chamfer, `ANGLE ASSUMED` for bolt circles without explicit positions, and
+`DIRECTION ASSUMED` for reversed bosses. Stepped bores (SB11033 F002) are cut at one diameter only.
 
 ### Built to `.SLDPRT` via `run_models.py` (COM, 2026-06-18)
 

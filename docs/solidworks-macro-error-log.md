@@ -258,12 +258,76 @@ fixtures.
   2026-06-18 run: F001/F002/F003 built, F005/F006 chamfer and F007 fillet skipped (known, §3.2).
 - **Test:** none (needs a live SolidWorks); verified by the smoke build above.
 
+## E012 — COM fillets/chamfers never built: no edges selected, wrong fillet arg types
+
+- **Date:** 2026-10-04 · **Parts:** every COM run since 2026-06-18 · **Stage:** COM build
+- **Symptom:** `FeatureFillet3 returned None` / `InsertFeatureChamfer returned None` on
+  every part. All fillets and chamfers were "skipped".
+- **Root cause:** (1) the builders called `ClearSelection2` and then the feature API
+  with nothing selected; (2) `FeatureFillet3`'s 7 array arguments were passed as null
+  dispatches, which is a COM *Type mismatch*. They must be EMPTY Variants (`VT_EMPTY`).
+  The 14-argument form (Options, R1, Dist2, Rho, Ftyp, OverflowType, ConicRhoType + 7
+  arrays) matches the macro recorder.
+- **Fix:** `_infer_edges` selects edges from `parent_feature`: edges where the parent
+  meets earlier features, else the parent's own rims. They are selected with
+  `Edge.Select4(True, SelectData)`. Every inference is flagged `EDGES INFERRED`, because
+  the schema has no edge ids. Late binding exposes zero-argument members (`GetFaces`,
+  `GetEdges`, `CreateSelectData`, ...) as properties OR methods, and a returned
+  dispatch object is also "callable": use `_g()`.
+- **Rule:** never call a selection-based feature API without verifying a selection.
+  Array args for COM feature calls are `VARIANT(VT_EMPTY)`, never `None`/null dispatch.
+- **Result:** SB11033 F005/F006/F007 and DEMO-PLATE-001 C1 now build on SW 2025.
+- **Tests:** live only (needs SolidWorks); edge rule documented in `_infer_edges`.
+
+## E013 — Boss "built" but added no material (embedded in the base)
+
+- **Date:** 2026-10-04 · **Part:** SB11842 F002 · **Stage:** COM build
+- **Symptom:** F002 reported complete, then its chamfer F004 failed with "no candidate
+  edges". The boss was extruded into the flange from the same sketch plane and added
+  zero volume, so it had no faces.
+- **Fix:** `build_extrude_boss` compares total volume before and after. If nothing was
+  added, it runs `EditUndo2(1)`, reselects the sketch by tree walk, and extrudes reversed.
+  The result is flagged `DIRECTION ASSUMED`. A boss whose depth is in a dimension chain
+  with earlier bosses now starts where they end (`_start_offset`, `swStartOffset`). This
+  fixed SB11033's boss, which overlapped its flange (length 1.781 vs 1.971 overall).
+- **Rule:** a feature that returns an object is not proof it changed the part. Check
+  the volume.
+
+## E014 — Verification BLOCKED a correct 2x2 hole grid as a 240 mm row
+
+- **Date:** 2026-10-04 · **Part:** DEMO-PLATE-001 (GPT-6 Astra extraction) · **Stage:** gate
+- **Symptom:** `Pattern infeasible: H001 spans 240 mm (4 x 80 spacing)` on a 100 x 60
+  plate. The extraction had the exact four `instance_positions`.
+- **Root cause:** `_check_pattern_envelopes` assumed every pattern is ONE straight row
+  (`(qty-1) x spacing`).
+- **Fix:** when a callout has instance positions, check their real x/y extents instead.
+- **Tests:** `test_validator.py::test_grid_with_instance_positions_is_feasible_even_with_row_style_spacing`,
+  `::test_instance_positions_outside_envelope_still_blocked`.
+
+## E015 — Base plate dropped: labeled width/height instead of length/width
+
+- **Date:** 2026-10-04 · **Part:** DEMO-PLATE-001 (Astra) · **Stage:** `run_models.resolve_unknowns`
+- **Symptom:** "First feature F002 is 'hole'". The resolver removed F001 as an
+  "ambiguous profile" because its dims were `overall_width` 100 / `overall_height` 60.
+- **Fix:** `solidworks_builder.planar_extents` maps length/width, width/height or
+  length/height pairs to sketch (x, y) by canonical label, with height always vertical.
+  The resolver and builder share it. Same family as E010.
+- **Tests:** `test_placement.py::test_planar_extents_maps_both_label_styles_to_100_by_60`,
+  `::test_resolver_keeps_width_height_labeled_base`.
+
+**Also noted (not a failure):** on the SW 2025 default part template, a sketch on "Front
+Plane" maps to model Y-Z (extrusion along X). Geometry relative to the sketch is
+correct. Scorers must project along each hole's axis rather than assume model XY.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `FullyDefineSketch` argument shape varies by SW version — currently wrapped
   in `On Error Resume Next`; verify on SW2024.
-- `FeatureFillet3` / `InsertFeatureChamfer` calls in `NN_fillets_chamfers.vba`
-  are interactive (user pre-selects edges) and untested on a real machine.
+- VBA `NN_fillets_chamfers.vba` is still interactive (user pre-selects edges); the
+  COM path now infers edges (E012). Port `_infer_edges` to the VBA generator.
+- Edge inference picks every matching edge. "C1 both sides" works, but a chamfer
+  meant for ONE side of a flange (SB11033 F006) gets all 4 rim edges. It needs edge
+  ids in the IR (Feature IR v2).
 - `swUnitSystem` change after `NewDocument` — confirm it applies to the
   document and not just detailing options.
 - Counterbore second cut is blind from the same sketch plane — depth direction
