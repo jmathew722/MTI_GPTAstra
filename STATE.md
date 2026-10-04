@@ -71,9 +71,9 @@ No API cost: built from `output/<Part>/<Part>_extraction.json` through
 |---|---|---|---|---|
 | SB11033 | 3/7 | **7/7** | PASSED | — (bbox now 1.971" long: boss stacked on flange) |
 | SB11842 | 2/5 | **5/5** | PASSED | — (embedded boss reversed, E013) |
-| A040911E | 2/5 | **5/5** | FAILED | extracted `overall_width` 2.75 matches no model extent: likely mislabeled, needs a human look |
-| A040921E | 2/4 | 3/4 | FAILED | F003 hub boss has no usable profile (width + step only) |
-| SB11780 | 1/5 | 2/5 | FAILED | turned shaft: built as a bounding cylinder; needs a revolve |
+| A040911E | 2/5 | 5/5 *but wrong* | FAILED (correctly) | disc built off-center (frame bug R1), so the bore breaks through the rim; see §3.0 |
+| A040921E | 2/4 | 3/4 | FAILED | June **misread** a 1.062 end slot as a "hub boss" (Astra reads it right); see §3.0 |
+| SB11780 | 1/5 | 2/5 | FAILED | turned shaft: built as a bounding cylinder; necks and keyway need grooves or a revolve |
 | **Total** | **10/26** | **22/26** | 2 PASS / 3 FAIL | |
 
 ### 2.2 Same 5 parts end to end on GPT-6 Astra (2026-10-04)
@@ -169,32 +169,84 @@ geometry or a hand-verified dimension/placement key per part (see §5).
 
 ## 3. Known gaps & failure modes
 
-### 3.1 Placement (the core problem)
-- Bolt-circle and circular patterns are never auto-placed: they're recorded as a
-  note, and the holes are left for manual work (every SB/A04 part).
-- Features not referenced from the origin get `POSITION ASSUMED`. Bosses are built
-  coaxially with no axial offset modeled (SB11033 F003).
-- Past extraction errors in this class: symmetric chains missing a term, 2×2 grids
-  read as linear rows, wrong part number (E009).
+### 3.0 Failure deep dive (2026-10-04)
+
+Every failure from §2.1 and §2.2 was traced to its root cause from the extraction
+JSON, the build report and, where the two readings disagreed, the drawing itself.
+Each one falls into one of six root causes.
+
+**Root causes**
+
+| # | Root cause | Kind | Seen in |
+|---|---|---|---|
+| R1 | **Two coordinate frames on round parts.** An unplaced circle is centered on the "envelope" (length/width dims), while a placed one sits at the origin. On a round part the envelope is meaningless, so the base lands off-axis. The extraction already says these features are coaxial (`concentric_groups`), but the builder ignores it. Astra also mixes frames *inside one callout*: `x/y_position` (0, 0) center-based, `instance_positions` [2.5, 2.5] corner-based. | builder + schema (PRD "Schema" gap) | A040911E (June: bore breaks out of the disc), SB11780 (shaft at x = 38.44"), SB11842 Astra (bore cut at (2.5, 2.5), outside the disc, so it hits nothing), A040921E Astra (bore callout at (5.25, 5.25)) |
+| R2 | **The builder can't express the feature.** Counterbores, keyways, circumferential necks/grooves, through-wall slots and revolves have no profile the current schema can carry (e.g. "slot from the bore to the OD" is `D002/2 .. D001/2`, an expression). | IR gap | A040911E F004, SB11842 F004 (cbores as separate cuts), SB11780 F002–F004, A040921E F003 (slot), SB11780 (base should be a revolve) |
+| R3 | **Required data is not on the callout.** "DR. & C'BORE FOR .250 SOC. HD. CAP SCR." gives the screw, not the drill or cbore size; those come from the standard fastener table. Astra correctly marked them UNKNOWN (June's Sonnet guessed .272 / .3438). | missing standard lookup | A040911E F003/F004, SB11842 F003/F004 |
+| R4 | **Hole data not linked.** Astra put bolt-circle data on the *feature* (pitch-circle dim, quantity, positions in the description) but emitted no `hole_callout` for it, so the resolver sees "no grounded position" and drops it. | resolver | SB11842 F003, A040911E F003 |
+| R5 | **Builder left a sketch open on failure.** When a feature fails after `InsertSketch`, the sketch stays open, and the next feature's `InsertSketch` *closes* it, so the next feature fails too ("Failed to enter sketch mode"). One failure cascades. | builder bug | SB11780 Astra F003 (after F002 failed) |
+| R6 | **Genuinely unknown or ambiguous on the drawing.** A cropped callout (A040911E F005, 2 holes) or an unspecified size ("edge breaks", "R .125 MAX"). The correct outcome is an escalation with a specific question, not a guess. | escalate (PRD B1/B4) | A040911E F005, SB11842 F006, SB11780 F005 |
+
+Reading errors are a separate class. June's Sonnet extraction **misread** A040921E's
+1.062 × .75 end slot as a "hub boss" and labeled A040911E's ±2.75 equatorial hole
+offset as `overall_width`. Astra read both correctly. The strict validator caught
+both downstream; the old one passed them.
+
+**Per failure**
+
+| Part · feature | Run | Symptom | Root cause | Fix |
+|---|---|---|---|---|
+| A040911E F001/F002 | June | bbox 165 × 150.7 (disc not round) | R1 + mislabeled 2.75 | concentric-group frame (F1) |
+| A040911E F003/F004 | Astra | "no diameter" / cbore cut without profile | R3 + R4 + R2 | fastener table (F4), callout synthesis (F3), counterbore in hole builder (F5) |
+| A040911E F005 | Astra | 2 holes, callout cropped | R6 | escalate: correct as-is; needs a better scan |
+| A040921E F003 | June | hub boss dropped | reading error | Astra already right; prompt + overlay review (B6) |
+| A040921E F003 | Astra | slot cut hits no material | R2 (`planar_extents` paired slot width with an *axial* 2.25) | IR v2 through-wall slot (A1/A3) |
+| SB11780 base | both | single cylinder at x = 38.44" | R1 + R2 | F1 now; revolve in IR v2 |
+| SB11780 F002 keyway | Astra | no rectangle profile | R2 | IR v2 slot/keyway |
+| SB11780 F003/F004 necks | Astra | "Failed to enter sketch mode" | R5 (cascade) + R2 | F2 now; groove = annulus cut with start offset |
+| SB11842 F002 bore | Astra | cut found no material | R1 (bore at (2.5, 2.5)) | F1 + in-part position check (F6) |
+| SB11842 F003/F004 | Astra | holes "not grounded", cbores no profile | R4 + R3 + R2 | F3 + F4 + F5 |
+| SB11842 F006, SB11780 F005 | Astra | size unspecified | R6 | escalate (B1/B4) |
+
+**Fix plan**
+
+Fixes F1–F6 work on today's pipeline. F7–F8 need the PRD sub-projects.
+
+| Fix | What | Root causes | Effort | PRD |
+|---|---|---|---|---|
+| F1 | **One frame per round part.** If the base is a circle, the part center is the origin. Features in a `concentric_group` with the base take its center. Never center a circle on length/width dims of a round part. | R1 | S | A2 |
+| F2 | **Close any open sketch when a feature fails** so one failure can't cascade. | R5 | XS | A5 |
+| F3 | **Synthesize a hole callout from the feature** (pitch/bolt-circle dim + quantity, or offsets) when the extractor gave none. | R4 | S | A3 |
+| F4 | **Fastener clearance table** (drill, cbore Ø, cbore depth for SHCS sizes; ASME B18.3 / Machinery's Handbook). Values are marked `STANDARD-DERIVED` and cited, never silent. | R3 | S | A1 (a cited table is a grounded source) |
+| F5 | **Counterbore in the hole builder:** a second blind cut at the cbore Ø. Merge a cbore-only `extrude_cut` (coaxial, depth only) into its parent hole. | R2 (part) | M | A3 |
+| F6 | **Gate check: every hole instance must lie inside the base profile.** On failure, try the other frame (center vs corner); if neither fits, BLOCK with a finding. | R1 | S | B1 |
+| F7 | **Feature IR v2:** profiles as expressions (slot `D002/2..D001/2`), start face + into-material direction, revolves, grooves, keyways, edges by query. | R2 | L | A1–A5 |
+| F8 | **Escalation, not guessing,** for R6 cases, with the question pre-written ("2-hole callout is cropped: diameter?"). | R6 | M | B1, B4, D3 |
+
+Prompt changes (both models): state the frame rule for round parts (center = origin;
+`instance_positions` in the same frame as `x/y_position`); sketch an end slot on the plane
+where its outline is drawn; keep a counterbore on its hole callout, not as a separate cut.
+
+### 3.1 Placement
+- Bolt circles now place automatically from instance positions or a bolt-circle dim
+  (2026-10-04). Stacked bosses follow dimension chains.
+- The remaining placement bugs are R1 (frames on round parts) and R4 (unlinked hole data).
 
 ### 3.2 Fillets & chamfers
-- `FeatureFillet3` / `InsertFeatureChamfer` return `None` in the COM path (no edge
-  selection). In VBA they're interactive (the user pre-selects edges). Neither path
-  is automated yet.
+- COM: built on edges inferred from `parent_feature` (E012), flagged `EDGES INFERRED`.
+  It can't pick ONE side when only one is meant (SB11033 F006). That needs edge
+  queries (A3/A5).
+- VBA: still interactive (the user pre-selects edges).
 
-### 3.3 Verification is too lenient
-- `model_validator.validate_model` passes a part that is missing most of its
-  features.
-- `run_models.py` auto-accepts the best guess for `resolution_required` dimensions
-  and drops non-closing chains so the build "never fails". Good for throughput,
-  but it bypasses the READY/BLOCKED gate. Every such decision is only
-  *logged* in the design-decisions file, never re-checked.
+### 3.3 Verification
+- Fixed 2026-10-04: the validator fails missing features and checks overall dims at 1%.
+- Still open: `run_models.py` auto-accepts best guesses for `resolution_required` dims.
+  That is useful for throughput but bypasses the gate. Each such decision is logged, not
+  re-checked. The R6 cases should escalate instead (F8).
 
 ### 3.4 Unimplemented
-- Revolves and feature-level patterns are TODO skeletons (`needs_review`).
+- Revolves, grooves, keyways, slots defined by expressions (IR v2, F7).
 - COM checkpoint resume.
-- Open watch-list items in the error log (FullyDefineSketch arg shape, unit
-  system application, cbore face).
+- The VBA generator does not yet use the COM path's new placement and edge logic.
 
 ### 3.5 Doc / repo drift
 
@@ -209,7 +261,7 @@ Fixed 2026-09-28:
   tool call).
 
 Still open (fix when touched):
-- No CI yet. The suite is green locally (188 tests), so the workflow can be re-added.
+- No CI yet. The suite is green locally (228 tests), so the workflow can be re-added.
 - Stray code-root files `extraction_115C/116C/117C.json` duplicate the `output/` copies.
 - `Deliverables/` duplicates `output/` for the 5 built parts.
 - `.SLDPRT` binaries are committed to git (no LFS).
@@ -217,7 +269,7 @@ Still open (fix when touched):
   Foundry, Jev, ...), and the new tracker marks unknown prices *unpriced* instead of
   guessing. Still open: the legacy `usage_log.record_run` summary keeps its Sonnet
   fallback for unknown models; the Bedrock and direct-OpenAI prices are `null` until
-  confirmed; the `.env.template` model hint is still `claude-opus-4-8`.
+  confirmed. (The `.env.template` model hint was fixed 2026-10-04.)
 
 ## 4. Next phase — decided 2026-09-28 (designs written, no code yet)
 
