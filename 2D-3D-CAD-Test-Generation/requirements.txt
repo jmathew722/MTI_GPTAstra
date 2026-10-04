@@ -9,3 +9,6 @@ pydantic>=2.0.0
 python-dotenv>=1.0.0
 rich>=13.0.0
 pytest>=7.0.0
+pyyaml>=6.0
+# Feature IR v2 reference compiler (OpenCascade). Large; IR tests skip without it.
+cadquery>=2.4
