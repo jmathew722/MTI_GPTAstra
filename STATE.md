@@ -1,12 +1,14 @@
 # STATE.md — where mti-2d-3d stands
 
-**Last updated:** 2026-10-04 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
+**Last updated:** 2026-10-05 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
-> **Status: preliminary.** Everything in the next-phase sections (§4, §5) is design
-> only. The current pipeline was hardened on 2026-10-04 (§1, §2.1), but the Feature
-> IR, auditor loop and benchmark are not built. Review the
-> [PRD](docs/PRD.md) and the specs before implementation starts.
+> **Status (2026-10-05):** sub-project A (Feature IR v2) is **built and running end to end**
+> on all 9 dev parts (§4.2). The v1 pipeline was also hardened (§2.1, §3.0). Not built yet:
+> sub-project B's Gate 2 auditor and its resolve-and-resume loop, a held-out benchmark set
+> (needs MTI reference STEP), and D (the MCP connector). Work is on branch
+> `feat/openai-extractor-sw2025` (pushed; not yet merged to `main`). The full record of the
+> 2026-10-04 test day: [docs/test-reports/2026-10-04-test-report.md](docs/test-reports/2026-10-04-test-report.md).
 >
 > Update this file when a milestone lands, a part's status changes, or an open
 > decision is made. Keep numbers sourced: link the file they came from.
@@ -279,7 +281,7 @@ Still open (fix when touched):
   fallback for unknown models; the Bedrock and direct-OpenAI prices are `null` until
   confirmed. (The `.env.template` model hint was fixed 2026-10-04.)
 
-## 4. Next phase — decided 2026-09-28 (designs written, no code yet)
+## 4. Next phase — designed 2026-09-28; A built 2026-10-04
 
 ### 4.2 End to end on all 9 dev parts: IR vs v1 (2026-10-04, Task 8)
 
@@ -376,8 +378,8 @@ Build order A → B → C → D. Each gets an implementation plan before code.
 | | Sub-project | Spec | Status |
 |---|---|---|---|
 | A | **Feature IR v2** + CadQuery (reference) & SolidWorks compilers. The LLM fills a typed build plan whose every coordinate is an expression over drawing dimension IDs | [feature-ir-v2](docs/superpowers/specs/2026-09-28-feature-ir-v2-design.md) · [plan](docs/superpowers/plans/2026-10-04-feature-ir-v2.md) | **In progress (2026-10-04).** Done: expressions, BuildPlan + Gate-1 checks, CadQuery reference compiler, `plan_from_v1` baseline, and the SolidWorks compiler, checked against the reference feature by feature. **5 golden dev plans (demo plate, A040921E, SB11780, SB11033, A040911E) build in CadQuery AND natively in SolidWorks with every feature matching**; ambiguous callouts stay unresolved for a human. `python ir_build.py tests/golden/ir/*.json --solidworks`. Next: the planner (Task 7, first API spend), then the dev-set comparison (Task 8) |
-| B | **Auditor loop + Jev.** Gate 1 (plan) + Gate 2 (measured geometry); deterministic checks can't be overruled; full rejection history in a JSONL ledger; 2 retries per gate, then escalate. Jev handles only discrete text decisions, never numbers | [auditor-loop](docs/superpowers/specs/2026-09-28-auditor-loop-design.md) | Design approved |
-| C | **Benchmark: Opus 5.5 vs GPT-6 Astra**, scored against MTI reference STEP files on placement, relative placement, dimensions and completeness (IoU only for comparability). Arms: raw vs. audited, plus a fixed-read ablation | [placement-benchmark](docs/superpowers/specs/2026-09-28-placement-benchmark-design.md) | Design approved |
+| B | **Auditor loop + Jev.** Gate 1 (plan) + Gate 2 (measured geometry); deterministic checks can't be overruled; full rejection history in a JSONL ledger; 2 retries per gate, then escalate. Jev handles only discrete text decisions, never numbers | [auditor-loop](docs/superpowers/specs/2026-09-28-auditor-loop-design.md) | Design approved. Gate 1 (deterministic checks + repair retries) is **built** into the planner. Gate 2, Jev and the resolve-and-resume loop are **next** |
+| C | **Benchmark**, scored against MTI reference STEP files on placement, relative placement, dimensions and completeness. ~~Opus 5.5 vs GPT-6 Astra arms~~: **dropped 2026-10-04**, GPT-6 Astra only. The benchmark now measures *this pipeline* | [placement-benchmark](docs/superpowers/specs/2026-09-28-placement-benchmark-design.md) | Split fixed in `bench/manifest.yaml` (9 dev parts; held-out pending MTI STEP). Dev-set scorer built (`pipeline/ir/score.py`) |
 | D | **MCP connector** for the team's Claude IDE; core server on any OS + a SolidWorks worker on Windows | roadmap §D | Placeholder |
 
 Key decisions:
@@ -386,21 +388,24 @@ Key decisions:
 - The LLM output is a **constrained IR**, not free-form code.
 - Ground truth is **MTI reference models**.
 - The pipeline is **evolved in place**.
+- **Model: GPT-6 Astra only** (decided 2026-10-04; published CAD benchmarks favour it).
 - **Hosting is still open:** [AWS](docs/PRD-aws.md) (Bedrock + AgentCore) vs
-  [Azure](docs/PRD-azure.md) (Foundry + Azure Functions). Both clouds host Opus 5.5
-  and GPT-6 Astra; the code stays the same apart from the provider backend.
+  [Azure](docs/PRD-azure.md) (Foundry + Azure Functions). Both host GPT-6 Astra; the code
+  stays the same apart from the provider backend.
 
 Why BenchCAD isn't enough: Astra's 95.9% (Opus 5 82.1%, Fable 5.1 84.3%) is scored
 by volume IoU and Chamfer distance, which barely penalize a misplaced hole.
 
 ## 5. Prerequisites the next phase needs
 
-- ~~Install requirements and confirm the suite is green~~ Done 2026-10-01: 188 tests pass.
-- A **ground-truth key** for a benchmark set: per part, the true dimensions and
-  feature positions (hand-verified from the drawing, or measured from a reference
-  `.SLDPRT` made by an engineer).
-- API access: Anthropic (Opus 5.5) and OpenAI (`gpt-6-astra`), plus a Jev key.
-- A Windows + SolidWorks 2024 machine for build-level scoring.
+- ~~Install requirements and confirm the suite is green~~ Done: 340 tests pass (2026-10-04).
+- ~~API access~~ Done: OpenAI (`gpt-6-astra`) key in `.env`; $20 budget guard ($8.30 left).
+  A Jev key is still needed for B7.
+- ~~A Windows + SolidWorks machine~~ Done: SolidWorks 2025 SP5 on the dev host.
+- ~~Hand-checked answers for dev parts~~ Done: 5 golden plans in `tests/golden/ir/`.
+- **Still needed: MTI reference STEP** for a held-out set (PRD C1), answers to the 9 open
+  engineering questions (test report §8), confirmation of the OpenAI price, and a check of
+  the fastener table against MTI's shop standard.
 
 ## 6. Where to look
 
