@@ -10,8 +10,8 @@ Every paid model call goes through two steps:
    ledger.
 
 The ledger is one JSONL file shared by all runs (``API_BUDGET_LEDGER``, default
-``<code root>/usage/budget_ledger.jsonl``), independent of the per-run token
-ledger in ``pipeline.token_tracker``. The cap is ``API_BUDGET_USD`` (default 20).
+``~/.mti-2d-3d/budget_ledger.jsonl``, outside the repo so no git operation can wipe it),
+independent of the per-run token ledger in ``pipeline.token_tracker``. The cap is ``API_BUDGET_USD`` (default 20).
 
 Unpriced models (a ``null`` price in ``config/pricing.json``) are charged at the
 HIGHEST rate any provider lists for that model, else the highest rate in the file.
@@ -32,7 +32,9 @@ from utils.logger import get_logger
 log = get_logger()
 
 DEFAULT_CAP_USD = 20.0
-DEFAULT_LEDGER = Path(__file__).resolve().parent.parent / "usage" / "budget_ledger.jsonl"
+# Outside the repository on purpose: a gitignored file inside the repo was wiped on
+# 2026-10-05 (branch switching / cleanup), which silently reset the spend to $0.
+DEFAULT_LEDGER = Path.home() / ".mti-2d-3d" / "budget_ledger.jsonl"
 IMAGE_TOKEN_ALLOWANCE = 10_000   # per image, input-side reserve (observed ~1-2k)
 CHARS_PER_TOKEN = 3              # conservative text estimate
 

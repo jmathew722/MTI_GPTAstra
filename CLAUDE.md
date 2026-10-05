@@ -70,7 +70,7 @@ python -m pipeline.token_report ./output --html output/usage/usage_report.html  
 
 API budget: every paid call is checked BEFORE it is sent against a hard cap
 (`API_BUDGET_USD`, default **$20**, across all runs on the machine; ledger
-`usage/budget_ledger.jsonl`). A call whose worst case would cross the cap raises
+`~/.mti-2d-3d/budget_ledger.jsonl`, outside the repo). A call whose worst case would cross the cap raises
 `BudgetExceeded` and the run stops with exit code 9 (`pipeline/budget.py`).
 Unpriced models are charged at the highest listed rate, so the cap is conservative.
 
@@ -148,7 +148,7 @@ Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KE
   large changes, refresh with `/graphify . --update`; where that skill isn't
   available, `python graphify-out/ast_update.py` refreshes the code layer (no LLM).
 - **Test days:** record each one in `docs/test-reports/YYYY-MM-DD-test-report.md`
-  (what ran, successes, failures, costs from `usage/budget_ledger.jsonl`, decisions, next steps).
+  (what ran, successes, failures, costs from `~/.mti-2d-3d/budget_ledger.jsonl`, decisions, next steps).
 
 ## Next phase (designed 2026-09-28 — read before building)
 

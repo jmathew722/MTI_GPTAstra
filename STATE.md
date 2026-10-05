@@ -69,7 +69,7 @@ Python 3.13 venv at `.venv` (via `uv`). SolidWorks here is **2025 SP5**
 Extraction runs on `gpt-6-astra` (`EXTRACTION_PROVIDER=openai`). The direct-OpenAI price is
 still `null` in `config/pricing.json`: the token report shows those rows as *unpriced*, and the
 budget guard charges them at the Azure Standard rate ($10/$50 per 1M) to stay conservative.
-Live API spend so far: see `usage/budget_ledger.jsonl` (gitignored).
+Live API spend so far: see `~/.mti-2d-3d/budget_ledger.jsonl` (outside the repo; moved 2026-10-05 after the in-repo copy was wiped, then restored exactly from the per-run ledgers: 47 calls, $11.70).
 
 ## 2. Part inventory
 

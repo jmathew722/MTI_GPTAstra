@@ -193,7 +193,7 @@ with no API calls; SolidWorks behaviour is verified live and recorded in the err
 
 ## 6. Pricing and cost
 
-Source: `2D-3D-CAD-Test-Generation/usage/budget_ledger.jsonl` (gitignored, local), plus per-run
+Source: the budget ledger (now `~/.mti-2d-3d/budget_ledger.jsonl`; on 2026-10-05 it was rebuilt exactly from the per-run ledgers after the in-repo copy was wiped), plus per-run
 ledgers committed under `output/*/usage/`.
 
 > **Rate basis:** the direct-OpenAI price for `gpt-6-astra` isn't confirmed in
