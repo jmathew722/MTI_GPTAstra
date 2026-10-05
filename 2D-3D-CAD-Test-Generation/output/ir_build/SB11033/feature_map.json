@@ -1,0 +1,135 @@
+{
+  "part": "SB11033",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -0.969,
+    -0.969,
+    0.0,
+    0.969,
+    0.969,
+    1.971
+  ],
+  "volume": 2.22005,
+  "volume_mm3": 36380.1,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F006",
+    "F007"
+  ],
+  "skipped": {
+    "F005": "unresolved: .015 MAX. R at the pilot root: only a maximum is given"
+  },
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          0.781,
+          0.0
+        ],
+        "planned_d": 0.218,
+        "measured": true,
+        "center": [
+          0.781,
+          0.0
+        ],
+        "d": 0.218,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ],
+    "F003": [
+      {
+        "planned_center": [
+          0.0,
+          0.781
+        ],
+        "planned_d": 0.218,
+        "measured": true,
+        "center": [
+          0.0,
+          0.781
+        ],
+        "d": 0.218,
+        "depth": 0.375,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -0.781,
+          0.0
+        ],
+        "planned_d": 0.218,
+        "measured": true,
+        "center": [
+          -0.781,
+          0.0
+        ],
+        "d": 0.218,
+        "depth": 0.375,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -0.0,
+          -0.781
+        ],
+        "planned_d": 0.218,
+        "measured": true,
+        "center": [
+          -0.0,
+          -0.781
+        ],
+        "d": 0.218,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {
+    "F004": [
+      [
+        -0.5,
+        0.0,
+        0.565
+      ]
+    ],
+    "F006": [
+      [
+        -0.969,
+        0.0,
+        0.19
+      ],
+      [
+        -0.969,
+        0.0,
+        0.565
+      ]
+    ],
+    "F007": [
+      [
+        -0.5,
+        0.0,
+        1.971
+      ]
+    ]
+  },
+  "starts": {
+    "F002": {
+      "axis": "Z",
+      "coord": 0.19,
+      "dir": 1
+    }
+  },
+  "volume_after": {
+    "F001": 2.28068218,
+    "F002": 2.266685206,
+    "F003": 2.224694286,
+    "F004": 2.230901603,
+    "F006": 2.225478585,
+    "F007": 2.220049913
+  }
+}

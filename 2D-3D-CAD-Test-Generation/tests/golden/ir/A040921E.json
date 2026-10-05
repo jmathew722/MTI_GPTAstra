@@ -1,0 +1,22 @@
+{
+  "_checked_against": "ViewDefinedDrawings/A040921E (dev): SPACER 4092-B. Ø10.50 OD, Ø9.002 +.002/-.000 bore, 3.000 long; CENT. 1.062 slot at 12 o'clock, .75 deep from datum -A-, through the wall; .09 x 45 TYP; BREAK ALL SHARP CORNERS (not modeled).",
+  "dims": {"D001": 10.5, "D002": 9.002, "D003": 1.062, "D004": 3.0, "D005": 0.75, "D006": 0.09},
+  "plan": {
+    "part": "A040921E",
+    "frame": {"origin_kind": "axis_end", "units": "inch", "view_map": {"front": "-Z", "side": "+X"}},
+    "features": [
+      {"kind": "revolve", "id": "F001", "rationale": "ring: OD D001, bore D002, length D004; datum A at z = 0",
+       "outer": [{"z": "0", "r": "D001 / 2"}, {"z": "D004", "r": "D001 / 2"}],
+       "inner": [{"z": "0", "r": "D002 / 2"}, {"z": "D004", "r": "D002 / 2"}]},
+      {"kind": "prism", "id": "F002", "rationale": "end slot, centered at 12 o'clock, through the wall",
+       "source_callouts": ["CENT. 1.062", ".75"], "on": "face(F001,-Z)", "op": "cut",
+       "profile": {"shape": "rect", "anchor": "corner", "u": "-D003 / 2", "v": "0", "w": "D003", "h": "D001"},
+       "depth": "D005"},
+      {"kind": "edge_op", "id": "F003", "rationale": ".09 x 45 TYP on the outer and bore end edges",
+       "source_callouts": [".09 X 45° TYP"], "operation": "chamfer", "size": "D006",
+       "status": "unresolved",
+       "edges": ["edge_between(face(F001,+Z), wall(F001))"]}
+    ]
+  },
+  "_note": "F003 is unresolved on purpose: 'TYP' doesn't say which edges, and the slot edges are ambiguous. Gate 1 must report it (spec: no guessing)."
+}

@@ -1,0 +1,29 @@
+{
+  "_checked_against": "ViewDefinedDrawings/SB11780 (dev): TIE ROD. 76.88 overall; .88 left collar; 1.016 TYP necks turned to Ø1.734; 75.125 between the inner collar faces (right collar = 76.88 - .88 - 75.125 = .875); Ø2.4985 REF CFS stock; .500 CENT. keyway, floor 2.218 from the opposite tangent, along the main body between the necks; .125 R MAX TYP neck roots; .06 C/R BOTH ENDS.",
+  "dims": {"D001": 2.4985, "D002": 76.88, "D003": 75.125, "D004": 0.88, "D005": 1.016, "D006": 1.734,
+           "D007": 0.5, "D008": 2.218, "D009": 0.06, "D010": 0.125},
+  "plan": {
+    "part": "SB11780",
+    "frame": {"origin_kind": "axis_end", "units": "inch", "view_map": {"front": "+Y", "side": "-Z"}},
+    "features": [
+      {"kind": "revolve", "id": "F001", "rationale": "turned profile: collar, neck, body, neck, collar",
+       "outer": [
+         {"z": "0", "r": "D001 / 2"}, {"z": "D004", "r": "D001 / 2"},
+         {"z": "D004", "r": "D006 / 2"}, {"z": "D004 + D005", "r": "D006 / 2"},
+         {"z": "D004 + D005", "r": "D001 / 2"}, {"z": "D004 + D003 - D005", "r": "D001 / 2"},
+         {"z": "D004 + D003 - D005", "r": "D006 / 2"}, {"z": "D004 + D003", "r": "D006 / 2"},
+         {"z": "D004 + D003", "r": "D001 / 2"}, {"z": "D002", "r": "D001 / 2"}]},
+      {"kind": "prism", "id": "F002", "op": "cut", "rationale": "keyway .500 wide, floor 2.218 from the opposite tangent, main body only",
+       "source_callouts": [".500 +.002/-.000 CENT.", "2.218"],
+       "on": "plane(front)", "offset": "D004 + D005",
+       "profile": {"shape": "rect", "anchor": "corner", "u": "D008 - D001 / 2", "v": "-D007 / 2", "w": "D001", "h": "D007"},
+       "depth": "D003 - 2 * D005"},
+      {"kind": "edge_op", "id": "F003", "operation": "fillet", "size": "D010", "status": "unresolved",
+       "rationale": ".125 R MAX TYP: only a maximum is given; the radius to use needs a human",
+       "source_callouts": [".125 R MAX TYP"], "edges": ["edge_between(wall(F001), wall(F001))"]},
+      {"kind": "edge_op", "id": "F004", "operation": "chamfer", "size": "D009", "status": "unresolved",
+       "rationale": ".06 C/R BOTH ENDS: chamfer OR radius is the shop's choice; needs a human",
+       "source_callouts": [".06 C/R BOTH ENDS"], "edges": ["edge_between(wall(F001), wall(F001))"]}
+    ]
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "part": "DEMO-PLATE-001",
+  "units": "mm",
+  "origin_kind": "corner",
+  "bbox": [
+    0.0,
+    0.0,
+    0.0,
+    100.0,
+    60.0,
+    10.0
+  ],
+  "volume": 54782.8618,
+  "volume_mm3": 54782.862,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005"
+  ],
+  "skipped": {},
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          10.0,
+          10.0
+        ],
+        "planned_d": 8.0,
+        "measured": true,
+        "center": [
+          10.0,
+          10.0
+        ],
+        "d": 8.0,
+        "depth": 10.0,
+        "axis": "Z"
+      }
+    ],
+    "F003": [
+      {
+        "planned_center": [
+          90.0,
+          10.0
+        ],
+        "planned_d": 8.0,
+        "measured": true,
+        "center": [
+          90.0,
+          10.0
+        ],
+        "d": 8.0,
+        "depth": 10.0,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          10.0,
+          50.0
+        ],
+        "planned_d": 8.0,
+        "measured": true,
+        "center": [
+          10.0,
+          50.0
+        ],
+        "d": 8.0,
+        "depth": 10.0,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          90.0,
+          50.0
+        ],
+        "planned_d": 8.0,
+        "measured": true,
+        "center": [
+          90.0,
+          50.0
+        ],
+        "d": 8.0,
+        "depth": 10.0,
+        "axis": "Z"
+      }
+    ],
+    "F004": [
+      {
+        "planned_center": [
+          50.0,
+          30.0
+        ],
+        "planned_d": 20.0,
+        "measured": true,
+        "center": [
+          50.0,
+          30.0
+        ],
+        "d": 20.0,
+        "depth": 8.0,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {
+    "F005": [
+      [
+        60.0,
+        30.0,
+        10.0
+      ],
+      [
+        60.0,
+        30.0,
+        0.0
+      ]
+    ]
+  },
+  "starts": {
+    "F001": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 10.0,
+      "dir": -1
+    },
+    "F004": {
+      "axis": "Z",
+      "coord": 10.0,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 60000.0,
+    "F002": 59497.345175426,
+    "F003": 57989.380701703,
+    "F004": 54847.788048113,
+    "F005": 54782.861799939
+  }
+}

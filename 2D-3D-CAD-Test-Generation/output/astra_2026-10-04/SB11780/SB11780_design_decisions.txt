@@ -1,0 +1,123 @@
+DESIGN DECISION & VERIFICATION REPORT — SB11780
+Generated 2026-10-04 by the automated 2D->3D SolidWorks pipeline.
+==============================================================================
+
+BUILD SUMMARY
+------------------------------------------------------------------------------
+  SolidWorks file:        C:\Users\gingw\AppData\Local\Temp\claude\C--Users-gingw-Desktop-AILOTFALL-mti-2d-3d\bd3b716b-4146-4cd5-bdaa-2cea4561715a\scratchpad\astra_built\SB11780\SB11780.sldprt
+  Features built:         2 (F001, F006)
+  Features skipped:       F002 (extrude_cut), F003 (extrude_cut), F004 (extrude_cut), F005 (fillet)
+  Extraction confidence:  73%
+  Model validation:       FAILED
+  Feature completeness:   2/6 built (missing F002, F003, F004, F005)
+    FAIL: Feature completeness: 2/6 built (33%).
+    FAIL: INCOMPLETE: F002 extrude_cut not built (build skipped/failed) - Axial external keyway at the right of the front profile, width .500 +.
+    FAIL: INCOMPLETE: F003 extrude_cut not built (build skipped/failed) - Left circumferential neck, reducing the shaft to diameter 1.734 over a
+    FAIL: INCOMPLETE: F004 extrude_cut not built (build skipped/failed) - Right circumferential neck, diameter 1.734 and axial width 1.016. From
+    FAIL: INCOMPLETE: F005 fillet x4 not built (build skipped/failed) - Typical concave root radii at both neck shoulders, four circular root 
+  Solid volume:           6,176,597.3 mm^3
+  Bounding box (mm):      [1952.752, 63.4619, 63.4619]
+
+1. AUTOMATED DESIGN DECISIONS  (90%-confidence defaults — review before production)
+------------------------------------------------------------------------------
+  - Dimension D009 (outer_end_corner_treatment=0.06) was flagged 'resolution required' (ambiguous); proceeded with best guess 0.06. Candidates: 0.06 (best guess).
+  - Dimension D011 (left_collar_inner_shoulder_perpendicularity=0.002) was flagged 'resolution required' (ambiguous); proceeded with best guess 0.002. Candidates: 0.002 (best guess).
+  - Dimension D012 (right_collar_inner_shoulder_perpendicularity=0.002) was flagged 'resolution required' (ambiguous); proceeded with best guess 0.002. Candidates: 0.002 (best guess).
+
+2. EXTRACTED DIMENSIONS  (17)
+------------------------------------------------------------------------------
+  ID    Type      Value    Unit  Tol +/-          Applies To                                                Notes
+  ----  --------  -------  ----  ---------------  --------------------------------------------------------  --------------------------------------------------
+  D001  diameter  2.4985   inch  +0.0015/-0.0015  stock_and_end_collar_outside_diameter                     Printed 2.4985 ±.0015 diameter REF. Main body and
+  D002  linear    76.88    inch  +0/-0            overall_axial_length                                      No explicit length tolerance or general tolerance
+  D003  linear    75.125   inch  +0/-0            distance_between_inward_facing_end_collar_shoulders       Spans from the left collar inner face to the right
+  D004  linear    0.88     inch  +0/-0            left_end_collar_axial_width                               Only the left collar width is explicitly called ou
+  D005  linear    1.016    inch  +0/-0            reduced_neck_axial_width                                  TYP; applies to both circumferential necks F003 an
+  D006  diameter  1.734    inch  +0/-0            reduced_neck_diameter                                     Dashed concentric circle in front view and neck ex
+  D007  linear    0.5      inch  +0.002/-0        keyway_width                                              Printed .500 +.002 -.000 CENT. Keyway is centered
+  D008  linear    2.218    inch  +0/-0            distance_from_opposite_outside_tangent_to_keyway_floor    The right extension line is at the keyway floor, n
+  D009  radial    0.06     inch  +0/-0            outer_end_corner_treatment                                Printed .06 C/R BOTH ENDS. Numerical value is clea
+  D010  radial    0.125    inch  +0/-0            neck_root_fillet_maximum_radius                           Printed .125 R MAX TYP. This is an upper bound, no
+  D011  linear    0.002    inch  +0/-0            left_collar_inner_shoulder_perpendicularity               Feature control frame at left collar inner shoulde
+  D012  linear    0.002    inch  +0/-0            right_collar_inner_shoulder_perpendicularity              Upper row of right-hand feature control frame. Dat
+  D013  linear    0.002    inch  +0/-0            right_collar_inner_shoulder_parallelism                   Lower row of right-hand feature control frame; dat
+  D014  linear    0.875    inch  +0/-0            derived_right_end_collar_axial_width                      Derived: 76.88 - 75.125 - .88 = .875. Do not silen
+  D015  linear    73.093   inch  +0/-0            derived_main_body_length_between_necks                    Derived: 75.125 - 2(1.016) = 73.093.
+  D016  depth     0.2805   inch  +0/-0            derived_keyway_radial_depth_from_nominal_outside_surface  Derived nominal depth: 2.4985 - 2.218 = .2805. Dep
+  D017  linear    0.96875  inch  +0/-0            derived_keyway_floor_radial_coordinate_from_shaft_axis    Derived: 2.218 - 2.4985/2 = .96875, toward the rig
+
+  Geometric tolerances:
+    - perpendicularity 0.002 (datum A)
+    - perpendicularity 0.002 (datum A)
+    - parallelism 0.002 (datum B)
+
+3. FEATURES
+------------------------------------------------------------------------------
+  F001   extrude_boss   BUILT              Base shaft: circular front-plane profile of nominal referenc
+  F002   extrude_cut    SKIPPED            Axial external keyway at the right of the front profile, wid
+  F003   extrude_cut    SKIPPED            Left circumferential neck, reducing the shaft to diameter 1.
+  F004   extrude_cut    SKIPPED            Right circumferential neck, diameter 1.734 and axial width 1
+  F005   fillet         SKIPPED            Typical concave root radii at both neck shoulders, four circ
+  F006   fillet         BUILT              Provisional .06 corner-radius treatment at the outside edges
+
+4. CONCERNS & ISSUES FOR HUMAN VERIFICATION
+------------------------------------------------------------------------------
+  - Extraction note: No title block is supplied: part identification, revision, scale, explicit drawing standard, material grade, and general tolerances cannot be established.
+  - Extraction note: Inches are inferred from the dimension conventions and shaft callouts; an explicit units declaration is absent.
+  - Extraction note: Datum A identifier is visible beside the front-view keyway dimensions, but its exact feature attachment is not unambiguous. Do not assume it is the shaft axis without confirmation. Datum B is the left collar inner shoulder.
+  - Extraction note: The .06 C/R BOTH ENDS numerical callout is clear, but its abbreviation requires confirmation; corner radius is the provisional interpretation.
+  - Extraction note: The .125 R MAX TYP callout does not specify a unique fillet radius. The feature describes four matching root transitions, but the chosen radius must respect the maximum.
+  - Extraction note: If equal .88-wide end collars were intended, 75.125 + 2(.88) would equal 76.885, differing from the printed overall length by .005. Extraction instead preserves the printed values and derives a .875 right collar; exact axial mirror symmetry is not established.
+  - Extraction note: The stock diameter is expressly REF, despite its printed ±.0015 range. Derived keyway radial coordinates are therefore nominal and must not replace the controlling 2.218 dimension.
+  - Extraction note: Keyway full axial extent is inferred from the longitudinal edges; no separate axial keyway length or termination dimension is printed.
+  - Extraction note: MACHINE CENTERS PERMITTED is an allowance for optional manufacturing centers, not a dimensioned center-hole requirement; no holes have been invented.
+  - Extraction note: CFS likely denotes cold-finished steel; the associated H surface marking has no supplied legend.
+  - Extraction note: The neck features use the available extrude_cut category to describe annular material removal. Their dimensional source is the side view; a CAD implementation must use an annular axial cut or a revolved cut, not blindly extrude a side-view rectangle.
+  - Extraction note: Could not classify view for SB11780.png; skipped.
+  - VERIFY dimension D009=0.06 inch — extractor was unsure (ambiguous).
+  - VERIFY dimension D011=0.002 inch — extractor was unsure (ambiguous).
+  - VERIFY dimension D012=0.002 inch — extractor was unsure (ambiguous).
+  - Feature F002 (extrude_cut) was SKIPPED during the build: extrude_cut F002 needs a diameter or length+width; got {'keyway_width': 0.0127, 'distance_from_opposite_outside_tangent_to_keyway_floor': 0.0563372, 'derived_keyway_radial_depth_from_nominal_outside_surface': 0.0071247, 'derived_keyway_floor_radial_coordinate_from_shaft_axis': 0.02460625, 'overall_axial_length': 1.9527519999999998, 'depth': 1.9527519999999998}.
+  - Feature F003 (extrude_cut) was SKIPPED during the build: Failed to enter sketch mode for extrude_cut.
+  - Feature F004 (extrude_cut) was SKIPPED during the build: FeatureCut4 returned None for F004 (both directions).
+  - Feature F005 (fillet) was SKIPPED during the build: fillet F005: no built parent_feature (F003) to infer edges from; the schema carries no edge ids.
+
+==============================================================================
+APPENDIX — full Phase-1 verification report
+==============================================================================
+VERIFICATION REPORT
+===================
+Part: SB11780    Units: inch    Standard: unknown    Confidence: 0.73
+Total dimensions extracted: 17
+Hole callouts extracted: 0
+Features identified: 6  (build order: 6)
+Dimensions flagged ambiguous: 0
+Dimensional closure: PASS  (3 chain(s) checked)
+Unit consistency: PASS
+View consistency: FAIL
+Feature feasibility: PASS
+Derived dimensions computed: 4  ->  D014, D015, D016, D017
+
+DRAWING COMPLETENESS SCORE (Phase 4):
+  Geometry completeness:  100%
+  Dimension completeness: 100%
+  Cross-view consistency: 100%
+  Feature confidence:     73%
+  Macro readiness:        93%
+
+WARNINGS:
+  [WARN]  extraction: No title block is supplied: part identification, revision, scale, explicit drawing standard, material grade, and general tolerances cannot be established.
+  [WARN]  extraction: Inches are inferred from the dimension conventions and shaft callouts; an explicit units declaration is absent.
+  [WARN]  extraction: Datum A identifier is visible beside the front-view keyway dimensions, but its exact feature attachment is not unambiguous. Do not assume it is the shaft axis without confirmation. Datum B is the left collar inner shoulder.
+  [WARN]  extraction: The .06 C/R BOTH ENDS numerical callout is clear, but its abbreviation requires confirmation; corner radius is the provisional interpretation.
+  [WARN]  extraction: The .125 R MAX TYP callout does not specify a unique fillet radius. The feature describes four matching root transitions, but the chosen radius must respect the maximum.
+  [WARN]  extraction: If equal .88-wide end collars were intended, 75.125 + 2(.88) would equal 76.885, differing from the printed overall length by .005. Extraction instead preserves the printed values and derives a .875 right collar; exact axial mirror symmetry is not established.
+  [WARN]  extraction: The stock diameter is expressly REF, despite its printed ±.0015 range. Derived keyway radial coordinates are therefore nominal and must not replace the controlling 2.218 dimension.
+  [WARN]  extraction: Keyway full axial extent is inferred from the longitudinal edges; no separate axial keyway length or termination dimension is printed.
+  [WARN]  extraction: MACHINE CENTERS PERMITTED is an allowance for optional manufacturing centers, not a dimensioned center-hole requirement; no holes have been invented.
+  [WARN]  extraction: CFS likely denotes cold-finished steel; the associated H surface marking has no supplied legend.
+  [WARN]  extraction: The neck features use the available extrude_cut category to describe annular material removal. Their dimensional source is the side view; a CAD implementation must use an annular axial cut or a revolved cut, not blindly extrude a side-view rectangle.
+  [WARN]  extraction: Could not classify view for SB11780.png; skipped.
+  [WARN]  Dimension D001 cites view 'side', which is not among the identified views.
+
+OVERALL STATUS: READY TO BUILD

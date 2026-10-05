@@ -1,0 +1,39 @@
+VERIFICATION REPORT
+===================
+Part: A040911E    Units: inch    Standard: unknown    Confidence: 0.68
+Total dimensions extracted: 19
+Hole callouts extracted: 0
+Features identified: 6  (build order: 5)
+Dimensions flagged ambiguous: 0
+Dimensional closure: PASS  (4 chain(s) checked)
+Unit consistency: PASS
+View consistency: FAIL
+Feature feasibility: PASS
+Derived dimensions computed: 6  ->  D014, D015, D016, D020, D021, D022
+
+DRAWING COMPLETENESS SCORE (Phase 4):
+  Geometry completeness:  100%
+  Dimension completeness: 100%
+  Cross-view consistency: 100%
+  Feature confidence:     68%
+  Macro readiness:        92%
+
+WARNINGS:
+  [WARN]  extraction: Re-examination confirms no title block or general-tolerance block is supplied. Identity, revision, scale, material, formal standard and unspecified tolerances remain unknown.
+  [WARN]  extraction: Inch units are strongly inferred from decimal dimensions and .250 socket-head-cap-screw designation, not a visible units declaration.
+  [WARN]  extraction: The reporting validator rejects unknown hole diameters represented by zero and requires positive numeric dimensions. Therefore hole_callouts remains empty rather than inventing diameters. Complete readable small-hole callout information and nominal instance coordinates are preserved in F003-F005. No diameter was measured from image scale.
+  [WARN]  extraction: Drill and counterbore diameters for F003/F004 are not specified. .250 is nominal screw size, not either machining diameter. Obtain approved screw standard and clearance specifications before manufacture.
+  [WARN]  extraction: F005's leader runs outside the supplied front crop. Recover the missing callout to determine diameter, type, depth/through condition, fit, threads and secondary details.
+  [WARN]  extraction: The three screw-hole instances are interpreted as upper and lower pair. Their Cartesian positions approximate a radius-2.875, 120-degree arrangement, but no bolt-circle or equal-angle annotation is printed. Do not force exact equal-angular spacing in place of shown Cartesian dimensions.
+  [WARN]  extraction: Right-hand hole x positions are symmetry-inferred, not independently dimensioned. Nominal edge-referenced positions use ring center (3.249,3.249). Feature position_known fields refer to the first directly located instance, not validation of all inferred positions.
+  [WARN]  extraction: Surface-texture values 63 and 125 are legible. Microinch roughness is likely; parameter, units and governing standard require confirmation.
+  [WARN]  extraction: The typical chamfer is depicted at four ring edges in section. Its application to small-hole edges is not established.
+  [WARN]  extraction: D011 is 45 degrees; the inch field is solely a schema limitation.
+  [WARN]  extraction: No REF or parenthesized dimension is visible. Derived checks are nominal arithmetic, not additional controlling dimensions or independently verified manufacturing tolerances.
+  [WARN]  extraction: Missing diameter records were not assigned fabricated positive values. Missing values require human resolution as described in F003-F005; D017-D019 are unused identifiers.
+  [WARN]  extraction: Manufacturing-ready geometry remains blocked by missing small-hole specifications, unconfirmed inferred symmetry, and unavailable general tolerances.
+  [WARN]  extraction: Could not classify view for A040911E.png; skipped.
+  [WARN]  Feature F004 is not in build_order and will not be built.
+  [WARN]  Dimension D009 cites view 'side', which is not among the identified views.
+
+OVERALL STATUS: READY TO BUILD

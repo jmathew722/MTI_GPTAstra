@@ -1,0 +1,33 @@
+{
+  "part": "A040921E",
+  "attempts": 1,
+  "error": "",
+  "cost_usd_budget_rate": 0.1749,
+  "findings": [
+    "error:unresolved:F004"
+  ],
+  "score": {
+    "features": 4,
+    "unresolved": [
+      "F004"
+    ],
+    "gate1_errors": [],
+    "compiled": true,
+    "iou": 0.9967,
+    "alignment": [
+      false,
+      1,
+      1,
+      1
+    ],
+    "volume_err": -0.0033,
+    "bbox_err": 0.0,
+    "holes_matched": 0,
+    "holes_missing": 0,
+    "holes_extra": 0,
+    "holes_expected": 0,
+    "cq_skipped": [
+      "F004"
+    ]
+  }
+}

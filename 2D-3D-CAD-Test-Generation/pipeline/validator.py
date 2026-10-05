@@ -261,11 +261,27 @@ def _check_pattern_envelopes(model: DrawingData, report: ValidationReport) -> No
                 f"{max_envelope:g} {model.units.value}."
             )
 
+    # Explicit instance positions are the ground truth for a pattern's extent. The
+    # qty x spacing formula assumes ONE straight row, so it calls a 2x2 grid with
+    # 80 pitch a 240-long row (DEMO-PLATE-001, 2026-10-04). Use the real extents.
+    def _positions_for(ref: str) -> list[list[float]]:
+        h = model.hole_callout_by_id(ref) or model.hole_callout_for_feature(ref)
+        return [p for p in (h.instance_positions if h else []) if len(p) == 2]
+
+    def _check_positions(pts: list[list[float]], label: str) -> None:
+        span = max(max(p[i] for p in pts) - min(p[i] for p in pts) for i in (0, 1))
+        _check(span, len(pts), span or 1.0, label)
+
     for h in model.hole_callouts:
-        if h.pattern != PatternKind.NONE:
+        pts = _positions_for(h.id)
+        if len(pts) >= 2:
+            _check_positions(pts, f"hole callout {h.id}")
+        elif h.pattern != PatternKind.NONE:
             span = (h.qty - 1) * h.pattern_spacing
             _check(span, h.qty, h.pattern_spacing, f"hole callout {h.id}")
     for s in model.relationships.equal_spacing:
+        if len(_positions_for(s.feature_ref)) >= 2:
+            continue  # extents already checked from the instance positions above
         span = (s.qty - 1) * s.spacing_value
         _check(span, s.qty, s.spacing_value, f"equal-spacing note for {s.feature_ref}")
 
@@ -283,28 +299,29 @@ def _check_reference_dimensions(model: DrawingData, report: ValidationReport) ->
 
 
 def _check_instance_positions(model: DrawingData, report: ValidationReport) -> None:
-    """Advisory: explicit per-instance hole positions should match qty and sit
-    inside the part envelope (drawing frame: corner at origin)."""
-    length = max((d.value for d in model.dimensions
-                  if d.is_envelope and d.canonical_applies_to == "length"), default=0.0)
-    width = max((d.value for d in model.dimensions
-                 if d.is_envelope and d.canonical_applies_to == "width"), default=0.0)
+    """Every hole instance must lie inside the base profile (circle of a round
+    part, or the length x width plate). Positions written in the other frame
+    (corner vs center) are corrected and warned about. A hole that is outside the
+    part even after that BLOCKS, because it would cut nothing (STATE.md R1/F6:
+    SB11842's bore at (2.5, 2.5) outside a Ø5 disc)."""
+    from pipeline.macro_generator import FRAME_FIX_NOTE, _reframe, hole_positions_outside_part
+
     for h in model.hole_callouts:
-        if not h.instance_positions:
-            continue
-        if len(h.instance_positions) != h.qty:
+        if h.instance_positions and len(h.instance_positions) != h.qty:
             report.warn(
                 f"Hole callout {h.id} has {len(h.instance_positions)} explicit position(s) "
                 f"but qty={h.qty}; using the listed positions."
             )
-        if length > 0 and width > 0:
-            for x, y in ((p[0], p[1]) for p in h.instance_positions if len(p) == 2):
-                if not (0.0 <= x <= length and 0.0 <= y <= width):
-                    report.warn(
-                        f"Hole callout {h.id} instance ({x:g}, {y:g}) lies outside the "
-                        f"{length:g} x {width:g} envelope — verify the coordinate frame."
-                    )
-                    break
+        if h.instance_positions and _reframe(model, [(p[0], p[1]) for p in h.instance_positions
+                                                     if len(p) == 2])[1]:
+            report.warn(f"Hole callout {h.id}: {FRAME_FIX_NOTE}")
+        outside = hole_positions_outside_part(model, h)
+        if outside:
+            report.feasibility_issues.append(f"hole callout {h.id} outside part")
+            report.error(
+                f"Hole callout {h.id}: instance(s) {[(round(x, 4), round(y, 4)) for x, y in outside]} "
+                "lie outside the part in either frame; verify the positions and frame."
+            )
 
 
 def _check_view_consistency(model: DrawingData, report: ValidationReport) -> None:

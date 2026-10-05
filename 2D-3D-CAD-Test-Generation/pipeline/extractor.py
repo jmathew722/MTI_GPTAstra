@@ -1,7 +1,10 @@
-"""Dimension extraction via the Claude Vision API.
+"""Dimension extraction via a vision LLM (OpenAI by default, Anthropic optional).
 
-Uses ``claude-sonnet-4-6`` (override with ``EXTRACTION_MODEL``) with a **forced
-tool call** — Claude must respond by calling the ``report_drawing_data`` tool,
+Provider is ``EXTRACTION_PROVIDER`` (``openai`` | ``anthropic``, default ``openai``)
+and the model is ``EXTRACTION_MODEL`` (default ``gpt-6-astra`` / ``claude-sonnet-4-6``).
+OpenAI requests go through :mod:`pipeline.openai_adapter`, which speaks the same
+Anthropic-shaped interface used below. The model gets a **forced
+tool call** — it must respond by calling the ``report_drawing_data`` tool,
 whose ``input_schema`` is generated from :class:`pipeline.schema.DrawingData`.
 The tool's JSON input is then validated against the same Pydantic model.
 
@@ -26,14 +29,29 @@ from typing import Any, Optional, Union
 from dotenv import load_dotenv
 from pydantic import ValidationError
 
+from pipeline import budget
 from pipeline.schema import DrawingData
-from pipeline.token_tracker import record_cache_hit, record_completion
+from pipeline.token_tracker import (
+    current_scope, normalize_usage, record_cache_hit, record_completion,
+)
 from utils.logger import get_logger
 
 log = get_logger()
 load_dotenv()
 
-DEFAULT_MODEL = "claude-sonnet-4-6"
+DEFAULT_MODELS = {"openai": "gpt-6-astra", "anthropic": "claude-sonnet-4-6"}
+
+
+def _provider() -> str:
+    name = (os.getenv("EXTRACTION_PROVIDER") or "openai").strip().lower()
+    if name not in DEFAULT_MODELS:
+        raise EnvironmentError(
+            f"EXTRACTION_PROVIDER={name!r} is not supported; use one of {sorted(DEFAULT_MODELS)}."
+        )
+    return name
+
+
+DEFAULT_MODEL = DEFAULT_MODELS[_provider()]
 MAX_TOKENS = 16000
 CONFIDENCE_THRESHOLD = 0.7  # below this, re-query once for a closer look
 SDK_MAX_RETRIES = 3  # SDK-level retries for transient API errors
@@ -59,11 +77,16 @@ def _confidence_threshold() -> float:
 
 def _accumulate_usage(acc: dict[str, int], response: Any) -> None:
     """Add one response's token usage into ``acc`` (no-op if absent, e.g. mocks)."""
-    usage = getattr(response, "usage", None)
-    if usage is None:
+    if getattr(response, "usage", None) is None:
         return
+    n = normalize_usage(response)  # handles Anthropic and OpenAI usage shapes
+    legacy = {
+        "input_tokens": n["input_tokens"], "output_tokens": n["output_tokens"],
+        "cache_creation_input_tokens": n["cache_write_tokens"],
+        "cache_read_input_tokens": n["cache_read_tokens"],
+    }
     for field in _USAGE_FIELDS:
-        acc[field] = acc.get(field, 0) + (getattr(usage, field, 0) or 0)
+        acc[field] = acc.get(field, 0) + legacy[field]
     acc["calls"] = acc.get("calls", 0) + 1
 
 
@@ -180,7 +203,16 @@ class ExtractionError(Exception):
 
 
 def _build_client(max_retries: int):
-    """Construct the Anthropic client, failing clearly if the key is absent."""
+    """Construct the provider client, failing clearly if the key is absent."""
+    if _provider() == "openai":
+        key = os.getenv("OPENAI_API_KEY") or os.getenv("OPEN_API_KEY")  # common misspelling
+        if not key:
+            raise EnvironmentError(
+                "OPENAI_API_KEY not found. Copy .env.template to .env and set your key."
+            )
+        from pipeline.openai_adapter import OpenAIAnthropicShim
+
+        return OpenAIAnthropicShim(key, max_retries)
     api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
         raise EnvironmentError(
@@ -217,6 +249,8 @@ def _call(client, model: str, messages: list[dict[str, Any]]):
     # in a batch — so within the cache window nearly all calls read it at ~10%
     # cost. The image carries its own cache breakpoint (see _image_block).
     system = [{"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}]
+    # Hard spend cap: reserve this call's worst case first (raises BudgetExceeded).
+    budget.preflight(_provider(), model, budget.estimate_input_tokens(system, messages), MAX_TOKENS)
     started = time.perf_counter()
     response = client.messages.create(
         model=model,
@@ -227,8 +261,10 @@ def _call(client, model: str, messages: list[dict[str, Any]]):
         tool_choice={"type": "tool", "name": TOOL_NAME},
     )
     # One ledger row per completion (no-op unless a TokenTracker is active).
-    record_completion(response, model=model, provider="anthropic", role="extractor",
+    record_completion(response, model=model, provider=_provider(), role="extractor",
                       latency_ms=(time.perf_counter() - started) * 1000)
+    budget.charge(response, _provider(), model, role="extractor",
+                  part=str(current_scope().get("part") or ""))
     return response
 
 
@@ -361,7 +397,7 @@ def extract_drawing_data_multiview(
     cached = _cache_lookup(cache_dir, key)
     if cached is not None:
         log.info("Multi-view extraction cache HIT (%s…) — skipping API call.", key[:12])
-        record_cache_hit(model=model, provider="anthropic", role="extractor")
+        record_cache_hit(model=model, provider=_provider(), role="extractor")
         if usage_out is not None:
             usage_out["cache_hits"] = usage_out.get("cache_hits", 0) + 1
         return cached
@@ -449,7 +485,7 @@ def extract_drawing_data(
     Args:
         image_b64: Base64-encoded image (from :func:`utils.image_prep.prepare_image`).
         media_type: MIME type of the image (default ``image/png``).
-        model: Model override; defaults to ``$EXTRACTION_MODEL`` or ``claude-sonnet-4-6``.
+        model: Model override; defaults to ``$EXTRACTION_MODEL`` or the provider's default.
         prep_warnings: Warnings from image preparation, merged into the result so the
             operator sees them alongside the model's own warnings.
         cache_dir: If given, an on-disk extraction cache keyed by image+model hash;
@@ -471,7 +507,7 @@ def extract_drawing_data(
     cached = _cache_lookup(cache_dir, key)
     if cached is not None:
         log.info("Extraction cache HIT (%s…) — skipping API call.", key[:12])
-        record_cache_hit(model=model, provider="anthropic", role="extractor")
+        record_cache_hit(model=model, provider=_provider(), role="extractor")
         if usage_out is not None:
             usage_out.setdefault("cache_hits", 0)
             usage_out["cache_hits"] += 1

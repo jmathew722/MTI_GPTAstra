@@ -188,3 +188,15 @@ class TestTokenTracker:
         rec = t.record({"input_tokens": 1}, role="planner", model="claude-opus-5-5",
                        provider="anthropic")
         assert rec.input_tokens == 1
+
+
+def test_live_line_reports_cost_and_running_total(tmp_path, caplog):
+    import logging
+    from pipeline.token_tracker import Pricing, TokenTracker
+    pricing = Pricing({"providers": {"p": {"m": {"input": 10.0, "output": 50.0,
+                                                  "cache_write": 0, "cache_read": 0}}}})
+    t = TokenTracker(tmp_path / "l.jsonl", pricing=pricing)
+    with caplog.at_level(logging.INFO):
+        t.record({"input_tokens": 1_000_000, "output_tokens": 0}, role="extractor", model="m", provider="p")
+        t.record({"input_tokens": 0, "output_tokens": 1_000_000}, role="extractor", model="m", provider="p")
+    assert "run total $10.0000" in caplog.text and "run total $60.0000" in caplog.text

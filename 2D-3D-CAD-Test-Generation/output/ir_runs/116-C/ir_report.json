@@ -1,0 +1,31 @@
+{
+  "part": "116-C",
+  "extraction": "reused output\\ir_runs\\116-C\\116-C_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 5,
+  "questions": [
+    "F006: What radius is required on the four rounded outside plan corners? No radius is specified."
+  ],
+  "flagged": [
+    "F002: The plan view shows equal opposite edge margins and a symmetric rectangular mounting-hole layout. Locate the pattern centrally in the block using half the difference between envelope size and center spacing.",
+    "F004: Use extracted lower limits D012 and D013 for the limit-dimensioned counterbore. The full sheet reads .111 above .113 for depth; interpret these as the two limits despite reversed order. The printed .50 drilling depth is full-diameter depth under standard drafting convention (ASME Y14.5); model a flat bottom and omit the cosmetic drill point. Position from the right mounting column and upper mounting row using the printed offsets."
+  ],
+  "reference_step": "output\\ir_runs\\116-C\\reference.step",
+  "volume": 12.271657,
+  "cq_skipped": {
+    "F006": "unresolved: What radius is required on the four rounded outside plan corners? No radius is specified."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\116-C\\116-C_ir.SLDPRT",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built",
+    "F003": "built",
+    "F004": "built (drill + counterbore)",
+    "F005": "built (drill + counterbore)",
+    "F006": "skipped (unresolved: What radius is required on the four rounded outside plan corners? No radius is specified.)"
+  },
+  "cost_usd": 0.1726,
+  "error": ""
+}

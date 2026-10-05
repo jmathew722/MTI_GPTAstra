@@ -245,12 +245,157 @@ fixtures.
   readiness* percentage (`compute_readiness`). Advisory by default; set
   `MACRO_READINESS_THRESHOLD` (e.g. `0.95`) to hard-gate low-readiness drawings.
 
+## E011 — COM connect fails on SolidWorks 2025: constants type library pinned to 2024
+
+- **Date:** 2026-10-04 · **Part:** SB11033 (smoke test) · **Stage:** COM build, `connect_to_solidworks`
+- **Symptom:** `SolidWorksError: ... 'Library not registered.'` before any part is created.
+- **Root cause:** `_SW_CONST_TYPELIB` hard-coded major version 20. The constants
+  typelib registers one version per release, keyed in **hex** (SolidWorks 2025 =
+  `21.0` = 33 decimal), so the 2024 value does not exist on a 2025 install.
+- **Fix:** `_ensure_constants_typelib` tries majors (34, 33, 32, 20) newest first.
+- **Rule:** never pin a SolidWorks type-library version; probe for it.
+- **Result:** after the fix SB11033 builds on SW 2025 (33.5) identically to the
+  2026-06-18 run: F001/F002/F003 built, F005/F006 chamfer and F007 fillet skipped (known, §3.2).
+- **Test:** none (needs a live SolidWorks); verified by the smoke build above.
+
+## E012 — COM fillets/chamfers never built: no edges selected, wrong fillet arg types
+
+- **Date:** 2026-10-04 · **Parts:** every COM run since 2026-06-18 · **Stage:** COM build
+- **Symptom:** `FeatureFillet3 returned None` / `InsertFeatureChamfer returned None` on
+  every part. All fillets and chamfers were "skipped".
+- **Root cause:** (1) the builders called `ClearSelection2` and then the feature API
+  with nothing selected; (2) `FeatureFillet3`'s 7 array arguments were passed as null
+  dispatches, which is a COM *Type mismatch*. They must be EMPTY Variants (`VT_EMPTY`).
+  The 14-argument form (Options, R1, Dist2, Rho, Ftyp, OverflowType, ConicRhoType + 7
+  arrays) matches the macro recorder.
+- **Fix:** `_infer_edges` selects edges from `parent_feature`: edges where the parent
+  meets earlier features, else the parent's own rims. They are selected with
+  `Edge.Select4(True, SelectData)`. Every inference is flagged `EDGES INFERRED`, because
+  the schema has no edge ids. Late binding exposes zero-argument members (`GetFaces`,
+  `GetEdges`, `CreateSelectData`, ...) as properties OR methods, and a returned
+  dispatch object is also "callable": use `_g()`.
+- **Rule:** never call a selection-based feature API without verifying a selection.
+  Array args for COM feature calls are `VARIANT(VT_EMPTY)`, never `None`/null dispatch.
+- **Result:** SB11033 F005/F006/F007 and DEMO-PLATE-001 C1 now build on SW 2025.
+- **Tests:** live only (needs SolidWorks); edge rule documented in `_infer_edges`.
+
+## E013 — Boss "built" but added no material (embedded in the base)
+
+- **Date:** 2026-10-04 · **Part:** SB11842 F002 · **Stage:** COM build
+- **Symptom:** F002 reported complete, then its chamfer F004 failed with "no candidate
+  edges". The boss was extruded into the flange from the same sketch plane and added
+  zero volume, so it had no faces.
+- **Fix:** `build_extrude_boss` compares total volume before and after. If nothing was
+  added, it runs `EditUndo2(1)`, reselects the sketch by tree walk, and extrudes reversed.
+  The result is flagged `DIRECTION ASSUMED`. A boss whose depth is in a dimension chain
+  with earlier bosses now starts where they end (`_start_offset`, `swStartOffset`). This
+  fixed SB11033's boss, which overlapped its flange (length 1.781 vs 1.971 overall).
+- **Rule:** a feature that returns an object is not proof it changed the part. Check
+  the volume.
+
+## E014 — Verification BLOCKED a correct 2x2 hole grid as a 240 mm row
+
+- **Date:** 2026-10-04 · **Part:** DEMO-PLATE-001 (GPT-6 Astra extraction) · **Stage:** gate
+- **Symptom:** `Pattern infeasible: H001 spans 240 mm (4 x 80 spacing)` on a 100 x 60
+  plate. The extraction had the exact four `instance_positions`.
+- **Root cause:** `_check_pattern_envelopes` assumed every pattern is ONE straight row
+  (`(qty-1) x spacing`).
+- **Fix:** when a callout has instance positions, check their real x/y extents instead.
+- **Tests:** `test_validator.py::test_grid_with_instance_positions_is_feasible_even_with_row_style_spacing`,
+  `::test_instance_positions_outside_envelope_still_blocked`.
+
+## E015 — Base plate dropped: labeled width/height instead of length/width
+
+- **Date:** 2026-10-04 · **Part:** DEMO-PLATE-001 (Astra) · **Stage:** `run_models.resolve_unknowns`
+- **Symptom:** "First feature F002 is 'hole'". The resolver removed F001 as an
+  "ambiguous profile" because its dims were `overall_width` 100 / `overall_height` 60.
+- **Fix:** `solidworks_builder.planar_extents` maps length/width, width/height or
+  length/height pairs to sketch (x, y) by canonical label, with height always vertical.
+  The resolver and builder share it. Same family as E010.
+- **Tests:** `test_placement.py::test_planar_extents_maps_both_label_styles_to_100_by_60`,
+  `::test_resolver_keeps_width_height_labeled_base`.
+
+## E016 — One failed feature made the next one fail too (sketch left open)
+
+- **Date:** 2026-10-04 · **Part:** SB11780 (Astra extraction) · **Stage:** COM build
+- **Symptom:** F002 failed (no profile), then F003 failed with "Failed to enter
+  sketch mode", even though F003 was fine.
+- **Root cause:** F002's builder raised after `InsertSketch(True)` had opened a sketch.
+  F003's `InsertSketch(True)` then *toggled that sketch closed*, so `ActiveSketch` was
+  `None`.
+- **Fix:** `build_model` calls `_close_open_sketch` in its failure handler, before the
+  skip-or-abort decision.
+- **Rule:** every failure path must leave SolidWorks out of sketch mode.
+
+## E017 — Round parts built off-axis; a bore cut outside the part
+
+- **Date:** 2026-10-04 · **Parts:** A040911E, SB11780 (June JSON); SB11842, A040921E
+  (Astra JSON) · **Stage:** COM build
+- **Symptom:** A040911E "built 5/5", but the bbox was 165 × 150.7 mm for a Ø6.498 disc:
+  the Ø4.5 bore broke through the rim. SB11842's bore "found no material".
+- **Root cause:** two frames. An unplaced circle was centered on the length/width
+  "envelope" (A040911E's mislabeled 2.75 → (0, 1.375")). A placed feature sat at the
+  origin. Astra also wrote one callout in both frames: `x/y_position` (0, 0) but
+  `instance_positions` [[2.5, 2.5]].
+- **Fix:** a circular base defines the part center (`round_base`/`part_center`).
+  Features in a `concentric_group` with a placed feature take its center.
+  Instance positions outside the part are re-framed when the shifted points all fit
+  (`FRAME CORRECTED`). Otherwise the gate BLOCKS.
+- **Tests:** `tests/test_root_cause_fixes.py` (F1, F6).
+
+## E018 — IR SolidWorks compiler: new APIs verified; two traps found
+
+- **Date:** 2026-10-04 · **Parts:** IR golden plans (SB11033, A040911E) · **Stage:**
+  `pipeline/ir/compile_solidworks.py`
+- **Verified live (hard rule 1):** `FeatureRevolve2` on the active sketch with a
+  centerline (exact volume). FeatureExtrusion3/FeatureCut4 start offsets
+  (`T0=3`, `StartOffset`, `FlipStartOffset`). `Edge.GetClosestPointOn` +
+  `Entity.Select4` for edges. Template plane mapping measured by `probe_plane_map`:
+  on this SW 2025 template Front = model YZ (+X normal), Top = XY, Right = XZ.
+- **Trap 1: select-by-coordinate is a view ray pick.** `SelectByID2("", "EDGE", x,y,z)`
+  shoots a ray along the current view. On A040911E the point on the z = 0 bore edge
+  selected the z = 1.5 edge behind it, so the chamfer volume mismatched. On SB11033 the
+  boss-end point picked an edge at z = .659 and the chamfer failed. **Fix:** nearest body
+  edge by true 3D distance (`GetClosestPointOn`), then `Select4`.
+- **Trap 2: Through All – Both from a base plane that misses the body returns None.**
+  SB11033's holes sat at r = .781 on the Front plane (the pilot end, empty there).
+  **Fix:** cut *Through All* from the resolved start face (`starts` in the feature map),
+  into the material, with the direction retried.
+- **Also:** a counterbored hole is verified only after BOTH cuts (the reference volume
+  includes the counterbore).
+- **Result:** all 5 golden plans build in SolidWorks with every feature's volume matching
+  the CadQuery reference (`python ir_build.py tests/golden/ir/*.json --solidworks`).
+- **Rule:** select topology by geometry (nearest entity), never by a view-dependent pick.
+  Verify every feature against the reference volume, and undo and retry flipped on a mismatch.
+
+## E019 — Cuts ending exactly on a surface: fine in CadQuery, rejected by SolidWorks
+
+- **Date:** 2026-10-04 · **Parts:** A040921E slot, SB11780 keyway (GPT-6 Astra plans) · **Stage:**
+  IR SolidWorks compiler, per-feature volume check
+- **Symptom:** "no direction matched the reference volume" on one cut per part. The CadQuery
+  reference built both cuts fine.
+- **Root cause:** the planned cut profile ended EXACTLY on the outer surface: slot height `D001/2`
+  touching the OD, and keyway depth reaching the OD tangent with its length ending on both end
+  faces. OpenCascade tolerates zero-thickness coincident/tangent boundaries; SolidWorks rejects them.
+- **Fix:** planner rule "CUTS MUST OVERSHOOT": a cut meant to break through a surface extends past
+  it using a larger existing dimension (or depth `thru`). Only the overshoot leaves the part, so the
+  geometry is unchanged. Re-planned, both parts build and verify.
+- **Rule:** a through-cut never ends on the surface it breaks. (Candidate deterministic Gate-1
+  lint: flag cut extents that coincide with the base envelope.)
+
+**Also noted (not a failure):** on the SW 2025 default part template, a sketch on "Front
+Plane" maps to model Y-Z (extrusion along X). Geometry relative to the sketch is
+correct. Scorers must project along each hole's axis rather than assume model XY.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `FullyDefineSketch` argument shape varies by SW version — currently wrapped
   in `On Error Resume Next`; verify on SW2024.
-- `FeatureFillet3` / `InsertFeatureChamfer` calls in `NN_fillets_chamfers.vba`
-  are interactive (user pre-selects edges) and untested on a real machine.
+- VBA `NN_fillets_chamfers.vba` is still interactive (user pre-selects edges); the
+  COM path now infers edges (E012). Port `_infer_edges` to the VBA generator.
+- Edge inference picks every matching edge. "C1 both sides" works, but a chamfer
+  meant for ONE side of a flange (SB11033 F006) gets all 4 rim edges. It needs edge
+  ids in the IR (Feature IR v2).
 - `swUnitSystem` change after `NewDocument` — confirm it applies to the
   document and not just detailing options.
 - Counterbore second cut is blind from the same sketch plane — depth direction

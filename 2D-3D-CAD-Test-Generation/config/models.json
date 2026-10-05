@@ -1,0 +1,10 @@
+{
+  "_readme": "Pinned model IDs (PRD A6 / NFR reproducibility). Call sites read these; never hard-code a model at a call site. Changing one is a benchmark-visible change: note it in STATE.md.",
+  "_decision": "2026-10-04: GPT-6 Astra (OpenAI) only; no model benchmark.",
+  "planner": {
+    "openai": "gpt-6-astra"
+  },
+  "planner_settings": {
+    "openai": {"max_tokens": 16000}
+  }
+}

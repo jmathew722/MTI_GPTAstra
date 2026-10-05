@@ -1,0 +1,704 @@
+{
+  "part_name": "MOUNTING PLATE",
+  "part_number": "DEMO-PLATE-001",
+  "revision": "A",
+  "drawing_standard": "",
+  "units": "mm",
+  "scale": "1:1",
+  "material": "6061-T6 ALUMINUM",
+  "finish": "",
+  "general_tolerance": "\u00b10.1 UNLESS NOTED",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Rectangular 100 by 60 plate face with four corner mounting holes and a central through bore chamfered on both faces. Coordinate convention: x rightward and y upward from the lower-left corner.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010",
+        "D011",
+        "D012"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Center crosses mark all five hole axes normal to the plate face. Mounting-hole centers are (10,10), (90,10), (10,50), and (90,50). Central bore axis is at (50,30). The two central circles represent the bore and chamfer mouth, not a counterbore."
+    },
+    {
+      "view_type": "Right",
+      "description": "Edge view of the plate showing its 10 thickness and full height. Six thin solid horizontal interior lines align with the projected diameter limits of the mounting holes and central bore; these would conventionally be hidden lines. Chamfer details are not resolved in this view.",
+      "dimensions_shown": [
+        "D003"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "No centerlines or dashed hidden lines are drawn in this view. The two mounting-hole columns overlap in projection."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 100.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_width",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General tolerance applies."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 60.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_height",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General tolerance applies."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 10.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "plate_thickness",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General tolerance applies."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 10.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_edge_to_left_hole_column",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General tolerance applies. Both left mounting holes share this x coordinate."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 90.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_edge_to_right_hole_column",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General tolerance applies. This is an edge-to-center coordinate, not the hole-column spacing."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 10.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "bottom_edge_to_lower_hole_row",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General tolerance applies."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 50.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "bottom_edge_to_upper_hole_row",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General tolerance applies. This is an edge-to-center coordinate, not the hole-row spacing."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 50.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "central_bore_x_from_left_edge",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Top dimension terminating in alignment with the central bore axis. General tolerance applies."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 30.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "central_bore_y_from_bottom_edge",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General tolerance applies."
+    },
+    {
+      "id": "D010",
+      "type": "diameter",
+      "value": 8.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "mounting_hole_diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "4X \u00d88 THRU. All four holes pass through the plate thickness. General tolerance applies."
+    },
+    {
+      "id": "D011",
+      "type": "diameter",
+      "value": 20.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "central_bore_diameter",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "\u00d820 THRU. General tolerance applies."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 1.0,
+      "unit": "mm",
+      "tolerance_plus": 0.1,
+      "tolerance_minus": 0.1,
+      "tolerance_type": "bilateral",
+      "applies_to": "central_bore_chamfer_size",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "C1 BOTH SIDES applies to both face intersections of the \u00d820 bore, not the outer plate edges or \u00d88 holes. Interpret as a conventional 1 mm equal-leg, 45-degree chamfer. Angle is implicit in C notation, not separately dimensioned. General linear tolerance applies."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 80.0,
+      "unit": "mm",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "mounting_hole_column_spacing",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value: D005 - D004 = 90 - 10 = 80. Not a separate drawing dimension; tolerances depend on the source dimensions."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 40.0,
+      "unit": "mm",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "mounting_hole_row_spacing",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value: D007 - D006 = 50 - 10 = 40. Not a separate drawing dimension; tolerances depend on the source dimensions."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 10.0,
+      "unit": "mm",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_hole_column_to_right_edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value: D001 - D005 = 100 - 90 = 10. Not separately toleranced."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 10.0,
+      "unit": "mm",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper_hole_row_to_top_edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value: D002 - D007 = 60 - 50 = 10. Not separately toleranced."
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 50.0,
+      "unit": "mm",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "central_bore_to_right_edge",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value: D001 - D008 = 100 - 50 = 50. Confirms nominal horizontal centering; not separately toleranced."
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 30.0,
+      "unit": "mm",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "central_bore_to_top_edge",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value: D002 - D009 = 60 - 30 = 30. Confirms nominal vertical centering; not separately toleranced."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 8.0,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 4,
+      "x_position": 10.0,
+      "y_position": 10.0,
+      "position_known": true,
+      "pattern": "linear",
+      "pattern_spacing": 80.0,
+      "instance_positions": [
+        [
+          10.0,
+          10.0
+        ],
+        [
+          90.0,
+          10.0
+        ],
+        [
+          10.0,
+          50.0
+        ],
+        [
+          90.0,
+          50.0
+        ]
+      ],
+      "feature_ref": "F002",
+      "view": "Front"
+    },
+    {
+      "id": "H002",
+      "type": "thru",
+      "diameter": 20.0,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 50.0,
+      "y_position": 30.0,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          50.0,
+          30.0
+        ]
+      ],
+      "feature_ref": "F003",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Extrude the 100 by 60 rectangular plate profile through 10 thickness. Use the front-face lower-left corner as x=0,y=0 and a front-to-back thickness coordinate.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D003"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D003",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "One multi-position through-hole operation for four \u00d88 mounting holes at edge-referenced coordinates (10,10), (90,10), (10,50), (90,50). Rectangular layout with 80 horizontal and 40 vertical pitch; no separate pattern feature is necessary.",
+      "related_dimensions": [
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D010",
+        "D013",
+        "D014"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F003",
+      "type": "hole",
+      "description": "Central \u00d820 bore through the entire plate, centered 50 from the left edge and 30 from the bottom edge.",
+      "related_dimensions": [
+        "D008",
+        "D009",
+        "D011"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 50.0,
+      "offset_y": 30.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "chamfer",
+      "description": "Apply C1 to both circular mouth edges of the central \u00d820 through bore, at the front and rear plate faces. Use equal 1 mm legs (conventional 45-degree C chamfer).",
+      "related_dimensions": [
+        "D012"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Vertical midplane x=50, parallel to Right",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004"
+        ],
+        "description": "Nominal reflection interchanges left/right mounting-hole columns and leaves the central bore centered."
+      },
+      {
+        "plane": "Horizontal midplane y=30, parallel to Top",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004"
+        ],
+        "description": "Nominal reflection interchanges lower/upper mounting-hole rows and leaves the central bore centered."
+      },
+      {
+        "plane": "Thickness midplane z=5, parallel to Front",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004"
+        ],
+        "description": "Through holes and identical bore chamfers on both faces give nominal front/back symmetry."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F003",
+          "F004"
+        ],
+        "description": "Central bore and both chamfer mouths share the axis through front-view (50,30), normal to the plate face."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "F002",
+        "qty": 2,
+        "spacing_value": 80.0,
+        "computed_from": "Two columns: x_right - x_left = 90 - 10 = 80 mm; same pitch in each row."
+      },
+      {
+        "feature_ref": "F002",
+        "qty": 2,
+        "spacing_value": 40.0,
+        "computed_from": "Two rows: y_upper - y_lower = 50 - 10 = 40 mm; same pitch in each column."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D005",
+          "D015"
+        ],
+        "description": "Width = right-column x coordinate + right edge margin: 100 = 90 + 10."
+      },
+      {
+        "total_dimension_id": "D005",
+        "component_dimension_ids": [
+          "D004",
+          "D013"
+        ],
+        "description": "Right-column coordinate = left-column coordinate + column pitch: 90 = 10 + 80."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D004",
+          "D013",
+          "D015"
+        ],
+        "description": "Complete mounting-hole horizontal chain: 100 = 10 + 80 + 10."
+      },
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D007",
+          "D016"
+        ],
+        "description": "Height = upper-row y coordinate + top edge margin: 60 = 50 + 10."
+      },
+      {
+        "total_dimension_id": "D007",
+        "component_dimension_ids": [
+          "D006",
+          "D014"
+        ],
+        "description": "Upper-row coordinate = lower-row coordinate + row pitch: 50 = 10 + 40."
+      },
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D006",
+          "D014",
+          "D016"
+        ],
+        "description": "Complete mounting-hole vertical chain: 60 = 10 + 40 + 10."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D008",
+          "D017"
+        ],
+        "description": "Central bore horizontal location: 100 = 50 + 50."
+      },
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D009",
+          "D018"
+        ],
+        "description": "Central bore vertical location: 60 = 30 + 30."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D013",
+      "D014",
+      "D015",
+      "D016",
+      "D017",
+      "D018"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004"
+  ],
+  "warnings": [
+    "No drawing standard or projection symbol is specified; the explicitly labeled FRONT VIEW and RIGHT VIEW determine view identities.",
+    "DEMO-PLATE-001 is labeled DWG NO; no separate part number is supplied, so the drawing identifier is recorded in part_number.",
+    "No surface finish, coating, angular tolerance, datum identifiers, or GD&T feature-control frames are specified.",
+    "The right view uses solid interior lines for physically hidden hole boundaries and omits explicit chamfer projections. Do not interpret these lines as external grooves or steps.",
+    "C1 is interpreted conventionally as a 1 mm, 45-degree chamfer. The numerical angle is not separately printed and the drafting standard is unspecified.",
+    "H001 is a two-direction rectangular layout. Its single pattern_spacing field records the 80 mm horizontal pitch; the vertical pitch is 40 mm. Use instance_positions for definitive placement.",
+    "Derived dimensions are nominal arithmetic checks, not additional manufacturing requirements. Their zero default tolerance fields do not mean zero manufacturing tolerance.",
+    "Image appears nearly blank (mean pixel value 250.6 > 240) \u2014 it may contain no visible line work."
+  ],
+  "confidence": 0.97
+}

@@ -24,6 +24,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Callable, Optional
 
+from pipeline.budget import BudgetExceeded
 from pipeline.macro_generator import MacroGenerationError, generate_macro_package
 from pipeline.validator import format_verification_report, run_verification
 from utils.logger import get_logger
@@ -134,6 +135,8 @@ def run_batch(
                     continue
                 drawing_data = extract_fn(path)
             rows.append(process_drawing_data(drawing_data, path.name, output_dir))
+        except BudgetExceeded:
+            raise  # the spend cap stops the whole batch, not just this drawing
         except Exception as e:  # one bad drawing must not sink the whole batch
             log.warning("batch: %s failed: %s", path.name, e)
             rows.append(BatchRow(path.name, path.stem, "ERROR", 0, 0, 0, 0, 0,

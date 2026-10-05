@@ -6,7 +6,7 @@ rule here turns out wrong, fix it here in the same change.
 ## What this project is
 
 AI pipeline that turns a 2D engineering drawing (PDF/PNG, one or several
-orthographic views) into a parametric **SolidWorks 2024** part for MTI
+orthographic views) into a parametric **SolidWorks** part (written for 2024, verified on 2025 SP5) for MTI
 (iNDustry Labs / AILOT). The hard problem is not reading dimensions — it is
 **relative placement**: putting every feature in the right place, on the right
 face, referenced from the right datum.
@@ -31,6 +31,7 @@ mti-2d-3d/
 ├── NewVerifiedDrawings/           source drawings, flat: <part>.png, <part>_front_view.png, <part>_side_view.png
 ├── ViewDefinedDrawings/           source drawings, one folder per part (<part>_front/_side/.png)
 ├── docs/
+│   ├── test-reports/                   ← dated test-day records (results, failures, costs, decisions)
 │   ├── PRD.md                          ← product requirements (goals, requirements, success targets)
 │   ├── PRD-aws.md, PRD-azure.md        ← the two hosting options (same sections, compare side by side)
 │   ├── solidworks-macro-error-log.md   ← every runtime failure + the generator rule it produced
@@ -56,11 +57,22 @@ python setup.py                                              # deps + .env
 python main.py --drawing <file> --validate-only --debug      # extract + verify, no build
 python main.py --from-json output/<P>/<P>_extraction.json    # regenerate macros, no API cost
 python main.py --views-folder <dir> --output ./output        # multi-view parts
-python run_models.py <folder> --output ./output              # COM build, Windows + SW2024 only
-python -m pytest tests/ -v                                   # tests (188 passing as of 2026-10-01)
+python run_models.py <folder> --output ./output              # COM build, Windows + SolidWorks only
+python rebuild_from_json.py output/<P>/<P>_extraction.json   # rebuild saved extractions in SW, no API cost
+python ir_build.py tests/golden/ir/*.json --solidworks       # Feature IR: CadQuery reference + native SW, verified per feature
+python ir_run.py --split dev --solidworks                    # drawing -> Astra extract+plan -> reference -> SW (paid, budget-guarded)
+python main.py --drawing <file> --ir --engine com            # same, one drawing
+python ir_compare.py                                         # v1 vs IR on the dev set (no API)
+python -m pytest tests/ -v                                   # tests (340 passing as of 2026-10-04)
 UPDATE_GOLDEN=1 python -m pytest tests/test_golden_macros.py # accept an intended macro change
 python -m pipeline.token_report ./output --html output/usage/usage_report.html  # token & cost report
 ```
+
+API budget: every paid call is checked BEFORE it is sent against a hard cap
+(`API_BUDGET_USD`, default **$20**, across all runs on the machine; ledger
+`usage/budget_ledger.jsonl`). A call whose worst case would cross the cap raises
+`BudgetExceeded` and the run stops with exit code 9 (`pipeline/budget.py`).
+Unpriced models are charged at the highest listed rate, so the cap is conservative.
 
 Token tracking: every model completion is appended to
 `<output>/usage/usage_ledger.jsonl` (role, model, provider, part, arm, gate,
@@ -68,8 +80,9 @@ attempt, tokens, latency, cost). Prices live in `config/pricing.json` (per provi
 and model, with `as_of` and `source`). A `null` price makes the row *unpriced*; it
 is never guessed. Use `--reprice` after filling one in.
 
-Env vars: `ANTHROPIC_API_KEY` (required), `EXTRACTION_MODEL` (default
-`claude-sonnet-4-6`), `EXTRACTION_CONFIDENCE_THRESHOLD`, `MAX_IMAGE_LONG_EDGE`
+Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KEY`
+(required for openai) / `ANTHROPIC_API_KEY` (required for anthropic), `EXTRACTION_MODEL`
+(default `gpt-6-astra` / `claude-sonnet-4-6`), `EXTRACTION_CONFIDENCE_THRESHOLD`, `MAX_IMAGE_LONG_EDGE`
 (2576), `MACRO_READINESS_THRESHOLD`, `SOLIDWORKS_TEMPLATE_PATH`. Never commit `.env`.
 
 ## Hard rules (learned the hard way — see docs/solidworks-macro-error-log.md)
@@ -104,6 +117,12 @@ Env vars: `ANTHROPIC_API_KEY` (required), `EXTRACTION_MODEL` (default
     right after each completion (roles: `extractor`, `planner`, `auditor_reviewer`,
     `jev`, `other`), inside `scope(gate=..., attempt=...)` where relevant. With no
     active tracker it does nothing, so it's always safe to call.
+12. **Every paid call goes through the budget guard:** `budget.preflight(...)`
+    before the request, `budget.charge(...)` after. Never catch `BudgetExceeded`
+    in a per-item loop; it must stop the whole run.
+13. **"Built" means it changed the part.** Check volume after bosses (E013).
+    Never call a selection-based feature (fillet/chamfer) without a verified
+    selection (E012). The validator FAILS a part missing any extracted feature.
 
 ## When a macro fails on a real SolidWorks machine
 
@@ -126,7 +145,10 @@ Env vars: `ANTHROPIC_API_KEY` (required), `EXTRACTION_MODEL` (default
   an open decision gets made.
 - **Knowledge graph:** `graphify-out/GRAPH_REPORT.md` summarizes structure; for
   "how does X connect to Y" questions run `graphify query "<question>"`. After
-  large changes, refresh with `/graphify . --update`.
+  large changes, refresh with `/graphify . --update`; where that skill isn't
+  available, `python graphify-out/ast_update.py` refreshes the code layer (no LLM).
+- **Test days:** record each one in `docs/test-reports/YYYY-MM-DD-test-report.md`
+  (what ran, successes, failures, costs from `usage/budget_ledger.jsonl`, decisions, next steps).
 
 ## Next phase (designed 2026-09-28 — read before building)
 
@@ -143,5 +165,6 @@ Rules that already apply to new code:
 - **Jev is text-in, discrete-out.** Never ask it for or about numbers.
 - **The benchmark split is fixed in `bench/manifest.yaml`.** Never tune prompts or
   the IR on held-out parts.
-- **Model IDs are pinned in config** (Opus 5.5, `gpt-6-astra`), never hard-coded
-  at call sites.
+- **Model IDs are pinned in `config/models.json`** (`gpt-6-astra`), never hard-coded
+  at call sites. **Decision 2026-10-04: GPT-6 Astra only.** No Anthropic/Opus path and no
+  model benchmark.

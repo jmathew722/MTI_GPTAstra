@@ -1,0 +1,36 @@
+VERIFICATION REPORT
+===================
+Part: SB11842    Units: inch    Standard: unknown    Confidence: 0.84
+Total dimensions extracted: 11
+Hole callouts extracted: 1
+Features identified: 6  (build order: 4)
+Dimensions flagged ambiguous: 0
+Dimensional closure: PASS  (3 chain(s) checked)
+Unit consistency: PASS
+View consistency: FAIL
+Feature feasibility: PASS
+Derived dimensions computed: 3  ->  D009, D010, D011
+
+DRAWING COMPLETENESS SCORE (Phase 4):
+  Geometry completeness:  100%
+  Dimension completeness: 100%
+  Cross-view consistency: 100%
+  Feature confidence:     84%
+  Macro readiness:        96%
+
+WARNINGS:
+  [WARN]  extraction: Title block absent: part name, part number, revision, material, finish, scale, standard and general tolerances are unknown.
+  [WARN]  extraction: Units inferred as inches from dimensions and .312 socket-head screw terminology; no units statement is visible.
+  [WARN]  extraction: Four-hole counterbore callout is fully transcribed in D002/F004, but cannot be represented faithfully in hole_callouts: that schema requires a positive known hole diameter, and none is provided. F003 carries all four edge-referenced center positions instead. Human confirmation of clearance diameter and counterbore diameter is REQUIRED before building. Do not substitute the nominal .312 screw size for hole diameter.
+  [WARN]  extraction: Counterbore depth is derived as .88 - .50 = .38. The printed .50 measures from the rear face to the shoulder, not from the counterbore opening.
+  [WARN]  extraction: Central-bore entrance chamfer sizes and scope of the .06 × 45° callout require human confirmation.
+  [WARN]  extraction: Views are not reliably to scale. Front central-bore proportions differ from the explicit 1.50 DIA side-view dimension, and axial proportions do not match the stated thickness/web dimensions. Do not extract missing sizes by measuring the images.
+  [WARN]  extraction: Side-view marking instruction reads STAMP: SB 11842 and points to the cylindrical outside surface. This is not a confirmed title-block part number. Marking height, precise location and depth are not specified.
+  [WARN]  extraction: A cropped '42' fragment at the lower-left of the front image cannot be associated with a complete callout; it is not treated as a dimension.
+  [WARN]  extraction: All mounting-hole coordinates are nominal, derived from the dimensioned cardinal offsets and 5.00 OD. No threads or GD&T are specified.
+  [WARN]  extraction: Could not classify view for SB11842.png; skipped.
+  [WARN]  Feature F004 is not in build_order and will not be built.
+  [WARN]  Feature F003 is not in build_order and will not be built.
+  [WARN]  Dimension D003 cites view 'side', which is not among the identified views.
+
+OVERALL STATUS: READY TO BUILD

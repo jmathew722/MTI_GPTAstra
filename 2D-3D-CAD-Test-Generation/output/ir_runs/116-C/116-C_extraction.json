@@ -1,0 +1,639 @@
+{
+  "part_name": "CHK. VALVE ELIM.",
+  "part_number": "116-C",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:2",
+  "material": "CRS 1018",
+  "finish": "63 surface-texture callout on the upper surface of the Front view (hole-entry face). Microinch roughness is inferred from the inch drawing convention; roughness parameter is not explicitly stated. An apparent G appears on the extended finish line; verify whether it specifies grinding.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; PLACE DIM. \u00b1; PLACE DIM. \u00b1; ANGULAR DIM. \u00b1. Decimal-place counts and numerical tolerance amounts are blank or not readable in the supplied image.",
+  "views": [
+    {
+      "view_type": "Top",
+      "description": "Upper-left principal view, identified as Top by the stated third-angle projection and alignment with the view below. Rounded rectangular face with four mounting through holes and two concentric stepped blind holes. Cutting plane A-A passes through the right stepped hole.",
+      "dimensions_shown": [
+        "D002",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Center marks and connecting centerlines locate four mounting-hole axes and two blind-hole axes. The blind holes lie midway between the mounting-hole rows: 0.94 versus 1.88 row spacing. A-A is a section identifier, not a datum. No dimension establishes the mounting pattern's absolute offset from the outside edges."
+    },
+    {
+      "view_type": "Front",
+      "description": "Lower-left rectangular elevation showing overall width and thickness. Hidden lines show mounting through holes and a stepped blind drilling with a conical drill point. The two-place drilling/counterbore leader enters the top face.",
+      "dimensions_shown": [
+        "D001",
+        "D003",
+        "D010",
+        "D011",
+        "D012",
+        "D013"
+      ],
+      "visible_features": [
+        "F001"
+      ],
+      "hidden_features": [
+        "F002",
+        "F003",
+        "F004"
+      ],
+      "centerline_notes": "A vertical centerline aligns the illustrated blind drilling with the left blind-hole center in the Top view. The 63 surface-texture symbol applies to the upper hole-entry surface."
+    },
+    {
+      "view_type": "Section",
+      "description": "SECTION A-A at the right, through the right stepped blind hole. Hatching shows solid stock around a shallow counterbore, smaller blind drilling, and conical drill point. The hole opens to the left in this section.",
+      "dimensions_shown": [],
+      "visible_features": [
+        "F001",
+        "F003",
+        "F004"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Horizontal CL denotes the blind-hole axis. This is not a GD&T datum."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 3.25,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "overall_width",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "No explicit tolerance; general tolerance values are unavailable."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 2.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "overall_top_view_height",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "No explicit tolerance; general tolerance values are unavailable."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 1.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "block_thickness",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "No explicit tolerance; general tolerance values are unavailable."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 2.38,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "mounting_hole_column_center_spacing",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Horizontal spacing between left and right mounting-hole centerlines."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 1.88,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "mounting_hole_row_center_spacing",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Vertical spacing between upper and lower mounting-hole centerlines."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 0.94,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper_mounting_row_to_blind_hole_axis",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Vertical distance from upper mounting-hole row to the common blind-hole centerline."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_blind_hole_to_right_mounting_column",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Horizontal center-to-center distance."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 1.88,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_blind_hole_to_right_mounting_column",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Horizontal dimension below the Top view; not the blind-hole pair spacing."
+    },
+    {
+      "id": "D009",
+      "type": "diameter",
+      "value": 0.4,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "mounting_hole_diameter",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".40 DIA. THRU 4 PLACES."
+    },
+    {
+      "id": "D010",
+      "type": "diameter",
+      "value": 0.58,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "blind_drill_diameter",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DRILL .58 DIA. x .50 DP.; 2 PLACES."
+    },
+    {
+      "id": "D011",
+      "type": "depth",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "blind_drilling_depth",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DRILL .58 DIA. x .50 DP.; 2 PLACES. A conical drill point is shown, but point angle and whether the stated depth is to full diameter or tip are not explicitly defined."
+    },
+    {
+      "id": "D012",
+      "type": "diameter",
+      "value": 1.002,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "limit",
+      "applies_to": "counterbore_diameter",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "C'BORE stacked diameter limits read 1.012 above 1.002 DIA.; 2 PLACES. Stored as lower limit plus 0.010. Illustrated counterbore circles are not proportional to this written diameter; do not substitute a scaled diameter."
+    },
+    {
+      "id": "D013",
+      "type": "depth",
+      "value": 0.111,
+      "unit": "inch",
+      "tolerance_plus": 0.002,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "limit",
+      "applies_to": "counterbore_depth",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": true,
+      "ambiguity_reason": "Stacked depth figures appear to be .111 above .113 DEEP, reversing the usual upper-limit-over-lower-limit order. Interpreted provisionally as a depth interval of .111 to .113.",
+      "possible_values": [
+        0.111,
+        0.113
+      ],
+      "resolution_required": true,
+      "notes": "2 PLACES. Stored as the apparent lower limit plus 0.002; verify original before manufacture."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 1.38,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "blind_hole_pair_center_spacing",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived, not printed: D008 - D007 = 1.88 - 0.50 = 1.38. No independently assigned tolerance."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_mounting_column_to_left_blind_hole",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived, not printed: D004 - D008 = 2.38 - 1.88 = 0.50. No independently assigned tolerance."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 0.94,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "blind_hole_axis_to_lower_mounting_row",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived, not printed: D005 - D006 = 1.88 - 0.94 = 0.94. No independently assigned tolerance."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 0.4,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 4,
+      "x_position": 0.0,
+      "y_position": 0.0,
+      "position_known": false,
+      "pattern": "linear",
+      "pattern_spacing": 0.0,
+      "instance_positions": [],
+      "feature_ref": "F002",
+      "view": "Top"
+    },
+    {
+      "id": "H002",
+      "type": "counterbore",
+      "diameter": 0.58,
+      "thru": false,
+      "depth": 0.5,
+      "thread_spec": "",
+      "cbore_diameter": 1.002,
+      "cbore_depth": 0.111,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 2,
+      "x_position": 0.0,
+      "y_position": 0.0,
+      "position_known": false,
+      "pattern": "linear",
+      "pattern_spacing": 1.38,
+      "instance_positions": [],
+      "feature_ref": "F004",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Base rectangular block, 3.25 wide by 2.75 in plan, extruded 1.5 thick. Outside plan corners are rounded in a later operation; their radius is not specified.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D003"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D003",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Four diameter 0.40 through mounting holes, axes normal to the Top face, in a 2-by-2 rectangular layout with 2.38 horizontal and 1.88 vertical center spacing. Absolute edge offsets are not dimensioned.",
+      "related_dimensions": [
+        "D004",
+        "D005",
+        "D009"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F003",
+      "type": "hole",
+      "description": "Two diameter 0.58 blind drilled holes, nominal drilling depth 0.50 from the entry face, sharing the intermediate row. Left and right holes are respectively 1.88 and 0.50 left of the right mounting column. Conical drill bottoms are shown; point angle and depth convention require confirmation.",
+      "related_dimensions": [
+        "D006",
+        "D007",
+        "D008",
+        "D010",
+        "D011",
+        "D014",
+        "D015",
+        "D016"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D011",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F004",
+      "type": "extrude_cut",
+      "description": "Two shallow cylindrical counterbores, one coaxial with each blind drilling. Diameter limits 1.002\u20131.012; provisional depth limits 0.111\u20130.113. Hole-callout numeric values use the lower limits, not an independently specified nominal size.",
+      "related_dimensions": [
+        "D012",
+        "D013"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D013",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F005",
+      "type": "fillet",
+      "description": "Four rounded outside corners visible in Top view, interpreted as fillets along the block's thickness-direction edges. No radius is given; do not assign one by scaling the image.",
+      "related_dimensions": [],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Plane normal to the Top face through the midpoint between mounting-hole columns",
+        "feature_ids": [
+          "F002",
+          "F003",
+          "F004"
+        ],
+        "description": "Internal hole layout is left/right symmetric: blind-hole insets from the corresponding mounting columns are both 0.50. Coincidence with the block's mid-width plane is visually suggested but not dimensionally established."
+      },
+      {
+        "plane": "Plane normal to the Top face midway between mounting-hole rows",
+        "feature_ids": [
+          "F002",
+          "F003",
+          "F004"
+        ],
+        "description": "Internal hole layout is top/bottom symmetric: 1.88 = 0.94 + 0.94, with both blind-hole axes on the middle row. Coincidence with the block's mid-height plane is not explicitly dimensioned."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F003",
+          "F004"
+        ],
+        "description": "Each counterbore is coaxial with its corresponding blind drilling. The two different blind-hole locations are not coaxial with each other."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "H001",
+        "qty": 2,
+        "spacing_value": 2.38,
+        "computed_from": "Two mounting columns; one horizontal gap, directly dimensioned 2.38."
+      },
+      {
+        "feature_ref": "H001",
+        "qty": 2,
+        "spacing_value": 1.88,
+        "computed_from": "Two mounting rows; one vertical gap, directly dimensioned 1.88."
+      },
+      {
+        "feature_ref": "H002",
+        "qty": 2,
+        "spacing_value": 1.38,
+        "computed_from": "Left blind center to right mounting column minus right blind center to that column: 1.88 - 0.50 = 1.38."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D015",
+          "D008"
+        ],
+        "description": "Mounting-column spacing: 2.38 = 0.50 + 1.88."
+      },
+      {
+        "total_dimension_id": "D008",
+        "component_dimension_ids": [
+          "D014",
+          "D007"
+        ],
+        "description": "Left blind center to right mounting column: 1.88 = 1.38 + 0.50."
+      },
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D015",
+          "D014",
+          "D007"
+        ],
+        "description": "Full horizontal internal hole chain: 2.38 = 0.50 + 1.38 + 0.50."
+      },
+      {
+        "total_dimension_id": "D005",
+        "component_dimension_ids": [
+          "D006",
+          "D016"
+        ],
+        "description": "Mounting-row spacing: 1.88 = 0.94 + 0.94."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D014",
+      "D015",
+      "D016"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005"
+  ],
+  "warnings": [
+    "Absolute hole-pattern positions relative to the block edges are not dimensioned. Instance positions are intentionally empty rather than inventing edge references. The hole layout is internally determined but can translate relative to the outside profile.",
+    "If centered on the block, mounting-hole edge margins would be (3.25 - 2.38)/2 = 0.435 horizontally and (2.75 - 1.88)/2 = 0.435 vertically. This is an unconfirmed centering assumption, not an extracted requirement.",
+    "Outside corner radii are not specified. F005 cannot be modeled exactly without clarification.",
+    "Counterbore depth figures appear in the unusual order .111 over .113. Confirm the intended limits before building.",
+    "Counterbore diameter text reads 1.012 over 1.002, whereas the drawn counterbore circles appear substantially smaller relative to the 0.58 drill. Written dimensions were retained; verify against the original if necessary.",
+    "General numerical and angular tolerances are blank or unreadable. Zero default tolerance fields must not be interpreted as zero manufacturing tolerance.",
+    "Drill-point angle and the blind-depth measurement convention are not explicitly specified.",
+    "No ASME, ISO, or DIN designation is printed. Third-angle projection and inch units are explicit, but do not uniquely establish a drawing standard.",
+    "The title block gives heat treatment NONE, model number 90B, and date 7-8-76. No separate revision is entered; the suffix C was retained as part of drawing number 116-C.",
+    "The 63 surface-texture callout is legible. Its assumed microinch basis and the apparent G marking require confirmation if finish-process details are critical.",
+    "No GD&T feature-control frames, datum designations, thread callouts, or reference dimensions were found.",
+    "Build order describes the intended operations, but missing corner radii, edge-referenced hole locations, and unresolved depth/finish details prevent an exact fully constrained manufacturing model."
+  ],
+  "confidence": 0.76
+}

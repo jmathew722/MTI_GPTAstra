@@ -245,3 +245,28 @@ class TestVerificationReportFormat:
         model, report = run_verification({"units": "mm"})  # missing confidence etc.
         assert model is None
         assert "BLOCKED" in format_verification_report(model, report)
+
+
+# --- 2026-10-04: a 2x2 grid with explicit positions is not a 4-long row ------- #
+def _demo_plate():
+    import json
+    from pathlib import Path
+    p = Path(__file__).resolve().parent.parent / "demo" / "simple_plate" / "extraction_no_api.json"
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+def test_grid_with_instance_positions_is_feasible_even_with_row_style_spacing():
+    from pipeline.validator import run_verification
+    d = _demo_plate()
+    h = d["hole_callouts"][0]
+    h["pattern"], h["pattern_spacing"] = "linear", 80.0   # what a row-reading would say: 3 x 80 = 240
+    _, report = run_verification(d)
+    assert report.ok, report.errors
+
+
+def test_instance_positions_outside_envelope_still_blocked():
+    from pipeline.validator import run_verification
+    d = _demo_plate()
+    d["hole_callouts"][0]["instance_positions"] = [[10, 10], [190, 10], [10, 50], [190, 50]]
+    _, report = run_verification(d)
+    assert not report.ok and any("Pattern infeasible" in e for e in report.errors)

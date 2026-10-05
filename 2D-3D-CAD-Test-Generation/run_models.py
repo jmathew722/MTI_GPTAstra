@@ -154,7 +154,16 @@ def _planar_pair(feat: dict, data: dict) -> bool:
             labels.add("length")
         if "width" in a:
             labels.add("width")
-    return {"length", "width"} <= labels
+    if {"length", "width"} <= labels:
+        return True
+    # Also accept width/height or length/height pairs (the builder maps them to x/y).
+    from pipeline.schema import Feature
+    from pipeline.solidworks_builder import planar_extents
+    try:
+        model = DrawingData.model_validate(data)
+        return planar_extents(model, Feature.model_validate(feat)) is not None
+    except Exception:
+        return False
 
 
 def _has_depth(feat: dict, data: dict) -> bool:
@@ -261,10 +270,16 @@ def resolve_unknowns(data: dict, part_name: str) -> tuple[list[str], list[str]]:
     for h in data.get("hole_callouts", []):
         if h.get("pattern", "none") != "none":
             decisions.append(
-                f"Hole pattern {h.get('id')} ({h.get('qty')} holes) recorded as a note; holes are "
-                f"NOT auto-placed (bolt-circle position + circular pattern need manual placement)."
+                f"Hole pattern {h.get('id')} ({h.get('qty')} holes): pattern flag cleared for the "
+                f"verification gate. Instances are still placed from instance_positions or a "
+                f"bolt-circle diameter + feature quantity when the drawing grounds them."
             )
             h["pattern"], h["qty"], h["pattern_spacing"] = "none", 1, 0.0
+
+    # 4b) Hole callouts: synthesize missing ones from their feature (R4), fill drill
+    #     and counterbore sizes from the fastener table when the callout names
+    #     only the screw (R3), and fold counterbore-only cuts into their hole (R2).
+    _complete_hole_callouts(data, decisions, concerns)
 
     # 5) A revolved (turned) part can't be auto-revolved without a profile, so
     #    approximate the base as a BOUNDING CYLINDER (largest OD x overall length)
@@ -300,6 +315,18 @@ def resolve_unknowns(data: dict, part_name: str) -> tuple[list[str], list[str]]:
             if rev["id"] not in data.get("build_order", []):
                 bo = [rev["id"]]
 
+    # 5b) Features the extractor defined but left out of build_order: slot
+    #     buildable ones back in (cuts/holes before fillets/chamfers) and say so.
+    if rev is None:
+        for f in data.get("features", []):
+            if f["id"] in bo or f.get("type") not in (_BOSS, _CUT, "hole", "pattern", *_FRAGILE):
+                continue
+            first_fragile = next((i for i, fid in enumerate(bo)
+                                  if (_feat(data, fid) or {}).get("type") in _FRAGILE), len(bo))
+            bo.insert(len(bo) if f.get("type") in _FRAGILE else first_fragile, f["id"])
+            decisions.append(f"Feature {f['id']} ({f.get('type')}) was extracted but missing from "
+                             f"build_order; added to the build.")
+
     # 6) Build-order: ensure a solid base feature comes first.
     if bo:
         first = _feat(data, bo[0])
@@ -324,11 +351,17 @@ def resolve_unknowns(data: dict, part_name: str) -> tuple[list[str], list[str]]:
         ftype = feat.get("type")
         if ftype in _FRAGILE:
             continue  # fillets/chamfers degrade to a skip in the builder
+        if ftype == "hole" and _hole_grounded(data, feat):
+            continue  # builder places every instance (pipeline.solidworks_builder.build_hole)
+        seed = _feat(data, feat.get("parent_feature") or "")
+        if (ftype == "pattern" and seed is not None and seed.get("type") == "hole"
+                and _hole_grounded(data, seed)):
+            continue  # realized by the seed hole's instances (builder: _pattern_realized_by_seed)
         if ftype in ("hole", "pattern"):
             bo.remove(fid)
             decisions.append(
-                f"Feature {fid} ({ftype}): drilled/patterned holes are not auto-placed "
-                f"(bolt-circle position + circular pattern need manual placement); omitted."
+                f"Feature {fid} ({ftype}): hole positions are not grounded in the extraction "
+                f"(no instance positions, known position or bolt circle); omitted."
             )
             concerns.append(f"ADD the holes for {fid} manually per the drawing callouts.")
             continue
@@ -337,6 +370,11 @@ def resolve_unknowns(data: dict, part_name: str) -> tuple[list[str], list[str]]:
             decisions.append(f"Feature {fid} ({ftype}) is not supported by the automated builder; omitted.")
             concerns.append(f"VERIFY/ADD feature {fid} ({ftype}) manually — not auto-built.")
             continue
+        parent = _feat(data, feat.get("parent_feature") or "")
+        if ftype == _CUT and parent is not None and parent.get("type") == "hole" and any(
+                h.get("feature_ref") == parent["id"] and h.get("cbore_diameter") and h.get("cbore_depth")
+                for h in data.get("hole_callouts", [])):
+            continue  # realized by the parent hole's counterbore (builder: _cut_realized_by_cbore)
         if not (_diam_keys(feat, data) or _planar_pair(feat, data)):
             bo.remove(fid)
             decisions.append(
@@ -402,7 +440,13 @@ def write_report(
     if validation is not None:
         vol = validation.get("volume_mm3")
         bbox = validation.get("bounding_box_mm")
-        add(f"  Model validation:       {'PASSED' if validation.get('ok') else 'completed with issues'}")
+        add(f"  Model validation:       {'PASSED' if validation.get('ok') else 'FAILED'}")
+        comp = validation.get("completeness")
+        if comp:
+            add(f"  Feature completeness:   {comp['built']}/{comp['expected']} built"
+                + (f" (missing {', '.join(comp['missing'])})" if comp["missing"] else ""))
+        for f in validation.get("failed", []):
+            add(f"    FAIL: {f}")
         if vol:
             add(f"  Solid volume:           {vol:,.1f} mm^3")
         if bbox:
@@ -466,6 +510,111 @@ def write_report(
 # --------------------------------------------------------------------------- #
 # Per-part pipeline
 # --------------------------------------------------------------------------- #
+_CBORE_TEXT = re.compile(r"c'?\s*bore|counter\s*bore", re.IGNORECASE)
+
+
+def _new_callout(data: dict, feat: dict, diameter: float) -> dict:
+    ids = {h.get("id") for h in data.get("hole_callouts", [])}
+    n = 1
+    while f"H{n:03d}" in ids:
+        n += 1
+    qty = max(1, int(feat.get("quantity") or 1))
+    known = bool(feat.get("position_known")) and qty == 1
+    return {"id": f"H{n:03d}", "type": "thru", "diameter": diameter, "thru": True, "depth": 0.0,
+            "thread_spec": "", "cbore_diameter": 0.0, "cbore_depth": 0.0, "csink_diameter": 0.0,
+            "csink_angle": 0.0, "qty": qty,
+            "x_position": feat.get("offset_x", 0.0) if known else 0.0,
+            "y_position": feat.get("offset_y", 0.0) if known else 0.0,
+            "position_known": known, "pattern": "none", "pattern_spacing": 0.0,
+            "instance_positions": [], "feature_ref": feat["id"], "view": ""}
+
+
+def _complete_hole_callouts(data: dict, decisions: list[str], concerns: list[str]) -> None:
+    from pipeline.fasteners import SOURCE, nominal_size, shcs_counterbore, size_from_text
+    from pipeline.macro_generator import _BOLT_CIRCLE_LABEL
+
+    inch = (data.get("units") or "inch") == "inch"
+    calls = data.setdefault("hole_callouts", [])
+    feats = data.get("features", [])
+    for f in feats:
+        if f.get("type") != "hole":
+            continue
+        dims = [d for d in (_dim(data, i) for i in f.get("related_dimensions", [])) if d]
+        h = next((h for h in calls if h.get("feature_ref") == f["id"]), None)
+        synthesized = h is None
+        if h is None:
+            dia = next((d["value"] for d in dims if d.get("type") == "diameter"
+                        and not _BOLT_CIRCLE_LABEL.search(d.get("applies_to") or "")), 0.0)
+            h = _new_callout(data, f, dia)
+            calls.append(h)
+
+        # A counterbore extracted as its own cut: coaxial child with a depth only.
+        child = next((c for c in feats if c.get("type") == "extrude_cut"
+                      and c.get("parent_feature") == f["id"]
+                      and not _diam_keys(c, data) and not _planar_pair(c, data)), None)
+        text = " ".join([f.get("description", "")] + [d.get("notes", "") for d in dims]
+                        + ([child.get("description", "")] if child else []))
+        wants_cbore = bool(_CBORE_TEXT.search(text)) or child is not None or h.get("type") == "counterbore"
+        cbore_depth = h.get("cbore_depth") or 0.0
+        if not cbore_depth:
+            src = [_dim(data, child["depth_dimension_id"])] if child and child.get("depth_dimension_id") else []
+            src += [d for d in dims if "counterbore_depth" in (d.get("applies_to") or "").lower()
+                    or "cbore_depth" in (d.get("applies_to") or "").lower()]
+            cbore_depth = next((d["value"] for d in src if d), 0.0)
+
+        # Screw size: a dimension labeled as the screw size, else the callout text.
+        size = next((nominal_size(d["value"]) for d in dims + [d for d in data.get("dimensions", [])
+                     if d.get("feature_ref") == f["id"]]
+                     if "screw" in (d.get("applies_to") or "").lower() and nominal_size(d["value"])), None)
+        size = size or size_from_text(text)
+        table = shcs_counterbore(size) if (size and inch) else None
+        if table:
+            drill, cb_dia, cb_depth = table
+            if not h.get("diameter"):
+                h["diameter"] = drill
+                decisions.append(f"{f['id']}: drill Ø{drill} STANDARD-DERIVED for a {size:g} SHCS ({SOURCE}).")
+                concerns.append(f"VERIFY {f['id']} drill Ø{drill}: from the fastener table, not printed on the drawing.")
+            if wants_cbore and not h.get("cbore_diameter"):
+                h["cbore_diameter"] = cb_dia
+                decisions.append(f"{f['id']}: counterbore Ø{cb_dia} STANDARD-DERIVED for a {size:g} SHCS ({SOURCE}).")
+                concerns.append(f"VERIFY {f['id']} counterbore Ø{cb_dia}: from the fastener table.")
+            if wants_cbore and not cbore_depth:
+                cbore_depth = cb_depth
+                decisions.append(f"{f['id']}: counterbore depth {cb_depth} STANDARD-DERIVED (none printed).")
+        if wants_cbore and h.get("cbore_diameter") and cbore_depth:
+            h["type"], h["cbore_depth"] = "counterbore", cbore_depth
+            if child:
+                decisions.append(f"{child['id']} (counterbore cut) folded into hole {f['id']}'s "
+                                 f"counterbore Ø{h['cbore_diameter']} x {cbore_depth}.")
+        if synthesized:
+            if h.get("diameter"):
+                decisions.append(f"Hole callout {h['id']} synthesized from feature {f['id']} "
+                                 f"(qty {h['qty']}, Ø{h['diameter']}); the extractor emitted none.")
+            else:
+                # No diameter on the drawing and no screw to look up: never invent one (R6).
+                calls.remove(h)
+                concerns.append(f"ESCALATE {f['id']}: hole diameter is not on the drawing (callout "
+                                f"missing or unreadable) and no standard applies - needs a human.")
+
+
+def _hole_grounded(data: dict, feat: dict) -> bool:
+    """True when every instance of a hole feature can be placed from extracted data."""
+    from pipeline.macro_generator import _bolt_circle_diameter, _circle_from_seed
+    from pipeline.schema import HoleCallout
+
+    h = next((h for h in data.get("hole_callouts", []) if h.get("feature_ref") == feat["id"]), None)
+    if h is None:
+        return bool(feat.get("position_known"))
+    if h.get("instance_positions") or (h.get("position_known") and max(h.get("qty", 1), feat.get("quantity", 1)) == 1):
+        return True
+    try:
+        model = DrawingData.model_validate(data)
+        callout = HoleCallout.model_validate(h)
+        return bool(_bolt_circle_diameter(model, callout) or _circle_from_seed(model, callout))
+    except Exception:
+        return False
+
+
 def process_part(part: PartViews, output_root: Path, sw_app, template_path: str | None) -> dict:
     from pipeline.model_validator import validate_model
     from pipeline.solidworks_builder import build_model
@@ -509,7 +658,7 @@ def process_part(part: PartViews, output_root: Path, sw_app, template_path: str 
             )
             skipped_ids = {s[0] for s in skipped}
             built = [fid for fid in model.build_order if fid not in skipped_ids]
-            validation = validate_model(sw_doc, model)
+            validation = validate_model(sw_doc, model, built_feature_ids=built)
             status = "BUILT"
         except Exception as e:
             concerns.append(f"SolidWorks build raised: {type(e).__name__}: {e}")
@@ -575,5 +724,15 @@ def main() -> int:
     return 0 if n_ok == len(results) else 8
 
 
+def _run_with_budget_stop(fn) -> int:
+    """Run ``fn``; on a spend-cap stop print why and exit 9 (no traceback)."""
+    from pipeline.budget import BudgetExceeded
+    try:
+        return fn()
+    except BudgetExceeded as e:
+        print(f"\n*** STOPPED: {e}", file=sys.stderr)
+        return 9
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(_run_with_budget_stop(main))

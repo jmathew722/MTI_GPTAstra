@@ -142,11 +142,14 @@ class TestExplicitInstancePositions:
         for coord in ("1 * UNIT_FACTOR", "5 * UNIT_FACTOR", "0.5 * UNIT_FACTOR", "1.5 * UNIT_FACTOR"):
             assert coord in hole, coord
 
-    def test_position_outside_envelope_warns(self):
+    def test_position_outside_envelope_blocks(self):
+        # Was a warning until 2026-10-04. A hole off the part cuts nothing, so it now
+        # BLOCKS (STATE.md F6, PRD B1 "features inside the envelope").
         data = self._grid()
         data["hole_callouts"][0]["instance_positions"][0] = [99, 0.5]  # off the plate
         _, report = run_verification(data)
-        assert any("outside" in w for w in report.warnings)
+        assert not report.ok
+        assert any("outside the part" in e for e in report.errors)
 
     def test_count_mismatch_warns(self):
         data = self._grid()

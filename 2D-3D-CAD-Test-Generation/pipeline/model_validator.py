@@ -1,15 +1,17 @@
 """Post-build model validation.
 
 After SolidWorks builds the part, confirm it actually represents the drawing:
-a non-zero solid body exists, and the model's overall bounding box matches the
-drawing's overall length/width/height dimensions within tolerance.
+a non-zero solid body exists, the model's overall bounding box matches the
+drawing's overall dimensions within tolerance, and EVERY extracted feature was
+built. A part missing features FAILS (:func:`check_completeness`). Before
+2026-10-04 this check did not exist, and parts with 2 of 5 features passed.
 
 WINDOWS ONLY at call time (operates on a live SolidWorks document), but imports
 cleanly anywhere. Public entry point: :func:`validate_model`.
 """
 from __future__ import annotations
 
-from typing import Any, Union
+from typing import Any, Iterable, Optional, Union
 
 from pipeline.schema import DrawingData
 from utils.logger import get_logger
@@ -18,9 +20,10 @@ from utils.unit_converter import to_meters
 log = get_logger()
 
 # Allowed mismatch between a model bounding-box edge and a drawing dimension.
-# A drawing's overall envelope may not exactly equal any single dimension, so we
-# use a generous relative tolerance plus an absolute floor.
-REL_TOLERANCE = 0.05      # 5%
+# Only overall/envelope dims are compared, and those should equal a bbox extent.
+# 5% was too loose: on SB11033 it let a 1.781" body "match" the 1.971" overall length
+# via the 1.938" flange diameter extent. 1% plus a 0.5 mm floor.
+REL_TOLERANCE = 0.01      # 1%
 ABS_TOLERANCE_M = 0.0005  # 0.5 mm floor
 
 
@@ -29,12 +32,39 @@ def _coerce(data: Union[DrawingData, dict[str, Any]]) -> DrawingData:
 
 
 def _dims_in_meters(model: DrawingData, applies_to: str) -> list[float]:
-    """All dimension values (in meters) whose applies_to matches."""
+    """All dimension values (in meters) whose applies_to is ``applies_to`` or
+    ``overall_<applies_to>`` (extractors write both forms)."""
     out = []
     for d in model.dimensions:
-        if (d.applies_to or "").lower().strip() == applies_to:
+        label = (d.applies_to or "").lower().strip()
+        if label in (applies_to, f"overall_{applies_to}"):
             out.append(to_meters(d.value, d.unit.value))
     return out
+
+
+def check_completeness(model: DrawingData, built_feature_ids: Iterable[str]) -> dict[str, Any]:
+    """Compare the features the drawing calls for with the features actually built.
+
+    Pure (no SolidWorks), so it is unit-tested on any OS. Every extracted feature
+    that was not built is a FAILURE: a model missing a feature does not represent
+    the drawing, whatever its bounding box says.
+    """
+    built = set(built_feature_ids)
+    expected = [f for f in model.features]
+    missing = [f for f in expected if f.id not in built]
+    report: dict[str, Any] = {"passed": [], "failed": [], "expected": len(expected),
+                              "built": len(expected) - len(missing),
+                              "missing": [f.id for f in missing]}
+    for f in missing:
+        why = "not in build_order" if f.id not in model.build_order else "build skipped/failed"
+        qty = f" x{f.quantity}" if f.quantity > 1 else ""
+        report["failed"].append(
+            f"INCOMPLETE: {f.id} {f.type.value}{qty} not built ({why}) - {f.description[:70]}"
+        )
+    pct = 100 * report["built"] / report["expected"] if expected else 100
+    line = f"Feature completeness: {report['built']}/{report['expected']} built ({pct:.0f}%)."
+    (report["passed"] if not missing else report["failed"]).insert(0, line)
+    return report
 
 
 def _matches_any(actual_m: float, expected_values_m: list[float]) -> bool:
@@ -45,12 +75,15 @@ def _matches_any(actual_m: float, expected_values_m: list[float]) -> bool:
     return False
 
 
-def validate_model(sw_doc, drawing_data: Union[DrawingData, dict[str, Any]]) -> dict[str, Any]:
-    """Verify the built model matches the drawing's dimensions.
+def validate_model(sw_doc, drawing_data: Union[DrawingData, dict[str, Any]],
+                   built_feature_ids: Optional[Iterable[str]] = None) -> dict[str, Any]:
+    """Verify the built model matches the drawing's dimensions and features.
 
     Args:
         sw_doc: The live SolidWorks document returned by ``build_model``.
         drawing_data: The validated drawing data the model was built from.
+        built_feature_ids: ids of the features that were actually built. When
+            given, any extracted feature not among them fails validation.
 
     Returns:
         A report dict with ``passed`` / ``failed`` / ``warnings`` lists, plus
@@ -58,6 +91,15 @@ def validate_model(sw_doc, drawing_data: Union[DrawingData, dict[str, Any]]) -> 
     """
     model = _coerce(drawing_data)
     report: dict[str, Any] = {"passed": [], "failed": [], "warnings": []}
+
+    # --- Completeness: every extracted feature must have been built ---
+    if built_feature_ids is not None:
+        comp = check_completeness(model, built_feature_ids)
+        report["passed"] += comp["passed"]
+        report["failed"] += comp["failed"]
+        report["completeness"] = {k: comp[k] for k in ("expected", "built", "missing")}
+    else:
+        report["warnings"].append("Feature completeness NOT checked (no built-feature list given).")
 
     # --- Mass properties: confirms a solid body exists ---
     # The document-level mass-property objects (CreateMassProperty/2) are not
@@ -68,9 +110,11 @@ def validate_model(sw_doc, drawing_data: Union[DrawingData, dict[str, Any]]) -> 
         bodies = sw_doc.GetBodies2(0, True)  # swBodyType_e.swSolidBody = 0
     except Exception as e:
         report["failed"].append(f"Could not enumerate solid bodies: {e}")
+        report["ok"] = False
         return report
     if not bodies:
         report["failed"].append("CRITICAL: no solid body exists — no body was created.")
+        report["ok"] = False
         return report
 
     # Measure the LARGEST solid body so a stray/disjoint body can't mask the part.
@@ -91,10 +135,12 @@ def validate_model(sw_doc, drawing_data: Union[DrawingData, dict[str, Any]]) -> 
         volume_m3 = float(mp[3])
     except Exception as e:
         report["failed"].append(f"Could not read volume from body: {e}")
+        report["ok"] = False
         return report
 
     if volume_m3 <= 0:
         report["failed"].append("CRITICAL: Part has zero volume — no solid body was created.")
+        report["ok"] = False
         return report
     report["passed"].append("Solid body exists (volume > 0).")
     report["volume_mm3"] = volume_m3 * 1e9

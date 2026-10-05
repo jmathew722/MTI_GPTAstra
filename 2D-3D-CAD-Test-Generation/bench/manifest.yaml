@@ -1,0 +1,74 @@
+# Benchmark manifest: parts, splits, tolerance sources.
+# Spec: docs/superpowers/specs/2026-09-28-placement-benchmark-design.md (sub-project C).
+#
+# THE SPLIT IS FIXED HERE and changes only through a reviewed PR (PRD C4).
+# Prompts, the IR and the planner may be tuned on `dev` parts only. A `held_out`
+# part must never be used for tuning, debugging or prompt examples.
+
+version: 1
+split_decided: "2026-10-04"
+split_decided_by: "ggould (MalteseWarrior)"
+split_rationale: >
+  The 5 ViewDefinedDrawings parts were originally proposed as held-out, but on
+  2026-10-04 they were used to diagnose and fix the pipeline (STATE.md 3.0, error
+  log E011-E017). The 4 macro parts were hand-patched in June (E009-E010). All 9 are
+  therefore DEV. Held-out parts must be drawings no one has worked on, with an MTI
+  reference STEP, chosen and frozen here BEFORE any IR/prompt tuning starts on them.
+
+tolerance_default: >
+  Dimension tolerance when printed; otherwise the title-block general tolerance;
+  otherwise +-0.005 in / +-0.1 mm (PRD open question, proposed).
+
+splits:
+  dev:
+    - part: A040911E
+      family: flanged bearing (counterbored bolt circle, cropped 2-hole callout)
+      views: ViewDefinedDrawings/A040911E-20260618T093212Z-3-001/A040911E
+      units: inch
+      reference_step: null      # MTI to supply
+    - part: A040921E
+      family: spacer ring with end slot
+      views: ViewDefinedDrawings/A040921E-20260618T093224Z-3-001/A040921E
+      units: inch
+      reference_step: null
+    - part: SB11033
+      family: flange + stacked boss + bolt circle + edge breaks
+      views: ViewDefinedDrawings/SB11033-20260618T093243Z-3-001/SB11033
+      units: inch
+      reference_step: null
+    - part: SB11780
+      family: turned tie rod (necks, keyway, journals)
+      views: ViewDefinedDrawings/SB11780-20260618T093317Z-3-001/SB11780
+      units: inch
+      reference_step: null
+    - part: SB11842
+      family: spindle back-up flange (counterbored bolt circle)
+      views: ViewDefinedDrawings/SB11842-20260618T093328Z-3-001/SB11842
+      units: inch
+      reference_step: null
+    - part: 115-C
+      family: plate (check bypass)
+      views: DrawingPDFs/A001171E.PDF
+      units: inch
+      reference_step: null
+    - part: 116-C
+      family: plate, 2x2 grid (check valve eliminator)
+      views: DrawingPDFs/A001151E.PDF
+      units: inch
+      reference_step: null
+    - part: 117-C
+      family: plate, 14-hole callout (check valve adaptor)
+      views: DrawingPDFs/A001131E.PDF
+      units: inch
+      reference_step: null
+    - part: 135-A
+      family: key
+      views: DrawingPDFs/A001351E.PDF
+      units: inch
+      reference_step: null
+
+  # PENDING. No benchmark headline number may be reported until this list is
+  # non-empty, every part has a reference_step, and the list is frozen by PR.
+  # Candidates: curated NewVerifiedDrawings/ parts (STATE.md 2, data-quality
+  # warning) or new MTI drawings, each with an MTI reference STEP.
+  held_out: []

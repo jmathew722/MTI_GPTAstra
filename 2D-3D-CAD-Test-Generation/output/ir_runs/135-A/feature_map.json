@@ -1,0 +1,76 @@
+{
+  "part": "135-A",
+  "units": "inch",
+  "origin_kind": "corner",
+  "bbox": [
+    0.0,
+    0.0,
+    0.0,
+    3.0,
+    1.0,
+    1.0
+  ],
+  "volume": 2.733928,
+  "volume_mm3": 44801.045,
+  "features": [
+    "F001",
+    "F002",
+    "F003"
+  ],
+  "skipped": {},
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          0.5,
+          0.5
+        ],
+        "planned_d": 0.344,
+        "measured": true,
+        "center": [
+          0.5,
+          0.5
+        ],
+        "d": 0.344,
+        "depth": 0.688,
+        "axis": "Z"
+      }
+    ],
+    "F003": [
+      {
+        "planned_center": [
+          2.5,
+          0.5
+        ],
+        "planned_d": 0.344,
+        "measured": true,
+        "center": [
+          2.5,
+          0.5
+        ],
+        "d": 0.344,
+        "depth": 0.688,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {},
+  "starts": {
+    "F001": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 1.0,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 3.0,
+    "F002": 2.866963761,
+    "F003": 2.733927523
+  }
+}

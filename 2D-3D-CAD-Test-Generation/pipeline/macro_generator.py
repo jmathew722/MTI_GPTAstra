@@ -43,6 +43,7 @@ Public entry point: :func:`generate_macro_package`.
 from __future__ import annotations
 
 import json
+import math
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -226,6 +227,138 @@ def _effective_spacing(model: DrawingData, h: HoleCallout) -> tuple[float, int]:
     return 0.0, h.qty
 
 
+BOLT_CIRCLE_ANGLE_NOTE = ("ANGLE ASSUMED: bolt-circle holes start at 0 deg (+X); "
+                          "verify the clocking against the drawing.")
+_BOLT_CIRCLE_LABEL = re.compile(r"bolt.?circle|pitch.?circle|\bpcd\b|\bb\.?c\b", re.IGNORECASE)
+
+
+def _bolt_circle_diameter(model: DrawingData, h: HoleCallout) -> Optional[float]:
+    """The bolt/pitch circle DIAMETER for this callout, from a dimension labeled as
+    the bolt circle: a diameter as-is, or a radius (``bolt_circle_radius``, or a
+    radial dim) doubled. Extractors write both forms."""
+    for d in model.dimensions:
+        label = d.applies_to or ""
+        if not _BOLT_CIRCLE_LABEL.search(label):
+            continue
+        if d.feature_ref and d.feature_ref not in (h.id, h.feature_ref):
+            continue
+        if d.type.value == "diameter":
+            return d.value
+        if d.type.value == "radial" or "radius" in label.lower():
+            return 2.0 * d.value
+    return None
+
+
+def round_base(model: DrawingData) -> Optional[tuple[float, float, float]]:
+    """``(cx, cy, r)`` of a circular base body in drawing units, else None.
+
+    On a round part the part center (the circle's axis) is the only meaningful
+    origin. Length/width "envelope" dims say nothing about where the axis is, and
+    centering circles on them built A040911E's disc off-axis (STATE.md R1).
+    """
+    if not model.build_order:
+        return None
+    base = model.feature_by_id(model.build_order[0])
+    if base is None or base.type.value not in ("extrude_boss", "revolve"):
+        return None
+    dia = 0.0
+    for did in base.related_dimensions:
+        d = model.dimension_by_id(did)
+        if d is not None and d.type.value == "diameter" and not _BOLT_CIRCLE_LABEL.search(d.applies_to or ""):
+            dia = max(dia, d.value)
+    if not dia:
+        return None
+    cx, cy = (base.offset_x, base.offset_y) if base.position_known else (0.0, 0.0)
+    return cx, cy, dia / 2.0
+
+
+def part_center(model: DrawingData) -> tuple[float, float]:
+    """The point unplaced circular features are centered on: the axis of a round
+    part, otherwise the center of the length x width envelope (drawing frame)."""
+    rb = round_base(model)
+    if rb is not None:
+        return rb[0], rb[1]
+    length, width = _envelope(model)
+    return (length / 2.0) if length else 0.0, (width / 2.0) if width else 0.0
+
+
+def _inside_part(model: DrawingData, x: float, y: float) -> Optional[bool]:
+    """Is (x, y) inside the base profile? None when the base shape is unknown."""
+    rb = round_base(model)
+    if rb is not None:
+        return math.hypot(x - rb[0], y - rb[1]) <= rb[2] + 1e-9
+    length, width = _envelope(model)
+    if length and width:
+        return -1e-9 <= x <= length + 1e-9 and -1e-9 <= y <= width + 1e-9
+    return None
+
+
+FRAME_FIX_NOTE = ("FRAME CORRECTED: instance positions were outside the part in the "
+                  "drawing frame; they fit after shifting between the corner and center frames.")
+
+
+def _reframe(model: DrawingData, pts: list[tuple[float, float]]) -> tuple[list[tuple[float, float]], bool]:
+    """Put instance positions written in the OTHER frame back in the part frame.
+
+    Extractors mix frames in one callout: Astra wrote SB11842's bore as
+    ``x/y_position`` (0, 0) (center frame) but ``instance_positions`` [[2.5, 2.5]]
+    (corner frame), so the bore was cut outside the disc and removed nothing. If
+    every point is outside the part but every shifted point is inside, use the
+    shifted points. Anything else is returned unchanged for the gate to judge.
+    """
+    inside = [_inside_part(model, x, y) for x, y in pts]
+    if not pts or any(v is None for v in inside) or all(inside):
+        return pts, False
+    rb = round_base(model)
+    if rb is not None:
+        dx, dy = -rb[2], -rb[2]          # corner-of-bounding-square -> center
+    else:
+        length, width = _envelope(model)
+        dx, dy = length / 2.0, width / 2.0  # center -> lower-left corner
+    shifted = [(x + dx, y + dy) for x, y in pts]
+    if all(_inside_part(model, x, y) for x, y in shifted):
+        return shifted, True
+    return pts, False
+
+
+SEED_CIRCLE_NOTE = ("PATTERN FROM PLACED HOLE: equal spacing around the part center through the "
+                    "one placed instance, confirmed against the drawing's other hole dimensions.")
+_MATCH_TOL = 0.003  # drawing units; 3-place inch dims
+
+
+def _circle_from_seed(model: DrawingData, h: HoleCallout) -> Optional[list[tuple[float, float]]]:
+    """n holes equally spaced on a round part, through ONE placed hole, but only if
+    the other computed instances reproduce the drawing's own coordinate dimensions.
+
+    A040911E (Astra): the top hole is placed at (0, 2.875), qty 3, and the drawing
+    dimensions the others by 2.49 and 1.438. Three equal holes on r = 2.875 from 90 deg
+    land on (+-2.49, -1.4375). That match is the evidence. Without it, return None.
+    """
+    feat = model.feature_by_id(h.feature_ref) if h.feature_ref else None
+    n = max(h.qty, feat.quantity if feat else 1)
+    rb = round_base(model)
+    if feat is None or n < 2 or rb is None or not feat.position_known:
+        return None
+    cx, cy, _ = rb
+    sx, sy = feat.offset_x - cx, feat.offset_y - cy
+    r = math.hypot(sx, sy)
+    if r < _MATCH_TOL:
+        return None
+    a0 = math.atan2(sy, sx)
+    pts = [(cx + r * math.cos(a0 + 2 * math.pi * i / n), cy + r * math.sin(a0 + 2 * math.pi * i / n))
+           for i in range(n)]
+    values = [d.value for d in (model.dimension_by_id(i) for i in feat.related_dimensions)
+              if d is not None and d.type.value == "linear"]
+    others = [abs(c) for x, y in pts[1:] for c in (x - cx, y - cy) if abs(c) > _MATCH_TOL]
+    confirmed = [c for c in others if any(abs(c - v) <= _MATCH_TOL for v in values)]
+    return pts if others and len(confirmed) == len(others) else None
+
+
+def hole_positions_outside_part(model: DrawingData, h: HoleCallout) -> list[tuple[float, float]]:
+    """Instance centers (after any frame correction) that lie outside the part."""
+    return [(x, y) for x, y in _hole_positions(model, h) if _inside_part(model, x, y) is False]
+
+
 def _hole_positions(model: DrawingData, h: HoleCallout) -> list[tuple[float, float]]:
     """Instance centers in the DRAWING FRAME (base plate lower-left corner at origin).
 
@@ -237,13 +370,29 @@ def _hole_positions(model: DrawingData, h: HoleCallout) -> list[tuple[float, flo
     placed at the envelope center and the macro flags POSITION ASSUMED — positions
     are never invented from free text.
     """
-    # Most reliable: explicit per-instance centers read straight from the drawing.
+    # Most reliable: explicit per-instance centers read straight from the drawing
+    # (moved into the part frame if they were written in the other one).
     if h.instance_positions:
-        return [(p[0], p[1]) for p in h.instance_positions if len(p) == 2]
+        pts = [(p[0], p[1]) for p in h.instance_positions if len(p) == 2]
+        return _reframe(model, pts)[0]
 
     length, width = _envelope(model)
-    ecx = (length / 2.0) if length else 0.0
-    ecy = (width / 2.0) if width else 0.0
+    ecx, ecy = part_center(model)
+
+    # Bolt circle: radius and count are both read from the drawing, so the
+    # instances are grounded. The center is the part center (the axis for a
+    # round part). The start angle is not dimensioned on a typical callout,
+    # so the first hole sits at 0 deg (+X) - see BOLT_CIRCLE_ANGLE_NOTE.
+    bc = _bolt_circle_diameter(model, h)
+    feat = model.feature_by_id(h.feature_ref) if h.feature_ref else None
+    n = max(h.qty, feat.quantity if feat else 1)
+    if bc and n > 1:
+        r = bc / 2.0
+        return [(ecx + r * math.cos(2 * math.pi * i / n), ecy + r * math.sin(2 * math.pi * i / n))
+                for i in range(n)]
+    seeded = _circle_from_seed(model, h)
+    if seeded:
+        return seeded
     spacing, qty = _effective_spacing(model, h)
     # A grounded spacing lays out a centered row for linear/unspecified patterns.
     # Circular patterns lack a bolt-circle radius in the schema, so they are left

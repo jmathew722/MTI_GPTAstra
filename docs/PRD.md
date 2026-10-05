@@ -50,7 +50,23 @@ Measured results on the five parts built to `.SLDPRT` (June 18, 2026):
 | SB11780 | 76.88 in tie rod, turned shoulders | 1 of 5 | PASSED |
 | SB11842 | Spindle back-up flange | 2 of 5 | PASSED |
 
-Where it breaks:
+> **Progress update, 2026-10-04** (details: [STATE.md §2–§3.0](../STATE.md)).
+> Measured on SolidWorks 2025 SP5, same five parts:
+> - **Feature completeness:** 22 of 26 (85%) from the June extractions, after
+>   placement fixes in the COM builder. GPT-6 Astra's extractions are richer
+>   (30 features) and build 18 of 30; the builder, not the reading, is now the limit.
+> - **False approvals:** 0. The validator now fails any part missing a feature, and
+>   it caught one built-but-misplaced part (A040911E).
+> - **Fillets/chamfers without manual picking:** now built in the COM path on
+>   inferred edges, flagged for review.
+> - **Remaining failures** trace to six root causes (R1–R6). The largest, R2, is
+>   geometry the current schema can't express. That is the case for sub-project A.
+> - A **hard $20 API budget guard** now applies to every paid call.
+> - **Decision (2026-10-04, ggould): GPT-6 Astra only.** Published CAD benchmarks already show
+>   Astra ahead, so the Opus-vs-Astra comparison (C3/C5, Goal 5) is dropped. The benchmark
+>   machinery remains for measuring *this pipeline* against MTI reference STEP.
+
+Where it breaks (as of June 2026):
 
 - **Placement.** Bolt-circle and patterned holes are never placed automatically.
   Offset bosses are built with no offset. Turned parts collapse to a single cylinder.

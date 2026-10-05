@@ -26,6 +26,8 @@ import sys
 from pathlib import Path
 
 from rich.console import Console
+
+from pipeline.budget import BudgetExceeded
 from rich.panel import Panel
 
 console = Console()
@@ -85,6 +87,8 @@ def _prepare_and_extract(args) -> dict | None:
         console.print(f"[red]Extraction failed (configuration):[/red] {e}")
     except ExtractionError as e:
         console.print(f"[red]Extraction failed:[/red] {e}")
+    except BudgetExceeded:
+        raise
     except Exception as e:
         # The extractor wraps an external API: auth, rate-limit, and network
         # failures surface as the SDK's own exception types. Present cleanly.
@@ -227,6 +231,8 @@ def _run_views_folder(args) -> int:
         try:
             with scope(part=part.name):
                 data = _extract_part_views(part, args.page, cache_dir, usage)
+        except BudgetExceeded:
+            raise
         except Exception as e:
             console.print(f"  [red]Extraction failed:[/red] {type(e).__name__}: {e}")
             from pipeline.batch import BatchRow
@@ -293,6 +299,13 @@ def main() -> int:
         action="store_true",
         help="Extract and verify only; do not generate macros or touch SolidWorks.",
     )
+    parser.add_argument(
+        "--ir",
+        action="store_true",
+        help="Feature-IR path: GPT-6 Astra extracts AND plans; CadQuery reference + STEP; with "
+        "--engine com also a native SolidWorks part verified per feature. Works with --drawing "
+        "(a PDF/PNG sheet) or --views-folder (a folder with <part>.png, _front, _side).",
+    )
     args = parser.parse_args()
 
     # Every model completion in this run lands in <output>/usage/usage_ledger.jsonl
@@ -304,8 +317,34 @@ def main() -> int:
         return _run(args)
 
 
+def _run_ir(args) -> int:
+    """drawing -> Astra extraction -> Astra plan -> Gate 1 -> CadQuery -> (SolidWorks)."""
+    from pipeline.ir_pipeline import PartSpec, connect_sw, run_part
+
+    src = Path(args.drawing or args.views_folder or "")
+    if not src.exists():
+        console.print("[red]--ir needs --drawing <file> or --views-folder <dir>[/red]")
+        return 2
+    part = src.stem if src.is_file() else src.name
+    sw = connect_sw() if args.engine == "com" else (None, None, None)
+    r = run_part(PartSpec(part, src), Path(args.output), [Path(args.output)], *sw)
+    console.print(f"Gate 1: {r.gate1} | planned {r.planned} | questions {len(r.questions)} | "
+                  f"SolidWorks: {r.sw_ok} | cost ${r.cost_usd:.2f}")
+    for q in r.questions:
+        console.print(f"  [yellow]QUESTION[/yellow] {q}")
+    if r.error:
+        console.print(f"[red]{r.error}[/red]")
+    console.print(f"Reference STEP: {r.reference_step}")
+    if r.sldprt:
+        console.print(f"SolidWorks part: {r.sldprt}")
+    return 0 if (r.gate1 == "OK" and r.sw_ok is not False and not r.error) else 7
+
+
 def _run(args) -> int:
     console.print(Panel("2D -> 3D SolidWorks Pipeline", style="bold blue"))
+
+    if args.ir:
+        return _run_ir(args)
 
     # --- Batch mode: process a whole directory and write a triage CSV ---
     if args.batch:
@@ -425,8 +464,10 @@ def _run(args) -> int:
 
     template_path = os.getenv("SOLIDWORKS_TEMPLATE_PATH") or None
     try:
+        skipped: list = []
         output_path, sw_doc = build_model(
-            sw_app, model, output_dir=args.output, template_path=template_path
+            sw_app, model, output_dir=args.output, template_path=template_path,
+            skipped_out=skipped,
         )
     except SolidWorksError as e:
         console.print(f"[red]Build failed:[/red] {e}")
@@ -437,7 +478,9 @@ def _run(args) -> int:
     console.print("[6/6] Validating built model...")
     from pipeline.model_validator import validate_model
 
-    vreport = validate_model(sw_doc, model)
+    skipped_ids = {s[0] for s in skipped}
+    built = [fid for fid in model.build_order if fid not in skipped_ids]
+    vreport = validate_model(sw_doc, model, built_feature_ids=built)
     for p in vreport["passed"]:
         console.print(f"  [green]PASS[/green] {p}")
     for f in vreport["failed"]:
@@ -449,12 +492,22 @@ def _run(args) -> int:
     console.print(
         Panel(
             f"[{style}]Pipeline complete.[/{style}]\nSaved to: {output_path}\n"
-            f"Model validation: {'PASSED' if vreport.get('ok') else 'completed with issues'}.",
+            f"Model validation: {'PASSED' if vreport.get('ok') else 'FAILED - see FAIL lines above'}.",
             style=style,
         )
     )
     return 0 if vreport.get("ok") else 7
 
 
+def _run_with_budget_stop(fn) -> int:
+    """Run ``fn``; on a spend-cap stop print why and exit 9 (no traceback)."""
+    from pipeline.budget import BudgetExceeded
+    try:
+        return fn()
+    except BudgetExceeded as e:
+        print(f"\n*** STOPPED: {e}", file=sys.stderr)
+        return 9
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(_run_with_budget_stop(main))

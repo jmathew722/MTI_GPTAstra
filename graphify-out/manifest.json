@@ -1,8 +1,8 @@
 {
   "2D-3D-CAD-Test-Generation/conftest.py": {
-    "mtime": 1790612445.5112176,
-    "seen": 1790614531.6852827,
-    "ast_hash": "1faad00ddb2b40f81e300c11832e36bf",
+    "mtime": 1791139103.806614,
+    "seen": 1791154434.1483173,
+    "ast_hash": "2525a613bb2d95737177baac836664b6",
     "semantic_hash": "1faad00ddb2b40f81e300c11832e36bf"
   },
   "2D-3D-CAD-Test-Generation/extraction_115C.json": {
@@ -24,9 +24,9 @@
     "semantic_hash": "e1e08409eda342097a3de13636205fa2"
   },
   "2D-3D-CAD-Test-Generation/main.py": {
-    "mtime": 1790612445.5231102,
-    "seen": 1790614531.6852973,
-    "ast_hash": "a69d5d916dd96be4b030eec648dc012a",
+    "mtime": 1791153367.4201577,
+    "seen": 1791154434.1815383,
+    "ast_hash": "36f52eedab98e8d717cbcedef20f0273",
     "semantic_hash": "a69d5d916dd96be4b030eec648dc012a"
   },
   "2D-3D-CAD-Test-Generation/output/115_C-RevB/115_C-RevB_build_plan.json": {
@@ -114,15 +114,15 @@
     "semantic_hash": "87aa636d11e99471b1b32517c603c01d"
   },
   "2D-3D-CAD-Test-Generation/pipeline/batch.py": {
-    "mtime": 1790612445.7095604,
-    "seen": 1790614531.6853137,
-    "ast_hash": "f13d64cf58682aed2c855fc612eb2dd1",
+    "mtime": 1791139084.8362794,
+    "seen": 1791154434.1851501,
+    "ast_hash": "6b121dfeade3de587dcadef08c3533da",
     "semantic_hash": "f13d64cf58682aed2c855fc612eb2dd1"
   },
   "2D-3D-CAD-Test-Generation/pipeline/extractor.py": {
-    "mtime": 1790612445.7105558,
-    "seen": 1790614531.685315,
-    "ast_hash": "23a5e2295fa457ea2ac3b68fca5c4566",
+    "mtime": 1791140329.9140909,
+    "seen": 1791154434.1973324,
+    "ast_hash": "347feb0ff8596127fa0ca672544464cc",
     "semantic_hash": "23a5e2295fa457ea2ac3b68fca5c4566"
   },
   "2D-3D-CAD-Test-Generation/pipeline/macro_audit.py": {
@@ -132,15 +132,15 @@
     "semantic_hash": "a4c500af005e918489bb4639ebc91d87"
   },
   "2D-3D-CAD-Test-Generation/pipeline/macro_generator.py": {
-    "mtime": 1790612445.7159457,
-    "seen": 1790614531.6853175,
-    "ast_hash": "50a3247dbafb9ca0c03378c083831174",
+    "mtime": 1791141773.531864,
+    "seen": 1791154434.284397,
+    "ast_hash": "64df819cab48eaafe943f21d42637a1d",
     "semantic_hash": "50a3247dbafb9ca0c03378c083831174"
   },
   "2D-3D-CAD-Test-Generation/pipeline/model_validator.py": {
-    "mtime": 1790612445.7169602,
-    "seen": 1790614531.6853187,
-    "ast_hash": "7712dc522ccf9129d6daa94a99dfff41",
+    "mtime": 1791139235.7124243,
+    "seen": 1791154434.288146,
+    "ast_hash": "30b9f9bf7508fc30ef1678a96fdc5a40",
     "semantic_hash": "7712dc522ccf9129d6daa94a99dfff41"
   },
   "2D-3D-CAD-Test-Generation/pipeline/schema.py": {
@@ -150,21 +150,21 @@
     "semantic_hash": "a939fafa14d51c9e7dcd4251f3a34678"
   },
   "2D-3D-CAD-Test-Generation/pipeline/solidworks_builder.py": {
-    "mtime": 1790612445.720952,
-    "seen": 1790614531.6853206,
-    "ast_hash": "dcc324095c10b7d94ebe551c1766c5af",
+    "mtime": 1791141791.6373968,
+    "seen": 1791154434.3197963,
+    "ast_hash": "e33dacf1b5f28a6ba965363356ef9a31",
     "semantic_hash": "dcc324095c10b7d94ebe551c1766c5af"
   },
   "2D-3D-CAD-Test-Generation/pipeline/usage_log.py": {
-    "mtime": 1790612445.7228367,
-    "seen": 1790614531.6853218,
-    "ast_hash": "6cdbf7bcce66256cab2d2b95ffe82cfa",
+    "mtime": 1791137272.1749566,
+    "seen": 1791154434.3392637,
+    "ast_hash": "e86377447c99f200066073d485905b3f",
     "semantic_hash": "6cdbf7bcce66256cab2d2b95ffe82cfa"
   },
   "2D-3D-CAD-Test-Generation/pipeline/validator.py": {
-    "mtime": 1790612445.7239344,
-    "seen": 1790614531.6853225,
-    "ast_hash": "7a317f90d00679dfda5d47b51dcef5b9",
+    "mtime": 1791141482.6046743,
+    "seen": 1791154434.350269,
+    "ast_hash": "b9aaf59f99c9075ff5d9c4de20fc4473",
     "semantic_hash": "7a317f90d00679dfda5d47b51dcef5b9"
   },
   "2D-3D-CAD-Test-Generation/pipeline/view_ingest.py": {
@@ -174,15 +174,15 @@
     "semantic_hash": "dde43948c27f157300bdaaf77650c955"
   },
   "2D-3D-CAD-Test-Generation/run_models.py": {
-    "mtime": 1790612445.7313023,
-    "seen": 1790614531.6853242,
-    "ast_hash": "cd3ad892ebf0f8a9b97872f419a8ca09",
+    "mtime": 1791141791.6363957,
+    "seen": 1791154434.3746474,
+    "ast_hash": "0bfbad2039b51e742de18cf9fabb2ce9",
     "semantic_hash": "cd3ad892ebf0f8a9b97872f419a8ca09"
   },
   "2D-3D-CAD-Test-Generation/setup.py": {
-    "mtime": 1790612445.7343736,
-    "seen": 1790614531.6853254,
-    "ast_hash": "ddb8d07e4dd7622cb9fb8df898a3c4af",
+    "mtime": 1791137727.4706347,
+    "seen": 1791154434.377264,
+    "ast_hash": "4f674fe7230193cc1a7d7d1764a41cca",
     "semantic_hash": "ddb8d07e4dd7622cb9fb8df898a3c4af"
   },
   "2D-3D-CAD-Test-Generation/tests/__init__.py": {
@@ -192,9 +192,9 @@
     "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "2D-3D-CAD-Test-Generation/tests/test_extractor.py": {
-    "mtime": 1790612445.758868,
-    "seen": 1790614531.685327,
-    "ast_hash": "0f4677c6d4bb49131d5f6b2a6fbcfd6f",
+    "mtime": 1791138352.6392636,
+    "seen": 1791154434.3891246,
+    "ast_hash": "95ee72f28f5fbd1002b0149d3f52507a",
     "semantic_hash": "0f4677c6d4bb49131d5f6b2a6fbcfd6f"
   },
   "2D-3D-CAD-Test-Generation/tests/test_golden_macros.py": {
@@ -216,9 +216,9 @@
     "semantic_hash": "cbcbb25ce74eea61913cb25dda8072b1"
   },
   "2D-3D-CAD-Test-Generation/tests/test_reliability_hardening.py": {
-    "mtime": 1790612445.769041,
-    "seen": 1790614531.685331,
-    "ast_hash": "d815c571826cf93123552a1d60bf16e3",
+    "mtime": 1791141520.5263824,
+    "seen": 1791154434.418379,
+    "ast_hash": "128eabba267a18b4c9aa2f333ba91d6a",
     "semantic_hash": "d815c571826cf93123552a1d60bf16e3"
   },
   "2D-3D-CAD-Test-Generation/tests/test_unit_converter.py": {
@@ -234,9 +234,9 @@
     "semantic_hash": "c112c9661d76e40881d18068c761d90f"
   },
   "2D-3D-CAD-Test-Generation/tests/test_validator.py": {
-    "mtime": 1790612445.7750432,
-    "seen": 1790614531.685334,
-    "ast_hash": "7418aa5806cd38aa13476871b221994f",
+    "mtime": 1791140087.168615,
+    "seen": 1791154434.4354198,
+    "ast_hash": "e9d2e6620655fb987035ecc6bff3989d",
     "semantic_hash": "7418aa5806cd38aa13476871b221994f"
   },
   "2D-3D-CAD-Test-Generation/utils/__init__.py": {
@@ -718,5 +718,227 @@
     "seen": 1790614531.6854215,
     "ast_hash": "09233edb247f2e8eb73c9c1dcad8163b",
     "semantic_hash": "09233edb247f2e8eb73c9c1dcad8163b"
+  },
+  "2D-3D-CAD-Test-Generation/demo/simple_plate/make_drawing.py": {
+    "mtime": 1791139924.2854455,
+    "seen": 1791154434.153453,
+    "ast_hash": "2fc78efc4fab863dcb556b3aad773489",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/demo/simple_plate/run_demo.py": {
+    "mtime": 1791140228.044974,
+    "seen": 1791154434.1580622,
+    "ast_hash": "dfa4164c936f378feebc8bb428d8b430",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/ir_build.py": {
+    "mtime": 1791144607.8273137,
+    "seen": 1791154434.1610227,
+    "ast_hash": "d2ce1e9a5c5e859f96e44c3351b68aaa",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/ir_compare.py": {
+    "mtime": 1791153183.2083852,
+    "seen": 1791154434.164033,
+    "ast_hash": "c26af9632ad8fcf0240c412487977ab9",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/ir_plan.py": {
+    "mtime": 1791146500.2764566,
+    "seen": 1791154434.1673768,
+    "ast_hash": "447a4f6512965836759e6f7a90d85e07",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/ir_run.py": {
+    "mtime": 1791152986.4027855,
+    "seen": 1791154434.169347,
+    "ast_hash": "c87cd1ce861bc8fa62eb6dc92120197e",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/budget.py": {
+    "mtime": 1791139054.5528157,
+    "seen": 1791154434.1885657,
+    "ast_hash": "7b17d3b3339d5e5ea508ba67bc155e36",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/fasteners.py": {
+    "mtime": 1791141464.9994652,
+    "seen": 1791154434.198817,
+    "ast_hash": "f1486ff898f352caac9e0bcae48af632",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/ir/__init__.py": {
+    "mtime": 1791143009.6288521,
+    "seen": 1791154434.199267,
+    "ast_hash": "ef9f1f58df255278208c0f9ae8f56633",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/ir/compile_cadquery.py": {
+    "mtime": 1791144302.237936,
+    "seen": 1791154434.2056935,
+    "ast_hash": "701c54f64a8c48dcc1c68386194dc918",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py": {
+    "mtime": 1791152928.657298,
+    "seen": 1791154434.2200878,
+    "ast_hash": "181d38408dd9d4e0e4066ac98a3308de",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/ir/cq_runtime.py": {
+    "mtime": 1791144493.2602,
+    "seen": 1791154434.2321882,
+    "ast_hash": "e0cb41da8baa617ba6d5549351d77842",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/ir/expr.py": {
+    "mtime": 1791143121.1188395,
+    "seen": 1791154434.2351906,
+    "ast_hash": "babc4975575481d439b18d9ab847816d",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/ir/from_v1.py": {
+    "mtime": 1791144275.0208993,
+    "seen": 1791154434.2418826,
+    "ast_hash": "248455285e78e3501ee356f5cbe4f492",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/ir/model.py": {
+    "mtime": 1791144061.086357,
+    "seen": 1791154434.2490118,
+    "ast_hash": "fe4034e029360e55f54203a89a3c3439",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/ir/score.py": {
+    "mtime": 1791152020.1724744,
+    "seen": 1791154434.2524734,
+    "ast_hash": "571d011ea216ef67407c89874088c95f",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/ir_pipeline.py": {
+    "mtime": 1791152986.394789,
+    "seen": 1791154434.2585247,
+    "ast_hash": "66b4b85db98ea643ede4a96693b2408b",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/openai_adapter.py": {
+    "mtime": 1791138366.1210794,
+    "seen": 1791154434.291628,
+    "ast_hash": "ed10bf98e3279946ac4a439044992674",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/planner.py": {
+    "mtime": 1791153054.052648,
+    "seen": 1791154434.296508,
+    "ast_hash": "949928787b8da3cf96812d98019324d8",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/token_report.py": {
+    "mtime": 1791137272.1729558,
+    "seen": 1791154434.3307352,
+    "ast_hash": "970d3cea0cfcd38f2b925ad111472549",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/pipeline/token_tracker.py": {
+    "mtime": 1791140329.9040911,
+    "seen": 1791154434.3361611,
+    "ast_hash": "73312a9d9aa55f606d1f335b9580e14c",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/rebuild_from_json.py": {
+    "mtime": 1791152043.005722,
+    "seen": 1791154434.3532891,
+    "ast_hash": "1ea7d15232bff9ea8519c8ad18ac01be",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_bench_manifest.py": {
+    "mtime": 1791143135.0702064,
+    "seen": 1791154434.37848,
+    "ast_hash": "aa9bb2b2ca254813731b5d0acc7eacd0",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_budget.py": {
+    "mtime": 1791139115.1381369,
+    "seen": 1791154434.3806486,
+    "ast_hash": "51fe8b7a238dcedbaaae27b8b4ea7f7d",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_ir_compile_cadquery.py": {
+    "mtime": 1791144113.0875773,
+    "seen": 1791154434.3934753,
+    "ast_hash": "6707b32ae4f14862543d8da5a658547b",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py": {
+    "mtime": 1791145603.2346532,
+    "seen": 1791154434.394396,
+    "ast_hash": "c6f00b4760431369a63641ff9949fa36",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_ir_expr.py": {
+    "mtime": 1791143121.1670291,
+    "seen": 1791154434.3956554,
+    "ast_hash": "a201df66f4d4fb7e5fa70099142ab10e",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_ir_from_v1.py": {
+    "mtime": 1791144275.0643857,
+    "seen": 1791154434.3980057,
+    "ast_hash": "e59191ca43b369a34ce47cf31b96d3c6",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_ir_model.py": {
+    "mtime": 1791143101.5269628,
+    "seen": 1791154434.4002979,
+    "ast_hash": "5b6ab31e34d6431c2d9b317d448e163b",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_ir_pipeline.py": {
+    "mtime": 1791153078.754485,
+    "seen": 1791154434.4018874,
+    "ast_hash": "d0a3fedda1153e2b8126f18ebf0fb16e",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_model_validator.py": {
+    "mtime": 1791139215.843607,
+    "seen": 1791154434.4037611,
+    "ast_hash": "a6a4e2abbe5d662445d0f421b3cdd1d0",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_placement.py": {
+    "mtime": 1791140279.4596019,
+    "seen": 1791154434.408142,
+    "ast_hash": "87c172271f5cf3ecae5dd6bd4470bca9",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_planner.py": {
+    "mtime": 1791146470.2178164,
+    "seen": 1791154434.411863,
+    "ast_hash": "2f5e0271711d434ae6911eece1a601db",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_root_cause_fixes.py": {
+    "mtime": 1791141808.4289,
+    "seen": 1791154434.4228516,
+    "ast_hash": "c97bb738eae04e3ab960e1d199a3b2b6",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_token_report.py": {
+    "mtime": 1791137272.1899545,
+    "seen": 1791154434.4264991,
+    "ast_hash": "58bd813188f5e40a62d58a18ee203d58",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/tests/test_token_tracker.py": {
+    "mtime": 1791138480.756591,
+    "seen": 1791154434.430761,
+    "ast_hash": "4d82a1222aca3115830eff154d904377",
+    "semantic_hash": ""
+  },
+  "graphify-out/ast_update.py": {
+    "mtime": 1791154433.449994,
+    "seen": 1791154434.4420865,
+    "ast_hash": "a1e161f466d18ec524a67f05ce82e2e9",
+    "semantic_hash": ""
   }
 }

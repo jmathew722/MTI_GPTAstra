@@ -1,0 +1,25 @@
+{
+  "_checked_against": "demo/simple_plate/drawing.png + ground_truth.json (exact answer)",
+  "dims": {"D001": 100, "D002": 60, "D003": 10, "D004": 8, "D005": 10, "D006": 90,
+           "D007": 10, "D008": 50, "D009": 20, "D010": 50, "D011": 30, "D012": 1},
+  "plan": {
+    "part": "DEMO-PLATE-001",
+    "frame": {"origin_kind": "corner", "units": "mm", "view_map": {"front": "-Z", "right": "+X"}},
+    "features": [
+      {"kind": "prism", "id": "F001", "rationale": "plate 100 x 60 x 10",
+       "on": "plane(front)", "profile": {"shape": "rect", "w": "D001", "h": "D002"},
+       "depth": "D003", "op": "add"},
+      {"kind": "hole", "id": "F002", "rationale": "seed of 4X Ø8 THRU, lower-left",
+       "source_callouts": ["4X Ø8 THRU"], "on": "face(F001,+Z)", "u": "D005", "v": "D007",
+       "spec": {"type": "thru", "d": "D004"}},
+      {"kind": "pattern", "id": "F003", "rationale": "2 x 2 grid of the corner holes",
+       "seed": "F002", "mode": "grid", "dir": "+X", "count": "2", "pitch": "D006 - D005",
+       "dir2": "+Y", "count2": "2", "pitch2": "D008 - D007"},
+      {"kind": "hole", "id": "F004", "rationale": "center bore", "source_callouts": ["Ø20 THRU"],
+       "on": "face(F001,+Z)", "u": "D010", "v": "D011", "spec": {"type": "thru", "d": "D009"}},
+      {"kind": "edge_op", "id": "F005", "rationale": "C1 both sides of the bore",
+       "source_callouts": ["C1 BOTH SIDES"], "operation": "chamfer", "size": "D012",
+       "edges": ["edge_between(face(F001,+Z), wall(F004))", "edge_between(face(F001,-Z), wall(F004))"]}
+    ]
+  }
+}

@@ -22,6 +22,7 @@ HERE = Path(__file__).resolve().parent
 # (import_name, pip_spec, windows_only)
 REQUIREMENTS = [
     ("anthropic", "anthropic>=0.69.0", False),
+    ("openai", "openai>=1.60.0", False),
     ("PIL", "pillow>=10.0.0", False),
     ("pdf2image", "pdf2image>=1.16.0", False),
     ("fitz", "PyMuPDF>=1.24.0", False),
@@ -163,7 +164,7 @@ def main() -> int:
                 f"{YELLOW}Note:{RESET} SolidWorks/pywin32 steps were skipped (non-Windows). "
                 "Use --validate-only to run the extraction pipeline here."
             )
-        print("Next: edit .env and set ANTHROPIC_API_KEY, then run main.py.")
+        print("Next: edit .env and set OPENAI_API_KEY, then run main.py.")
         return 0
     print(f"{RED}Some required checks FAILED — see above.{RESET}")
     return 1

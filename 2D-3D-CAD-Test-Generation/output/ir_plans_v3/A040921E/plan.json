@@ -1,0 +1,127 @@
+{
+  "dims": {
+    "D001": 10.5,
+    "D002": 9.002,
+    "D003": 1.062,
+    "D004": 3.0,
+    "D005": 0.75,
+    "D006": 0.09,
+    "D007": 45.0,
+    "D008": 0.001,
+    "D009": 0.749,
+    "D010": 2.25
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "A040921E",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "section": "axis +Z runs left to right; datum A at z=0"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Nominal finished annular spacer; section confirms an open concentric bore throughout the axial length.",
+        "source_callouts": [
+          "10.50 DIA.",
+          "9.002 DIA +.002 / -.000",
+          "3.000"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D001 / 2"
+          }
+        ],
+        "inner": [
+          {
+            "z": "0",
+            "r": "D002 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D002 / 2"
+          }
+        ],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Chamfer both bore mouths, as explicitly depicted in section; do not apply the typical callout to unrelated edges.",
+        "source_callouts": [
+          ".09 X 45\u00b0 TYP"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D006",
+        "angle": "D007",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D002 / 2))",
+          "edge_between(face(F001,+Z),wall(F001,D002 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Centered end slot at twelve o'clock, through the radial wall and blind axially from datum A.",
+        "source_callouts": [
+          "CENT. 1.062",
+          ".75"
+        ],
+        "status": "planned",
+        "justification": "The front view and upper local detail center the slot about the vertical centerline. The unhatched upper-left section establishes its .75 axial depth. The front slot lines run from the bore to the OD, establishing through-wall extent. The rectangular cutter begins within the bore and extends beyond the OD to avoid coincident cut boundaries.",
+        "kind": "prism",
+        "on": "face(F001,-Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D003",
+          "h": "D001",
+          "anchor": "corner",
+          "u": "-D003 / 2",
+          "v": "0"
+        },
+        "depth": "D005",
+        "op": "cut"
+      },
+      {
+        "id": "F004",
+        "rationale": "What size and method of edge break are required for the remaining sharp outside and slot corners?",
+        "source_callouts": [
+          "BREAK ALL SHARP CORNERS"
+        ],
+        "status": "unresolved",
+        "justification": "Zero is only an unresolved size placeholder, not a specified edge-break size. The drawing supplies neither a size nor a chamfer-versus-radius requirement; listed outside edges are representative and the slot edges also require review.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "0",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D001 / 2))",
+          "edge_between(face(F001,+Z),wall(F001,D001 / 2))"
+        ]
+      }
+    ],
+    "notes": [
+      "Full-sheet title identifies SPACER, drawing 4092-B, model 100TW; A040921E is retained as the supplied part identifier. Material: 1018.",
+      "This plan represents nominal finished geometry. The asterisk on 3.000 refers to '* ALLOW .060 STOCK FOR GR. AT ASSY'. Retain 0.060 inch axial grinding stock for the preassembly manufacturing stage; it is not added to the finished 3.000 model.",
+      "Datum A is the slotted end at z=0. Opposite end face parallelism to A is D008; this is a manufacturing control, not extra geometry.",
+      "Full-sheet title block explicitly specifies inches, third-angle projection, two-place tolerance \u00b1.02, three-place tolerance \u00b1.010, and angular tolerance \u00b11\u00b0. Bore tolerance is explicitly +.002/-.000.",
+      "D009 and D010 are derived extraction values rather than additional drawing requirements."
+    ]
+  }
+}

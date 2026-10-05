@@ -1,0 +1,128 @@
+{
+  "dims": {
+    "D001": 10.5,
+    "D002": 9.002,
+    "D003": 1.062,
+    "D004": 3.0,
+    "D005": 0.75,
+    "D006": 0.09,
+    "D007": 45.0,
+    "D008": 0.001,
+    "D009": 0.749,
+    "D010": 2.25
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "A040921E",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "section": "axis +Z runs left to right; datum A is z=0"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the annular spacer to nominal finished dimensions; the section confirms a concentric through bore.",
+        "source_callouts": [
+          "10.50 DIA.",
+          "9.002 DIA +.002 -.000",
+          "3.000"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D001 / 2"
+          }
+        ],
+        "inner": [
+          {
+            "z": "0",
+            "r": "D002 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D002 / 2"
+          }
+        ],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Chamfer both bore mouths as explicitly depicted in the section, before machining the interrupting end slot.",
+        "source_callouts": [
+          ".09 X 45\u00b0 TYP"
+        ],
+        "status": "planned",
+        "justification": "The section depicts chamfers at both bore/end intersections; TYP is restricted to those depicted edges, not the outside diameter or slot edges.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D006",
+        "angle": "D007",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D002 / 2))",
+          "edge_between(face(F001,+Z),wall(F001,D002 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Mill the centered top end slot from datum A, through the radial wall, stopping at the dimensioned axial depth.",
+        "source_callouts": [
+          "CENT. 1.062",
+          ".75"
+        ],
+        "status": "planned",
+        "justification": "The front view and upper detail show the slot centered on the top vertical centerline. The unhatched upper-left region of the section establishes an end slot terminating .75 from datum A. Its radial extent crosses the entire wall: the cutting rectangle starts inside the bore at y=0 and overshoots the OD to y=D001; only the axial termination is blind.",
+        "kind": "prism",
+        "on": "face(F001,-Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D003",
+          "h": "D001",
+          "anchor": "corner",
+          "u": "-D003 / 2",
+          "v": "0"
+        },
+        "depth": "D005",
+        "op": "cut"
+      },
+      {
+        "id": "F004",
+        "rationale": "What size and form of edge break should be applied to the remaining sharp outside and slot edges?",
+        "source_callouts": [
+          "BREAK ALL SHARP CORNERS"
+        ],
+        "status": "unresolved",
+        "justification": "Zero is a non-executable placeholder for the unspecified edge-break size; listed edges identify representative affected edges, not a resolved complete selection. Do not apply this feature until the break size, form, and slot-edge treatment are specified.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "0",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D001 / 2))",
+          "edge_between(face(F001,+Z),wall(F001,D001 / 2))"
+        ]
+      }
+    ],
+    "notes": [
+      "Drawing title: SPACER; drawing number 4092-B; model 100TW. The supplied extraction identifier A040921E is retained as the plan part identifier.",
+      "Full sheet explicitly specifies inches, third-angle projection, and material 1018. General tolerances: two-place dimensions \u00b1.02, three-place dimensions \u00b1.010, angular dimensions \u00b11\u00b0, except where individually specified.",
+      "Bore D002 has limits 9.002 to 9.004 inches; model uses the printed nominal diameter.",
+      "Datum A is the z=0 end face. Opposite end face parallelism to A is D008 (.001); retain as manufacturing/inspection metadata rather than a geometry alteration.",
+      "The full-sheet asterisk note reads 'ALLOW .060 STOCK FOR GR. AT ASSY'. This plan represents the nominal finished 3.000-inch length. Retain .060-inch grinding stock in the manufacturing process; the note does not explicitly allocate that stock between faces, so this plan does not invent an as-machined stock distribution.",
+      "D009 and D010 are derived extraction values; wall thickness and remaining axial length follow directly from the controlling printed diameters and lengths."
+    ]
+  }
+}

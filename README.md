@@ -1,31 +1,35 @@
 # mti-2d-3d — AI 2D Drawing → SolidWorks Part
 
 Turns a 2D engineering drawing (PDF or PNG, one or several orthographic views)
-into a parametric **SolidWorks 2024** part, using Claude vision for extraction and
-a verified, deterministic build step. Built for MTI by the iNDustry Labs
-AILOT team.
+into a native **SolidWorks** part (verified on SolidWorks 2025 SP5), using
+**GPT-6 Astra** to read and plan, and deterministic compilers to build. Built for
+MTI by the iNDustry Labs AILOT team.
 
-> **Status (2026-09-28):** the current pipeline works end to end, but it places
-> features poorly. On the 5 parts built so far, 10 of 26 features were built, and
-> hole patterns, fillets and chamfers are the main gaps.
->
-> A next phase is **designed but not yet built**: a typed build plan, an auditor
-> loop with retries, and a placement-aware benchmark of Claude Opus 5.5 vs GPT-6
-> Astra. See [STATE.md](STATE.md) and the
-> [roadmap spec](docs/superpowers/specs/2026-09-28-ai-cad-roadmap-design.md). The
-> next phase is preliminary and still open for collaborator review.
+> **Status (2026-10-04):** all 9 dev parts go drawing → GPT-6 Astra extraction +
+> build plan → CadQuery reference (STEP) → native SolidWorks part, **with every
+> feature verified against the reference**. Against hand-checked answers the parts
+> match at IoU 0.986–1.000, and anything the drawing doesn't settle comes back as a
+> written question rather than a guess. Full record of the test day:
+> [docs/test-reports/2026-10-04-test-report.md](docs/test-reports/2026-10-04-test-report.md).
+> Live status: [STATE.md](STATE.md).
 
 ## How it works
 
+**Feature-IR path (recommended, `--ir`):**
+
 ```
-drawing → image prep → Claude extraction (forced tool call) → schema (Pydantic)
-        → verification gate (READY / BLOCKED) → SolidWorks VBA macros  (default, runs on any SW machine)
-                                              → direct COM build        (--engine com, Windows + SW2024)
+drawing → GPT-6 Astra extraction → GPT-6 Astra build plan (every number an expression over drawing dims)
+        → Gate 1 checks → CadQuery reference (STEP + measured feature map)
+        → native SolidWorks part over COM, each feature's volume checked against the reference
+        → report: open questions for a human, flagged standard-derived values, cost
 ```
 
-Phase 1 (extraction and verification) runs on any OS. Phase 2 emits numbered VBA
-macros that run inside SolidWorks with nothing to install. Alternatively, it
-drives SolidWorks over COM on Windows.
+**Original path (v1):** extraction → verification gate → numbered VBA macros (any SolidWorks
+machine) or a direct COM build. It is still available; the IR path matches or beats it on
+every dev part.
+
+Extraction, planning, the CadQuery reference and all tests run on any OS. Native builds need
+Windows + SolidWorks. Every paid model call goes through a hard **$20 budget guard**.
 
 ## Repository layout
 
@@ -40,18 +44,21 @@ drives SolidWorks over COM on Windows.
 
 ## Quick start
 
-Requires Python 3.10+. For the COM path and for running the macros you also need
-Windows with SolidWorks 2024.
+Requires Python 3.10+ (developed on 3.13). For native builds you also need Windows with
+SolidWorks (2024 or 2025).
 
 ```bash
 cd 2D-3D-CAD-Test-Generation
 python setup.py                  # checks Python, installs requirements, creates .env from .env.template
-# edit .env and set ANTHROPIC_API_KEY
+# edit .env and set OPENAI_API_KEY (GPT-6 Astra)
 ```
 
 On Windows, set `PYTHONUTF8=1` before running (see error log E008).
 
 ```bash
+python main.py --drawing path/to/drawing.pdf --ir --engine com          # IR path: drawing -> verified SolidWorks part
+python ir_run.py --split dev --solidworks                               # IR path on all dev parts (bench/manifest.yaml)
+python ir_run.py --split dev --solidworks --reuse-plans                 # rebuild from saved plans, no API cost
 python main.py --drawing path/to/drawing.pdf --validate-only --debug    # extract + verify only
 python main.py --drawing path/to/drawing.pdf --output ./output          # full run → VBA macro package
 python main.py --from-json output/<Part>/<Part>_extraction.json          # regenerate macros, no API cost
@@ -98,6 +105,7 @@ and date. A price that isn't confirmed is `null`, and those rows show as
 | Doc | Read it for |
 |---|---|
 | [STATE.md](STATE.md) | Where the project stands: results, gaps, open decisions |
+| [docs/test-reports/](docs/test-reports/) | Dated test-day records: every run, success, failure, cost and decision |
 | [CLAUDE.md](CLAUDE.md) | Working rules for humans and Claude: commands, hard rules, conventions |
 | [docs/solidworks-macro-error-log.md](docs/solidworks-macro-error-log.md) | Every real SolidWorks failure and the generator rule it produced |
 | [Roadmap](docs/superpowers/specs/2026-09-28-ai-cad-roadmap-design.md) | Next-phase decisions and architecture, plus specs for [A: Feature IR v2](docs/superpowers/specs/2026-09-28-feature-ir-v2-design.md), [B: auditor loop](docs/superpowers/specs/2026-09-28-auditor-loop-design.md) and [C: placement benchmark](docs/superpowers/specs/2026-09-28-placement-benchmark-design.md) |
@@ -110,7 +118,8 @@ and date. A price that isn't confirmed is `null`, and those rows show as
 `graphify-out/` is committed on every branch so anyone can explore how the code,
 docs and drawings connect. After meaningful changes, refresh it with `/graphify . --update`
 in Claude Code and commit the updated `graph.json`, `graph.html` and
-`GRAPH_REPORT.md`. The machine-local cache and interpreter paths are gitignored.
+`GRAPH_REPORT.md`. Where that skill isn't available, `python graphify-out/ast_update.py`
+refreshes the code layer deterministically (no LLM). The machine-local cache and interpreter paths are gitignored.
 
 ## Contributing
 
