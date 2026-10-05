@@ -40,3 +40,6 @@ Thumbs.db
 ~$*
 **/AUTOSAVE_*.SLDPRT
 **/AUTOSAVE_*.sldprt
+
+# demo.py run outputs
+output/demo/

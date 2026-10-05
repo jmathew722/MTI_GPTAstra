@@ -417,8 +417,10 @@ class _SW:
 
 def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: dict[str, Any],
                        out_dir: Path, template: Optional[str] = None,
-                       pmap: Optional[PlaneMap] = None) -> SwBuildReport:
-    """Build the plan in SolidWorks, verifying each feature against the CadQuery reference."""
+                       pmap: Optional[PlaneMap] = None, progress=None) -> SwBuildReport:
+    """Build the plan in SolidWorks, verifying each feature against the CadQuery reference.
+
+    ``progress(feature, result)``, if given, is called after each feature (live demos)."""
     from pipeline.solidworks_builder import _close_open_sketch, save_model
 
     pmap = pmap or probe_plane_map(sw_app, template)
@@ -435,6 +437,8 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
             res = SwFeatureResult(f.id, "failed", note=f"{type(e).__name__}: {e}"[:300])
         log.info("  %s %s: %s %s", f.id, f.kind, res.status, res.note)
         sw.report.features.append(res)
+        if progress is not None:
+            progress(f, res)
 
     vol = sw.volume()
     sw.report.volume_ok = abs(vol - fmap["volume"]) <= max(VOL_REL_TOL * fmap["volume"], 1e-6)

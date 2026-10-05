@@ -106,6 +106,7 @@ and date. A price that isn't confirmed is `null`, and those rows show as
 |---|---|
 | [STATE.md](STATE.md) | Where the project stands: results, gaps, open decisions |
 | [docs/test-reports/](docs/test-reports/) | Dated test-day records: every run, success, failure, cost and decision |
+| [docs/demo-guide.md](docs/demo-guide.md) | Live meeting demo: checklist, talking points, fallbacks (`demo.py`) |
 | [CLAUDE.md](CLAUDE.md) | Working rules for humans and Claude: commands, hard rules, conventions |
 | [docs/solidworks-macro-error-log.md](docs/solidworks-macro-error-log.md) | Every real SolidWorks failure and the generator rule it produced |
 | [Roadmap](docs/superpowers/specs/2026-09-28-ai-cad-roadmap-design.md) | Next-phase decisions and architecture, plus specs for [A: Feature IR v2](docs/superpowers/specs/2026-09-28-feature-ir-v2-design.md), [B: auditor loop](docs/superpowers/specs/2026-09-28-auditor-loop-design.md) and [C: placement benchmark](docs/superpowers/specs/2026-09-28-placement-benchmark-design.md) |
