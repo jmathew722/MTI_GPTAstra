@@ -230,3 +230,8 @@ graphify-out/cost.json
 **/.env.*
 !.env.template
 !**/.env.template
+
+# MTI proprietary standards (confidential, never committed)
+*.local.json
+2D-3D-CAD-Test-Generation/config/mti/*
+!2D-3D-CAD-Test-Generation/config/mti/README.md
