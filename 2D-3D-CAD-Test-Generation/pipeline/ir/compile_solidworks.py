@@ -50,10 +50,22 @@ END_THROUGH_ALL, END_UP_TO_NEXT, END_MID_PLANE = 1, 11, 6
 
 # Hole Wizard (HoleWizard5, signature and enums read from sldworks.tlb / swconst.tlb and
 # verified live on SW 2025 SP5, 2026-10-11; error log E021).
-HW_TYPE = {"hole": 2, "cbore": 0}                        # swWzdHole, swWzdCounterBore
+HW_TYPE = {"hole": 2, "cbore": 0, "tap": 4}              # swWzdHole, swWzdCounterBore, swWzdTap
 HW_STANDARD = {"inch": 0, "metric": 1}                   # swStandardAnsiInch, swStandardAnsiMetric
 HW_FASTENER = {("hole", "inch"): 22, ("hole", "metric"): 40,     # ... ScrewClearances
-               ("cbore", "inch"): 9, ("cbore", "metric"): 33}    # ... SocketCapScrew / SocketHeadCapScrew
+               ("cbore", "inch"): 9, ("cbore", "metric"): 33,    # ... SocketCapScrew / SocketHeadCapScrew
+               ("tap", "inch"): 27, ("tap", "metric"): 43}       # ... TappedHole
+HW_THREAD_DEPTH, HW_COSMETIC = 0, 6      # Value1 = thread depth, Value7 = swWzdHoleCosmeticThreadTypes_e
+COSMETIC_WITH_CALLOUT = 1                # MTI: tap drill + cosmetic thread, never real threads
+DRILL_POINT_DEG = 118.0                  # Hole Wizard blind holes end in a 118 deg drill point
+SW_DISPLAY_COSMETIC_THREADS = 41         # swUserPreferenceToggle_e (MTI ToggleCosmeticThreads macro)
+
+# Inch thread sizes as SolidWorks names them; ISO 261 coarse pitches for "M8"-style callouts.
+_INCH_SIZES = {0.112: "#4", 0.138: "#6", 0.164: "#8", 0.190: "#10", 0.216: "#12", 0.25: "1/4",
+               0.3125: "5/16", 0.375: "3/8", 0.4375: "7/16", 0.5: "1/2", 0.5625: "9/16", 0.625: "5/8",
+               0.75: "3/4", 0.875: "7/8", 1.0: "1"}
+_ISO_COARSE = {3: 0.5, 4: 0.7, 5: 0.8, 6: 1.0, 8: 1.25, 10: 1.5, 12: 1.75, 14: 2.0, 16: 2.0, 20: 2.5,
+               24: 3.0, 30: 3.5, 36: 4.0}
 UNIT_M = {"inch": 0.0254, "mm": 0.001}
 
 Vec = tuple[float, float, float]
@@ -196,6 +208,9 @@ class _SW:
         self.doc.SketchManager.AddToDB = True
         self.report = SwBuildReport(plan.part, None, convention="mti" if self.base else "drawing")
         self.flips: dict[str, bool] = {}   # direction each feature was verified with (pattern copies reuse it)
+        self.extra_removed = 0.0             # Hole Wizard drill-point cones (drawing units^3)
+        self.layout_drawn = ""               # construction geometry under the last Hole Wizard
+        self.cosmetic_threads = False
 
     # ---------------------------------------------------------------- utils --
     def n(self, expr) -> float:
@@ -229,11 +244,15 @@ class _SW:
         """IR point from in-plane coords (u, v) of an IR axis plane (front: x,y; top: x,z; right: y,z)."""
         return {"Z": (a, b, 0.0), "Y": (a, 0.0, b), "X": (0.0, a, b)}[axis]  # type: ignore
 
-    def check(self, fid: str, attempt: int) -> bool:
+    def check(self, fid: str, attempt: int, extra: float = 0.0) -> bool:
+        """SW volume vs the reference after ``fid``. Hole Wizard drill points are the one
+        deliberate difference: their exact cone volume (``extra_removed`` so far, plus
+        ``extra`` for the feature being checked) is credited."""
         ref = self.fmap.get("volume_after", {}).get(fid)
         got = self.volume()
         if ref is None:
             return True
+        ref -= self.extra_removed + extra
         ok = abs(got - ref) <= max(VOL_REL_TOL * abs(ref), 1e-6)
         log.info("  %s: SW volume %.6f vs reference %.6f (%s, attempt %d)", fid, got, ref,
                  "ok" if ok else "MISMATCH", attempt)
@@ -361,11 +380,12 @@ class _SW:
         self.report.conventions.append(f"{fid}: Mid Plane did not match; used an offset start")
         return None
 
-    def holes(self, fid: str, centers: list[list[float]], spec: dict, axis: str, coord: float, d: int):
+    def holes(self, fid: str, centers: list[list[float]], spec: dict, axis: str, coord: float, d: int,
+              layout: Optional[str] = None):
         if self.convention == "mti":
             choice = hole_wizard_choice(spec, self.dims, self.plan.frame.units)
             if choice:
-                res = self.hole_wizard(fid, centers, spec, axis, coord, d, choice)
+                res = self.hole_wizard(fid, centers, spec, axis, coord, d, choice, layout)
                 if res is not None:
                     return res
         coord -= self.shift["XYZ".index(axis)]
@@ -409,7 +429,7 @@ class _SW:
         return res
 
     def hole_wizard(self, fid: str, centers: list[list[float]], spec, axis: str, coord: float, d: int,
-                    choice: dict) -> Optional[SwFeatureResult]:
+                    choice: dict, layout: Optional[str] = None) -> Optional[SwFeatureResult]:
         """One Hole Wizard feature for every center (MTI: same size on a face = one feature).
 
         Recipe (verified live, error log E021): pick the start face with a ray cast into
@@ -427,46 +447,72 @@ class _SW:
 
         into = self.pm.to_model(tuple(float(d) if i == ai else 0.0 for i in range(3)))  # type: ignore
         before = self.volume()
-        p0 = model_pt(centers[0])
-        self.doc.ClearSelection2(True)
-        eps = 1e-3   # start the ray 1 mm outside the face, cast into the material
-        if not self.doc.Extension.SelectByRay(*(p0[i] - into[i] * eps for i in range(3)), *into,
-                                               1e-5, 2, False, 0, 0):   # swSelFACES
-            self.report.conventions.append(f"{fid}: no start face under the hole; plain cut")
-            return None
-        vals = [v * self.k if v != -1.0 else -1.0 for v in choice["values"]]
-        feat = self.doc.FeatureManager.HoleWizard5(
-            choice["type"], choice["standard"], choice["fastener"], choice["size"], END_UP_TO_NEXT,
-            self.n(spec.d) * self.k, 0.0, -1.0, *vals, "", False, True, True, True, True, False)
-        if feat is None:
-            self.report.conventions.append(f"{fid}: HoleWizard5 refused {choice['label']}; plain cut")
-            return None
-        placed = self.place_hole_points(feat, [model_pt(c) for c in centers])
-        if placed and self.check(fid, 1):
-            res = SwFeatureResult(fid, "built", sw_volume=self.volume(),
-                                  ref_volume=self.fmap.get("volume_after", {}).get(fid), attempts=1,
-                                  note=f"{choice['label']}, Up To Next, {len(centers)} hole(s)")
-            self.report.conventions.append(f"{fid}: {res.note}")
-            return res
+        vals =[v if (n in choice.get("unitless", ()) or v == -1.0) else v * self.k
+                for n, v in enumerate(choice["values"])]
+        # Up To Next first (MTI: through holes). A hole planned with a depth is then tried
+        # Blind: Hole Wizard measures to the shoulder and adds a 118 deg drill point, whose
+        # exact volume is credited in the check (verified live, E022).
+        modes = [(END_UP_TO_NEXT, 0.0, 0.0, "Up To Next")]
+        if spec.depth is not None:
+            modes.append((0, self.n(spec.depth) * self.k,
+                          len(centers) * drill_point_volume(self.n(spec.d)), "Blind + drill point"))
+        why = "volume"
+        for end, depth, extra, label in modes:
+            p0 = model_pt(centers[0])
+            self.doc.ClearSelection2(True)
+            eps = 1e-3   # start the ray 1 mm outside the face, cast into the material
+            if not self.doc.Extension.SelectByRay(*(p0[i] - into[i] * eps for i in range(3)), *into,
+                                                   1e-5, 2, False, 0, 0):   # swSelFACES
+                self.report.conventions.append(f"{fid}: no start face under the hole; plain cut")
+                return None
+            feat = self.doc.FeatureManager.HoleWizard5(
+                choice["type"], choice["standard"], choice["fastener"], choice["size"], end,
+                self.n(spec.d) * self.k, depth, -1.0, *vals, "", False, True, True, True, True, False)
+            if feat is None:
+                why = f"HoleWizard5 refused {label}"
+                continue
+            placed = self.place_hole_points(feat, [model_pt(c) for c in centers], layout)
+            if placed and self.check(fid, 1, extra):
+                self.extra_removed += extra
+                if choice["kind"] == "tap":
+                    self.cosmetic_threads = True
+                res = SwFeatureResult(fid, "built", sw_volume=self.volume(),
+                                      ref_volume=self.fmap.get("volume_after", {}).get(fid), attempts=1,
+                                      note=f"{choice['label']}, {label}, {len(centers)} hole(s)"
+                                           + (f" on a construction {self.layout_drawn}"
+                                              if self.layout_drawn else ""))
+                self.report.conventions.append(f"{fid}: {res.note}")
+                return res
+            why = "volume" if placed else "points"
+            self.delete_feature(feat, before, fid)
+        self.report.conventions.append(f"{fid}: {choice['label']} did not match the reference ({why}); plain cut")
+        return None
+
+    def delete_feature(self, feat, volume_before: float, fid: str) -> None:
         from pipeline.solidworks_builder import typed
         self.doc.ClearSelection2(True)
         typed(feat, "IFeature").Select2(False, 0)
         self.doc.Extension.DeleteSelection2(2)   # swDelete_Absorbed: the feature and its sketches
-        if abs(self.volume() - before) > 1e-9:
+        if abs(self.volume() - volume_before) > 1e-9:
             raise RuntimeError(f"{fid}: could not remove the mismatched Hole Wizard feature")
-        self.report.conventions.append(f"{fid}: {choice['label']} did not match the reference "
-                                       f"({'volume' if placed else 'points'}); plain cut")
-        return None
 
-    def place_hole_points(self, feat, model_pts: list[Vec]) -> bool:
-        """Put the Hole Wizard placement sketch's points exactly at ``model_pts``."""
+    def place_hole_points(self, feat, model_pts: list[Vec], layout: Optional[str] = None) -> bool:
+        """Put the Hole Wizard placement sketch's points exactly at ``model_pts``.
+
+        ``layout`` (MTI: patterned holes sit on sketch geometry): ``"circle"`` adds a
+        construction bolt circle, ``"line"`` a construction line, ``"grid"`` a construction
+        rectangle through the outer holes; each point gets a coincident relation to the
+        geometry it lies on. Hole Wizard ignores construction geometry (verified live, E022).
+        """
         from pipeline.solidworks_builder import _g, com_doubles, typed
         sub, best = typed(feat, "IFeature").GetFirstSubFeature(), None
         while sub is not None:   # placement sketch = the sub-sketch with the fewest points
             sf = typed(sub, "IFeature")
-            sk = typed(sf.GetSpecificFeature2(), "ISketch")
-            if best is None or sk.GetSketchPointsCount2() < best[1].GetSketchPointsCount2():
-                best = (sf, sk)
+            spec = sf.GetSpecificFeature2() if sf.GetTypeName2() == "ProfileFeature" else None
+            if spec is not None:   # taps also carry a cosmetic-thread sub-feature (not a sketch)
+                sk = typed(spec, "ISketch")
+                if best is None or sk.GetSketchPointsCount2() < best[1].GetSketchPointsCount2():
+                    best = (sf, sk)
             sub = sf.GetNextSubFeature()
         if best is None:
             return False
@@ -490,27 +536,81 @@ class _SW:
             if len(pts) != 1:
                 return False
             typed(pts[0], "ISketchPoint").SetCoords(want[0][0], want[0][1], 0.0)
+            points = [typed(pts[0], "ISketchPoint")]
             for x, y in want[1:]:
                 # SetCoords after creating: with AddToDB off, inference can snap a point
                 # .005" off an axis onto it (117-C; same cause as E020)
                 pt = sm.CreatePoint(x, y, 0.0)
-                if pt is not None:
-                    typed(pt, "ISketchPoint").SetCoords(x, y, 0.0)
+                if pt is None:
+                    return False
+                points.append(typed(pt, "ISketchPoint"))
+                points[-1].SetCoords(x, y, 0.0)
+            self.layout_drawn = ""
+            if layout:
+                self.layout_geometry(sk, points, want, layout)
+            status = sk.GetConstrainedStatus()
         finally:
             sm.InsertSketch(True)
             sm.AddToDB = True
-        got = sorted((p.X, p.Y) for p in (typed(q, "ISketchPoint") for q in (sk.GetSketchPoints2() or ())))
-        ok = len(got) == len(want) and all(math.dist(a, b) <= 1e-7 for a, b in zip(got, sorted(want)))
+        # construction geometry brings its own points (circle center, line ends): every
+        # wanted point must be present, and the sketch must have solved
+        got = [(p.X, p.Y) for p in (typed(q, "ISketchPoint") for q in (sk.GetSketchPoints2() or ()))]
+        ok = status not in BAD_SKETCH_STATUS and all(
+            any(math.dist(w, g) <= 1e-7 for g in got) for w in want)
         if not ok:
-            log.info("  Hole Wizard points: wanted %s, got %s (m, sketch)", sorted(want), got)
+            log.info("  Hole Wizard points: wanted %s, got %s (m, sketch), status %s", want, got, status)
         return ok
+
+    def layout_geometry(self, sk, points: list, want: list[tuple[float, float]], layout: str) -> None:
+        """Construction geometry under patterned holes, with coincident relations."""
+        from pipeline.solidworks_builder import _g, typed
+        sm = self.doc.SketchManager
+        shapes = layout_shapes(want, layout)
+        segs = []
+        # Construction geometry is not tracked by Hole Wizard, so it is drawn with AddToDB on:
+        # no inference. A bolt circle 7 um off the origin snapped onto it (A040911E, E022).
+        sm.AddToDB = True
+        for kind, a in shapes:
+            if kind == "circle":
+                (cx, cy), r = a
+                seg = sm.CreateCircleByRadius(cx, cy, 0.0, r)
+            else:
+                (x1, y1), (x2, y2) = a
+                seg = sm.CreateLine(x1, y1, 0.0, x2, y2, 0.0)
+            if seg is not None:
+                seg = typed(seg, "ISketchSegment")
+                seg.ConstructionGeometry = True
+                segs.append((kind, a, seg))
+        sm.AddToDB = False
+        self.layout_drawn = "circle" if any(k == "circle" for k, _, _ in segs) else (
+            ("rectangle" if len(segs) == 4 else "line") if segs else "")
+        sel = typed(_g(self.doc, "SelectionManager"), "ISelectionMgr")
+        for p, w in zip(points, want):
+            for kind, a, seg in segs:
+                if on_shape(w, kind, a):   # only the geometry the point lies on (else: invalid sketch)
+                    data = sel.CreateSelectData()
+                    self.doc.ClearSelection2(True)
+                    p.Select4(False, data)
+                    seg.Select4(True, data)
+                    self.doc.SketchAddConstraints("sgCOINCIDENT")
+        self.doc.ClearSelection2(True)
+
+    def hole_and_pattern(self, seed: Hole, pat: Pattern) -> SwFeatureResult:
+        """A hole and its pattern as ONE feature whose points sit on construction geometry
+        (MTI: patterned holes sit on sketch geometry), verified against the reference
+        after the pattern."""
+        st = self.fmap["starts"][seed.id]
+        centers = [[self.n(seed.u), self.n(seed.v)]] + [
+            h["planned_center"] for h in self.fmap["holes"].get(pat.id, [])]
+        layout = {"circular": "circle", "linear": "line", "grid": "grid"}.get(pat.mode)
+        return self.holes(pat.id, centers, seed.spec, st["axis"], st["coord"], st["dir"], layout)
 
     def hole_group(self, group: list[Hole]) -> SwFeatureResult:
         """Identical consecutive holes on one face as ONE feature (MTI practice), verified
         against the reference volume after the last of them."""
         st = self.fmap["starts"][group[0].id]
         centers = [[self.n(g.u), self.n(g.v)] for g in group]
-        return self.holes(group[-1].id, centers, group[0].spec, st["axis"], st["coord"], st["dir"])
+        return self.holes(group[-1].id, centers, group[0].spec, st["axis"], st["coord"], st["dir"], "auto")
 
     def hole(self, f: Hole) -> SwFeatureResult:
         st = self.fmap["starts"][f.id]
@@ -630,6 +730,42 @@ class _SW:
                                note=f"{len(pts)} edges selected by nearest point")
 
 
+def parse_thread(text: str) -> Optional[tuple[str, str, str]]:
+    """``"3/8-16 UNC"`` -> ``("inch", "3/8-16", "3/8")``; ``"M8 x 1.25"`` -> ``("metric",
+    "M8x1.25", "M8")``. None for pipe threads (NPT/NPTF: tapered, not a Hole Wizard tap
+    yet) and anything unreadable. Sizes are written the way SolidWorks names them."""
+    import re
+    t = (text or "").upper().replace(" ", "")
+    if not t or "NPT" in t or "PIPE" in t:
+        return None
+    m = re.match(r"M(\d+(?:\.\d+)?)(?:[X×](\d+(?:\.\d+)?))?", t)
+    if m:
+        dia = float(m.group(1))
+        pitch = float(m.group(2)) if m.group(2) else _ISO_COARSE.get(int(dia)) if dia.is_integer() else None
+        if pitch is None:
+            return None
+        return "metric", f"M{dia:g}x{pitch:g}", f"M{dia:g}"
+    m = re.match(r"(#\d+|\d+/\d+|\d*\.\d+|\d+)-(\d+)", t)
+    if not m:
+        return None
+    tok, tpi = m.groups()
+    if tok.startswith("#"):
+        size = tok
+    else:
+        a, _, b = tok.partition("/")
+        value = float(a) / float(b) if b else float(tok)
+        size = next((n for v, n in _INCH_SIZES.items() if abs(v - value) <= 0.002), None)
+        if size is None:
+            return None
+    return "inch", f"{size}-{tpi}", size
+
+
+def drill_point_volume(d: float) -> float:
+    """Volume of a Hole Wizard drill point (118 deg cone) of diameter ``d``."""
+    r = d / 2
+    return math.pi * r * r * (r / math.tan(math.radians(DRILL_POINT_DEG / 2))) / 3
+
+
 def hole_wizard_choice(spec, dims: dict[str, float], units: str) -> Optional[dict]:
     """The Hole Wizard feature for a planned hole, or None to keep a plain cut (MTI:
     Hole Wizard for bolt holes, cut-extrude for everything else).
@@ -638,12 +774,35 @@ def hole_wizard_choice(spec, dims: dict[str, float], units: str) -> Optional[dic
     clearance size in MTI Std 202.02.0003. It is built Up To Next. A hole planned with a
     depth is tried too (plans often drill "to the full thickness"); the volume check keeps
     the Hole Wizard feature only if the hole really goes through, otherwise the caller
-    deletes it and cuts a plain blind hole. Not Hole Wizard: tapped holes (Hole Wizard
-    cuts the thread major diameter by default), and any hole when the local MTI table is
-    absent. The drawing's diameters are always used; the screw size records intent.
+    deletes it and cuts a plain blind hole. The drawing's diameters are always used;
+    the screw size records intent.
+
+    A **tapped** hole (a readable thread callout) is a Hole Wizard tap: the drawing's tap
+    drill, and a cosmetic thread (MTI: never real threads). Its cosmetic thread depth is
+    MTI's standard tap depth, capped at the drill depth (STANDARD-DERIVED; the IR has no
+    printed thread depth yet). The thread names the hardware, so no table is needed.
+    Pipe taps stay plain cuts.
     """
     from pipeline import mti_standards
-    if spec.thread or spec.type not in ("thru", "blind", "cbore"):
+    if spec.thread or spec.type == "tapped":
+        th = parse_thread(spec.thread)
+        if th is None:
+            return None
+        system, size, nominal = th
+        values = [-1.0] * 12
+        values[HW_COSMETIC] = float(COSMETIC_WITH_CALLOUT)
+        row = mti_standards.row(nominal) or {}
+        tap_depth = row.get("tap_depth")
+        if tap_depth:
+            if (system == "metric") != (units == "mm"):
+                tap_depth = tap_depth / 25.4 if units == "inch" else tap_depth * 25.4
+            if spec.depth is not None:
+                tap_depth = min(tap_depth, evaluate(spec.depth, dims).value)
+            values[HW_THREAD_DEPTH] = tap_depth
+        return {"kind": "tap", "type": HW_TYPE["tap"], "standard": HW_STANDARD[system],
+                "fastener": HW_FASTENER[("tap", system)], "size": size, "values": values,
+                "unitless": {HW_COSMETIC}, "label": f"Hole Wizard {size} tapped, cosmetic thread"}
+    if spec.type not in ("thru", "blind", "cbore"):
         return None
     kind = "cbore" if spec.type == "cbore" else "hole"
     if kind == "cbore" and not (spec.cbore_d and spec.cbore_depth):
@@ -658,7 +817,63 @@ def hole_wizard_choice(spec, dims: dict[str, float], units: str) -> Optional[dic
         values[0], values[1] = evaluate(spec.cbore_d, dims).value, evaluate(spec.cbore_depth, dims).value
     return {"kind": kind, "type": HW_TYPE[kind], "standard": HW_STANDARD[best.system],
             "fastener": HW_FASTENER[(kind, best.system)], "size": best.size, "values": values,
+            "unitless": set(),
             "label": f"Hole Wizard {best.size} {'SHCS counterbore' if kind == 'cbore' else 'clearance'}"}
+
+
+BAD_SKETCH_STATUS = (4, 5, 6)   # swConstrainedStatus_e: over-constrained, no / invalid solution
+
+
+def layout_shapes(pts: list[tuple[float, float]], layout: str) -> list[tuple[str, Any]]:
+    """Construction geometry for a hole layout, in sketch coordinates.
+
+    ``circle``: the circle through the first three points (a bolt circle; needs 3+).
+    ``line``: first to last point. ``grid``: the rectangle through the outer points
+    (axis-aligned in the sketch; skipped if the grid is rotated). ``auto`` (holes planned
+    one by one): a circle if 3+ holes are concyclic, else a line if they are collinear."""
+    if layout == "auto":
+        if len(pts) >= 3:
+            circle = layout_shapes(pts, "circle")
+            if circle:
+                return circle
+            ends = max(((a, b) for a in pts for b in pts), key=lambda ab: math.dist(*ab))
+            if all(on_shape(p, "line", ends) for p in pts):
+                return [("line", ends)]
+        return []
+    if layout == "circle" and len(pts) >= 3:
+        (ax, ay), (bx, by), (cx, cy) = pts[:3]
+        dd = 2 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by))
+        if abs(dd) < 1e-15:
+            return []
+        ux = ((ax**2 + ay**2) * (by - cy) + (bx**2 + by**2) * (cy - ay) + (cx**2 + cy**2) * (ay - by)) / dd
+        uy = ((ax**2 + ay**2) * (cx - bx) + (bx**2 + by**2) * (ax - cx) + (cx**2 + cy**2) * (bx - ax)) / dd
+        r = math.dist((ux, uy), (ax, ay))
+        if all(abs(math.dist((ux, uy), p) - r) <= 1e-7 for p in pts):
+            return [("circle", ((ux, uy), r))]
+        return []
+    if layout == "line" and len(pts) >= 2:
+        return [("line", (pts[0], pts[-1]))]
+    if layout == "grid" and len(pts) >= 4:
+        xs, ys = [p[0] for p in pts], [p[1] for p in pts]
+        x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
+        corners = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
+        if all(any(math.dist(c, p) <= 1e-7 for p in pts) for c in corners):
+            return [("line", (corners[i], corners[(i + 1) % 4])) for i in range(4)]
+    return []
+
+
+def on_shape(p: tuple[float, float], kind: str, a, tol: float = 1e-7) -> bool:
+    """Is sketch point ``p`` on a construction circle / line segment?"""
+    if kind == "circle":
+        (cx, cy), r = a
+        return abs(math.dist(p, (cx, cy)) - r) <= tol
+    (x1, y1), (x2, y2) = a
+    L = math.dist((x1, y1), (x2, y2))
+    if L < tol:
+        return False
+    cross = abs((x2 - x1) * (p[1] - y1) - (y2 - y1) * (p[0] - x1)) / L
+    t = ((p[0] - x1) * (x2 - x1) + (p[1] - y1) * (y2 - y1)) / (L * L)
+    return cross <= tol and -1e-9 <= t <= 1 + 1e-9
 
 
 def hole_signature(f: Hole, dims: dict[str, float]) -> tuple:
@@ -728,10 +943,17 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
             continue
         group = [f]
         if convention == "mti" and isinstance(f, Hole):   # same hole, same face: one feature
-            group += mergeable_holes(features[i:], f, dims, skipped)
+            nxt = features[i] if i < len(features) else None
+            if (isinstance(nxt, Pattern) and nxt.seed == f.id and nxt.status == "planned"
+                    and nxt.id not in skipped):
+                group.append(nxt)                          # seed + its pattern: one feature
+            else:
+                group += mergeable_holes(features[i:], f, dims, skipped)
             i += len(group) - 1
         try:
-            if len(group) > 1:
+            if len(group) == 2 and isinstance(group[1], Pattern):
+                res = sw.hole_and_pattern(*group)
+            elif len(group) > 1:
                 res = sw.hole_group(group)
             else:
                 res = getattr(sw, f.kind)(f)
@@ -755,7 +977,10 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
             progress(f, res)
 
     vol = sw.volume()
-    sw.report.volume_ok = abs(vol - fmap["volume"]) <= max(VOL_REL_TOL * fmap["volume"], 1e-6)
+    ref_vol = fmap["volume"] - sw.extra_removed   # Hole Wizard drill points (exact cones)
+    sw.report.volume_ok = abs(vol - ref_vol) <= max(VOL_REL_TOL * ref_vol, 1e-6)
+    if sw.cosmetic_threads:   # show them, as MTI's ToggleCosmeticThreads macro does
+        sw.doc.Extension.SetUserPreferenceToggle(SW_DISPLAY_COSMETIC_THREADS, 0, True)
     bodies = sw.doc.GetBodies2(0, False)
     if bodies:
         bb = bodies[0].GetBodyBox()

@@ -174,3 +174,53 @@ def test_sketches_bypass_inference_snapping(fake_sw):
     # E020: with a centered origin, a hole .005" off the origin snapped onto it (115-C F006)
     _, doc = fake_sw({}, ref=9.0)
     assert doc.SketchManager.AddToDB is True
+
+
+def test_volume_check_credits_hole_wizard_drill_points(fake_sw):
+    # E022: blind Hole Wizard holes end in a 118 deg point the reference doesn't model
+    sw, doc = fake_sw({}, ref=9.0, vol=8.4)
+    assert not sw.check("F002", 1)
+    sw.extra_removed = 0.5
+    assert sw.check("F002", 1, extra=0.1)
+
+
+# --------------------------------------------------------------------------- #
+# Patterned holes on construction geometry (E022)
+# --------------------------------------------------------------------------- #
+import math  # noqa: E402
+
+from pipeline.ir.compile_solidworks import layout_shapes, on_shape  # noqa: E402
+
+
+def test_bolt_circle_is_found_from_the_holes():
+    pts = [(1 + 2 * math.cos(a), -1 + 2 * math.sin(a)) for a in (0.3, 1.9, 3.4, 5.0)]
+    [(kind, ((cx, cy), r))] = layout_shapes(pts, "circle")
+    assert kind == "circle" and (round(cx, 9), round(cy, 9), round(r, 9)) == (1.0, -1.0, 2.0)
+    assert all(on_shape(p, "circle", ((cx, cy), r)) for p in pts)
+
+
+def test_holes_not_on_one_circle_get_no_bolt_circle():
+    assert layout_shapes([(0, 1), (1, 0), (0, -1), (0.5, 0.5)], "circle") == []
+
+
+def test_grid_gets_a_rectangle_and_points_relate_only_to_their_own_edges():
+    pts = [(0, 0), (2, 0), (0, 1), (2, 1), (1, 0)]
+    edges = layout_shapes(pts, "grid")
+    assert len(edges) == 4
+    # a corner lies on exactly two edges, a mid-edge point on one, an interior point on none
+    assert sum(on_shape((0, 0), "line", e[1]) for e in edges) == 2
+    assert sum(on_shape((1, 0), "line", e[1]) for e in edges) == 1
+    assert sum(on_shape((1, 0.5), "line", e[1]) for e in edges) == 0
+
+
+def test_line_layout_runs_first_to_last():
+    assert layout_shapes([(0, 0), (1, 1), (2, 2)], "line") == [("line", ((0, 0), (2, 2)))]
+    assert not on_shape((3, 3), "line", ((0, 0), (2, 2)))     # beyond the segment
+
+
+def test_auto_layout_finds_a_bolt_circle_or_a_row():
+    circ = [(math.cos(a), math.sin(a)) for a in (0.1, 2.2, 4.3)]
+    assert layout_shapes(circ, "auto")[0][0] == "circle"
+    row = [(0, 0), (2, 0), (1, 0)]
+    assert layout_shapes(row, "auto") == [("line", ((0, 0), (2, 0)))]
+    assert layout_shapes([(0, 0), (1, 0)], "auto") == []          # two holes: nothing to show

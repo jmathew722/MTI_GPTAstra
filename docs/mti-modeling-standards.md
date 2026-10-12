@@ -28,12 +28,12 @@ Status key:
 | 2 | **Base sketch on the Top plane** (body extruded along the Top normal). | ✅ The plan is rotated rigidly so that the base sketch lands on Top. The base extrusion is **Mid Plane** (prism bases). A revolved base has its profile on Top. |
 | 3 | **All sketches fully defined;** relations are often better than dimensions. | 🗓 Phase 2. Base rectangles are already center rectangles on the origin. Hole sketches still need relations and dimensions (`AddDimension2`, `SketchAddConstraints`), and these must be verified live first. |
 | 4 | **Uncluttered tree:** base body, then cut away holes and pockets. Fillets and chamfers go toward the end. | 🔎 `mti_edge_ops_last` flags a fillet or chamfer placed before other features. Plans already build the base first, then cut. |
-| 5 | **Hole Wizard for every bolt hole;** non-bolt holes are cut-extrudes. | ✅ **Clearance and SHCS counterbore bolt holes are built with Hole Wizard** (ANSI Inch/Metric, the screw from MTI Std 202.02.0003, the drawing's exact diameters). Each is volume-verified, with a plain-cut fallback. 🔎 `mti_hole_wizard` reports every hole's match. 🗓 Tapped holes (cosmetic thread) are next. |
+| 5 | **Hole Wizard for every bolt hole;** non-bolt holes are cut-extrudes. | ✅ **Bolt holes are Hole Wizard features**: clearance and SHCS counterbore (screw from MTI Std 202.02.0003), and **tapped holes with a cosmetic thread** (from the thread callout). They use the drawing's exact diameters and are volume-verified, with a plain-cut fallback. Blind ones end in a 118° drill point that is credited exactly in the check. 🔎 `mti_hole_wizard` reports every hole. 🗓 Pipe taps (NPT). |
 | 5a | Legacy prints rarely say "clearance for X bolt". The AI must map plain diameters to Hole Wizard sizes, inch or metric. | 🔎 Matching against the drawing's own system comes first. Other-system hardware must match its exact conversion. Holes with no match show the nearest standard size. |
 | 5b | **Through holes are "Up To Next",** not "Through All". | ✅ Through cuts try Up To Next first and keep it when the volume matches the reference. Otherwise (a hole crossing a pocket) they fall back to Through All, and the fallback is logged. Hole Wizard counterbores are Up To Next too. |
 | 5c | Hole Wizard holes come from a **2D sketch**. | ✅ All sketches are 2D. |
 | 5d | **One Hole Wizard feature per hole size per face.** | ✅ Consecutive identical holes on one face are built as **one** feature (Hole Wizard or plain cut). 🔎 `mti_hole_grouping` flags the rest. |
-| 5e | **Patterned holes sit on sketch geometry** (circle, rectangle, line), not on individually dimensioned points. | 🗓 Phase 2: draw a construction circle or rectangle and place points on it. |
+| 5e | **Patterned holes sit on sketch geometry** (circle, rectangle, line), not on individually dimensioned points. | ✅ A hole and its pattern are **one** Hole Wizard feature whose points sit, with coincident relations, on a construction **bolt circle** (circular), **line** (linear) or **rectangle** (grid). Identical holes planned one by one get a circle or line when they form one. |
 | 6 | **Use symmetry and mirror** (sketches, features, bodies). | 🗓 Phase 3: an IR `mirror` feature, plus symmetric sketch relations. |
 | 7 | **Dimension features from model edges** (datum edges) rather than the origin, planes or holes. *Drawings show how to machine, not how to model.* | 🗓 Phase 2, with full definition (#3). The IR already separates *what* (geometry, from drawing dimensions) from *how it is modeled* (the compiler), so the model's dimension scheme can differ from the drawing's. |
 
@@ -51,7 +51,7 @@ Status key:
 | Mirror (bodies, features) | 🗓 Phase 3 |
 | Basic sketch shapes (circle, rectangle, line, point, arc, slot) | ✅ rect, circle, slot, polyline |
 | Sheet metal: base flange/tab, edge flange, hem | 🗓 Phase 4 (no sheet-metal parts in the dev set yet) |
-| Cosmetic threads | 🗓 Phase 2 (with Hole Wizard). MTI's `ToggleCosmeticThreads` macro shows the display toggle. |
+| Cosmetic threads | ✅ On every tapped Hole Wizard hole, never real threads; display turned on as in MTI's `ToggleCosmeticThreads` macro. |
 
 **Generally avoid** (MTI's list): sweep, loft, boundary, shell, draft, weld beads, gussets, ribs, move face, move/copy bodies, sketch ellipse/polygon/text/spline/sketch fillets and chamfers, surfacing, and sheet-metal miter flange, jog, sketched bend, cross-break, corners and forming tools.
 

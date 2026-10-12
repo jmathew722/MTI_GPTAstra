@@ -443,6 +443,48 @@ correct. Scorers must project along each hole's axis rather than assume model XY
 - **Tests:** `test_mti_standards.py` (`hole_wizard_choice`, `mergeable_holes`,
   `END_UP_TO_NEXT`).
 
+## E022 — Tapped Hole Wizard holes, drill points, and hole layouts on construction geometry
+
+- **Date:** 2026-10-12 · **Stage:** IR SolidWorks compiler, MTI Phase 2 (continued). All values
+  below were read back from SolidWorks (`IWizardHoleFeatureData2`) and checked by volume on
+  scratch parts before use.
+- **Tapped holes.** `swWzdTap` (4), fastener `TappedHole` (inch 27, metric 43).
+  - **`Value7` = cosmetic thread type** (`swWzdHoleCosmeticThreadTypes_e`; 1 = with callout).
+    With it set, the cut is exactly the tap drill. With the default (-1), SolidWorks cuts the
+    thread **major** diameter down to the thread depth (that is what E021 saw).
+  - **`Value1` = thread depth** (m). `Value8` (thread end condition) set to 1 or 2 without a
+    depth produced a nonsense cut: never used.
+  - Setting `TapType` / `CosmeticThreadType` afterwards through `ModifyDefinition` does **not**
+    change the cut: the options must go in at creation.
+  - The `Diameter` passed is honoured (`TapDrillDiameter` reads back the drawing's value).
+  - **Metric sizes must be "M8x1.25".** A bare "M8" is refused, so a pitch-less callout gets
+    the ISO 261 coarse pitch.
+  - **Pipe taps (NPT/NPTF)** stay plain cuts for now.
+- **Blind Hole Wizard holes.** Depth is measured to the shoulder, plus a **118° drill point**.
+  - The point volume, π·r²·(r/tan 59°)/3 per hole, matched SolidWorks to 5 decimals.
+  - The compiler credits it exactly in every later volume check (`extra_removed`) and in the
+    final volume, and says so in the note.
+  - A hole planned with a depth tries Up To Next first and Blind second, so through holes stay
+    Up To Next.
+- **Taps have a cosmetic-thread sub-feature.** It is not a sketch (`GetSpecificFeature2` →
+  None), so the placement-sketch search keeps only `ProfileFeature` sub-features.
+- **Construction geometry under hole layouts** (MTI: patterned holes sit on sketch geometry).
+  - A construction circle, line or rectangle in the Hole Wizard placement sketch creates **no**
+    holes (counted by volume). Points get `sgCOINCIDENT` relations (`SketchAddConstraints`).
+  - **Trap 1:** relating a point to an edge it isn't on gives "invalid solution"
+    (`GetConstrainedStatus` = 6). Relate only to the geometry the point lies on, and reject
+    over-constrained, no-solution or invalid sketches (4/5/6).
+  - **Trap 2:** with `AddToDB` off (needed for the points, E021), a bolt circle whose center
+    was 7 µm from the origin snapped onto it, and the relations pulled the holes along. The
+    construction geometry is drawn with `AddToDB` **on** (Hole Wizard doesn't track it).
+  - **Read-back:** the construction geometry adds its own points (circle center, line ends),
+    so the check is "every wanted point present", plus the volume.
+- **Rule:** a seed hole and its pattern build as ONE Hole Wizard feature (bolt circle → circle,
+  linear → line, grid → rectangle). Identical holes planned one by one get a circle if
+  concyclic, or a line if collinear.
+- **Tests:** `test_mti_standards.py` (`parse_thread`, tap choice, thread depth, drill point);
+  `test_ir_compile_solidworks.py` (`layout_shapes`, `on_shape`, drill-point credit).
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

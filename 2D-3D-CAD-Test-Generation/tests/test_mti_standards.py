@@ -185,8 +185,8 @@ def test_metric_hole_uses_ansi_metric(synth):
 
 @pytest.mark.parametrize("spec", [
     HoleSpec(type="thru", d="D005"),                       # not a clearance size: plain cut
-    HoleSpec(type="tapped", d="D003", depth="D002"),       # tapped: not yet Hole Wizard
-    HoleSpec(type="thru", d="D003", thread="1/4-20"),
+    HoleSpec(type="tapped", d="D003", depth="D002"),       # tapped, but no readable thread
+    HoleSpec(type="tapped", d="D003", depth="D002", thread="3/8-18 NPTF"),   # pipe tap: plain cut
     HoleSpec(type="cbore", d="D003", cbore_d="D004"),      # counterbore without a depth
 ])
 def test_not_hole_wizard(synth, spec):
@@ -208,3 +208,54 @@ def test_only_consecutive_identical_holes_on_one_face_merge():
     assert mergeable_holes(f[2:], f[1], DIMS, {"F003": "skipped"}) == []
     other_face = _plan([BASE, _hole("F002"), {**_hole("F003"), "on": "face(F001,-Z)"}]).features
     assert mergeable_holes(other_face[2:], other_face[1], DIMS, {}) == []
+
+
+# --------------------------------------------------------------------------- #
+# Tapped holes: Hole Wizard tap with a cosmetic thread (E022)
+# --------------------------------------------------------------------------- #
+from pipeline.ir.compile_solidworks import (  # noqa: E402
+    COSMETIC_WITH_CALLOUT, HW_COSMETIC, HW_THREAD_DEPTH, drill_point_volume, parse_thread)
+
+
+@pytest.mark.parametrize("text, want", [
+    ("3/8-16 UNC", ("inch", "3/8-16", "3/8")),
+    (".375-16 UNC (cosmetic)", ("inch", "3/8-16", "3/8")),
+    ("#10-24 UNC-2B", ("inch", "#10-24", "#10")),
+    ("1/2-13", ("inch", "1/2-13", "1/2")),
+    ("M8 x 1.25", ("metric", "M8x1.25", "M8")),
+    ("M8", ("metric", "M8x1.25", "M8")),          # ISO 261 coarse pitch
+    ("3/8-18 NPTF", None),                          # pipe thread: not a Hole Wizard tap yet
+    (".401-16", None),                              # not a standard size
+    ("", None),
+])
+def test_parse_thread(text, want):
+    assert parse_thread(text) == want
+
+
+def test_tapped_hole_is_a_cosmetic_thread_tap_without_the_table():
+    c = hole_wizard_choice(HoleSpec(type="tapped", d="D005", depth="D002", thread="3/8-16 UNC"), DIMS, "inch")
+    assert (c["type"], c["fastener"], c["size"]) == (4, 27, "3/8-16")
+    assert c["values"][HW_COSMETIC] == COSMETIC_WITH_CALLOUT and HW_COSMETIC in c["unitless"]
+    assert c["values"][HW_THREAD_DEPTH] == -1.0          # no MTI table: SolidWorks' default depth
+
+
+def test_metric_tap_uses_the_metric_tapped_hole_type():
+    c = hole_wizard_choice(HoleSpec(type="tapped", d="D001", thread="M8x1.25"), {"D001": 6.8}, "mm")
+    assert (c["standard"], c["fastener"], c["size"]) == (1, 43, "M8x1.25")
+
+
+def test_thread_depth_comes_from_the_mti_table_capped_at_the_drill_depth(tmp_path, monkeypatch):
+    table = {"inch": {"columns": ["size", "nominal", "preferred", "tap_depth"], "rows": [["3/8", 0.375, True, 0.9]]},
+             "metric": {"columns": ["size", "nominal", "preferred", "tap_depth"], "rows": []}}
+    f = tmp_path / "t.local.json"
+    f.write_text(json.dumps(table), encoding="utf-8")
+    monkeypatch.setenv("MTI_STANDARD_PATH", str(f))
+    deep = hole_wizard_choice(HoleSpec(type="tapped", d="D005", thread="3/8-16"), DIMS, "inch")
+    shallow = hole_wizard_choice(HoleSpec(type="tapped", d="D005", depth="D002", thread="3/8-16"), DIMS, "inch")
+    assert (deep["values"][HW_THREAD_DEPTH], shallow["values"][HW_THREAD_DEPTH]) == (0.9, 0.5)
+
+
+def test_drill_point_volume_matches_solidworks():
+    # measured live (E022): a .3125 tap drill .4 deep removed 0.03308 in^3 = cylinder + point
+    import math
+    assert round(math.pi * 0.15625 ** 2 * 0.4 + drill_point_volume(0.3125), 5) == 0.03308

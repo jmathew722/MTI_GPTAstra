@@ -1,9 +1,17 @@
 # STATE.md — where mti-2d-3d stands
 
-**Last updated:** 2026-10-11 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
+**Last updated:** 2026-10-12 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
-> **New (2026-10-11): MTI's modeling standards are in the workflow.** After the demo, MTI's
+> **New (2026-10-12): MTI Phase 2b. Every bolt hole MTI's way.** Tapped holes are Hole Wizard
+> taps with **cosmetic threads**. Blind ones end in the real 118° drill point, credited exactly
+> in the check. **A hole and its pattern are one feature** on a construction bolt circle, line or
+> rectangle (7 Hole Wizard features, 17 holes on the dev set). Still 9/9 dev and 5/5 golden
+> verified, $0, 403 tests. Record:
+> [docs/test-reports/2026-10-12-test-report.md](docs/test-reports/2026-10-12-test-report.md),
+> error log E022. Next: fully defined sketches (last Phase 2 item).
+>
+> **2026-10-11: MTI's modeling standards are in the workflow.** After the demo, MTI's
 > lead engineer sent their modeling practices, feature guide, macros and hole standard
 > (Std 202.02.0003). Every SolidWorks part now has its base body **centered on the origin**,
 > its base sketch on the **Top plane** (Mid Plane for plates), and **Up To Next** through
@@ -414,7 +422,7 @@ by volume IoU and Chamfer distance, which barely penalize a misplaced hole.
 
 ## 5. Prerequisites the next phase needs
 
-- ~~Install requirements and confirm the suite is green~~ Done: 384 tests pass (2026-10-11).
+- ~~Install requirements and confirm the suite is green~~ Done: 403 tests pass (2026-10-12).
 - ~~API access~~ Done: OpenAI (`gpt-6-astra`) key in `.env`; $20 budget guard ($8.30 left).
   A Jev key is still needed for B7.
 - ~~A Windows + SolidWorks machine~~ Done: SolidWorks 2025 SP5 on the dev host.

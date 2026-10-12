@@ -78,19 +78,29 @@ MTI says the practices are *not hard and fast rules*. Practices the compiler can
 - 1 correct fallback: 117-C's 1/4 holes are really blind.
 - 9/9 dev parts and 5/5 golden plans verified.
 
-## Phase 2 (remaining): tapped holes and fully defined sketches
+## Phase 2b (done 2026-10-12): tapped holes, drill points, hole layouts
 
-1. ~~**Hole Wizard emission.**~~ Done for clearance and counterbore holes (2a). Still open: **tapped holes**. Map the `Value*` options for a tap drill plus a cosmetic thread (the default cuts the major Ø, E021), with shaded display on. **Blind** bolt holes: Hole Wizard adds a drill point, so the reference needs a matching cone first.
-   - Standard, type and size come from the `mti_hole_wizard` match: clearance → "Hole" with SHCS clearance fit; tap drill → "Tapped hole"; counterbore → "Counterbore".
-   - End condition: Up To Next. One feature per (face, size), with every sketch point of that size.
-   - Cosmetic threads on tapped holes, with shaded display on (`ToggleCosmeticThreads`).
-   - Verified by volume against the reference. The reference itself needs no change: a Hole Wizard clearance hole is the same cylinder.
-2. **Pattern sketches on construction geometry.** A bolt circle becomes a construction circle with points on it. A grid becomes a construction rectangle.
-3. **Fully defined sketches.**
+- **Tapped holes.** Hole Wizard tap (`swWzdTap`, TappedHole) from the parsed thread callout.
+  It has a cosmetic thread (`Value7` = 1) and the drawing's tap drill. The thread depth is
+  MTI's standard tap depth, capped at the drill depth. Cosmetic-thread display is turned on.
+- **Blind Hole Wizard holes.** Up To Next is tried first, then Blind. The 118° drill point's
+  exact volume is credited in the checks (`extra_removed`).
+- **Hole layouts.** Seed hole + pattern = **one** feature, on a construction circle, line or
+  rectangle, with coincident relations. Hole groups are laid out automatically when they form
+  a circle or a line.
+- Error log **E022**. Live, $0: 9/9 dev and 5/5 golden verified, with 7 Hole Wizard features
+  (17 holes) on the dev set.
+
+## Phase 2 (remaining): fully defined sketches
+
+1. **Fully defined sketches.**
    - Relations first: coincident to origin, midpoint, symmetric, horizontal/vertical.
    - Then dimensions from model edges (datum edges), using regular dimensions, not ordinate.
-   - Check `ISketch.GetConstrainedStatus` = fully defined before each feature; report anything not fully defined.
-4. **Counterbore drills Up To Next.** This needs an intermediate reference volume (drill-only) so the drill can be checked alone.
+   - Check `ISketch.GetConstrainedStatus` = fully defined before each feature, and report
+     anything not fully defined.
+2. **Counterbore drills Up To Next** (plain-cut counterbores only; Hole Wizard counterbores
+   already are). This needs a drill-only reference volume.
+3. **Pipe taps** (NPT/NPTF): Hole Wizard `swWzdPipeTap` (3).
 
 **Open questions for MTI:**
 
