@@ -109,3 +109,53 @@ All of it is verified feature by feature against the CadQuery reference. **All 9
 - resolve-and-resume for the 9 human questions;
 - Gate 2 auditor;
 - MTI reference STEP for a held-out set.
+
+---
+
+## 8. Addendum, same day: Phase 2a, Hole Wizard for bolt holes
+
+**Spend: $0** (saved plans; ledger still $11.70). **Tests: 384 pass** (+11).
+Error log: **E021**.
+
+**Verification first (rule 1).** The `HoleWizard5` signature and every enum value were read
+from the installed type libraries (`sldworks.tlb`, `swconst.tlb`). Each step was then proven
+live on scratch parts:
+
+- face pick, then `HoleWizard5`;
+- counterbore `Value1`/`Value2`;
+- adding holes through the placement sketch;
+- deleting a feature as the fallback.
+
+That also turned up a Phase 1 detail. **Up To Next is `swEndCondUpToNext` = 11**, not 2
+(`swEndCondThroughNext`, which Hole Wizard rejects). The geometry was never wrong (volume
+checks passed), but the stored condition was "Through Next". It is now 11 everywhere.
+
+**Live result** (`output/ir_runs_hw_final/`, `output/hw_golden_final/`): **9/9 dev parts and 5/5
+golden plans build and verify**, with the origin centered on all of them.
+
+| Part | Hole Wizard features (holes) |
+|---|---|
+| 115-C | 3/8 clearance: seed (1) + pattern (3) |
+| 117-C | 5/8 clearance: seed (1) + pattern (3). 1/4 pair: tried, volume showed they are **blind** → deleted, plain cut (one feature for both) |
+| 135-A | 5/16 SHCS counterbore ×2 features |
+| A040911E | 1/4 SHCS counterbore: **one feature for 3 holes** (F003–F005) |
+| SB11842 | 5/16 SHCS counterbore: seed (1) + pattern (3) |
+| golden A040911E | 1/4 SHCS counterbore: one feature for 3 holes |
+
+**Total: 13 Hole Wizard features, 25 holes.**
+
+Failures found while building:
+
+- **Added points ignored.** With `AddToDB = True`, points added to the Hole Wizard sketch
+  produce no holes.
+- **Snapping with `AddToDB` off.** A point .005" off an axis snapped onto it (117-C, as in E020).
+
+Both are fixed: `AddToDB` is off only while editing, and every point gets `SetCoords` and is read back.
+
+**Not yet Hole Wizard:**
+
+- **Tapped holes** (default options cut the thread major Ø; cosmetic-thread mapping is next).
+- **Blind bolt holes** (Hole Wizard's drill point isn't in the reference).
+- **Holes whose ray finds no face** (e.g. 117-C's larger holes centered on an existing hole).
+
+All of these are plain cuts with a note.

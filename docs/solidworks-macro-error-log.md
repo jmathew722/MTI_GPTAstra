@@ -404,6 +404,45 @@ correct. Scorers must project along each hole's axis rather than assume model XY
   of the corner origin, and on the watch-list below.)
 - **Test:** `test_ir_compile_solidworks.py::test_sketches_bypass_inference_snapping`.
 
+## E021 — Hole Wizard: verified recipe, and "Up To Next" is 11, not 2
+
+- **Date:** 2026-10-11 · **Stage:** IR SolidWorks compiler, MTI Phase 2 (Hole Wizard). The
+  signatures and enum values below were read from the installed `sldworks.tlb` / `swconst.tlb`
+  (SW 2025 SP5) and each step was verified live on scratch parts (rule 1).
+- **Finding 1, end condition.** `swEndCondUpToNext` = **11**; 2 is `swEndCondThroughNext`.
+  `HoleWizard5` refuses 2. Phase 1 used 2 for extrude cuts: it removed the same material on
+  every part, so nothing was mis-built, but the stored condition was "Through Next". Now 11
+  everywhere (`END_UP_TO_NEXT`).
+- **Finding 2, the `HoleWizard5` call.** It has 27 arguments: (GenericHoleType, StandardIndex,
+  FastenerTypeIndex, SSize, EndType, Diameter, Depth, Length, Value1..12, ThreadClass, RevDir,
+  FeatureScope, AutoSelect, AssemblyFeatureScope, AutoSelectComponents, PropagateFeatureToParts).
+  - Type: Hole = 2, CounterBore = 0.
+  - Standard: AnsiInch = 0, AnsiMetric = 1.
+  - Fastener: inch ScrewClearances 22, SocketCapScrew 9; metric ScrewClearances 40,
+    SocketHeadCapScrew 33.
+  - Counterbore: `Value1` = counterbore Ø, `Value2` = depth. The `Diameter` passed is honoured
+    and stored. Unused values = -1.
+- **Finding 3, placement.** Select the start face with a point, then call `HoleWizard5`; the
+  hole lands at the pick point. We pick with `Extension.SelectByRay` from 1 mm outside the
+  face, not `SelectByID2` (a view ray, E018).
+  - **More holes in the same feature:** edit the sub-sketch with the fewest points (the
+    placement sketch), set the first point and add the others.
+  - With `AddToDB = True` the added points are silently ignored, so it must be **False**
+    while editing. With it off, inference snapped a point .005" off an axis onto it (117-C,
+    as in E020), so every point gets `ISketchPoint.SetCoords` after creation and is read back.
+- **Finding 4, typed COM.** Late binding cannot reach `IWizardHoleFeatureData2`, `ISketch`
+  or `IMathPoint` members ("Member not found"). Use the early-bound wrapper
+  (`solidworks_builder.typed`). Double arrays must be `VT_ARRAY|VT_R8`
+  (`com_doubles`): a mixed int/float list made `CreatePoint` return wrong coordinates.
+- **Finding 5, tapped holes (not adopted yet).** With default values, a tapped Hole Wizard
+  cuts the thread **major** diameter (Ø.375 for 3/8-16) and ignores `Diameter`. Tapped holes
+  stay plain cuts until the cosmetic-thread options are mapped.
+- **Rule:** Hole Wizard is used only for clearance and counterbore bolt holes that match MTI
+  Std 202.02.0003. Each one is volume-verified; on a mismatch (e.g. a truly blind hole) the
+  feature is deleted with `DeleteSelection2(swDelete_Absorbed)` and the hole is cut plain.
+- **Tests:** `test_mti_standards.py` (`hole_wizard_choice`, `mergeable_holes`,
+  `END_UP_TO_NEXT`).
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

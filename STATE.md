@@ -12,7 +12,10 @@
 > confidential. What MTI asked for, item by item, with status:
 > [docs/mti-modeling-standards.md](docs/mti-modeling-standards.md). Record:
 > [docs/test-reports/2026-10-11-test-report.md](docs/test-reports/2026-10-11-test-report.md).
-> Next: Hole Wizard emission and fully defined sketches (Phase 2 of the
+> **Phase 2a, same day:** bolt holes (clearance and SHCS counterbore) are now real **Hole Wizard**
+> features sized from MTI's standard (13 features, 25 holes on the dev set). Identical holes on a
+> face share one feature, and the result is still 9/9 verified ($0; test report §8, error log E021).
+> Next: tapped holes with cosmetic threads, and fully defined sketches (rest of Phase 2 in the
 > [design](docs/superpowers/specs/2026-10-11-mti-modeling-standards-design.md)), and 6 questions for MTI
 > (test report §6).
 >
@@ -411,7 +414,7 @@ by volume IoU and Chamfer distance, which barely penalize a misplaced hole.
 
 ## 5. Prerequisites the next phase needs
 
-- ~~Install requirements and confirm the suite is green~~ Done: 373 tests pass (2026-10-11).
+- ~~Install requirements and confirm the suite is green~~ Done: 384 tests pass (2026-10-11).
 - ~~API access~~ Done: OpenAI (`gpt-6-astra`) key in `.env`; $20 budget guard ($8.30 left).
   A Jev key is still needed for B7.
 - ~~A Windows + SolidWorks machine~~ Done: SolidWorks 2025 SP5 on the dev host.

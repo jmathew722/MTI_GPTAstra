@@ -44,7 +44,16 @@ PLANE_NAMES = ("Front Plane", "Top Plane", "Right Plane")
 IR_AXIS_OF = {"front": "Z", "top": "Y", "right": "X"}
 VOL_REL_TOL = 1e-3
 CONVENTIONS = ("mti", "drawing")
-END_THROUGH_ALL, END_UP_TO_NEXT, END_MID_PLANE = 1, 2, 6   # swEndConditions_e
+# swEndConditions_e, read from swconst.tlb (SW 2025). Up To Next is 11: HoleWizard5 rejects
+# 2 (swEndCondThroughNext), and 11 is what SolidWorks stores and labels "Up To Next".
+END_THROUGH_ALL, END_UP_TO_NEXT, END_MID_PLANE = 1, 11, 6
+
+# Hole Wizard (HoleWizard5, signature and enums read from sldworks.tlb / swconst.tlb and
+# verified live on SW 2025 SP5, 2026-10-11; error log E021).
+HW_TYPE = {"hole": 2, "cbore": 0}                        # swWzdHole, swWzdCounterBore
+HW_STANDARD = {"inch": 0, "metric": 1}                   # swStandardAnsiInch, swStandardAnsiMetric
+HW_FASTENER = {("hole", "inch"): 22, ("hole", "metric"): 40,     # ... ScrewClearances
+               ("cbore", "inch"): 9, ("cbore", "metric"): 33}    # ... SocketCapScrew / SocketHeadCapScrew
 UNIT_M = {"inch": 0.0254, "mm": 0.001}
 
 Vec = tuple[float, float, float]
@@ -353,6 +362,12 @@ class _SW:
         return None
 
     def holes(self, fid: str, centers: list[list[float]], spec: dict, axis: str, coord: float, d: int):
+        if self.convention == "mti":
+            choice = hole_wizard_choice(spec, self.dims, self.plan.frame.units)
+            if choice:
+                res = self.hole_wizard(fid, centers, spec, axis, coord, d, choice)
+                if res is not None:
+                    return res
         coord -= self.shift["XYZ".index(axis)]
         plane, sign = self.sketch_on(axis)
         sm = self.doc.SketchManager
@@ -392,6 +407,110 @@ class _SW:
             cut=True, reverse=((d * sign) < 0) != flip, depth=self.n(spec.cbore_depth) * self.k, start=start))
         res.note = "drill + counterbore"
         return res
+
+    def hole_wizard(self, fid: str, centers: list[list[float]], spec, axis: str, coord: float, d: int,
+                    choice: dict) -> Optional[SwFeatureResult]:
+        """One Hole Wizard feature for every center (MTI: same size on a face = one feature).
+
+        Recipe (verified live, error log E021): pick the start face with a ray cast into
+        the material at the first center, ``HoleWizard5`` (Up To Next, the drawing's
+        diameters), then edit its placement sketch: set the first point exactly and add
+        the rest. Points are read back and the volume is checked against the reference.
+        On any mismatch the feature is deleted and None is returned (plain-cut fallback).
+        """
+        ai = "XYZ".index(axis)
+
+        def model_pt(c) -> Vec:
+            p = list(self.in_plane(axis, c[0], c[1]))
+            p[ai] = coord
+            return self.pm.to_model(tuple(v * self.k for v in self.local(p)))  # type: ignore
+
+        into = self.pm.to_model(tuple(float(d) if i == ai else 0.0 for i in range(3)))  # type: ignore
+        before = self.volume()
+        p0 = model_pt(centers[0])
+        self.doc.ClearSelection2(True)
+        eps = 1e-3   # start the ray 1 mm outside the face, cast into the material
+        if not self.doc.Extension.SelectByRay(*(p0[i] - into[i] * eps for i in range(3)), *into,
+                                               1e-5, 2, False, 0, 0):   # swSelFACES
+            self.report.conventions.append(f"{fid}: no start face under the hole; plain cut")
+            return None
+        vals = [v * self.k if v != -1.0 else -1.0 for v in choice["values"]]
+        feat = self.doc.FeatureManager.HoleWizard5(
+            choice["type"], choice["standard"], choice["fastener"], choice["size"], END_UP_TO_NEXT,
+            self.n(spec.d) * self.k, 0.0, -1.0, *vals, "", False, True, True, True, True, False)
+        if feat is None:
+            self.report.conventions.append(f"{fid}: HoleWizard5 refused {choice['label']}; plain cut")
+            return None
+        placed = self.place_hole_points(feat, [model_pt(c) for c in centers])
+        if placed and self.check(fid, 1):
+            res = SwFeatureResult(fid, "built", sw_volume=self.volume(),
+                                  ref_volume=self.fmap.get("volume_after", {}).get(fid), attempts=1,
+                                  note=f"{choice['label']}, Up To Next, {len(centers)} hole(s)")
+            self.report.conventions.append(f"{fid}: {res.note}")
+            return res
+        from pipeline.solidworks_builder import typed
+        self.doc.ClearSelection2(True)
+        typed(feat, "IFeature").Select2(False, 0)
+        self.doc.Extension.DeleteSelection2(2)   # swDelete_Absorbed: the feature and its sketches
+        if abs(self.volume() - before) > 1e-9:
+            raise RuntimeError(f"{fid}: could not remove the mismatched Hole Wizard feature")
+        self.report.conventions.append(f"{fid}: {choice['label']} did not match the reference "
+                                       f"({'volume' if placed else 'points'}); plain cut")
+        return None
+
+    def place_hole_points(self, feat, model_pts: list[Vec]) -> bool:
+        """Put the Hole Wizard placement sketch's points exactly at ``model_pts``."""
+        from pipeline.solidworks_builder import _g, com_doubles, typed
+        sub, best = typed(feat, "IFeature").GetFirstSubFeature(), None
+        while sub is not None:   # placement sketch = the sub-sketch with the fewest points
+            sf = typed(sub, "IFeature")
+            sk = typed(sf.GetSpecificFeature2(), "ISketch")
+            if best is None or sk.GetSketchPointsCount2() < best[1].GetSketchPointsCount2():
+                best = (sf, sk)
+            sub = sf.GetNextSubFeature()
+        if best is None:
+            return False
+        sf, sk = best
+        xf = sk.ModelToSketchTransform
+        mu = typed(_g(self.app, "GetMathUtility"), "IMathUtility")
+
+        def to_sketch(m):
+            a = typed(typed(mu.CreatePoint(com_doubles(*m)), "IMathPoint").MultiplyTransform(xf),
+                      "IMathPoint").ArrayData
+            return a[0], a[1]
+
+        want = [to_sketch(m) for m in model_pts]
+        sm = self.doc.SketchManager
+        self.doc.ClearSelection2(True)
+        sf.Select2(False, 0)
+        self.doc.EditSketch()
+        sm.AddToDB = False   # Hole Wizard only picks up points added this way (E021)
+        try:
+            pts = sk.GetSketchPoints2() or ()
+            if len(pts) != 1:
+                return False
+            typed(pts[0], "ISketchPoint").SetCoords(want[0][0], want[0][1], 0.0)
+            for x, y in want[1:]:
+                # SetCoords after creating: with AddToDB off, inference can snap a point
+                # .005" off an axis onto it (117-C; same cause as E020)
+                pt = sm.CreatePoint(x, y, 0.0)
+                if pt is not None:
+                    typed(pt, "ISketchPoint").SetCoords(x, y, 0.0)
+        finally:
+            sm.InsertSketch(True)
+            sm.AddToDB = True
+        got = sorted((p.X, p.Y) for p in (typed(q, "ISketchPoint") for q in (sk.GetSketchPoints2() or ())))
+        ok = len(got) == len(want) and all(math.dist(a, b) <= 1e-7 for a, b in zip(got, sorted(want)))
+        if not ok:
+            log.info("  Hole Wizard points: wanted %s, got %s (m, sketch)", sorted(want), got)
+        return ok
+
+    def hole_group(self, group: list[Hole]) -> SwFeatureResult:
+        """Identical consecutive holes on one face as ONE feature (MTI practice), verified
+        against the reference volume after the last of them."""
+        st = self.fmap["starts"][group[0].id]
+        centers = [[self.n(g.u), self.n(g.v)] for g in group]
+        return self.holes(group[-1].id, centers, group[0].spec, st["axis"], st["coord"], st["dir"])
 
     def hole(self, f: Hole) -> SwFeatureResult:
         st = self.fmap["starts"][f.id]
@@ -511,6 +630,61 @@ class _SW:
                                note=f"{len(pts)} edges selected by nearest point")
 
 
+def hole_wizard_choice(spec, dims: dict[str, float], units: str) -> Optional[dict]:
+    """The Hole Wizard feature for a planned hole, or None to keep a plain cut (MTI:
+    Hole Wizard for bolt holes, cut-extrude for everything else).
+
+    A bolt hole is a clearance hole (optionally counterbored) whose diameter is a
+    clearance size in MTI Std 202.02.0003. It is built Up To Next. A hole planned with a
+    depth is tried too (plans often drill "to the full thickness"); the volume check keeps
+    the Hole Wizard feature only if the hole really goes through, otherwise the caller
+    deletes it and cuts a plain blind hole. Not Hole Wizard: tapped holes (Hole Wizard
+    cuts the thread major diameter by default), and any hole when the local MTI table is
+    absent. The drawing's diameters are always used; the screw size records intent.
+    """
+    from pipeline import mti_standards
+    if spec.thread or spec.type not in ("thru", "blind", "cbore"):
+        return None
+    kind = "cbore" if spec.type == "cbore" else "hole"
+    if kind == "cbore" and not (spec.cbore_d and spec.cbore_depth):
+        return None
+    d = evaluate(spec.d, dims).value
+    match = mti_standards.match_hole(d, units, ("clearance_normal", "clearance_loose"))
+    if not match:
+        return None
+    best = match[0]
+    values = [-1.0] * 12
+    if kind == "cbore":   # Value1 = counterbore diameter, Value2 = depth (drawing units here)
+        values[0], values[1] = evaluate(spec.cbore_d, dims).value, evaluate(spec.cbore_depth, dims).value
+    return {"kind": kind, "type": HW_TYPE[kind], "standard": HW_STANDARD[best.system],
+            "fastener": HW_FASTENER[(kind, best.system)], "size": best.size, "values": values,
+            "label": f"Hole Wizard {best.size} {'SHCS counterbore' if kind == 'cbore' else 'clearance'}"}
+
+
+def hole_signature(f: Hole, dims: dict[str, float]) -> tuple:
+    """Holes that are the same hole on the same face (MTI: one Hole Wizard feature)."""
+    sp = f.spec
+
+    def v(e):
+        return None if e is None else round(evaluate(e, dims).value, 9)
+    return (f.on.replace(" ", ""), sp.type, v(sp.d), v(sp.depth), v(sp.cbore_d), v(sp.cbore_depth),
+            v(sp.csink_d), v(sp.csink_angle), sp.thread)
+
+
+def mergeable_holes(rest: list, first: Hole, dims: dict[str, float], skipped: dict) -> list[Hole]:
+    """The holes right after ``first`` that are the same hole on the same face. Only
+    consecutive ones: the merged feature is checked against the last one's reference
+    volume, which is only valid when nothing else was built in between."""
+    out = []
+    sig = hole_signature(first, dims)
+    for g in rest:
+        if not (isinstance(g, Hole) and g.status == "planned" and g.id not in skipped
+                and hole_signature(g, dims) == sig):
+            break
+        out.append(g)
+    return out
+
+
 def base_axis(plan: BuildPlan, fmap: dict[str, Any]) -> str:
     """IR axis normal to the base feature's sketch: a prism's extrusion axis, or IR Y for a
     revolve (its profile is sketched on the plane through the axis, normal to IR Y)."""
@@ -544,17 +718,36 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
     pmap = pmap or probe_plane_map(sw_app, template)
     sw = _SW(sw_app, plan, dims, fmap, pmap, template, convention)
     skipped = fmap.get("skipped", {})
-    for f in plan.features:
+    features = list(plan.features)
+    i = 0
+    while i < len(features):
+        f = features[i]
+        i += 1
         if f.status != "planned" or f.id in skipped:
             sw.report.features.append(SwFeatureResult(f.id, "skipped", note=skipped.get(f.id, f.status)))
             continue
+        group = [f]
+        if convention == "mti" and isinstance(f, Hole):   # same hole, same face: one feature
+            group += mergeable_holes(features[i:], f, dims, skipped)
+            i += len(group) - 1
         try:
-            res = getattr(sw, f.kind)(f)
+            if len(group) > 1:
+                res = sw.hole_group(group)
+            else:
+                res = getattr(sw, f.kind)(f)
         except Exception as e:  # COM errors: record, keep building (non-strict, like v1)
             _close_open_sketch(sw.doc)
-            res = SwFeatureResult(f.id, "failed", note=f"{type(e).__name__}: {e}"[:300])
+            res = SwFeatureResult(group[-1].id, "failed", note=f"{type(e).__name__}: {e}"[:300])
+        if len(group) > 1:
+            ids = ", ".join(g.id for g in group)
+            res.note = f"{res.note}; one feature for {ids}".lstrip("; ")
+            res.fid = f.id
+            sw.report.features.append(res)
+            sw.report.features += [SwFeatureResult(g.id, res.status, note=f"in {f.id} (one feature)")
+                                   for g in group[1:]]
+        else:
+            sw.report.features.append(res)
         log.info("  %s %s: %s %s", f.id, f.kind, res.status, res.note)
-        sw.report.features.append(res)
         if sw.base and f.id == sw.base["fid"] and res.status == "built":
             body = (sw.doc.GetBodies2(0, False) or [None])[0]
             sw.report.origin_ok = body is not None and origin_centered(list(body.GetBodyBox()))

@@ -64,7 +64,7 @@ python ir_build.py tests/golden/ir/*.json --solidworks       # Feature IR: CadQu
 python ir_run.py --split dev --solidworks                    # drawing -> Astra extract+plan -> reference -> SW (paid, budget-guarded)
 python main.py --drawing <file> --ir --engine com            # same, one drawing
 python ir_compare.py                                         # v1 vs IR on the dev set (no API)
-python -m pytest tests/ -v                                   # tests (373 passing as of 2026-10-11)
+python -m pytest tests/ -v                                   # tests (384 passing as of 2026-10-11)
 UPDATE_GOLDEN=1 python -m pytest tests/test_golden_macros.py # accept an intended macro change
 python -m pipeline.token_report ./output --html output/usage/usage_report.html  # token & cost report
 ```
@@ -172,7 +172,9 @@ MTI's own practices: `docs/mti-modeling-standards.md`; design and phases:
   never copy its values into tests or docs (tests use a synthetic table). Without
   it, the pipeline falls back to the generic chart in `fasteners.py`.
 - **Hole Wizard for bolt holes, cut-extrude for the rest, Up To Next for through
-  holes.** Never generate MTI's "generally avoid" features (sweep, loft, shell,
+  holes** (`swEndCondUpToNext` = 11, never 2; E021). Hole Wizard holes are always
+  volume-verified and fall back to a plain cut. Use `solidworks_builder.typed()` for
+  members late binding can't reach, and `com_doubles()` for double arrays. Never generate MTI's "generally avoid" features (sweep, loft, shell,
   draft, ribs, splines, real threads, ...).
 
 ## Next phase (designed 2026-09-28 — read before building)

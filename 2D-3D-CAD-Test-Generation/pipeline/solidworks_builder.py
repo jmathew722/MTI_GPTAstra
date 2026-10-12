@@ -135,6 +135,38 @@ def _ensure_constants_typelib(gencache) -> None:
                           f"{_SW_CONST_TYPELIB_MAJORS}): {last}")
 
 
+# The SOLIDWORKS (sldworks) type library: early-bound wrappers for the calls late binding
+# can't make (IWizardHoleFeatureData2 / ISketch members behind GetDefinition and
+# GetSpecificFeature2 report "Member not found"; verified on SW 2025 SP5, 2026-10-11).
+_SW_TYPELIB_GUID = "{83A33D31-27C5-11CE-BFD4-00400513BB57}"
+_sw_typed_module = None
+
+
+def typed(obj, interface: str):
+    """``obj`` viewed through its early-bound interface (e.g. ``"ISketch"``)."""
+    global _sw_typed_module
+    if _sw_typed_module is None:
+        from win32com.client import gencache
+        last: Exception | None = None
+        for major in _SW_CONST_TYPELIB_MAJORS:
+            try:
+                _sw_typed_module = gencache.EnsureModule(_SW_TYPELIB_GUID, 0, major, 0)
+                break
+            except Exception as e:  # not registered on this install: try the next version
+                last = e
+        if _sw_typed_module is None:
+            raise SolidWorksError(f"No SolidWorks type library found: {last}")
+    return getattr(_sw_typed_module, interface)(obj._oleobj_)
+
+
+def com_doubles(*values: float):
+    """A VT_ARRAY | VT_R8 argument (a plain list of mixed ints/floats is mis-marshalled:
+    IMathUtility.CreatePoint returned wrong coordinates)."""
+    import pythoncom
+    from win32com.client import VARIANT
+    return VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_R8, [float(v) for v in values])
+
+
 def connect_to_solidworks():
     """Connect to a running SolidWorks instance, or launch a new one.
 

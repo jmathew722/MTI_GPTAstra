@@ -28,11 +28,11 @@ Status key:
 | 2 | **Base sketch on the Top plane** (body extruded along the Top normal). | ✅ The plan is rotated rigidly so that the base sketch lands on Top. The base extrusion is **Mid Plane** (prism bases). A revolved base has its profile on Top. |
 | 3 | **All sketches fully defined;** relations are often better than dimensions. | 🗓 Phase 2. Base rectangles are already center rectangles on the origin. Hole sketches still need relations and dimensions (`AddDimension2`, `SketchAddConstraints`), and these must be verified live first. |
 | 4 | **Uncluttered tree:** base body, then cut away holes and pockets. Fillets and chamfers go toward the end. | 🔎 `mti_edge_ops_last` flags a fillet or chamfer placed before other features. Plans already build the base first, then cut. |
-| 5 | **Hole Wizard for every bolt hole;** non-bolt holes are cut-extrudes. | 🔎 `mti_hole_wizard` matches every hole diameter against MTI Std 202.02.0003 and names the screw (clearance, loose clearance or tap drill). Otherwise it marks the hole as a plain cut. 🗓 Hole Wizard emission (`HoleWizard5`) is Phase 2. |
+| 5 | **Hole Wizard for every bolt hole;** non-bolt holes are cut-extrudes. | ✅ **Clearance and SHCS counterbore bolt holes are built with Hole Wizard** (ANSI Inch/Metric, the screw from MTI Std 202.02.0003, the drawing's exact diameters). Each is volume-verified, with a plain-cut fallback. 🔎 `mti_hole_wizard` reports every hole's match. 🗓 Tapped holes (cosmetic thread) are next. |
 | 5a | Legacy prints rarely say "clearance for X bolt". The AI must map plain diameters to Hole Wizard sizes, inch or metric. | 🔎 Matching against the drawing's own system comes first. Other-system hardware must match its exact conversion. Holes with no match show the nearest standard size. |
-| 5b | **Through holes are "Up To Next",** not "Through All". | ✅ Through cuts try Up To Next first and keep it when the volume matches the reference. Otherwise (a hole crossing a pocket) they fall back to Through All, and the fallback is logged. Counterbore drills still use Through All (Phase 2). |
+| 5b | **Through holes are "Up To Next",** not "Through All". | ✅ Through cuts try Up To Next first and keep it when the volume matches the reference. Otherwise (a hole crossing a pocket) they fall back to Through All, and the fallback is logged. Hole Wizard counterbores are Up To Next too. |
 | 5c | Hole Wizard holes come from a **2D sketch**. | ✅ All sketches are 2D. |
-| 5d | **One Hole Wizard feature per hole size per face.** | 🔎 `mti_hole_grouping` flags identical holes on one face that were planned as separate features. |
+| 5d | **One Hole Wizard feature per hole size per face.** | ✅ Consecutive identical holes on one face are built as **one** feature (Hole Wizard or plain cut). 🔎 `mti_hole_grouping` flags the rest. |
 | 5e | **Patterned holes sit on sketch geometry** (circle, rectangle, line), not on individually dimensioned points. | 🗓 Phase 2: draw a construction circle or rectangle and place points on it. |
 | 6 | **Use symmetry and mirror** (sketches, features, bodies). | 🗓 Phase 3: an IR `mirror` feature, plus symmetric sketch relations. |
 | 7 | **Dimension features from model edges** (datum edges) rather than the origin, planes or holes. *Drawings show how to machine, not how to model.* | 🗓 Phase 2, with full definition (#3). The IR already separates *what* (geometry, from drawing dimensions) from *how it is modeled* (the compiler), so the model's dimension scheme can differ from the drawing's. |
@@ -45,7 +45,7 @@ Status key:
 |---|---|
 | Boss / cut extrude | ✅ IR `prism` (add/cut) |
 | Revolved boss | ✅ IR `revolve` |
-| Hole Wizard | 🔎 reported → 🗓 Phase 2 |
+| Hole Wizard | ✅ clearance + counterbore (2026-10-11); 🗓 tapped |
 | Fillets, chamfers | ✅ IR `edge_op` |
 | Linear / circular patterns | ✅ IR `pattern` (hole patterns, linear/grid prism patterns) |
 | Mirror (bodies, features) | 🗓 Phase 3 |

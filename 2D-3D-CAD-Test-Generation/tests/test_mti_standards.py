@@ -154,3 +154,57 @@ def test_review_messages_never_print_table_values(synth):
         for v in row[3:]:
             if v not in dims.values():   # the drawing's own numbers may be shown
                 assert f"{v:g}" not in text
+
+
+# --------------------------------------------------------------------------- #
+# Hole Wizard choice and same-hole grouping (pipeline/ir/compile_solidworks.py)
+# --------------------------------------------------------------------------- #
+from pipeline.ir.compile_solidworks import (  # noqa: E402
+    END_UP_TO_NEXT, HW_FASTENER, hole_wizard_choice, mergeable_holes)
+from pipeline.ir.model import HoleSpec  # noqa: E402
+
+
+def test_up_to_next_is_the_value_hole_wizard_accepts():
+    assert END_UP_TO_NEXT == 11   # swEndCondUpToNext; 2 is swEndCondThroughNext (HoleWizard5 rejects it)
+
+
+def test_clearance_hole_becomes_a_hole_wizard_screw_clearance(synth):
+    c = hole_wizard_choice(HoleSpec(type="thru", d="D003"), DIMS, "inch")
+    assert (c["type"], c["standard"], c["fastener"], c["size"]) == (2, 0, HW_FASTENER[("hole", "inch")], "1/4")
+
+
+def test_counterbore_carries_the_drawing_counterbore(synth):
+    c = hole_wizard_choice(HoleSpec(type="cbore", d="D003", cbore_d="D004", cbore_depth="D002"), DIMS, "inch")
+    assert (c["kind"], c["fastener"], c["values"][:2]) == ("cbore", 9, [0.44, 0.5])
+
+
+def test_metric_hole_uses_ansi_metric(synth):
+    c = hole_wizard_choice(HoleSpec(type="thru", d="D001"), {"D001": 6.4}, "mm")
+    assert (c["standard"], c["fastener"], c["size"]) == (1, 40, "M6")
+
+
+@pytest.mark.parametrize("spec", [
+    HoleSpec(type="thru", d="D005"),                       # not a clearance size: plain cut
+    HoleSpec(type="tapped", d="D003", depth="D002"),       # tapped: not yet Hole Wizard
+    HoleSpec(type="thru", d="D003", thread="1/4-20"),
+    HoleSpec(type="cbore", d="D003", cbore_d="D004"),      # counterbore without a depth
+])
+def test_not_hole_wizard(synth, spec):
+    assert hole_wizard_choice(spec, DIMS, "inch") is None
+
+
+def test_blind_clearance_hole_is_tried_and_left_to_the_volume_check(synth):
+    assert hole_wizard_choice(HoleSpec(type="blind", d="D003", depth="D002"), DIMS, "inch")["kind"] == "hole"
+
+
+def test_no_hole_wizard_without_the_mti_table():
+    assert hole_wizard_choice(HoleSpec(type="thru", d="D003"), DIMS, "inch") is None
+
+
+def test_only_consecutive_identical_holes_on_one_face_merge():
+    plan = _plan([BASE, _hole("F002"), _hole("F003"), _hole("F004", d="D005"), _hole("F005")])
+    f = plan.features
+    assert [g.id for g in mergeable_holes(f[2:], f[1], DIMS, {})] == ["F003"]     # F004 differs: stop
+    assert mergeable_holes(f[2:], f[1], DIMS, {"F003": "skipped"}) == []
+    other_face = _plan([BASE, _hole("F002"), {**_hole("F003"), "on": "face(F001,-Z)"}]).features
+    assert mergeable_holes(other_face[2:], other_face[1], DIMS, {}) == []

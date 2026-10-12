@@ -61,9 +61,26 @@ MTI says the practices are *not hard and fast rules*. Practices the compiler can
   - The 4 revolved parts put their profile on Top.
 - **Dev set:** see the 2026-10-11 test report.
 
-## Phase 2 (proposed): Hole Wizard and fully defined sketches
+## Phase 2a (done 2026-10-11): Hole Wizard for bolt holes
 
-1. **Hole Wizard emission.** `FeatureManager.HoleWizard5` (to be verified live and recorded first, per rule 1).
+- `hole_wizard_choice()`: the hole is a clearance hole (plain or SHCS counterbore) whose Ø is a clearance size in the MTI table. The Hole Wizard type, standard and fastener are taken from that match.
+- `_SW.hole_wizard()`, in order:
+  1. Select the start face by ray, then call `HoleWizard5` with Up To Next and the drawing's diameters.
+  2. Edit the placement sketch: set every point exactly and read it back.
+  3. Check the volume against the reference.
+  4. On a mismatch, delete the feature and cut plain.
+- **Grouping.** Consecutive identical holes on one face become one feature (`mergeable_holes`). The merged feature is checked against the last hole's reference volume.
+- **Up To Next = `swEndCondUpToNext` (11)** everywhere (error log E021).
+
+**Live, $0:**
+
+- 13 Hole Wizard features (25 holes) on 6 parts.
+- 1 correct fallback: 117-C's 1/4 holes are really blind.
+- 9/9 dev parts and 5/5 golden plans verified.
+
+## Phase 2 (remaining): tapped holes and fully defined sketches
+
+1. ~~**Hole Wizard emission.**~~ Done for clearance and counterbore holes (2a). Still open: **tapped holes**. Map the `Value*` options for a tap drill plus a cosmetic thread (the default cuts the major Ø, E021), with shaded display on. **Blind** bolt holes: Hole Wizard adds a drill point, so the reference needs a matching cone first.
    - Standard, type and size come from the `mti_hole_wizard` match: clearance → "Hole" with SHCS clearance fit; tap drill → "Tapped hole"; counterbore → "Counterbore".
    - End condition: Up To Next. One feature per (face, size), with every sketch point of that size.
    - Cosmetic threads on tapped holes, with shaded display on (`ToggleCosmeticThreads`).

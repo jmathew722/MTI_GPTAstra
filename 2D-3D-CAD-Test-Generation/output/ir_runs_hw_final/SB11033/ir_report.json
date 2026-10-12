@@ -1,0 +1,38 @@
+{
+  "part": "SB11033",
+  "extraction": "reused output\\astra_2026-10-04\\SB11033\\SB11033_extraction.json",
+  "plan_attempts": 0,
+  "gate1": "OK",
+  "planned": 6,
+  "questions": [
+    "F007: What nominal pilot-root radius should be modeled? The drawing specifies only a maximum."
+  ],
+  "flagged": [
+    "F006: The front view explicitly shows four cardinal holes equally spaced about the axis. D002 and D003 are equal controlling radial offsets; D004 is reference only."
+  ],
+  "reference_step": "output\\ir_runs_hw_final\\SB11033\\reference.step",
+  "volume": 2.219108,
+  "cq_skipped": {
+    "F007": "unresolved: What nominal pilot-root radius should be modeled? The drawing specifies only a maximum."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_hw_final\\SB11033\\SB11033_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (1 edges selected by nearest point)",
+    "F003": "built (3 edges selected by nearest point)",
+    "F004": "built (1 edges selected by nearest point)",
+    "F005": "built (Up To Next)",
+    "F006": "built (Up To Next)",
+    "F007": "skipped (unresolved: What nominal pilot-root radius should be modeled? The drawing specifies only a maximum.)"
+  },
+  "conventions": [
+    "origin centered: True"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F005 (+ pattern F006): \u00d80.218 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole (close to #10 clearance_normal: engineer check)",
+    "[mti_edge_ops_last] F005 (hole) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 0.0,
+  "error": ""
+}
