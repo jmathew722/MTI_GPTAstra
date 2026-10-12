@@ -180,6 +180,7 @@ class SwBuildReport:
     convention: str = "drawing"
     origin_ok: Optional[bool] = None   # MTI: base body centered on the origin (None = not checked)
     conventions: list[str] = field(default_factory=list)   # applied / fell back, for review
+    sketches: dict[str, int] = field(default_factory=dict)  # sketch -> swConstrainedStatus_e (3 = fully defined)
 
     @property
     def ok(self) -> bool:
@@ -210,6 +211,8 @@ class _SW:
         self.flips: dict[str, bool] = {}   # direction each feature was verified with (pattern copies reuse it)
         self.extra_removed = 0.0             # Hole Wizard drill-point cones (drawing units^3)
         self.layout_drawn = ""               # construction geometry under the last Hole Wizard
+        self.sketch_status: dict[str, int] = {}   # MTI: every sketch fully defined (3 = fully)
+        self._hw_fid = ""
         self.cosmetic_threads = False
 
     # ---------------------------------------------------------------- utils --
@@ -243,6 +246,120 @@ class _SW:
     def in_plane(self, axis: str, a: float, b: float) -> Vec:
         """IR point from in-plane coords (u, v) of an IR axis plane (front: x,y; top: x,z; right: y,z)."""
         return {"Z": (a, b, 0.0), "Y": (a, 0.0, b), "X": (0.0, a, b)}[axis]  # type: ignore
+
+    def define_sketch(self, fid: str, relations: bool = False, anchor_ok: bool = True) -> None:
+        """MTI: every sketch fully defined, dimensioned from model edges (practices 3 and 7).
+
+        SolidWorks' own Fully Define Sketch on the ACTIVE sketch (verified live, E023):
+
+        1. Regular (baseline) dimensions from datum edges: the body's straight edges
+           parallel to the sketch, leftmost and lowest (MTI: locate from model edges).
+        2. If that leaves the sketch under-defined (it does on base-plane sketches), an
+           anchor point tied to the origin by an explicit coincident relation is the datum.
+
+        Relations are limited to horizontal, vertical, midpoint and coincident. Fully
+        Define's relations were checked not to move nearly-aligned geometry (0.0005" off
+        stayed put), unlike sketch inference. Dimensions record the geometry and never
+        move it. The status is recorded and advisory: the volume checks still decide.
+
+        ``anchor_ok=False`` for Hole Wizard placement sketches: Hole Wizard drills at every
+        free sketch point, so an anchor would become a hole. ``relations`` is kept for
+        callers' intent; relations are always limited to the exact set."""
+        if self.convention != "mti":
+            return
+        from pipeline.solidworks_builder import typed
+        sm = self.doc.SketchManager
+        try:
+            sk = typed(sm.ActiveSketch, "ISketch")
+            tsm = typed(sm, "ISketchManager")
+            hd, vd = self.datum_edges(sk)
+            r = tsm.FullyDefineSketch(AUTODIM_ALL, True, EXACT_RELATIONS, True, AUTODIM_BASELINE, hd,
+                                      AUTODIM_BASELINE, vd, 1, 1)
+            how = "model edges" if (hd is not None or vd is not None) else "no datum"
+            if anchor_ok and sk.GetConstrainedStatus() != FULLY_CONSTRAINED:
+                anchor = self.origin_anchor()
+                if anchor is not None:
+                    r = tsm.FullyDefineSketch(AUTODIM_ALL, True, EXACT_RELATIONS, True, AUTODIM_BASELINE,
+                                              anchor, AUTODIM_BASELINE, anchor, 1, 1)
+                    how += " + origin anchor"
+            self.sketch_status[fid] = sk.GetConstrainedStatus()
+            log.info("  %s sketch: fully define (%s) -> %s, status %s", fid, how, r, self.sketch_status[fid])
+        except Exception as e:   # never fail a build over sketch definition (practices, not rules)
+            log.info("  %s: could not fully define the sketch: %s", fid, e)
+            self.sketch_status[fid] = 0
+
+    def origin_anchor(self):
+        """A sketch point at (0, 0) of the active sketch, tied to the part origin with a
+        coincident relation. It is drawn without inference: a point snapped onto an
+        origin-centered circle's center would float with it (E023). The origin is found by
+        type in the feature tree, not by a hard-coded name (rule 4)."""
+        from pipeline.solidworks_builder import _g, _null_dispatch, typed
+        sm = self.doc.SketchManager
+        prev = sm.AddToDB
+        sm.AddToDB = True
+        try:
+            pt = sm.CreatePoint(0.0, 0.0, 0.0)
+        finally:
+            sm.AddToDB = prev
+        if pt is None:
+            return None
+        pt = typed(pt, "ISketchPoint")
+        if not getattr(self, "_origin_name", None):
+            f = _g(self.doc, "FirstFeature")
+            while f is not None:
+                tf = typed(f, "IFeature")
+                if tf.GetTypeName2() == "OriginProfileFeature":
+                    self._origin_name = tf.Name
+                    break
+                f = tf.GetNextFeature()
+        sel = typed(_g(self.doc, "SelectionManager"), "ISelectionMgr")
+        self.doc.ClearSelection2(True)
+        pt.Select4(False, sel.CreateSelectData())
+        if self.doc.Extension.SelectByID2(f"Point1@{getattr(self, '_origin_name', 'Origin')}", "EXTSKETCHPOINT",
+                                          0, 0, 0, True, 0, _null_dispatch(), 0):
+            self.doc.SketchAddConstraints("sgCOINCIDENT")
+        self.doc.ClearSelection2(True)
+        return pt
+
+    def datum_edges(self, sk):
+        """(horizontal-dimension datum, vertical-dimension datum): the leftmost body edge
+        parallel to the sketch's y axis and the lowest one parallel to its x axis, among
+        straight edges in planes parallel to the sketch (nearest plane first). MTI: locate
+        features from model edges, not from the origin or other holes."""
+        from pipeline.solidworks_builder import _g, com_doubles, typed
+        bodies = self.doc.GetBodies2(0, False) or ()
+        if not bodies:
+            return None, None
+        xf = sk.ModelToSketchTransform
+        mu = typed(_g(self.app, "GetMathUtility"), "IMathUtility")
+
+        def to_sketch(p):
+            return typed(typed(mu.CreatePoint(com_doubles(*p[:3])), "IMathPoint").MultiplyTransform(xf),
+                         "IMathPoint").ArrayData
+
+        vert = horz = None   # (sort key, edge)
+        for body in bodies:
+            for e in _g(body, "GetEdges") or ():
+                e = typed(e, "IEdge")
+                if not typed(e.GetCurve(), "ICurve").IsLine():
+                    continue
+                sv, ev = e.GetStartVertex(), e.GetEndVertex()
+                if sv is None or ev is None:
+                    continue
+                a = to_sketch(typed(sv, "IVertex").GetPoint())
+                b = to_sketch(typed(ev, "IVertex").GetPoint())
+                if abs(a[2] - b[2]) > 1e-9:
+                    continue   # not parallel to the sketch plane
+                z = round(abs(a[2]), 9)
+                if abs(a[0] - b[0]) < 1e-9 and abs(a[1] - b[1]) > 1e-9:      # along sketch y
+                    key = (z, a[0])
+                    if vert is None or key < vert[0]:
+                        vert = (key, e)
+                elif abs(a[1] - b[1]) < 1e-9 and abs(a[0] - b[0]) > 1e-9:    # along sketch x
+                    key = (z, a[1])
+                    if horz is None or key < horz[0]:
+                        horz = (key, e)
+        return (vert[1] if vert else None), (horz[1] if horz else None)
 
     def check(self, fid: str, attempt: int, extra: float = 0.0) -> bool:
         """SW volume vs the reference after ``fid``. Hole Wizard drill points are the one
@@ -341,6 +458,8 @@ class _SW:
         else:
             sm.InsertSketch(True)
             return SwFeatureResult(f.id, "failed", note=f"profile {p.shape} not compiled for SolidWorks yet")
+        self.define_sketch(f.id if flip is None else f"{f.id}+copy",
+                           relations=bool(self.base) and f.id == self.base["fid"] and flip is None)
         sm.InsertSketch(True)
         start = coord * self.k * sign
         thru = st.get("thru", False)
@@ -392,10 +511,11 @@ class _SW:
         plane, sign = self.sketch_on(axis)
         sm = self.doc.SketchManager
 
-        def circles(dia):
+        def circles(dia, tag=""):
             for c in centers:
                 x, y = self.pt(plane, self.in_plane(axis, c[0], c[1]))
                 sm.CreateCircleByRadius(x, y, 0, dia * self.k / 2)
+            self.define_sketch(fid + tag)
             sm.InsertSketch(True)
 
         circles(self.n(spec.d))
@@ -422,7 +542,7 @@ class _SW:
         if feat is None or self.volume() >= before - 1e-12:
             return SwFeatureResult(fid, "failed", note="counterbore drill removed no material")
         self.sketch_on(axis)
-        circles(self.n(spec.cbore_d))
+        circles(self.n(spec.cbore_d), "+cbore")
         res = self.with_retry(fid, lambda flip: self.extrude(
             cut=True, reverse=((d * sign) < 0) != flip, depth=self.n(spec.cbore_depth) * self.k, start=start))
         res.note = "drill + counterbore"
@@ -471,6 +591,7 @@ class _SW:
             if feat is None:
                 why = f"HoleWizard5 refused {label}"
                 continue
+            self._hw_fid = fid
             placed = self.place_hole_points(feat, [model_pt(c) for c in centers], layout)
             if placed and self.check(fid, 1, extra):
                 self.extra_removed += extra
@@ -548,6 +669,7 @@ class _SW:
             self.layout_drawn = ""
             if layout:
                 self.layout_geometry(sk, points, want, layout)
+            self.define_sketch(self._hw_fid, anchor_ok=False)
             status = sk.GetConstrainedStatus()
         finally:
             sm.InsertSketch(True)
@@ -671,6 +793,7 @@ class _SW:
         c1 = self.pt(plane, (0.0, 0.0, min(zs) - 1.0))
         c2 = self.pt(plane, (0.0, 0.0, max(zs) + 1.0))
         sm.CreateCenterLine(c1[0], c1[1], 0, c2[0], c2[1], 0)
+        self.define_sketch(f.id, relations=True)   # stations are exact: H/V relations are safe
         res = SwFeatureResult(f.id, "failed", ref_volume=self.fmap.get("volume_after", {}).get(f.id), attempts=1)
         feat = self.doc.FeatureManager.FeatureRevolve2(
             True, True, False, f.op == "cut", False, False, 0, 0, 2 * math.pi, 0,
@@ -822,6 +945,12 @@ def hole_wizard_choice(spec, dims: dict[str, float], units: str) -> Optional[dic
 
 
 BAD_SKETCH_STATUS = (4, 5, 6)   # swConstrainedStatus_e: over-constrained, no / invalid solution
+FULLY_CONSTRAINED = 3           # swConstrainedStatus_e
+# FullyDefineSketch (signature from sldworks.tlb; verified live 2026-10-12, E023): all entities,
+# baseline (regular, not ordinate) dimensions, and only these relations: H | V | Midpoint |
+# Coincident (checked not to move nearly-aligned geometry, unlike sketch inference).
+AUTODIM_ALL, AUTODIM_BASELINE = 1, 1
+EXACT_RELATIONS = 2 | 4 | 256 | 512
 
 
 def layout_shapes(pts: list[tuple[float, float]], layout: str) -> list[tuple[str, Any]]:
@@ -920,12 +1049,14 @@ def origin_centered(bbox: list[float], tol_m: float = 1e-6) -> bool:
 def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: dict[str, Any],
                        out_dir: Path, template: Optional[str] = None,
                        pmap: Optional[PlaneMap] = None, progress=None,
-                       convention: str = "mti") -> SwBuildReport:
+                       convention: str = "mti", keep_open: bool = False) -> SwBuildReport:
     """Build the plan in SolidWorks, verifying each feature against the CadQuery reference.
 
     ``convention``: ``"mti"`` (centered origin, Top-plane base, Mid Plane, Up To Next) or
     ``"drawing"`` (the drawing frame as-is). ``progress(feature, result)``, if given, is
-    called after each feature (live demos)."""
+    called after each feature (live demos). The part is closed after it is saved unless
+    ``keep_open``: a batch that leaves every part open stops SolidWorks creating new ones
+    (86 open parts: NewDocument returned None; error log E024)."""
     from pipeline.solidworks_builder import _close_open_sketch, save_model
 
     if convention not in CONVENTIONS:
@@ -977,6 +1108,12 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
             progress(f, res)
 
     vol = sw.volume()
+    sw.report.sketches = dict(sw.sketch_status)
+    under = [k for k, v in sw.sketch_status.items() if v != FULLY_CONSTRAINED]
+    if sw.sketch_status:
+        sw.report.conventions.append(
+            f"sketches fully defined: {len(sw.sketch_status) - len(under)}/{len(sw.sketch_status)}"
+            + (f" (not: {', '.join(under)})" if under else ""))
     ref_vol = fmap["volume"] - sw.extra_removed   # Hole Wizard drill points (exact cones)
     sw.report.volume_ok = abs(vol - ref_vol) <= max(VOL_REL_TOL * ref_vol, 1e-6)
     if sw.cosmetic_threads:   # show them, as MTI's ToggleCosmeticThreads macro does
@@ -995,4 +1132,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         sw.doc.SaveAs3(str((Path(out_dir) / f"{plan.part}_ir.png").resolve()), 0, 1)
     except Exception as e:
         log.warning("Could not export a PNG view: %s", e)
+    if not keep_open:
+        from pipeline.solidworks_builder import _g
+        sw_app.CloseDoc(_g(sw.doc, "GetTitle"))
     return sw.report

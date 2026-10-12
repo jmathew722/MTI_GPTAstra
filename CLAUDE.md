@@ -64,7 +64,7 @@ python ir_build.py tests/golden/ir/*.json --solidworks       # Feature IR: CadQu
 python ir_run.py --split dev --solidworks                    # drawing -> Astra extract+plan -> reference -> SW (paid, budget-guarded)
 python main.py --drawing <file> --ir --engine com            # same, one drawing
 python ir_compare.py                                         # v1 vs IR on the dev set (no API)
-python -m pytest tests/ -v                                   # tests (403 passing as of 2026-10-12)
+python -m pytest tests/ -v                                   # tests (405 passing as of 2026-10-12)
 UPDATE_GOLDEN=1 python -m pytest tests/test_golden_macros.py # accept an intended macro change
 python -m pipeline.token_report ./output --html output/usage/usage_report.html  # token & cost report
 ```
@@ -179,7 +179,9 @@ MTI's own practices: `docs/mti-modeling-standards.md`; design and phases:
   threads. Blind Hole Wizard holes keep the 118° drill point, credited exactly in
   the volume check. Hole + pattern = one feature on construction geometry (E022).
   **Programmatic sketches never rely on inference** (E020–E022): set coordinates
-  explicitly and read them back. Never generate MTI's "generally avoid" features (sweep, loft, shell,
+  explicitly and read them back. Every sketch is fully defined (`define_sketch`,
+  E023): model-edge datums, then an origin anchor. Never an anchor in a Hole Wizard
+  sketch. Batch builds close each part after saving (E024). Never generate MTI's "generally avoid" features (sweep, loft, shell,
   draft, ribs, splines, real threads, ...).
 
 ## Next phase (designed 2026-09-28 — read before building)

@@ -3,7 +3,13 @@
 **Last updated:** 2026-10-12 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
-> **New (2026-10-12): MTI Phase 2b. Every bolt hole MTI's way.** Tapped holes are Hole Wizard
+> **2026-10-12 (later): Phase 2c. Sketches are fully defined** with SolidWorks' Fully Define Sketch,
+> dimensioned from model edges, with exact relations only: **29/30 dev-set sketches fully defined**,
+> 9/9 dev parts verified, 405 tests (error log E023). The golden re-run was cut short by SolidWorks
+> (86 parts left open, E024; fixed: parts now close after saving). **Re-run the golden plans in a
+> fresh SolidWorks session.** Test report §8–9.
+>
+> **2026-10-12: MTI Phase 2b. Every bolt hole MTI's way.** Tapped holes are Hole Wizard
 > taps with **cosmetic threads**. Blind ones end in the real 118° drill point, credited exactly
 > in the check. **A hole and its pattern are one feature** on a construction bolt circle, line or
 > rectangle (7 Hole Wizard features, 17 holes on the dev set). Still 9/9 dev and 5/5 golden
@@ -422,7 +428,7 @@ by volume IoU and Chamfer distance, which barely penalize a misplaced hole.
 
 ## 5. Prerequisites the next phase needs
 
-- ~~Install requirements and confirm the suite is green~~ Done: 403 tests pass (2026-10-12).
+- ~~Install requirements and confirm the suite is green~~ Done: 405 tests pass (2026-10-12).
 - ~~API access~~ Done: OpenAI (`gpt-6-astra`) key in `.env`; $20 budget guard ($8.30 left).
   A Jev key is still needed for B7.
 - ~~A Windows + SolidWorks machine~~ Done: SolidWorks 2025 SP5 on the dev host.

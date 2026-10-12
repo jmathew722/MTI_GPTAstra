@@ -84,3 +84,38 @@ After that:
 - pipe taps;
 - Phase 3 (mirror and symmetry);
 - the roadmap items in STATE §5.
+
+---
+
+## 8. Addendum, same day: Phase 2c, fully defined sketches (E023), and E024
+
+**Spend: $0. Tests: 405 pass.**
+
+- **What was built.** Every sketch the compiler draws goes through SolidWorks' **Fully Define Sketch**:
+  - exact relations only (horizontal, vertical, midpoint, coincident);
+  - regular dimensions from the face's leftmost and lowest **model edges**;
+  - an anchor point tied to the origin where SolidWorks can't use edges (base-plane sketches).
+  
+  Hole Wizard placement sketches never get an anchor. The status of each sketch goes into the build report.
+- **Probes (live, scratch parts).**
+  - `FullyDefineSketch` returns success even when the sketch stays under-defined, so status is always read back.
+  - Base-plane sketches won't take locations from the origin or from model edges; an anchor with an explicit coincident to the origin works.
+  - An anchor created with inference snapped onto an origin-centered circle instead of the origin.
+  - Fully Define's relations moved nothing, even 0.0005" off.
+- **Dev-set record run** (`output/ir_runs_fd3/`): **9/9 parts verified; 29/30 sketches fully defined**, up from 13/32 on the first attempt. The exception is 117-C F011, a Hole Wizard placement sketch, which is reported.
+- **Golden re-run: not completed.** SolidWorks refused new documents after two days of batch runs had left **86 parts open** (E024). The fix: `compile_solidworks` now closes each part after saving it (`keep_open=False`; the demo keeps its part open). The golden plans passed in every earlier run today, so the next run needs a fresh SolidWorks session: close SolidWorks or the open output parts, then run
+  `python ir_build.py tests/golden/ir/*.json --solidworks`.
+
+## 9. State at end of day
+
+**MTI Phase 2 is complete**, apart from:
+
+- one Hole Wizard placement sketch (117-C F011) left under-defined;
+- pipe taps;
+- counterbore drills Up To Next on plain-cut counterbores.
+
+**Next:**
+
+1. Re-run the golden plans in a fresh SolidWorks session.
+2. Phase 3: mirror and symmetry.
+3. MTI's answers to questions 1–8.

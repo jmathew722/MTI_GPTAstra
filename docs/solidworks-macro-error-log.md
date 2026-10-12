@@ -485,6 +485,48 @@ correct. Scorers must project along each hole's axis rather than assume model XY
 - **Tests:** `test_mti_standards.py` (`parse_thread`, tap choice, thread depth, drill point);
   `test_ir_compile_solidworks.py` (`layout_shapes`, `on_shape`, drill-point credit).
 
+## E023 — Fully Define Sketch: what works, and why base-plane sketches stayed under-defined
+
+- **Date:** 2026-10-12 · **Stage:** IR SolidWorks compiler, MTI Phase 2 (fully defined sketches).
+- **Call.** `ISketchManager.FullyDefineSketch` has 10 arguments: entities, use relations,
+  relation mask, use dimensions, then horizontal scheme and datum, vertical scheme and datum,
+  then placements. It must go through the **typed** interface: late binding gives a type
+  mismatch. Baseline scheme = regular dimensions (MTI: not ordinate).
+- **Finding 1, it can report success without finishing.** It returns 0 (success) even when
+  the sketch stays **under-defined**, so always read `ISketch.GetConstrainedStatus` (3 = fully
+  defined).
+- **Finding 2, base-plane sketches.** On a **face** sketch it fully defines from model-edge
+  datums or from the origin. On a **base-plane** sketch it adds sizes (diameters, widths) but
+  no locations: no datum, the origin's own sketch point, and model edges in a parallel plane
+  all left it under-defined.
+  - **What works:** a sketch point at (0, 0), tied to the part origin by an explicit
+    coincident relation (`Point1@<origin>`, type `EXTSKETCHPOINT`, the macro-recorder form;
+    the origin's name is taken from the tree by type), used as both datums.
+- **Finding 3, snapping again.** A point created *with* inference at (0, 0) snapped onto an
+  origin-centered circle's center instead of the origin, and floated with it. The anchor is
+  created with `AddToDB` on and related explicitly.
+- **Finding 4, Fully Define's relations do not snap.** With horizontal, vertical and
+  coincident allowed, circles 0.005", 0.001" and 0.0005" off the origin stayed exactly where
+  they were. Unlike sketch inference, these relations are safe. Midpoint is added for
+  symmetric bases. Equal, tangent, parallel and the rest are not used.
+- **Rule:** model-edge datums first, then the origin anchor if still under-defined. **Never
+  an anchor in a Hole Wizard placement sketch:** Hole Wizard drills at every free sketch point.
+  The status of every sketch goes into the build report. It is advisory; the volume checks
+  still decide.
+
+## E024 — 86 open parts: SolidWorks stopped creating new documents
+
+- **Date:** 2026-10-12 · **Stage:** `ir_build.py` golden run after a day of batch runs.
+- **Symptom:** `NewDocument returned None — failed to create part document` on the first golden
+  part. Earlier the same day, `rm` also found output `.SLDPRT` files "busy".
+- **Root cause:** `compile_solidworks` saved each part and left it open. Two days of batch runs
+  left **86** parts open in one SolidWorks session, all from this pipeline (checked by path
+  before closing anything).
+- **Fix:** `compile_solidworks(..., keep_open=False)` closes the part after saving it and
+  exporting its picture. `demo.py` passes `keep_open=True` so the audience sees the part.
+- **Rule:** batch builds never leave documents open. Before closing documents in a session,
+  list them and close only the ones under this repo's `output/`.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

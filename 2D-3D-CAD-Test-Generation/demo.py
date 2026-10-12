@@ -227,7 +227,8 @@ def main() -> int:
                 pass
             time.sleep(args.pace)
 
-        rep = compile_solidworks(app, plan, dims, fm, out, template, pmap, progress=progress)
+        rep = compile_solidworks(app, plan, dims, fm, out, template, pmap, progress=progress,
+                                 keep_open=True)   # the audience looks at it
         sw_ok = rep.ok
         console.print(f"  final volume {'matches' if rep.volume_ok else 'DIFFERS'} · size "
                       f"{'matches' if rep.bbox_ok else 'DIFFERS'} · saved {rep.sldprt}")

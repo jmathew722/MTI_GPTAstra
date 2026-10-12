@@ -91,13 +91,19 @@ MTI says the practices are *not hard and fast rules*. Practices the compiler can
 - Error log **E022**. Live, $0: 9/9 dev and 5/5 golden verified, with 7 Hole Wizard features
   (17 holes) on the dev set.
 
-## Phase 2 (remaining): fully defined sketches
+## Phase 2c (done 2026-10-12): fully defined sketches
 
-1. **Fully defined sketches.**
-   - Relations first: coincident to origin, midpoint, symmetric, horizontal/vertical.
-   - Then dimensions from model edges (datum edges), using regular dimensions, not ordinate.
-   - Check `ISketch.GetConstrainedStatus` = fully defined before each feature, and report
-     anything not fully defined.
+- Every sketch the compiler draws is passed to SolidWorks' **Fully Define Sketch** (`define_sketch`).
+  - Relations: horizontal, vertical, midpoint and coincident only. These were verified not to move nearly-aligned geometry.
+  - Dimensions: regular (baseline), from the face's leftmost and lowest **model edges**.
+  - If the sketch is still under-defined (base-plane sketches, E023), an **anchor point tied to the origin** becomes the datum.
+  - Hole Wizard placement sketches never get an anchor (it would become a hole).
+- The status of each sketch is in the build report and the conventions summary. It is advisory; the volume checks decide.
+- Live, $0: **29/30 dev-set sketches fully defined**, 9/9 dev parts verified. The exception is a Hole Wizard placement sketch on 117-C. Error log **E023**.
+
+## Phase 2 (remaining)
+
+1. 117-C F011: a Hole Wizard placement sketch that model-edge datums can't fully define. Look at datum choice on that face.
 2. **Counterbore drills Up To Next** (plain-cut counterbores only; Hole Wizard counterbores
    already are). This needs a drill-only reference volume.
 3. **Pipe taps** (NPT/NPTF): Hole Wizard `swWzdPipeTap` (3).

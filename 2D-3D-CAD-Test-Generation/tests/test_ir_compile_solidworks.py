@@ -224,3 +224,15 @@ def test_auto_layout_finds_a_bolt_circle_or_a_row():
     row = [(0, 0), (2, 0), (1, 0)]
     assert layout_shapes(row, "auto") == [("line", ((0, 0), (2, 0)))]
     assert layout_shapes([(0, 0), (1, 0)], "auto") == []          # two holes: nothing to show
+
+
+def test_drawing_convention_never_touches_sketch_definition(fake_sw):
+    sw, _ = fake_sw({}, ref=9.0, convention="drawing")
+    sw.define_sketch("F001")   # the fake doc has no SketchManager.ActiveSketch: must not be reached
+    assert sw.sketch_status == {}
+
+
+def test_failed_sketch_definition_is_recorded_not_raised(fake_sw):
+    sw, _ = fake_sw({}, ref=9.0)
+    sw.define_sketch("F001")   # COM unavailable on the fake: recorded as 0, never fails the build
+    assert sw.sketch_status == {"F001": 0}
