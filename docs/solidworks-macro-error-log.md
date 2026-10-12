@@ -387,8 +387,27 @@ fixtures.
 Plane" maps to model Y-Z (extrusion along X). Geometry relative to the sketch is
 correct. Scorers must project along each hole's axis rather than assume model XY.
 
+## E020 — Sketch inference snapped a hole onto the origin (MTI centered origin)
+
+- **Date:** 2026-10-11 · **Part:** 115-C, F006 (37/64 blind cross-drill from the right end) ·
+  **Stage:** IR SolidWorks compiler, per-feature volume check, first run with MTI's centered origin
+- **Symptom:** "no direction matched the reference volume". SolidWorks removed 0.016 in³ less than
+  the reference. The same plan built fine in the old drawing frame.
+- **Root cause:** with the origin at the block center, the hole center was 0.005" (0.127 mm) from
+  the origin in its sketch. SolidWorks' sketch inference snapped the circle center onto the origin,
+  which moved the hole and changed how it intersects the face drillings. In the old corner frame no
+  hole was ever that close to the origin, so this never showed.
+- **Fix:** `SketchManager.AddToDB = True` for the whole IR build. Entities go straight to the
+  database with no snapping or inference. It is set back to False before the part is saved.
+- **Rule:** programmatic sketches never rely on inference. Every builder sets `AddToDB = True` while
+  drawing. (The v1 COM builder and the VBA generator don't set it yet; it is low risk there because
+  of the corner origin, and on the watch-list below.)
+- **Test:** `test_ir_compile_solidworks.py::test_sketches_bypass_inference_snapping`.
+
 ## Open watch-list (not yet seen at runtime)
 
+- `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator
+  (E020). Low risk with their corner origin; add it when either path is touched.
 - `FullyDefineSketch` argument shape varies by SW version — currently wrapped
   in `On Error Resume Next`; verify on SW2024.
 - VBA `NN_fillets_chamfers.vba` is still interactive (user pre-selects edges); the

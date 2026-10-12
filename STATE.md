@@ -1,8 +1,21 @@
 # STATE.md — where mti-2d-3d stands
 
-**Last updated:** 2026-10-05 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
+**Last updated:** 2026-10-11 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **New (2026-10-11): MTI's modeling standards are in the workflow.** After the demo, MTI's
+> lead engineer sent their modeling practices, feature guide, macros and hole standard
+> (Std 202.02.0003). Every SolidWorks part now has its base body **centered on the origin**,
+> its base sketch on the **Top plane** (Mid Plane for plates), and **Up To Next** through
+> holes. All 9 dev parts and 5 golden plans still build and verify ($0). A deterministic
+> review proposes Hole Wizard sizes from MTI's own table, which is kept local because it is
+> confidential. What MTI asked for, item by item, with status:
+> [docs/mti-modeling-standards.md](docs/mti-modeling-standards.md). Record:
+> [docs/test-reports/2026-10-11-test-report.md](docs/test-reports/2026-10-11-test-report.md).
+> Next: Hole Wizard emission and fully defined sketches (Phase 2 of the
+> [design](docs/superpowers/specs/2026-10-11-mti-modeling-standards-design.md)), and 6 questions for MTI
+> (test report §6).
+>
 > **Status (2026-10-05):** sub-project A (Feature IR v2) is **built and running end to end**
 > on all 9 dev parts (§4.2). The v1 pipeline was also hardened (§2.1, §3.0). Not built yet:
 > sub-project B's Gate 2 auditor and its resolve-and-resume loop, a held-out benchmark set
@@ -398,20 +411,24 @@ by volume IoU and Chamfer distance, which barely penalize a misplaced hole.
 
 ## 5. Prerequisites the next phase needs
 
-- ~~Install requirements and confirm the suite is green~~ Done: 340 tests pass (2026-10-04).
+- ~~Install requirements and confirm the suite is green~~ Done: 373 tests pass (2026-10-11).
 - ~~API access~~ Done: OpenAI (`gpt-6-astra`) key in `.env`; $20 budget guard ($8.30 left).
   A Jev key is still needed for B7.
 - ~~A Windows + SolidWorks machine~~ Done: SolidWorks 2025 SP5 on the dev host.
 - ~~Hand-checked answers for dev parts~~ Done: 5 golden plans in `tests/golden/ir/`.
 - **Still needed: MTI reference STEP** for a held-out set (PRD C1), answers to the 9 open
-  engineering questions (test report §8), confirmation of the OpenAI price, and a check of
-  the fastener table against MTI's shop standard.
+  engineering questions (test report §8), and confirmation of the OpenAI price.
+- ~~A check of the fastener table against MTI's shop standard~~ MTI supplied Std 202.02.0003
+  (2026-10-11). It is used locally from `config/mti/*.local.json`, which is gitignored and confidential.
+  **Still needed:** the source document, to verify our screenshot transcription, plus answers to the
+  6 MTI questions (2026-10-11 test report §6).
 
 ## 6. Where to look
 
 | Question | Look at |
 |---|---|
 | How do I run it / what are the rules? | [CLAUDE.md](CLAUDE.md) |
+| How does MTI want parts modeled? | [docs/mti-modeling-standards.md](docs/mti-modeling-standards.md) |
 | Why is the generator written this way? | [docs/solidworks-macro-error-log.md](docs/solidworks-macro-error-log.md) |
 | Original design | [docs/superpowers/specs/2026-06-11-2d-to-3d-solidworks-pipeline-design.md](docs/superpowers/specs/2026-06-11-2d-to-3d-solidworks-pipeline-design.md) |
 | Repo structure / cross-file connections | [graphify-out/GRAPH_REPORT.md](graphify-out/GRAPH_REPORT.md), `graphify-out/graph.html` |

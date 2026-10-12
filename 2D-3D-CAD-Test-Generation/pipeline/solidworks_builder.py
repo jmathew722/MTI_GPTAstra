@@ -292,13 +292,36 @@ def get_dimensions_for_feature(model: DrawingData, feature: Feature) -> dict[str
     return resolved
 
 
+PLANE_TREE_INDEX = {"Front Plane": 1, "Top Plane": 2, "Right Plane": 3}
+
+
+def select_ref_plane(sw_doc, name: str) -> bool:
+    """Select a base reference plane by name, falling back to its position in the
+    feature tree (the n-th ``RefPlane``), so renamed or localized templates still work.
+
+    The fallback is MTI's own ``SelectPlane1/2/3`` macro pattern (FirstFeature ->
+    GetTypeName2 = "RefPlane" -> GetNextFeature), and CLAUDE.md hard rule 4.
+    """
+    sw_doc.ClearSelection2(True)
+    if sw_doc.Extension.SelectByID2(name, "PLANE", 0.0, 0.0, 0.0, False, 0, _null_dispatch(), 0):
+        return True
+    want, seen = PLANE_TREE_INDEX.get(name, 0), 0
+    feat = _g(sw_doc, "FirstFeature")
+    while want and feat is not None:
+        if _g(feat, "GetTypeName2") == "RefPlane":
+            seen += 1
+            if seen == want:
+                log.warning("Plane %r not found by name; selected %r (tree position %d)",
+                            name, feat.Name, want)
+                return bool(feat.Select2(False, 0))
+        feat = _g(feat, "GetNextFeature")
+    return False
+
+
 def _select_plane(sw_doc, sketch_plane: Optional[str]) -> None:
     """Select the named reference plane for the next sketch."""
     name = _PLANE_NAMES.get((sketch_plane or "front").lower().strip(), "Front Plane")
-    selected = sw_doc.Extension.SelectByID2(
-        name, "PLANE", 0.0, 0.0, 0.0, False, 0, _null_dispatch(), 0
-    )
-    if not selected:
+    if not select_ref_plane(sw_doc, name):
         raise SolidWorksError(f"Could not select sketch plane {name!r}.")
 
 

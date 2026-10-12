@@ -530,7 +530,7 @@ def _new_callout(data: dict, feat: dict, diameter: float) -> dict:
 
 
 def _complete_hole_callouts(data: dict, decisions: list[str], concerns: list[str]) -> None:
-    from pipeline.fasteners import SOURCE, nominal_size, shcs_counterbore, size_from_text
+    from pipeline.fasteners import nominal_size, shcs_counterbore, size_from_text, table_source
     from pipeline.macro_generator import _BOLT_CIRCLE_LABEL
 
     inch = (data.get("units") or "inch") == "inch"
@@ -572,11 +572,11 @@ def _complete_hole_callouts(data: dict, decisions: list[str], concerns: list[str
             drill, cb_dia, cb_depth = table
             if not h.get("diameter"):
                 h["diameter"] = drill
-                decisions.append(f"{f['id']}: drill Ø{drill} STANDARD-DERIVED for a {size:g} SHCS ({SOURCE}).")
+                decisions.append(f"{f['id']}: drill Ø{drill} STANDARD-DERIVED for a {size:g} SHCS ({table_source()}).")
                 concerns.append(f"VERIFY {f['id']} drill Ø{drill}: from the fastener table, not printed on the drawing.")
             if wants_cbore and not h.get("cbore_diameter"):
                 h["cbore_diameter"] = cb_dia
-                decisions.append(f"{f['id']}: counterbore Ø{cb_dia} STANDARD-DERIVED for a {size:g} SHCS ({SOURCE}).")
+                decisions.append(f"{f['id']}: counterbore Ø{cb_dia} STANDARD-DERIVED for a {size:g} SHCS ({table_source()}).")
                 concerns.append(f"VERIFY {f['id']} counterbore Ø{cb_dia}: from the fastener table.")
             if wants_cbore and not cbore_depth:
                 cbore_depth = cb_depth

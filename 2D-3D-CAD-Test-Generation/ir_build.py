@@ -36,6 +36,8 @@ def main() -> int:
     ap.add_argument("plans", nargs="+", type=Path)
     ap.add_argument("--output", type=Path, default=Path("output/ir_build"))
     ap.add_argument("--solidworks", action="store_true", help="also build natively (Windows + SolidWorks)")
+    ap.add_argument("--convention", choices=("mti", "drawing"), default="mti",
+                    help="SolidWorks modeling convention (default: MTI's centered origin, Top-plane base)")
     args = ap.parse_args()
 
     sw_app = pmap = None
@@ -56,14 +58,18 @@ def main() -> int:
             rows.append({"part": plan.part, "gate1": "REJECT", "errors": [f.message for f in errors]})
             continue
         cq = run_script(emit_script(plan, dims, strict=False), out)
+        from pipeline.ir.mti_review import review
         row = {"part": plan.part, "gate1": "OK", "unresolved": [f.feature for f in findings if f.code == "unresolved"],
+               "mti_review": [f"[{f.code}] {f.message}" for f in review(plan, dims)],
                "reference_step": str(cq.step_path), "volume": cq.feature_map["volume"],
                "cq_skipped": cq.feature_map["skipped"]}
         if sw_app is not None:
             from pipeline.ir.compile_solidworks import compile_solidworks
             rep = compile_solidworks(sw_app, plan, dims, cq.feature_map, out,
-                                     os.getenv("SOLIDWORKS_TEMPLATE_PATH") or None, pmap)
+                                     os.getenv("SOLIDWORKS_TEMPLATE_PATH") or None, pmap,
+                                     convention=args.convention)
             row.update(sw_ok=rep.ok, sldprt=rep.sldprt, sw_bbox_ok=rep.bbox_ok, sw_volume_ok=rep.volume_ok,
+                       convention=rep.convention, origin_centered=rep.origin_ok, conventions=rep.conventions,
                        sw_features={f.fid: f"{f.status}{' (' + f.note + ')' if f.note else ''}" for f in rep.features})
         rows.append(row)
         print(json.dumps(row, indent=1, default=str))

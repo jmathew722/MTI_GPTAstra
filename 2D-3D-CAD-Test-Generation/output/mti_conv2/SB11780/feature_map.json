@@ -1,0 +1,48 @@
+{
+  "part": "SB11780",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -1.24925,
+    -1.24925,
+    0.0,
+    1.24925,
+    1.24925,
+    76.88
+  ],
+  "volume": 361.822372,
+  "volume_mm3": 5929206.373,
+  "features": [
+    "F001",
+    "F002"
+  ],
+  "skipped": {
+    "F003": "unresolved: .125 R MAX TYP: only a maximum is given; the radius to use needs a human",
+    "F004": "unresolved: .06 C/R BOTH ENDS: chamfer OR radius is the shop's choice; needs a human"
+  },
+  "holes": {},
+  "edge_points": {},
+  "starts": {
+    "F002": {
+      "axis": "Z",
+      "coord": 1.896,
+      "dir": 1,
+      "thru": false
+    }
+  },
+  "volume_after": {
+    "F001": 371.767071293,
+    "F002": 361.822372374
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -1.24925,
+      -1.24925,
+      0.0,
+      1.24925,
+      1.24925,
+      76.88
+    ]
+  }
+}

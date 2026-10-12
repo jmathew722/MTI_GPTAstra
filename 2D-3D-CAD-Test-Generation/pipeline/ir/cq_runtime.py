@@ -75,6 +75,7 @@ class Model:
         self.skipped: dict[str, str] = {}
         self.starts: dict[str, dict] = {}         # resolved start plane per prism/hole (drawing units)
         self.volume_after: dict[str, float] = {}  # solid volume after each feature (drawing units^3)
+        self.base: Optional[dict] = None          # the first body (MTI: the origin centers on it)
 
     # ------------------------------------------------------------------ refs --
     def _start(self, on: str, offset: float) -> tuple[str, float, int]:
@@ -123,6 +124,9 @@ class Model:
             if op != "add":
                 raise CompileError(f"{fid}: the first feature must add material")
             self.solid = tool
+            bb = tool.BoundingBox()
+            self.base = {"fid": fid, "bbox": [round(v / self.k, 9) for v in (
+                bb.xmin, bb.ymin, bb.zmin, bb.xmax, bb.ymax, bb.zmax)]}
         elif op == "add":
             self.solid = self.solid.fuse(tool).clean()
         else:
@@ -393,6 +397,7 @@ class Model:
             "edge_points": self.edge_points,
             "starts": self.starts,
             "volume_after": self.volume_after,
+            "base": self.base,
         }
 
     def finish(self, out_dir: Optional[str] = None) -> dict[str, Any]:

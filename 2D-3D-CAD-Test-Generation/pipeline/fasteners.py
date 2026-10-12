@@ -57,7 +57,20 @@ def size_from_text(text: str) -> Optional[float]:
     return None
 
 
+def table_source() -> str:
+    """Where :func:`shcs_counterbore` takes its values from: MTI's own standard when its
+    local copy is present (pipeline/mti_standards.py), else the generic chart."""
+    from pipeline import mti_standards
+    return mti_standards.SOURCE if mti_standards.available() else SOURCE
+
+
 def shcs_counterbore(size: float) -> Optional[tuple[float, float, float]]:
-    """(drill, cbore diameter, cbore depth) for a nominal size in inches."""
+    """(drill, cbore diameter, cbore depth) for a nominal size in inches.
+
+    MTI Std 202.02.0003 (local, confidential) wins over the generic chart when present;
+    its counterbores are deeper than the generic depth = nominal rule."""
+    from pipeline import mti_standards
     key = nominal_size(size)
-    return SHCS_INCH.get(key) if key is not None else None
+    if key is None:
+        return None
+    return mti_standards.shcs_counterbore_inch(key) or SHCS_INCH.get(key)

@@ -1,0 +1,213 @@
+{
+  "dims": {
+    "D001": 0.218,
+    "D002": 0.781,
+    "D003": 0.781,
+    "D004": 1.562,
+    "D005": 1.971,
+    "D006": 1.781,
+    "D007": 0.375,
+    "D008": 0.19,
+    "D009": 1.938,
+    "D010": 0.686,
+    "D011": 1.0,
+    "D012": 0.015,
+    "D013": 0.03,
+    "D014": 45.0,
+    "D015": 0.06,
+    "D016": 45.0,
+    "D017": 0.094,
+    "D018": 1.406,
+    "D019": 0.969,
+    "D020": 0.188,
+    "D021": 1.75
+  },
+  "reference_ids": [
+    "D004",
+    "D005"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB11033",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "+Z",
+        "section A-A": "axis horizontal; pilot end at Z=0, shaft end toward +Z"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the solid pilot, flange and shaft as one stepped body; section A-A confirms no axial bore.",
+        "source_callouts": [
+          ".6860 DIA. +.0000/-.0010",
+          ".190",
+          "1.938 DIA.",
+          ".375",
+          "1.000 DIA.",
+          "1.781",
+          "1.971 REF."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D010 / 2"
+          },
+          {
+            "z": "D008",
+            "r": "D010 / 2"
+          },
+          {
+            "z": "D008",
+            "r": "D009 / 2"
+          },
+          {
+            "z": "D008 + D007",
+            "r": "D009 / 2"
+          },
+          {
+            "z": "D008 + D007",
+            "r": "D011 / 2"
+          },
+          {
+            "z": "D008 + D006",
+            "r": "D011 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Blend the shaft into the shaft-side flange shoulder.",
+        "source_callouts": [
+          ".094 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D017",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D008 + D007),wall(F001,D011 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Apply the three explicitly leader-designated chamfers: pilot free end and both flange OD rims.",
+        "source_callouts": [
+          ".03 x 45\u00b0 CHAM."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D013",
+        "angle": "D014",
+        "edges": [
+          "edge_between(face(F001,-Z,0),wall(F001,D010 / 2))",
+          "edge_between(face(F001,-Z,D008),wall(F001,D009 / 2))",
+          "edge_between(face(F001,+Z,D008 + D007),wall(F001,D009 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Chamfer the shaft free-end circumference.",
+        "source_callouts": [
+          ".06 x 45\u00b0 CHAM."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D015",
+        "angle": "D016",
+        "edges": [
+          "edge_between(face(F001,+Z,D008 + D006),wall(F001,D011 / 2))"
+        ]
+      },
+      {
+        "id": "F005",
+        "rationale": "Drill the right cardinal mounting hole through the flange.",
+        "source_callouts": [
+          ".218 DRILL THRU",
+          "4-HLS. EQUALLY SPACED",
+          ".781 \u00b1.005",
+          "1.562 DIA. REF. B.C."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z,D008 + D007)",
+        "u": "D002",
+        "v": "0",
+        "spec": {
+          "type": "thru",
+          "d": "D001",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Complete the four cardinal mounting holes at equal 90-degree spacing.",
+        "source_callouts": [
+          "4-HLS. EQUALLY SPACED",
+          ".781 \u00b1.005",
+          "1.562 DIA. REF. B.C."
+        ],
+        "status": "planned",
+        "justification": "The front view explicitly shows four cardinal holes equally spaced about the axis. D002 and D003 are equal controlling radial offsets; D004 is reference only.",
+        "kind": "pattern",
+        "seed": "F005",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F007",
+        "rationale": "What nominal pilot-root radius should be modeled? The drawing specifies only a maximum.",
+        "source_callouts": [
+          ".015 MAX. R."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D012",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D008),wall(F001,D010 / 2))"
+        ]
+      }
+    ],
+    "notes": [
+      "Origin is the center of the pilot free-end face. Overall length is D008 + D006; D005 is reference only.",
+      "Full-sheet title block identifies WORK BACKUP, tool SB-11033, AMF WELDER; use with SB-11031. Dimensions are explicitly in inches, third-angle projection.",
+      "Material requirement: MAT'L. ~ 4150 H.T. R/C 40-45.",
+      "Title-block general tolerances: 2-place dimensions \u00b1.020 inch; 3-place dimensions \u00b1.010 inch. Individually stated tolerances take precedence. Angular tolerance value is not legible/specified.",
+      "STAMP- \"SB-11033\" on the shaft cylindrical surface is a required manufacturing marking. Text/stamping geometry is unsupported by Feature IR v2; lettering size, depth and exact placement are not dimensioned, so no invented engraving is modeled.",
+      "D012 is a maximum, not a prescribed nominal radius; F007 remains unresolved and is not to be executed as a .015 nominal fillet without review.",
+      "Ignore extraction corner-based hole coordinates D019-D021 and its negative pilot Z convention; this plan uses the required axis-end frame."
+    ]
+  }
+}

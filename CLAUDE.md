@@ -35,6 +35,7 @@ mti-2d-3d/
 │   ├── PRD.md                          ← product requirements (goals, requirements, success targets)
 │   ├── PRD-aws.md, PRD-azure.md        ← the two hosting options (same sections, compare side by side)
 │   ├── solidworks-macro-error-log.md   ← every runtime failure + the generator rule it produced
+│   ├── mti-modeling-standards.md       ← MTI's modeling practices + feature guide, and pipeline status
 │   └── superpowers/specs/              design specs (dated)
 └── graphify-out/                  knowledge graph of the repo (GRAPH_REPORT.md, graph.html)
 ```
@@ -63,7 +64,7 @@ python ir_build.py tests/golden/ir/*.json --solidworks       # Feature IR: CadQu
 python ir_run.py --split dev --solidworks                    # drawing -> Astra extract+plan -> reference -> SW (paid, budget-guarded)
 python main.py --drawing <file> --ir --engine com            # same, one drawing
 python ir_compare.py                                         # v1 vs IR on the dev set (no API)
-python -m pytest tests/ -v                                   # tests (340 passing as of 2026-10-04)
+python -m pytest tests/ -v                                   # tests (373 passing as of 2026-10-11)
 UPDATE_GOLDEN=1 python -m pytest tests/test_golden_macros.py # accept an intended macro change
 python -m pipeline.token_report ./output --html output/usage/usage_report.html  # token & cost report
 ```
@@ -92,10 +93,17 @@ Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KE
    (`GetModelBoundingBox`, by-name sketch reselection); add new offenders there.
 2. **Mirror the macro recorder.** Call `FeatureExtrusion3`/`FeatureCut4` on the
    still-active sketch; never close-then-reselect a sketch by name (E005/E006).
-3. **One coordinate frame: the drawing frame.** Base-plate lower-left corner at
-   the origin; all positions edge-referenced exactly like the drawing (E003).
+3. **Plan in the drawing frame; model in MTI's frame.** Plans (IR, v1 JSON) keep
+   the drawing frame: positions edge-referenced exactly like the drawing (E003).
+   The IR SolidWorks compiler then maps the plan *rigidly* (rotation + translation,
+   never a mirror) into MTI's convention: base body **centered on the origin**,
+   base sketch on the **Top plane**, Mid Plane base, **Up To Next** through cuts,
+   each verified by volume with a logged fallback (`convention="mti"`, default).
+   The VBA path still uses the lower-left-corner origin. See
+   `docs/mti-modeling-standards.md`.
 4. **Never select reference geometry by a single hard-coded name.** Always
-   provide a position-in-tree fallback (E002).
+   provide a position-in-tree fallback (E002; `select_ref_plane`, MTI's
+   `SelectPlane` macro pattern).
 5. **Cuts are direction-proof** (`ThroughAllBoth`, flip-and-retry) (E005).
 6. **Never invent positions.** A position not grounded in extracted data is
    flagged `POSITION ASSUMED`, never guessed silently.
@@ -149,6 +157,23 @@ Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KE
   available, `python graphify-out/ast_update.py` refreshes the code layer (no LLM).
 - **Test days:** record each one in `docs/test-reports/YYYY-MM-DD-test-report.md`
   (what ran, successes, failures, costs from `~/.mti-2d-3d/budget_ledger.jsonl`, decisions, next steps).
+
+## MTI modeling standards (2026-10-11)
+
+MTI's own practices: `docs/mti-modeling-standards.md`; design and phases:
+`docs/superpowers/specs/2026-10-11-mti-modeling-standards-design.md`.
+
+- **"General best practices, not hard and fast rules."** Apply what the compiler
+  can verify. Report the rest as advisory `mti_*` findings
+  (`pipeline/ir/mti_review.py`). Never block a part over a practice.
+- **MTI Std 202.02.0003 is confidential.** It lives only in
+  `config/mti/*.local.json` (gitignored; a test checks this) and is read by
+  `pipeline/mti_standards.py`. Never commit it, never put it in a model prompt, and
+  never copy its values into tests or docs (tests use a synthetic table). Without
+  it, the pipeline falls back to the generic chart in `fasteners.py`.
+- **Hole Wizard for bolt holes, cut-extrude for the rest, Up To Next for through
+  holes.** Never generate MTI's "generally avoid" features (sweep, loft, shell,
+  draft, ribs, splines, real threads, ...).
 
 ## Next phase (designed 2026-09-28 — read before building)
 

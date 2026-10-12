@@ -88,6 +88,8 @@ class IRResult:
     sw_ok: Optional[bool] = None
     sldprt: str = ""
     sw_features: dict = field(default_factory=dict)
+    conventions: list[str] = field(default_factory=list)
+    mti_review: list[str] = field(default_factory=list)     # advisory MTI modeling-practice findings    # MTI modeling conventions applied / fallen back
     cost_usd: float = 0.0
     error: str = ""
 
@@ -137,12 +139,15 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
         if hard:
             res.error = "; ".join(f"{f.code}:{f.feature}" for f in hard)
             return res
+        from pipeline.ir.mti_review import review
+        res.mti_review = [f"[{f.code}] {f.message}" for f in review(plan, dims)]
         cq = run_script(emit_script(plan, dims, strict=False), out)
         res.reference_step, res.volume, res.cq_skipped = str(cq.step_path), cq.feature_map["volume"], cq.feature_map["skipped"]
         if sw_app is not None:
             from pipeline.ir.compile_solidworks import compile_solidworks
             rep = compile_solidworks(sw_app, plan, dims, cq.feature_map, out, template, pmap)
             res.sw_ok, res.sldprt = rep.ok, rep.sldprt or ""
+            res.conventions = [f"origin centered: {rep.origin_ok}"] + rep.conventions
             res.sw_features = {f.fid: f.status + (f" ({f.note})" if f.note else "") for f in rep.features}
     except Exception as e:
         from pipeline.budget import BudgetExceeded

@@ -1,0 +1,63 @@
+{
+  "part": "117-C",
+  "extraction": "reused output\\ir_runs\\117-C\\117-C_extraction.json",
+  "plan_attempts": 0,
+  "gate1": "OK",
+  "planned": 13,
+  "questions": [
+    "F014: What radius is required on the four visibly rounded plate-outline corners? No radius is dimensioned."
+  ],
+  "flagged": [
+    "F004: ASME Y14.5 blind-drilling convention: .50 depth is the full-diameter depth from the front face. Model the exact blind depth with a flat bottom; the depicted drill point is cosmetic.",
+    "F006: ASME Y14.5 blind-drilling convention: .50 is the full-diameter depth measured from the rear face, as depicted in the bottom view, not additional depth below the counterbore. Use an exact flat-bottom blind hole; drill-point geometry is cosmetic.",
+    "F010: ASME Y14.5 full-diameter blind-hole depth convention; model a flat-bottom hole at the printed depth.",
+    "F011: ASME Y14.5 full-diameter blind-hole depth convention; model a flat-bottom hole at the printed depth.",
+    "F012: Model the printed nominal reamed diameter and full-diameter blind depth. Numeric press-fit limits are not supplied and require manufacturing specification; no interference value is invented.",
+    "F013: Model the printed nominal reamed diameter and full-diameter blind depth. Numeric press-fit limits are not supplied and require manufacturing specification; no interference value is invented."
+  ],
+  "reference_step": "output\\ir_runs_mti2\\117-C\\reference.step",
+  "volume": 14.047924,
+  "cq_skipped": {
+    "F014": "unresolved: What radius is required on the four visibly rounded plate-outline corners? No radius is dimensioned.",
+    "F015": "unsupported: Left rear installed dowel is a separate supplied component; IR v2 has no separate-body/component operation and must not fuse it into the plate.",
+    "F016": "unsupported: Upper rear installed dowel is a second separate component, not an integral plate boss."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_mti2\\117-C\\117-C_ir.sldprt",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Up To Next)",
+    "F003": "built (Up To Next)",
+    "F004": "built",
+    "F005": "built",
+    "F006": "built",
+    "F007": "built",
+    "F008": "built",
+    "F009": "built",
+    "F010": "built",
+    "F011": "built",
+    "F012": "built",
+    "F013": "built",
+    "F014": "skipped (unresolved: What radius is required on the four visibly rounded plate-outline corners? No radius is dimensioned.)",
+    "F015": "skipped (unsupported: Left rear installed dowel is a separate supplied component; IR v2 has no separate-body/component operation and must not fuse it into the plate.)",
+    "F016": "skipped (unsupported: Upper rear installed dowel is a second separate component, not an integral plate boss.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.65625 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F004 (+ pattern F005): \u00d80.90625 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_hole_wizard] F006 (+ pattern F007): \u00d80.90625 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_hole_wizard] F008 (+ pattern F009): \u00d81.311 = STANDARD-DERIVED: clearance (normal) for 1-1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+    "[mti_hole_wizard] F010: \u00d80.28125 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+    "[mti_hole_wizard] F011: \u00d80.28125 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+    "[mti_hole_wizard] F012: \u00d80.25 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_hole_wizard] F013: \u00d80.25 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_hole_grouping] F010, F011: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+    "[mti_hole_grouping] F012, F013: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points"
+  ],
+  "cost_usd": 0.0,
+  "error": ""
+}

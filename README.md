@@ -12,6 +12,10 @@ MTI by the iNDustry Labs AILOT team.
 > written question rather than a guess. Full record of the test day:
 > [docs/test-reports/2026-10-04-test-report.md](docs/test-reports/2026-10-04-test-report.md).
 > Live status: [STATE.md](STATE.md).
+>
+> **2026-10-11:** parts are now modeled to **MTI's own standards**: origin centered on the
+> base body, base sketch on the Top plane, and Up To Next through holes. Hole Wizard sizes are
+> proposed from MTI's hole standard. See [docs/mti-modeling-standards.md](docs/mti-modeling-standards.md).
 
 ## How it works
 
@@ -106,6 +110,7 @@ and date. A price that isn't confirmed is `null`, and those rows show as
 |---|---|
 | [STATE.md](STATE.md) | Where the project stands: results, gaps, open decisions |
 | [docs/test-reports/](docs/test-reports/) | Dated test-day records: every run, success, failure, cost and decision |
+| [docs/mti-modeling-standards.md](docs/mti-modeling-standards.md) | MTI's modeling practices and feature guide, and what the pipeline does about each |
 | [docs/demo-guide.md](docs/demo-guide.md) | Live meeting demo: checklist, talking points, fallbacks (`demo.py`) |
 | [CLAUDE.md](CLAUDE.md) | Working rules for humans and Claude: commands, hard rules, conventions |
 | [docs/solidworks-macro-error-log.md](docs/solidworks-macro-error-log.md) | Every real SolidWorks failure and the generator rule it produced |

@@ -1,0 +1,45 @@
+{
+  "part": "A040911E",
+  "extraction": "reused output\\astra_2026-10-04\\A040911E\\A040911E_extraction.json",
+  "plan_attempts": 0,
+  "gate1": "OK",
+  "planned": 7,
+  "questions": [],
+  "flagged": [
+    "F002: Section depicts chamfers at both axial ends of the outside diameter and bore, establishing the scope of TYP.",
+    "F003: Supplied ASME B18.3 normal-fit SHCS chart specifies .281 drill and .438 counterbore diameter for the D008 nominal .250 screw. Printed D007 controls counterbore depth.",
+    "F004: Supplied ASME B18.3 normal-fit SHCS chart specifies .281 drill and .438 counterbore diameter for the D008 nominal .250 screw. Retain printed counterbore depth D007.",
+    "F005: Depicted left-right symmetry establishes right x=+D005. Supplied ASME B18.3 normal-fit SHCS chart specifies .281 drill and .438 counterbore diameter for the D008 nominal .250 screw. Use printed D007 depth rather than chart depth.",
+    "F006: Full sheet explicitly gives .375-16 TAP 1.00 DP.; the 1.00 depth is missing from extracted D-IDs. Standard 3/8-16 UNC tap drill is 5/16 inch (.3125). Model cosmetic threads at the specified nominal blind depth without inventing extra drilling allowance.",
+    "F007: The front view establishes mirror symmetry, giving right x=+D006. Full-sheet callout supplies .375-16 TAP and 1.00 DP., omitted from extraction. Standard 3/8-16 UNC tap drill is .3125 inch; threads are cosmetic."
+  ],
+  "reference_step": "output\\ir_runs_mti2\\A040911E\\reference.step",
+  "volume": 25.22959,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_mti2\\A040911E\\A040911E_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (4 edges selected by nearest point)",
+    "F003": "built (drill + counterbore)",
+    "F004": "built (drill + counterbore)",
+    "F005": "built (drill + counterbore)",
+    "F006": "built",
+    "F007": "built"
+  },
+  "conventions": [
+    "origin centered: True"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F003: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.438 matches the standard counterbore",
+    "[mti_hole_wizard] F004: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.438 matches the standard counterbore",
+    "[mti_hole_wizard] F005: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.438 matches the standard counterbore",
+    "[mti_hole_wizard] F006: \u00d80.3125 = STANDARD-DERIVED: tap drill for 3/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+    "[mti_hole_wizard] F007: \u00d80.3125 = STANDARD-DERIVED: tap drill for 3/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+    "[mti_hole_grouping] F003, F004, F005: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+    "[mti_hole_grouping] F006, F007: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+    "[mti_edge_ops_last] F003 (hole) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 0.0,
+  "error": ""
+}

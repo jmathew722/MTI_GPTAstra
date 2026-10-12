@@ -16,6 +16,15 @@ x, y, z, ...)``; FeatureExtrusion3/FeatureCut4 start offsets. **The template's p
 mapping is measured, not assumed** (``probe_plane_map``): on the SW 2025 template here,
 Front is model YZ with normal +X.
 
+**MTI modeling convention** (``convention="mti"``, the default; spec
+docs/superpowers/specs/2026-10-11-mti-modeling-standards-design.md): the plan stays in
+the drawing frame, and the compiler maps it rigidly into SolidWorks so that the base
+sketch is on the **Top plane**, the base body is **centered on the origin** (symmetric
+about Front, Top and Right), and the base extrusion is **Mid Plane**. Through cuts are
+**Up To Next**. Every one of these is verified by volume and falls back to the previous
+behaviour (offset start, Through All) when SolidWorks disagrees. ``convention="drawing"``
+keeps the old frame (IR = Front sketch axes, drawing origin).
+
 WINDOWS ONLY at call time; imports cleanly anywhere (COM is imported lazily).
 """
 from __future__ import annotations
@@ -34,6 +43,8 @@ log = get_logger()
 PLANE_NAMES = ("Front Plane", "Top Plane", "Right Plane")
 IR_AXIS_OF = {"front": "Z", "top": "Y", "right": "X"}
 VOL_REL_TOL = 1e-3
+CONVENTIONS = ("mti", "drawing")
+END_THROUGH_ALL, END_UP_TO_NEXT, END_MID_PLANE = 1, 2, 6   # swEndConditions_e
 UNIT_M = {"inch": 0.0254, "mm": 0.001}
 
 Vec = tuple[float, float, float]
@@ -47,15 +58,31 @@ def _neg(a: Vec) -> Vec:
     return (-a[0], -a[1], -a[2])
 
 
+def _det(a: Vec, b: Vec, c: Vec) -> float:
+    return (a[0] * (b[1] * c[2] - b[2] * c[1]) - a[1] * (b[0] * c[2] - b[2] * c[0])
+            + a[2] * (b[0] * c[1] - b[1] * c[0]))
+
+
 @dataclass
 class PlaneMap:
     """Model-space unit vectors (u, v, n) of each SW base plane's sketch axes."""
     planes: dict[str, tuple[Vec, Vec, Vec]]
+    basis: Optional[tuple[Vec, Vec, Vec]] = None   # IR x, y, z in model space (None = Front)
 
     @property
     def ir_basis(self) -> tuple[Vec, Vec, Vec]:
-        """IR x, y, z in model space: IR is defined by the Front sketch (u, v, normal)."""
-        return self.planes["Front Plane"]
+        """IR x, y, z in model space: by default the Front sketch (u, v, normal)."""
+        return self.basis or self.planes["Front Plane"]
+
+    def oriented(self, base_axis: str) -> "PlaneMap":
+        """The same planes with the IR rotated so ``base_axis`` is the Top plane's normal
+        (MTI: the base sketch is on the Top plane). A cyclic axis permutation, so the
+        mapping stays a rotation, never a mirror."""
+        u, v, n = self.planes["Top Plane"]
+        if _det(u, v, n) <= 0:
+            raise RuntimeError("Top plane axes are not right-handed; refusing a mirrored part")
+        basis = {"Z": (u, v, n), "Y": (v, n, u), "X": (n, u, v)}[base_axis]
+        return PlaneMap(self.planes, basis)
 
     def to_model(self, p: Vec) -> Vec:
         x, y, z = self.ir_basis
@@ -84,14 +111,13 @@ def _unit(axis_idx: int, sign: float) -> Vec:
 def probe_plane_map(sw_app, template: Optional[str]) -> PlaneMap:
     """Measure each base plane's (u, v, n) in model space with a throwaway part:
     a 1 mm circle at sketch (10, 20) mm extruded 5 mm (default direction = +n)."""
-    from pipeline.solidworks_builder import _g, _null_dispatch, create_new_part
+    from pipeline.solidworks_builder import _g, create_new_part, select_ref_plane
 
     planes = {}
     for name in PLANE_NAMES:
         d = create_new_part(sw_app, template)
         try:
-            d.ClearSelection2(True)
-            if not d.Extension.SelectByID2(name, "PLANE", 0, 0, 0, False, 0, _null_dispatch(), 0):
+            if not select_ref_plane(d, name):
                 raise RuntimeError(f"could not select {name}")
             d.SketchManager.InsertSketch(True)
             d.SketchManager.CreateCircleByRadius(0.010, 0.020, 0, 0.001)
@@ -130,22 +156,36 @@ class SwBuildReport:
     features: list[SwFeatureResult] = field(default_factory=list)
     bbox_ok: Optional[bool] = None
     volume_ok: Optional[bool] = None
+    convention: str = "drawing"
+    origin_ok: Optional[bool] = None   # MTI: base body centered on the origin (None = not checked)
+    conventions: list[str] = field(default_factory=list)   # applied / fell back, for review
 
     @property
     def ok(self) -> bool:
-        return bool(self.bbox_ok and self.volume_ok and all(
+        return bool(self.bbox_ok and self.volume_ok and self.origin_ok is not False and all(
             f.status in ("built", "skipped") for f in self.features))
 
 
 class _SW:
     def __init__(self, sw_app, plan: BuildPlan, dims: dict[str, float], fmap: dict[str, Any],
-                 pmap: PlaneMap, template: Optional[str]):
+                 pmap: PlaneMap, template: Optional[str], convention: str = "drawing"):
         from pipeline.solidworks_builder import create_new_part
 
-        self.app, self.plan, self.dims, self.fmap, self.pm = sw_app, plan, dims, fmap, pmap
+        self.app, self.plan, self.dims, self.fmap = sw_app, plan, dims, fmap
         self.k = UNIT_M[plan.frame.units]
+        self.convention = convention
+        self.base = fmap.get("base") if convention == "mti" else None
+        self.shift: Vec = (0.0, 0.0, 0.0)   # IR point of the model origin (base body center)
+        if self.base:
+            pmap = pmap.oriented(base_axis(plan, fmap))
+            bb = self.base["bbox"]
+            self.shift = tuple((bb[i] + bb[i + 3]) / 2 for i in range(3))  # type: ignore
+        self.pm = pmap
         self.doc = create_new_part(sw_app, template)
-        self.report = SwBuildReport(plan.part, None)
+        # Sketch entities go straight into the database: no inference snapping. With a
+        # centered origin, a hole .005" off the origin snapped onto it (115-C F006, E020).
+        self.doc.SketchManager.AddToDB = True
+        self.report = SwBuildReport(plan.part, None, convention="mti" if self.base else "drawing")
         self.flips: dict[str, bool] = {}   # direction each feature was verified with (pattern copies reuse it)
 
     # ---------------------------------------------------------------- utils --
@@ -157,10 +197,13 @@ class _SW:
         return _total_volume(self.doc) / self.k ** 3
 
     def select_plane(self, name: str) -> None:
-        from pipeline.solidworks_builder import _null_dispatch
-        self.doc.ClearSelection2(True)
-        if not self.doc.Extension.SelectByID2(name, "PLANE", 0, 0, 0, False, 0, _null_dispatch(), 0):
+        from pipeline.solidworks_builder import select_ref_plane
+        if not select_ref_plane(self.doc, name):
             raise RuntimeError(f"could not select {name}")
+
+    def local(self, p) -> Vec:
+        """IR (drawing-frame) point -> IR point relative to the model origin."""
+        return tuple(p[i] - self.shift[i] for i in range(3))  # type: ignore
 
     def sketch_on(self, ir_axis: str):
         """Open a sketch on the base plane normal to an IR axis; returns (plane, sign)."""
@@ -170,7 +213,7 @@ class _SW:
         return plane, sign
 
     def pt(self, plane: str, ir_point: Vec) -> tuple[float, float]:
-        m = self.pm.to_model(tuple(c * self.k for c in ir_point))  # type: ignore
+        m = self.pm.to_model(tuple(c * self.k for c in self.local(ir_point)))  # type: ignore
         return self.pm.sketch_coords(plane, m)
 
     def in_plane(self, axis: str, a: float, b: float) -> Vec:
@@ -188,18 +231,40 @@ class _SW:
         return ok
 
     def extrude(self, *, cut: bool, reverse: bool, depth: Optional[float], start: float,
-                thru: bool = False):
+                thru: bool = False, end: Optional[int] = None):
+        """``end`` overrides the end condition (Up To Next, Mid Plane); the default is
+        Blind, or Through All when ``thru``."""
         fm = self.doc.FeatureManager
         t0, off, flip = (3, abs(start), start < 0) if abs(start) > 1e-12 else (0, 0.0, False)
+        t1 = end if end is not None else (END_THROUGH_ALL if thru else 0)
         if cut:
-            # thru = Through All (T1=1) FROM the resolved start face, into the material.
-            # Through All - Both from the base plane fails when that plane misses the body
-            # (SB11033's holes: Front plane is the pilot end, r = .781 is empty there; E018).
-            return fm.FeatureCut4(True, False, reverse, 1 if thru else 0, 0, depth or 0.0, 0.01,
+            # thru = FROM the resolved start face, into the material (Up To Next per MTI,
+            # else Through All). Through All - Both from the base plane fails when that
+            # plane misses the body (SB11033's holes: r = .781 is empty there; E018).
+            return fm.FeatureCut4(True, False, reverse, t1, 0, depth or 0.0, 0.01,
                                   False, False, False, False, 0.0, 0.0, False, False, False, False, False,
                                   True, True, True, True, False, t0, off, flip, False)
-        return fm.FeatureExtrusion3(True, False, reverse, 0, 0, depth, 0.01, False, False, False, False,
+        return fm.FeatureExtrusion3(True, False, reverse, t1, 0, depth, 0.01, False, False, False, False,
                                     0.0, 0.0, False, False, False, False, True, True, True, t0, off, flip)
+
+    def thru_cut(self, fid: str, make):
+        """A through cut: Up To Next first (MTI), Through All when the volume says it
+        stopped short (a hole crossing a gap or pocket). ``make(flip, end)``."""
+        from pipeline.solidworks_builder import _reselect_last_sketch
+        modes = [(END_THROUGH_ALL, "Through All")]
+        if self.convention == "mti":
+            modes.insert(0, (END_UP_TO_NEXT, "Up To Next"))
+        res = None
+        for i, (end, label) in enumerate(modes):
+            if i:
+                _reselect_last_sketch(self.doc)
+            res = self.with_retry(fid, lambda fl, end=end: make(fl, end))
+            if res.status == "built":
+                res.note = label
+                if i:
+                    self.report.conventions.append(f"{fid}: Up To Next did not match; used Through All")
+                return res
+        return res
 
     def with_retry(self, fid: str, make, flippable: bool = True):
         """make(flip) creates the feature from the closed sketch. Volume-checked, retried flipped."""
@@ -227,7 +292,7 @@ class _SW:
         st = self.fmap["starts"][f.id]
         axis, coord, d = st["axis"], st["coord"], st["dir"]
         ai = "XYZ".index(axis)
-        coord += shift[ai]
+        coord += shift[ai] - self.shift[ai]
         su, sv = [shift[i] for i in range(3) if i != ai]
         plane, sign = self.sketch_on(axis)
         sm = self.doc.SketchManager
@@ -238,7 +303,10 @@ class _SW:
                 u, v = u - w / 2, v - h / 2
             corners = [self.pt(plane, self.in_plane(axis, a, b)) for a, b in ((u, v), (u + w, v + h))]
             (x1, y1), (x2, y2) = corners
-            sm.CreateCornerRectangle(x1, y1, 0, x2, y2, 0)
+            if self.base and abs(x1 + x2) < 1e-9 and abs(y1 + y2) < 1e-9:
+                sm.CreateCenterRectangle(0, 0, 0, x2, y2, 0)   # centered on the origin (MTI)
+            else:
+                sm.CreateCornerRectangle(x1, y1, 0, x2, y2, 0)
         elif p.shape == "circle":
             cx, cy = self.pt(plane, self.in_plane(axis, self.n(p.u) + su, self.n(p.v) + sv))
             sm.CreateCircleByRadius(cx, cy, 0, self.n(p.d) * self.k / 2)
@@ -250,15 +318,42 @@ class _SW:
         thru = st.get("thru", False)
         depth = None if thru else self.n(f.depth) * self.k
 
-        def make(fl):
-            return self.extrude(cut=f.op == "cut", reverse=((d * sign) < 0) != fl, depth=depth, start=start, thru=thru)
+        def make(fl, end=None):
+            return self.extrude(cut=f.op == "cut", reverse=((d * sign) < 0) != fl, depth=depth,
+                                start=start, thru=thru, end=end)
 
         if flip is not None:   # a pattern copy: same direction as the verified seed, checked as a whole
             feat = make(flip)
             return SwFeatureResult(f.id, "built" if feat is not None else "failed", attempts=1)
+        if (self.base and f.id == self.base["fid"] and depth
+                and abs(coord + d * self.n(f.depth) / 2) < 1e-9):
+            res = self.mid_plane(f.id, depth)
+            if res is not None:
+                return res
+        if thru and f.op == "cut":
+            return self.thru_cut(f.id, make)
         return self.with_retry(f.id, make)
 
+    def mid_plane(self, fid: str, depth: float) -> Optional[SwFeatureResult]:
+        """MTI base body: sketch on the plane through the origin, extrude Mid Plane.
+        Returns None (sketch reselected, for the offset-start fallback) if the volume
+        does not match."""
+        from pipeline.solidworks_builder import _reselect_last_sketch
+        feat = self.extrude(cut=False, reverse=False, depth=depth, start=0.0, end=END_MID_PLANE)
+        if feat is not None and self.check(fid, 1):
+            self.flips[fid] = False
+            self.report.conventions.append(f"{fid}: base sketch on the Top plane, Mid Plane extrude")
+            return SwFeatureResult(fid, "built", sw_volume=self.volume(),
+                                   ref_volume=self.fmap.get("volume_after", {}).get(fid), attempts=1,
+                                   note="Mid Plane")
+        if feat is not None:
+            self.doc.EditUndo2(1)
+        _reselect_last_sketch(self.doc)
+        self.report.conventions.append(f"{fid}: Mid Plane did not match; used an offset start")
+        return None
+
     def holes(self, fid: str, centers: list[list[float]], spec: dict, axis: str, coord: float, d: int):
+        coord -= self.shift["XYZ".index(axis)]
         plane, sign = self.sketch_on(axis)
         sm = self.doc.SketchManager
 
@@ -273,11 +368,12 @@ class _SW:
         thru = spec.type == "thru" or (spec.type == "cbore" and spec.depth is None)
         depth = None if thru else self.n(spec.depth) * self.k
 
-        def drill(flip):
-            return self.extrude(cut=True, reverse=((d * sign) < 0) != flip, depth=depth, start=start, thru=thru)
+        def drill(flip, end=None):
+            return self.extrude(cut=True, reverse=((d * sign) < 0) != flip, depth=depth, start=start,
+                                thru=thru, end=end)
 
         if not (spec.type == "cbore" and spec.cbore_d):
-            return self.with_retry(fid, drill)
+            return self.thru_cut(fid, drill) if thru else self.with_retry(fid, drill)
         # Counterbore: the reference volume includes BOTH cuts, so verify only after the
         # second one. The drill direction is validated by its own volume drop first.
         from pipeline.solidworks_builder import _reselect_last_sketch
@@ -391,7 +487,7 @@ class _SW:
         data = _g(self.doc.SelectionManager, "CreateSelectData")
         picked = []
         for p in pts:
-            m = self.pm.to_model(tuple(c * self.k for c in p))  # type: ignore
+            m = self.pm.to_model(tuple(c * self.k for c in self.local(p)))  # type: ignore
             e, dist = self.nearest_edge(m)
             if e is None or dist > 1e-5:
                 return SwFeatureResult(f.id, "failed", note=f"no edge within 0.01 mm of {p} (nearest {dist:.2e} m)")
@@ -415,16 +511,38 @@ class _SW:
                                note=f"{len(pts)} edges selected by nearest point")
 
 
+def base_axis(plan: BuildPlan, fmap: dict[str, Any]) -> str:
+    """IR axis normal to the base feature's sketch: a prism's extrusion axis, or IR Y for a
+    revolve (its profile is sketched on the plane through the axis, normal to IR Y)."""
+    fid = (fmap.get("base") or {}).get("fid")
+    f = plan.feature(fid) if fid else None
+    if isinstance(f, Revolve):
+        return "Y"
+    st = fmap.get("starts", {}).get(fid)
+    return st["axis"] if st else "Z"
+
+
+def origin_centered(bbox: list[float], tol_m: float = 1e-6) -> bool:
+    """MTI: the base body is symmetric about the three base planes (box centered on the
+    origin). ``bbox`` is a SolidWorks body box in meters."""
+    return all(abs(bbox[i] + bbox[i + 3]) / 2 <= tol_m for i in range(3))
+
+
 def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: dict[str, Any],
                        out_dir: Path, template: Optional[str] = None,
-                       pmap: Optional[PlaneMap] = None, progress=None) -> SwBuildReport:
+                       pmap: Optional[PlaneMap] = None, progress=None,
+                       convention: str = "mti") -> SwBuildReport:
     """Build the plan in SolidWorks, verifying each feature against the CadQuery reference.
 
-    ``progress(feature, result)``, if given, is called after each feature (live demos)."""
+    ``convention``: ``"mti"`` (centered origin, Top-plane base, Mid Plane, Up To Next) or
+    ``"drawing"`` (the drawing frame as-is). ``progress(feature, result)``, if given, is
+    called after each feature (live demos)."""
     from pipeline.solidworks_builder import _close_open_sketch, save_model
 
+    if convention not in CONVENTIONS:
+        raise ValueError(f"convention must be one of {CONVENTIONS}")
     pmap = pmap or probe_plane_map(sw_app, template)
-    sw = _SW(sw_app, plan, dims, fmap, pmap, template)
+    sw = _SW(sw_app, plan, dims, fmap, pmap, template, convention)
     skipped = fmap.get("skipped", {})
     for f in plan.features:
         if f.status != "planned" or f.id in skipped:
@@ -437,6 +555,9 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
             res = SwFeatureResult(f.id, "failed", note=f"{type(e).__name__}: {e}"[:300])
         log.info("  %s %s: %s %s", f.id, f.kind, res.status, res.note)
         sw.report.features.append(res)
+        if sw.base and f.id == sw.base["fid"] and res.status == "built":
+            body = (sw.doc.GetBodies2(0, False) or [None])[0]
+            sw.report.origin_ok = body is not None and origin_centered(list(body.GetBodyBox()))
         if progress is not None:
             progress(f, res)
 
@@ -448,6 +569,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         ext = sorted((bb[i + 3] - bb[i]) / sw.k for i in range(3))
         ref = sorted(fmap["bbox"][i + 3] - fmap["bbox"][i] for i in range(3))
         sw.report.bbox_ok = all(abs(a - b) <= 1e-4 * max(1.0, b) for a, b in zip(ext, ref))
+    sw.doc.SketchManager.AddToDB = False   # hand the part back with normal sketch behaviour
     sw.report.sldprt = save_model(sw.doc, f"{plan.part}_ir", out_dir)
     try:  # an isometric picture for review (best effort)
         sw.doc.ShowNamedView2("*Isometric", 7)

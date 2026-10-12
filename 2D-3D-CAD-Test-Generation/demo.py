@@ -231,6 +231,9 @@ def main() -> int:
         sw_ok = rep.ok
         console.print(f"  final volume {'matches' if rep.volume_ok else 'DIFFERS'} · size "
                       f"{'matches' if rep.bbox_ok else 'DIFFERS'} · saved {rep.sldprt}")
+        if rep.convention == "mti":
+            console.print(f"  MTI conventions: origin {'centered' if rep.origin_ok else 'NOT centered'} on the base "
+                          f"body · base sketch on the Top plane · through holes Up To Next")
         pause(args)
 
     # 7 -------------------------------------------------------------------------
