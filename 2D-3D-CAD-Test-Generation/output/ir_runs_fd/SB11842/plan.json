@@ -1,0 +1,167 @@
+{
+  "dims": {
+    "D001": 2.125,
+    "D002": 0.312,
+    "D003": 0.88,
+    "D004": 0.06,
+    "D005": 45.0,
+    "D006": 5.0,
+    "D007": 1.5,
+    "D008": 0.5,
+    "D009": 0.38,
+    "D010": 4.25,
+    "D011": 0.375
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB11842",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "+Z",
+        "side": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the circular blank with the rear face at z=0.",
+        "source_callouts": [
+          "5.00 DIA.",
+          ".88"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D003",
+            "r": "D006 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Make the concentric through bore using the explicit diameter rather than view proportions.",
+        "source_callouts": [
+          "1.50 DIA."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "thru",
+          "d": "D007",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Drill and counterbore the first mounting hole from the front, retaining the dimensioned rear web; drill depth overshoots the rear surface.",
+        "source_callouts": [
+          "DR. & C'BORE AS SHOWN FOR .312 SOC. HD. SCR. 4 HLS.",
+          ".50",
+          "2.125 \u00b1.005 TYP."
+        ],
+        "status": "planned",
+        "justification": "D002 identifies a nominal 5/16 SHCS. The supplied ASME B18.3 SHCS normal-fit chart gives .344 drill and .531 counterbore diameters. The drawing sets counterbore depth to D003-D008, overriding the chart default.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D001",
+        "v": "0",
+        "spec": {
+          "type": "cbore",
+          "d": "0.344",
+          "depth": "D006",
+          "cbore_d": "0.531",
+          "cbore_depth": "D003 - D008",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F004",
+        "rationale": "Repeat the complete counterbored hole at all four cardinal positions.",
+        "source_callouts": [
+          "DR. & C'BORE AS SHOWN FOR .312 SOC. HD. SCR. 4 HLS.",
+          "2.125 \u00b1.005 TYP."
+        ],
+        "status": "planned",
+        "justification": "The front view shows four symmetric holes on the horizontal and vertical centerlines at the typical radius D001.",
+        "kind": "pattern",
+        "seed": "F003",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "90",
+        "skip": []
+      },
+      {
+        "id": "F005",
+        "rationale": "Chamfer the front outside edge identified in the side view; leave the rear outside edge square.",
+        "source_callouts": [
+          ".06 X 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D004",
+        "angle": "D005",
+        "edges": [
+          "edge_between(face(F001,+Z),wall(F001))"
+        ]
+      },
+      {
+        "id": "F006",
+        "rationale": "What size and angle apply to the two depicted bore entrance edge breaks; does the outside chamfer callout also cover them?",
+        "source_callouts": [
+          "1.50 DIA.",
+          ".06 X 45\u00b0"
+        ],
+        "status": "unresolved",
+        "justification": "D004 and D005 are candidate parameters only, not established bore chamfer dimensions. Do not execute this unresolved feature without confirmation.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D004",
+        "angle": "D005",
+        "edges": [
+          "edge_between(face(F001,+Z),wall(F002))",
+          "edge_between(face(F001,-Z),wall(F002))"
+        ]
+      }
+    ],
+    "notes": [
+      "Full-sheet title: SPINDLE BACK-UP (BOX), tool SB 11842, model 250 BX. Dimensions in inches.",
+      "Material: MAT'L.-4150 HT. TR. R/c 40-45.",
+      "General tolerances: two-place \u00b1.02; three-place \u00b1.010; angular \u00b11\u00b0. Mounting radius has explicit \u00b1.005 tolerance.",
+      "STAMP: SB 11842 points to the outside cylindrical surface. Preserve as a manufacturing instruction; text stamping is outside the geometric IR, and character size, depth, and exact location are unspecified.",
+      "D009 and D010 are derived extraction values. Counterbore depth uses D003-D008 and mounting radius uses D001.",
+      "Bore entrance chamfers remain unresolved and must not be executed pending confirmation."
+    ]
+  }
+}

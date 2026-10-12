@@ -1,0 +1,48 @@
+{
+  "part": "SB11780",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -1.24925,
+    -1.24925,
+    0.0,
+    1.223979,
+    1.24925,
+    76.88
+  ],
+  "volume": 361.583595,
+  "volume_mm3": 5925293.514,
+  "features": [
+    "F001",
+    "F002"
+  ],
+  "skipped": {
+    "F003": "unresolved: What exact radius should be used at the four neck roots? The drawing specifies only a maximum.",
+    "F004": "unresolved: Does .06 C/R require a radius or allow a chamfer at the two outer end corners? Confirm treatment before execution."
+  },
+  "holes": {},
+  "edge_points": {},
+  "starts": {
+    "F002": {
+      "axis": "Z",
+      "coord": -0.88,
+      "dir": 1,
+      "thru": false
+    }
+  },
+  "volume_after": {
+    "F001": 371.767071293,
+    "F002": 361.58359511
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -1.24925,
+      -1.24925,
+      0.0,
+      1.24925,
+      1.24925,
+      76.88
+    ]
+  }
+}

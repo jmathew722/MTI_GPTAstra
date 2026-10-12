@@ -1,0 +1,40 @@
+{
+  "part": "116-C",
+  "extraction": "reused output\\ir_runs\\116-C\\116-C_extraction.json",
+  "plan_attempts": 0,
+  "gate1": "OK",
+  "planned": 5,
+  "questions": [
+    "F006: What radius is required on the four rounded outside plan corners? No radius is specified."
+  ],
+  "flagged": [
+    "F002: The plan view shows equal opposite edge margins and a symmetric rectangular mounting-hole layout. Locate the pattern centrally in the block using half the difference between envelope size and center spacing.",
+    "F004: Use extracted lower limits D012 and D013 for the limit-dimensioned counterbore. The full sheet reads .111 above .113 for depth; interpret these as the two limits despite reversed order. The printed .50 drilling depth is full-diameter depth under standard drafting convention (ASME Y14.5); model a flat bottom and omit the cosmetic drill point. Position from the right mounting column and upper mounting row using the printed offsets."
+  ],
+  "reference_step": "output\\ir_runs_fd2\\116-C\\reference.step",
+  "volume": 12.271657,
+  "cq_skipped": {
+    "F006": "unresolved: What radius is required on the four rounded outside plan corners? No radius is specified."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_fd2\\116-C\\116-C_ir.sldprt",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Up To Next; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (drill + counterbore; one feature for F004, F005)",
+    "F005": "built (in F004 (one feature))",
+    "F006": "skipped (unresolved: What radius is required on the four rounded outside plan corners? No radius is specified.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 1/4 (not: F003, F005, F005+cbore)"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.4 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole (close to 3/8 clearance_normal: engineer check)",
+    "[mti_hole_wizard] F004 (+ pattern F005): \u00d80.58 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole"
+  ],
+  "cost_usd": 0.0,
+  "error": ""
+}

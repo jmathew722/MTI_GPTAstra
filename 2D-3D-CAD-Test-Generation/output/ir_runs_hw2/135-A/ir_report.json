@@ -1,0 +1,32 @@
+{
+  "part": "135-A",
+  "extraction": "reused output\\ir_runs\\135-A\\135-A_extraction.json",
+  "plan_attempts": 0,
+  "gate1": "OK",
+  "planned": 3,
+  "questions": [],
+  "flagged": [
+    "F002: D007 identifies the mating .312-18 socket-head screw, corresponding to nominal 5/16-18, not a tapped hole. The supplied SHCS counterbore chart (ASME B18.3 head; normal-fit drill), nominal 0.3125 row, supplies clearance drill 0.344, counterbore diameter 0.531 and counterbore depth 0.312 inch. Verify these standard-derived sizes against the MTI shop standard. Clearance drilling depth D001 exceeds body thickness D006 to ensure breakthrough."
+  ],
+  "reference_step": "output\\ir_runs_hw2\\135-A\\reference.step",
+  "volume": 2.733928,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_hw2\\135-A\\135-A_ir.sldprt",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Hole Wizard 5/16 SHCS counterbore, Up To Next, 1 hole(s))",
+    "F003": "built (Hole Wizard 5/16 SHCS counterbore, Up To Next, 1 hole(s))"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "F002: Hole Wizard 5/16 SHCS counterbore, Up To Next, 1 hole(s)",
+    "F003: Hole Wizard 5/16 SHCS counterbore, Up To Next, 1 hole(s)"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.344 = STANDARD-DERIVED: clearance (normal) for 5/16 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.531 matches the standard counterbore"
+  ],
+  "cost_usd": 0.0,
+  "error": ""
+}

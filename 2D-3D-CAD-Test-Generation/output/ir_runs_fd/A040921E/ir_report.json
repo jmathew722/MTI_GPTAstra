@@ -1,0 +1,36 @@
+{
+  "part": "A040921E",
+  "extraction": "reused output\\astra_2026-10-04\\A040921E\\A040921E_extraction.json",
+  "plan_attempts": 0,
+  "gate1": "OK",
+  "planned": 3,
+  "questions": [
+    "F004: What size and form of edge break should be applied to the remaining sharp outside and slot edges?"
+  ],
+  "flagged": [
+    "F002: The section depicts chamfers at both bore/end intersections; TYP is restricted to those depicted edges, not the outside diameter or slot edges.",
+    "F003: The front view and upper detail show the slot centered on the top vertical centerline. The unhatched upper-left region of the section establishes an end slot terminating .75 from datum A. Its radial extent crosses the entire wall: the cutting rectangle starts inside the bore at y=0 and overshoots the OD to y=D001; only the axial termination is blind."
+  ],
+  "reference_step": "output\\ir_runs_fd\\A040921E\\reference.step",
+  "volume": 68.009796,
+  "cq_skipped": {
+    "F004": "unresolved: What size and form of edge break should be applied to the remaining sharp outside and slot edges?"
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_fd\\A040921E\\A040921E_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (2 edges selected by nearest point)",
+    "F003": "built",
+    "F004": "skipped (unresolved: What size and form of edge break should be applied to the remaining sharp outside and slot edges?)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "sketches fully defined: 0/2 (not: F001, F003)"
+  ],
+  "mti_review": [
+    "[mti_edge_ops_last] F003 (prism) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 0.0,
+  "error": ""
+}

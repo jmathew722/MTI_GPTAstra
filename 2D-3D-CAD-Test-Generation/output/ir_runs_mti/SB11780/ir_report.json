@@ -1,0 +1,35 @@
+{
+  "part": "SB11780",
+  "extraction": "reused output\\astra_2026-10-04\\SB11780\\SB11780_extraction.json",
+  "plan_attempts": 0,
+  "gate1": "OK",
+  "planned": 2,
+  "questions": [
+    "F003: What exact radius should be used at the four neck roots? The drawing specifies only a maximum.",
+    "F004: Does .06 C/R require a radius or allow a chamfer at the two outer end corners? Confirm treatment before execution."
+  ],
+  "flagged": [
+    "F001: The main body and both end collars retain the reference stock diameter shown. The matching necks use the common diameter and TYP width. The right collar width follows from overall length minus shoulder spacing minus left collar width, rather than assumed axial symmetry.",
+    "F002: The end view places the keyway on the +X side, centered about y=0. Longitudinal lines show the keyway traversing the central body and end collars without blind terminations. Extend the cutter beyond both end faces and beyond the OD. Floor coordinate is the controlling opposite-tangent dimension minus nominal stock radius."
+  ],
+  "reference_step": "output\\ir_runs_mti\\SB11780\\reference.step",
+  "volume": 361.583595,
+  "cq_skipped": {
+    "F003": "unresolved: What exact radius should be used at the four neck roots? The drawing specifies only a maximum.",
+    "F004": "unresolved: Does .06 C/R require a radius or allow a chamfer at the two outer end corners? Confirm treatment before execution."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_mti\\SB11780\\SB11780_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built",
+    "F003": "skipped (unresolved: What exact radius should be used at the four neck roots? The drawing specifies only a maximum.)",
+    "F004": "skipped (unresolved: Does .06 C/R require a radius or allow a chamfer at the two outer end corners? Confirm treatment before execution.)"
+  },
+  "conventions": [
+    "origin centered: True"
+  ],
+  "mti_review": [],
+  "cost_usd": 0.0,
+  "error": ""
+}

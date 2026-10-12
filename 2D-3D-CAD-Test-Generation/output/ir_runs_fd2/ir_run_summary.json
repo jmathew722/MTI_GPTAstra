@@ -1,0 +1,384 @@
+[
+  {
+    "part": "A040911E",
+    "extraction": "reused output\\astra_2026-10-04\\A040911E\\A040911E_extraction.json",
+    "plan_attempts": 0,
+    "gate1": "OK",
+    "planned": 7,
+    "questions": [],
+    "flagged": [
+      "F002: Section depicts chamfers at both axial ends of the outside diameter and bore, establishing the scope of TYP.",
+      "F003: Supplied ASME B18.3 normal-fit SHCS chart specifies .281 drill and .438 counterbore diameter for the D008 nominal .250 screw. Printed D007 controls counterbore depth.",
+      "F004: Supplied ASME B18.3 normal-fit SHCS chart specifies .281 drill and .438 counterbore diameter for the D008 nominal .250 screw. Retain printed counterbore depth D007.",
+      "F005: Depicted left-right symmetry establishes right x=+D005. Supplied ASME B18.3 normal-fit SHCS chart specifies .281 drill and .438 counterbore diameter for the D008 nominal .250 screw. Use printed D007 depth rather than chart depth.",
+      "F006: Full sheet explicitly gives .375-16 TAP 1.00 DP.; the 1.00 depth is missing from extracted D-IDs. Standard 3/8-16 UNC tap drill is 5/16 inch (.3125). Model cosmetic threads at the specified nominal blind depth without inventing extra drilling allowance.",
+      "F007: The front view establishes mirror symmetry, giving right x=+D006. Full-sheet callout supplies .375-16 TAP and 1.00 DP., omitted from extraction. Standard 3/8-16 UNC tap drill is .3125 inch; threads are cosmetic."
+    ],
+    "reference_step": "output\\ir_runs_fd2\\A040911E\\reference.step",
+    "volume": 25.22959,
+    "cq_skipped": {},
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_fd2\\A040911E\\A040911E_ir.sldprt",
+    "sw_features": {
+      "F001": "built",
+      "F002": "built (4 edges selected by nearest point)",
+      "F003": "built (Hole Wizard 1/4 SHCS counterbore, Up To Next, 3 hole(s) on a construction circle; one feature for F003, F004, F005)",
+      "F004": "built (in F003 (one feature))",
+      "F005": "built (in F003 (one feature))",
+      "F006": "built (Hole Wizard 3/8-16 tapped, cosmetic thread, Blind + drill point, 2 hole(s); one feature for F006, F007)",
+      "F007": "built (in F006 (one feature))"
+    },
+    "conventions": [
+      "origin centered: True",
+      "F005: Hole Wizard 1/4 SHCS counterbore, Up To Next, 3 hole(s) on a construction circle",
+      "F007: Hole Wizard 3/8-16 tapped, cosmetic thread, Blind + drill point, 2 hole(s)",
+      "sketches fully defined: 2/3 (not: F001)"
+    ],
+    "mti_review": [
+      "[mti_hole_wizard] F003: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.438 matches the standard counterbore",
+      "[mti_hole_wizard] F004: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.438 matches the standard counterbore",
+      "[mti_hole_wizard] F005: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.438 matches the standard counterbore",
+      "[mti_hole_wizard] F006: \u00d80.3125 = STANDARD-DERIVED: tap drill for 3/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+      "[mti_hole_wizard] F007: \u00d80.3125 = STANDARD-DERIVED: tap drill for 3/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+      "[mti_hole_grouping] F003, F004, F005: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "[mti_hole_grouping] F006, F007: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "[mti_edge_ops_last] F003 (hole) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree"
+    ],
+    "cost_usd": 0.0,
+    "error": ""
+  },
+  {
+    "part": "A040921E",
+    "extraction": "reused output\\astra_2026-10-04\\A040921E\\A040921E_extraction.json",
+    "plan_attempts": 0,
+    "gate1": "OK",
+    "planned": 3,
+    "questions": [
+      "F004: What size and form of edge break should be applied to the remaining sharp outside and slot edges?"
+    ],
+    "flagged": [
+      "F002: The section depicts chamfers at both bore/end intersections; TYP is restricted to those depicted edges, not the outside diameter or slot edges.",
+      "F003: The front view and upper detail show the slot centered on the top vertical centerline. The unhatched upper-left region of the section establishes an end slot terminating .75 from datum A. Its radial extent crosses the entire wall: the cutting rectangle starts inside the bore at y=0 and overshoots the OD to y=D001; only the axial termination is blind."
+    ],
+    "reference_step": "output\\ir_runs_fd2\\A040921E\\reference.step",
+    "volume": 68.009796,
+    "cq_skipped": {
+      "F004": "unresolved: What size and form of edge break should be applied to the remaining sharp outside and slot edges?"
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_fd2\\A040921E\\A040921E_ir.sldprt",
+    "sw_features": {
+      "F001": "built",
+      "F002": "built (2 edges selected by nearest point)",
+      "F003": "built",
+      "F004": "skipped (unresolved: What size and form of edge break should be applied to the remaining sharp outside and slot edges?)"
+    },
+    "conventions": [
+      "origin centered: True",
+      "sketches fully defined: 0/2 (not: F001, F003)"
+    ],
+    "mti_review": [
+      "[mti_edge_ops_last] F003 (prism) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree"
+    ],
+    "cost_usd": 0.0,
+    "error": ""
+  },
+  {
+    "part": "SB11033",
+    "extraction": "reused output\\astra_2026-10-04\\SB11033\\SB11033_extraction.json",
+    "plan_attempts": 0,
+    "gate1": "OK",
+    "planned": 6,
+    "questions": [
+      "F007: What nominal pilot-root radius should be modeled? The drawing specifies only a maximum."
+    ],
+    "flagged": [
+      "F006: The front view explicitly shows four cardinal holes equally spaced about the axis. D002 and D003 are equal controlling radial offsets; D004 is reference only."
+    ],
+    "reference_step": "output\\ir_runs_fd2\\SB11033\\reference.step",
+    "volume": 2.219108,
+    "cq_skipped": {
+      "F007": "unresolved: What nominal pilot-root radius should be modeled? The drawing specifies only a maximum."
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_fd2\\SB11033\\SB11033_ir.sldprt",
+    "sw_features": {
+      "F001": "built",
+      "F002": "built (1 edges selected by nearest point)",
+      "F003": "built (3 edges selected by nearest point)",
+      "F004": "built (1 edges selected by nearest point)",
+      "F005": "built (Up To Next; one feature for F005, F006)",
+      "F006": "built (in F005 (one feature))",
+      "F007": "skipped (unresolved: What nominal pilot-root radius should be modeled? The drawing specifies only a maximum.)"
+    },
+    "conventions": [
+      "origin centered: True",
+      "sketches fully defined: 0/2 (not: F001, F006)"
+    ],
+    "mti_review": [
+      "[mti_hole_wizard] F005 (+ pattern F006): \u00d80.218 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole (close to #10 clearance_normal: engineer check)",
+      "[mti_edge_ops_last] F005 (hole) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree"
+    ],
+    "cost_usd": 0.0,
+    "error": ""
+  },
+  {
+    "part": "SB11780",
+    "extraction": "reused output\\astra_2026-10-04\\SB11780\\SB11780_extraction.json",
+    "plan_attempts": 0,
+    "gate1": "OK",
+    "planned": 2,
+    "questions": [
+      "F003: What exact radius should be used at the four neck roots? The drawing specifies only a maximum.",
+      "F004: Does .06 C/R require a radius or allow a chamfer at the two outer end corners? Confirm treatment before execution."
+    ],
+    "flagged": [
+      "F001: The main body and both end collars retain the reference stock diameter shown. The matching necks use the common diameter and TYP width. The right collar width follows from overall length minus shoulder spacing minus left collar width, rather than assumed axial symmetry.",
+      "F002: The end view places the keyway on the +X side, centered about y=0. Longitudinal lines show the keyway traversing the central body and end collars without blind terminations. Extend the cutter beyond both end faces and beyond the OD. Floor coordinate is the controlling opposite-tangent dimension minus nominal stock radius."
+    ],
+    "reference_step": "output\\ir_runs_fd2\\SB11780\\reference.step",
+    "volume": 361.583595,
+    "cq_skipped": {
+      "F003": "unresolved: What exact radius should be used at the four neck roots? The drawing specifies only a maximum.",
+      "F004": "unresolved: Does .06 C/R require a radius or allow a chamfer at the two outer end corners? Confirm treatment before execution."
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_fd2\\SB11780\\SB11780_ir.sldprt",
+    "sw_features": {
+      "F001": "built",
+      "F002": "built",
+      "F003": "skipped (unresolved: What exact radius should be used at the four neck roots? The drawing specifies only a maximum.)",
+      "F004": "skipped (unresolved: Does .06 C/R require a radius or allow a chamfer at the two outer end corners? Confirm treatment before execution.)"
+    },
+    "conventions": [
+      "origin centered: True",
+      "sketches fully defined: 1/2 (not: F001)"
+    ],
+    "mti_review": [],
+    "cost_usd": 0.0,
+    "error": ""
+  },
+  {
+    "part": "SB11842",
+    "extraction": "reused output\\astra_2026-10-04\\SB11842\\SB11842_extraction.json",
+    "plan_attempts": 0,
+    "gate1": "OK",
+    "planned": 5,
+    "questions": [
+      "F006: What size and angle apply to the two depicted bore entrance edge breaks; does the outside chamfer callout also cover them?"
+    ],
+    "flagged": [
+      "F003: D002 identifies a nominal 5/16 SHCS. The supplied ASME B18.3 SHCS normal-fit chart gives .344 drill and .531 counterbore diameters. The drawing sets counterbore depth to D003-D008, overriding the chart default.",
+      "F004: The front view shows four symmetric holes on the horizontal and vertical centerlines at the typical radius D001."
+    ],
+    "reference_step": "output\\ir_runs_fd2\\SB11842\\reference.step",
+    "volume": 15.201183,
+    "cq_skipped": {
+      "F005": "failed: StdFail_NotDone: BRep_API: command not done",
+      "F006": "unresolved: What size and angle apply to the two depicted bore entrance edge breaks; does the outside chamfer callout also cover them?"
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_fd2\\SB11842\\SB11842_ir.sldprt",
+    "sw_features": {
+      "F001": "built",
+      "F002": "built (Up To Next)",
+      "F003": "built (Hole Wizard 5/16 SHCS counterbore, Up To Next, 4 hole(s) on a construction circle; one feature for F003, F004)",
+      "F004": "built (in F003 (one feature))",
+      "F005": "skipped (failed: StdFail_NotDone: BRep_API: command not done)",
+      "F006": "skipped (unresolved: What size and angle apply to the two depicted bore entrance edge breaks; does the outside chamfer callout also cover them?)"
+    },
+    "conventions": [
+      "origin centered: True",
+      "F004: Hole Wizard 5/16 SHCS counterbore, Up To Next, 4 hole(s) on a construction circle",
+      "sketches fully defined: 0/3 (not: F001, F002, F004)"
+    ],
+    "mti_review": [
+      "[mti_hole_wizard] F002: \u00d81.5 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+      "[mti_hole_wizard] F003 (+ pattern F004): \u00d80.344 = STANDARD-DERIVED: clearance (normal) for 5/16 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.531 matches the standard counterbore"
+    ],
+    "cost_usd": 0.0,
+    "error": ""
+  },
+  {
+    "part": "115-C",
+    "extraction": "reused output\\ir_runs\\115-C\\115-C_extraction.json",
+    "plan_attempts": 0,
+    "gate1": "OK",
+    "planned": 6,
+    "questions": [
+      "F007: What radius is required for the four exterior corners rounded in the broad-face view? No radius is dimensioned."
+    ],
+    "flagged": [
+      "F004: Per ASME Y14.5 drafting convention, the printed blind drilling depth is to full diameter. Model a flat bottom at D015 from the ground face; the drawn drill point is cosmetic.",
+      "F006: ASME Y14.5 blind-drill depth convention: D019 is the full-diameter drilling depth, modeled flat-bottomed. The 3/8-18 NPTF thread is cosmetic only; D019 does not specify thread engagement. Right-face global sketch coordinates are (y,z)."
+    ],
+    "reference_step": "output\\ir_runs_fd2\\115-C\\reference.step",
+    "volume": 11.50794,
+    "cq_skipped": {
+      "F007": "unresolved: What radius is required for the four exterior corners rounded in the broad-face view? No radius is dimensioned."
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_fd2\\115-C\\115C_ir.sldprt",
+    "sw_features": {
+      "F001": "built (Mid Plane)",
+      "F002": "built (Hole Wizard 3/8 clearance, Up To Next, 4 hole(s) on a construction rectangle; one feature for F002, F003)",
+      "F003": "built (in F002 (one feature))",
+      "F004": "built (drill + counterbore; one feature for F004, F005)",
+      "F005": "built (in F004 (one feature))",
+      "F006": "built",
+      "F007": "skipped (unresolved: What radius is required for the four exterior corners rounded in the broad-face view? No radius is dimensioned.)"
+    },
+    "conventions": [
+      "origin centered: True",
+      "F001: base sketch on the Top plane, Mid Plane extrude",
+      "F003: Hole Wizard 3/8 clearance, Up To Next, 4 hole(s) on a construction rectangle",
+      "sketches fully defined: 4/5 (not: F006)"
+    ],
+    "mti_review": [
+      "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.40625 = STANDARD-DERIVED: clearance (normal) for 3/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+      "[mti_hole_wizard] F004 (+ pattern F005): \u00d80.578125 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+      "[mti_hole_wizard] F006: \u00d80.578125 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole"
+    ],
+    "cost_usd": 0.0,
+    "error": ""
+  },
+  {
+    "part": "116-C",
+    "extraction": "reused output\\ir_runs\\116-C\\116-C_extraction.json",
+    "plan_attempts": 0,
+    "gate1": "OK",
+    "planned": 5,
+    "questions": [
+      "F006: What radius is required on the four rounded outside plan corners? No radius is specified."
+    ],
+    "flagged": [
+      "F002: The plan view shows equal opposite edge margins and a symmetric rectangular mounting-hole layout. Locate the pattern centrally in the block using half the difference between envelope size and center spacing.",
+      "F004: Use extracted lower limits D012 and D013 for the limit-dimensioned counterbore. The full sheet reads .111 above .113 for depth; interpret these as the two limits despite reversed order. The printed .50 drilling depth is full-diameter depth under standard drafting convention (ASME Y14.5); model a flat bottom and omit the cosmetic drill point. Position from the right mounting column and upper mounting row using the printed offsets."
+    ],
+    "reference_step": "output\\ir_runs_fd2\\116-C\\reference.step",
+    "volume": 12.271657,
+    "cq_skipped": {
+      "F006": "unresolved: What radius is required on the four rounded outside plan corners? No radius is specified."
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_fd2\\116-C\\116-C_ir.sldprt",
+    "sw_features": {
+      "F001": "built (Mid Plane)",
+      "F002": "built (Up To Next; one feature for F002, F003)",
+      "F003": "built (in F002 (one feature))",
+      "F004": "built (drill + counterbore; one feature for F004, F005)",
+      "F005": "built (in F004 (one feature))",
+      "F006": "skipped (unresolved: What radius is required on the four rounded outside plan corners? No radius is specified.)"
+    },
+    "conventions": [
+      "origin centered: True",
+      "F001: base sketch on the Top plane, Mid Plane extrude",
+      "sketches fully defined: 1/4 (not: F003, F005, F005+cbore)"
+    ],
+    "mti_review": [
+      "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.4 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole (close to 3/8 clearance_normal: engineer check)",
+      "[mti_hole_wizard] F004 (+ pattern F005): \u00d80.58 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole"
+    ],
+    "cost_usd": 0.0,
+    "error": ""
+  },
+  {
+    "part": "117-C",
+    "extraction": "reused output\\ir_runs\\117-C\\117-C_extraction.json",
+    "plan_attempts": 0,
+    "gate1": "OK",
+    "planned": 13,
+    "questions": [
+      "F014: What radius is required on the four visibly rounded plate-outline corners? No radius is dimensioned."
+    ],
+    "flagged": [
+      "F004: ASME Y14.5 blind-drilling convention: .50 depth is the full-diameter depth from the front face. Model the exact blind depth with a flat bottom; the depicted drill point is cosmetic.",
+      "F006: ASME Y14.5 blind-drilling convention: .50 is the full-diameter depth measured from the rear face, as depicted in the bottom view, not additional depth below the counterbore. Use an exact flat-bottom blind hole; drill-point geometry is cosmetic.",
+      "F010: ASME Y14.5 full-diameter blind-hole depth convention; model a flat-bottom hole at the printed depth.",
+      "F011: ASME Y14.5 full-diameter blind-hole depth convention; model a flat-bottom hole at the printed depth.",
+      "F012: Model the printed nominal reamed diameter and full-diameter blind depth. Numeric press-fit limits are not supplied and require manufacturing specification; no interference value is invented.",
+      "F013: Model the printed nominal reamed diameter and full-diameter blind depth. Numeric press-fit limits are not supplied and require manufacturing specification; no interference value is invented."
+    ],
+    "reference_step": "output\\ir_runs_fd2\\117-C\\reference.step",
+    "volume": 14.047924,
+    "cq_skipped": {
+      "F014": "unresolved: What radius is required on the four visibly rounded plate-outline corners? No radius is dimensioned.",
+      "F015": "unsupported: Left rear installed dowel is a separate supplied component; IR v2 has no separate-body/component operation and must not fuse it into the plate.",
+      "F016": "unsupported: Upper rear installed dowel is a second separate component, not an integral plate boss."
+    },
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_fd2\\117-C\\117-C_ir.sldprt",
+    "sw_features": {
+      "F001": "built (Mid Plane)",
+      "F002": "built (Hole Wizard 5/8 clearance, Up To Next, 4 hole(s) on a construction rectangle; one feature for F002, F003)",
+      "F003": "built (in F002 (one feature))",
+      "F004": "built (one feature for F004, F005)",
+      "F005": "built (in F004 (one feature))",
+      "F006": "built (one feature for F006, F007)",
+      "F007": "built (in F006 (one feature))",
+      "F008": "built (one feature for F008, F009)",
+      "F009": "built (in F008 (one feature))",
+      "F010": "built (Hole Wizard 1/4 clearance, Blind + drill point, 2 hole(s); one feature for F010, F011)",
+      "F011": "built (in F010 (one feature))",
+      "F012": "built (one feature for F012, F013)",
+      "F013": "built (in F012 (one feature))",
+      "F014": "skipped (unresolved: What radius is required on the four visibly rounded plate-outline corners? No radius is dimensioned.)",
+      "F015": "skipped (unsupported: Left rear installed dowel is a separate supplied component; IR v2 has no separate-body/component operation and must not fuse it into the plate.)",
+      "F016": "skipped (unsupported: Upper rear installed dowel is a second separate component, not an integral plate boss.)"
+    },
+    "conventions": [
+      "origin centered: True",
+      "F001: base sketch on the Top plane, Mid Plane extrude",
+      "F003: Hole Wizard 5/8 clearance, Up To Next, 4 hole(s) on a construction rectangle",
+      "F009: no start face under the hole; plain cut",
+      "F011: Hole Wizard 1/4 clearance, Blind + drill point, 2 hole(s)",
+      "sketches fully defined: 2/7 (not: F005, F007, F009, F011, F013)"
+    ],
+    "mti_review": [
+      "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.65625 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); also matches 3/4 tap_drill",
+      "[mti_hole_wizard] F004 (+ pattern F005): \u00d80.90625 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+      "[mti_hole_wizard] F006 (+ pattern F007): \u00d80.90625 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+      "[mti_hole_wizard] F008 (+ pattern F009): \u00d81.311 = STANDARD-DERIVED: clearance (normal) for 1-1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+      "[mti_hole_wizard] F010: \u00d80.28125 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+      "[mti_hole_wizard] F011: \u00d80.28125 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+      "[mti_hole_wizard] F012: \u00d80.25 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+      "[mti_hole_wizard] F013: \u00d80.25 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+      "[mti_hole_grouping] F010, F011: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "[mti_hole_grouping] F012, F013: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points"
+    ],
+    "cost_usd": 0.0,
+    "error": ""
+  },
+  {
+    "part": "135-A",
+    "extraction": "reused output\\ir_runs\\135-A\\135-A_extraction.json",
+    "plan_attempts": 0,
+    "gate1": "OK",
+    "planned": 3,
+    "questions": [],
+    "flagged": [
+      "F002: D007 identifies the mating .312-18 socket-head screw, corresponding to nominal 5/16-18, not a tapped hole. The supplied SHCS counterbore chart (ASME B18.3 head; normal-fit drill), nominal 0.3125 row, supplies clearance drill 0.344, counterbore diameter 0.531 and counterbore depth 0.312 inch. Verify these standard-derived sizes against the MTI shop standard. Clearance drilling depth D001 exceeds body thickness D006 to ensure breakthrough."
+    ],
+    "reference_step": "output\\ir_runs_fd2\\135-A\\reference.step",
+    "volume": 2.733928,
+    "cq_skipped": {},
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs_fd2\\135-A\\135-A_ir.sldprt",
+    "sw_features": {
+      "F001": "built (Mid Plane)",
+      "F002": "built (Hole Wizard 5/16 SHCS counterbore, Up To Next, 2 hole(s) on a construction line; one feature for F002, F003)",
+      "F003": "built (in F002 (one feature))"
+    },
+    "conventions": [
+      "origin centered: True",
+      "F001: base sketch on the Top plane, Mid Plane extrude",
+      "F003: Hole Wizard 5/16 SHCS counterbore, Up To Next, 2 hole(s) on a construction line",
+      "sketches fully defined: 1/2 (not: F003)"
+    ],
+    "mti_review": [
+      "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.344 = STANDARD-DERIVED: clearance (normal) for 5/16 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.531 matches the standard counterbore"
+    ],
+    "cost_usd": 0.0,
+    "error": ""
+  }
+]

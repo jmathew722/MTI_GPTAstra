@@ -1,0 +1,38 @@
+[
+  {
+    "part": "A040911E",
+    "gate1": "OK",
+    "unresolved": [],
+    "mti_review": [
+      "[mti_hole_wizard] F002: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.438 matches the standard counterbore",
+      "[mti_hole_wizard] F003: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.438 matches the standard counterbore",
+      "[mti_hole_wizard] F004: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.438 matches the standard counterbore",
+      "[mti_hole_wizard] F005: \u00d80.3125 = STANDARD-DERIVED: tap drill for 3/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+      "[mti_hole_wizard] F006: \u00d80.3125 = STANDARD-DERIVED: tap drill for 3/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+      "[mti_hole_grouping] F002, F003, F004: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "[mti_hole_grouping] F005, F006: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points"
+    ],
+    "reference_step": "output\\p2b_golden\\A040911E\\reference.step",
+    "volume": 25.22959,
+    "cq_skipped": {},
+    "sw_ok": true,
+    "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\p2b_golden\\A040911E\\A040911E_ir.SLDPRT",
+    "sw_bbox_ok": true,
+    "sw_volume_ok": true,
+    "convention": "mti",
+    "origin_centered": true,
+    "conventions": [
+      "F004: Hole Wizard 1/4 SHCS counterbore, Up To Next, 3 hole(s) on a construction circle",
+      "F006: Hole Wizard 3/8-16 tapped, cosmetic thread, Blind + drill point, 2 hole(s)"
+    ],
+    "sw_features": {
+      "F001": "built",
+      "F002": "built (Hole Wizard 1/4 SHCS counterbore, Up To Next, 3 hole(s) on a construction circle; one feature for F002, F003, F004)",
+      "F003": "built (in F002 (one feature))",
+      "F004": "built (in F002 (one feature))",
+      "F005": "built (Hole Wizard 3/8-16 tapped, cosmetic thread, Blind + drill point, 2 hole(s); one feature for F005, F006)",
+      "F006": "built (in F005 (one feature))",
+      "F007": "built (4 edges selected by nearest point)"
+    }
+  }
+]

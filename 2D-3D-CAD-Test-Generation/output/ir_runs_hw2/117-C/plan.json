@@ -1,0 +1,455 @@
+{
+  "dims": {
+    "D001": 4.44,
+    "D002": 0.625,
+    "D003": 3.19,
+    "D004": 0.88,
+    "D005": 1.81,
+    "D006": 0.34,
+    "D007": 1.59,
+    "D008": 3.81,
+    "D009": 0.625,
+    "D010": 1.28,
+    "D011": 2.56,
+    "D012": 1.59,
+    "D013": 0.34,
+    "D014": 1.81,
+    "D015": 0.88,
+    "D016": 0.65625,
+    "D017": 0.28125,
+    "D018": 0.31,
+    "D019": 1.0,
+    "D020": 0.25,
+    "D021": 0.25,
+    "D022": 0.5,
+    "D023": 0.25,
+    "D024": 0.31,
+    "D025": 0.90625,
+    "D026": 0.5,
+    "D027": 0.90625,
+    "D028": 0.5,
+    "D029": 1.311,
+    "D030": 0.111,
+    "D031": 0.625,
+    "D032": 0.625,
+    "D033": 1.28,
+    "D034": 0.38,
+    "D035": 3.815,
+    "D036": 3.185,
+    "D037": 1.905,
+    "D038": 1.505,
+    "D039": 3.315,
+    "D040": 1.125,
+    "D041": 2.935,
+    "D042": 0.285,
+    "D043": 2.215,
+    "D044": 4.155,
+    "D045": 2.225,
+    "D046": 0.25,
+    "D047": 0.06,
+    "D048": 0.5
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "117-C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X",
+        "bottom": "-Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "1018 plate envelope; origin is the lower-left front corner, with thickness extending toward the rear.",
+        "source_callouts": [
+          "4.44",
+          "3.81",
+          "1.00",
+          "1018"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D008",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D019",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Lower-left through mounting hole.",
+        "source_callouts": [
+          "21/32 DR. THRU. (4) HL'S.",
+          ".625",
+          "2.560 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D002",
+        "v": "D008 - D009 - D011",
+        "spec": {
+          "type": "thru",
+          "d": "D016",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Complete the rectangular four-hole mounting array.",
+        "source_callouts": [
+          "21/32 DR. THRU. (4) HL'S.",
+          "3.190 \u00b1.005",
+          "2.560 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D003",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D011",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Left front port at the printed offset from the right mounting column.",
+        "source_callouts": [
+          "29/32 DR. .50 DP. (2) PL'S.",
+          "1.810",
+          ".880",
+          "1.280"
+        ],
+        "status": "planned",
+        "justification": "ASME Y14.5 blind-drilling convention: .50 depth is the full-diameter depth from the front face. Model the exact blind depth with a flat bottom; the depicted drill point is cosmetic.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D002 + D003 - D015 - D014",
+        "v": "D008 - D009 - D010",
+        "spec": {
+          "type": "blind",
+          "d": "D025",
+          "depth": "D026",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Second front port at the specified horizontal spacing.",
+        "source_callouts": [
+          "29/32 DR. .50 DP. (2) PL'S.",
+          "1.810"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F004",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D014",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F006",
+        "rationale": "Left rear port, horizontally offset from its mating front drilling.",
+        "source_callouts": [
+          "29/32 DR. .50 DP. &",
+          "1.311 +.003/-.000 DIA. .111 +.002/-.000 DP.",
+          "(2) PL'S.",
+          ".880",
+          "1.810"
+        ],
+        "status": "planned",
+        "justification": "ASME Y14.5 blind-drilling convention: .50 is the full-diameter depth measured from the rear face, as depicted in the bottom view, not additional depth below the counterbore. Use an exact flat-bottom blind hole; drill-point geometry is cosmetic.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002 + D004",
+        "v": "D008 - D009 - D010",
+        "spec": {
+          "type": "blind",
+          "d": "D027",
+          "depth": "D028",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Second rear drilling at the specified rear-port spacing.",
+        "source_callouts": [
+          "29/32 DR. .50 DP. &",
+          "(2) PL'S.",
+          "1.810"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F006",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D005",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F008",
+        "rationale": "Shallow rear counterbore concentric with the left rear port; separate cut preserves the independently specified blind drill depth.",
+        "source_callouts": [
+          "1.311 +.003/-.000 DIA. .111 +.002/-.000 DP.",
+          "(2) PL'S."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002 + D004",
+        "v": "D008 - D009 - D010",
+        "spec": {
+          "type": "blind",
+          "d": "D029",
+          "depth": "D030",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Second shallow rear counterbore, concentric with the right rear drilling.",
+        "source_callouts": [
+          "1.311 +.003/-.000 DIA. .111 +.002/-.000 DP.",
+          "(2) PL'S.",
+          "1.810"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F008",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D005",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F010",
+        "rationale": "Right mid-height front locating hole; .340 is measured from the mounting column, not the plate edge.",
+        "source_callouts": [
+          "9/32 DR. .31 DP. (2) HL'S.",
+          ".340 \u00b1.005",
+          "1.280"
+        ],
+        "status": "planned",
+        "justification": "ASME Y14.5 full-diameter blind-hole depth convention; model a flat-bottom hole at the printed depth.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D002 + D003 + D013",
+        "v": "D008 - D009 - D010",
+        "spec": {
+          "type": "blind",
+          "d": "D017",
+          "depth": "D018",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F011",
+        "rationale": "Lower front locating hole on the lower mounting row; retain the printed 1.590 offset rather than snapping to the plate centerline.",
+        "source_callouts": [
+          "9/32 DR. .31 DP. (2) HL'S.",
+          "1.590"
+        ],
+        "status": "planned",
+        "justification": "ASME Y14.5 full-diameter blind-hole depth convention; model a flat-bottom hole at the printed depth.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D002 + D003 - D012",
+        "v": "D008 - D009 - D011",
+        "spec": {
+          "type": "blind",
+          "d": "D017",
+          "depth": "D018",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F012",
+        "rationale": "Left mid-height rear reamed dowel seat, nominal diameter; .340 is measured leftward from the mounting column.",
+        "source_callouts": [
+          "1/4 RM. P.F. .31 DP. (2) HL'S.",
+          ".340 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Model the printed nominal reamed diameter and full-diameter blind depth. Numeric press-fit limits are not supplied and require manufacturing specification; no interference value is invented.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002 - D006",
+        "v": "D008 - D009 - D010",
+        "spec": {
+          "type": "blind",
+          "d": "D023",
+          "depth": "D024",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F013",
+        "rationale": "Upper rear reamed dowel seat on the upper mounting row, retaining the exact printed 1.590 horizontal offset.",
+        "source_callouts": [
+          "1/4 RM. P.F. .31 DP. (2) HL'S.",
+          "1.590"
+        ],
+        "status": "planned",
+        "justification": "Model the printed nominal reamed diameter and full-diameter blind depth. Numeric press-fit limits are not supplied and require manufacturing specification; no interference value is invented.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002 + D007",
+        "v": "D008 - D009",
+        "spec": {
+          "type": "blind",
+          "d": "D023",
+          "depth": "D024",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F014",
+        "rationale": "What radius is required on the four visibly rounded plate-outline corners? No radius is dimensioned.",
+        "source_callouts": [],
+        "status": "unresolved",
+        "justification": "Size 0 is a non-executable placeholder for the undimensioned outline radius, not a proposed manufactured size.",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "0",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-X),face(F001,-Y))",
+          "edge_between(face(F001,-X),face(F001,+Y))",
+          "edge_between(face(F001,+X),face(F001,-Y))",
+          "edge_between(face(F001,+X),face(F001,+Y))"
+        ]
+      },
+      {
+        "id": "F015",
+        "rationale": "Left rear installed dowel is a separate supplied component; IR v2 has no separate-body/component operation and must not fuse it into the plate.",
+        "source_callouts": [
+          "1/4 DIA. X .50 LG. DWL. (2) REQ'D.",
+          ".25 TYP."
+        ],
+        "status": "unsupported",
+        "justification": "The right and bottom views show rearward projection of .25; the component starts .50 minus .25 inside the rear plate face. The specified cylinder is recorded here only as unsupported component geometry.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "D019 - (D022 - D020)",
+        "profile": {
+          "shape": "circle",
+          "d": "D021",
+          "u": "D002 - D006",
+          "v": "D008 - D009 - D010"
+        },
+        "depth": "D022",
+        "op": "add"
+      },
+      {
+        "id": "F016",
+        "rationale": "Upper rear installed dowel is a second separate component, not an integral plate boss.",
+        "source_callouts": [
+          "1/4 DIA. X .50 LG. DWL. (2) REQ'D.",
+          ".25 TYP."
+        ],
+        "status": "unsupported",
+        "justification": "The right view establishes the rearward .25 typical projection. Separate-body insertion is outside IR v2; no unprinted pin-end chamfer is modeled.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "D019 - (D022 - D020)",
+        "profile": {
+          "shape": "circle",
+          "d": "D021",
+          "u": "D002 + D007",
+          "v": "D008 - D009"
+        },
+        "depth": "D022",
+        "op": "add"
+      }
+    ],
+    "notes": [
+      "Build the plate only from planned features; the unresolved outline radius prevents completion of an exact finished outline. Separate dowel components require assembly-capable modeling outside this IR.",
+      "All face sketches use the same global x,y coordinates, including rear-face holes; do not mirror the rear coordinates.",
+      "Front and rear ports are offset horizontally. They are not concentric through counterbores. Their specified full-diameter blind depths meet at the plate midplane; preserve those exact depths rather than extending either blind hole.",
+      "The two .340 dimensions reference adjacent mounting-hole columns. Upper rear and lower front small-hole axes intentionally retain their different nominal x coordinates.",
+      "63 surface-texture marks apply to both broad faces; surface finish is a manufacturing requirement, not modeled geometry.",
+      "Verify the faint general two-place tolerance before manufacturing. Fractional-size tolerance and numeric dowel press-fit limits are not specified; extraction default zero tolerances are not zero permissible variation.",
+      "Drawing title: CHECK VALVE ADAPTOR (FOR C5G815), model 90 B. Material: 1018."
+    ]
+  }
+}
