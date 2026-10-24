@@ -32,12 +32,13 @@ def convert(dwg: Path, out_dxf: Path, cmd: Optional[list[str]] = None,
     out_dxf.parent.mkdir(parents=True, exist_ok=True)
     # Never leave a stale DXF behind if this conversion fails.
     out_dxf.unlink(missing_ok=True)
-    with tempfile.TemporaryDirectory() as tin, tempfile.TemporaryDirectory() as tout:
-        staged = Path(tin) / ("drawing" + dwg.suffix.lower())
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tin, \
+            tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tout:
+        staged = Path(tin) / "drawing.DWG"
         shutil.copy2(dwg, staged)
         try:
             r = subprocess.run(
-                list(cmd) + [tin, tout, OUT_VERSION, "DXF", "0", "1"],
+                list(cmd) + [tin, tout, OUT_VERSION, "DXF", "0", "1", "*.DWG"],
                 capture_output=True, text=True, encoding="utf-8",
                 errors="replace", timeout=timeout_s)
         except subprocess.TimeoutExpired as e:
@@ -45,7 +46,8 @@ def convert(dwg: Path, out_dxf: Path, cmd: Optional[list[str]] = None,
         produced = sorted(Path(tout).glob("*.dxf"))
         if not produced:
             raise OdaError(f"ODA converter wrote no DXF for {dwg} "
-                           f"(exit {r.returncode}): {(r.stderr or '')[-300:]}")
+                           f"(exit {r.returncode}): stdout: {(r.stdout or '')[-300:]!r} "
+                           f"stderr: {(r.stderr or '')[-300:]!r}")
         if len(produced) > 1:
             raise OdaError(f"ODA converter wrote more than one DXF for {dwg}: "
                            f"{[p.name for p in produced]}")

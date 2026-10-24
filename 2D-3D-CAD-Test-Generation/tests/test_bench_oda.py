@@ -84,3 +84,30 @@ def test_non_utf8_stderr(tmp_path):
     body = "import sys; sys.stderr.buffer.write(b'\xff\xfe bad')\n"
     with pytest.raises(OdaError, match="no DXF"):
         convert(_dwg(tmp_path), tmp_path / "o.dxf", cmd=_script(tmp_path, "e.py", body))
+
+
+def test_argument_list(tmp_path):
+    log = tmp_path / "argv.txt"
+    body = (
+        "import sys, pathlib\n"
+        f"pathlib.Path(r'{log}').write_text('|'.join(sys.argv[3:8]))\n"
+        "(pathlib.Path(sys.argv[2]) / 'd.dxf').write_text('x')\n"
+    )
+    convert(_dwg(tmp_path), tmp_path / "o.dxf", cmd=_script(tmp_path, "a.py", body))
+    assert log.read_text() == "ACAD2018|DXF|0|1|*.DWG"
+
+
+def test_filter_is_seventh_arg(tmp_path):
+    log = tmp_path / "argv7.txt"
+    body = ("import sys, pathlib\n"
+            f"pathlib.Path(r'{log}').write_text(sys.argv[7] + '|' + "
+            "','.join(p.name for p in pathlib.Path(sys.argv[1]).iterdir()))\n"
+            "(pathlib.Path(sys.argv[2]) / 'd.dxf').write_text('x')\n")
+    convert(_dwg(tmp_path), tmp_path / "o.dxf", cmd=_script(tmp_path, "a7.py", body))
+    assert log.read_text() == "*.DWG|drawing.DWG"
+
+
+def test_stdout_in_error(tmp_path):
+    body = "print('STDOUT-MARKER')\n"
+    with pytest.raises(OdaError, match="STDOUT-MARKER"):
+        convert(_dwg(tmp_path), tmp_path / "o.dxf", cmd=_script(tmp_path, "so.py", body))
