@@ -182,13 +182,26 @@ def test_check_is_repeatable_and_keeps_resolutions(root, fakes):
     assert prep.main(["check", "--parts", P2]) == 0
     k = _load(root, P2)
     k.flags[0].resolution = "accepted: title-block width"
-    k.features[0].type = "blind_hole"                       # stale edit: regeneration wins
     k.save(root / P2 / "key.json")
     assert prep.main(["check", "--parts", P2]) == 0
     k2 = _load(root, P2)
     assert [(f.kind, f.resolution) for f in k2.flags] == [
         ("unexplained_drawing_value", "accepted: title-block width")]
-    assert k2.features[0].type == "thru_hole"
+
+
+def test_check_keeps_hand_edited_key_unless_forced(root, fakes):
+    assert prep.main(["check", "--parts", P2]) == 0
+    k = _load(root, P2)
+    k.features[0].type = "blind_hole"                       # a reviewer's correction
+    k.flags[0].resolution = "fixed key: K001 is blind"
+    k.save(root / P2 / "key.json")
+    before = (root / P2 / "key.json").read_text(encoding="utf-8")
+    assert prep.main(["check", "--parts", P2]) == 0
+    assert (root / P2 / "key.json").read_text(encoding="utf-8") == before
+    log = [json.loads(x) for x in (root / "prep_log.jsonl").read_text().splitlines()]
+    assert log[-1]["status"].startswith("skipped: key.json hand-edited")
+    assert prep.main(["check", "--parts", P2, "--force"]) == 0   # regeneration wins
+    assert _load(root, P2).features[0].type == "thru_hole"
 
 
 def test_crosscheck_relabel_is_idempotent():
@@ -326,3 +339,52 @@ def test_review_renders_drawing_png_from_pdf(root, fakes):
     assert prep.main(["review", "--parts", P1]) == 0
     assert (root / P1 / "drawing.png").read_bytes()[:4] == b"\x89PNG"
     assert "data:image/png;base64," in (root / P1 / "review.html").read_text(encoding="utf-8")
+
+
+def test_run_step_failure_removes_partial_output(tmp_path):
+    def half(part, d):
+        (d / "out.txt").write_text("partial")
+        raise RuntimeError("crop failed")
+
+    res = prep.run_step("demo", ["A"], tmp_path, lambda d: d / "out.txt", half,
+                        tmp_path / "log.jsonl", force=False)
+    assert res["A"].startswith("failed") and not (tmp_path / "A" / "out.txt").exists()
+
+
+def test_run_step_interrupt_removes_output_logs_and_propagates(tmp_path):
+    def ctrl_c(part, d):
+        (d / "out.txt").write_text("partial")
+        raise KeyboardInterrupt
+
+    log = tmp_path / "log.jsonl"
+    with pytest.raises(KeyboardInterrupt):
+        prep.run_step("demo", ["A", "B"], tmp_path, lambda d: d / "out.txt", ctrl_c, log, force=False)
+    assert not (tmp_path / "A" / "out.txt").exists()
+    recs = [json.loads(x) for x in log.read_text().splitlines()]
+    assert [(r["part"], r["status"].split(":")[0]) for r in recs] == [("A", "failed")]
+
+
+def test_pdf_partial_write_is_not_left_behind(root, monkeypatch):
+    (root / "source" / P1).mkdir(parents=True)
+    (root / "source" / P1 / f"{P1}.DWG").write_bytes(b"dwg")
+    monkeypatch.setattr(sw_tasks, "connect", lambda *a, **k: object())
+
+    def pdf(app, dwg, out):
+        out.write_bytes(b"%PDF half")
+        raise ValueError("no drawing content")
+
+    monkeypatch.setattr(sw_tasks, "dwg_to_pdf", pdf)
+    assert prep.main(["pdf", "--parts", P1]) == 1
+    assert not (root / P1 / "drawing.pdf").exists()
+
+
+def test_signoff_tolerates_bad_log_line_and_missing_log(root, fakes, capsys):
+    assert prep.main(["check", "--parts", P1]) == 0
+    log = root / "prep_log.jsonl"
+    with open(log, "a", encoding="utf-8") as fh:
+        fh.write('{"time": "2026-10-24T0')                   # half-written line
+    assert prep.main(["signoff", P1, "--by", "x"]) == 0
+    log.unlink()
+    capsys.readouterr()
+    assert prep.main(["signoff", P1, "--by", "x"]) == 1
+    assert "run `check` first" in capsys.readouterr().out

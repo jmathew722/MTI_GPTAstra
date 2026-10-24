@@ -7,10 +7,14 @@ SLDPRT -> STEP: open a COPY read-only, export STEP AP214 and a PNG picture.
 
 SaveAs3 returns an error code (0 = success; error log E025): never test it for truthiness,
 and require the output file to be new or rewritten (a stale file must not pass as success).
+Outputs are written to a temp name next to the target (same extension, so SolidWorks picks
+the right exporter) and moved into place only after every check passed, so a failure or an
+interrupt never leaves a partial file that a resumed run would skip.
 """
 from __future__ import annotations
 
 import logging
+import os
 import sys
 import time
 from contextlib import contextmanager
@@ -103,6 +107,23 @@ def _fresh(p: Path, before) -> bool:
     return now is not None and now != before
 
 
+def _tmp(p: Path) -> Path:
+    """drawing.pdf -> drawing.tmp.pdf (the extension stays last for SolidWorks)."""
+    return p.with_name(f"{p.stem}.tmp{p.suffix}")
+
+
+@contextmanager
+def _atomic(out: Path):
+    """Yield a temp path; on success os.replace it onto out, on any failure remove it."""
+    tmp = _tmp(out)
+    tmp.unlink(missing_ok=True)
+    try:
+        yield tmp
+        os.replace(tmp, out)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
 def _close(app, doc) -> None:
     app.CloseDoc(_g(doc, "GetTitle"))
 
@@ -169,21 +190,22 @@ def dwg_to_pdf(app, dwg: Path, out_pdf: Path) -> None:
     dwg, out_pdf = Path(dwg).resolve(), Path(out_pdf).resolve()
     out_pdf.parent.mkdir(parents=True, exist_ok=True)
     out_pdf.unlink(missing_ok=True)
-    before = _mtime(out_pdf)
-    with temporary_prefs(app, {PDF_COLOR: False, PDF_HIGH_QUALITY: True}):
-        data = app.GetImportFileData(str(dwg))
-        _configure_import(data)
-        err = _byref_long()
-        doc = app.LoadFile4(str(dwg), "", data, err)
-        if doc is None:
-            raise RuntimeError(f"LoadFile4 failed for {dwg} (error {err.value})")
-        try:
-            code = doc.SaveAs3(str(out_pdf), 0, 1)
-            if code != 0 or not _fresh(out_pdf, before):
-                raise RuntimeError(f"PDF export failed for {dwg} (SaveAs3 {code})")
-        finally:
-            _cleanup([lambda: _close(app, doc)], "close drawing")
-    crop_to_content(out_pdf)
+    with _atomic(out_pdf) as tmp:
+        before = _mtime(tmp)
+        with temporary_prefs(app, {PDF_COLOR: False, PDF_HIGH_QUALITY: True}):
+            data = app.GetImportFileData(str(dwg))
+            _configure_import(data)
+            err = _byref_long()
+            doc = app.LoadFile4(str(dwg), "", data, err)
+            if doc is None:
+                raise RuntimeError(f"LoadFile4 failed for {dwg} (error {err.value})")
+            try:
+                code = doc.SaveAs3(str(tmp), 0, 1)
+                if code != 0 or not _fresh(tmp, before):
+                    raise RuntimeError(f"PDF export failed for {dwg} (SaveAs3 {code})")
+            finally:
+                _cleanup([lambda: _close(app, doc)], "close drawing")
+        crop_to_content(tmp)
 
 
 def sldprt_to_step(app, sldprt: Path, out_step: Path, out_png: Path) -> None:
@@ -192,20 +214,21 @@ def sldprt_to_step(app, sldprt: Path, out_step: Path, out_png: Path) -> None:
     out_step.parent.mkdir(parents=True, exist_ok=True)
     out_step.unlink(missing_ok=True)
     out_png.unlink(missing_ok=True)
-    before = _mtime(out_step)
     err, warn = _byref_long(), _byref_long()
     doc = app.OpenDoc6(str(sldprt), SW_DOC_PART, OPEN_SILENT | OPEN_READONLY, "", err, warn)
     if doc is None:
         raise RuntimeError(f"OpenDoc6 failed for {sldprt} (error {err.value})")
     try:
-        old_ap = app.GetUserPreferenceIntegerValue(STEP_AP)
-        try:
-            app.SetUserPreferenceIntegerValue(STEP_AP, 214)
-            code = doc.SaveAs3(str(out_step), 0, 1)
-        finally:
-            _cleanup([lambda: app.SetUserPreferenceIntegerValue(STEP_AP, old_ap)], "restore STEP AP")
-        if code != 0 or not _fresh(out_step, before):
-            raise RuntimeError(f"STEP export failed for {sldprt} (SaveAs3 {code})")
+        with _atomic(out_step) as tmp:
+            before = _mtime(tmp)
+            old_ap = app.GetUserPreferenceIntegerValue(STEP_AP)
+            try:
+                app.SetUserPreferenceIntegerValue(STEP_AP, 214)
+                code = doc.SaveAs3(str(tmp), 0, 1)
+            finally:
+                _cleanup([lambda: app.SetUserPreferenceIntegerValue(STEP_AP, old_ap)], "restore STEP AP")
+            if code != 0 or not _fresh(tmp, before):
+                raise RuntimeError(f"STEP export failed for {sldprt} (SaveAs3 {code})")
         try:
             doc.ShowNamedView2("*Isometric", 7)
             doc.ViewZoomtofit2()

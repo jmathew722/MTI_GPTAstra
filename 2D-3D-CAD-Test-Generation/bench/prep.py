@@ -24,7 +24,7 @@ import json
 import shutil
 import subprocess
 import sys
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Optional
 
@@ -56,21 +56,30 @@ def run_step(step: str, parts: list[str], root: Path, output: Output, fn: StepFn
              force: bool, tool: str = "") -> dict[str, str]:
     """Run fn(part, root/part) for each part. Skipped when output(dir) exists (unless force;
     output=None means never skip). fn may return a status string (e.g. "skipped: ...").
-    Exceptions become "failed: Type: msg" and the loop goes on."""
+    Exceptions become "failed: Type: msg" and the loop goes on. On any failure, including
+    Ctrl-C, output(dir) is removed so a partial file is never skipped as done next time;
+    KeyboardInterrupt / SystemExit are logged and then re-raised."""
     res: dict[str, str] = {}
     for part in parts:
         d = Path(root) / part
         d.mkdir(parents=True, exist_ok=True)
+        stop: Optional[BaseException] = None
         if output is not None and output(d).exists() and not force:
             status = "skipped"
         else:
             try:
                 status = fn(part, d) or "ok"
-            except Exception as e:  # noqa: BLE001 - one bad part must not stop the batch
+            except BaseException as e:  # noqa: BLE001 - one bad part must not stop the batch
                 status = f"failed: {type(e).__name__}: {e}"[:300]
+                if output is not None:
+                    output(d).unlink(missing_ok=True)
+                if not isinstance(e, Exception):
+                    stop = e
         res[part] = status
         log_line(log, step, part, status, tool)
         print(f"{step:8} {part:10} {status}")
+        if stop is not None:
+            raise stop
     return res
 
 
@@ -196,6 +205,14 @@ def step_keys(ctx: Ctx) -> int:
     return ctx.run("keys", lambda d: d / "key.json", fn, "bench.keygen")
 
 
+def _hand_edited(old: Key, raw: list[dict], checked: Key) -> bool:
+    """True when old's features match neither the fresh keygen output (an untouched `keys`
+    result) nor the fresh cross-checked key (an untouched `check` result; relabelling is
+    idempotent, so a re-check of an untouched key compares equal)."""
+    have = [asdict(f) for f in old.features]
+    return have != raw and have != [asdict(f) for f in checked.features]
+
+
 def step_check(ctx: Ctx) -> int:
     def fn(part: str, d: Path) -> str:
         path = d / "key.json"
@@ -205,7 +222,10 @@ def step_check(ctx: Ctx) -> int:
         if not (d / "reference.step").is_file():
             raise FileNotFoundError(f"{d / 'reference.step'} missing; run `step` first")
         key = keygen.from_step(d / "reference.step", units=ctx.units(part), part=part)
+        raw = [asdict(f) for f in key.features]
         flags = crosscheck.check(key, dxfread.read(d / "drawing.dxf"))
+        if old and not ctx.args.force and _hand_edited(old, raw, key):
+            return "skipped: key.json hand-edited since last check (--force discards edits)"
         kept = {(f.kind, f.detail, f.feature): f.resolution for f in (old.flags if old else []) if f.resolution}
         for f in flags:
             f.resolution = kept.get((f.kind, f.detail, f.feature))
@@ -284,7 +304,12 @@ def _last_key_step(log: Path, part: str) -> Optional[str]:
     last = None
     if log.is_file():
         for line in log.read_text(encoding="utf-8").splitlines():
-            r = json.loads(line)
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue                     # a half-written line (interrupted run)
+            if not isinstance(r, dict) or not {"part", "step", "status"} <= r.keys():
+                continue
             if r["part"] == part and r["step"] in ("keys", "check") and r["status"].startswith("ok"):
                 last = r["step"]
     return last
@@ -295,6 +320,10 @@ def step_signoff(ctx: Ctx) -> int:
     path = ctx.root / part / "key.json"
     if not path.is_file():
         print(f"signoff: {path} missing; run `keys` and `check` first")
+        return 1
+    if not ctx.log.is_file():
+        print(f"signoff: {ctx.log} is missing, so the key's history is unknown; "
+              f"run `check` first (python -m bench.prep check --parts {part})")
         return 1
     if _last_key_step(ctx.log, part) != "check":
         print(f"signoff: {part}'s key.json has not been cross-checked; run `check --parts {part}` first")

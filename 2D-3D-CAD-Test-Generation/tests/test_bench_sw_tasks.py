@@ -219,3 +219,65 @@ def test_cleanup_failure_does_not_mask_original(no_com, tmp_path):
     with pytest.raises(OSError, match="close blew up"):
         sw_tasks.sldprt_to_step(BadClose(_Doc(0, write=True)), tmp_path / "a.SLDPRT",
                                 tmp_path / "b.step", tmp_path / "b.png")
+
+
+# ---- no partial outputs: write to a temp name, os.replace only after every check -------
+
+def test_step_partial_write_then_error_leaves_nothing(no_com, tmp_path):
+    doc = _Doc(1, write=True)                           # writes a file, then reports failure
+    with pytest.raises(RuntimeError, match="SaveAs3 1"):
+        sw_tasks.sldprt_to_step(_App(doc), tmp_path / "a.SLDPRT", tmp_path / "reference.step",
+                                tmp_path / "model.png")
+    assert doc.saved[0].endswith("reference.tmp.step")
+    assert sorted(p.name for p in tmp_path.iterdir()) == []
+
+
+def test_step_success_moves_temp_into_place(no_com, tmp_path):
+    sw_tasks.sldprt_to_step(_App(_Doc(0, write=True)), tmp_path / "a.SLDPRT",
+                            tmp_path / "reference.step", tmp_path / "model.png")
+    assert (tmp_path / "reference.step").is_file()
+    assert not (tmp_path / "reference.tmp.step").exists()
+
+
+def _pdf_app(page_draw):
+    class PDoc(_Doc):
+        def SaveAs3(self, path, a, b):
+            d = fitz.open()
+            page_draw(d.new_page(width=500, height=500))
+            d.save(path)
+            d.close()
+            return super().SaveAs3(path, a, b)
+
+    class DApp(_App):
+        t = {323: True, 325: False}
+
+        def GetImportFileData(self, f):
+            return _Data()
+
+        def LoadFile4(self, f, a, d, e):
+            return self.doc
+
+        def GetUserPreferenceToggle(self, k):
+            return self.t[k]
+
+        def SetUserPreferenceToggle(self, k, v):
+            self.t[k] = v
+
+    doc = PDoc(0)
+    return DApp(doc), doc
+
+
+def test_pdf_crop_failure_after_save_leaves_nothing(no_com, tmp_path, monkeypatch):
+    monkeypatch.setattr(sw_tasks, "_invoke", _fake_invoke)
+    app, doc = _pdf_app(lambda pg: pg.draw_rect(fitz.Rect(2, 2, 498, 498)))   # frame only
+    with pytest.raises(ValueError, match="no drawing content"):
+        sw_tasks.dwg_to_pdf(app, tmp_path / "a.DWG", tmp_path / "drawing.pdf")
+    assert doc.saved[0].endswith("drawing.tmp.pdf")
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_pdf_success_moves_temp_into_place(no_com, tmp_path, monkeypatch):
+    monkeypatch.setattr(sw_tasks, "_invoke", _fake_invoke)
+    app, _ = _pdf_app(lambda pg: pg.draw_rect(fitz.Rect(100, 100, 200, 200)))
+    sw_tasks.dwg_to_pdf(app, tmp_path / "a.DWG", tmp_path / "drawing.pdf")
+    assert [p.name for p in tmp_path.iterdir()] == ["drawing.pdf"]
