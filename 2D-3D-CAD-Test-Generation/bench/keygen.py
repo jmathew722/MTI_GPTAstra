@@ -13,7 +13,7 @@ point at its open/start end. Every list-valued field is a plain list of Python f
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from itertools import combinations
 from pathlib import Path
 from typing import Optional
@@ -104,6 +104,7 @@ class _Round:
     t1: float = -math.inf
     concave: Optional[bool] = None
     wide_t0: bool = False     # cone: the larger radius is at t0
+    arcs: list = field(default_factory=list)   # (start, length) angular arcs of its faces
 
     def same_line(self, origin, axis) -> bool:
         if not _parallel(self.axis, axis):
@@ -171,7 +172,8 @@ def _scan(solid):
             # material just outside the surface (away from the axis) -> concave (hole-like)
             concave = _inside(solid, _add(pm, _mul(radial, eps)))
             wide_t0 = radii[ts.index(min(ts))] > radii[ts.index(max(ts))]
-            faces.append(_Round(kind, origin, axis, r, r2, span=abs(u1 - u0),
+            arc = _arc(a, origin, axis, u0, u1, (v0 + v1) / 2)
+            faces.append(_Round(kind, origin, axis, r, r2, span=arc[1], arcs=[arc],
                                 t0=min(ts), t1=max(ts), concave=concave, wide_t0=wide_t0))
         elif t == GeomAbs_Plane:
             pl = a.Plane()
@@ -194,12 +196,56 @@ def _merge(faces: list[_Round]) -> list[_Round]:
                     and abs(g.r2 - f.r2) < LIN_TOL
                     and f.t0 <= g.t1 + LIN_TOL and g.t0 <= f.t1 + LIN_TOL), None)
         if grp is None:
-            groups.append(_Round(f.kind, f.origin, f.axis, f.r, f.r2, span=f.span,
+            groups.append(_Round(f.kind, f.origin, f.axis, f.r, f.r2, span=f.span, arcs=list(f.arcs),
                                  t0=f.t0, t1=f.t1, concave=f.concave, wide_t0=f.wide_t0))
         else:
-            grp.span += f.span
+            grp.arcs += f.arcs
+            grp.span = _arc_union(grp.arcs)     # a union: split partial faces can't reach 2 pi
             grp.t0, grp.t1 = min(grp.t0, f.t0), max(grp.t1, f.t1)
     return groups
+
+
+def _arc(a, origin, axis, u0, u1, v):
+    """A face's angular extent about its axis as (start, length), measured in a basis fixed by
+    the canonical axis (OCC's u parameter has a per-face reference direction)."""
+    span = abs(u1 - u0)
+    if span >= FULL_TURN:
+        return (0.0, 2 * math.pi)
+    e1, e2 = _basis(axis)
+
+    def ang(u):
+        p = _v(a.Value(u, v))
+        d = _sub(p, origin)
+        return math.atan2(_dot(d, e2), _dot(d, e1))
+
+    a0, am = ang(u0), ang((u0 + u1) / 2)
+    ccw = (am - a0) % (2 * math.pi) < math.pi      # half the span is < pi either way
+    return ((a0 if ccw else a0 - span) % (2 * math.pi), span)
+
+
+def _arc_union(arcs) -> float:
+    """Total angle covered by a set of (start, length) arcs on a circle."""
+    two_pi = 2 * math.pi
+    pieces = []
+    for s, length in arcs:
+        if length >= FULL_TURN:
+            return two_pi
+        s %= two_pi
+        if s + length > two_pi:
+            pieces += [(s, two_pi), (0.0, s + length - two_pi)]
+        else:
+            pieces.append((s, s + length))
+    total, cur = 0.0, None
+    for s, e in sorted(pieces):
+        if cur is None or s > cur[1] + 1e-9:
+            if cur is not None:
+                total += cur[1] - cur[0]
+            cur = [s, e]
+        else:
+            cur[1] = max(cur[1], e)
+    if cur is not None:
+        total += cur[1] - cur[0]
+    return min(total, two_pi)
 
 
 def _closed_beyond(solid, g: _Round, t, outward) -> bool:
@@ -253,9 +299,11 @@ def extract(shape, *, units: str, part: str, source: str) -> Key:
     partial = [g for g in rounds if g.kind == "cyl" and g.span < FULL_TURN]
     cones = [g for g in rounds if g.kind == "cone"]
 
-    # Turned axis: the largest convex full cylinder spanning ~the whole envelope across it.
+    # Turned axis: the largest convex cylinder covering at least half a turn (a flat or slot
+    # on the OD leaves it partial) and spanning ~the whole envelope across its axis.
     turned = None
-    convex = sorted((g for g in full if not g.concave), key=lambda g: -g.r)
+    convex = sorted((g for g in rounds if g.kind == "cyl" and not g.concave
+                     and g.span >= math.pi - 1e-6), key=lambda g: -g.r)
     if convex:
         g = convex[0]
         perp = [e * k for e, c in zip(env, g.axis) if abs(c) < 0.5]
@@ -282,7 +330,7 @@ def extract(shape, *, units: str, part: str, source: str) -> Key:
         else:
             new("boss", **kw)
 
-    _cones_and_partials(new, frame, k, cones, partial, feats)
+    _cones_and_partials(new, frame, k, cones, partial, feats, turned)
     _planar(new, k, lo, env, planes, turned, [g for g in full if g.concave])
     _patterns(new, feats, frame, k, turned)
     return Key(part=part, units=units, source=source, envelope=_tidy(env), features=feats)
@@ -330,38 +378,96 @@ def _hole_chain(solid, chain: list[_Round], turned, new, frame, k):
             note="further step on the same axis")
 
 
-def _cones_and_partials(new, frame, k, cones, partial, feats):
-    """Cones: countersink when concave, on a hole axis and > CSINK_RATIO x the hole; a drill
-    point (cone ending at the hole d at a blind bottom) is skipped; else chamfer.
-    Partial cylinders: <= quarter turn -> fillet; larger concave -> slot/notch end."""
+def _note(f: Feature, text: str) -> None:
+    f.note = f"{f.note}; {text}" if f.note else text
+
+
+def _cones_and_partials(new, frame, k, cones, partial, feats, turned):
+    """Cones on a hole axis (concave):
+      - drill point: comes to a point at the bottom of a blind hole, width = hole d -> skipped;
+      - countersink: small end meets the drill (= hole d) and wide end > CSINK_RATIO x d;
+      - anything else (a hole/counterbore/countersink mouth break, OD chamfers) -> chamfer.
+    A hole's ``center`` then moves out through the mouth stack (countersink, chamfers) to the
+    open face. Countersinks at both ends: the one at the start end is recorded, the other noted.
+    Partial cylinders: <= quarter turn -> fillet; convex on the turned axis -> turned diameter
+    (interrupted); other convex -> boss (rounded end); concave -> slot/notch end."""
+    tol = 1e-2 / k                                  # 0.01 mm, in drawing units
     holes = [f for f in feats if f.type in HOLE_TYPES or f.type == "bore"]
+    csinks: dict[str, tuple[Feature, list[_Round]]] = {}
+    chamfers: list[tuple[_Round, Optional[Feature]]] = []
+
+    def narrow_t(c):
+        return c.t1 if c.wide_t0 else c.t0
+
+    def wide_t(c):
+        return c.t0 if c.wide_t0 else c.t1
+
+    def at_center(c, t, h):
+        return math.dist(frame(c.point(t)), h.center) < tol
+
     for c in cones:
-        big = float(2 * c.r / k)
-        small = float(2 * c.r2 / k)
+        big, small = 2 * c.r / k, 2 * c.r2 / k
         host = next((h for h in holes if _parallel(tuple(h.axis), c.axis) and _on_axis(h, c, frame, k)),
                     None)
-        if host is not None and c.concave and host.type == "blind_hole" \
-                and abs(big - host.d) < LIN_TOL / k and small < 0.05 * host.d:
-            host.note = (host.note + "; " if host.note else "") + "drill point"
-            continue
-        if host is not None and c.concave and big > CSINK_RATIO * host.d and host.type in HOLE_TYPES:
-            if host.type != "counterbore":
-                host.type = "countersink"
-                # the hole starts at the countersunk face: the cone's wide end
-                wide = c.t0 if c.wide_t0 else c.t1
-                host.center = _tidy(frame(c.point(wide)))
-            host.csink_d = _tidy(big)
-            continue
+        if host is not None and c.concave:
+            if host.type == "blind_hole" and abs(big - host.d) < tol and small < 0.05 * host.d:
+                _note(host, "drill point")
+                continue
+            if host.type in HOLE_TYPES and abs(small - host.d) < tol and big > CSINK_RATIO * host.d:
+                csinks.setdefault(host.id, (host, []))[1].append(c)
+                continue
+        chamfers.append((c, host))
+
+    mouth_t: dict[str, float] = {}                  # axial position of a countersink's mouth
+    main_cs: dict[str, _Round] = {}
+    for host, cs in csinks.values():
+        main = next((c for c in cs if at_center(c, narrow_t(c), host)), cs[0])
+        host.csink_d = _tidy(2 * main.r / k)
+        if host.type != "counterbore":
+            host.type = "countersink"
+            host.center = _tidy(frame(main.point(wide_t(main))))
+            mouth_t[host.id], main_cs[host.id] = wide_t(main), main
+        for other in cs:
+            if other is not main:
+                _note(host, f"second countersink d={_tidy(2 * other.r / k)} at the other end")
+
+    for c, _host in chamfers:
         new("chamfer", axis=_clean(c.axis), center=frame(c.point(c.t0)),
-            d=big, depth=float((c.t1 - c.t0) / k), note="conical edge break")
+            d=float(2 * c.r / k), depth=float((c.t1 - c.t0) / k), note="conical edge break")
+    # Mouth breaks: a concave chamfer whose narrow end sits at the hole's start, as wide as the
+    # current mouth, moves the start out to its wide end (repeat for stacked breaks).
+    mouth = {h.id: (h.csink_d or h.cbore_d or h.d) for h in holes}
+    moved = True
+    while moved:
+        moved = False
+        for c, h in chamfers:
+            if h is None or not c.concave or abs(2 * c.r2 / k - mouth[h.id]) >= tol \
+                    or not at_center(c, narrow_t(c), h):
+                continue
+            h.center = _tidy(frame(c.point(wide_t(c))))
+            mouth[h.id] = 2 * c.r / k
+            if h.id in mouth_t:
+                mouth_t[h.id] = wide_t(c)
+            moved = True
+    # Drawing convention: a countersink's diameter is where its cone meets the open face, so a
+    # chamfered countersink rim is measured on the cone extended to the final mouth plane.
+    for hid, t in mouth_t.items():
+        c = main_cs[hid]
+        tn, tw = narrow_t(c), wide_t(c)
+        r = c.r2 + (t - tn) * (c.r - c.r2) / (tw - tn) if abs(tw - tn) > 1e-12 else c.r
+        next(h for h in holes if h.id == hid).csink_d = _tidy(2 * r / k)
+
     for p in partial:
+        kw = dict(axis=_clean(p.axis), d=float(2 * p.r / k), depth=float((p.t1 - p.t0) / k),
+                  center=frame(p.point(p.t0)))
         if p.span <= math.pi / 2 + 1e-3:
-            new("fillet", axis=_clean(p.axis), d=float(2 * p.r / k), depth=float((p.t1 - p.t0) / k),
-                center=frame(p.point(p.t0)))
+            new("fillet", **kw)
         elif p.concave:
-            new("slot", axis=_clean(p.axis), d=float(2 * p.r / k), depth=float((p.t1 - p.t0) / k),
-                center=frame(p.point(p.t0)), size=[0.0, float(2 * p.r / k)],
-                note="round slot/notch end (width = d)")
+            new("slot", size=[0.0, float(2 * p.r / k)], note="round slot/notch end (width = d)", **kw)
+        elif turned is not None and turned.same_line(p.origin, p.axis):
+            new("turned_diameter", note="interrupted by flat/slot", **kw)
+        else:
+            new("boss", note="rounded end / partial", **kw)
 
 
 def _on_axis(hole: Feature, c: _Round, frame, k) -> bool:
@@ -400,6 +506,15 @@ def _planar(new, k, lo, env, planes, turned, holes):
     bbox_offsets = {i: (lo[i], lo[i] + env[i] * k) for i in range(3)}
     seen = set()
     for pl in planes:
+        # On a turned part a flat is checked first: a one-sided flat is on the bounding box.
+        if turned is not None and abs(_dot(pl.normal, turned.axis)) < 1e-6 \
+                and abs(_dot(turned.origin, pl.normal) - pl.offset) < turned.r - LIN_TOL:
+            keyv = (tuple(round(c, 6) for c in pl.normal), round(pl.offset, 4))
+            if keyv not in seen:
+                seen.add(keyv)
+                new("flat", normal=_clean(pl.normal), offset=float((pl.offset - _dot(lo, pl.normal)) / k),
+                    size=[float((pl.bbox[i + 3] - pl.bbox[i]) / k) for i in range(3)])
+            continue
         axis_i = next((i for i in range(3) if abs(abs(pl.normal[i]) - 1) < 1e-6), None)
         if axis_i is not None and any(abs(pl.offset - b) < LIN_TOL for b in bbox_offsets[axis_i]):
             continue
@@ -410,12 +525,11 @@ def _planar(new, k, lo, env, planes, turned, holes):
             continue
         seen.add(keyv)
         ext = [float((pl.bbox[i + 3] - pl.bbox[i]) / k) for i in range(3)]
-        if turned is not None and abs(_dot(pl.normal, turned.axis)) < 1e-6:
-            new("flat", normal=_clean(pl.normal), offset=float(pl.offset / k), size=ext)
-        elif turned is not None and _parallel(pl.normal, turned.axis):
-            continue
-        else:
-            new("pocket_step", normal=_clean(pl.normal), offset=float(pl.offset / k), size=ext)
+        if turned is not None and _parallel(pl.normal, turned.axis):
+            continue                                # shoulder of a turned part
+        # offset in the part frame (origin at the bounding-box minimum), like every position
+        new("pocket_step", normal=_clean(pl.normal), offset=float((pl.offset - _dot(lo, pl.normal)) / k),
+            size=ext)
 
 
 def _patterns(new, feats, frame, k, turned):
@@ -496,5 +610,6 @@ def _collinear(p, tol) -> bool:
 
 def from_step(step: Path, *, units: str, part: str) -> Key:
     import cadquery as cq
-    shape = cq.importers.importStep(str(step)).val()
+    # every root of the file, so a multi-body STEP is seen (and rejected) by the solid count
+    shape = cq.Compound.makeCompound(cq.importers.importStep(str(step)).vals())
     return extract(shape, units=units, part=part, source=Path(step).name)
