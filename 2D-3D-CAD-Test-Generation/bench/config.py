@@ -23,17 +23,21 @@ def _load_dotenv() -> None:
 
 def _setting(name: str, example: str, required: bool, want_dir: bool) -> Optional[Path]:
     _load_dotenv()
-    raw = os.getenv(name)
-    path = Path(raw) if raw else None
-    ok = path is not None and (path.is_dir() if want_dir else path.is_file())
-    if ok:
+    raw = (os.getenv(name) or "").strip().strip('"').strip()
+    if not raw:
+        if not required:
+            return None
+        raise BenchConfigError(_message(name, "it is not set", example))
+    path = Path(raw)
+    if (path.is_dir() if want_dir else path.is_file()):
         return path
-    if not required:
-        return None
-    where = f"'{raw}' does not exist" if raw else "it is not set"
-    raise BenchConfigError(
-        f"{name}: {where}. Add a line like\n    {name}={example}\n"
-        f"to {DOTENV} (git-ignored) or set it as an environment variable.")
+    kind = "folder" if want_dir else "file"
+    raise BenchConfigError(_message(name, f"'{raw}' is not an existing {kind}", example))
+
+
+def _message(name: str, problem: str, example: str) -> str:
+    return (f"{name}: {problem}. Add a line like\n    {name}={example}\n"
+            f"to {DOTENV} (git-ignored) or set it as an environment variable.")
 
 
 def data_root(required: bool = True) -> Optional[Path]:
