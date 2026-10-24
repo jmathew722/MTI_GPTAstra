@@ -309,3 +309,14 @@ def test_hole_dense_part_does_not_explain_random_dims_by_chance():
     bad = Drawing(dims=good.dims + junk, callouts=good.callouts, general_tol={3: 0.005}, units_hint="inch")
     flagged = sum(1 for f in check(k, bad) if f.kind == "unexplained_drawing_value")
     assert flagged >= 0.8 * len(junk)
+
+
+def test_baseline_dims_from_a_datum_hole():
+    """Legacy style: first hole located from the edge, the rest baseline-dimensioned from it."""
+    k = Key(part="P", units="inch", source="s", envelope=[5.25, 1.75, 0.25],
+            features=[Feature(id=f"K{i}", type="thru_hole", axis=[0, 0, 1], center=[x, 0.875, 0], d=0.201,
+                              depth=0.25, thru=True) for i, x in enumerate([0.5, 1.5, 3.0, 4.25], 1)])
+    d = Drawing(dims=[_lin(5.25), _lin(1.75), _lin(0.25), _lin(0.5), _lin(1.0), _lin(2.5), _lin(3.75)],
+                callouts=[parse(".201 DIA. THRU (4) HLS.")], general_tol={3: 0.005, 2: 0.01},
+                units_hint="inch")
+    assert check(k, d) == []

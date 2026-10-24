@@ -165,9 +165,22 @@ def _unique_coords(holes: list[Feature], i: int, tol: float) -> list[float]:
 
 
 def _chain_steps(coords: list[float]) -> list[float]:
-    """Hole-to-hole distances a drawing chains: between neighbouring coordinates only. All-pairs
-    differences would give O(n^2) values and on a hole-dense part explain almost any number."""
-    return [b - a for a, b in zip(coords, coords[1:])]
+    """Hole-to-hole distances a drawing states: chain dims (neighbouring coordinates) and
+    baseline dims from a datum hole (the outermost coordinate at either end to every other).
+    O(n) values; all-pairs differences would give O(n^2) and on a hole-dense part explain
+    almost any number."""
+    steps = [b - a for a, b in zip(coords, coords[1:])]
+    if len(coords) > 2:
+        steps += _baseline(coords, coords[0]) + _baseline(coords, coords[-1])
+    return steps
+
+
+def _baseline(coords: list[float], c: float) -> list[float]:
+    """Distances from coordinate `c` to the outermost coordinates (datum holes); if `c` is itself
+    a datum, to every coordinate."""
+    if c in (coords[0], coords[-1]):
+        return [abs(x - c) for x in coords if x != c]
+    return [c - coords[0], coords[-1] - c]
 
 
 # ---- taps ------------------------------------------------------------------------------------
@@ -283,6 +296,7 @@ def _check_positions(key: Key, holes: list[Feature], stated: Stated, tol: float)
             coords = chains[i]
             k = min(range(len(coords)), key=lambda j: abs(coords[j] - c))
             neighbours = [abs(coords[j] - c) for j in (k - 1, k + 1) if 0 <= j < len(coords)]
+            neighbours += _baseline(coords, coords[k])      # baseline from a datum hole
             cands = [x for x in [c, e - c, abs(c - e / 2)] + neighbours if x > _EPS]
             if not any(_near(x, stated) for x in cands):
                 flags.append(Flag("unexplained_position", f"{h.type} at {[round(x, 4) for x in h.center]}: "
