@@ -109,3 +109,113 @@ def test_step_success_and_stale_file_rejected(no_com, tmp_path):
     with pytest.raises(RuntimeError):
         sw_tasks.sldprt_to_step(app2, tmp_path / "b.SLDPRT", out2, tmp_path / "b.png")
     assert app2.closed == ["part.SLDPRT"]
+
+
+# ---- review fixes -------------------------------------------------------------------
+
+def test_crop_all_empty_raises_and_ignores_frames(tmp_path):
+    p = tmp_path / "e.pdf"
+    doc = fitz.open()
+    pg = doc.new_page(width=3000, height=3000)
+    pg.draw_rect(fitz.Rect(5, 5, 2995, 2995))          # border frame only
+    doc.save(p)
+    doc.close()
+    with pytest.raises(ValueError, match="no drawing content"):
+        crop_to_content(p)
+    p.unlink()                                          # not locked after the error
+
+    doc = fitz.open()
+    pg = doc.new_page(width=3000, height=3000)
+    pg.draw_rect(fitz.Rect(5, 5, 2995, 2995))
+    pg.draw_rect(fitz.Rect(1000, 1200, 1400, 1500))
+    doc.save(p)
+    doc.close()
+    crop_to_content(p, margin_pt=10)
+    out = fitz.open(p)
+    cb = out[0].cropbox
+    out.close()
+    assert cb.x0 > 900 and cb.x1 < 1500
+
+
+class _Data:
+    def __init__(self, reject=()):
+        self.reject, self.calls = set(reject), []
+
+
+def _fake_invoke(obj, name, kind, sheet, *args):
+    obj.calls.append((name, sheet))
+    return False if (name, sheet) in obj.reject else True
+
+
+def test_configure_import_rejection(monkeypatch):
+    monkeypatch.setattr(sw_tasks, "_invoke", _fake_invoke)
+    sw_tasks._configure_import(_Data())
+    with pytest.raises(RuntimeError, match="SetPaperSize.*''"):
+        sw_tasks._configure_import(_Data({("SetPaperSize", "")}))
+    d = _Data({("SetSheetScale", "Model")})            # warning only
+    sw_tasks._configure_import(d)
+    assert ("SetPosition", "Model") in d.calls
+
+
+def test_relative_paths_made_absolute_and_stale_removed(no_com, tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "old.step").write_text("stale")
+    doc = _Doc(1)                                       # fails, so the stale file must be gone
+    app = _App(doc)
+    with pytest.raises(RuntimeError):
+        sw_tasks.sldprt_to_step(app, "p.SLDPRT", "old.step", "old.png")
+    assert not (tmp_path / "old.step").exists()
+    assert all(Path(x).is_absolute() for x in doc.saved)
+
+
+def test_dwg_paths_absolute(no_com, tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(sw_tasks, "_invoke", _fake_invoke)
+    seen = []
+
+    class PDoc(_Doc):
+        def SaveAs3(self, path, a, b):
+            d = fitz.open()
+            d.new_page(width=500, height=500).draw_rect(fitz.Rect(100, 100, 200, 200))
+            d.save(path)
+            d.close()
+            return super().SaveAs3(path, a, b)
+
+    class DApp(_App):
+        def __init__(self, doc):
+            super().__init__(doc)
+            self.t = {323: True, 325: False}
+
+        def GetImportFileData(self, f):
+            seen.append(f)
+            return _Data()
+
+        def LoadFile4(self, f, a, d, e):
+            seen.append(f)
+            return self.doc
+
+        def GetUserPreferenceToggle(self, k):
+            return self.t[k]
+
+        def SetUserPreferenceToggle(self, k, v):
+            self.t[k] = v
+
+    doc = PDoc(0)
+    app = DApp(doc)
+    sw_tasks.dwg_to_pdf(app, "a.DWG", "o.pdf")
+    assert all(Path(x).is_absolute() for x in seen + doc.saved) and len(seen) == 2
+    assert app.t == {323: True, 325: False}
+
+
+def test_cleanup_failure_does_not_mask_original(no_com, tmp_path):
+    class BadClose(_App):
+        def CloseDoc(self, name):
+            raise OSError("close blew up")
+
+    with pytest.raises(RuntimeError, match="SaveAs3 1"):
+        sw_tasks.sldprt_to_step(BadClose(_Doc(1)), tmp_path / "a.SLDPRT",
+                                tmp_path / "a.step", tmp_path / "a.png")
+    # no original error: the cleanup failure is raised
+    with pytest.raises(OSError, match="close blew up"):
+        sw_tasks.sldprt_to_step(BadClose(_Doc(0, write=True)), tmp_path / "a.SLDPRT",
+                                tmp_path / "b.step", tmp_path / "b.png")

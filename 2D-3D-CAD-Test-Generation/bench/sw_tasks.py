@@ -10,15 +10,20 @@ and require the output file to be new or rewritten (a stale file must not pass a
 """
 from __future__ import annotations
 
+import logging
+import sys
 import time
 from contextlib import contextmanager
 from pathlib import Path
+
+log = logging.getLogger(__name__)
 
 SHEET_M = 4.5
 PDF_COLOR, PDF_HIGH_QUALITY, STEP_AP = 323, 325, 75
 SW_DOC_PART = 1
 OPEN_SILENT, OPEN_READONLY = 1, 2
 IMPORT_TO_DRAWING, PAPER_USER, POS_CENTERED = 1, 12, 1
+DISPATCH_METHOD, DISPATCH_PROPERTYPUT = 1, 4   # pythoncom values; kept here so no import is needed
 
 
 class SwUnavailable(RuntimeError):
@@ -26,6 +31,11 @@ class SwUnavailable(RuntimeError):
 
 
 def connect(retries: int = 6, wait_s: float = 5.0):
+    """Attach to the running SolidWorks.
+
+    Only retries GetActiveObject. A hung SolidWorks (not responding) blocks every later
+    COM call and there is no watchdog here, so a stuck session must be restarted by hand.
+    """
     import pythoncom
     import win32com.client as w
     pythoncom.CoInitialize()
@@ -41,6 +51,21 @@ def connect(retries: int = 6, wait_s: float = 5.0):
                         "wait ~25 s, and run again (COM drops after idle minutes on this machine).")
 
 
+def _cleanup(steps, what: str) -> None:
+    """Run every cleanup step. If an exception is already propagating, a cleanup failure is
+    logged and the original wins; otherwise the first cleanup failure is raised."""
+    original = sys.exc_info()[0] is not None
+    first = None
+    for fn in steps:
+        try:
+            fn()
+        except Exception as e:
+            log.warning("cleanup failed (%s): %s", what, e)
+            first = first or e
+    if first is not None and not original:
+        raise first
+
+
 @contextmanager
 def temporary_prefs(app, prefs: dict[int, bool]):
     saved = {k: app.GetUserPreferenceToggle(k) for k in prefs}
@@ -49,8 +74,8 @@ def temporary_prefs(app, prefs: dict[int, bool]):
             app.SetUserPreferenceToggle(k, v)
         yield
     finally:
-        for k, v in saved.items():
-            app.SetUserPreferenceToggle(k, v)
+        _cleanup([lambda k=k, v=v: app.SetUserPreferenceToggle(k, v) for k, v in saved.items()],
+                 "restore toggles")
 
 
 def _g(obj, name):
@@ -59,9 +84,8 @@ def _g(obj, name):
 
 
 def _invoke(obj, name, kind, *args):
-    import pythoncom
     o = obj._oleobj_
-    return o.Invoke(o.GetIDsOfNames(name), 0, kind, kind != pythoncom.DISPATCH_PROPERTYPUT, *args)
+    return o.Invoke(o.GetIDsOfNames(name), 0, kind, kind != DISPATCH_PROPERTYPUT, *args)
 
 
 def _byref_long():
@@ -79,44 +103,76 @@ def _fresh(p: Path, before) -> bool:
     return now is not None and now != before
 
 
+def _close(app, doc) -> None:
+    app.CloseDoc(_g(doc, "GetTitle"))
+
+
 def crop_to_content(pdf: Path, margin_pt: float = 18.0) -> None:
     try:
         import pymupdf as fitz
     except ImportError:
         import fitz
     pdf = Path(pdf)
-    doc = fitz.open(pdf)
-    empty = []
-    for page in doc:
-        rects = [d["rect"] for d in page.get_drawings() if d["rect"].width < page.rect.width * 0.99]
-        rects += [fitz.Rect(b[:4]) for b in page.get_text("blocks") if "Educational Product" not in b[4]]
-        if not rects:
-            empty.append(page.number)
-            continue
-        box = rects[0]
-        for r in rects[1:]:
-            box |= r
-        page.set_cropbox((box + (-margin_pt, -margin_pt, margin_pt, margin_pt)) & page.rect)
-    if empty and len(empty) < len(doc):
-        doc.delete_pages(empty)
     tmp = pdf.with_suffix(".tmp.pdf")
-    doc.save(tmp, garbage=3, deflate=True)
-    doc.close()
+    doc = fitz.open(pdf)
+    try:
+        empty = []
+        for page in doc:
+            pw, ph = page.rect.width, page.rect.height
+            # skip page-sized rectangles (border frames)
+            rects = [d["rect"] for d in page.get_drawings()
+                     if d["rect"].width < pw * 0.99 and d["rect"].height < ph * 0.99]
+            rects += [fitz.Rect(b[:4]) for b in page.get_text("blocks")
+                      if "Educational Product" not in b[4]]
+            if not rects:
+                empty.append(page.number)
+                continue
+            box = rects[0]
+            for r in rects[1:]:
+                box |= r
+            page.set_cropbox((box + (-margin_pt, -margin_pt, margin_pt, margin_pt)) & page.rect)
+        if len(empty) == len(doc):
+            raise ValueError(f"no drawing content in {pdf}")
+        if empty:
+            doc.delete_pages(empty)
+        doc.save(tmp, garbage=3, deflate=True)
+    finally:
+        doc.close()
     tmp.replace(pdf)
 
 
+def _configure_import(data) -> None:
+    """Apply 1:1 / centred / user-defined sheet to the import data and check every setting.
+
+    A False return means SolidWorks rejected the setting (the failure that broke 9 of 21
+    drawings), so it raises. The "Model" sheet is the exception: a rejection there may only
+    mean the DWG has no sheet of that name, so it is a warning (the "" default sheet, which
+    is processed first, has already been accepted by then).
+    """
+    settings = (
+        ("ImportMethod", DISPATCH_PROPERTYPUT, (IMPORT_TO_DRAWING,)),
+        ("SetPaperSize", DISPATCH_METHOD, (PAPER_USER, SHEET_M, SHEET_M)),
+        ("SetSheetScale", DISPATCH_METHOD, (1.0, 1.0)),
+        ("SetPosition", DISPATCH_METHOD, (POS_CENTERED, 0.0, 0.0)),
+    )
+    for sheet in ("", "Model"):
+        for name, kind, args in settings:
+            if _invoke(data, name, kind, sheet, *args) is False:
+                msg = f"SolidWorks rejected {name} for sheet {sheet!r}"
+                if sheet == "":
+                    raise RuntimeError(msg)
+                log.warning("%s (DWG may have no such sheet)", msg)
+
+
 def dwg_to_pdf(app, dwg: Path, out_pdf: Path) -> None:
-    import pythoncom
-    out_pdf = Path(out_pdf)
+    # SolidWorks resolves relative paths against its own working directory
+    dwg, out_pdf = Path(dwg).resolve(), Path(out_pdf).resolve()
     out_pdf.parent.mkdir(parents=True, exist_ok=True)
+    out_pdf.unlink(missing_ok=True)
     before = _mtime(out_pdf)
     with temporary_prefs(app, {PDF_COLOR: False, PDF_HIGH_QUALITY: True}):
         data = app.GetImportFileData(str(dwg))
-        for sheet in ("", "Model"):
-            _invoke(data, "ImportMethod", pythoncom.DISPATCH_PROPERTYPUT, sheet, IMPORT_TO_DRAWING)
-            _invoke(data, "SetPaperSize", pythoncom.DISPATCH_METHOD, sheet, PAPER_USER, SHEET_M, SHEET_M)
-            _invoke(data, "SetSheetScale", pythoncom.DISPATCH_METHOD, sheet, 1.0, 1.0)
-            _invoke(data, "SetPosition", pythoncom.DISPATCH_METHOD, sheet, POS_CENTERED, 0.0, 0.0)
+        _configure_import(data)
         err = _byref_long()
         doc = app.LoadFile4(str(dwg), "", data, err)
         if doc is None:
@@ -126,14 +182,16 @@ def dwg_to_pdf(app, dwg: Path, out_pdf: Path) -> None:
             if code != 0 or not _fresh(out_pdf, before):
                 raise RuntimeError(f"PDF export failed for {dwg} (SaveAs3 {code})")
         finally:
-            app.CloseDoc(_g(doc, "GetTitle"))
+            _cleanup([lambda: _close(app, doc)], "close drawing")
     crop_to_content(out_pdf)
 
 
 def sldprt_to_step(app, sldprt: Path, out_step: Path, out_png: Path) -> None:
     """Open a copy read-only, export STEP AP214 (+ a picture). Never saves the part."""
-    out_step, out_png = Path(out_step), Path(out_png)
+    sldprt, out_step, out_png = Path(sldprt).resolve(), Path(out_step).resolve(), Path(out_png).resolve()
     out_step.parent.mkdir(parents=True, exist_ok=True)
+    out_step.unlink(missing_ok=True)
+    out_png.unlink(missing_ok=True)
     before = _mtime(out_step)
     err, warn = _byref_long(), _byref_long()
     doc = app.OpenDoc6(str(sldprt), SW_DOC_PART, OPEN_SILENT | OPEN_READONLY, "", err, warn)
@@ -145,7 +203,7 @@ def sldprt_to_step(app, sldprt: Path, out_step: Path, out_png: Path) -> None:
             app.SetUserPreferenceIntegerValue(STEP_AP, 214)
             code = doc.SaveAs3(str(out_step), 0, 1)
         finally:
-            app.SetUserPreferenceIntegerValue(STEP_AP, old_ap)
+            _cleanup([lambda: app.SetUserPreferenceIntegerValue(STEP_AP, old_ap)], "restore STEP AP")
         if code != 0 or not _fresh(out_step, before):
             raise RuntimeError(f"STEP export failed for {sldprt} (SaveAs3 {code})")
         try:
@@ -155,4 +213,4 @@ def sldprt_to_step(app, sldprt: Path, out_step: Path, out_png: Path) -> None:
         except Exception:
             pass                      # the picture is best effort (review sheet only)
     finally:
-        app.CloseDoc(_g(doc, "GetTitle"))
+        _cleanup([lambda: _close(app, doc)], "close part")
