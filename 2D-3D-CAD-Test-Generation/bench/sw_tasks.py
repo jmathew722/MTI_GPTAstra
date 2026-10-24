@@ -1,0 +1,158 @@
+"""SolidWorks steps of benchmark prep (Windows + SolidWorks only; win32com imported lazily).
+
+DWG -> PDF: import at 1:1, centered, on a 4.5 m user-defined sheet (the paper/scale that
+SolidWorks picks itself broke 9 of 21 drawings on 2026-10-12), export black & white, crop
+to content.
+SLDPRT -> STEP: open a COPY read-only, export STEP AP214 and a PNG picture.
+
+SaveAs3 returns an error code (0 = success; error log E025): never test it for truthiness,
+and require the output file to be new or rewritten (a stale file must not pass as success).
+"""
+from __future__ import annotations
+
+import time
+from contextlib import contextmanager
+from pathlib import Path
+
+SHEET_M = 4.5
+PDF_COLOR, PDF_HIGH_QUALITY, STEP_AP = 323, 325, 75
+SW_DOC_PART = 1
+OPEN_SILENT, OPEN_READONLY = 1, 2
+IMPORT_TO_DRAWING, PAPER_USER, POS_CENTERED = 1, 12, 1
+
+
+class SwUnavailable(RuntimeError):
+    pass
+
+
+def connect(retries: int = 6, wait_s: float = 5.0):
+    import pythoncom
+    import win32com.client as w
+    pythoncom.CoInitialize()
+    last = None
+    for i in range(retries):
+        try:
+            return w.GetActiveObject("SldWorks.Application")
+        except Exception as e:        # "Operation unavailable": COM registration dropped
+            last = e
+            if i < retries - 1:
+                time.sleep(wait_s)
+    raise SwUnavailable(f"SolidWorks is not reachable over COM ({last}). Start SLDWORKS.exe, "
+                        "wait ~25 s, and run again (COM drops after idle minutes on this machine).")
+
+
+@contextmanager
+def temporary_prefs(app, prefs: dict[int, bool]):
+    saved = {k: app.GetUserPreferenceToggle(k) for k in prefs}
+    try:
+        for k, v in prefs.items():
+            app.SetUserPreferenceToggle(k, v)
+        yield
+    finally:
+        for k, v in saved.items():
+            app.SetUserPreferenceToggle(k, v)
+
+
+def _g(obj, name):
+    a = getattr(obj, name)
+    return a() if callable(a) else a
+
+
+def _invoke(obj, name, kind, *args):
+    import pythoncom
+    o = obj._oleobj_
+    return o.Invoke(o.GetIDsOfNames(name), 0, kind, kind != pythoncom.DISPATCH_PROPERTYPUT, *args)
+
+
+def _byref_long():
+    import pythoncom
+    import win32com.client as w
+    return w.VARIANT(pythoncom.VT_BYREF | pythoncom.VT_I4, 0)
+
+
+def _mtime(p: Path):
+    return p.stat().st_mtime_ns if p.exists() else None
+
+
+def _fresh(p: Path, before) -> bool:
+    now = _mtime(p)
+    return now is not None and now != before
+
+
+def crop_to_content(pdf: Path, margin_pt: float = 18.0) -> None:
+    try:
+        import pymupdf as fitz
+    except ImportError:
+        import fitz
+    pdf = Path(pdf)
+    doc = fitz.open(pdf)
+    empty = []
+    for page in doc:
+        rects = [d["rect"] for d in page.get_drawings() if d["rect"].width < page.rect.width * 0.99]
+        rects += [fitz.Rect(b[:4]) for b in page.get_text("blocks") if "Educational Product" not in b[4]]
+        if not rects:
+            empty.append(page.number)
+            continue
+        box = rects[0]
+        for r in rects[1:]:
+            box |= r
+        page.set_cropbox((box + (-margin_pt, -margin_pt, margin_pt, margin_pt)) & page.rect)
+    if empty and len(empty) < len(doc):
+        doc.delete_pages(empty)
+    tmp = pdf.with_suffix(".tmp.pdf")
+    doc.save(tmp, garbage=3, deflate=True)
+    doc.close()
+    tmp.replace(pdf)
+
+
+def dwg_to_pdf(app, dwg: Path, out_pdf: Path) -> None:
+    import pythoncom
+    out_pdf = Path(out_pdf)
+    out_pdf.parent.mkdir(parents=True, exist_ok=True)
+    before = _mtime(out_pdf)
+    with temporary_prefs(app, {PDF_COLOR: False, PDF_HIGH_QUALITY: True}):
+        data = app.GetImportFileData(str(dwg))
+        for sheet in ("", "Model"):
+            _invoke(data, "ImportMethod", pythoncom.DISPATCH_PROPERTYPUT, sheet, IMPORT_TO_DRAWING)
+            _invoke(data, "SetPaperSize", pythoncom.DISPATCH_METHOD, sheet, PAPER_USER, SHEET_M, SHEET_M)
+            _invoke(data, "SetSheetScale", pythoncom.DISPATCH_METHOD, sheet, 1.0, 1.0)
+            _invoke(data, "SetPosition", pythoncom.DISPATCH_METHOD, sheet, POS_CENTERED, 0.0, 0.0)
+        err = _byref_long()
+        doc = app.LoadFile4(str(dwg), "", data, err)
+        if doc is None:
+            raise RuntimeError(f"LoadFile4 failed for {dwg} (error {err.value})")
+        try:
+            code = doc.SaveAs3(str(out_pdf), 0, 1)
+            if code != 0 or not _fresh(out_pdf, before):
+                raise RuntimeError(f"PDF export failed for {dwg} (SaveAs3 {code})")
+        finally:
+            app.CloseDoc(_g(doc, "GetTitle"))
+    crop_to_content(out_pdf)
+
+
+def sldprt_to_step(app, sldprt: Path, out_step: Path, out_png: Path) -> None:
+    """Open a copy read-only, export STEP AP214 (+ a picture). Never saves the part."""
+    out_step, out_png = Path(out_step), Path(out_png)
+    out_step.parent.mkdir(parents=True, exist_ok=True)
+    before = _mtime(out_step)
+    err, warn = _byref_long(), _byref_long()
+    doc = app.OpenDoc6(str(sldprt), SW_DOC_PART, OPEN_SILENT | OPEN_READONLY, "", err, warn)
+    if doc is None:
+        raise RuntimeError(f"OpenDoc6 failed for {sldprt} (error {err.value})")
+    try:
+        old_ap = app.GetUserPreferenceIntegerValue(STEP_AP)
+        try:
+            app.SetUserPreferenceIntegerValue(STEP_AP, 214)
+            code = doc.SaveAs3(str(out_step), 0, 1)
+        finally:
+            app.SetUserPreferenceIntegerValue(STEP_AP, old_ap)
+        if code != 0 or not _fresh(out_step, before):
+            raise RuntimeError(f"STEP export failed for {sldprt} (SaveAs3 {code})")
+        try:
+            doc.ShowNamedView2("*Isometric", 7)
+            doc.ViewZoomtofit2()
+            doc.SaveAs3(str(out_png), 0, 1)
+        except Exception:
+            pass                      # the picture is best effort (review sheet only)
+    finally:
+        app.CloseDoc(_g(doc, "GetTitle"))
