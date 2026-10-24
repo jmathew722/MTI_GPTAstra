@@ -1,4 +1,4 @@
-﻿"""bench.config: data root / ODA path from env or .env, never hard-coded."""
+"""bench.config: data root / ODA path from env or .env, never hard-coded."""
 import pytest
 
 from bench import config
@@ -24,7 +24,9 @@ def test_optional_returns_none(monkeypatch):
 
 
 def test_dotenv_is_read(tmp_path, monkeypatch):
-    monkeypatch.delenv("MTI_BENCH_DATA", raising=False)
+    # register the var with monkeypatch so whatever load_dotenv writes is removed at teardown
+    monkeypatch.setenv("MTI_BENCH_DATA", "placeholder")
+    monkeypatch.delenv("MTI_BENCH_DATA")
     env = tmp_path / ".env"
     env.write_text(f"MTI_BENCH_DATA={tmp_path}\n", encoding="utf-8")
     monkeypatch.setattr(config, "DOTENV", env)
