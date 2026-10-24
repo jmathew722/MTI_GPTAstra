@@ -49,8 +49,8 @@ CLEAN = (
          "Complex Parts (Not Weldments)/1901001E.SLDPRT", "complex", "master collet (Emerson)"),
 )
 
-_TWIN = "M twin: re-drawn for metric hardware; only the inch (E) model exists, hole sizes differ"
-_OBS = "OBSOLETE sheet ('SEE SOLIDWORKS DRAWING'); model may be a later revision"
+_TWIN = "M twin: only the inch (E) model exists, hole sizes differ"
+_OBS = "OBSOLETE sheet; model may be a later revision"
 PARKED = (
     Pair("A050031M", "Simple Parts/A050031M.DWG", "Simple Parts/A050031E.SLDPRT", "simple", "adapter", _TWIN),
     Pair("A050081M", "Simple Parts/A050081M.DWG", "Simple Parts/A050081E_OLD.SLDPRT", "simple", "wear plate", _TWIN),

@@ -40,6 +40,13 @@ def dev_parts(manifest: Path = CODE_ROOT / "bench" / "manifest.yaml", split: str
             for p in m["splits"].get(split) or [] if p.get("source") != "mti_bench"]
 
 
+def external_parts(split: str = "dev", manifest: Path = CODE_ROOT / "bench" / "manifest.yaml") -> list[str]:
+    """mti_bench parts in a split: skipped by dev_parts() (files live under MTI_BENCH_DATA)."""
+    import yaml
+    m = yaml.safe_load(manifest.read_text(encoding="utf-8"))
+    return [p["part"] for p in m["splits"].get(split) or [] if p.get("source") == "mti_bench"]
+
+
 def images_for(spec: PartSpec) -> list[tuple[str, str, str]]:
     """[(label, view_type, base64 png)] with the FULL sheet first (crops can hide callouts)."""
     from utils.image_prep import prepare_image

@@ -1,9 +1,10 @@
 """bench.split: the format-dev pick reproduces from the recorded seed; manifest agrees."""
 from pathlib import Path
 
+import pytest
 import yaml
 
-from bench.split import CLEAN, PARKED, SEED, choose_format_dev, mti_entries
+from bench.split import CLEAN, PARKED, SEED, bench_parts, choose_format_dev, mti_entries, pair
 
 M = yaml.safe_load((Path(__file__).resolve().parent.parent / "bench" / "manifest.yaml").read_text(encoding="utf-8"))
 
@@ -32,3 +33,31 @@ def test_manifest_matches_split():
     assert parked == {p.part for p in PARKED}
     assert all(e["reason"] for e in M["splits"]["parked"])
     assert M["mti_bench"]["seed"] == SEED
+
+
+def test_manifest_entries_agree_with_clean_per_part():
+    mti = mti_entries(M)
+    for e in mti["dev"] + mti["held_out"]:
+        p = pair(e["part"])
+        assert e["complexity"] == p.complexity
+        assert e["units"] == "inch"
+        assert e["family"] == p.family.split("; PROVISIONAL")[0], e["part"]
+    complex_held = {e["part"] for e in mti["held_out"] if e["complexity"] == "complex"}
+    assert complex_held == {"1801901E", "1807408E", "1901001E"}
+    assert {e["part"] for e in mti["dev"]} .isdisjoint(complex_held)
+    assert {e["part"] for e in mti["held_out"] + mti["dev"] if e.get("pairing") == "provisional"} == {"1807408E"}
+
+
+def test_parked_reasons_match_split_py():
+    by_part = {e["part"]: e["reason"] for e in M["splits"]["parked"]}
+    assert by_part == {p.part: p.reason for p in PARKED}
+
+
+def test_bench_parts_14_unique():
+    parts = bench_parts(M)
+    assert len(parts) == 14 and len(set(parts)) == 14
+
+
+def test_pair_unknown_part_raises_keyerror():
+    with pytest.raises(KeyError):
+        pair("NOPE")

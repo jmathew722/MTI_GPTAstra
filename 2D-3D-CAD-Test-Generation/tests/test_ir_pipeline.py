@@ -1,5 +1,6 @@
 """IR v2 Task 8: the end-to-end pipeline's no-API parts (part list, images, reuse)."""
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -47,3 +48,21 @@ def test_reuse_plan_rebuilds_without_calling_the_planner(tmp_path, monkeypatch):
     # The golden plan's D-IDs differ from the extraction's, so Gate 1 may reject it.
     # The point is that the saved plan was used and nothing was paid.
     assert r.gate1 in ("OK", "REJECT")
+
+
+def test_mti_bench_parts_are_skipped_but_reported():
+    from pipeline.ir_pipeline import external_parts
+    assert dev_parts(split="held_out") == []
+    assert not {s.part for s in dev_parts()} & set(external_parts("dev"))
+    assert len(external_parts("held_out")) == 11
+    assert len(external_parts("dev")) == 3
+
+
+def test_ir_run_fails_on_empty_split_without_writing_summary(tmp_path, monkeypatch, capsys):
+    import ir_run
+    import pipeline.ir_pipeline as ip
+    monkeypatch.setattr(ip, "connect_sw", lambda: (_ for _ in ()).throw(AssertionError("connect_sw called")))
+    monkeypatch.setattr(sys, "argv", ["ir_run.py", "--split", "held_out", "--solidworks", "--output", str(tmp_path)])
+    assert ir_run.main() == 2
+    assert not (tmp_path / "ir_run_summary.json").exists()
+    assert "11 mti_bench part(s) in split held_out skipped" in capsys.readouterr().out
