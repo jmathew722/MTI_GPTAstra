@@ -85,3 +85,21 @@ def test_cbore_diameter():
     assert parse("DR. & C'BORE .38 DP. FOR .250 S.H.C.S. 6-HLS.").cbore_d is None
     c = parse("DR. & C'BORE FOR #10 SOC. HD. CAP SCR. 8-HOLES AS SHOWN")
     assert (c.kind, c.count, c.screw) == ("cbore", 8, "#10")
+
+
+@pytest.mark.parametrize("thread, nominal", [("#0-80", 0.060), ("#1-72", 0.073), ("#2-56", 0.086),
+                                             ("#3-48", 0.099)])
+def test_small_screw_numbers(thread, nominal):
+    c = parse(f"{thread} TAP .25 DP.")
+    assert c.thread == thread and c.nominal == nominal
+
+
+def test_bolt_circle_hole_callout_is_kept_with_its_bc_diameter():
+    c = parse(".344 DIA. THRU (6) HLS. EQ. SP. ON 3.000 B.C.")
+    assert c is not None and (c.kind, c.d, c.count, c.bc_d) == ("drill", 0.344, 6, 3.0)
+    c = parse(".281 DR. THRU 4-HOLES EQ. SP. ON B.C. 2.500")
+    assert (c.d, c.count, c.bc_d) == (0.281, 4, 2.5)
+    c = parse(".250-20 TAP THRU (6) HLS. ON 4.000%%C B.C.")
+    assert (c.kind, c.thread, c.bc_d) == ("tap", ".250-20", 4.0)
+    assert parse(".344 DIA. THRU (6) HLS.").bc_d is None
+    assert parse("(4.562%%C B.C. REF.)") is None

@@ -222,3 +222,90 @@ def test_section_view_linear_dim_with_diameter_symbol_states_a_hole_size():
     assert [f.kind for f in check(_key(), d)] == []
     d.dims = d.dims[:-2] + [_lin(0.344, text="<>")]     # no diameter mark: not a hole size
     assert {f.kind for f in check(_key(), d)} == {"unexplained_key_value"}
+
+
+# ---- review fixes ----------------------------------------------------------------------------
+
+def _holes(spec):
+    """[(d, x, y)] -> thru holes on a 4 x 3 x .5 plate."""
+    return Key(part="P", units="inch", source="s", envelope=[4.0, 3.0, 0.5],
+               features=[Feature(id=f"K{i}", type="thru_hole", axis=[0, 0, 1], center=[x, y, 0], d=d,
+                                 depth=0.5, thru=True) for i, (d, x, y) in enumerate(spec, 1)])
+
+
+def test_stated_plain_hole_at_tap_major_diameter_is_not_relabelled():
+    k = _holes([(0.201, 0.5, 0.5), (0.201, 3.5, 0.5), (0.250, 0.5, 2.5)])
+    d = Drawing(dims=_plate_dims(), callouts=[parse("1/4-20 TAP THRU (2) HLS."), parse(".250 DIA. THRU")],
+                general_tol={3: 0.005}, units_hint="inch")
+    assert check(k, d) == []
+    assert [f.type for f in k.features] == ["tapped_hole", "tapped_hole", "thru_hole"]
+
+
+def test_stated_drill_inside_a_tap_window_is_not_relabelled():
+    k = _holes([(0.2031, 0.5, 0.5), (0.2130, 3.5, 0.5)])
+    d = Drawing(dims=[_lin(4.0), _lin(3.0), _lin(0.5), _lin(3.0)],
+                callouts=[parse(".2031 DR. THRU"), parse(".250-28 TAP")],
+                general_tol={3: 0.005, 4: 0.0005}, units_hint="inch")
+    assert check(k, d) == []
+    assert [(f.type, f.thread) for f in k.features] == [("thru_hole", ""), ("tapped_hole", ".250-28")]
+
+
+def test_small_screw_tap_works():
+    k = _holes([(0.070, 0.5, 0.5)])
+    d = Drawing(dims=[_lin(4.0), _lin(3.0), _lin(0.5)], callouts=[parse("#2-56 TAP .25 DP.")],
+                general_tol={3: 0.005}, units_hint="inch")
+    assert check(k, d) == []
+    assert k.features[0].thread == "#2-56"
+
+
+def test_unknown_thread_size_is_flagged_not_raised():
+    k = _holes([(0.070, 0.5, 0.5)])
+    c = parse("#14-20 TAP .5 DP.")
+    assert c is not None and c.kind == "tap"
+    d = Drawing(dims=[_lin(4.0), _lin(3.0), _lin(0.5)], callouts=[c, parse(".070 DIA. THRU")],
+                general_tol={3: 0.005}, units_hint="inch")
+    assert [f.kind for f in check(k, d)] == ["unparsed_thread"]
+
+
+def test_bc_from_callout_locates_pattern_holes():
+    holes = [Feature(id=f"H{i}", type="thru_hole", axis=[0, 0, 1],
+                     center=[3 + 1.5 * math.cos(math.radians(a)), 2 + 1.5 * math.sin(math.radians(a)), 0],
+                     d=0.344, depth=0.5, thru=True)
+             for i, a in enumerate(range(15, 360, 60), 1)]
+    pat = Feature(id="P1", type="hole_pattern", members=[h.id for h in holes],
+                  pattern={"mode": "circle", "count": 6, "radius": 1.5})
+    k = Key(part="P", units="inch", source="s", envelope=[6.0, 4.0, 0.5], features=holes + [pat])
+    d = Drawing(dims=[_lin(6.0), _lin(4.0), _lin(0.5)],
+                callouts=[parse(".344 DIA. THRU (6) HLS. EQ. SP. ON 3.000 B.C.")],
+                general_tol={3: 0.005}, units_hint="inch")
+    flags = check(k, d)
+    assert [f.kind for f in flags] == []
+
+
+def test_small_chamfer_dims_are_not_flagged():
+    d = _drawing()
+    d.dims.append(_lin(0.03, text="<> X 45%%D"))
+    d.dims.append(_lin(0.02, text="BREAK EDGES <>"))
+    assert check(_key(), d) == []
+    d.dims.append(_lin(0.03))
+    assert [f.kind for f in check(_key(), d)] == ["unexplained_drawing_value"]
+
+
+def _ring(n=50, r=4.0):
+    holes = [Feature(id=f"H{i}", type="thru_hole", axis=[0, 0, 1],
+                     center=[5 + r * math.cos(2 * math.pi * i / n), 5 + r * math.sin(2 * math.pi * i / n), 0],
+                     d=0.201, depth=0.75, thru=True) for i in range(n)]
+    return Key(part="P", units="inch", source="s", envelope=[10.0, 10.0, 0.75], features=holes)
+
+
+def test_hole_dense_part_does_not_explain_random_dims_by_chance():
+    import random
+    rng = random.Random(7)
+    k = _ring()
+    good = Drawing(dims=[_lin(10.0), _lin(10.0), _lin(0.75), _lin(8.0, text="<> B.C.", kind="diameter")],
+                   callouts=[parse(".201 DIA. THRU (50) HLS.")], general_tol={3: 0.005}, units_hint="inch")
+    assert check(k, good) == []
+    junk = [_lin(round(rng.uniform(0.1, 10.0), 3), dec=3) for _ in range(30)]
+    bad = Drawing(dims=good.dims + junk, callouts=good.callouts, general_tol={3: 0.005}, units_hint="inch")
+    flagged = sum(1 for f in check(k, bad) if f.kind == "unexplained_drawing_value")
+    assert flagged >= 0.8 * len(junk)

@@ -22,8 +22,12 @@ _CBORE_WORD = r"(?:C'BORE|CBORE|COUNTERBORE)"
 _CBORE_D = re.compile(NUM + r"\s*" + _CBORE_WORD)
 _NOT_A_HOLE = ("B.C.", " REF", "TOL", "DETAIL", "SEE ", "SCALE", "WITHIN", "MATERIAL")
 _D_MIN, _D_MAX = 0.04, 3.0   # plausible drill diameter, inches
+_BC_MARK = r"(?:%%C|\u00d8)?\s*B\.?\s*C\b\.?"
+_BC_AFTER = re.compile(NUM + r"\s*" + _BC_MARK)   # "3.000 B.C.", "4.000%%C B.C."
+_BC_BEFORE = re.compile(_BC_MARK + r"\s*(?:%%C|\u00d8)?\s*" + NUM)   # "B.C. 2.500"
 _SCREW = re.compile(r"FOR\s+(#\d+|\d*\.\d+|\d+/\d+)\s*(?:SOC|S\.?H\.?C\.?S|FLAT|SHCS|CAP)")
-_SCREW_NO = {"#4": 0.112, "#5": 0.125, "#6": 0.138, "#8": 0.164, "#10": 0.190, "#12": 0.216}
+_SCREW_NO = {"#0": 0.060, "#1": 0.073, "#2": 0.086, "#3": 0.099, "#4": 0.112, "#5": 0.125,
+             "#6": 0.138, "#8": 0.164, "#10": 0.190, "#12": 0.216}
 
 
 def _num(s: str) -> float:
@@ -45,6 +49,7 @@ class Callout:
     screw: str = ""
     cbore_d: Optional[float] = None   # counterbore diameter; for kind "cbore", `depth` is the
                                       # counterbore depth (drawing convention)
+    bc_d: Optional[float] = None      # bolt-circle diameter ("... EQ. SP. ON 3.000 B.C.")
 
     @property
     def nominal(self) -> Optional[float]:
@@ -62,8 +67,8 @@ def _drill_d(t: str) -> Optional[float]:
     found = []
     for rx in (_DRILL_PRE, _DRILL_POST):
         for m in rx.finditer(t):
-            if re.match(r"\s*" + _CBORE_WORD, t[m.end():]):
-                continue
+            if re.match(r"\s*(?:" + _CBORE_WORD + "|" + _BC_MARK + ")", t[m.end():]):
+                continue                      # a counterbore or bolt-circle size, not the drill
             found.append((m.start(), _num(m.group(1))))
     return min(found)[1] if found else None
 
@@ -82,7 +87,9 @@ def parse(text: str) -> Optional[Callout]:
         kind, thread = "cbore", ""
     elif is_csink:
         kind, thread = "csink", ""
-    elif not any(w in t for w in _NOT_A_HOLE) and _drill_d(t) is not None:
+    elif _drill_d(t) is not None and (_COUNT.search(t) or not any(w in t for w in _NOT_A_HOLE)):
+        # a counted drill callout is a hole even with "B.C." in it (".344 DIA. THRU (6) HLS. EQ. SP.
+        # ON 3.000 B.C."); an uncounted one with a veto word is a note ("(4.562%%C B.C. REF.)")
         kind, thread = "drill", ""
     else:
         return None
@@ -97,4 +104,9 @@ def parse(text: str) -> Optional[Callout]:
     sm = _SCREW.search(t)
     return Callout(kind=kind, text=text, d=d, thread=thread, depth=depth, thru="THRU" in t,
                    count=count, screw=sm.group(1) if sm else "",
-                   cbore_d=_num(cm.group(1)) if cm else None)
+                   cbore_d=_num(cm.group(1)) if cm else None, bc_d=_bc_d(t))
+
+
+def _bc_d(t: str) -> Optional[float]:
+    m = _BC_AFTER.search(t) or _BC_BEFORE.search(t)
+    return _num(m.group(1)) if m else None

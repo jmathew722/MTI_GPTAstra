@@ -20,11 +20,11 @@ number of decimals, else FALLBACK_TOL for the key's units.
 """
 from __future__ import annotations
 
+import dataclasses as _dc
 import datetime as _dt
 import math
 import re
-from itertools import combinations
-from typing import Iterable, Optional
+from typing import Optional
 
 from bench.callouts import Callout
 from bench.dxfread import Dim, Drawing
@@ -37,6 +37,8 @@ _EPS = 1e-9                        # float slack so 3.00 - 2.99 == .01 counts as
 _DIA_MARK = re.compile(r"%%C|\u00d8|DIA", re.IGNORECASE)
 _BOLT_CIRCLE = re.compile(r"B\.?\s*C\b|BOLT\s*CIRCLE", re.IGNORECASE)
 _NUM = re.compile(r"\d*\.\d+|\d+")
+_EDGE_BREAK = re.compile(r"CHAM|X\s*45|BREAK", re.IGNORECASE)
+SMALL_EDGE = {"inch": 0.07, "mm": 2.0}    # largest edge-break/chamfer dim that is never flagged
 
 Stated = list[tuple[float, float]]   # (value, tolerance)
 
@@ -102,6 +104,17 @@ def _distances(drawing: Drawing, units: str) -> Stated:
             for v in _dim_values(d)]
 
 
+def _positions(drawing: Drawing, units: str) -> Stated:
+    """Distances that may locate a hole: every dimension plus each callout's bolt-circle
+    diameter and radius ("(6) HLS. EQ. SP. ON 3.000 B.C.")."""
+    out = _distances(drawing, units)
+    for c in drawing.callouts:
+        if c.bc_d:
+            t = _tol(drawing, units, _callout_decimals(c, c.bc_d))
+            out += [(c.bc_d, t), (c.bc_d / 2, t)]
+    return out
+
+
 # ---- what the key contains -------------------------------------------------------------------
 
 def _centre_radius(h: Feature, env: list[float], tol: float) -> Optional[float]:
@@ -137,9 +150,24 @@ def _key_quantities(key: Key) -> list[float]:
         r = _centre_radius(f, key.envelope, tol) if f.type in HOLE_TYPES else None
         if r:
             q += [r, 2 * r]
-    for a, b in combinations(holes, 2):
-        q += [abs(a.center[i] - b.center[i]) for i in range(3)]
+    for i in range(3):
+        q += _chain_steps(_unique_coords(holes, i, tol))
     return [x for x in q if x > _EPS]
+
+
+def _unique_coords(holes: list[Feature], i: int, tol: float) -> list[float]:
+    """Sorted hole-centre coordinates along axis i, merging values within tol."""
+    out: list[float] = []
+    for c in sorted(h.center[i] for h in holes if h.center is not None):
+        if not out or c - out[-1] > tol:
+            out.append(c)
+    return out
+
+
+def _chain_steps(coords: list[float]) -> list[float]:
+    """Hole-to-hole distances a drawing chains: between neighbouring coordinates only. All-pairs
+    differences would give O(n^2) values and on a hole-dense part explain almost any number."""
+    return [b - a for a, b in zip(coords, coords[1:])]
 
 
 # ---- taps ------------------------------------------------------------------------------------
@@ -160,7 +188,9 @@ def _tap_for(h: Feature, taps: list[Callout], units: str, tol: float) -> Optiona
     """The tap callout whose thread best fits hole `h`.
 
     A tapped hole is modelled either at the tap drill (~ nominal - pitch, e.g. 1/4-20 -> .201,
-    3/8-16 -> .3125, M6x1 -> 5.0) or at the major diameter. Accept d in
+    3/8-16 -> .3125, M6x1 -> 5.0) or at the major diameter. The caller only asks for holes whose
+    diameter no other callout/dimension states, so the major-diameter end of the window cannot
+    swallow a stated plain hole. Accept d in
     [nominal - 1.3 * pitch, nominal]; this keeps a .250 drill off a .375-16 tap (whose window
     starts at .294). Among fits, the one closest to its tap drill wins."""
     best, best_err = None, math.inf
@@ -200,7 +230,10 @@ def _check_sizes(key: Key, drawing: Drawing, holes: list[Feature], tol: float) -
     for h in holes:
         if h.d is None:
             continue
-        if h.type in ("thru_hole", "blind_hole", "tapped_hole"):
+        if h.type in ("thru_hole", "blind_hole", "tapped_hole") and not _near(h.d, dias):
+            # a diameter the drawing states outright (drill callout, diameter dim) is a plain
+            # hole even when it falls in a tap window: a .250 dowel hole next to 1/4-20 taps,
+            # a .2031 drill next to a .250-28 tap
             tap = _tap_for(h, taps, key.units, tol)
             if tap is not None:
                 h.thread, h.type = tap.thread, "tapped_hole"
@@ -223,12 +256,14 @@ def _check_sizes(key: Key, drawing: Drawing, holes: list[Feature], tol: float) -
 
 def _check_positions(key: Key, holes: list[Feature], stated: Stated, tol: float) -> list[Flag]:
     """Each in-plane coordinate of a hole must be explained. A coordinate is explained by a
-    stated distance to an envelope face, the part centre or another hole; by lying on the part
-    centre or in line with another hole (implicit on drawings); or -- for both coordinates at
-    once -- by a bolt-circle radius/diameter (keygen pattern, or radial distance from the centre
-    of a round/square envelope)."""
+    stated distance to an envelope face, the part centre or a neighbouring hole coordinate
+    (chain dimension); by lying on the part centre or in line with another hole (implicit on
+    drawings); or -- for both coordinates at once -- by a bolt-circle radius/diameter (keygen
+    pattern, or radial distance from the centre of a round/square envelope) matching a dimension
+    or a callout's "ON 3.000 B.C."."""
     flags: list[Flag] = []
     env = key.envelope
+    chains = [_unique_coords(holes, i, tol) for i in range(3)]
     for h in holes:
         if h.center is None or h.axis is None:
             continue
@@ -242,10 +277,13 @@ def _check_positions(key: Key, holes: list[Feature], stated: Stated, tol: float)
             continue
         for i in plane:
             c, e = h.center[i], env[i]
-            others = [abs(c - o.center[i]) for o in holes if o is not h and o.center is not None]
-            if abs(c - e / 2) <= tol or any(x <= tol for x in others):
+            aligned = any(abs(c - o.center[i]) <= tol for o in holes if o is not h and o.center is not None)
+            if abs(c - e / 2) <= tol or aligned:
                 continue
-            cands = [x for x in [c, e - c, abs(c - e / 2)] + others if x > _EPS]
+            coords = chains[i]
+            k = min(range(len(coords)), key=lambda j: abs(coords[j] - c))
+            neighbours = [abs(coords[j] - c) for j in (k - 1, k + 1) if 0 <= j < len(coords)]
+            cands = [x for x in [c, e - c, abs(c - e / 2)] + neighbours if x > _EPS]
             if not any(_near(x, stated) for x in cands):
                 flags.append(Flag("unexplained_position", f"{h.type} at {[round(x, 4) for x in h.center]}: "
                                   f"coordinate {'xyz'[i]} is not located by any drawing distance", h.id))
@@ -254,10 +292,15 @@ def _check_positions(key: Key, holes: list[Feature], stated: Stated, tol: float)
 
 
 def _check_drawing_values(key: Key, drawing: Drawing) -> list[Flag]:
+    """Every dimension must equal a key quantity. Exception: an edge-break/chamfer dim (text has
+    CHAM, "X 45" or BREAK) no larger than SMALL_EDGE is never flagged -- keygen does not model
+    small edge breaks, and they say nothing about placement."""
     flags: list[Flag] = []
     quantities = _key_quantities(key)
     for d in drawing.dims:
         if not _usable(d):
+            continue
+        if d.shown <= SMALL_EDGE[key.units] + _EPS and _EDGE_BREAK.search(d.text or ""):
             continue
         t = _tol(drawing, key.units, d.decimals)
         if d.shown <= t:
@@ -294,15 +337,30 @@ def _check_counts(drawing: Drawing, holes: list[Feature], tol: float) -> list[Fl
 
 
 def check(key: Key, drawing: Drawing) -> list[Flag]:
-    """Cross-check `key` against `drawing`. Mutates key holes that fit a TAP callout
-    (type -> tapped_hole, thread set). Returns the flags; never edits key values."""
+    """Cross-check `key` against `drawing` and return the flags; key values are never edited.
+
+    Side effect: holes that fit a TAP callout are relabelled (type -> tapped_hole, thread set).
+    Call it on a freshly loaded/generated key, not on one already cross-checked against a
+    different drawing, or stale relabels carry over.
+
+    A tap callout whose thread size is unknown gives an ``unparsed_thread`` flag and is then
+    ignored (no relabel, no count check) instead of raising."""
     flags: list[Flag] = []
     tol = _tol(drawing, key.units)
     if drawing.units_hint and drawing.units_hint != key.units:
         flags.append(Flag("units_mismatch", f"drawing says {drawing.units_hint}, key is {key.units}"))
+    usable = []
+    for c in drawing.callouts:
+        try:
+            _thread_geometry(c, key.units)
+        except (KeyError, ValueError, IndexError, AttributeError, ZeroDivisionError):
+            flags.append(Flag("unparsed_thread", f"callout '{c.text.strip()}': thread {c.thread!r} not understood"))
+            continue
+        usable.append(c)
+    drawing = _dc.replace(drawing, callouts=usable)
     holes = [f for f in key.features if f.type in HOLE_TYPES]
     flags += _check_sizes(key, drawing, holes, tol)
-    flags += _check_positions(key, holes, _distances(drawing, key.units), tol)
+    flags += _check_positions(key, holes, _positions(drawing, key.units), tol)
     flags += _check_drawing_values(key, drawing)
     flags += _check_counts(drawing, holes, tol)
     return flags
