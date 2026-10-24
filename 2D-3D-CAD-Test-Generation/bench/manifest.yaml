@@ -19,6 +19,17 @@ tolerance_default: >
   Dimension tolerance when printed; otherwise the title-block general tolerance;
   otherwise +-0.005 in / +-0.1 mm (PRD open question, proposed).
 
+mti_bench:
+  spec: docs/superpowers/specs/2026-10-23-benchmark-dataset-design.md
+  delivered: "2026-10-11"
+  split_decided: "2026-10-23"
+  split_decided_by: "smcanuff (with Claude)"
+  seed: 20261023
+  rule: >
+    14 clean drawing-model pairs. Format dev = random.Random(20261023).sample of the 9 simple
+    parts excluding the near-duplicate pair A050471E/A050481E (bench/split.py). The other 11,
+    including all 3 complex parts, are held-out. Files live outside git under MTI_BENCH_DATA/<part>/.
+
 splits:
   dev:
     - part: A040911E
@@ -66,9 +77,28 @@ splits:
       views: DrawingPDFs/A001351E.PDF
       units: inch
       reference_step: null
+    - {part: A050291E, source: mti_bench, family: "large plate/bracket, holes and taps", units: inch, complexity: simple, reference_step: reference.step}
+    - {part: A050381E, source: mti_bench, family: "mounting pad block, 4 tapped blind", units: inch, complexity: simple, reference_step: reference.step}
+    - {part: A050511E, source: mti_bench, family: "key (Wuxi), counterbore", units: inch, complexity: simple, reference_step: reference.step}
 
-  # PENDING. No benchmark headline number may be reported until this list is
-  # non-empty, every part has a reference_step, and the list is frozen by PR.
-  # Candidates: curated NewVerifiedDrawings/ parts (STATE.md 2, data-quality
-  # warning) or new MTI drawings, each with an MTI reference STEP.
-  held_out: []
+  # FROZEN 2026-10-23 (spec 2026-10-23). Never tune, debug or take prompt examples from these.
+  held_out:
+    - {part: A050071E, source: mti_bench, family: "rod with flat, tapped ends", units: inch, complexity: simple, reference_step: reference.step}
+    - {part: A050181E, source: mti_bench, family: "mounting pad bar, 2 tapped thru", units: inch, complexity: simple, reference_step: reference.step}
+    - {part: A050211E, source: mti_bench, family: "retainer disc, 6 thru holes, U-notch", units: inch, complexity: simple, reference_step: reference.step}
+    - {part: A050221E, source: mti_bench, family: "flanged disc, bore, hole pattern", units: inch, complexity: simple, reference_step: reference.step}
+    - {part: A050311E, source: mti_bench, family: "collet actuator ring", units: inch, complexity: simple, reference_step: reference.step}
+    - {part: A050411E, source: mti_bench, family: "tank cover plate, 12 countersinks", units: inch, complexity: simple, reference_step: reference.step}
+    - {part: A050471E, source: mti_bench, family: "locator (Wuxi), 3 counterbores", units: inch, complexity: simple, reference_step: reference.step}
+    - {part: A050481E, source: mti_bench, family: "locator (Wuxi), 3 counterbores", units: inch, complexity: simple, reference_step: reference.step}
+    - {part: 1801901E, source: mti_bench, family: "collet pad serrated (Morton)", units: inch, complexity: complex, reference_step: reference.step}
+    - {part: 1807408E, source: mti_bench, family: "tailstock ring, hole table (Rolls Royce)", units: inch, complexity: complex, reference_step: reference.step, pairing: provisional}
+    - {part: 1901001E, source: mti_bench, family: "master collet (Emerson)", units: inch, complexity: complex, reference_step: reference.step}
+  parked:
+    - {part: A050031M, source: mti_bench, reason: "M twin: only the inch (E) model exists, hole sizes differ"}
+    - {part: A050081M, source: mti_bench, reason: "M twin: only the inch (E) model exists, hole sizes differ"}
+    - {part: A050381M, source: mti_bench, reason: "M twin: only the inch (E) model exists, hole sizes differ"}
+    - {part: A050031E, source: mti_bench, reason: "OBSOLETE sheet; model may be a later revision"}
+    - {part: A050061E, source: mti_bench, reason: "OBSOLETE sheet; model may be a later revision"}
+    - {part: A050081E_OLD, source: mti_bench, reason: "OBSOLETE sheet; model may be a later revision"}
+    - {part: A050131M, source: mti_bench, reason: "OBSOLETE sheet; model may be a later revision"}

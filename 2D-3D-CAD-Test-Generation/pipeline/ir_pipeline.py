@@ -35,7 +35,9 @@ class PartSpec:
 def dev_parts(manifest: Path = CODE_ROOT / "bench" / "manifest.yaml", split: str = "dev") -> list[PartSpec]:
     import yaml
     m = yaml.safe_load(manifest.read_text(encoding="utf-8"))
-    return [PartSpec(p["part"], REPO / p["views"], p.get("units", "")) for p in m["splits"].get(split) or []]
+    # mti_bench entries have no in-repo views (files live under MTI_BENCH_DATA); skip them here.
+    return [PartSpec(p["part"], REPO / p["views"], p.get("units", ""))
+            for p in m["splits"].get(split) or [] if p.get("source") != "mti_bench"]
 
 
 def images_for(spec: PartSpec) -> list[tuple[str, str, str]]:
