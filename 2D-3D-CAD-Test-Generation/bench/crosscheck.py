@@ -178,7 +178,7 @@ def _chain_steps(coords: list[float]) -> list[float]:
 def _baseline(coords: list[float], c: float) -> list[float]:
     """Distances from coordinate `c` to the outermost coordinates (datum holes); if `c` is itself
     a datum, to every coordinate."""
-    if c in (coords[0], coords[-1]):
+    if c in (coords[0], coords[-1]):    # exact float equality is safe: c is taken from coords itself
         return [abs(x - c) for x in coords if x != c]
     return [c - coords[0], coords[-1] - c]
 
@@ -306,9 +306,10 @@ def _check_positions(key: Key, holes: list[Feature], stated: Stated, tol: float)
 
 
 def _check_drawing_values(key: Key, drawing: Drawing) -> list[Flag]:
-    """Every dimension must equal a key quantity. Exception: an edge-break/chamfer dim (text has
-    CHAM, "X 45" or BREAK) no larger than SMALL_EDGE is never flagged -- keygen does not model
-    small edge breaks, and they say nothing about placement."""
+    """Every dimension, and every callout bolt-circle diameter, must equal a key quantity.
+    Exception: an edge-break/chamfer dim (text has CHAM, "X 45" or BREAK) no larger than
+    SMALL_EDGE is never flagged -- keygen does not model small edge breaks, and they say nothing
+    about placement."""
     flags: list[Flag] = []
     quantities = _key_quantities(key)
     for d in drawing.dims:
@@ -322,6 +323,12 @@ def _check_drawing_values(key: Key, drawing: Drawing) -> list[Flag]:
         if not any(abs(d.shown - q) <= t + _EPS for q in quantities):
             flags.append(Flag("unexplained_drawing_value",
                               f"{d.kind} {d.shown:g} ({d.text or 'measured'}) matches no key quantity"))
+    for c in drawing.callouts:        # "... EQ. SP. ON 3.000 B.C." states a diameter too
+        if c.bc_d:
+            t = _tol(drawing, key.units, _callout_decimals(c, c.bc_d))
+            if not any(abs(c.bc_d - q) <= t + _EPS for q in quantities):
+                flags.append(Flag("unexplained_drawing_value",
+                                  f"bolt circle {c.bc_d:g} (callout '{c.text.strip()}') matches no key quantity"))
     return flags
 
 

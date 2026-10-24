@@ -320,3 +320,24 @@ def test_baseline_dims_from_a_datum_hole():
                 callouts=[parse(".201 DIA. THRU (4) HLS.")], general_tol={3: 0.005, 2: 0.01},
                 units_hint="inch")
     assert check(k, d) == []
+
+
+def _disc_with_bc_callout(bc):
+    holes = [Feature(id=f"H{i}", type="thru_hole", axis=[0, 0, 1],
+                     center=[2 + 1.5 * math.cos(math.radians(a)), 2 + 1.5 * math.sin(math.radians(a)), 0],
+                     d=0.344, depth=0.5, thru=True)
+             for i, a in enumerate(range(45, 360, 90), 1)]
+    pat = Feature(id="P1", type="hole_pattern", members=[h.id for h in holes],
+                  pattern={"mode": "circle", "count": 4, "radius": 1.5})
+    k = Key(part="P", units="inch", source="s", envelope=[4.0, 4.0, 0.5], features=holes + [pat])
+    d = Drawing(dims=[_lin(4.0, kind="diameter"), _lin(0.5)],
+                callouts=[parse(f".344 DIA. THRU (4) HLS. EQ. SP. ON {bc} B.C.")],
+                general_tol={3: 0.005}, units_hint="inch")
+    return k, d
+
+
+def test_callout_bolt_circle_is_checked_against_the_key():
+    assert check(*_disc_with_bc_callout("3.000")) == []
+    flags = check(*_disc_with_bc_callout("3.500"))
+    wrong = [f for f in flags if f.kind == "unexplained_drawing_value"]
+    assert len(wrong) == 1 and "3.500 B.C." in wrong[0].detail
