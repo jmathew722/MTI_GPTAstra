@@ -1,8 +1,23 @@
 # STATE.md — where mti-2d-3d stands
 
-**Last updated:** 2026-10-12 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
+**Last updated:** 2026-10-24 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-10-24: Benchmark dataset built (sub-project 1 of 3).** MTI's 2026-10-11 delivery of
+> 150 legacy DWGs and 26 models gave 21 drawing-model pairs. `bench/` (spec
+> [2026-10-23-benchmark-dataset-design](docs/superpowers/specs/2026-10-23-benchmark-dataset-design.md))
+> converted them into PDFs, DXFs and reference STEPs, generated an answer key per part, cross-checked
+> each key against its drawing, and signed it off. **19 benchmark parts: 4 format dev
+> (A050291E, A050381E, A050511E, A050381M) and 15 held-out.** All 19 are signed: 10 auto, 9 by
+> smcanuff. 2 are parked: 1801901E (MTI model is 4 solids) and 1807408E (model differs from the
+> drawing). **Policy (user): the drawing is the ground truth.** Model-vs-drawing differences are
+> kept and recorded as `drawing-wins` / `drawing-silent` flag resolutions that the scorer must
+> honour (e.g. A050411E draws 12 countersinks, model has 8). Data lives outside git in
+> `MTI_BENCH_DATA` (`.env`). Feature profile: no type above 30%, but **format dev has no
+> turned-part features** (all held-out). New error log entries: E025 (silent save) and E026 (a
+> makepy cache broke COM byref calls). Next: sub-project 2 (placement-aware scorer + stage blame),
+> then 3 (the official run). Branch `bench/dataset`, local commits only.
+>
 > **2026-10-12 (later): Phase 2c. Sketches are fully defined** with SolidWorks' Fully Define Sketch,
 > dimensioned from model edges, with exact relations only: **29/30 dev-set sketches fully defined**,
 > 9/9 dev parts verified, 405 tests (error log E023). The golden re-run was cut short by SolidWorks

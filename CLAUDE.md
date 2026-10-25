@@ -64,7 +64,9 @@ python ir_build.py tests/golden/ir/*.json --solidworks       # Feature IR: CadQu
 python ir_run.py --split dev --solidworks                    # drawing -> Astra extract+plan -> reference -> SW (paid, budget-guarded)
 python main.py --drawing <file> --ir --engine com            # same, one drawing
 python ir_compare.py                                         # v1 vs IR on the dev set (no API)
-python -m pytest tests/ -v                                   # tests (405 passing as of 2026-10-12)
+python -m pytest tests/ -v                                   # tests (675 passing as of 2026-10-24)
+python -m bench.prep status                                  # benchmark data (needs MTI_BENCH_DATA + ODA_CONVERTER in .env)
+python -m bench.prep <copy|dxf|pdf|step|keys|check|review|accept|signoff|profile>  # benchmark prep (no API cost)
 UPDATE_GOLDEN=1 python -m pytest tests/test_golden_macros.py # accept an intended macro change
 python -m pipeline.token_report ./output --html output/usage/usage_report.html  # token & cost report
 ```
