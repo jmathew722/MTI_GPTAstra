@@ -1,0 +1,173 @@
+"""score_part: identity = 100; planted errors cost exactly what the curve and weights say."""
+import random
+
+import pytest
+
+from bench.align import ROTATIONS, transform
+from bench.credit import attr_credit
+from bench.features import Feature, Key
+from bench.score_config import load
+from bench.scoring import score_part
+
+C = load()
+
+
+def _key():
+    return Key(part="P", units="inch", source="s", envelope=[6.0, 4.0, 1.0], features=[
+        Feature(id="K1", type="thru_hole", axis=[0, 0, 1], center=[1.0, 1.0, 0.0], d=0.5, depth=1.0, thru=True),
+        Feature(id="K2", type="thru_hole", axis=[0, 0, 1], center=[5.0, 1.0, 0.0], d=0.5, depth=1.0, thru=True),
+        Feature(id="K3", type="tapped_hole", axis=[1, 0, 0], center=[0.0, 3.0, 0.5], d=0.2, depth=0.6),
+        Feature(id="K4", type="bore", axis=[0, 0, 1], center=[3.0, 2.5, 0.0], d=1.5, depth=1.0, thru=True)])
+
+
+def test_identity_is_100_and_exact():
+    s = score_part(_key(), _key(), C)
+    assert s.score == pytest.approx(100.0) and s.exact
+    assert s.row("BASE").status == "matched" and s.row("BASE").weight == 10
+
+
+@pytest.mark.parametrize("i", range(24))
+def test_identity_under_rotation(i):
+    s = score_part(_key(), transform(_key(), ROTATIONS[i], (0.0, 0.0, 0.0)), C)
+    assert s.score == pytest.approx(100.0) and s.exact
+
+
+@pytest.mark.parametrize("k, credit", [(0.5, 1.0), (2.0, 0.40), (5.0, 0.20)])
+def test_moved_hole_costs_exactly_the_curve(k, credit):
+    gen = _key()
+    gen.feature("K1").center[0] += k * 0.005            # fallback tol 0.005 in
+    s = score_part(_key(), gen, C)
+    row = s.row("K1")
+    assert row.attr_credits["position"] == pytest.approx(credit, abs=0.005)
+    assert row.attr_credits["position"] == pytest.approx(attr_credit(k * 0.005, 0.005, C), abs=1e-6)
+    assert all(r.credit == pytest.approx(1.0) for r in s.rows if r.feature_id != "K1")
+    W = sum(r.weight for r in s.rows)
+    expected = 100 * (1 - row.weight * (1 - row.credit) / W)
+    assert s.score == pytest.approx(expected, abs=1e-6)
+
+
+def test_missing_feature_costs_its_weight_share():
+    gen = _key()
+    gen.features = [f for f in gen.features if f.id != "K4"]
+    s = score_part(_key(), gen, C)
+    W = sum(r.weight for r in s.rows)
+    assert s.row("K4").status == "missing"
+    assert s.score == pytest.approx(100 * (1 - s.row("K4").weight / W), abs=1e-6)
+
+
+def test_extra_feature_penalty():
+    gen = _key()
+    gen.features.append(Feature(id="K9", type="thru_hole", axis=[0, 0, 1], center=[3.0, 0.5, 0.0], d=0.5, depth=1.0))
+    s = score_part(_key(), gen, C)
+    W = sum(r.weight for r in s.rows)
+    assert s.extras and s.score == pytest.approx(100 * (1 - 0.5 * s.extras[0].weight / W), abs=1e-6)
+    assert not s.exact
+
+
+def test_type_error_costs_only_the_type_share():
+    gen = _key()
+    gen.feature("K3").type = "blind_hole"
+    s = score_part(_key(), gen, C)
+    assert s.row("K3").attr_credits["type"] == 0.0
+    assert set(s.row("K3").attr_credits) == {"position", "size", "depth", "type"}
+    assert s.row("K3").credit == pytest.approx(1 - 0.15 / 1.0)   # all four attributes present
+
+
+def test_counterbore_built_as_plain_hole_loses_only_type():
+    key = _key()
+    cb = key.feature("K1")
+    cb.type, cb.cbore_d, cb.cbore_depth = "counterbore", 0.8, 0.25
+    s = score_part(key, _key(), C)
+    r = s.row("K1")
+    assert r.attr_credits["type"] == 0.0
+    assert all(c == 1.0 for a, c in r.attr_credits.items() if a != "type")
+
+
+def test_thru_mismatch_is_a_depth_failure():
+    gen = _key()
+    gen.feature("K1").thru = False                     # same depth number, but blind
+    s = score_part(_key(), gen, C)
+    assert s.row("K1").attr_credits["depth"] == 0.0
+    assert s.row("K1").attr_credits["position"] == 1.0
+
+
+def test_thru_depth_is_not_scored_numerically():
+    gen = _key()
+    gen.feature("K1").depth = 0.9                      # both thru: the number does not matter
+    assert score_part(_key(), gen, C).row("K1").attr_credits["depth"] == 1.0
+
+
+def test_silent_attribute_not_scored_and_value_override_used():
+    key = _key()
+    key.overrides = [{"feature": "K4", "attr": "depth", "silent": True},
+                     {"feature": "K1", "attr": "d", "value": 0.6}]
+    gen = _key()
+    gen.feature("K4").depth = 0.3
+    gen.feature("K1").d = 0.6
+    s = score_part(key, gen, C)
+    assert "depth" not in s.row("K4").attr_credits and s.row("K1").credit == pytest.approx(1.0)
+
+
+def test_expected_count_adds_drawing_only_instances():
+    key = _key()
+    key.overrides = [{"type": "thru_hole", "expected_count": 3}]
+    s_missing = score_part(key, _key(), C)                        # generated has 2 thru holes too
+    assert any(r.status == "missing" and r.feature_id.startswith("EXPECT") for r in s_missing.rows)
+    gen = _key()
+    gen.features.append(Feature(id="G9", type="thru_hole", axis=[0, 0, 1], center=[3, 3.5, 0], d=0.5, depth=1.0))
+    s_found = score_part(key, gen, C)
+    assert s_found.score > s_missing.score and not s_found.extras
+    assert s_found.row("EXPECT-thru_hole-1").matched_id == "G9"
+
+
+def test_score_bounds():
+    gen = _key()
+    gen.features = [Feature(id=f"X{i}", type="thru_hole", axis=[0, 0, 1], center=[0.1 * i, 3.9, 0], d=0.1,
+                            depth=1.0) for i in range(40)]
+    s = score_part(_key(), gen, C)
+    assert 0.0 <= s.score <= 100.0
+
+
+def test_empty_generated_part_scores_only_the_base_body():
+    gen = Key(part="P", units="inch", source="s", envelope=[6.0, 4.0, 1.0], features=[])
+    s = score_part(_key(), gen, C)
+    W = sum(r.weight for r in s.rows)
+    assert s.score == pytest.approx(100 * 10 / W) and not s.exact
+    assert {r.status for r in s.rows if r.feature_id != "BASE"} == {"missing"}
+
+
+def test_no_envelope_scores_zero_without_raising():
+    gen = Key(part="P", units="inch", source="s", envelope=[], features=[])
+    s = score_part(_key(), gen, C)
+    assert s.score == 0.0 and s.row("BASE").status == "missing"
+
+
+def test_half_tolerance_noise_is_still_100():
+    rnd = random.Random(7)
+    gen = _key()
+    for f in gen.features:
+        f.center = [c + rnd.uniform(-0.5, 0.5) * 0.005 / 1.8 for c in f.center]   # |offset| <= 0.5 tol
+        f.d += rnd.uniform(-0.5, 0.5) * 0.005
+    s = score_part(_key(), gen, C)
+    assert s.score == pytest.approx(100.0) and s.exact
+
+
+def test_feature_order_is_irrelevant():
+    gen = _key()
+    gen.feature("K1").center[0] += 0.02
+    gen.feature("K4").d += 0.03
+    a = score_part(_key(), gen, C).score
+    gen.features.reverse()
+    key = _key()
+    key.features.reverse()
+    assert score_part(key, gen, C).score == pytest.approx(a, abs=1e-9)
+
+
+def test_larger_error_never_raises_the_score():
+    prev = 101.0
+    for k in (0, 0.5, 1, 1.5, 2, 5, 10, 15):
+        gen = _key()
+        gen.feature("K2").center[1] += k * 0.005
+        s = score_part(_key(), gen, C).score
+        assert s <= prev + 1e-9
+        prev = s
