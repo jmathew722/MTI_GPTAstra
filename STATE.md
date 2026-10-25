@@ -8,13 +8,15 @@
 > [2026-10-23-benchmark-dataset-design](docs/superpowers/specs/2026-10-23-benchmark-dataset-design.md))
 > converted them into PDFs, DXFs and reference STEPs, generated an answer key per part, cross-checked
 > each key against its drawing, and signed it off. **19 benchmark parts: 4 format dev
-> (A050291E, A050381E, A050511E, A050381M) and 15 held-out.** All 19 are signed: 10 auto, 9 by
+> (A050311E, A050381E, A050381M, A050511E) and 15 held-out.** The original dev set was all plates, so
+> a seeded swap (seed 20261024) traded round part A050311E into dev for plate A050291E. All 19 are signed: 10 auto, 9 by
 > smcanuff. 2 are parked: 1801901E (MTI model is 4 solids) and 1807408E (model differs from the
 > drawing). **Policy (user): the drawing is the ground truth.** Model-vs-drawing differences are
 > kept and recorded as `drawing-wins` / `drawing-silent` flag resolutions that the scorer must
 > honour (e.g. A050411E draws 12 countersinks, model has 8). Data lives outside git in
-> `MTI_BENCH_DATA` (`.env`). Feature profile: no type above 30%, but **format dev has no
-> turned-part features** (all held-out). New error log entries: E025 (silent save) and E026 (a
+> `MTI_BENCH_DATA` (`.env`). Feature profile: no type above 30%. After the swap, format dev has
+> holes, taps, counterbores, a bore and a turned diameter, but no slots, pockets, flats, chamfers,
+> fillets or countersinks (4 parts can't cover every type). New error log entries: E025 (silent save) and E026 (a
 > makepy cache broke COM byref calls). Next: sub-project 2 (placement-aware scorer + stage blame),
 > then 3 (the official run). Branch `bench/dataset`, local commits only.
 >

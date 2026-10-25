@@ -79,6 +79,26 @@ READMITTED_HELD = (
 READMITTED = READMITTED_DEV + READMITTED_HELD
 
 
+# Swap decided 2026-10-24 (user): the feature profile showed format dev had no turned-part
+# features, so one round held-out part and one dev plate trade places, picked by a recorded
+# seed (no hand picking). Twins / near-duplicates are excluded so pairs stay together.
+SWAP_SEED = 20261024
+SWAP_ROUND_CANDIDATES = ("A050061E", "A050071E", "A050211E", "A050221E", "A050311E")
+SWAP_PLATE_CANDIDATES = ("A050291E", "A050511E")
+
+
+def swap_pick() -> tuple[str, str]:
+    """(round part into format dev, plate out of format dev)."""
+    r = random.Random(SWAP_SEED)
+    return r.choice(sorted(SWAP_ROUND_CANDIDATES)), r.choice(sorted(SWAP_PLATE_CANDIDATES))
+
+
+def format_dev() -> list[str]:
+    """Final format-dev parts: the seeded pick, after the seeded swap, plus re-admitted twins."""
+    round_in, plate_out = swap_pick()
+    return sorted((set(choose_format_dev()) - {plate_out}) | {round_in} | {p.part for p in READMITTED_DEV})
+
+
 def choose_format_dev() -> list[str]:
     cands = sorted(p.part for p in CLEAN if p.complexity == "simple" and p.part not in NEAR_DUPLICATES)
     return sorted(random.Random(SEED).sample(cands, 3))

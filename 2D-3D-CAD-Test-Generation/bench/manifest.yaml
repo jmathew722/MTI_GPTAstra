@@ -77,11 +77,12 @@ splits:
       views: DrawingPDFs/A001351E.PDF
       units: inch
       reference_step: null
-    - {part: A050291E, source: mti_bench, family: "large plate/bracket, holes and taps", units: inch, complexity: simple, reference_step: reference.step}
     - {part: A050381E, source: mti_bench, family: "mounting pad block, 4 tapped blind", units: inch, complexity: simple, reference_step: reference.step}
     - {part: A050511E, source: mti_bench, family: "key (Wuxi), counterbore", units: inch, complexity: simple, reference_step: reference.step}
     # re-admitted 2026-10-24 (drawing-is-ground-truth policy); twin of format-dev A050381E
     - {part: A050381M, source: mti_bench, family: "mounting pad, metric taps (twin of A050381E)", units: inch, complexity: simple, reference_step: reference.step, readmitted: "2026-10-24"}
+    # swapped in 2026-10-24 (seed 20261024): format dev had no turned-part features (bench/split.py swap_pick)
+    - {part: A050311E, source: mti_bench, family: "collet actuator ring", units: inch, complexity: simple, reference_step: reference.step, swapped: "2026-10-24"}
 
   # FROZEN 2026-10-23 (spec 2026-10-23). Never tune, debug or take prompt examples from these.
   held_out:
@@ -89,7 +90,8 @@ splits:
     - {part: A050181E, source: mti_bench, family: "mounting pad bar, 2 tapped thru", units: inch, complexity: simple, reference_step: reference.step}
     - {part: A050211E, source: mti_bench, family: "retainer disc, 6 thru holes, U-notch", units: inch, complexity: simple, reference_step: reference.step}
     - {part: A050221E, source: mti_bench, family: "flanged disc, bore, hole pattern", units: inch, complexity: simple, reference_step: reference.step}
-    - {part: A050311E, source: mti_bench, family: "collet actuator ring", units: inch, complexity: simple, reference_step: reference.step}
+    # swapped out of format dev 2026-10-24 (seed 20261024; see swap_pick)
+    - {part: A050291E, source: mti_bench, family: "large plate/bracket, holes and taps", units: inch, complexity: simple, reference_step: reference.step, swapped: "2026-10-24"}
     - {part: A050411E, source: mti_bench, family: "tank cover plate, 12 countersinks", units: inch, complexity: simple, reference_step: reference.step}
     - {part: A050471E, source: mti_bench, family: "locator (Wuxi), 3 counterbores", units: inch, complexity: simple, reference_step: reference.step}
     - {part: A050481E, source: mti_bench, family: "locator (Wuxi), 3 counterbores", units: inch, complexity: simple, reference_step: reference.step}
