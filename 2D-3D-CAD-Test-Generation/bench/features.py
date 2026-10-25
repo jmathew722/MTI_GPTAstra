@@ -15,6 +15,7 @@ KEY_VERSION = 1
 FEATURE_TYPES = (
     "thru_hole", "blind_hole", "tapped_hole", "counterbore", "countersink", "bore",
     "turned_diameter", "boss", "slot", "pocket_step", "flat", "chamfer", "fillet", "hole_pattern",
+    "base_body",   # synthetic, scorer only (bench.weights.base_body); keygen never emits it
 )
 HOLE_TYPES = ("thru_hole", "blind_hole", "tapped_hole", "counterbore", "countersink")
 
