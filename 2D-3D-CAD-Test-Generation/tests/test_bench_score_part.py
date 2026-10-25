@@ -217,3 +217,45 @@ def test_chiral_mirror_is_not_a_perfect_score():
     s = score_part(_chiral(), gen, C)
     assert s.score < 100.0 and not s.exact
     assert score_part(_chiral(), _chiral(), C).score == pytest.approx(100.0)
+
+
+@pytest.mark.parametrize("gdepth, ok", [(1.0, True), (0.5, False)])
+def test_unknown_generated_thru_falls_back_to_numeric_depth(gdepth, ok):
+    gen = _key()
+    gen.feature("K1").thru, gen.feature("K1").depth = None, gdepth
+    c = score_part(_key(), gen, C).row("K1").attr_credits["depth"]
+    assert (c == 1.0) if ok else (c < 1.0)
+
+
+def _twin():
+    """Metric-twin case (A050031E/M): the model has plain holes where the drawing calls TAP, so
+    the key has 0 tapped holes and a count override for 2."""
+    k = Key(part="T", units="inch", source="s", envelope=[6.0, 4.0, 1.0], features=[
+        Feature(id="K1", type="thru_hole", axis=[0, 0, 1], center=[1.0, 1.0, 0.0], d=0.5, depth=1.0, thru=True),
+        Feature(id="K2", type="thru_hole", axis=[0, 0, 1], center=[5.0, 1.0, 0.0], d=0.5, depth=1.0, thru=True),
+        Feature(id="K3", type="bore", axis=[0, 0, 1], center=[2.0, 3.0, 0.0], d=1.5, depth=1.0, thru=True)])
+    k.overrides = [{"type": "tapped_hole", "expected_count": 2, "note": "callout says 2, key has 0"}]
+    return k
+
+
+def test_metric_twin_tapped_holes_are_not_double_counted():
+    gen = _twin()
+    gen.overrides = []
+    for fid in ("K1", "K2"):
+        gen.feature(fid).type = "tapped_hole"        # built as the drawing says
+    s = score_part(_twin(), gen, C)
+    assert s.score == pytest.approx(100.0) and s.exact
+    assert not any(r.feature_id.startswith("EXPECT") for r in s.rows)
+    assert s.row("K1").attr_credits["type"] == 1.0 and "drawing calls for tapped_hole" in s.row("K1").reason
+
+
+def test_metric_twin_waiver_is_limited_to_the_shortfall():
+    key = _twin()
+    key.overrides = [{"type": "tapped_hole", "expected_count": 1}]
+    gen = _twin()
+    gen.overrides = []
+    for fid in ("K1", "K2"):
+        gen.feature(fid).type = "tapped_hole"
+    s = score_part(key, gen, C)
+    waived = [r for r in s.rows if r.feature_id in ("K1", "K2") and r.attr_credits["type"] == 1.0]
+    assert len(waived) == 1 and not any(r.feature_id.startswith("EXPECT") for r in s.rows)

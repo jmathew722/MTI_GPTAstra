@@ -87,10 +87,12 @@ def _attr_errors(k: Feature, g: Feature) -> dict:
     dp = []
     if k.thru is not None and g.thru is not None and k.thru != g.thru:
         dp.append(math.inf)                       # thru vs blind: a depth failure whatever the numbers
-    elif k.thru:
+    elif k.thru and g.thru:
         dp.append(0.0)                            # thru on both: depth is not scored numerically
-    elif k.depth is not None:
+    elif k.depth is not None:                     # blind, or thru unknown on the generated side
         dp.append(abs(k.depth - g.depth) if g.depth is not None else math.inf)
+    elif k.thru:                                  # thru key without a depth, generated unknown
+        dp.append(math.inf)
     if k.cbore_depth is not None:
         if g.cbore_depth is not None:
             dp.append(abs(k.cbore_depth - g.cbore_depth))
@@ -139,11 +141,22 @@ def _evaluate(eff: overrides.Effective, gen: Key, cfg: Config) -> tuple[PartScor
     by_g = {f.id: f for f in gf}
 
     rows = [_base_row(k, gen, part_size, cfg)]
+    # Count overrides: the drawing calls for n of a type the key has fewer of (shortfall). In the
+    # metric-twin case the key holds those very holes as another hole type, so a generated
+    # feature of the called-for type paired with such a key hole keeps its type credit and
+    # fills one unit of the shortfall; only what is left becomes drawing-only (EXPECT) rows.
+    shortfall = {typ: n - sum(1 for f in kf if f.type == typ) for typ, n in eff.expected_counts.items()}
     for kid, gid in pairs:
         f, g = by_k[kid], by_g[gid]
-        credits, shown = _credits(kid, _attr_errors(f, g), lambda a, f=f: tol_of(f, a), eff.silent, cfg)
+        errs = _attr_errors(f, g)
+        reason = ""
+        if f.type != g.type and shortfall.get(g.type, 0) > 0:
+            shortfall[g.type] -= 1
+            errs["type"] = 0.0
+            reason = f"drawing calls for {g.type} (count override); key has {f.type}"
+        credits, shown = _credits(kid, errs, lambda a, f=f: tol_of(f, a), eff.silent, cfg)
         rows.append(Row(kid, f.type, cfg.tiers.get(f.type, 0), weight(f, part_size, cfg), "matched", gid,
-                        errors=shown, attr_credits=credits, credit=feature_credit(credits, cfg)))
+                        errors=shown, attr_credits=credits, credit=feature_credit(credits, cfg), reason=reason))
     for kid in missing:
         f = by_k[kid]
         rows.append(Row(kid, f.type, cfg.tiers.get(f.type, 0), weight(f, part_size, cfg), "missing"))
@@ -152,10 +165,9 @@ def _evaluate(eff: overrides.Effective, gen: Key, cfg: Config) -> tuple[PartScor
     # has. Each is satisfied by an extra generated feature of that type and size; position is not
     # scored (the drawing does not place it relative to the model's features).
     extras_left = list(extra)
-    for typ, n in sorted(eff.expected_counts.items()):
-        have = sum(1 for f in kf if f.type == typ)
+    for typ, short in sorted(shortfall.items()):
         proto = next((f for f in kf if f.type == typ), Feature(id="EXPECT", type=typ))
-        for i in range(max(0, n - have)):
+        for i in range(max(0, short)):
             fid = f"EXPECT-{typ}-{i + 1}"
             cand = next((gid for gid in extras_left if by_g[gid].type == typ
                          and (proto.d is None or by_g[gid].d is None
