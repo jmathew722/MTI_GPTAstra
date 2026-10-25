@@ -60,10 +60,24 @@ def _clean(v) -> list[float]:
     return [float(x) + 0.0 for x in v]          # + 0.0 turns -0.0 into 0.0
 
 
+# keygen locates these at the low end of their (canonical) axis, not at a start face: turned
+# diameters, bosses, chamfers, fillets, slot ends and further bore steps (bores without thru).
+_LOW_END = ("turned_diameter", "boss", "chamfer", "fillet", "slot")
+
+
+def _low_end(f: Feature) -> bool:
+    return f.type in _LOW_END or (f.type == "bore" and f.thru is None)
+
+
 def transform(key: Key, R: np.ndarray, t=(0.0, 0.0, 0.0)) -> Key:
     """A copy of `key` rotated by R about the origin, shifted so the rotated bbox starts at the
     origin again, then translated by t. Points, axes (canonical sign), planes n.x = o (canonical
-    normal sign, offset recomputed) and axis-aligned extents all move consistently."""
+    normal sign, offset recomputed) and axis-aligned extents all move consistently.
+
+    The result is what keygen reports for the solid turned by R: a feature keygen locates at the
+    low end of its canonical axis (_LOW_END) moves to its other end when R reverses that axis.
+    Holes keep their start point (a blind hole's open end; a thru hole's axial offset is not
+    scored)."""
     k = copy.deepcopy(key)
     R = np.asarray(R, float)
     env = np.asarray(key.envelope if key.envelope and len(key.envelope) == 3 else (0.0, 0.0, 0.0), float)
@@ -75,7 +89,13 @@ def transform(key: Key, R: np.ndarray, t=(0.0, 0.0, 0.0)) -> Key:
     absR = np.abs(R)
     for f in k.features:
         if f.center is not None:
-            f.center = _clean(R @ np.asarray(f.center, float) + shift)
+            c = np.asarray(f.center, float)
+            if f.axis is not None and f.depth and _low_end(f):
+                ax = np.asarray(f.axis, float)
+                ra = R @ ax
+                if float(_canon(ra) @ ra) < 0:          # axis reversed: the other end is now low
+                    c = c + ax * float(f.depth)
+            f.center = _clean(R @ c + shift)
         if f.axis is not None:
             f.axis = _clean(_canon(R @ np.asarray(f.axis, float)))
         if f.normal is not None:

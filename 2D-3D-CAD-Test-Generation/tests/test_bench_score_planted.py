@@ -30,7 +30,7 @@ BLIND = (25.0, 48.0)
 
 def _plate(thru=THRU, blind=BLIND, cbore_at=None):
     """100 x 60 x 10 mm plate, origin at its bbox minimum: 8 mm thru holes, one 6 mm x 5 mm
-    flat-bottom blind hole from the top, optionally a counterbore (8 / 14 x 4) instead of the
+    flat-bottom blind hole from the top, optionally a counterbore (8 / 14 x 6, deeper than half the plate) instead of the
     first thru hole."""
     top = cq.Workplane("XY").box(100, 60, 10, centered=False).faces(">Z").workplane(
         centerOption="ProjectedOrigin", origin=(0, 0, 0))
@@ -38,7 +38,7 @@ def _plate(thru=THRU, blind=BLIND, cbore_at=None):
     wp = top.pushPoints(plain).hole(8)
     if cbore_at is not None:
         wp = wp.faces(">Z").workplane(centerOption="ProjectedOrigin", origin=(0, 0, 0)) \
-            .pushPoints([cbore_at]).cboreHole(8, 14, 4)
+            .pushPoints([cbore_at]).cboreHole(8, 14, 6)
     if blind is not None:
         wp = wp.faces(">Z").workplane(centerOption="ProjectedOrigin", origin=(0, 0, 0)) \
             .pushPoints([blind]).hole(6, depth=5)
@@ -96,6 +96,65 @@ def test_identity_after_moving_the_solid(rot, tmp_path):
     assert s.score == pytest.approx(100.0, abs=1e-9) and s.exact
 
 
+def _turned():
+    """Turned part on Z: OD 40 x 60 with a 25 x 20 spigot on top, OD chamfer at the bottom, a
+    6 mm cross hole at z = 20, a flat on the OD and an 8 x 15 blind centre hole in the spigot."""
+    body = (cq.Workplane("XY").circle(20).extrude(60).faces(">Z").workplane().circle(12.5).extrude(20)
+            .faces("<Z").chamfer(1.5))
+    body = body.cut(cq.Workplane("YZ").workplane(offset=-30).center(0, 20).circle(3).extrude(60))
+    body = body.cut(cq.Workplane("XY").box(40, 10, 30).translate((0, 23, 45)))      # flat at y = 18
+    body = body.faces(">Z").workplane(centerOption="ProjectedOrigin", origin=(0, 0, 0)).hole(8, depth=15)
+    return body.val()
+
+
+def _rotated(solid, R):
+    """The solid turned by the proper rotation matrix R about the origin."""
+    from OCP.BRepBuilderAPI import BRepBuilderAPI_Transform
+    from OCP.gp import gp_Trsf
+    t = gp_Trsf()
+    t.SetValues(*(float(R[r][c]) if c < 3 else 0.0 for r in range(3) for c in range(4)))
+    return cq.Shape.cast(BRepBuilderAPI_Transform(solid.wrapped, t, True).Shape())
+
+
+def _same(a: Feature, b: Feature) -> bool:
+    """Equal fields; a thru feature's centre only across its axis (its offset along the axis is
+    not scored when both are thru, and keygen samples it from the face)."""
+    if a.thru and b.thru and a.center and b.center and a.axis == b.axis:
+        d = [p - q for p, q in zip(a.center, b.center)]
+        along = sum(x * y for x, y in zip(d, a.axis))
+        if math.dist(d, [along * x for x in a.axis]) >= 1e-6:
+            return False
+        a = copy.copy(a)
+        a.center = b.center
+
+    def close(x, y):
+        if x is None or y is None:
+            return x is y
+        if isinstance(x, list):
+            return len(x) == len(y) and all(abs(p - q) < 1e-6 for p, q in zip(x, y))
+        return abs(x - y) < 1e-6
+    return a.type == b.type and all(close(getattr(a, n), getattr(b, n))
+                                    for n in ("axis", "center", "d", "depth", "normal", "offset", "size"))
+
+
+@pytest.mark.parametrize("i", range(24))
+def test_transform_agrees_with_keygen_of_the_rotated_solid(i):
+    """align.transform(key, R) must be what keygen reports for the solid turned by R, so a
+    generated part in any of the 24 orientations is posed exactly. Features keygen locates at the
+    low end of their (canonical) axis -- turned diameters, chamfers, ... -- change ends when R
+    reverses that axis."""
+    import numpy as np
+    solid = _turned()
+    k0 = _key_of(solid)
+    R = ROTATIONS[i]
+    rotated = _key_of(_rotated(solid, R))
+    expected = transform(k0, R)
+    assert np.allclose(rotated.envelope, expected.envelope)
+    got = [f for f in rotated.features if f.type != "hole_pattern"]
+    for f in (f for f in expected.features if f.type != "hole_pattern"):
+        assert any(_same(f, g) for g in got), (f, [g for g in got if g.type == f.type])
+
+
 # --- planted errors ----------------------------------------------------------------------------
 
 @pytest.mark.parametrize("k", [0.5, 0.99, 1.5, 2, 5, 10])
@@ -134,6 +193,39 @@ def test_filled_hole_costs_its_weight_share(tmp_path):
     assert s.row(h.id).status == "missing" and not s.extras
     assert all(r.credit == 1.0 for r in s.rows if r.feature_id != h.id)
     assert s.score == pytest.approx(100 * (1 - s.row(h.id).weight / _weights(s)), abs=1e-6)
+
+
+def test_filling_a_drill_point_blind_hole_leaves_nothing_behind(tmp_path):
+    """A drilled blind hole ends in a cone; the plug fills it too (no stray chamfer/step)."""
+    key = _key_of(_drilled())
+    h = next(f for f in key.features if f.type == "blind_hole" and f.center[0] < 30)
+    assert "drill point" in h.note
+    gen = _round_trip(plant.fill(_drilled(), key, h.id), tmp_path)
+    s = score_part(key, gen, C)
+    assert s.row(h.id).status == "missing" and not s.extras
+    assert s.score == pytest.approx(100 * (1 - s.row(h.id).weight / _weights(s)), abs=1e-6)
+
+
+def _drilled():
+    """60 x 40 x 20 block with two 6 mm x 12 mm blind holes from the top, 118 degree drill points."""
+    body = cq.Workplane("XY").box(60, 40, 20, centered=False)
+    for x in (15.0, 45.0):
+        r = 3.0
+        tip = r / math.tan(math.radians(59))
+        drill = (cq.Workplane("XZ").polyline([(0, 20), (r, 20), (r, 8), (0, 8 - tip)]).close()
+                 .revolve(360, (0, 0, 0), (0, 1, 0)).translate((x, 20, 0)))
+        body = body.cut(drill)
+    return body.val()
+
+
+def test_moved_counterbore_keeps_its_counterbore(tmp_path):
+    key = _key_of(_plate(cbore_at=THRU[0]))
+    cb = _hole_at(key, THRU[0], "counterbore")
+    gen = _round_trip(plant.move(_plate(cbore_at=THRU[0]), key, cb.id, (0.0, 2 * TOL_MM, 0.0)), tmp_path)
+    s = score_part(key, gen, C)
+    row = s.row(cb.id)
+    assert row.attr_credits["position"] == pytest.approx(attr_credit(2 * TOL_MM, TOL_MM, C), abs=0.01)
+    assert all(c == 1.0 for a, c in row.attr_credits.items() if a != "position") and not s.extras
 
 
 def test_extra_hole_costs_exactly_the_extra_penalty(tmp_path):

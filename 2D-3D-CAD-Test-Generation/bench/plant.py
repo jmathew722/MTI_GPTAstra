@@ -57,14 +57,15 @@ def _length(f: Feature) -> float:
 
 def _direction(solid, f: Feature, k: float) -> int:
     """+1 if the hole runs along +axis from its center, else -1. Probes the material just outside
-    the hole wall halfway down each way: the drilled side has wall material, the open side not."""
+    the widest part of the hole, halfway down the drill, each way: the drilled side has wall
+    material there, the open side not."""
     import cadquery as cq
     lo = _lo(solid)
     ax = cq.Vector(*f.axis)
     c = _g(lo, f.center, k)
-    r = (f.d or 0.0) * k / 2
+    r = max(f.d or 0.0, f.cbore_d or 0.0) * k / 2
     perp = ax.cross(cq.Vector(1, 0, 0) if abs(f.axis[0]) < 0.9 else cq.Vector(0, 1, 0)).normalized()
-    half = _length(f) * k / 2
+    half = ((f.cbore_depth or 0.0) + (f.depth or 0.0) / 2) * k
     votes = {+1: 0, -1: 0}
     for s in (+1, -1):
         for sign in (+1, -1):
@@ -111,8 +112,11 @@ def fill(solid, key: Key, fid: str):
     c = _g(_lo(solid), f.center, k)
     ax = cq.Vector(*f.axis)
     total = _length(f) * k
-    # flush at the mouth; through holes flush at the far face too (no protrusion)
-    plug = _cylinder(c, ax, s, f.d * k / 2 * 1.002, total, 0.0, 0.0)
+    # flush at the mouth; through holes flush at the far face too (no protrusion); a blind hole's
+    # plug runs 0.35 d past the bottom to fill a drill point (118 deg: 0.3 d long); a floor
+    # thinner than that would be broken through by the drill point anyway
+    beyond = 0.0 if f.thru else 0.35 * f.d * k
+    plug = _cylinder(c, ax, s, f.d * k / 2 * 1.002, total, 0.0, beyond)
     if f.type == "counterbore" and f.cbore_d:
         plug = plug.fuse(_cylinder(c, ax, s, f.cbore_d * k / 2 * 1.002, f.cbore_depth * k, 0.0, 0.0))
     return solid.fuse(plug).clean()
