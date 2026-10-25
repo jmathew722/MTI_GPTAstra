@@ -234,12 +234,20 @@ def step_check(ctx: Ctx) -> int:
         for f in flags:
             f.resolution = kept.get((f.kind, f.detail, f.feature))
         key.flags, key.signoff = flags, None
-        key.overrides = list(old.overrides) if old else []    # a person's overrides are not feature edits
+        # a person's overrides are not feature edits: keep them, except those aimed at a feature
+        # id the rebuilt key no longer has (reported in the step status / prep log)
+        ids = {f.id for f in key.features}
+        key.overrides = [o for o in (old.overrides if old else []) if "feature" not in o or o["feature"] in ids]
+        dropped = sorted({o["feature"] for o in (old.overrides if old else [])
+                          if "feature" in o and o["feature"] not in ids})
+        n_dropped = len(old.overrides) - len(key.overrides) if old else 0
         crosscheck.link(key, drawing)                          # the rebuilt features need their links / tol
         crosscheck.sign_auto(key, f"bench.crosscheck@{_version()}")
         key.save(path)
+        warn = (f"; WARNING dropped {n_dropped} override(s) for missing feature(s) {', '.join(dropped)}"
+                if n_dropped else "")
         return (f"ok: {len(flags)} flag(s), {len(key.open_flags())} open, "
-                f"{'auto-signed' if key.signed else 'needs a person'}")
+                f"{'auto-signed' if key.signed else 'needs a person'}{warn}")
     return ctx.run("check", None, fn, "bench.crosscheck")
 
 

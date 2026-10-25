@@ -221,6 +221,20 @@ def test_check_keeps_overrides_and_relinks(root, fakes):
     assert _load(root, P1).overrides == ov
 
 
+def test_check_drops_overrides_for_vanished_features_and_logs(root, fakes):
+    assert prep.main(["check", "--parts", P1]) == 0
+    k = _load(root, P1)
+    keep = {"feature": "K001", "attr": "depth", "silent": True}
+    k.overrides = [keep, {"feature": "K099", "attr": "d", "value": 0.3},
+                   {"type": "countersink", "expected_count": 4}, {"drawing_only": "linear 0.375"}]
+    k.save(root / P1 / "key.json")
+    assert prep.main(["check", "--parts", P1]) == 0
+    assert _load(root, P1).overrides == [keep, {"type": "countersink", "expected_count": 4},
+                                         {"drawing_only": "linear 0.375"}]
+    log = [json.loads(x) for x in (root / "prep_log.jsonl").read_text().splitlines()]
+    assert "dropped 1 override" in log[-1]["status"] and "K099" in log[-1]["status"]
+
+
 def test_crosscheck_relabel_is_idempotent():
     """Belt and braces for the choice above: check() twice on one key gives the same result."""
     k = _key("P")
