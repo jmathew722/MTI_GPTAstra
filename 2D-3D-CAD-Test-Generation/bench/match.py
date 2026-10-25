@@ -1,6 +1,8 @@
 """Feature matching (spec 2026-10-24, 'Matching').
 
 One-to-one assignment (Hungarian) between key and generated features of the same family.
+Types compare by same_type (a key tapped hole read back from geometry as a plain hole is not a
+type mismatch).
 Pair cost = position error / tol + size error / tol + a type-mismatch constant; a pair farther
 than gate = min(gate_tol_multiple x tol, gate_part_fraction x part size) never matches, nor does
 a pair whose axes (or plane normals) are not parallel: a hole drilled from the wrong face is a
@@ -24,6 +26,18 @@ INF = 1e9          # an infeasible pair (finite: the solver needs it; sums stay 
 
 def family(t: str) -> Optional[str]:
     return _FAMILY.get(t)
+
+
+# A STEP carries no thread (threads are cosmetic), so a geometric reader reports a tapped hole as
+# the plain hole at its tap drill: a key tapped hole read back as a plain hole is the same type
+# (its tap drill is still scored as size). Not the other way round: a generated "tapped_hole"
+# where the key has a plain hole claims a thread the key does not have.
+_GEOMETRIC_ALIASES = {("tapped_hole", "blind_hole"), ("tapped_hole", "thru_hole")}
+
+
+def same_type(key_type: str, gen_type: str) -> bool:
+    """Key feature type vs generated feature type, as far as geometry can tell them apart."""
+    return key_type == gen_type or (key_type, gen_type) in _GEOMETRIC_ALIASES
 
 
 def _parallel(a, b) -> bool:
@@ -86,7 +100,7 @@ def match(key: list[Feature], gen: list[Feature], part_size: float,
                 if pe > gate * (1 + 1e-9):
                     continue
                 se = size_error(f, g) or 0.0
-                cost[i, j] = pe / tp + se / ts + (0.0 if f.type == g.type else cfg.type_mismatch_cost)
+                cost[i, j] = pe / tp + se / ts + (0.0 if same_type(f.type, g.type) else cfg.type_mismatch_cost)
         rows, cols = linear_sum_assignment(cost)
         used_k, used_g = set(), set()
         for r, c in zip(rows, cols):

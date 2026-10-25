@@ -27,6 +27,7 @@ from typing import Callable, Optional
 import numpy as np
 
 from bench.features import Feature, Key
+from bench.match import same_type
 
 _FALLBACK_TOL = {"inch": 0.005, "mm": 0.1}
 _SIZED_PLANAR = ("flat", "pocket_step", "base_body")
@@ -107,11 +108,11 @@ def _pairs(target: Key, moving: Key) -> list[tuple[Feature, Feature]]:
     used, out = set(), []
     for f in target.features:
         if f.center is not None:
-            cands = [g for g in moving.features if g.id not in used and g.type == f.type and g.center is not None
+            cands = [g for g in moving.features if g.id not in used and same_type(f.type, g.type) and g.center is not None
                      and (f.axis is None or g.axis is None or _parallel(f.axis, g.axis))]
             dist = lambda g: _residual(f, g, np.zeros(3))  # noqa: E731
         elif f.normal is not None:
-            cands = [g for g in moving.features if g.id not in used and g.type == f.type and g.normal is not None
+            cands = [g for g in moving.features if g.id not in used and same_type(f.type, g.type) and g.normal is not None
                      and _parallel(f.normal, g.normal)]
             dist = lambda g: _residual(f, g, np.zeros(3))  # noqa: E731
         else:

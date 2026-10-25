@@ -65,12 +65,35 @@ def test_extra_feature_penalty():
 
 
 def test_type_error_costs_only_the_type_share():
-    gen = _key()
-    gen.feature("K3").type = "blind_hole"
-    s = score_part(_key(), gen, C)
+    key, gen = _key(), _key()
+    key.feature("K3").type = "blind_hole"
+    gen.feature("K3").type = "thru_hole"
+    s = score_part(key, gen, C)
     assert s.row("K3").attr_credits["type"] == 0.0
     assert set(s.row("K3").attr_credits) == {"position", "size", "depth", "type"}
     assert s.row("K3").credit == pytest.approx(1 - 0.15 / 1.0)   # all four attributes present
+
+
+@pytest.mark.parametrize("gtype", ["blind_hole", "thru_hole"])
+def test_tapped_hole_read_from_geometry_as_a_plain_hole_is_not_a_type_error(gtype):
+    """A STEP carries no thread (threads are cosmetic), so a geometric reader (keygen) reports a
+    tapped hole as the plain hole at its tap drill. That is the right geometry, not a type error;
+    the tap drill diameter is still scored as size. (Real data: every tapped hole of A050381E
+    lost 0.15 against MTI's own model.)"""
+    gen = _key()
+    gen.feature("K3").type = gtype
+    s = score_part(_key(), gen, C)
+    assert s.row("K3").attr_credits["type"] == 1.0
+    assert s.score == pytest.approx(100.0) and s.exact
+    gen.feature("K3").d += 10 * 0.005                  # wrong drill size is still caught
+    assert score_part(_key(), gen, C).row("K3").attr_credits["size"] < 1.0
+
+
+def test_plain_key_hole_built_as_tapped_is_still_a_type_error():
+    key, gen = _key(), _key()
+    key.feature("K3").type = "blind_hole"
+    s = score_part(key, gen, C)                        # gen K3 is tapped_hole
+    assert s.row("K3").attr_credits["type"] == 0.0
 
 
 def test_counterbore_built_as_plain_hole_loses_only_type():

@@ -17,7 +17,7 @@ from typing import Optional
 from bench import align, overrides
 from bench.credit import attr_credit, feature_credit
 from bench.features import Feature, Key
-from bench.match import match, position_error, size_error
+from bench.match import match, position_error, same_type, size_error
 from bench.score_config import Config
 from bench.weights import BASE_ID, base_body, weight
 
@@ -75,7 +75,7 @@ def _has_size(f: Feature) -> bool:
 
 def _attr_errors(k: Feature, g: Feature) -> dict:
     """Absolute error per scored attribute present on the key feature (inf = outright failure)."""
-    out = {"type": 0.0 if k.type == g.type else 1.0}
+    out = {"type": 0.0 if same_type(k.type, g.type) else 1.0}
     if k.center is not None or k.normal is not None:
         out["position"] = position_error(k, g)
     if _has_size(k):
@@ -150,7 +150,7 @@ def _evaluate(eff: overrides.Effective, gen: Key, cfg: Config) -> tuple[PartScor
         f, g = by_k[kid], by_g[gid]
         errs = _attr_errors(f, g)
         reason = ""
-        if f.type != g.type and shortfall.get(g.type, 0) > 0:
+        if not same_type(f.type, g.type) and shortfall.get(g.type, 0) > 0:
             shortfall[g.type] -= 1
             errs["type"] = 0.0
             reason = f"drawing calls for {g.type} (count override); key has {f.type}"
