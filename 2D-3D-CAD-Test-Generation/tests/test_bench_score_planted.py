@@ -348,3 +348,132 @@ def test_property_feature_order_is_irrelevant_and_score_is_bounded():
         rnd.shuffle(k2.features)
         rnd.shuffle(g2.features)
         assert score_part(k2, g2, C).score == pytest.approx(a, abs=1e-9), key.part
+
+
+# --- real MTI parts (skipped without MTI_BENCH_DATA; read only) --------------------------------
+
+
+
+def _data_root():
+    try:
+        return config.data_root(required=False)
+    except config.BenchConfigError:          # set but pointing nowhere: skip, the config tests cover it
+        return None
+
+
+ROOT = _data_root()
+_MANIFEST = Path(__file__).resolve().parent.parent / "bench" / "manifest.yaml"
+PARTS = split.bench_parts(yaml.safe_load(_MANIFEST.read_text(encoding="utf-8")))
+real = pytest.mark.skipif(ROOT is None, reason="MTI_BENCH_DATA not set (confidential benchmark data)")
+INCH = 25.4
+
+# keygen picks by an order that depends on the axis direction, so in the 12 orientations that
+# reverse the part's axis it reports these parts differently (not a scorer issue; fixing keygen
+# changes the signed keys, so it waits for a re-key). ROTATIONS[1] reverses it for both.
+_KEYGEN_ORIENTATION = {
+    "A050071E": "keygen._cones_and_partials takes a cone's host as the first hole on its axis line, "
+                "not the hole whose end it touches; the rod's two coaxial end holes (0.5312 and 0.3125 tap "
+                "drills) swap which one gets the drill point and which cone becomes a chamfer (97.02)",
+    "A050061E": "keygen._hole_chain picks the drill as min(chain, key=radius); the bore has two equal "
+                "2.501 segments (split by a 2.74 groove) and the tie goes to the first along the canonical "
+                "axis, so the thru bore and the 'further step' swap (one bore missing + one extra: 89.39)",
+}
+
+_cache: dict = {}
+
+
+def _real(part):
+    """(key with no overrides and no resolutions, reference solid, keygen of the reference STEP)."""
+    if part not in _cache:
+        d = ROOT / part
+        key = Key.load(d / "key.json")
+        k = copy.deepcopy(key)
+        k.overrides = []                     # identity is model vs model: drawing overrides off,
+        for fl in k.flags:                   # including those derived from flag resolutions
+            fl.resolution = None
+        _cache[part] = (k, plant.read_solid(d / "reference.step"),
+                        keygen.from_step(d / "reference.step", units=key.units, part=part))
+    return _cache[part]
+
+
+@real
+@pytest.mark.parametrize("part", PARTS)
+def test_real_reference_scores_100_against_its_own_key(part):
+    key, _, gen = _real(part)
+    s = score_part(key, gen, C)
+    assert s.score == pytest.approx(100.0, abs=1e-9) and s.exact, \
+        [(r.feature_id, r.status, r.attr_credits) for r in s.rows if r.credit < 1] + s.extras
+
+
+@real
+@pytest.mark.parametrize("part", PARTS)
+def test_real_identity_under_seeded_rotations(part):
+    key, _, gen = _real(part)
+    rnd = random.Random(f"rot-{part}")
+    for i in rnd.sample(range(1, 24), 3):
+        s = score_part(key, transform(gen, ROTATIONS[i]), C)
+        assert s.score == pytest.approx(100.0, abs=1e-9) and s.exact, i
+
+
+def _posed_params():
+    out = []
+    for p in PARTS:
+        if p in _KEYGEN_ORIENTATION:
+            out.append(pytest.param(p, 1, marks=pytest.mark.xfail(strict=True, reason=_KEYGEN_ORIENTATION[p])))
+        else:
+            out.append(pytest.param(p, random.Random(f"pose-{p}").randrange(1, 24)))
+    return out
+
+
+@real
+@pytest.mark.parametrize("part, i", _posed_params())
+def test_real_identity_with_the_solid_turned_and_moved(part, i):
+    """The honest version: the reference solid itself turned by ROTATIONS[i] and moved off-axis
+    by (0.37, -1.2, 0.05) in, then read by keygen."""
+    key, solid, _ = _real(part)
+    posed = _rotated(solid, ROTATIONS[i]).translate(cq.Vector(0.37 * INCH, -1.2 * INCH, 0.05 * INCH))
+    s = score_part(key, keygen.extract(posed, units=key.units, part=part, source="posed"), C)
+    assert s.score == pytest.approx(100.0, abs=1e-9) and s.exact
+
+
+# Planted on real parts: A050211E thru holes; A050381E has no thru hole, so a blind tapped hole
+# (start face kept); A050471E thru counterbores.
+PLANTED = ("A050211E", "A050381E", "A050471E")
+
+
+def _planted_hole(key):
+    holes = [f for f in key.features if f.type in plant.PLAIN]
+    return next((f for f in holes if f.thru), holes[0])
+
+
+def _tol(f, key):
+    return (f.tol or {}).get("position") or C.fallback_tol[key.units]
+
+
+@real
+@pytest.mark.parametrize("part", PLANTED)
+def test_real_filled_hole_costs_its_weight_share(part):
+    key, solid, _ = _real(part)
+    h = _planted_hole(key)
+    s = score_part(key, keygen.extract(plant.fill(solid, key, h.id), units=key.units, part=part, source="p"), C)
+    assert s.row(h.id).status == "missing" and not s.extras
+    assert s.score == pytest.approx(100 * (1 - s.row(h.id).weight / _weights(s)), abs=0.5)
+
+
+@real
+@pytest.mark.parametrize("part", PLANTED)
+def test_real_hole_moved_two_tolerances(part):
+    import numpy as np
+    key, solid, _ = _real(part)
+    h = _planted_hole(key)
+    t = _tol(h, key)
+    ax = np.asarray(h.axis, float)
+    perp = np.cross(ax, [1.0, 0.0, 0.0] if abs(ax[0]) < 0.9 else [0.0, 1.0, 0.0])
+    delta = perp / np.linalg.norm(perp) * 2 * t
+    s = score_part(key, keygen.extract(plant.move(solid, key, h.id, delta), units=key.units, part=part,
+                                       source="p"), C)
+    row = s.row(h.id)
+    assert row.status == "matched" and not s.extras
+    assert row.attr_credits["position"] == pytest.approx(attr_credit(2 * t, t, C), abs=0.01)
+    credit = feature_credit({**{a: 1.0 for a in row.attr_credits}, "position": attr_credit(2 * t, t, C)}, C)
+    assert s.score == pytest.approx(100 * (1 - row.weight * (1 - credit) / _weights(s)), abs=0.5)
