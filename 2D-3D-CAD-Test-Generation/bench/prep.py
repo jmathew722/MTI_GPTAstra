@@ -1,7 +1,7 @@
 """Benchmark prep CLI (spec 2026-10-23). Resumable; every step logs one line per part.
 
     python -m bench.prep copy --source "<MTI Example Drawings folder>"
-    python -m bench.prep pdf | dxf | step | keys | check | review | status
+    python -m bench.prep pdf | dxf | step | keys | check | link | review | status
     python -m bench.prep profile [--source "<MTI Example Drawings folder>"]
     python -m bench.prep signoff A050071E --by smcanuff
 
@@ -209,8 +209,11 @@ def _hand_edited(old: Key, raw: list[dict], checked: Key) -> bool:
     """True when old's features match neither the fresh keygen output (an untouched `keys`
     result) nor the fresh cross-checked key (an untouched `check` result; relabelling is
     idempotent, so a re-check of an untouched key compares equal)."""
-    have = [asdict(f) for f in old.features]
-    return have != raw and have != [asdict(f) for f in checked.features]
+    def bare(fs: list[dict]) -> list[dict]:          # links/tol come from `link`, not from an edit
+        return [{k: v for k, v in f.items() if k not in ("tol", "links")} for f in fs]
+
+    have = bare([asdict(f) for f in old.features])
+    return have != bare(raw) and have != bare([asdict(f) for f in checked.features])
 
 
 def step_check(ctx: Ctx) -> int:
@@ -235,6 +238,20 @@ def step_check(ctx: Ctx) -> int:
         return (f"ok: {len(flags)} flag(s), {len(key.open_flags())} open, "
                 f"{'auto-signed' if key.signed else 'needs a person'}")
     return ctx.run("check", None, fn, "bench.crosscheck")
+
+
+def step_link(ctx: Ctx) -> int:
+    """Record each key feature's drawing values and tolerances (crosscheck.link). Runs on
+    human-signed keys too: it only writes `tol` / `links`, never flags, sign-off or geometry."""
+    def fn(part: str, d: Path) -> str:
+        path = d / "key.json"
+        if not path.is_file():
+            raise FileNotFoundError(f"{path} missing; run `keys` and `check` first")
+        key = Key.load(path)
+        crosscheck.link(key, dxfread.read(d / "drawing.dxf"))
+        key.save(path)
+        return f"ok: {sum(1 for f in key.features if f.links)} features linked"
+    return ctx.run("link", None, fn, "bench.crosscheck.link")
 
 
 def _drawing_png(pdf: Path, png: Path, force: bool) -> None:
@@ -412,7 +429,7 @@ def step_status(ctx: Ctx) -> int:
 
 STEPS: dict[str, Callable[[Ctx], int]] = {
     "copy": step_copy, "pdf": step_pdf, "dxf": step_dxf, "step": step_step, "keys": step_keys,
-    "check": step_check, "review": step_review, "profile": step_profile, "signoff": step_signoff,
+    "check": step_check, "link": step_link, "review": step_review, "profile": step_profile, "signoff": step_signoff,
     "accept": step_accept, "status": step_status,
 }
 

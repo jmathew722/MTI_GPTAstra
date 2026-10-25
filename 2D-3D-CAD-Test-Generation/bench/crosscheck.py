@@ -81,10 +81,9 @@ def _usable(d: Dim) -> bool:
     return d.kind != "angular" and d.shown is not None and d.shown > _EPS
 
 
-def _hole_diameters(drawing: Drawing, units: str) -> Stated:
-    """Values that may state a hole DIAMETER: callout sizes, diameter/radius dims, and linear
-    dims marked with a diameter symbol (section views). A bolt-circle diameter is excluded so it
-    cannot explain a hole size by coincidence."""
+def _dim_diameters(drawing: Drawing, units: str) -> Stated:
+    """Diameters stated by dimensions: diameter/radius dims and linear dims marked with a
+    diameter symbol; bolt-circle diameters excluded."""
     out: Stated = []
     for d in drawing.dims:
         if not _usable(d) or _BOLT_CIRCLE.search(d.text or ""):
@@ -94,6 +93,14 @@ def _hole_diameters(drawing: Drawing, units: str) -> Stated:
             out.append((d.shown, t))
         elif d.kind == "radius":
             out.append((2 * d.shown, t))
+    return out
+
+
+def _hole_diameters(drawing: Drawing, units: str) -> Stated:
+    """Values that may state a hole DIAMETER: callout sizes, diameter/radius dims, and linear
+    dims marked with a diameter symbol (section views). A bolt-circle diameter is excluded so it
+    cannot explain a hole size by coincidence."""
+    out = _dim_diameters(drawing, units)
     for c in drawing.callouts:
         for v in (c.d, c.cbore_d):
             if v:
@@ -292,6 +299,42 @@ def _check_sizes(key: Key, drawing: Drawing, holes: list[Feature], tol: float) -
     return flags
 
 
+def _radii(key: Key, h: Feature, tol: float) -> list[float]:
+    """Bolt-circle radii that may locate `h`: its hole pattern's radius and, on a round/square
+    envelope, its radial distance from the part centre."""
+    radii = [p.pattern["radius"] for p in key.features
+             if p.type == "hole_pattern" and h.id in p.members and p.pattern and p.pattern.get("radius")]
+    r = _centre_radius(h, key.envelope, tol)
+    if r is not None:
+        radii.append(r)
+    return radii
+
+
+def _coord_candidates(h: Feature, i: int, env: list[float], coords: list[float]) -> list[float]:
+    """Distances a drawing may state to locate coordinate i of `h`: to either envelope face, to
+    the part centre, to the neighbouring hole coordinates (chain) and baseline from a datum hole.
+    `coords` is _unique_coords of the holes along i."""
+    c, e = h.center[i], env[i]
+    neighbours: list[float] = []
+    if coords:
+        k = min(range(len(coords)), key=lambda j: abs(coords[j] - c))
+        neighbours = [abs(coords[j] - c) for j in (k - 1, k + 1) if 0 <= j < len(coords)]
+        neighbours += _baseline(coords, coords[k])      # baseline from a datum hole
+    return [x for x in [c, e - c, abs(c - e / 2)] + neighbours if x > _EPS]
+
+
+def _position_candidates(key: Key, holes: list[Feature], f: Feature, tol: float) -> list[float]:
+    """Every distance that may locate feature `f`: bolt-circle radius/diameter plus each in-plane
+    coordinate's candidates (the same list _check_positions tests)."""
+    if f.center is None or f.axis is None:
+        return []
+    pool = holes if any(o is f for o in holes) else holes + [f]
+    out = [v for r in _radii(key, f, tol) if r > _EPS for v in (r, 2 * r)]
+    for i in (i for i in range(3) if abs(f.axis[i]) <= 0.5):
+        out += _coord_candidates(f, i, key.envelope, _unique_coords(pool, i, tol))
+    return out
+
+
 def _check_positions(key: Key, holes: list[Feature], stated: Stated, tol: float) -> list[Flag]:
     """Each in-plane coordinate of a hole must be explained. A coordinate is explained by a
     stated distance to an envelope face, the part centre or a neighbouring hole coordinate
@@ -305,12 +348,8 @@ def _check_positions(key: Key, holes: list[Feature], stated: Stated, tol: float)
     for h in holes:
         if h.center is None or h.axis is None:
             continue
-        radii = [p.pattern["radius"] for p in key.features
-                 if p.type == "hole_pattern" and h.id in p.members and p.pattern and p.pattern.get("radius")]
+        radii = _radii(key, h, tol)
         plane = [i for i in range(3) if abs(h.axis[i]) <= 0.5]
-        r = _centre_radius(h, env, tol)
-        if r is not None:
-            radii.append(r)
         if any(r > _EPS and (_near(r, stated) or _near(2 * r, stated)) for r in radii):
             continue
         for i in plane:
@@ -318,11 +357,7 @@ def _check_positions(key: Key, holes: list[Feature], stated: Stated, tol: float)
             aligned = any(abs(c - o.center[i]) <= tol for o in holes if o is not h and o.center is not None)
             if abs(c - e / 2) <= tol or aligned:
                 continue
-            coords = chains[i]
-            k = min(range(len(coords)), key=lambda j: abs(coords[j] - c))
-            neighbours = [abs(coords[j] - c) for j in (k - 1, k + 1) if 0 <= j < len(coords)]
-            neighbours += _baseline(coords, coords[k])      # baseline from a datum hole
-            cands = [x for x in [c, e - c, abs(c - e / 2)] + neighbours if x > _EPS]
+            cands = _coord_candidates(h, i, env, chains[i])
             if not any(_near(x, stated) for x in cands):
                 flags.append(Flag("unexplained_position", f"{h.type} at {[round(x, 4) for x in h.center]}: "
                                   f"coordinate {'xyz'[i]} is not located by any drawing distance", h.id))
@@ -417,6 +452,43 @@ def check(key: Key, drawing: Drawing) -> list[Flag]:
     flags += _check_drawing_values(key, drawing)
     flags += _check_counts(drawing, holes, tol, key.units)
     return flags
+
+
+# ---- links (scorer, spec 2026-10-24 "Key additions" 1) ---------------------------------------
+
+def _linked(targets: list[Optional[float]], pool: Stated) -> Stated:
+    """The stated (value, tolerance) pairs within their own tolerance of any target."""
+    out: Stated = []
+    for p, t in pool:
+        if any(v and v > _EPS and abs(v - p) <= t + _EPS for v in targets) and (p, t) not in out:
+            out.append((p, t))
+    return out
+
+
+def link(key: Key, drawing: Drawing) -> Key:
+    """Record, for each key feature with a centre, the drawing values that explain its size,
+    position and depth (``Feature.links``) and the tightest of their tolerances
+    (``Feature.tol``). An attribute nothing explains gets no entry (the scorer then uses its
+    fallback tolerance). Flags, sign-off, types and geometry are untouched; idempotent."""
+    units = key.units
+    holes = [f for f in key.features if f.type in HOLE_TYPES]
+    hole_dias = _hole_diameters(drawing, units)
+    dim_dias = _dim_diameters(drawing, units)
+    positions = _positions(drawing, units)
+    depths = _distances(drawing, units) + [
+        (c.depth, _tol(drawing, units, _callout_decimals(c, c.depth))) for c in drawing.callouts if c.depth]
+    tol = _tol(drawing, units)
+    for f in key.features:
+        if f.center is None:
+            continue
+        found = {
+            "size": _linked([f.d, f.cbore_d, f.csink_d], hole_dias if f.type in HOLE_TYPES else dim_dias),
+            "position": _linked(_position_candidates(key, holes, f, tol), positions),
+            "depth": _linked([f.depth, f.cbore_depth], depths),
+        }
+        f.links = {a: sorted({p for p, _ in s}) for a, s in found.items() if s}
+        f.tol = {a: min(t for _, t in s) for a, s in found.items() if s}
+    return key
 
 
 # ---- sign-off --------------------------------------------------------------------------------
