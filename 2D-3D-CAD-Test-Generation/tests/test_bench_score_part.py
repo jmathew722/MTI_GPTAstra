@@ -191,3 +191,29 @@ def test_three_of_four_moved_charges_only_the_moved():
     for fid in ("K1", "K2", "K4"):
         assert s.row(fid).attr_credits["position"] < 1.0
     assert s.row("K3").attr_credits["position"] == 1.0
+
+
+def _chiral():
+    holes = [(1.0, 1.0), (5.0, 1.0), (1.0, 3.0)]
+    return Key(part="C", units="inch", source="s", envelope=[6.0, 4.0, 1.0], features=[
+        Feature(id=f"K{i}", type="blind_hole", axis=[0, 0, 1], center=[x, y, 1.0], d=0.25, depth=0.5, thru=False)
+        for i, (x, y) in enumerate(holes, 1)])
+
+
+def test_blind_hole_from_the_opposite_face_loses_credit():
+    # (On _key() this edit is the same solid turned over: K1/K2/K4 are symmetric, so use _chiral.)
+    gen = _chiral()
+    gen.feature("K1").center[2] = 0.0                # same axis line, drilled from the bottom face
+    s = score_part(_chiral(), gen, C)
+    assert s.score < 100.0 and not s.exact
+    assert s.row("K1").status == "missing" or s.row("K1").attr_credits["position"] < 1.0
+    assert all(s.row(f).credit == 1.0 for f in ("K2", "K3"))
+
+
+def test_chiral_mirror_is_not_a_perfect_score():
+    gen = _chiral()
+    for f in gen.features:                            # mirror x -> 6 - x: not a proper rotation
+        f.center[0] = 6.0 - f.center[0]
+    s = score_part(_chiral(), gen, C)
+    assert s.score < 100.0 and not s.exact
+    assert score_part(_chiral(), _chiral(), C).score == pytest.approx(100.0)

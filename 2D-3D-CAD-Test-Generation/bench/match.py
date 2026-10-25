@@ -31,14 +31,16 @@ def _parallel(a, b) -> bool:
 
 
 def position_error(a: Feature, b: Feature) -> float:
-    """Distance between centres, ignoring the offset along a's axis (a hole may start at either
-    end); for planes, the offset difference. inf when axes or normals are not parallel or the two
+    """Distance between start points. Only when both features are thru is the offset along the
+    axis ignored (a thru hole has no start face); otherwise the start point is the only record
+    of the face a feature is cut from (axes carry a canonical sign), so it counts in full.
+    For planes, the offset difference. inf when axes or normals are not parallel or the two
     features locate differently (centre vs plane). 0 when neither has a location."""
     if a.center is not None and b.center is not None:
         if a.axis is not None and b.axis is not None and not _parallel(a.axis, b.axis):
             return math.inf
         d = np.asarray(a.center, float) - np.asarray(b.center, float)
-        if a.axis is not None:
+        if a.axis is not None and a.thru and b.thru:
             ax = np.asarray(a.axis, float)
             d = d - ax * float(d @ ax)
         return float(np.linalg.norm(d))

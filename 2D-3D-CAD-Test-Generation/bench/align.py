@@ -102,7 +102,7 @@ def _parallel(a, b) -> bool:
 
 
 def _pairs(target: Key, moving: Key) -> list[tuple[Feature, Feature]]:
-    """Nearest same-type pairing: centred features with parallel axes by axis-line distance;
+    """Nearest same-type pairing: centred features with parallel axes by start-point distance (axis-line for thru);
     planar features with parallel normals by offset."""
     used, out = set(), []
     for f in target.features:
@@ -124,11 +124,11 @@ def _pairs(target: Key, moving: Key) -> list[tuple[Feature, Feature]]:
 
 
 def _residual(f: Feature, g: Feature, t: np.ndarray) -> float:
-    """Distance of g (shifted by t) from f, ignoring the offset along f's axis (a hole may start
-    at either end); for planes, the offset difference."""
+    """Distance of g (shifted by t) from f: start points in 3D, ignoring the offset along the
+    axis only when both are thru (bench.match.position_error); for planes, the offset difference."""
     if f.center is not None and g.center is not None:
         d = np.asarray(f.center, float) - (np.asarray(g.center, float) + t)
-        if f.axis is not None:
+        if f.axis is not None and f.thru and g.thru:
             ax = np.asarray(f.axis, float)
             d = d - ax * float(d @ ax)
         return float(np.linalg.norm(d))

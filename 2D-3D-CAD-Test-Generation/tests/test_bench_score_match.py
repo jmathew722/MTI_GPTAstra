@@ -62,8 +62,17 @@ def test_patterns_and_base_body_are_not_matched_here():
 
 def test_position_error_ignores_offset_along_the_axis():
     a = _h("K1", 1.0, 1.0)
-    b = Feature(id="G1", type="thru_hole", axis=[0, 0, 1], center=[1.0, 1.003, 1.0], d=0.25)
+    a.thru = True
+    b = Feature(id="G1", type="thru_hole", axis=[0, 0, 1], center=[1.0, 1.003, 1.0], d=0.25, thru=True)
     assert math.isclose(position_error(a, b), 0.003, abs_tol=1e-12)
+
+
+def test_position_error_keeps_the_start_face_unless_both_are_thru():
+    a = Feature(id="K1", type="blind_hole", axis=[0, 0, 1], center=[1.0, 1.0, 1.0], d=0.25, depth=0.5)
+    b = Feature(id="G1", type="blind_hole", axis=[0, 0, 1], center=[1.0, 1.0, 0.0], d=0.25, depth=0.5)
+    assert math.isclose(position_error(a, b), 1.0)                  # drilled from the other face
+    a.thru, b.thru = True, None                                     # thru on one side only: still 3D
+    assert math.isclose(position_error(a, b), 1.0)
 
 
 def test_crossed_axes_or_normals_never_pair():
