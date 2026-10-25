@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import statistics
 import sys
 from dataclasses import asdict
@@ -54,9 +55,26 @@ def _json(p: Path) -> dict:
         return {}
 
 
-def _extraction(d: Path) -> dict:
+_EXTRACTION_PATH = re.compile(r"(\S+_extraction\.json)\s*$")
+
+
+def find_extraction(d: Path, ir: dict) -> Optional[Path]:
+    """The part's extraction JSON: in the run folder, else the path ir_report.json "extraction"
+    names ("reused output\\...\\P_extraction.json", "extracted with ... -> <path>"), resolved
+    against the run folder's ancestors, the working directory and the code root."""
     found = sorted(d.glob("*_extraction.json"))
-    return _json(found[0]) if found else {}
+    if found:
+        return found[0]
+    m = _EXTRACTION_PATH.search(str((ir or {}).get("extraction") or ""))
+    if not m:
+        return None
+    rel = Path(m.group(1).replace("\\", "/"))
+    if rel.is_absolute():
+        return rel if rel.is_file() else None
+    for base in [*Path(d).resolve().parents, Path.cwd(), config.CODE_ROOT]:
+        if (base / rel).is_file():
+            return base / rel
+    return None
 
 
 def _sldprt(d: Path) -> Optional[Path]:
@@ -68,14 +86,15 @@ def _empty(key: Key) -> Key:
     return Key(part=key.part, units=key.units, source="(none)", envelope=[], features=[])
 
 
-def _no_generated_stage(d: Path, ir: dict) -> tuple[str, str]:
-    """No generated part: blame the stage that failed (from ir_report.json)."""
+def _no_generated_stage(ir: dict, plan: dict, typ: str) -> tuple[str, str]:
+    """No generated part: blame the stage that failed (from ir_report.json / plan.json): no
+    plan -> planner; a skipped plan feature that could be this row -> cadquery; else solidworks."""
     err = f" ({ir['error']})" if ir.get("error") else ""
-    skipped = ir.get("cq_skipped") or {}
-    if not (d / "plan.json").is_file() and not ir.get("planned"):
+    if not plan and not ir.get("planned"):
         return "planner", "no plan" + err
-    if skipped:
-        return "cadquery", "reference skipped " + "; ".join(f"{k}: {v}" for k, v in sorted(skipped.items())) + err
+    sk = blame_mod.compatible_skips(typ, ir.get("cq_skipped") or {}, plan)
+    if sk:
+        return "cadquery", "reference skipped " + "; ".join(f"{k}: {v}" for k, v in sorted(sk.items())) + err
     return "solidworks", "no SolidWorks part" + err
 
 
@@ -91,6 +110,8 @@ def _part_result(ps: PartScore, bl: dict, ref: Optional[PartScore]) -> dict:
 
 def score_one(part: str, d: Path, key: Key, generated: Optional[Path], cfg) -> tuple[dict, PartScore, dict]:
     ir = _json(d / "ir_report.json")
+    plan = _json(d / "plan.json")
+    ext_path = find_extraction(d, ir)
     ref_step = d / REFERENCE
     ref = None
     if ref_step.is_file():
@@ -98,21 +119,23 @@ def score_one(part: str, d: Path, key: Key, generated: Optional[Path], cfg) -> t
         ref = add_extras(score_part(key, rk, cfg), rothers, key, cfg)
     if generated is None:
         ps = score_part(key, _empty(key), cfg)
-        stage, reason = _no_generated_stage(d, ir)
         bl = {}
         for r in ps.rows:
+            stage, reason = _no_generated_stage(ir, plan, r.type)
             r.blame, r.reason = stage, reason
             bl[r.feature_id] = blame_mod.Blame(stage, reason, r.points_lost)
         ps.score, ps.exact = 0.0, False
         res = _part_result(ps, bl, ref)
         res["generated"] = None
+        res["extraction_found"] = ext_path is not None
         return res, ps, bl
     gk, others, n = read_step(generated, units=key.units, part=part)
     ps = add_extras(score_part(key, gk, cfg), others, key, cfg)
     cq_ps = ref if ref is not None else score_part(key, _empty(key), cfg)
-    bl = blame_mod.blame_part(ps, cq_ps, key, _extraction(d), ir, cfg)
+    bl = blame_mod.blame_part(ps, cq_ps, key, _json(ext_path) if ext_path else {}, ir, cfg, plan=plan)
     res = _part_result(ps, bl, ref)
     res["generated"] = generated.name
+    res["extraction_found"] = ext_path is not None
     if n > 1:
         res["multi_body"] = n
     return res, ps, bl
@@ -160,8 +183,13 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     keys: dict[str, Key] = {}
     unsigned: list[str] = []
+    errors: dict[str, str] = {}
     for p in names:
-        k = Key.load(keys_dir / p / "key.json")
+        try:
+            k = Key.load(keys_dir / p / "key.json")
+        except Exception as e:               # malformed key: an error row, not a traceback
+            errors[p] = f"unreadable key.json: {type(e).__name__}: {e}"
+            continue
         if k.signed:
             keys[p] = k
         else:
@@ -169,7 +197,7 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     # Where each generated part comes from; SolidWorks exports happen before anything is scored.
     generated: dict[str, Optional[Path]] = {}
-    errors: dict[str, str] = {}
+    stale_parts: set = set()
     exports: list[tuple[str, Path, Path]] = []
     for p in keys:
         d = run / p
@@ -180,6 +208,8 @@ def main(argv: Optional[list[str]] = None) -> int:
             generated[p] = gen
         elif gen.is_file():
             generated[p] = gen
+            if stale:
+                stale_parts.add(p)           # --no-sw: scored, but the SLDPRT is newer
         elif sld is not None:
             errors[p] = f"{sld.name} present but no {GENERATED} and --no-sw given"
         else:
@@ -197,15 +227,20 @@ def main(argv: Optional[list[str]] = None) -> int:
                 errors[p] = f"STEP export failed: {type(e).__name__}: {e}"
 
     results, scored = [], []
-    for p, key in keys.items():
+    for p in names:
         if p in errors:
             results.append({"part": p, "score": None, "exact": False, "error": errors[p]})
             continue
+        if p not in keys:
+            continue
+        key = keys[p]
         try:
             res, ps, bl = score_one(p, run / p, key, generated[p], cfg)
         except Exception as e:               # unreadable STEP etc.: an error row, never a silent 0
             results.append({"part": p, "score": None, "exact": False, "error": f"{type(e).__name__}: {e}"})
             continue
+        if p in stale_parts:
+            res["stale"] = True
         results.append(res)
         scored.append((ps, bl))
 
@@ -219,7 +254,9 @@ def main(argv: Optional[list[str]] = None) -> int:
         print(f"skipped (unsigned key): {', '.join(unsigned)}")
     if summary["n_scored"]:
         print(f"mean {summary['mean']:.1f}  median {summary['median']:.1f}  exact {summary['exact_rate']:.0%}")
-    return 1 if summary["errors"] else 0
+    if summary["errors"]:
+        return 1
+    return 0 if results else 2               # every key unsigned: nothing scored
 
 
 if __name__ == "__main__":

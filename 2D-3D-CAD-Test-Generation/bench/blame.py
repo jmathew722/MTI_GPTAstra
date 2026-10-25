@@ -139,7 +139,7 @@ def _kind_types(f: dict, feats: dict, depth: int = 0) -> set:
     return set()
 
 
-def _compatible_skips(typ: str, skipped: dict, plan) -> dict:
+def compatible_skips(typ: str, skipped: dict, plan) -> dict:
     """The skipped plan features that could have produced a key feature of type `typ`. Without
     the plan a skip's kind is unknown, so none counts (real runs mostly skip unrelated fillets)."""
     feats = _plan_features(plan)
@@ -176,7 +176,7 @@ def blame_part(sw, cq, key: Key, extraction: dict, ir_report: dict, cfg: Config,
         elif f is not None and extraction and (miss := _missing_links(f, key.units, extracted, cfg, _lossy(r))):
             b = Blame("extraction", f"drawing value(s) {miss} not in the extraction (within tolerance)",
                       r.points_lost)
-        elif r.status == "missing" and (sk := _compatible_skips(typ, skipped, plan)):
+        elif r.status == "missing" and (sk := compatible_skips(typ, skipped, plan)):
             b = Blame("cadquery", "reference skipped " + "; ".join(f"{k}: {v}" for k, v in sorted(sk.items())),
                       r.points_lost)
         else:

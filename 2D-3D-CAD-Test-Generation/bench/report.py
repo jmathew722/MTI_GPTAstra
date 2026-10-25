@@ -69,6 +69,11 @@ def _part(p: dict) -> str:
         meta.append(f"multi-body: {_e(p['multi_body'])} solids (largest scored)")
     if p.get("generated"):
         meta.append(f"generated {_e(p['generated'])}")
+    if "extraction_found" in p:
+        meta.append("extraction found" if p["extraction_found"]
+                    else "extraction not found (extraction blame not checked)")
+    if p.get("stale"):
+        meta.append('<span class="err">stale: generated.step is older than the SLDPRT (--no-sw)</span>')
     rows = [[_e(r["feature_id"]), _e(r["type"]), _n(r.get("tier_weight"), 0), _n(r.get("weight")),
              _e(r.get("status", "")), _e(r.get("matched_id") or ""), _errors(r.get("errors")),
              _n(r.get("credit")), _n(r.get("points_lost")), _e(r.get("blame", "")), _e(r.get("reason", ""))]
@@ -86,12 +91,23 @@ def _part(p: dict) -> str:
     return out
 
 
+def _note(p: dict) -> str:
+    if p.get("error"):
+        return _e(p["error"])
+    notes = []
+    if p.get("multi_body"):
+        notes.append(f"multi-body ({_e(p['multi_body'])})")
+    if p.get("stale"):
+        notes.append('<span class="err">stale generated.step</span>')
+    return ", ".join(notes)
+
+
 def write_html(path: Path, results: list, summary: dict, skipped_unsigned=(), no_key=()) -> None:
     s = summary or {}
-    summ = _table(["part", "score", "exact", "reference", "note"], [
+    summ = _table(["part", "score", "exact", "reference", "extraction", "note"], [
         [f'<a href="#part-{_e(p["part"])}">{_e(p["part"])}</a>', _n(p.get("score")),
          "yes" if p.get("exact") else "no", _n(p.get("reference_score")),
-         _e(p.get("error") or (f"multi-body ({p['multi_body']})" if p.get("multi_body") else ""))]
+         {True: "found", False: "not found"}.get(p.get("extraction_found"), ""), _note(p)]
         for p in results])
     roll = s.get("rollup") or {}
     skipped = ""

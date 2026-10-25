@@ -58,28 +58,37 @@ def test_cli_skips_unsigned_and_handles_missing_generated(tmp_path):
     ref = _plate(keys / "PC", "ref.step", [(0, 0)])
     k = keygen.from_step(ref, units="mm", part="PC")
     k.save(keys / "PC" / "key.json")                     # unsigned
-    assert score.main([str(run), "--keys-dir", str(keys), "--no-sw"]) in (0, 2)
+    assert score.main([str(run), "--keys-dir", str(keys), "--no-sw"]) == 2      # nothing left to score
     out = _out(run)
     assert "PC" in out["skipped_unsigned"]
 
 
 def test_no_generated_part_scores_zero_with_blame_from_ir_report(tmp_path):
     run, keys = tmp_path / "run", tmp_path / "keys"
-    for part, rep in (("PD", {"cq_skipped": {}, "sw_ok": False, "error": "SW crashed", "planned": 3}),
+    plan = {"plan": {"features": [{"id": "F001", "kind": "prism", "op": "add"},
+                                  {"id": "F002", "kind": "hole", "spec": {"type": "thru"}},
+                                  {"id": "F003", "kind": "edge_op", "operation": "fillet"}]}}
+    for part, rep in (("PD", {"cq_skipped": {"F003": "unresolved: radius?"}, "sw_ok": False,
+                              "error": "SW crashed", "planned": 3}),
                       ("PE", {"cq_skipped": {"F002": "failed: StdFail_NotDone"}, "planned": 3}),
                       ("PF", None)):
         (run / part).mkdir(parents=True)
         _signed_key(keys, part)
         if rep is not None:
             (run / part / "ir_report.json").write_text(json.dumps(rep), encoding="utf-8")
-            (run / part / "plan.json").write_text("{}", encoding="utf-8")
+            (run / part / "plan.json").write_text(json.dumps(plan), encoding="utf-8")
     assert score.main([str(run), "--keys-dir", str(keys), "--no-sw"]) == 0
     by = {p["part"]: p for p in _out(run)["parts"]}
-    for part, stage in (("PD", "solidworks"), ("PE", "cadquery"), ("PF", "planner")):
+    for part in ("PD", "PE", "PF"):
         p = by[part]
         assert p["score"] == 0.0 and not p["exact"]
         assert all(r["status"] == "missing" for r in p["rows"])
-        assert {b["stage"] for b in p["blame"].values()} == {stage}, part
+    stage = lambda part, fid: by[part]["blame"][fid]["stage"]       # noqa: E731
+    holes = [r["feature_id"] for r in by["PE"]["rows"] if r["type"] != "base_body"]
+    assert holes and {stage("PE", h) for h in holes} == {"cadquery"}   # the skipped hole
+    assert stage("PE", "BASE") == "solidworks"                         # the block was planned and built
+    assert {b["stage"] for b in by["PD"]["blame"].values()} == {"solidworks"}   # unrelated fillet skip
+    assert {b["stage"] for b in by["PF"]["blame"].values()} == {"planner"}      # no plan at all
     assert "SW crashed" in by["PD"]["blame"]["BASE"]["reason"]
 
 
@@ -183,3 +192,50 @@ def test_report_html_escapes(tmp_path):
     report.write_json(tmp_path / "s.json", results, summary)
     data = json.loads((tmp_path / "s.json").read_text(encoding="utf-8"))   # strict JSON: no Infinity
     assert data["parts"][0]["rows"][0]["errors"]["size"] == ["inf", "inf"]
+
+
+def test_extraction_found_via_ir_report_path(tmp_path):
+    code = tmp_path / "code"
+    run, keys = code / "output" / "run", tmp_path / "keys"
+    ext = code / "output" / "astra" / "PX" / "PX_extraction.json"
+    ext.parent.mkdir(parents=True)
+    ext.write_text(json.dumps({"dimensions": [{"id": "D1", "value": 8.0}]}), encoding="utf-8")
+    for part, ir in (("PX", {"extraction": r"reused output\astra\PX\PX_extraction.json", "cq_skipped": {}}),
+                     ("PY", {"extraction": r"extracted with GPT-6 Astra -> output\nowhere\PY_extraction.json"})):
+        (run / part).mkdir(parents=True)
+        _signed_key(keys, part)
+        _plate(run / part, "generated.step", [(-20, -10), (20, -10)])
+        (run / part / "ir_report.json").write_text(json.dumps(ir), encoding="utf-8")
+    assert score.main([str(run), "--keys-dir", str(keys), "--no-sw"]) == 0
+    by = {p["part"]: p for p in _out(run)["parts"]}
+    assert by["PX"]["extraction_found"] is True and by["PY"]["extraction_found"] is False
+    assert "extraction" in (run / "report.html").read_text(encoding="utf-8")
+    assert score.find_extraction(run / "PX", json.loads((run / "PX" / "ir_report.json").read_text())) == ext
+
+
+def test_malformed_key_is_an_error_row(tmp_path):
+    run, keys = tmp_path / "run", tmp_path / "keys"
+    for part in ("PK", "PL"):
+        (run / part).mkdir(parents=True)
+    _signed_key(keys, "PL")
+    _plate(run / "PL", "generated.step", [(-20, -10), (20, -10)])
+    (keys / "PK").mkdir(parents=True)
+    (keys / "PK" / "key.json").write_text("{not json", encoding="utf-8")
+    assert score.main([str(run), "--keys-dir", str(keys), "--no-sw"]) == 1
+    by = {p["part"]: p for p in _out(run)["parts"]}
+    assert by["PK"]["error"] and "key.json" in by["PK"]["error"]
+    assert by["PL"]["score"] == pytest.approx(100.0)
+
+
+def test_no_sw_with_stale_generated_step_is_flagged(tmp_path):
+    run, keys = tmp_path / "run", tmp_path / "keys"
+    (run / "PS").mkdir(parents=True)
+    _signed_key(keys, "PS")
+    gen = _plate(run / "PS", "generated.step", [(-20, -10), (20, -10)])
+    old = time.time() - 100
+    os.utime(gen, (old, old))
+    (run / "PS" / "PS_ir.SLDPRT").write_bytes(b"sldprt")              # newer than the STEP
+    assert score.main([str(run), "--keys-dir", str(keys), "--no-sw"]) == 0
+    p = _out(run)["parts"][0]
+    assert p["stale"] is True and p["score"] == pytest.approx(100.0)
+    assert "stale" in (run / "report.html").read_text(encoding="utf-8")
