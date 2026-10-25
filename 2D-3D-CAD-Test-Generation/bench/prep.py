@@ -226,13 +226,16 @@ def step_check(ctx: Ctx) -> int:
             raise FileNotFoundError(f"{d / 'reference.step'} missing; run `step` first")
         key = keygen.from_step(d / "reference.step", units=ctx.units(part), part=part)
         raw = [asdict(f) for f in key.features]
-        flags = crosscheck.check(key, dxfread.read(d / "drawing.dxf"))
+        drawing = dxfread.read(d / "drawing.dxf")
+        flags = crosscheck.check(key, drawing)
         if old and not ctx.args.force and _hand_edited(old, raw, key):
             return "skipped: key.json hand-edited since last check (--force discards edits)"
         kept = {(f.kind, f.detail, f.feature): f.resolution for f in (old.flags if old else []) if f.resolution}
         for f in flags:
             f.resolution = kept.get((f.kind, f.detail, f.feature))
         key.flags, key.signoff = flags, None
+        key.overrides = list(old.overrides) if old else []    # a person's overrides are not feature edits
+        crosscheck.link(key, drawing)                          # the rebuilt features need their links / tol
         crosscheck.sign_auto(key, f"bench.crosscheck@{_version()}")
         key.save(path)
         return (f"ok: {len(flags)} flag(s), {len(key.open_flags())} open, "

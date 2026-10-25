@@ -204,6 +204,23 @@ def test_check_keeps_hand_edited_key_unless_forced(root, fakes):
     assert _load(root, P2).features[0].type == "thru_hole"
 
 
+def test_check_keeps_overrides_and_relinks(root, fakes):
+    """A re-check rebuilds the key from keygen; it must keep the person's overrides and
+    re-record each feature's drawing links / tolerances (crosscheck.link)."""
+    assert prep.main(["check", "--parts", P1]) == 0
+    k = _load(root, P1)
+    assert all(f.links and f.tol for f in k.features)          # linked on the first check too
+    ov = [{"feature": "K001", "attr": "depth", "silent": True, "note": "drawing silent"}]
+    k.overrides = ov
+    k.save(root / P1 / "key.json")
+    assert prep.main(["check", "--parts", P1]) == 0
+    k2 = _load(root, P1)
+    assert k2.overrides == ov
+    assert k2.features[0].links["size"] == [0.344] and k2.features[0].tol["size"] > 0
+    assert prep.main(["check", "--parts", P1, "--force"]) == 0
+    assert _load(root, P1).overrides == ov
+
+
 def test_crosscheck_relabel_is_idempotent():
     """Belt and braces for the choice above: check() twice on one key gives the same result."""
     k = _key("P")
