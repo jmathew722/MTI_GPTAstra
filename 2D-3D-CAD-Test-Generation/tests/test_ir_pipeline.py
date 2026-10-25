@@ -54,8 +54,8 @@ def test_mti_bench_parts_are_skipped_but_reported():
     from pipeline.ir_pipeline import external_parts
     assert dev_parts(split="held_out") == []
     assert not {s.part for s in dev_parts()} & set(external_parts("dev"))
-    assert len(external_parts("held_out")) == 9
-    assert len(external_parts("dev")) == 3
+    assert len(external_parts("held_out")) == 15
+    assert len(external_parts("dev")) == 4
 
 
 def test_ir_run_fails_on_empty_split_without_writing_summary(tmp_path, monkeypatch, capsys):
@@ -65,4 +65,4 @@ def test_ir_run_fails_on_empty_split_without_writing_summary(tmp_path, monkeypat
     monkeypatch.setattr(sys, "argv", ["ir_run.py", "--split", "held_out", "--solidworks", "--output", str(tmp_path)])
     assert ir_run.main() == 2
     assert not (tmp_path / "ir_run_summary.json").exists()
-    assert "9 mti_bench part(s) in split held_out skipped" in capsys.readouterr().out
+    assert "15 mti_bench part(s) in split held_out skipped" in capsys.readouterr().out

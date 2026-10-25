@@ -4,7 +4,8 @@ from pathlib import Path
 import pytest
 import yaml
 
-from bench.split import CLEAN, PARKED, SEED, bench_parts, choose_format_dev, mti_entries, pair
+from bench.split import (CLEAN, PARKED, READMITTED, READMITTED_DEV, READMITTED_HELD, SEED, bench_parts,
+                         choose_format_dev, mti_entries, pair)
 
 M = yaml.safe_load((Path(__file__).resolve().parent.parent / "bench" / "manifest.yaml").read_text(encoding="utf-8"))
 
@@ -18,10 +19,19 @@ def test_near_duplicates_never_dev():
     assert not {"A050471E", "A050481E"} & set(choose_format_dev())
 
 
-def test_12_clean_9_parked():
-    # parked 2026-10-25: 1801901E (MTI model is 4 solids), 1807408E (model differs from drawing)
-    assert len(CLEAN) == 12 and len(PARKED) == 9
-    assert not {p.part for p in CLEAN} & {p.part for p in PARKED}
+def test_12_clean_7_readmitted_2_parked():
+    # 2026-10-24: 1801901E (4 solids) and 1807408E (model differs from drawing) parked; the 3 metric
+    # twins and 4 OBSOLETE sheets re-admitted under the drawing-is-ground-truth policy
+    assert len(CLEAN) == 12 and len(READMITTED) == 7 and len(PARKED) == 2
+    groups = [{p.part for p in g} for g in (CLEAN, READMITTED, PARKED)]
+    assert not (groups[0] & groups[1] or groups[0] & groups[2] or groups[1] & groups[2])
+
+
+def test_twins_share_a_split_with_their_inch_partner():
+    pick = set(choose_format_dev())
+    for twin, partner in (("A050381M", "A050381E"), ("A050031M", "A050031E"), ("A050081M", "A050081E_OLD")):
+        in_dev = twin in {p.part for p in READMITTED_DEV}
+        assert in_dev == (partner in pick), twin
 
 
 def test_manifest_matches_split():
@@ -29,8 +39,9 @@ def test_manifest_matches_split():
     dev = {e["part"] for e in mti["dev"]}
     held = {e["part"] for e in mti["held_out"]}
     parked = {e["part"] for e in M["splits"]["parked"]}
-    assert dev == set(choose_format_dev())
-    assert held == {p.part for p in CLEAN} - dev
+    pick = set(choose_format_dev())
+    assert dev == pick | {p.part for p in READMITTED_DEV}
+    assert held == ({p.part for p in CLEAN} - pick) | {p.part for p in READMITTED_HELD}
     assert parked == {p.part for p in PARKED}
     assert all(e["reason"] for e in M["splits"]["parked"])
     assert M["mti_bench"]["seed"] == SEED
@@ -54,9 +65,9 @@ def test_parked_reasons_match_split_py():
     assert by_part == {p.part: p.reason for p in PARKED}
 
 
-def test_bench_parts_12_unique():
+def test_bench_parts_19_unique():
     parts = bench_parts(M)
-    assert len(parts) == 12 and len(set(parts)) == 12
+    assert len(parts) == 19 and len(set(parts)) == 19
 
 
 def test_pair_unknown_part_raises_keyerror():

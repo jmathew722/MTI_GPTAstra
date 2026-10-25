@@ -341,6 +341,50 @@ def step_signoff(ctx: Ctx) -> int:
     return 0
 
 
+def drawing_wins_resolution(kind: str, detail: str, by: str, date: str) -> str:
+    """Resolution text for the "drawing is ground truth" policy (user decision 2026-10-24):
+    keep the pair, record the difference, and score against the drawing. The scorer reads the
+    prefix: `drawing-wins` = score the drawing's value; `drawing-silent` = the drawing doesn't
+    state this model detail, so don't score it."""
+    if kind == "unexplained_key_value":
+        rule = "drawing-silent: model detail not stated on the drawing; do not score it"
+    elif kind == "unexplained_position":
+        rule = "drawing-silent: the drawing does not locate this feature; do not score its position"
+    else:                                   # drawing values, counts, units, unparsed threads
+        rule = "drawing-wins: score against the drawing, not the model"
+    return f"{rule} ({detail}) [policy, {by} {date}]"
+
+
+def step_accept(ctx: Ctx) -> int:
+    """Resolve every open flag by the drawing-is-ground-truth policy and sign the key."""
+    by = ctx.args.by
+    if not by:
+        print("accept: needs --by NAME")
+        return 2
+    failed = 0
+    for part in ctx.parts:
+        path = ctx.root / part / "key.json"
+        if not path.is_file() or _last_key_step(ctx.log, part) != "check":
+            print(f"accept   {part:10s} skipped: run `check --parts {part}` first")
+            failed += 1
+            continue
+        key = Key.load(path)
+        if key.signoff and key.signoff.get("kind") == "human":
+            print(f"accept   {part:10s} already signed by {key.signoff.get('by')}")
+            continue
+        today = _now()[:10]
+        n = 0
+        for f in key.open_flags():
+            f.resolution = drawing_wins_resolution(f.kind, f.detail, by, today)
+            n += 1
+        crosscheck.sign_human(key, by)
+        key.save(path)
+        log_line(ctx.log, "accept", part, f"ok: {n} flag(s) resolved by policy, signed by {by}",
+                 f"bench@{_version()}")
+        print(f"accept   {part:10s} {n} flag(s) resolved by policy, signed by {by}")
+    return 1 if failed else 0
+
+
 STATUS_FILES = (("pdf", "drawing.pdf"), ("dxf", "drawing.dxf"), ("step", "reference.step"),
                 ("key", "key.json"), ("review", "review.html"))
 
@@ -369,7 +413,7 @@ def step_status(ctx: Ctx) -> int:
 STEPS: dict[str, Callable[[Ctx], int]] = {
     "copy": step_copy, "pdf": step_pdf, "dxf": step_dxf, "step": step_step, "keys": step_keys,
     "check": step_check, "review": step_review, "profile": step_profile, "signoff": step_signoff,
-    "status": step_status,
+    "accept": step_accept, "status": step_status,
 }
 
 

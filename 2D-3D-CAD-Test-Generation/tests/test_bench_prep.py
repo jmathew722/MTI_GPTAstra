@@ -243,6 +243,26 @@ def test_signoff_lists_open_flags(root, fakes, capsys):
     assert _load(root, P2).signoff is None
 
 
+def test_accept_resolves_flags_by_drawing_policy_and_signs(root, fakes, capsys):
+    assert prep.main(["check", "--parts", P2]) == 0
+    assert prep.main(["accept", "--parts", P2]) == 2              # needs --by
+    assert prep.main(["accept", "--parts", P2, "--by", "x"]) == 0
+    k = _load(root, P2)
+    assert k.signoff["kind"] == "human" and k.signoff["by"] == "x"
+    assert k.flags and all(f.resolution.startswith(("drawing-wins:", "drawing-silent:")) for f in k.flags)
+    assert any(f.kind == "unexplained_drawing_value" and f.resolution.startswith("drawing-wins:")
+               for f in k.flags)
+    assert prep.main(["accept", "--parts", P1, "--by", "x"]) == 1   # never checked -> skipped
+
+
+def test_drawing_wins_resolution_by_kind():
+    r = prep.drawing_wins_resolution
+    assert r("unexplained_key_value", "d", "x", "2026-10-24").startswith("drawing-silent:")
+    assert r("unexplained_position", "d", "x", "2026-10-24").startswith("drawing-silent:")
+    for kind in ("unexplained_drawing_value", "count_mismatch", "units_mismatch"):
+        assert r(kind, "d", "x", "2026-10-24").startswith("drawing-wins:")
+
+
 def test_signoff_refuses_unchecked_key(root, fakes, capsys):
     assert prep.main(["keys", "--parts", P1]) == 0
     assert prep.main(["signoff", P1, "--by", "x"]) == 1

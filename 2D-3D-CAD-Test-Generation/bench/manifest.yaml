@@ -80,6 +80,8 @@ splits:
     - {part: A050291E, source: mti_bench, family: "large plate/bracket, holes and taps", units: inch, complexity: simple, reference_step: reference.step}
     - {part: A050381E, source: mti_bench, family: "mounting pad block, 4 tapped blind", units: inch, complexity: simple, reference_step: reference.step}
     - {part: A050511E, source: mti_bench, family: "key (Wuxi), counterbore", units: inch, complexity: simple, reference_step: reference.step}
+    # re-admitted 2026-10-24 (drawing-is-ground-truth policy); twin of format-dev A050381E
+    - {part: A050381M, source: mti_bench, family: "mounting pad, metric taps (twin of A050381E)", units: inch, complexity: simple, reference_step: reference.step, readmitted: "2026-10-24"}
 
   # FROZEN 2026-10-23 (spec 2026-10-23). Never tune, debug or take prompt examples from these.
   held_out:
@@ -92,13 +94,13 @@ splits:
     - {part: A050471E, source: mti_bench, family: "locator (Wuxi), 3 counterbores", units: inch, complexity: simple, reference_step: reference.step}
     - {part: A050481E, source: mti_bench, family: "locator (Wuxi), 3 counterbores", units: inch, complexity: simple, reference_step: reference.step}
     - {part: 1901001E, source: mti_bench, family: "master collet (Emerson)", units: inch, complexity: complex, reference_step: reference.step}
+    # re-admitted 2026-10-24 (drawing-is-ground-truth policy: keep pairs unless differences are extreme)
+    - {part: A050031M, source: mti_bench, family: "adapter, metric taps (twin of A050031E)", units: inch, complexity: simple, reference_step: reference.step, readmitted: "2026-10-24"}
+    - {part: A050081M, source: mti_bench, family: "wear plate, metric cbores (twin of A050081E_OLD)", units: inch, complexity: simple, reference_step: reference.step, readmitted: "2026-10-24"}
+    - {part: A050031E, source: mti_bench, family: "adapter (sheet stamped OBSOLETE)", units: inch, complexity: simple, reference_step: reference.step, readmitted: "2026-10-24"}
+    - {part: A050061E, source: mti_bench, family: "bushing (sheet stamped OBSOLETE)", units: inch, complexity: simple, reference_step: reference.step, readmitted: "2026-10-24"}
+    - {part: A050081E_OLD, source: mti_bench, family: "wear plate (sheet stamped OBSOLETE)", units: inch, complexity: simple, reference_step: reference.step, readmitted: "2026-10-24"}
+    - {part: A050131M, source: mti_bench, family: "key (sheet stamped OBSOLETE)", units: inch, complexity: simple, reference_step: reference.step, readmitted: "2026-10-24"}
   parked:
-    - {part: 1807408E, source: mti_bench, reason: "pairing rejected at key review: model differs from drawing (parked 2026-10-25)"}
-    - {part: 1801901E, source: mti_bench, reason: "multi-body model (4 solids); cannot be keyed as one part (parked 2026-10-25)"}
-    - {part: A050031M, source: mti_bench, reason: "M twin: only the inch (E) model exists, hole sizes differ"}
-    - {part: A050081M, source: mti_bench, reason: "M twin: only the inch (E) model exists, hole sizes differ"}
-    - {part: A050381M, source: mti_bench, reason: "M twin: only the inch (E) model exists, hole sizes differ"}
-    - {part: A050031E, source: mti_bench, reason: "OBSOLETE sheet; model may be a later revision"}
-    - {part: A050061E, source: mti_bench, reason: "OBSOLETE sheet; model may be a later revision"}
-    - {part: A050081E_OLD, source: mti_bench, reason: "OBSOLETE sheet; model may be a later revision"}
-    - {part: A050131M, source: mti_bench, reason: "OBSOLETE sheet; model may be a later revision"}
+    - {part: 1807408E, source: mti_bench, reason: "pairing rejected at key review: model differs from drawing (parked 2026-10-24)"}
+    - {part: 1801901E, source: mti_bench, reason: "multi-body model (4 solids); cannot be keyed as one part (parked 2026-10-24)"}

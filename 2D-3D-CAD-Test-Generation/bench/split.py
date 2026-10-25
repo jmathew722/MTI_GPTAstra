@@ -44,25 +44,39 @@ CLEAN = (
          "Complex Parts (Not Weldments)/1901001E.SLDPRT", "complex", "master collet (Emerson)"),
 )
 
-_TWIN = "M twin: only the inch (E) model exists, hole sizes differ"
-_OBS = "OBSOLETE sheet; model may be a later revision"
-_MULTI = "multi-body model (4 solids); cannot be keyed as one part (parked 2026-10-25)"
-_REJECTED = "pairing rejected at key review: model differs from drawing (parked 2026-10-25)"
+_MULTI = "multi-body model (4 solids); cannot be keyed as one part (parked 2026-10-24)"
+_REJECTED = "pairing rejected at key review: model differs from drawing (parked 2026-10-24)"
 PARKED = (
     Pair("1807408E", "Complex Parts (not weldments)/1807408E.DWG",
          "Complex Parts (Not Weldments)/1807408-021(A).SLDPRT", "complex",
          "tailstock ring, hole table (Rolls Royce)", _REJECTED),
     Pair("1801901E", "Complex Parts (not weldments)/1801901E.DWG",
          "Complex Parts (Not Weldments)/1801901.SLDPRT", "complex", "collet pad serrated (Morton)", _MULTI),
-    Pair("A050031M", "Simple Parts/A050031M.DWG", "Simple Parts/A050031E.SLDPRT", "simple", "adapter", _TWIN),
-    Pair("A050081M", "Simple Parts/A050081M.DWG", "Simple Parts/A050081E_OLD.SLDPRT", "simple", "wear plate", _TWIN),
-    Pair("A050381M", "Simple Parts/A050381M.DWG", "Simple Parts/A050381E.SLDPRT", "simple", "mounting pad", _TWIN),
-    Pair("A050031E", "Simple Parts/A050031E.DWG", "Simple Parts/A050031E.SLDPRT", "simple", "adapter", _OBS),
-    Pair("A050061E", "Simple Parts/A050061E.DWG", "Simple Parts/A050061E.SLDPRT", "simple", "bushing", _OBS),
-    Pair("A050081E_OLD", "Simple Parts/A050081E_OLD.dwg", "Simple Parts/A050081E_OLD.SLDPRT", "simple",
-         "wear plate", _OBS),
-    Pair("A050131M", "Simple Parts/A050131M.DWG", "Simple Parts/A050131M.SLDPRT", "simple", "key", _OBS),
 )
+
+# Re-admitted 2026-10-24 under the drawing-is-ground-truth policy (user decision): keep every
+# pair unless the differences are extreme; record differences as `drawing-wins` resolutions.
+# Kept separate from CLEAN so the seeded format-dev pick above never changes. Each metric
+# twin goes to the same split as its inch partner (A050381E is format dev).
+READMITTED_DEV = (
+    Pair("A050381M", "Simple Parts/A050381M.DWG", "Simple Parts/A050381E.SLDPRT", "simple",
+         "mounting pad, metric taps (twin of A050381E)"),
+)
+READMITTED_HELD = (
+    Pair("A050031M", "Simple Parts/A050031M.DWG", "Simple Parts/A050031E.SLDPRT", "simple",
+         "adapter, metric taps (twin of A050031E)"),
+    Pair("A050081M", "Simple Parts/A050081M.DWG", "Simple Parts/A050081E_OLD.SLDPRT", "simple",
+         "wear plate, metric cbores (twin of A050081E_OLD)"),
+    Pair("A050031E", "Simple Parts/A050031E.DWG", "Simple Parts/A050031E.SLDPRT", "simple",
+         "adapter (sheet stamped OBSOLETE)"),
+    Pair("A050061E", "Simple Parts/A050061E.DWG", "Simple Parts/A050061E.SLDPRT", "simple",
+         "bushing (sheet stamped OBSOLETE)"),
+    Pair("A050081E_OLD", "Simple Parts/A050081E_OLD.dwg", "Simple Parts/A050081E_OLD.SLDPRT", "simple",
+         "wear plate (sheet stamped OBSOLETE)"),
+    Pair("A050131M", "Simple Parts/A050131M.DWG", "Simple Parts/A050131M.SLDPRT", "simple",
+         "key (sheet stamped OBSOLETE)"),
+)
+READMITTED = READMITTED_DEV + READMITTED_HELD
 
 
 def choose_format_dev() -> list[str]:
@@ -71,7 +85,7 @@ def choose_format_dev() -> list[str]:
 
 
 def pair(part: str) -> Pair:
-    for p in CLEAN + PARKED:
+    for p in CLEAN + READMITTED + PARKED:
         if p.part == part:
             return p
     raise KeyError(f"unknown MTI part {part!r}")
