@@ -12,11 +12,12 @@ An explicit override beats a derived one aimed at the same target.
 from __future__ import annotations
 
 import copy
+import dataclasses
 import re
 from dataclasses import dataclass, field
 
 from bench.callouts import parse
-from bench.features import Key
+from bench.features import Feature, Key
 
 # key attribute named in a flag detail ("counterbore cbore_depth=0.0437 ...") -> scored attribute
 _ATTR = {"d": "size", "cbore_d": "size", "csink_d": "size", "depth": "depth", "cbore_depth": "depth"}
@@ -82,11 +83,42 @@ def from_resolutions(key: Key) -> list[dict]:
     return out
 
 
+_SCORED = ("size", "depth", "position", "type")
+_FIELDS = {f.name for f in dataclasses.fields(Feature)}
+
+
+def scored_attr(attr: str) -> str:
+    """A key field (d, cbore_d, csink_d, depth, cbore_depth) or a scored attribute -> the scored
+    attribute it belongs to (size / depth / position / type)."""
+    if attr in _ATTR:
+        return _ATTR[attr]
+    if attr in _SCORED:
+        return attr
+    raise ValueError(f"override attr {attr!r} is neither a key field ({', '.join(_ATTR)}) "
+                     f"nor a scored attribute ({', '.join(_SCORED)})")
+
+
+def _normalised(o: dict) -> dict:
+    """Silent entries name the scored attribute; value entries keep (and must name) a key field."""
+    if o.get("silent") and "feature" in o:
+        return {**o, "attr": scored_attr(o.get("attr"))}
+    if "value" in o:
+        attr = o.get("attr")
+        if attr in ("size", "position"):
+            raise ValueError(f"value override on {o.get('feature')}: attr {attr!r} is a scored attribute, "
+                             f"not a key field; name the field to replace ({', '.join(_ATTR)})")
+        if attr not in _FIELDS:
+            raise ValueError(f"value override on {o.get('feature')}: unknown key field {attr!r}")
+    return o
+
+
 def _target(o: dict) -> tuple:
     if "drawing_only" in o:
         return ("drawing_only", o["drawing_only"])
     if "expected_count" in o:
         return ("count", o["type"])
+    if "value" in o:
+        return ("value", o.get("feature"), o.get("attr"))
     return ("attr", o.get("feature"), o.get("attr"))
 
 
@@ -103,12 +135,17 @@ def apply(key: Key) -> Effective:
     k = copy.deepcopy(key)
     eff = Effective(key=k)
     explicit_values = {o["value"] for o in k.overrides if "value" in o}
+    explicit = [_normalised(o) for o in k.overrides]
+    # a person's value for a field beats derived silence on the scored attribute it belongs to
+    valued = {(o.get("feature"), _ATTR.get(o["attr"], o["attr"])) for o in explicit if "value" in o}
     merged: dict[tuple, dict] = {}
     for o in from_resolutions(k):
         if "drawing_only" in o and _value_of(o["drawing_only"]) in explicit_values:
             continue                          # the person tied this value to a feature
+        if o.get("silent") and (o.get("feature"), o.get("attr")) in valued:
+            continue
         merged[_target(o)] = o
-    for o in k.overrides:                     # explicit last: it wins
+    for o in explicit:                        # explicit last: it wins
         merged[_target(o)] = o
     for o in merged.values():
         if "drawing_only" in o:

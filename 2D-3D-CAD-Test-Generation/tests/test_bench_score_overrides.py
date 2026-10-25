@@ -74,3 +74,46 @@ def test_explicit_override_wins_over_resolution():
     assert eff.key.feature("K004").depth == 0.098
     assert ("K004", "depth") not in eff.silent               # explicit value beats derived silence
     assert eff.drawing_only == []                             # 0.098 is now tied to K004
+
+
+def test_explicit_silent_on_key_field_names_the_scored_attr():
+    k = _key()
+    k.flags = []
+    k.overrides = [{"feature": "K005", "attr": "cbore_depth", "silent": True},
+                   {"feature": "K006", "attr": "csink_d", "silent": True},
+                   {"feature": "K004", "attr": "position", "silent": True}]
+    assert apply(k).silent == {("K005", "depth"), ("K006", "size"), ("K004", "position")}
+
+
+def test_explicit_silent_field_and_derived_silent_collapse():
+    k = _key()      # derived: K005 depth silent (cbore_depth flag); explicit names the field
+    k.flags = k.flags[:1]
+    k.overrides = [{"feature": "K005", "attr": "cbore_depth", "silent": True, "note": "spec example"}]
+    assert apply(k).silent == {("K005", "depth")}
+
+
+def test_value_override_sets_the_key_field_and_beats_derived_silence():
+    k = _key()      # derived silence on K005 depth (from the cbore_depth flag)
+    k.flags = k.flags[:1]
+    k.overrides = [{"feature": "K005", "attr": "cbore_depth", "value": 0.05}]
+    eff = apply(k)
+    assert eff.key.feature("K005").cbore_depth == 0.05
+    assert eff.key.feature("K005").depth == 0.245
+    assert ("K005", "depth") not in eff.silent
+
+
+def test_value_override_on_scored_name_is_rejected():
+    import pytest
+    for attr in ("size", "position"):
+        k = _key()
+        k.overrides = [{"feature": "K004", "attr": attr, "value": 1.0}]
+        with pytest.raises(ValueError, match="scored attribute"):
+            apply(k)
+
+
+def test_unknown_override_attr_is_rejected():
+    import pytest
+    k = _key()
+    k.overrides = [{"feature": "K004", "attr": "diameter", "silent": True}]
+    with pytest.raises(ValueError):
+        apply(k)
