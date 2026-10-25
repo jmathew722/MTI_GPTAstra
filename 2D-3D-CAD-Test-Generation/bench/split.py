@@ -40,8 +40,6 @@ CLEAN = (
     _s("A050471E", "locator (Wuxi), 3 counterbores"),
     _s("A050481E", "locator (Wuxi), 3 counterbores"),
     _s("A050511E", "key (Wuxi), counterbore"),
-    Pair("1801901E", "Complex Parts (not weldments)/1801901E.DWG",
-         "Complex Parts (Not Weldments)/1801901.SLDPRT", "complex", "collet pad serrated (Morton)"),
     Pair("1807408E", "Complex Parts (not weldments)/1807408E.DWG",
          "Complex Parts (Not Weldments)/1807408-021(A).SLDPRT", "complex",
          "tailstock ring, hole table (Rolls Royce); PROVISIONAL pairing"),
@@ -51,7 +49,10 @@ CLEAN = (
 
 _TWIN = "M twin: only the inch (E) model exists, hole sizes differ"
 _OBS = "OBSOLETE sheet; model may be a later revision"
+_MULTI = "multi-body model (4 solids); cannot be keyed as one part (parked 2026-10-25)"
 PARKED = (
+    Pair("1801901E", "Complex Parts (not weldments)/1801901E.DWG",
+         "Complex Parts (Not Weldments)/1801901.SLDPRT", "complex", "collet pad serrated (Morton)", _MULTI),
     Pair("A050031M", "Simple Parts/A050031M.DWG", "Simple Parts/A050031E.SLDPRT", "simple", "adapter", _TWIN),
     Pair("A050081M", "Simple Parts/A050081M.DWG", "Simple Parts/A050081E_OLD.SLDPRT", "simple", "wear plate", _TWIN),
     Pair("A050381M", "Simple Parts/A050381M.DWG", "Simple Parts/A050381E.SLDPRT", "simple", "mounting pad", _TWIN),
