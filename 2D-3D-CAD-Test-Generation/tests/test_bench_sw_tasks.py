@@ -281,3 +281,19 @@ def test_pdf_success_moves_temp_into_place(no_com, tmp_path, monkeypatch):
     app, _ = _pdf_app(lambda pg: pg.draw_rect(fitz.Rect(100, 100, 200, 200)))
     sw_tasks.dwg_to_pdf(app, tmp_path / "a.DWG", tmp_path / "drawing.pdf")
     assert [p.name for p in tmp_path.iterdir()] == ["drawing.pdf"]
+
+
+def test_connect_always_returns_a_late_bound_object(monkeypatch):
+    """E026: a makepy cache for sldworks.tlb made SolidWorks objects typed, and their
+    [in,out] params rejected the byref VARIANTs passed to OpenDoc6/LoadFile4."""
+    win32 = pytest.importorskip("win32com.client")
+    import win32com.client.dynamic as dynamic
+
+    class Typed:
+        _oleobj_ = object()
+
+    seen = {}
+    monkeypatch.setattr(win32, "GetActiveObject", lambda progid: Typed())
+    monkeypatch.setattr(dynamic, "Dispatch", lambda ole: seen.setdefault("ole", ole))
+    sw_tasks.connect(retries=1, wait_s=0)
+    assert seen["ole"] is Typed._oleobj_

@@ -34,6 +34,14 @@ class SwUnavailable(RuntimeError):
     pass
 
 
+def _late_bound(obj):
+    """Always use late binding. If a makepy cache for sldworks.tlb exists (%TEMP%\\gen_py),
+    pywin32 hands back typed wrappers whose [in,out] parameters reject the byref VARIANTs
+    passed to LoadFile4/OpenDoc6 ("int() argument must be ... not 'VARIANT'"). Error log E026."""
+    import win32com.client.dynamic as dynamic
+    return dynamic.Dispatch(obj._oleobj_)
+
+
 def connect(retries: int = 6, wait_s: float = 5.0):
     """Attach to the running SolidWorks.
 
@@ -46,7 +54,7 @@ def connect(retries: int = 6, wait_s: float = 5.0):
     last = None
     for i in range(retries):
         try:
-            return w.GetActiveObject("SldWorks.Application")
+            return _late_bound(w.GetActiveObject("SldWorks.Application"))
         except Exception as e:        # "Operation unavailable": COM registration dropped
             last = e
             if i < retries - 1:
