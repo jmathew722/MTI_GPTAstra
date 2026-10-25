@@ -188,3 +188,19 @@ def score_part(key: Key, generated: Key, cfg: Config) -> PartScore:
     ps, _ = _evaluate(eff, fit.apply(generated), cfg)
     ps.pose = fit
     return ps
+
+
+def add_extras(ps: PartScore, features: list, key: Key, cfg: Config) -> PartScore:
+    """Count generated features that took no part in matching (e.g. the features of a second
+    body in a multi-body part) as extras, and re-total the score. Changes and returns `ps`."""
+    part_size = max(key.envelope, default=0.0)
+    W = sum(r.weight for r in ps.rows) or 1.0
+    for f in features:
+        if f.type in _NOT_MATCHED:
+            continue
+        w = weight(f, part_size, cfg)
+        ps.extras.append(Extra(f.id, f.type, w, 100.0 * cfg.extra_penalty * w / W))
+    raw = 100.0 - sum(r.points_lost for r in ps.rows) - sum(e.points_lost for e in ps.extras)
+    ps.score = max(0.0, min(100.0, raw))
+    ps.exact = ps.exact and not ps.extras
+    return ps
