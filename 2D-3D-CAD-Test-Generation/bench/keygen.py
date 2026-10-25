@@ -358,7 +358,11 @@ def _hole_chain(solid, chain: list[_Round], turned, new, frame, k):
         start = cb.t0 if cb_lo else cb.t1
     else:
         start = drill.t0 if lo_open else drill.t1
-    on_turned_axis = turned is not None and turned.same_line(drill.origin, drill.axis)
+    # A hole on the turned axis is a bore when it goes through or is big (>= half the largest
+    # turned diameter); a small blind one in an end face is a plain blind hole, so a TAP callout
+    # can claim it (rod ends tapped .375-16 / .625-11).
+    on_turned_axis = (turned is not None and turned.same_line(drill.origin, drill.axis)
+                      and (thru or drill.r >= 0.5 * turned.r - LIN_TOL))
     kw = dict(axis=_clean(drill.axis), center=frame(drill.point(start)), d=float(2 * drill.r / k),
               depth=float((drill.t1 - drill.t0) / k), thru=thru)
     if on_turned_axis:

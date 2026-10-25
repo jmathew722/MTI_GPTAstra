@@ -256,3 +256,16 @@ def test_rejects_multi_solid():
     from bench.keygen import KeygenError
     with pytest.raises(KeygenError, match="2 solids"):
         extract(cq.Compound.makeCompound([a, b]), units="mm", part="x", source="memory")
+
+
+def test_blind_coaxial_end_holes_of_a_rod_are_blind_holes_not_bores():
+    """A turned rod with a small blind hole in one end (to be tapped) and a big blind bore in
+    the other; a small THRU hole on the axis stays a bore."""
+    rod = (cq.Workplane("XY").circle(20).extrude(100)
+           .faces(">Z").workplane().hole(10, 20)
+           .faces("<Z").workplane().hole(25, 15))
+    key = _key(rod)
+    assert [round(f.d, 4) for f in _of(key, "blind_hole")] == [10.0]
+    assert [round(f.d, 4) for f in _of(key, "bore")] == [25.0]
+    tube = cq.Workplane("XY").circle(20).extrude(100).faces(">Z").workplane().hole(8)
+    assert [round(f.d, 4) for f in _of(_key(tube), "bore")] == [8.0]

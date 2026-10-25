@@ -103,3 +103,42 @@ def test_bolt_circle_hole_callout_is_kept_with_its_bc_diameter():
     assert (c.kind, c.thread, c.bc_d) == ("tap", ".250-20", 4.0)
     assert parse(".344 DIA. THRU (6) HLS.").bc_d is None
     assert parse("(4.562%%C B.C. REF.)") is None
+
+
+# ---- legacy forms seen on the first real-data run (synthetic strings) ------------------------
+
+@pytest.mark.parametrize("text", ["OVER .5000 DIA.", "Ø2.750", "%%C1.250", ".750 DIA."])
+def test_bare_diameter_note_is_not_a_hole_callout(text):
+    assert parse(text) is None
+
+
+def test_drill_word_alone_keeps_a_callout():
+    c = parse(".250 DRILL")
+    assert c is not None and c.kind == "drill" and c.d == 0.25
+
+
+def test_cbore_with_diameter_mark_and_spaced_apostrophe():
+    c = parse("1.750 %%C C'BORE 1.50 DP.")
+    assert (c.kind, c.cbore_d, c.depth) == ("cbore", 1.75, 1.5)
+    assert parse("DR. & C' BORE (FAR SIDE) FOR .375 SOC. HD. CAP SCR. (5) HLS.").kind == "cbore"
+
+
+def test_spotface_is_a_counterbore_size():
+    c = parse(".656 DR. THRU 1.062 %%C SPOTFACE (3) HOLES")
+    assert (c.kind, c.d, c.cbore_d, c.thru, c.count) == ("cbore", 0.656, 1.062, True, 3)
+
+
+def test_deep_is_a_depth_word_and_paren_count_before_holes():
+    c = parse(".250-20 TAP .75 DEEP (7)HOLES")
+    assert (c.thread, c.depth, c.count) == (".250-20", 0.75, 7)
+    assert parse(".250-20 TAP THRU (9) HOLES").count == 9
+
+
+def test_toleranced_size_with_trailing_diameter_mark_thru():
+    c = parse("1.502 %%P.001 %%C THRU")
+    assert (c.kind, c.d, c.thru) == ("drill", 1.502, True)
+
+
+def test_drill_and_ream_gives_the_ream_as_step_diameter():
+    c = parse('"X"=.875 DRILL THRU & 1.1811 RM. AS SHOWN (16)HOLES')
+    assert (c.kind, c.d, c.cbore_d, c.count, c.thru) == ("drill", 0.875, 1.1811, 16, True)

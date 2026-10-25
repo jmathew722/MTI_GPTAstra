@@ -7,12 +7,15 @@ key -> drawing
   * every hole diameter is stated (diameter/radius dimension or a hole callout). A hole that
     fits a TAP callout's tap drill is relabelled ``tapped_hole`` and gets ``thread``; a
     counterbore/countersink covered by a "FOR #10 SOC. HD. CAP SCR." callout needs no printed
-    size. A counterbore's ``cbore_d`` / ``cbore_depth`` are checked against the callout too.
+    size when its drill fits that screw (clearance window, _fits_screw). A counterbore's
+    ``cbore_d`` / ``cbore_depth`` are checked against the callout too.
   * every in-plane coordinate of every hole is explained by some drawing distance (from an
     envelope face, the part centre, another hole, or a bolt-circle radius/diameter).
 drawing -> key
   * every linear/aligned/diameter/radius/ordinate value equals some key quantity.
-  * every hole callout's count equals the number of key holes it describes.
+  * every hole callout's count equals the number of key holes it describes (or, when several
+    callouts describe the same holes -- ".500-13 TAP FOR LIFT RING" + ".500-13 TAP (4) HOLES" --
+    their summed count).
   * the drawing's units hint (if any) equals the key's units.
 
 Tolerance: each drawing value carries its own tolerance -- the general tolerance for its
@@ -26,7 +29,7 @@ import math
 import re
 from typing import Optional
 
-from bench.callouts import Callout
+from bench.callouts import _SCREW_NO, Callout, _num
 from bench.dxfread import Dim, Drawing
 from bench.features import HOLE_TYPES, Feature, Flag, Key
 
@@ -227,6 +230,27 @@ def _cbore_match(h: Feature, c: Callout, tol: float) -> bool:
             and (c.cbore_d is None or (h.cbore_d is not None and abs(h.cbore_d - c.cbore_d) <= tol + _EPS)))
 
 
+def _fits_screw(h: Feature, c: Callout, units: str, tol: float) -> bool:
+    """Could hole `h` be the clearance drill for the screw named by callout `c`? Window
+    [nominal, 1.2 x nominal + .07 in]: a .750 screw takes a .781-.812 drill, a #10 a .201-.257.
+    Not an exact clearance table: it only keeps a screw callout from vouching for holes of a
+    clearly different size. An unparsed screw size fits anything."""
+    try:
+        n = _SCREW_NO[c.screw] if c.screw.startswith("#") else _num(c.screw)
+    except (KeyError, ValueError, ZeroDivisionError):
+        return True
+    k = 25.4 if units == "mm" else 1.0
+    return h.d is not None and n * k - tol <= h.d <= (1.2 * n + 0.07) * k + tol
+
+
+_SCREW_KIND = {"counterbore": "cbore", "countersink": "csink"}
+
+
+def _by_screw(h: Feature, c: Callout, units: str, tol: float) -> bool:
+    """Callout `c` sizes hole `h` by a screw standard ("DR. & C'BORE FOR .312 SOC. HD. CAP SCR.")."""
+    return bool(c.screw) and _SCREW_KIND.get(h.type) == c.kind and _fits_screw(h, c, units, tol)
+
+
 def _check_sizes(key: Key, drawing: Drawing, holes: list[Feature], tol: float) -> list[Flag]:
     flags: list[Flag] = []
     dias = _hole_diameters(drawing, key.units)
@@ -234,7 +258,6 @@ def _check_sizes(key: Key, drawing: Drawing, holes: list[Feature], tol: float) -
         (c.depth, _tol(drawing, key.units, _callout_decimals(c, c.depth)))
         for c in drawing.callouts if c.depth and c.kind == "cbore"]
     taps = [c for c in drawing.callouts if c.kind == "tap"]
-    screwed = {c.kind for c in drawing.callouts if c.kind in ("cbore", "csink") and c.screw}
 
     def need(h: Feature, name: str, v: Optional[float], pool: Stated) -> None:
         if v and not _near(v, pool):
@@ -251,12 +274,14 @@ def _check_sizes(key: Key, drawing: Drawing, holes: list[Feature], tol: float) -
             if tap is not None:
                 h.thread, h.type = tap.thread, "tapped_hole"
                 continue
-        if (h.type == "counterbore" and "cbore" in screwed) or (h.type == "countersink" and "csink" in screwed):
+        if any(_by_screw(h, c, key.units, tol) for c in drawing.callouts):
             continue                                  # sizes come from the named screw standard
         need(h, "d", h.d, dias)
         if h.type == "counterbore":
             need(h, "cbore_d", h.cbore_d, dias)
-            matched = [c for c in drawing.callouts if _cbore_match(h, c, tol) and c.depth]
+            # a bare "C'BORE .38 DP." note names no size, so it binds no particular counterbore
+            matched = [c for c in drawing.callouts if _cbore_match(h, c, tol) and c.depth
+                       and (c.d is not None or c.cbore_d is not None)]
             if matched and h.cbore_depth:
                 need(h, "cbore_depth", h.cbore_depth,
                      [(c.depth, _tol(drawing, key.units, _callout_decimals(c, c.depth))) for c in matched])
@@ -332,27 +357,34 @@ def _check_drawing_values(key: Key, drawing: Drawing) -> list[Flag]:
     return flags
 
 
-def _callout_holes(c: Callout, holes: list[Feature], tol: float) -> int:
-    """How many key holes a callout describes: taps by thread, counterbores/countersinks by
-    type (and size when printed), plain drill callouts by diameter among non-counterbored holes."""
+def _callout_holes(c: Callout, holes: list[Feature], tol: float, units: str = "inch") -> list[str]:
+    """Ids of the key holes a callout describes: taps by thread, counterbores/countersinks by
+    type (and size when printed; drill fitting the screw when one is named), plain drill
+    callouts by diameter among non-counterbored holes."""
+    def screw_ok(h: Feature) -> bool:
+        return not c.screw or _fits_screw(h, c, units, tol)
+
     if c.kind == "tap":
-        return sum(1 for h in holes if h.thread == c.thread)
+        return [h.id for h in holes if h.thread == c.thread]
     if c.kind == "cbore":
-        return sum(1 for h in holes if _cbore_match(h, c, tol))
+        return [h.id for h in holes if _cbore_match(h, c, tol) and screw_ok(h)]
     if c.kind == "csink":
-        return sum(1 for h in holes if h.type == "countersink"
-                   and (c.d is None or abs(h.d - c.d) <= tol + _EPS))
-    return sum(1 for h in holes if h.type in ("thru_hole", "blind_hole", "tapped_hole")
-               and h.d is not None and c.d is not None and abs(h.d - c.d) <= tol + _EPS)
+        return [h.id for h in holes if h.type == "countersink" and screw_ok(h)
+                and (c.d is None or abs(h.d - c.d) <= tol + _EPS)]
+    return [h.id for h in holes if h.type in ("thru_hole", "blind_hole", "tapped_hole")
+            and h.d is not None and c.d is not None and abs(h.d - c.d) <= tol + _EPS]
 
 
-def _check_counts(drawing: Drawing, holes: list[Feature], tol: float) -> list[Flag]:
-    """A counted callout must match exactly; an uncounted one ("TYP." or a single hole) must
+def _check_counts(drawing: Drawing, holes: list[Feature], tol: float, units: str = "inch") -> list[Flag]:
+    """A counted callout must match exactly -- or, when several callouts describe the same set
+    of key holes, their counts must add up; an uncounted one ("TYP." or a single hole) must
     describe at least one key hole."""
     flags: list[Flag] = []
-    for c in drawing.callouts:
-        n = _callout_holes(c, holes, tol)
-        if (c.count > 1 and n != c.count) or (c.count <= 1 and n == 0):
+    described = [frozenset(_callout_holes(c, holes, tol, units)) for c in drawing.callouts]
+    for c, ids in zip(drawing.callouts, described):
+        n = len(ids)
+        total = sum(o.count for o, oids in zip(drawing.callouts, described) if oids == ids)
+        if (c.count > 1 and n not in (c.count, total)) or (c.count <= 1 and n == 0):
             flags.append(Flag("count_mismatch", f"callout '{c.text.strip()}' says {c.count}, key has {n}"))
     return flags
 
@@ -383,7 +415,7 @@ def check(key: Key, drawing: Drawing) -> list[Flag]:
     flags += _check_sizes(key, drawing, holes, tol)
     flags += _check_positions(key, holes, _positions(drawing, key.units), tol)
     flags += _check_drawing_values(key, drawing)
-    flags += _check_counts(drawing, holes, tol)
+    flags += _check_counts(drawing, holes, tol, key.units)
     return flags
 
 

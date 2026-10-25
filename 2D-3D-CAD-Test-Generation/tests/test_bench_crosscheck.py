@@ -341,3 +341,59 @@ def test_callout_bolt_circle_is_checked_against_the_key():
     flags = check(*_disc_with_bc_callout("3.500"))
     wrong = [f for f in flags if f.kind == "unexplained_drawing_value"]
     assert len(wrong) == 1 and "3.500 B.C." in wrong[0].detail
+
+
+# ---- first real-data run (synthetic) ---------------------------------------------------------
+
+def _screw_cbores():
+    """4 counterbores sized for a .500 screw and 2 big ones that are not."""
+    pts = [(0.5, 0.5), (3.5, 0.5), (0.5, 3.5), (3.5, 3.5)]
+    holes = [Feature(id=f"S{i}", type="counterbore", axis=[0, 0, 1], center=[x, y, 0], d=0.531,
+                     depth=1.0, thru=True, cbore_d=0.812, cbore_depth=0.53) for i, (x, y) in enumerate(pts, 1)]
+    holes += [Feature(id=f"B{i}", type="counterbore", axis=[0, 0, 1], center=[x, 2.0, 0], d=1.25,
+                      depth=1.0, thru=True, cbore_d=1.75, cbore_depth=0.6) for i, x in enumerate((1.5, 2.5), 1)]
+    return Key(part="P", units="inch", source="s", envelope=[4.0, 4.0, 1.0], features=holes)
+
+
+_BIG = "1.250 DR. THRU & 1.750 C'BORE .60 DP. (2) HOLES"
+
+
+def _screw_drawing(*extra):
+    return Drawing(dims=[_lin(4.0), _lin(1.0), _lin(0.5), _lin(3.0), _lin(2.0), _lin(1.5)],
+                   callouts=[parse("DR. & C'BORE AS SHOWN FOR .500 SOC. HD. SCR. (4)HOLES"), *extra],
+                   general_tol={3: 0.005, 2: 0.01}, units_hint="inch")
+
+
+def test_screw_cbore_skips_sizes_only_of_counterbores_that_fit_the_screw():
+    assert check(_screw_cbores(), _screw_drawing(parse(_BIG))) == []
+    flags = check(_screw_cbores(), _screw_drawing())
+    assert {f.feature for f in flags if f.kind == "unexplained_key_value"} == {"B1", "B2"}
+
+
+def test_screw_cbore_count_uses_counterbores_that_fit_the_screw():
+    k = _screw_cbores()
+    k.features = k.features[1:]
+    flags = check(k, _screw_drawing(parse(_BIG)))
+    assert [f.kind for f in flags if f.kind == "count_mismatch"] == ["count_mismatch"]
+    assert "says 4, key has 3" in flags[-1].detail
+
+
+def test_generic_cbore_depth_note_does_not_bind_every_counterbore():
+    """A bare "C'BORE .38 DP." leader note names no size: other counterbores may take their
+    depth from a dimension."""
+    d = Drawing(dims=_plate_dims() + [_lin(0.47)],
+                callouts=[parse(".344 DR. THRU & .562 C'BORE (4) HOLES"), parse("C'BORE .38 DP.")],
+                general_tol={3: 0.005, 2: 0.01}, units_hint="inch")
+    assert check(_cbore_key(cbore_depth=0.47), d) == []
+
+
+def test_same_thread_callouts_add_up():
+    k = Key(part="P", units="inch", source="s", envelope=[6.0, 1.0, 1.0],
+            features=[Feature(id=f"K{i}", type="blind_hole", axis=[0, 0, 1], center=[float(i), 0.5, 1.0],
+                              d=0.4219, depth=1.0, thru=False) for i in range(1, 6)])
+    d = Drawing(dims=[_lin(6.0), _lin(1.0), _lin(0.5)],
+                callouts=[parse(".500-13 TAP FOR LIFT RING"), parse(".500-13 TAP 1.00 DP. (4) HOLES")],
+                general_tol={3: 0.005, 2: 0.01}, units_hint="inch")
+    assert [f for f in check(k, d) if f.kind == "count_mismatch"] == []
+    d.callouts[1] = parse(".500-13 TAP 1.00 DP. (3) HOLES")
+    assert [f.kind for f in check(k, d) if f.kind == "count_mismatch"] == ["count_mismatch"]

@@ -261,3 +261,54 @@ def test_stacked_cbore_callout_picks_up_screw_and_count(tmp_path):
     assert len(dr.callouts) == 1
     c = dr.callouts[0]
     assert (c.kind, c.depth, c.screw, c.count) == ("cbore", 0.38, ".250", 3)
+
+
+# ---- first real-data run: chamfer angles, split callouts (synthetic) ----------------------
+
+@pytest.mark.parametrize("text", [".04 X 45%%D", ".04 X 45°"])
+def test_chamfer_override_keeps_the_leg_not_the_angle(tmp_path, text):
+    dr = read(_save(_linear_doc(override=text), tmp_path))
+    lin = next(x for x in dr.dims if x.kind == "linear")
+    assert lin.shown == pytest.approx(0.04) and lin.text == text
+
+
+@pytest.mark.parametrize("text", [".04 X 45%%D", ".04 X 45°"])
+def test_chamfer_text_is_the_leg_not_the_angle(tmp_path, text):
+    dr = _texts(tmp_path, [(0, 0, text)])
+    assert [(d.kind, d.shown, d.text) for d in dr.dims] == [("linear", 0.04, text)]
+
+
+def test_degree_value_in_override_is_never_a_length(tmp_path):
+    dr = read(_save(_linear_doc(override="30%%D"), tmp_path))
+    lin = next(x for x in dr.dims if x.kind == "linear")
+    assert lin.shown is None
+
+
+def test_hanging_indent_callout_joins_its_continuation(tmp_path):
+    dr = _texts(tmp_path, [(10.0, 5.0, "\"Q\"=DRILL & C'BORE AS SHOWN FOR"),
+                           (10.8, 4.6, ".500 SOC. HD. SCR. (8)HOLES"),
+                           (10.0, 2.0, "\"R\"=.250-20 TAP .50 DEEP"),
+                           (10.8, 1.6, "(5)HOLES (EQUALLY SPACED)")], h=0.25)
+    got = sorted((c.kind, c.screw, c.count, c.depth) for c in dr.callouts)
+    assert got == [("cbore", ".500", 8, None), ("tap", "", 5, 0.5)]
+
+
+def test_callout_absorbs_a_count_after_a_plain_note_line(tmp_path):
+    dr = _texts(tmp_path, [(4.93, 9.45, "HOLE NOTES:"), (5.0, 9.0, "\"P\"=1.000 DRILL THRU &"), (5.8, 8.6, "1.3780     RM. AS SHOWN"),
+                           (5.8, 8.2, "WITH PIN IN PLACE"), (5.8, 7.8, "(10)HOLES EQUALLY SPACED")], h=0.25)
+    assert len(dr.callouts) == 1
+    c = dr.callouts[0]
+    assert (c.kind, c.d, c.cbore_d, c.count) == ("drill", 1.0, 1.378, 10)
+
+
+def test_right_aligned_text_stacks_on_its_alignment_point(tmp_path):
+    doc = ezdxf.new(setup=True)
+    m = doc.modelspace()
+    for y, s in [(3.0, ".656 DR. THRU"), (2.8, "1.062 %%C SPOTFACE"), (2.6, "(3) HOLES")]:
+        t = m.add_text(s, height=0.125)
+        t.set_placement((7.0, y), align=ezdxf.enums.TextEntityAlignment.BOTTOM_RIGHT)
+        t.dxf.insert = (7.0 - 0.1 * len(s), y)     # left end differs per line, like real files
+    dr = read(_save(doc, tmp_path))
+    assert len(dr.callouts) == 1
+    c = dr.callouts[0]
+    assert (c.kind, c.d, c.cbore_d, c.count) == ("cbore", 0.656, 1.062, 3)

@@ -56,12 +56,21 @@ def _decimals(s: str) -> Optional[int]:
 
 
 _QTY = re.compile(
-    r"\b\d+\s*X\b|\(\s*\d+\s*\)|\b\d+\s*(?:PLCS?|PLACES?|HLS?|HOLES?)\b", re.IGNORECASE)
+    r"(?<![\d.])\d+\s*X\b|\(\s*\d+\s*\)|\b\d+\s*(?:PLCS?|PLACES?|HLS?|HOLES?)\b", re.IGNORECASE)
+_DEG = r"\s*(?:%%D|°)"
+# ".06 X 45%%D": a chamfer callout; its length is the leg, the angle is never a length
+_CHAMFER = re.compile(r"(\d*\.\d+|\d+)\s*X\s*\d+(?:\.\d+)?" + _DEG, re.IGNORECASE)
+_ANGLE = re.compile(r"(?<![\d.])\d*\.?\d+" + _DEG, re.IGNORECASE)
 
 
 def _shown_number(raw: str) -> Optional[str]:
-    """The dimension value in an override string, ignoring quantity prefixes ("2X", "(2)", "4 PLCS")."""
-    plain = re.sub(r"\\[A-Za-z][^;]*;|\\P|[{}]|%%[CcPpDd]", " ", raw)
+    """The dimension value in an override string, ignoring quantity prefixes ("2X", "(2)", "4 PLCS")
+    and angles ("45%%D"); a chamfer ".06 X 45%%D" shows its leg."""
+    plain = re.sub(r"\\[A-Za-z][^;]*;|\\P|[{}]", " ", raw)
+    ch = _CHAMFER.search(plain)
+    if ch:
+        return ch.group(1)
+    plain = re.sub(r"%%[CcPp]", " ", _ANGLE.sub(" ", plain))
     plain = _QTY.sub(" ", plain)
     toks = _NUM.findall(plain)
     for t in toks:
@@ -156,7 +165,13 @@ def _plain(s: str) -> str:
 
 
 def _text_dim(raw: str) -> Optional[Dim]:
-    """A Dim if the whole string is a decimal dimension value (exploded legacy dimension)."""
+    """A Dim if the whole string is a decimal dimension value (exploded legacy dimension). A
+    chamfer callout (".06 X 45%%D") gives its leg as a linear dim; its text is kept so the
+    cross-check can recognise the edge break."""
+    ch = re.fullmatch(_CHAMFER.pattern + r"\.?", _plain(raw), re.IGNORECASE)
+    if ch:
+        return Dim("linear", float(ch.group(1)), float(ch.group(1)), raw, False,
+                   _decimals(ch.group(1)), source="text")
     m = _TEXT_DIM.match(_plain(raw))
     if not m:
         return None
@@ -187,7 +202,13 @@ def _stacks(items):
             lx, ly, lh, _ = st[-1]
             hh = max(h, lh, 1e-6)
             dy = ly - y
-            if abs(lx - x) <= max(0.25 * hh, 0.05) and 0.1 * hh < dy <= 2.0 * hh + 1e-9:
+            if not 0.1 * hh < dy <= 2.0 * hh + 1e-9:
+                continue
+            aligned = abs(lx - x) <= max(0.25 * hh, 0.05)
+            # hanging indent: '"B"=DRILL & C'BORE ... FOR' over '    .750 SOC. HD. SCR.' (at
+            # least one text height, so a slightly offset heading does not claim the note)
+            hanging = len(st) == 1 and hh <= x - lx <= 4.0 * hh
+            if aligned or hanging:
                 st.append(it)
                 break
         else:
@@ -196,7 +217,9 @@ def _stacks(items):
 
 
 def _stack_items(lines: list[str], dr: Drawing, text_dims: list) -> None:
-    """Text dims and callouts of one stack; a callout absorbs following lines that add info."""
+    """Text dims and callouts of one stack; a callout absorbs following lines that add info. A
+    line that adds nothing ("@ ASS'Y. IN PLACE") is looked past when it is not itself a callout,
+    so a count on the line after it is still picked up."""
     i = 0
     while i < len(lines):
         d = _text_dim(lines[i])
@@ -205,20 +228,28 @@ def _stack_items(lines: list[str], dr: Drawing, text_dims: list) -> None:
             i += 1
             continue
         c = parse(lines[i])
+        end = i + 1
         j = i + 1
         while c is not None and j < len(lines) and _text_dim(lines[j]) is None:
             cj = parse(" ".join(x.strip() for x in lines[i:j + 1]))
-            if cj is None or _info(cj) <= _info(c):
-                break
-            c, j = cj, j + 1
+            if cj is not None and _info(cj) > _info(c):
+                c, end = cj, j + 1
+            elif parse(lines[j]) is not None:
+                break                       # the next callout starts here
+            j += 1
         if c is not None:
             dr.callouts.append(c)
-        i = j
+        i = end
 
 
 def _xyh(e):
+    """Anchor of a text: a right/centre-aligned TEXT is anchored at its alignment point (its
+    insert is the computed left end, which differs line to line)."""
     t = e.dxftype()
     p = e.dxf.insert
+    if t == "TEXT" and (e.dxf.get("halign", 0) in (1, 2, 4) or e.dxf.get("valign", 0)) \
+            and e.dxf.get("align_point") is not None:
+        p = e.dxf.align_point
     h = e.dxf.get("height", 0.0) if t == "TEXT" else e.dxf.get("char_height", 0.0)
     return float(p.x), float(p.y), float(h or 0.0)
 

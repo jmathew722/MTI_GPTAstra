@@ -1,8 +1,12 @@
 """Parse drafting hole callouts (legacy MTI style) into structured facts.
 
-Depth is a value followed by DP; the "C'BORE .38 DP." form gives the counterbore depth.
-A count comes from "(3) HLS", "6-HLS", "4 HOLES", "12-HOLES", "4X". Nominal thread size
-is in inches.
+Depth is a value followed by DP or DEEP; the "C'BORE .38 DP." form gives the counterbore
+depth. A count comes from "(3) HLS", "(24) HOLES", "6-HLS", "4 HOLES", "12-HOLES", "4X".
+Nominal thread size is in inches. A SPOTFACE is a (shallow) counterbore. In "1.500 DRILL THRU &
+1.9685 RM." the reamed step is recorded as the drill callout's ``cbore_d``.
+
+A bare size with no THRU, no depth, no count and no DR/DRILL word ("OVER .5000 DIA.",
+"%%C2.750") is a diameter note, not a hole callout: parse returns None.
 """
 from __future__ import annotations
 
@@ -14,12 +18,16 @@ NUM = r"(\d*\.\d+|\d+(?:/\d+)?)"
 _THREAD_IN = re.compile(r"(#\d+|\d*\.\d+|\d+/\d+|\d+)\s*-\s*(\d+)(?:\s*UN[CF])?\s*TAP")
 _THREAD_TAP_FIRST = re.compile(r"TAP\s+(#\d+|\d*\.\d+|\d+/\d+|\d+)\s*-\s*(\d+)\b")
 _THREAD_M = re.compile(r"M(\d+(?:\.\d+)?)\s*X\s*(\d+(?:\.\d+)?)")
-_COUNT = re.compile(r"\((\d+)\)\s*HLS?|(\d+)\s*-\s*HLS?|(\d+)\s*-?\s*HOLES?|\b(\d+)\s*X\b")
-_DEPTH = re.compile(NUM + r"\s*DP")
+_COUNT = re.compile(r"\((\d+)\)\s*(?:HLS?|HOLES?)|(\d+)\s*-\s*HLS?|(\d+)\s*-?\s*HOLES?|\b(\d+)\s*X\b")
+_DEPTH = re.compile(NUM + r"\s*(?:DP|DEEP)\b")
 _DRILL_PRE = re.compile(r"(?:%%C|\u00d8)\s*" + NUM)
 _DRILL_POST = re.compile(NUM + r"\s*(?:DR\b|DR\.|DRILL|DIA\.?)")
-_CBORE_WORD = r"(?:C'BORE|CBORE|COUNTERBORE)"
-_CBORE_D = re.compile(NUM + r"\s*" + _CBORE_WORD)
+# "2.504 %%P.002 %%C THRU": a (toleranced) size with a trailing diameter mark, then THRU
+_DRILL_MARK_THRU = re.compile(NUM + r"(?:\s*(?:%%P|\u00b1)\s*\d*\.\d+)?\s*(?:%%C|\u00d8)\s*(?=THRU)")
+_DRILL_WORD = re.compile(r"\bDR\b|\bDR\.|DRILL")
+_CBORE_WORD = r"(?:C'BORE|CBORE|COUNTERBORE|SPOT\s*FACE)"
+_CBORE_D = re.compile(NUM + r"\s*(?:%%C|\u00d8)?\s*" + _CBORE_WORD)
+_REAM = re.compile(NUM + r"\s*(?:RM\b|REAM)")
 _NOT_A_HOLE = ("B.C.", " REF", "TOL", "DETAIL", "SEE ", "SCALE", "WITHIN", "MATERIAL")
 _D_MIN, _D_MAX = 0.04, 3.0   # plausible drill diameter, inches
 _BC_MARK = r"(?:%%C|\u00d8)?\s*B\.?\s*C\b\.?"
@@ -65,9 +73,9 @@ class Callout:
 def _drill_d(t: str) -> Optional[float]:
     """First drill diameter in t, ignoring a number that labels a counterbore."""
     found = []
-    for rx in (_DRILL_PRE, _DRILL_POST):
+    for rx in (_DRILL_PRE, _DRILL_POST, _DRILL_MARK_THRU):
         for m in rx.finditer(t):
-            if re.match(r"\s*(?:" + _CBORE_WORD + "|" + _BC_MARK + ")", t[m.end():]):
+            if re.match(r"\s*(?:%%C|Ø)?\s*(?:" + _CBORE_WORD + "|" + _BC_MARK + ")", t[m.end():]):
                 continue                      # a counterbore or bolt-circle size, not the drill
             found.append((m.start(), _num(m.group(1))))
     return min(found)[1] if found else None
@@ -75,7 +83,8 @@ def _drill_d(t: str) -> Optional[float]:
 
 def parse(text: str) -> Optional[Callout]:
     t = " ".join(text.upper().replace("\\P", " ").split())
-    is_cbore = "C'BORE" in t or "CBORE" in t or "COUNTERBORE" in t
+    t = re.sub(r"C'\s+(BORE|SINK)", r"C'\1", t)          # "C' BORE" -> "C'BORE"
+    is_cbore = re.search(_CBORE_WORD, t) is not None
     is_csink = "C'SINK" in t or "CSINK" in t or "CSK" in t or "COUNTERSINK" in t
     m_in = _THREAD_IN.search(t) or _THREAD_TAP_FIRST.search(t)
     m_m = _THREAD_M.search(t)
@@ -100,7 +109,12 @@ def parse(text: str) -> Optional[Callout]:
     d = _drill_d(t) if kind != "tap" else None
     if kind == "drill" and not (_D_MIN <= d <= _D_MAX):
         return None
+    if kind == "drill" and not ("THRU" in t or dm or m or _DRILL_WORD.search(t)):
+        return None                       # a diameter note ("OVER .5000 DIA.", "%%C2.750")
     cm = _CBORE_D.search(t) if kind == "cbore" else None
+    if kind == "drill":                   # "1.500 DRILL THRU & 1.9685 RM.": the reamed step
+        rm = _REAM.search(t)
+        cm = rm if rm and abs(_num(rm.group(1)) - d) > 1e-9 else None
     sm = _SCREW.search(t)
     return Callout(kind=kind, text=text, d=d, thread=thread, depth=depth, thru="THRU" in t,
                    count=count, screw=sm.group(1) if sm else "",
