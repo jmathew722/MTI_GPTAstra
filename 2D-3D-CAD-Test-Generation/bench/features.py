@@ -38,6 +38,8 @@ class Feature:
     members: list[str] = field(default_factory=list)   # hole_pattern member ids
     pattern: Optional[dict] = None          # hole_pattern: {"mode": circle|line|grid|set, ...}
     note: str = ""
+    tol: dict = field(default_factory=dict)      # {"position"|"size"|"depth": tolerance} from linked drawing values
+    links: dict = field(default_factory=dict)    # {"position"|"size"|"depth": [drawing values]} (crosscheck.link)
 
     def __post_init__(self):
         if self.type not in FEATURE_TYPES:
@@ -61,6 +63,7 @@ class Key:
     features: list[Feature]
     flags: list[Flag] = field(default_factory=list)
     signoff: Optional[dict] = None     # {"kind": "auto"|"human", "by": ..., "date": ..., "tool": ...}
+    overrides: list = field(default_factory=list)   # structured drawing overrides (see bench.overrides)
     version: int = KEY_VERSION
 
     @property

@@ -1,0 +1,32 @@
+# Benchmark scorer constants (spec 2026-10-24). Change numbers here, never in code.
+credit:
+  drop: 0.5          # credit just past tolerance
+  k: 4.48            # decay: credit = drop * exp(-(e - 1) / k) for e = error/tolerance > 1  (2x->0.40, 5x->0.20, 10x->0.07)
+shares:              # attribute shares inside a feature's credit (renormalised over present attributes)
+  position: 0.40
+  size: 0.30
+  depth: 0.15
+  type: 0.15
+tiers:               # importance tier weights by feature type
+  base_body: 10
+  bore: 3
+  turned_diameter: 3
+  thru_hole: 3
+  slot: 3
+  pocket_step: 3
+  flat: 3
+  boss: 3
+  tapped_hole: 1
+  counterbore: 1
+  countersink: 1
+  blind_hole: 1
+  chamfer: 1
+  fillet: 1
+size_floor: 0.3      # size factor = clamp(sqrt(feature size / part size), size_floor, 1)
+extra_penalty: 0.5   # an extra (unmatched generated) feature costs this x its own weight
+type_mismatch_cost: 2.0   # added to the pair cost when matched types differ
+gate:
+  tol_multiple: 20   # pairs farther than min(20 x tol, 10% of part size) never match
+  part_fraction: 0.10
+fallback_tol: {inch: 0.005, mm: 0.1}
+unsupported_types: [countersink]   # cannot be expressed in the IR today (blame = unsupported)
