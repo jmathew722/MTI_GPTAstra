@@ -91,9 +91,9 @@ splits:
     - {part: A050411E, source: mti_bench, family: "tank cover plate, 12 countersinks", units: inch, complexity: simple, reference_step: reference.step}
     - {part: A050471E, source: mti_bench, family: "locator (Wuxi), 3 counterbores", units: inch, complexity: simple, reference_step: reference.step}
     - {part: A050481E, source: mti_bench, family: "locator (Wuxi), 3 counterbores", units: inch, complexity: simple, reference_step: reference.step}
-    - {part: 1807408E, source: mti_bench, family: "tailstock ring, hole table (Rolls Royce)", units: inch, complexity: complex, reference_step: reference.step, pairing: provisional}
     - {part: 1901001E, source: mti_bench, family: "master collet (Emerson)", units: inch, complexity: complex, reference_step: reference.step}
   parked:
+    - {part: 1807408E, source: mti_bench, reason: "pairing rejected at key review: model differs from drawing (parked 2026-10-25)"}
     - {part: 1801901E, source: mti_bench, reason: "multi-body model (4 solids); cannot be keyed as one part (parked 2026-10-25)"}
     - {part: A050031M, source: mti_bench, reason: "M twin: only the inch (E) model exists, hole sizes differ"}
     - {part: A050081M, source: mti_bench, reason: "M twin: only the inch (E) model exists, hole sizes differ"}
