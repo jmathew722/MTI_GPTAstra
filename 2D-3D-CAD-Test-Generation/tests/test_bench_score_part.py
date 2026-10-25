@@ -171,3 +171,23 @@ def test_larger_error_never_raises_the_score():
         s = score_part(_key(), gen, C).score
         assert s <= prev + 1e-9
         prev = s
+
+
+def test_uniform_shift_with_equal_envelope_costs_every_hole():
+    gen = _key()
+    for f in gen.features:
+        f.center[1] += 0.02                         # 4 x tol; K3 (axis x) moves across its axis too
+    s = score_part(_key(), gen, C)
+    assert s.score < 100.0 and not s.exact
+    for fid in ("K1", "K2", "K3", "K4"):
+        assert s.row(fid).attr_credits["position"] < 1.0
+
+
+def test_three_of_four_moved_charges_only_the_moved():
+    gen = _key()
+    for fid in ("K1", "K2", "K4"):
+        gen.feature(fid).center[1] += 0.1 * 0.2     # 0.02: inside the gate, 4 x tol
+    s = score_part(_key(), gen, C)
+    for fid in ("K1", "K2", "K4"):
+        assert s.row(fid).attr_credits["position"] < 1.0
+    assert s.row("K3").attr_credits["position"] == 1.0

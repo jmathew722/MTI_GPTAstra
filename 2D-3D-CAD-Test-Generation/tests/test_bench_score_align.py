@@ -94,3 +94,28 @@ def test_custom_cost_picks_the_pose():
     want = transform(key, ROTATIONS[7]).envelope            # [6, 1, 4]: a pose the default would never pick
     fit = best_fit(key, key, cost=lambda g: 0.0 if np.allclose(g.envelope, want) else 1.0)
     assert fit.cost == 0.0 and np.allclose(fit.apply(key).envelope, want)
+
+
+def test_uniform_shift_on_an_unchanged_envelope_is_not_hidden():
+    # positions are referenced from the part's own body: with equal envelopes nothing justifies a shift
+    key = _key()
+    gen = _key()
+    for f in gen.features:
+        if f.center:
+            f.center[1] += 0.02
+    fit = best_fit(key, gen)
+    assert np.allclose(fit.t, 0.0, atol=0.005 + 1e-12)
+    back = fit.apply(gen)
+    for fid in ("K1", "K2"):
+        assert back.feature(fid).center[1] - key.feature(fid).center[1] > 0.014
+
+
+def test_shift_is_bounded_by_the_envelope_difference():
+    key = _key()
+    gen = _key()
+    gen.envelope = [6.1, 4.0, 1.0]
+    for f in gen.features:
+        if f.center:
+            f.center[0] += 0.3                      # more than the 0.1 of extra stock
+    fit = best_fit(key, gen)
+    assert -0.1 - 0.005 - 1e-12 <= fit.t[0] <= 0.005 + 1e-12

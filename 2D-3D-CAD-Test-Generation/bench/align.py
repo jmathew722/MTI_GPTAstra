@@ -4,11 +4,15 @@ Keys live in their own bbox-min frames (keygen). A pose = one of the 24 proper a
 rotations applied about the origin, then the shift that puts the rotated bounding box back at
 the origin, then a translation refined from paired features.
 
-The translation is a consensus, not a mean: every paired feature proposes the shift that would
-put it exactly on its partner, and the shift that brings the most pairs within tolerance wins
-(ties: the smallest shift, so plain bbox alignment is the default). One misplaced hole therefore
-never drags the others out of tolerance, while a part whose features are all offset by the same
-amount (extra stock on one side) is shifted back.
+Positions are referenced from the part's own body, so a translation beyond bbox alignment is
+justified only by an envelope difference: per axis, the shift is bounded to
+[min(0, d) - tol, max(0, d) + tol] with d = target envelope - rotated envelope. Equal envelopes
+therefore mean no shift, and a uniform offset of every feature (a datum error) is scored, not
+hidden. Within that bound the shift is a consensus, not a mean: every paired feature proposes
+the shift that would put it exactly on its partner, and the admissible shift that brings the most
+pairs within tolerance wins (ties: the smallest shift, so plain bbox alignment is the default).
+So one misplaced hole never drags the others out of tolerance, and extra stock on the low side
+of an axis (every feature offset by that stock) is shifted back.
 
 The rotation is chosen by a cost function: by default a geometric one (unpaired features, pair
 distances, envelope mismatch); the scorer passes its own (minus the part score), so the pose is
@@ -139,12 +143,16 @@ def _default_tol(key: Key) -> Callable[[Feature], float]:
     return lambda f: float((f.tol or {}).get("position") or fallback)
 
 
-def _translation(pairs, tol: Callable[[Feature], float]) -> np.ndarray:
-    """Consensus shift: the candidate bringing the most pairs within tolerance; ties -> smallest."""
+def _translation(pairs, tol: Callable[[Feature], float], lo: np.ndarray, hi: np.ndarray) -> np.ndarray:
+    """Consensus shift within the per-axis bound [lo, hi] (widened by the pair's tolerance): the
+    admissible candidate bringing the most pairs within tolerance; ties -> the smallest."""
     cands = [np.zeros(3)]
     for f, g in pairs:
         if f.center is not None and g.center is not None:
-            cands.append(np.asarray(f.center, float) - np.asarray(g.center, float))
+            t = np.asarray(f.center, float) - np.asarray(g.center, float)
+            slack = tol(f) * (1 + 1e-9) + 1e-12
+            if np.all(t >= lo - slack) and np.all(t <= hi + slack):
+                cands.append(t)
     best, best_key = cands[0], None
     for t in cands:
         inliers = sum(1 for f, g in pairs if _residual(f, g, t) <= tol(f) * (1 + 1e-9) + 1e-12)
@@ -152,6 +160,18 @@ def _translation(pairs, tol: Callable[[Feature], float]) -> np.ndarray:
         if best_key is None or k < best_key:
             best, best_key = t, k
     return best
+
+
+def _translate(k: Key, t: np.ndarray) -> Key:
+    """Shift a key in place by t (no rotation): centres move, plane offsets gain n.t."""
+    if not np.any(t):
+        return k
+    for f in k.features:
+        if f.center is not None:
+            f.center = _clean(np.asarray(f.center, float) + t)
+        if f.normal is not None:
+            f.offset = float(f.offset or 0.0) + float(np.asarray(f.normal, float) @ t) + 0.0
+    return k
 
 
 def _geometric_cost(target: Key, moved: Key) -> float:
@@ -167,7 +187,8 @@ def _geometric_cost(target: Key, moved: Key) -> float:
 
 def best_fit(target: Key, moving: Key, cost: Optional[Callable[[Key], float]] = None,
              tol: Optional[Callable[[Feature], float]] = None) -> Fit:
-    """Try all 24 rotations; for each, refine the translation by consensus and evaluate
+    """Try all 24 rotations; for each, refine the translation by consensus (bounded by the
+    envelope difference, see the module docstring) and evaluate
     `cost(moved key)` (lower is better; default: geometric). Ties keep the earlier rotation,
     so the identity wins among equivalent poses. A key without an envelope is not moved."""
     if not moving.envelope or len(moving.envelope) != 3:
@@ -175,9 +196,12 @@ def best_fit(target: Key, moving: Key, cost: Optional[Callable[[Key], float]] = 
     tol = tol or _default_tol(target)
     cost = cost or (lambda g: _geometric_cost(target, g))
     best = None
+    env_t = np.asarray(target.envelope, float) if target.envelope and len(target.envelope) == 3 else None
     for R in ROTATIONS:
-        t = _translation(_pairs(target, transform(moving, R)), tol)
-        c = float(cost(transform(moving, R, t)))
+        moved = transform(moving, R)
+        d = env_t - np.asarray(moved.envelope, float) if env_t is not None else np.zeros(3)
+        t = _translation(_pairs(target, moved), tol, np.minimum(0.0, d), np.maximum(0.0, d))
+        c = float(cost(_translate(moved, t)))
         if best is None or c < best.cost - 1e-9:
             best = Fit(R, t, c)
     return best
