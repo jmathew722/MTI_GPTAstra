@@ -117,3 +117,24 @@ def test_unknown_override_attr_is_rejected():
     k.overrides = [{"feature": "K004", "attr": "diameter", "silent": True}]
     with pytest.raises(ValueError):
         apply(k)
+
+
+def test_value_override_on_center_belongs_to_position():
+    from bench.overrides import override_attrs, scored_attr
+    assert scored_attr("center") == "position"
+    k = _key()
+    k.flags = [Flag("unexplained_position", "bore at [1.5, 1.5, 0]: x not located", "K004", SILENT)]
+    k.overrides = [{"feature": "K004", "attr": "center", "value": [1.4, 1.5, 0]}]
+    eff = apply(k)
+    assert eff.key.feature("K004").center == [1.4, 1.5, 0]
+    assert ("K004", "position") not in eff.silent             # the person's value beats derived silence
+    assert override_attrs(k, "K004") == {"position"}
+
+
+def test_override_attrs_covers_explicit_and_derived():
+    from bench.overrides import override_attrs
+    k = _key()      # derived: K005 silent depth (cbore_depth flag)
+    k.overrides = [{"feature": "K006", "attr": "csink_d", "value": 0.52}]
+    assert override_attrs(k, "K005") == {"depth"}
+    assert override_attrs(k, "K006") == {"size"}
+    assert override_attrs(k, "K004") == set()

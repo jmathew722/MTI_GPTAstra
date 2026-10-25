@@ -84,6 +84,7 @@ def from_resolutions(key: Key) -> list[dict]:
 
 
 _SCORED = ("size", "depth", "position", "type")
+_PLACEMENT = {"center": "position", "offset": "position"}     # placement fields -> position
 _FIELDS = {f.name for f in dataclasses.fields(Feature)}
 
 
@@ -92,6 +93,8 @@ def scored_attr(attr: str) -> str:
     attribute it belongs to (size / depth / position / type)."""
     if attr in _ATTR:
         return _ATTR[attr]
+    if attr in _PLACEMENT:
+        return _PLACEMENT[attr]
     if attr in _SCORED:
         return attr
     raise ValueError(f"override attr {attr!r} is neither a key field ({', '.join(_ATTR)}) "
@@ -110,6 +113,24 @@ def _normalised(o: dict) -> dict:
         if attr not in _FIELDS:
             raise ValueError(f"value override on {o.get('feature')}: unknown key field {attr!r}")
     return o
+
+
+def _field_attr(attr: str) -> str:
+    """The scored attribute a value override's key field belongs to (the field itself if none)."""
+    try:
+        return scored_attr(attr)
+    except ValueError:
+        return attr
+
+
+def override_attrs(key: Key, fid: str) -> set:
+    """Scored attributes of feature `fid` that an override touches: explicit Key.overrides and
+    those derived from policy resolutions (from_resolutions), as scored attribute names."""
+    out = set()
+    for o in [*from_resolutions(key), *key.overrides]:
+        if o.get("feature") == fid and o.get("attr") and (o.get("silent") or "value" in o):
+            out.add(_field_attr(o["attr"]))
+    return out
 
 
 def _target(o: dict) -> tuple:
@@ -134,10 +155,10 @@ def apply(key: Key) -> Effective:
     expected instance counts and drawing-only values. The original key is not changed."""
     k = copy.deepcopy(key)
     eff = Effective(key=k)
-    explicit_values = {o["value"] for o in k.overrides if "value" in o}
+    explicit_values = {o["value"] for o in k.overrides if isinstance(o.get("value"), (int, float))}
     explicit = [_normalised(o) for o in k.overrides]
     # a person's value for a field beats derived silence on the scored attribute it belongs to
-    valued = {(o.get("feature"), _ATTR.get(o["attr"], o["attr"])) for o in explicit if "value" in o}
+    valued = {(o.get("feature"), _field_attr(o["attr"])) for o in explicit if "value" in o}
     merged: dict[tuple, dict] = {}
     for o in from_resolutions(k):
         if "drawing_only" in o and _value_of(o["drawing_only"]) in explicit_values:

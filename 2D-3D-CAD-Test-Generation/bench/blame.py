@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from bench import overrides
 from bench.features import Key
 from bench.score_config import Config
 
@@ -64,27 +65,97 @@ def _tol(f, attr: str, units: str, cfg: Config) -> float:
     return float((f.tol or {}).get(attr) or cfg.fallback_tol.get(units, cfg.fallback_tol["inch"]))
 
 
-def _missing_links(f, units: str, extracted: list[float], cfg: Config) -> list[float]:
-    """Linked drawing values with no extracted value within the feature's tolerance for that attribute."""
+def _lossy(r) -> set:
+    """Scored attributes that lost credit. A missing row lost everything (None = all)."""
+    if r.status == "missing" or not r.attr_credits:
+        return None
+    return {a for a, c in r.attr_credits.items() if c < _FULL}
+
+
+def _groups(f, attr: str, vals: list, t: float) -> list[list[float]]:
+    """Linked values of one attribute are alternatives (any one stated is enough), except size:
+    the drill d and the cbore_d / csink_d are separate quantities, each needing one value.
+    Feature.links does not record which field a value explains, so a size value is assigned to
+    every size field it is within tolerance of; values near no field form one more group."""
+    if attr != "size":
+        return [list(vals)]
+    fields = [x for x in (f.d, f.cbore_d, f.csink_d) if x is not None]
+    groups = [[v for v in vals if abs(v - x) <= t + _EPS] for x in fields]
+    rest = [v for v in vals if not any(abs(v - x) <= t + _EPS for x in fields)]
+    return [g for g in groups if g] + ([rest] if rest else [])
+
+
+def _missing_links(f, units: str, extracted: list[float], cfg: Config, attrs) -> list[float]:
+    """Drawing values for the lossy attributes (attrs; None = all) of which no alternative is in
+    the extraction within the feature's tolerance for that attribute."""
     miss = set()
     for attr, vals in (f.links or {}).items():
+        if attrs is not None and attr not in attrs:
+            continue
         t = _tol(f, attr, units, cfg)
-        for v in vals:
-            if not any(abs(v - e) <= t + _EPS for e in extracted):
-                miss.add(v)
+        for g in _groups(f, attr, vals, t):
+            if not any(abs(v - e) <= t + _EPS for v in g for e in extracted):
+                miss.update(g)
     return sorted(miss)
 
 
-def _overridden(key: Key, fid: str) -> bool:
-    return any(o.get("feature") == fid for o in key.overrides) or fid.startswith("EXPECT")
+def _overridden(key: Key, r) -> bool:
+    """ground_truth: a drawing-only instance (count override), or an override (explicit or
+    derived from a resolution) on an attribute that lost credit. A missing row counts when the
+    feature has a value override (a changed key value can push the pair past the match gate)."""
+    if r.feature_id.startswith("EXPECT"):
+        return True
+    touched = overrides.override_attrs(key, r.feature_id)
+    lossy = _lossy(r)
+    if lossy is None:
+        return any(o.get("feature") == r.feature_id and "value" in o for o in key.overrides)
+    return bool(touched & lossy)
 
 
-def blame_part(sw, cq, key: Key, extraction: dict, ir_report: dict, cfg: Config) -> dict:
+# plan feature kind -> key feature types it can produce (bench.features.FEATURE_TYPES)
+_HOLES = {"thru_hole", "blind_hole", "tapped_hole", "counterbore", "countersink", "bore"}
+_KIND_TYPES = {
+    "hole": _HOLES,
+    "prism:add": {"base_body", "boss", "flat", "pocket_step", "slot"},
+    "prism:cut": {"pocket_step", "slot", "flat", "bore"},
+    "revolve": {"base_body", "turned_diameter", "bore", "boss", "flat"},
+    "edge_op:fillet": {"fillet"},
+    "edge_op:chamfer": {"chamfer"},
+}
+
+
+def _plan_features(plan) -> dict:
+    p = (plan or {}).get("plan", plan) or {}
+    return {f.get("id"): f for f in (p.get("features") or []) if isinstance(f, dict)}
+
+
+def _kind_types(f: dict, feats: dict, depth: int = 0) -> set:
+    kind = f.get("kind")
+    if kind == "pattern" and depth < 5 and f.get("seed") in feats:
+        return _kind_types(feats[f["seed"]], feats, depth + 1)
+    for k in (f"{kind}:{f.get('op') or f.get('operation')}", kind):
+        if k in _KIND_TYPES:
+            return _KIND_TYPES[k]
+    return set()
+
+
+def _compatible_skips(typ: str, skipped: dict, plan) -> dict:
+    """The skipped plan features that could have produced a key feature of type `typ`. Without
+    the plan a skip's kind is unknown, so none counts (real runs mostly skip unrelated fillets)."""
+    feats = _plan_features(plan)
+    return {fid: why for fid, why in skipped.items() if fid in feats and typ in _kind_types(feats[fid], feats)}
+
+
+def blame_part(sw, cq, key: Key, extraction: dict, ir_report: dict, cfg: Config, plan=None) -> dict:
     """-> {feature_id or 'extra:<id>': Blame} for every row with credit < 1 and every SW extra.
     Also writes Row.blame / Row.reason and Extra.blame on `sw`.
 
     An empty extraction (no JSON saved) gives no evidence either way, so the extraction check
-    is skipped rather than blaming every linked feature."""
+    is skipped rather than blaming every linked feature. `plan` is plan.json (or its "plan"):
+    it tells which skipped plan features (ir_report cq_skipped) could be this key row.
+
+    Order: ground_truth, then a correct CadQuery reference -> solidworks (it proves the
+    extraction and plan sufficed), unsupported, extraction, cadquery, planner."""
     out: dict = {}
     extracted = extracted_values(extraction)
     cq_rows = {r.feature_id: r for r in cq.rows}
@@ -94,20 +165,19 @@ def blame_part(sw, cq, key: Key, extraction: dict, ir_report: dict, cfg: Config)
         if r.credit >= _FULL:
             continue
         f = feats.get(r.feature_id)
-        miss = _missing_links(f, key.units, extracted, cfg) if (f is not None and extraction) else []
         c = cq_rows.get(r.feature_id)
         typ = f.type if f is not None else r.type
-        if _overridden(key, r.feature_id):
+        if _overridden(key, r):
             b = Blame("ground_truth", "drawing override / model-drawing difference", r.points_lost)
-        elif typ in cfg.unsupported_types:
-            b = Blame("unsupported", f"{typ} cannot be expressed in the IR", r.points_lost)
-        elif miss:
-            b = Blame("extraction", f"drawing value(s) {miss} not in the extraction (within tolerance)",
-                      r.points_lost)
         elif c is not None and c.credit >= _FULL:
             b = Blame("solidworks", "CadQuery reference correct; SolidWorks part differs", r.points_lost)
-        elif r.status == "missing" and skipped:
-            b = Blame("cadquery", "reference skipped " + "; ".join(f"{k}: {v}" for k, v in sorted(skipped.items())),
+        elif typ in cfg.unsupported_types:
+            b = Blame("unsupported", f"{typ} cannot be expressed in the IR", r.points_lost)
+        elif f is not None and extraction and (miss := _missing_links(f, key.units, extracted, cfg, _lossy(r))):
+            b = Blame("extraction", f"drawing value(s) {miss} not in the extraction (within tolerance)",
+                      r.points_lost)
+        elif r.status == "missing" and (sk := _compatible_skips(typ, skipped, plan)):
+            b = Blame("cadquery", "reference skipped " + "; ".join(f"{k}: {v}" for k, v in sorted(sk.items())),
                       r.points_lost)
         else:
             b = Blame("planner", "the plan's CadQuery reference already has this error", r.points_lost)
