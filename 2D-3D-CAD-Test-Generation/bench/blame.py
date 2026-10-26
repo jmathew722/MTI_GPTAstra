@@ -12,7 +12,10 @@ from bench import overrides
 from bench.features import Key
 from bench.score_config import Config
 
-STAGES = ("ground_truth", "unsupported", "extraction", "planner", "cadquery", "solidworks")
+# "unresolved": the planner knew about the feature but left it unbuilt as uncertain (a plan feature
+# with status unresolved, which the reference skips as "unresolved: <question>"). The drawing still
+# wants it, so it costs points, but it is a deliberate deferral, not a silent miss or a crash.
+STAGES = ("ground_truth", "unsupported", "extraction", "unresolved", "planner", "cadquery", "solidworks")
 _FULL = 1.0 - 1e-12
 _EPS = 1e-9
 _CALLOUT_FIELDS = ("diameter", "depth", "cbore_diameter", "cbore_depth", "csink_diameter",
@@ -146,6 +149,40 @@ def compatible_skips(typ: str, skipped: dict, plan) -> dict:
     return {fid: why for fid, why in skipped.items() if fid in feats and typ in _kind_types(feats[fid], feats)}
 
 
+def skip_kind(why: str) -> str:
+    """The reason prefix the reference writes for a skipped plan feature (compile_cadquery:
+    'unresolved: ...', 'unsupported: ...', 'failed: ...'); '' when there is none."""
+    head = str(why or "").split(":", 1)[0].strip().lower()
+    return head if head in ("unresolved", "unsupported", "failed") else ""
+
+
+def skip_blame(sk: dict) -> tuple[str, str]:
+    """(stage, reason) for a key row whose compatible plan features were skipped. A feature the
+    planner flagged as uncertain is 'unresolved'; one the IR can't express is 'unsupported';
+    anything else (a build failure) is 'cadquery'."""
+    kinds = {skip_kind(v) for v in sk.values()}
+    text = "; ".join(f"{k}: {v}" for k, v in sorted(sk.items()))
+    if "unresolved" in kinds:
+        return "unresolved", "left unbuilt as uncertain by the planner - " + text
+    if kinds == {"unsupported"}:
+        return "unsupported", "plan feature not expressible - " + text
+    return "cadquery", "reference skipped " + text
+
+
+def unresolved_features(ir_report: dict, plan=None) -> list[dict]:
+    """Every plan feature the pipeline left unbuilt because it was uncertain, whether or not it
+    cost points (the key may not contain it). -> [{id, kind, question}]"""
+    feats = _plan_features(plan)
+    out = []
+    for fid, why in sorted(((ir_report or {}).get("cq_skipped") or {}).items()):
+        if skip_kind(why) != "unresolved":
+            continue
+        f = feats.get(fid) or {}
+        kind = " ".join(x for x in (f.get("kind"), f.get("operation") or f.get("op")) if x)
+        out.append({"id": fid, "kind": kind, "question": str(why).split(":", 1)[1].strip()})
+    return out
+
+
 def blame_part(sw, cq, key: Key, extraction: dict, ir_report: dict, cfg: Config, plan=None) -> dict:
     """-> {feature_id or 'extra:<id>': Blame} for every row with credit < 1 and every SW extra.
     Also writes Row.blame / Row.reason and Extra.blame on `sw`.
@@ -177,8 +214,7 @@ def blame_part(sw, cq, key: Key, extraction: dict, ir_report: dict, cfg: Config,
             b = Blame("extraction", f"drawing value(s) {miss} not in the extraction (within tolerance)",
                       r.points_lost)
         elif r.status == "missing" and (sk := compatible_skips(typ, skipped, plan)):
-            b = Blame("cadquery", "reference skipped " + "; ".join(f"{k}: {v}" for k, v in sorted(sk.items())),
-                      r.points_lost)
+            b = Blame(*skip_blame(sk), r.points_lost)
         else:
             b = Blame("planner", "the plan's CadQuery reference already has this error", r.points_lost)
         out[r.feature_id] = b

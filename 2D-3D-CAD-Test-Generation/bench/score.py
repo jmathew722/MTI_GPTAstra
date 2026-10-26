@@ -94,7 +94,8 @@ def _no_generated_stage(ir: dict, plan: dict, typ: str) -> tuple[str, str]:
         return "planner", "no plan" + err
     sk = blame_mod.compatible_skips(typ, ir.get("cq_skipped") or {}, plan)
     if sk:
-        return "cadquery", "reference skipped " + "; ".join(f"{k}: {v}" for k, v in sorted(sk.items())) + err
+        stage, reason = blame_mod.skip_blame(sk)
+        return stage, reason + err
     return "solidworks", "no SolidWorks part" + err
 
 
@@ -128,6 +129,7 @@ def score_one(part: str, d: Path, key: Key, generated: Optional[Path], cfg) -> t
         res = _part_result(ps, bl, ref)
         res["generated"] = None
         res["extraction_found"] = ext_path is not None
+        res["unresolved"] = blame_mod.unresolved_features(ir, plan)
         return res, ps, bl
     gk, others, n = read_step(generated, units=key.units, part=part)
     ps = add_extras(score_part(key, gk, cfg), others, key, cfg)
@@ -136,6 +138,7 @@ def score_one(part: str, d: Path, key: Key, generated: Optional[Path], cfg) -> t
     res = _part_result(ps, bl, ref)
     res["generated"] = generated.name
     res["extraction_found"] = ext_path is not None
+    res["unresolved"] = blame_mod.unresolved_features(ir, plan)
     if n > 1:
         res["multi_body"] = n
     return res, ps, bl

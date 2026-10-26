@@ -85,6 +85,12 @@ def _part(p: dict) -> str:
         out += "<h3>Extras</h3>" + _table(["id", "type", "weight", "points lost", "blame"], [
             [_e(x["feature_id"]), _e(x["type"]), _n(x.get("weight")), _n(x.get("points_lost")), _e(x.get("blame", ""))]
             for x in p["extras"]])
+    if p.get("unresolved"):
+        out += ("<h3>Left unbuilt as uncertain by the pipeline</h3><p>The planner flagged these and asked "
+                "instead of guessing. The drawing still calls for them: when the key has the feature it is "
+                "scored missing (blame <i>unresolved</i>); when it doesn't, it is listed here only.</p>") + _table(
+            ["plan id", "kind", "question"],
+            [[_e(u.get("id")), _e(u.get("kind")), _e(u.get("question"))] for u in p["unresolved"]])
     if p.get("drawing_only"):
         out += "<h3>Drawing-only values (reported, not scored)</h3><ul>" + "".join(
             f"<li>{_e(x)}</li>" for x in p["drawing_only"]) + "</ul>"
@@ -99,6 +105,8 @@ def _note(p: dict) -> str:
         notes.append(f"multi-body ({_e(p['multi_body'])})")
     if p.get("stale"):
         notes.append('<span class="err">stale generated.step</span>')
+    if p.get("unresolved"):
+        notes.append(f"{len(p['unresolved'])} left unbuilt as uncertain")
     return ", ".join(notes)
 
 

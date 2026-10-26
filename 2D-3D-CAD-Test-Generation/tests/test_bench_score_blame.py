@@ -142,6 +142,24 @@ def test_cadquery_when_a_compatible_plan_feature_was_skipped():
         assert b["K1"].stage == "cadquery" and fid in b["K1"].reason
 
 
+def test_feature_left_unbuilt_as_uncertain_is_unresolved_not_cadquery():
+    q = "unresolved: which face is the .344 hole drilled from?"
+    b = blame_part(_ps(0.0, "missing"), _ps(0.0, "missing"), _key(), EXT_OK, {"cq_skipped": {"F004": q}}, C,
+                   plan=PLAN)["K1"]
+    assert b.stage == "unresolved" and "which face" in b.reason and b.points == 5.0
+    b = blame_part(_ps(0.0, "missing"), _ps(0.0, "missing"), _key(), EXT_OK,
+                   {"cq_skipped": {"F004": "unsupported: tapered thread"}}, C, plan=PLAN)["K1"]
+    assert b.stage == "unsupported"
+
+
+def test_unresolved_features_lists_every_uncertain_skip():
+    from bench.blame import unresolved_features
+    ir = {"cq_skipped": {"F007": "unresolved: what corner radius?", "F004": "failed: StdFail_NotDone"}}
+    assert unresolved_features(ir, PLAN) == [{"id": "F007", "kind": "edge_op fillet",
+                                             "question": "what corner radius?"}]
+    assert unresolved_features({}, None) == []
+
+
 def test_unrelated_skip_is_not_cadquery():
     b = blame_part(_ps(0.0, "missing"), _ps(0.0, "missing"), _key(), EXT_OK,
                    {"cq_skipped": {"F007": "unresolved: what corner radius?"}}, C, plan=PLAN)
