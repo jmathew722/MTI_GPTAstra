@@ -1,0 +1,277 @@
+{
+  "dims": {
+    "D001": 5.937,
+    "D002": 0.562,
+    "D003": 0.062,
+    "D004": 0.25,
+    "D005": 0.094,
+    "D006": 1.247,
+    "D007": 1.188,
+    "D008": 30.0,
+    "D009": 30.0,
+    "D010": 0.03,
+    "D011": 0.62,
+    "D012": 0.25,
+    "D013": 0.09,
+    "D014": 1.25,
+    "D015": 0.06,
+    "D016": 45.0,
+    "D017": 2.0,
+    "D018": 0.25,
+    "D019": 0.5,
+    "D020": 0.164,
+    "D021": 2.0,
+    "D022": 6.12,
+    "D023": 5.375,
+    "D024": 0.312,
+    "D025": 0.281,
+    "D026": 0.343,
+    "D027": 5.317,
+    "D028": 5.687,
+    "D029": 0.37,
+    "D030": 120.0,
+    "D031": 0.219,
+    "D032": 0.031,
+    "D033": 0.375
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-12095",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "axis +Z runs left to right; +Y is up",
+        "Right": "+Z end view"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Integral main body and reduced stem with centered annular groove; uncertain tip taper left unapplied.",
+        "source_callouts": [
+          "5.937",
+          ".562",
+          "2.000 DIA.",
+          "1.247 DIA. +.000/-.002",
+          "1.188 DIA.",
+          ".062 CENT.",
+          ".250",
+          "30\u00b0 TYP."
+        ],
+        "status": "planned",
+        "justification": "The numerical factor 1.7320508075688772 is cotangent of the printed 30\u00b0 TYP. flank angle (D009); multiplying radial rise by this factor gives axial run. Symmetric groove flanks and centered flat follow the drawing. The provisional tip remains at major diameter until F008 is resolved.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002 - D004 - D003 / 2 - (D006 - D007) / 2 * 1.7320508075688772",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002 - D004 - D003 / 2",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004 + D003 / 2",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004 + D003 / 2 + (D006 - D007) / 2 * 1.7320508075688772",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D017 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D017 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Coaxial blind recess from the right end.",
+        "source_callouts": [
+          "1.250 DIA. \u00b1.001",
+          ".62"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "blind",
+          "d": "D014",
+          "depth": "D011",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Recess floor-to-wall radius.",
+        "source_callouts": [
+          ".09 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D013",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F002,+Z,D001 - D011),wall(F002))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Chamfer the recess entrance, not the outer diameter.",
+        "source_callouts": [
+          ".06 x 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D015",
+        "angle": "D016",
+        "edges": [
+          "edge_between(face(F001,+Z),wall(F002))"
+        ]
+      },
+      {
+        "id": "F005",
+        "rationale": "Central cosmetic tapped hole from the recess floor, modeled at the functional thread depth.",
+        "source_callouts": [
+          ".250-20 TAP .50 DEEP"
+        ],
+        "status": "planned",
+        "justification": "Standard Unified-thread tap-drill chart specifies No. 7 (.201 inch) for 1/4-20 UNC. Represent the printed .50 threaded depth by a flat-bottom cylinder; unspecified additional drilling and the cosmetic drill point are excluded.",
+        "kind": "hole",
+        "on": "face(F002,+Z,D001 - D011)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "tapped",
+          "d": "0.201",
+          "depth": "D019",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/4-20 UNC; .50 thread depth; class unspecified"
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Upper radial tapped seed, .250 from the right end, penetrating only the near wall.",
+        "source_callouts": [
+          "#8-36 TAP THRU (1) WALL",
+          "3-HOLES EQ. SPACED",
+          ".250 TYP."
+        ],
+        "status": "planned",
+        "justification": "Standard Unified-thread tap-drill chart specifies No. 29 (.136 inch) for #8-36 UNF. Select the +Y side of the cylindrical wall with global top coordinates (x,z). The end view establishes the upward seed. Depth D017/2 ends at the part axis, overshooting the near bore wall into empty space without reaching the opposite wall.",
+        "kind": "hole",
+        "on": "wall(F001,D017 / 2)",
+        "u": "0",
+        "v": "D001 - D012",
+        "spec": {
+          "type": "tapped",
+          "d": "0.136",
+          "depth": "D017 / 2",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#8-36 UNF THRU ONE WALL; class unspecified"
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Three equally spaced radial plunger mounting holes.",
+        "source_callouts": [
+          "#8-36 TAP THRU (1) WALL",
+          "3-HOLES EQ. SPACED"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F006",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "3",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "D030",
+        "skip": []
+      },
+      {
+        "id": "F008",
+        "rationale": "Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile.",
+        "source_callouts": [
+          ".094",
+          "30\u00b0",
+          "1.247 DIA.",
+          "1.188 DIA."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D005",
+        "angle": "D008",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D006 / 2))"
+        ]
+      },
+      {
+        "id": "F009",
+        "rationale": "What nominal radius is required within the .030 shoulder-radius maximum?",
+        "source_callouts": [
+          ".030 R. MAX."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D010",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D002),wall(F001,D006 / 2))"
+        ]
+      }
+    ],
+    "notes": [
+      "Finished detail 1 only: 4150 steel, R/C 40-45. Purchased Vlier spring plungers #B-50N, quantity three, are separate assembly components.",
+      "The provisional solid is not exact released finished geometry until F008 and F009 are resolved.",
+      "Origin is the left stem end on axis. The recessed end is z=D001. Raw stock 2.000 DIA. x 6.12 does not define finished length.",
+      "Radial seed attachment must be at (0,D017/2,D001-D012), cutting inward along -Y. Pattern rotates this attachment about +Z.",
+      "Threads are cosmetic; thread classes and additional axial drilling allowance are not inferred.",
+      "STAMP \"SB-12095\" is retained as a manufacturing annotation. Text geometry is outside this IR; letter size, depth, and exact coordinates are unspecified.",
+      "General tolerances: two-place \u00b1.020 inch, three-place \u00b1.010 inch, angles \u00b11 degree, except explicit limits."
+    ]
+  }
+}

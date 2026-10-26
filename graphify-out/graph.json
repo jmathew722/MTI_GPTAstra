@@ -13532,31 +13532,6 @@
    "community_name": "View Ingest & Batch COM Driver"
   },
   {
-   "id": "2d_3d_cad_test_generation_tests_conftest",
-   "label": "conftest.py",
-   "_origin": "ast",
-   "file_type": "code",
-   "norm_label": "conftest.py",
-   "source_file": "2D-3D-CAD-Test-Generation/tests/conftest.py",
-   "source_location": "L1",
-   "_update": "ast-2026-10-11",
-   "community": 13,
-   "community_name": "CLI Entry Point"
-  },
-  {
-   "id": "2d_3d_cad_test_generation_tests_conftest__no_local_mti_standard",
-   "label": "_no_local_mti_standard()",
-   "_callable": true,
-   "_origin": "ast",
-   "file_type": "code",
-   "norm_label": "_no_local_mti_standard()",
-   "source_file": "2D-3D-CAD-Test-Generation/tests/conftest.py",
-   "source_location": "L6",
-   "_update": "ast-2026-10-11",
-   "community": 13,
-   "community_name": "CLI Entry Point"
-  },
-  {
    "id": "2d_3d_cad_test_generation_tests_test_bench_manifest",
    "label": "test_bench_manifest.py",
    "_origin": "ast",
@@ -16028,6 +16003,94 @@
    "community_name": "CLI Entry Point"
   },
   {
+   "id": "2d_3d_cad_test_generation_mti_batch",
+   "label": "mti_batch.py",
+   "_origin": "ast",
+   "file_type": "code",
+   "norm_label": "mti_batch.py",
+   "source_file": "2D-3D-CAD-Test-Generation/mti_batch.py",
+   "source_location": "L1",
+   "_update": "ast-2026-10-26",
+   "community": 13,
+   "community_name": "CLI Entry Point"
+  },
+  {
+   "id": "2d_3d_cad_test_generation_mti_batch_main",
+   "label": "main()",
+   "_callable": true,
+   "_origin": "ast",
+   "file_type": "code",
+   "norm_label": "main()",
+   "source_file": "2D-3D-CAD-Test-Generation/mti_batch.py",
+   "source_location": "L19",
+   "_update": "ast-2026-10-26",
+   "community": 13,
+   "community_name": "CLI Entry Point"
+  },
+  {
+   "id": "2d_3d_cad_test_generation_mti_groundtruth",
+   "label": "mti_groundtruth.py",
+   "_origin": "ast",
+   "file_type": "code",
+   "norm_label": "mti_groundtruth.py",
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L1",
+   "_update": "ast-2026-10-26",
+   "community": 13,
+   "community_name": "CLI Entry Point"
+  },
+  {
+   "id": "2d_3d_cad_test_generation_mti_groundtruth_summarize",
+   "label": "summarize()",
+   "_callable": true,
+   "_origin": "ast",
+   "file_type": "code",
+   "norm_label": "summarize()",
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L24",
+   "_update": "ast-2026-10-26",
+   "community": 13,
+   "community_name": "CLI Entry Point"
+  },
+  {
+   "id": "2d_3d_cad_test_generation_mti_groundtruth_main",
+   "label": "main()",
+   "_callable": true,
+   "_origin": "ast",
+   "file_type": "code",
+   "norm_label": "main()",
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L68",
+   "_update": "ast-2026-10-26",
+   "community": 13,
+   "community_name": "CLI Entry Point"
+  },
+  {
+   "id": "2d_3d_cad_test_generation_mti_score",
+   "label": "mti_score.py",
+   "_origin": "ast",
+   "file_type": "code",
+   "norm_label": "mti_score.py",
+   "source_file": "2D-3D-CAD-Test-Generation/mti_score.py",
+   "source_location": "L1",
+   "_update": "ast-2026-10-26",
+   "community": 13,
+   "community_name": "CLI Entry Point"
+  },
+  {
+   "id": "2d_3d_cad_test_generation_mti_score_main",
+   "label": "main()",
+   "_callable": true,
+   "_origin": "ast",
+   "file_type": "code",
+   "norm_label": "main()",
+   "source_file": "2D-3D-CAD-Test-Generation/mti_score.py",
+   "source_location": "L18",
+   "_update": "ast-2026-10-26",
+   "community": 13,
+   "community_name": "CLI Entry Point"
+  },
+  {
    "id": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
    "label": "compile_solidworks.py",
    "_origin": "ast",
@@ -16035,7 +16098,7 @@
    "norm_label": "compile_solidworks.py",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L1",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16048,7 +16111,7 @@
    "norm_label": "_dot()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L74",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16061,7 +16124,7 @@
    "norm_label": "_neg()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L78",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16074,7 +16137,7 @@
    "norm_label": "_det()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L82",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16088,7 +16151,7 @@
    "norm_label": "planemap",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L88",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16101,7 +16164,7 @@
    "norm_label": ".ir_basis()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L94",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16114,7 +16177,7 @@
    "norm_label": ".oriented()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L98",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16127,7 +16190,7 @@
    "norm_label": ".to_model()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L108",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16140,7 +16203,7 @@
    "norm_label": ".plane_for_ir_axis()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L112",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16153,7 +16216,7 @@
    "norm_label": ".sketch_coords()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L121",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16166,7 +16229,7 @@
    "norm_label": "_unit()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L126",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16179,7 +16242,7 @@
    "norm_label": "probe_plane_map()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L132",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16193,7 +16256,7 @@
    "norm_label": "swfeatureresult",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L164",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16207,7 +16270,7 @@
    "norm_label": "swbuildreport",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L174",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16220,7 +16283,7 @@
    "norm_label": ".ok()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L186",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16234,7 +16297,7 @@
    "norm_label": "_sw",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L191",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16247,7 +16310,7 @@
    "norm_label": ".__init__()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L192",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16260,7 +16323,7 @@
    "norm_label": ".n()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L219",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16273,7 +16336,7 @@
    "norm_label": ".volume()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L222",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16286,7 +16349,7 @@
    "norm_label": ".select_plane()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L226",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16299,7 +16362,7 @@
    "norm_label": ".local()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L231",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16312,7 +16375,7 @@
    "norm_label": ".sketch_on()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L235",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16325,7 +16388,7 @@
    "norm_label": ".pt()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L242",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16338,7 +16401,7 @@
    "norm_label": ".in_plane()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L246",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16351,7 +16414,7 @@
    "norm_label": ".define_sketch()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L250",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16364,7 +16427,7 @@
    "norm_label": ".origin_anchor()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L291",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16377,7 +16440,7 @@
    "norm_label": ".datum_edges()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L324",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16390,7 +16453,7 @@
    "norm_label": ".check()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L364",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16403,7 +16466,7 @@
    "norm_label": ".extrude()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L378",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16416,7 +16479,7 @@
    "norm_label": ".thru_cut()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L395",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16429,7 +16492,7 @@
    "norm_label": ".with_retry()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L414",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16442,7 +16505,7 @@
    "norm_label": ".prism()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L435",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16454,8 +16517,8 @@
    "file_type": "code",
    "norm_label": ".mid_plane()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L484",
-   "_update": "ast-2026-10-12",
+   "source_location": "L492",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16467,8 +16530,8 @@
    "file_type": "code",
    "norm_label": ".holes()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L502",
-   "_update": "ast-2026-10-12",
+   "source_location": "L510",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16480,8 +16543,8 @@
    "file_type": "code",
    "norm_label": ".hole_wizard()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L551",
-   "_update": "ast-2026-10-12",
+   "source_location": "L559",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16493,8 +16556,8 @@
    "file_type": "code",
    "norm_label": ".delete_feature()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L612",
-   "_update": "ast-2026-10-12",
+   "source_location": "L620",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16506,8 +16569,8 @@
    "file_type": "code",
    "norm_label": ".place_hole_points()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L620",
-   "_update": "ast-2026-10-12",
+   "source_location": "L628",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16519,8 +16582,8 @@
    "file_type": "code",
    "norm_label": ".layout_geometry()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L686",
-   "_update": "ast-2026-10-12",
+   "source_location": "L694",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16532,8 +16595,8 @@
    "file_type": "code",
    "norm_label": ".hole_and_pattern()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L720",
-   "_update": "ast-2026-10-12",
+   "source_location": "L728",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16545,8 +16608,8 @@
    "file_type": "code",
    "norm_label": ".hole_group()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L730",
-   "_update": "ast-2026-10-12",
+   "source_location": "L738",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16558,8 +16621,8 @@
    "file_type": "code",
    "norm_label": ".hole()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L737",
-   "_update": "ast-2026-10-12",
+   "source_location": "L745",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16571,8 +16634,8 @@
    "file_type": "code",
    "norm_label": ".pattern()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L741",
-   "_update": "ast-2026-10-12",
+   "source_location": "L749",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16584,8 +16647,8 @@
    "file_type": "code",
    "norm_label": ".prism_pattern()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L752",
-   "_update": "ast-2026-10-12",
+   "source_location": "L760",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16597,8 +16660,8 @@
    "file_type": "code",
    "norm_label": ".revolve()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L777",
-   "_update": "ast-2026-10-12",
+   "source_location": "L785",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16610,8 +16673,8 @@
    "file_type": "code",
    "norm_label": ".nearest_edge()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L808",
-   "_update": "ast-2026-10-12",
+   "source_location": "L816",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16623,8 +16686,8 @@
    "file_type": "code",
    "norm_label": ".edge_op()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L825",
-   "_update": "ast-2026-10-12",
+   "source_location": "L833",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16636,8 +16699,8 @@
    "file_type": "code",
    "norm_label": "parse_thread()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L856",
-   "_update": "ast-2026-10-12",
+   "source_location": "L864",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16649,8 +16712,8 @@
    "file_type": "code",
    "norm_label": "drill_point_volume()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L886",
-   "_update": "ast-2026-10-12",
+   "source_location": "L894",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16662,8 +16725,8 @@
    "file_type": "code",
    "norm_label": "hole_wizard_choice()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L892",
-   "_update": "ast-2026-10-12",
+   "source_location": "L900",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16675,8 +16738,8 @@
    "file_type": "code",
    "norm_label": "layout_shapes()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L956",
-   "_update": "ast-2026-10-12",
+   "source_location": "L964",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16688,8 +16751,8 @@
    "file_type": "code",
    "norm_label": "on_shape()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L994",
-   "_update": "ast-2026-10-12",
+   "source_location": "L1002",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16701,8 +16764,8 @@
    "file_type": "code",
    "norm_label": "hole_signature()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1008",
-   "_update": "ast-2026-10-12",
+   "source_location": "L1016",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16714,8 +16777,8 @@
    "file_type": "code",
    "norm_label": "mergeable_holes()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1018",
-   "_update": "ast-2026-10-12",
+   "source_location": "L1026",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16727,8 +16790,8 @@
    "file_type": "code",
    "norm_label": "base_axis()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1032",
-   "_update": "ast-2026-10-12",
+   "source_location": "L1040",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16740,8 +16803,8 @@
    "file_type": "code",
    "norm_label": "origin_centered()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1043",
-   "_update": "ast-2026-10-12",
+   "source_location": "L1051",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16753,10 +16816,35 @@
    "file_type": "code",
    "norm_label": "compile_solidworks()",
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1049",
-   "_update": "ast-2026-10-12",
+   "source_location": "L1057",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
+  },
+  {
+   "id": "2d_3d_cad_test_generation_tests_conftest",
+   "label": "conftest.py",
+   "_origin": "ast",
+   "file_type": "code",
+   "norm_label": "conftest.py",
+   "source_file": "2D-3D-CAD-Test-Generation/tests/conftest.py",
+   "source_location": "L1",
+   "_update": "ast-2026-10-26",
+   "community": 13,
+   "community_name": "CLI Entry Point"
+  },
+  {
+   "id": "2d_3d_cad_test_generation_tests_conftest__no_local_mti_standard",
+   "label": "_no_local_mti_standard()",
+   "_callable": true,
+   "_origin": "ast",
+   "file_type": "code",
+   "norm_label": "_no_local_mti_standard()",
+   "source_file": "2D-3D-CAD-Test-Generation/tests/conftest.py",
+   "source_location": "L6",
+   "_update": "ast-2026-10-26",
+   "community": 13,
+   "community_name": "CLI Entry Point"
   },
   {
    "id": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -16766,7 +16854,7 @@
    "norm_label": "test_ir_compile_solidworks.py",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L1",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16779,7 +16867,7 @@
    "norm_label": "test_ir_frame_is_the_front_sketch()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L19",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16792,7 +16880,7 @@
    "norm_label": "test_plane_for_each_ir_axis()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L25",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16805,7 +16893,7 @@
    "norm_label": "test_revolve_profile_point_lands_in_the_top_sketch()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L29",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16818,7 +16906,7 @@
    "norm_label": "test_mti_base_axis_maps_to_the_top_plane()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L44",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16831,7 +16919,7 @@
    "norm_label": "test_mti_orientation_is_a_rotation_never_a_mirror()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L50",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16844,7 +16932,7 @@
    "norm_label": "test_mti_orientation_refuses_a_left_handed_top_plane()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L54",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16857,7 +16945,7 @@
    "norm_label": "test_origin_centered_checks_all_three_planes()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L60",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16870,7 +16958,7 @@
    "norm_label": "_plate_plan()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L65",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16883,7 +16971,7 @@
    "norm_label": "test_reference_records_the_base_body_and_its_axis()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L75",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16896,7 +16984,7 @@
    "norm_label": "test_revolve_base_sketches_on_the_top_plane()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L84",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16910,7 +16998,7 @@
    "norm_label": "_fakefm",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L91",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16923,7 +17011,7 @@
    "norm_label": ".__init__()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L92",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16936,7 +17024,7 @@
    "norm_label": "._make()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L95",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16949,7 +17037,7 @@
    "norm_label": ".featurecut4()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L101",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16962,7 +17050,7 @@
    "norm_label": ".featureextrusion3()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L104",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16976,7 +17064,7 @@
    "norm_label": "_fakedoc",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L108",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -16989,7 +17077,7 @@
    "norm_label": ".__init__()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L109",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17002,7 +17090,7 @@
    "norm_label": ".editundo2()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L114",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17015,7 +17103,7 @@
    "norm_label": "fake_sw()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L119",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17028,7 +17116,7 @@
    "norm_label": "test_through_cut_uses_up_to_next_when_it_matches()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L134",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17041,7 +17129,7 @@
    "norm_label": "test_through_cut_falls_back_to_through_all_when_up_to_next_stops_short()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L142",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17054,7 +17142,7 @@
    "norm_label": "test_drawing_convention_keeps_through_all_and_the_drawing_origin()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L152",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17067,7 +17155,7 @@
    "norm_label": "test_mti_shifts_the_origin_to_the_base_body_center()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L159",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17080,7 +17168,7 @@
    "norm_label": "test_mid_plane_base_falls_back_when_the_volume_disagrees()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L165",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17093,7 +17181,7 @@
    "norm_label": "test_sketches_bypass_inference_snapping()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L173",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17106,7 +17194,7 @@
    "norm_label": "test_volume_check_credits_hole_wizard_drill_points()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L179",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17119,7 +17207,7 @@
    "norm_label": "test_bolt_circle_is_found_from_the_holes()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L195",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17132,7 +17220,7 @@
    "norm_label": "test_holes_not_on_one_circle_get_no_bolt_circle()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L202",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17145,7 +17233,7 @@
    "norm_label": "test_grid_gets_a_rectangle_and_points_relate_only_to_their_own_edges()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L206",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17158,7 +17246,7 @@
    "norm_label": "test_line_layout_runs_first_to_last()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L216",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17171,7 +17259,7 @@
    "norm_label": "test_auto_layout_finds_a_bolt_circle_or_a_row()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L221",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17184,7 +17272,7 @@
    "norm_label": "test_drawing_convention_never_touches_sketch_definition()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L229",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   },
@@ -17197,7 +17285,7 @@
    "norm_label": "test_failed_sketch_definition_is_recorded_not_raised()",
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L235",
-   "_update": "ast-2026-10-12",
+   "_update": "ast-2026-10-26",
    "community": 46,
    "community_name": "Feature IR v2 (plans, compilers)"
   }
@@ -44604,18 +44692,6 @@
    "_update": "ast-2026-10-11"
   },
   {
-   "source": "2d_3d_cad_test_generation_tests_conftest",
-   "target": "2d_3d_cad_test_generation_tests_conftest__no_local_mti_standard",
-   "relation": "contains",
-   "_origin": "ast",
-   "confidence": "EXTRACTED",
-   "confidence_score": 1.0,
-   "source_file": "2D-3D-CAD-Test-Generation/tests/conftest.py",
-   "source_location": "L6",
-   "weight": 1.0,
-   "_update": "ast-2026-10-11"
-  },
-  {
    "source": "2d_3d_cad_test_generation_tests_test_bench_manifest",
    "target": "2d_3d_cad_test_generation_tests_test_bench_manifest__parts",
    "relation": "contains",
@@ -52200,6 +52276,288 @@
    "_update": "ast-2026-10-12"
   },
   {
+   "source": "2d_3d_cad_test_generation_mti_batch",
+   "target": "2d_3d_cad_test_generation_mti_batch_main",
+   "relation": "contains",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_batch.py",
+   "source_location": "L19",
+   "weight": 1.0,
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_batch",
+   "target": "2d_3d_cad_test_generation_pipeline_budget_budgetexceeded",
+   "relation": "imports",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_batch.py",
+   "source_location": "L28",
+   "weight": 1.0,
+   "context": "import",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_batch",
+   "target": "2d_3d_cad_test_generation_pipeline_ir_pipeline_partspec",
+   "relation": "imports",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_batch.py",
+   "source_location": "L29",
+   "weight": 1.0,
+   "context": "import",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_batch",
+   "target": "2d_3d_cad_test_generation_pipeline_ir_pipeline_connect_sw",
+   "relation": "imports",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_batch.py",
+   "source_location": "L29",
+   "weight": 1.0,
+   "context": "import",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_batch",
+   "target": "2d_3d_cad_test_generation_pipeline_ir_pipeline_run_part",
+   "relation": "imports",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_batch.py",
+   "source_location": "L29",
+   "weight": 1.0,
+   "context": "import",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_batch_main",
+   "target": "2d_3d_cad_test_generation_pipeline_ir_pipeline_connect_sw",
+   "relation": "calls",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_batch.py",
+   "source_location": "L31",
+   "weight": 1.0,
+   "context": "call",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_batch_main",
+   "target": "2d_3d_cad_test_generation_pipeline_ir_pipeline_run_part",
+   "relation": "calls",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_batch.py",
+   "source_location": "L40",
+   "weight": 1.0,
+   "context": "call",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_batch_main",
+   "target": "2d_3d_cad_test_generation_pipeline_ir_pipeline_partspec",
+   "relation": "calls",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_batch.py",
+   "source_location": "L40",
+   "weight": 1.0,
+   "context": "call",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_groundtruth",
+   "target": "2d_3d_cad_test_generation_mti_groundtruth_summarize",
+   "relation": "contains",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L24",
+   "weight": 1.0,
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_groundtruth",
+   "target": "2d_3d_cad_test_generation_mti_groundtruth_main",
+   "relation": "contains",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L68",
+   "weight": 1.0,
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_groundtruth",
+   "target": "2d_3d_cad_test_generation_pipeline_solidworks_builder__g",
+   "relation": "imports",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L25",
+   "weight": 1.0,
+   "context": "import",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_groundtruth",
+   "target": "2d_3d_cad_test_generation_pipeline_solidworks_builder__total_volume",
+   "relation": "imports",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L25",
+   "weight": 1.0,
+   "context": "import",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_groundtruth",
+   "target": "2d_3d_cad_test_generation_pipeline_solidworks_builder_typed",
+   "relation": "imports",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L25",
+   "weight": 1.0,
+   "context": "import",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_groundtruth",
+   "target": "2d_3d_cad_test_generation_pipeline_solidworks_builder_connect_to_solidworks",
+   "relation": "imports",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L73",
+   "weight": 1.0,
+   "context": "import",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_groundtruth_summarize",
+   "target": "2d_3d_cad_test_generation_pipeline_solidworks_builder_typed",
+   "relation": "calls",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L30",
+   "weight": 1.0,
+   "context": "call",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_groundtruth_summarize",
+   "target": "2d_3d_cad_test_generation_pipeline_solidworks_builder__g",
+   "relation": "calls",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L48",
+   "weight": 1.0,
+   "context": "call",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_groundtruth_summarize",
+   "target": "2d_3d_cad_test_generation_pipeline_solidworks_builder__total_volume",
+   "relation": "calls",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L42",
+   "weight": 1.0,
+   "context": "call",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_groundtruth_main",
+   "target": "2d_3d_cad_test_generation_pipeline_solidworks_builder_connect_to_solidworks",
+   "relation": "calls",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L74",
+   "weight": 1.0,
+   "context": "call",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_groundtruth_main",
+   "target": "2d_3d_cad_test_generation_mti_groundtruth_summarize",
+   "relation": "calls",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_groundtruth.py",
+   "source_location": "L82",
+   "weight": 1.0,
+   "context": "call",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_score",
+   "target": "2d_3d_cad_test_generation_mti_score_main",
+   "relation": "contains",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_score.py",
+   "source_location": "L18",
+   "weight": 1.0,
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_score",
+   "target": "2d_3d_cad_test_generation_pipeline_ir_score_iou",
+   "relation": "imports",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_score.py",
+   "source_location": "L24",
+   "weight": 1.0,
+   "context": "import",
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_mti_score_main",
+   "target": "2d_3d_cad_test_generation_pipeline_ir_score_iou",
+   "relation": "calls",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/mti_score.py",
+   "source_location": "L38",
+   "weight": 1.0,
+   "context": "call",
+   "_update": "ast-2026-10-26"
+  },
+  {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
    "target": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__dot",
    "relation": "contains",
@@ -52209,7 +52567,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L74",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52221,7 +52579,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L78",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52233,7 +52591,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L82",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52245,7 +52603,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L88",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_planemap",
@@ -52257,7 +52615,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L94",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_planemap",
@@ -52269,7 +52627,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L98",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_planemap",
@@ -52281,7 +52639,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L108",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_planemap",
@@ -52293,7 +52651,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L112",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_planemap",
@@ -52305,7 +52663,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L121",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52317,7 +52675,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L126",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52329,7 +52687,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L132",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52341,7 +52699,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L164",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52353,7 +52711,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L174",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_swbuildreport",
@@ -52365,7 +52723,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L186",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52377,7 +52735,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L191",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52389,7 +52747,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L192",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52401,7 +52759,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L219",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52413,7 +52771,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L222",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52425,7 +52783,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L226",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52437,7 +52795,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L231",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52449,7 +52807,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L235",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52461,7 +52819,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L242",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52473,7 +52831,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L246",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52485,7 +52843,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L250",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52497,7 +52855,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L291",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52509,7 +52867,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L324",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52521,7 +52879,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L364",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52533,7 +52891,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L378",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52545,7 +52903,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L395",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52557,7 +52915,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L414",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52569,7 +52927,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
    "source_location": "L435",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52579,9 +52937,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L484",
+   "source_location": "L492",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52591,9 +52949,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L502",
+   "source_location": "L510",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52603,9 +52961,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L551",
+   "source_location": "L559",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52615,9 +52973,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L612",
+   "source_location": "L620",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52627,9 +52985,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L620",
+   "source_location": "L628",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52639,9 +52997,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L686",
+   "source_location": "L694",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52651,9 +53009,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L720",
+   "source_location": "L728",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52663,9 +53021,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L730",
+   "source_location": "L738",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52675,9 +53033,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L737",
+   "source_location": "L745",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52687,9 +53045,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L741",
+   "source_location": "L749",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52699,9 +53057,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L752",
+   "source_location": "L760",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52711,9 +53069,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L777",
+   "source_location": "L785",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52723,9 +53081,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L808",
+   "source_location": "L816",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw",
@@ -52735,9 +53093,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L825",
+   "source_location": "L833",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52747,9 +53105,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L856",
+   "source_location": "L864",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52759,9 +53117,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L886",
+   "source_location": "L894",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52771,9 +53129,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L892",
+   "source_location": "L900",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52783,9 +53141,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L956",
+   "source_location": "L964",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52795,9 +53153,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L994",
+   "source_location": "L1002",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52807,9 +53165,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1008",
+   "source_location": "L1016",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52819,9 +53177,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1018",
+   "source_location": "L1026",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52831,9 +53189,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1032",
+   "source_location": "L1040",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52843,9 +53201,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1043",
+   "source_location": "L1051",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52855,9 +53213,9 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1049",
+   "source_location": "L1057",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52870,7 +53228,7 @@
    "source_location": "L37",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52883,7 +53241,7 @@
    "source_location": "L38",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52896,7 +53254,7 @@
    "source_location": "L38",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52909,7 +53267,7 @@
    "source_location": "L38",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52922,7 +53280,7 @@
    "source_location": "L38",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52935,7 +53293,7 @@
    "source_location": "L38",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52948,7 +53306,7 @@
    "source_location": "L38",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52961,7 +53319,7 @@
    "source_location": "L39",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52974,7 +53332,7 @@
    "source_location": "L135",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -52987,7 +53345,7 @@
    "source_location": "L135",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53000,7 +53358,7 @@
    "source_location": "L135",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53010,10 +53368,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1060",
+   "source_location": "L1068",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53023,10 +53381,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1060",
+   "source_location": "L1068",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53039,7 +53397,7 @@
    "source_location": "L194",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53052,7 +53410,7 @@
    "source_location": "L223",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53065,7 +53423,7 @@
    "source_location": "L227",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53078,7 +53436,7 @@
    "source_location": "L270",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53091,7 +53449,7 @@
    "source_location": "L296",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53104,7 +53462,7 @@
    "source_location": "L296",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53117,7 +53475,7 @@
    "source_location": "L296",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53130,7 +53488,7 @@
    "source_location": "L329",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53143,7 +53501,7 @@
    "source_location": "L329",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53156,7 +53514,7 @@
    "source_location": "L329",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53169,7 +53527,7 @@
    "source_location": "L398",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53182,7 +53540,7 @@
    "source_location": "L416",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53192,10 +53550,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L488",
+   "source_location": "L496",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53205,10 +53563,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L534",
+   "source_location": "L542",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53218,10 +53576,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L613",
+   "source_location": "L621",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53231,10 +53589,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L628",
+   "source_location": "L636",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53244,10 +53602,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L628",
+   "source_location": "L636",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53257,10 +53615,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L628",
+   "source_location": "L636",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53270,10 +53628,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L688",
+   "source_location": "L696",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53283,10 +53641,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L688",
+   "source_location": "L696",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53296,10 +53654,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L815",
+   "source_location": "L823",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53309,10 +53667,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L826",
+   "source_location": "L834",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53322,10 +53680,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L826",
+   "source_location": "L834",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks",
@@ -53335,10 +53693,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1136",
+   "source_location": "L1144",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_planemap_oriented",
@@ -53351,7 +53709,7 @@
    "source_location": "L106",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_planemap_oriented",
@@ -53364,7 +53722,7 @@
    "source_location": "L103",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_planemap_plane_for_ir_axis",
@@ -53377,7 +53735,7 @@
    "source_location": "L116",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_planemap_sketch_coords",
@@ -53390,7 +53748,7 @@
    "source_location": "L123",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_probe_plane_map",
@@ -53403,7 +53761,7 @@
    "source_location": "L160",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_probe_plane_map",
@@ -53416,7 +53774,7 @@
    "source_location": "L139",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_probe_plane_map",
@@ -53429,7 +53787,7 @@
    "source_location": "L155",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_probe_plane_map",
@@ -53442,7 +53800,7 @@
    "source_location": "L141",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_probe_plane_map",
@@ -53455,7 +53813,7 @@
    "source_location": "L150",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw___init__",
@@ -53468,7 +53826,7 @@
    "source_location": "L206",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw___init__",
@@ -53481,7 +53839,7 @@
    "source_location": "L210",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw___init__",
@@ -53494,7 +53852,7 @@
    "source_location": "L202",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_n",
@@ -53507,7 +53865,7 @@
    "source_location": "L220",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_volume",
@@ -53520,7 +53878,7 @@
    "source_location": "L224",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_select_plane",
@@ -53533,7 +53891,7 @@
    "source_location": "L228",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_define_sketch",
@@ -53546,7 +53904,7 @@
    "source_location": "L273",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_origin_anchor",
@@ -53559,7 +53917,7 @@
    "source_location": "L306",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_origin_anchor",
@@ -53572,7 +53930,7 @@
    "source_location": "L308",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_origin_anchor",
@@ -53585,7 +53943,7 @@
    "source_location": "L319",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_datum_edges",
@@ -53598,7 +53956,7 @@
    "source_location": "L334",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_datum_edges",
@@ -53611,7 +53969,7 @@
    "source_location": "L334",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_datum_edges",
@@ -53624,7 +53982,7 @@
    "source_location": "L337",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_thru_cut",
@@ -53637,7 +53995,7 @@
    "source_location": "L405",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_with_retry",
@@ -53650,7 +54008,7 @@
    "source_location": "L417",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_with_retry",
@@ -53663,7 +54021,7 @@
    "source_location": "L420",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_prism",
@@ -53673,10 +54031,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L474",
+   "source_location": "L482",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_mid_plane",
@@ -53686,10 +54044,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L498",
+   "source_location": "L506",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_mid_plane",
@@ -53699,10 +54057,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L493",
+   "source_location": "L501",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_holes",
@@ -53712,10 +54070,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L505",
+   "source_location": "L513",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_holes",
@@ -53725,10 +54083,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L540",
+   "source_location": "L548",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_holes",
@@ -53738,10 +54096,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L543",
+   "source_location": "L551",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_hole_wizard",
@@ -53751,10 +54109,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L600",
+   "source_location": "L608",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_hole_wizard",
@@ -53764,10 +54122,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L578",
+   "source_location": "L586",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_delete_feature",
@@ -53777,10 +54135,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L615",
+   "source_location": "L623",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_place_hole_points",
@@ -53790,10 +54148,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L642",
+   "source_location": "L650",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_place_hole_points",
@@ -53803,10 +54161,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L642",
+   "source_location": "L650",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_place_hole_points",
@@ -53816,10 +54174,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L645",
+   "source_location": "L653",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_layout_geometry",
@@ -53829,10 +54187,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L690",
+   "source_location": "L698",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_layout_geometry",
@@ -53842,10 +54200,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L709",
+   "source_location": "L717",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_layout_geometry",
@@ -53855,10 +54213,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L709",
+   "source_location": "L717",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_layout_geometry",
@@ -53868,10 +54226,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L712",
+   "source_location": "L720",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_pattern",
@@ -53881,10 +54239,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L746",
+   "source_location": "L754",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_prism_pattern",
@@ -53894,10 +54252,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L773",
+   "source_location": "L781",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_revolve",
@@ -53907,10 +54265,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L797",
+   "source_location": "L805",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_nearest_edge",
@@ -53920,10 +54278,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L818",
+   "source_location": "L826",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_edge_op",
@@ -53933,10 +54291,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L829",
+   "source_location": "L837",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_edge_op",
@@ -53946,10 +54304,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L850",
+   "source_location": "L858",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks__sw_edge_op",
@@ -53959,10 +54317,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L846",
+   "source_location": "L854",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_hole_wizard_choice",
@@ -53972,10 +54330,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L911",
+   "source_location": "L919",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_hole_wizard_choice",
@@ -53985,10 +54343,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L933",
+   "source_location": "L941",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_layout_shapes",
@@ -53998,10 +54356,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L969",
+   "source_location": "L977",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_hole_signature",
@@ -54011,10 +54369,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1013",
+   "source_location": "L1021",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_mergeable_holes",
@@ -54024,10 +54382,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1023",
+   "source_location": "L1031",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_compile_solidworks",
@@ -54037,10 +54395,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1065",
+   "source_location": "L1073",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_compile_solidworks",
@@ -54050,10 +54408,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1128",
+   "source_location": "L1136",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_compile_solidworks",
@@ -54063,10 +54421,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1064",
+   "source_location": "L1072",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_compile_solidworks",
@@ -54076,10 +54434,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1137",
+   "source_location": "L1145",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_compile_solidworks",
@@ -54089,10 +54447,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1073",
+   "source_location": "L1081",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_compile_solidworks",
@@ -54102,10 +54460,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1082",
+   "source_location": "L1090",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_compile_solidworks",
@@ -54115,10 +54473,10 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1092",
+   "source_location": "L1100",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_pipeline_ir_compile_solidworks_compile_solidworks",
@@ -54128,10 +54486,22 @@
    "confidence": "EXTRACTED",
    "confidence_score": 1.0,
    "source_file": "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py",
-   "source_location": "L1106",
+   "source_location": "L1114",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
+  },
+  {
+   "source": "2d_3d_cad_test_generation_tests_conftest",
+   "target": "2d_3d_cad_test_generation_tests_conftest__no_local_mti_standard",
+   "relation": "contains",
+   "_origin": "ast",
+   "confidence": "EXTRACTED",
+   "confidence_score": 1.0,
+   "source_file": "2D-3D-CAD-Test-Generation/tests/conftest.py",
+   "source_location": "L6",
+   "weight": 1.0,
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54143,7 +54513,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L19",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54155,7 +54525,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L25",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54167,7 +54537,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L29",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54179,7 +54549,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L44",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54191,7 +54561,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L50",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54203,7 +54573,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L54",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54215,7 +54585,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L60",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54227,7 +54597,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L65",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54239,7 +54609,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L75",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54251,7 +54621,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L84",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54263,7 +54633,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L91",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks__fakefm",
@@ -54275,7 +54645,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L92",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks__fakefm",
@@ -54287,7 +54657,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L95",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks__fakefm",
@@ -54299,7 +54669,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L101",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks__fakefm",
@@ -54311,7 +54681,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L104",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54323,7 +54693,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L108",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks__fakedoc",
@@ -54335,7 +54705,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L109",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks__fakedoc",
@@ -54347,7 +54717,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L114",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54359,7 +54729,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L119",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54371,7 +54741,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L134",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54383,7 +54753,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L142",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54395,7 +54765,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L152",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54407,7 +54777,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L159",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54419,7 +54789,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L165",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54431,7 +54801,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L173",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54443,7 +54813,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L179",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54455,7 +54825,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L195",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54467,7 +54837,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L202",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54479,7 +54849,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L206",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54491,7 +54861,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L216",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54503,7 +54873,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L221",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54515,7 +54885,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L229",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54527,7 +54897,7 @@
    "source_file": "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py",
    "source_location": "L235",
    "weight": 1.0,
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54540,7 +54910,7 @@
    "source_location": "L9",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54553,7 +54923,7 @@
    "source_location": "L38",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54566,7 +54936,7 @@
    "source_location": "L38",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54579,7 +54949,7 @@
    "source_location": "L38",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54592,7 +54962,7 @@
    "source_location": "L40",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54605,7 +54975,7 @@
    "source_location": "L192",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54618,7 +54988,7 @@
    "source_location": "L192",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks",
@@ -54631,7 +55001,7 @@
    "source_location": "L76",
    "weight": 1.0,
    "context": "import",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_mti_orientation_is_a_rotation_never_a_mirror",
@@ -54644,7 +55014,7 @@
    "source_location": "L51",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_mti_orientation_refuses_a_left_handed_top_plane",
@@ -54657,7 +55027,7 @@
    "source_location": "L55",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_origin_centered_checks_all_three_planes",
@@ -54670,7 +55040,7 @@
    "source_location": "L61",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_reference_records_the_base_body_and_its_axis",
@@ -54683,7 +55053,7 @@
    "source_location": "L78",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_reference_records_the_base_body_and_its_axis",
@@ -54696,7 +55066,7 @@
    "source_location": "L79",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_reference_records_the_base_body_and_its_axis",
@@ -54709,7 +55079,7 @@
    "source_location": "L81",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_revolve_base_sketches_on_the_top_plane",
@@ -54722,7 +55092,7 @@
    "source_location": "L88",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks__fakedoc___init__",
@@ -54735,7 +55105,7 @@
    "source_location": "L111",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_fake_sw",
@@ -54748,7 +55118,7 @@
    "source_location": "L124",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_fake_sw",
@@ -54761,7 +55131,7 @@
    "source_location": "L130",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_through_cut_uses_up_to_next_when_it_matches",
@@ -54774,7 +55144,7 @@
    "source_location": "L135",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_through_cut_falls_back_to_through_all_when_up_to_next_stops_short",
@@ -54787,7 +55157,7 @@
    "source_location": "L144",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_drawing_convention_keeps_through_all_and_the_drawing_origin",
@@ -54800,7 +55170,7 @@
    "source_location": "L153",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_mti_shifts_the_origin_to_the_base_body_center",
@@ -54813,7 +55183,7 @@
    "source_location": "L160",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_mid_plane_base_falls_back_when_the_volume_disagrees",
@@ -54826,7 +55196,7 @@
    "source_location": "L166",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_sketches_bypass_inference_snapping",
@@ -54839,7 +55209,7 @@
    "source_location": "L175",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_volume_check_credits_hole_wizard_drill_points",
@@ -54852,7 +55222,7 @@
    "source_location": "L181",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_bolt_circle_is_found_from_the_holes",
@@ -54865,7 +55235,7 @@
    "source_location": "L197",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_bolt_circle_is_found_from_the_holes",
@@ -54878,7 +55248,7 @@
    "source_location": "L199",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_holes_not_on_one_circle_get_no_bolt_circle",
@@ -54891,7 +55261,7 @@
    "source_location": "L203",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_grid_gets_a_rectangle_and_points_relate_only_to_their_own_edges",
@@ -54904,7 +55274,7 @@
    "source_location": "L208",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_grid_gets_a_rectangle_and_points_relate_only_to_their_own_edges",
@@ -54917,7 +55287,7 @@
    "source_location": "L211",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_line_layout_runs_first_to_last",
@@ -54930,7 +55300,7 @@
    "source_location": "L217",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_line_layout_runs_first_to_last",
@@ -54943,7 +55313,7 @@
    "source_location": "L218",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_auto_layout_finds_a_bolt_circle_or_a_row",
@@ -54956,7 +55326,7 @@
    "source_location": "L225",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_drawing_convention_never_touches_sketch_definition",
@@ -54969,7 +55339,7 @@
    "source_location": "L230",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   },
   {
    "source": "2d_3d_cad_test_generation_tests_test_ir_compile_solidworks_test_failed_sketch_definition_is_recorded_not_raised",
@@ -54982,7 +55352,7 @@
    "source_location": "L236",
    "weight": 1.0,
    "context": "call",
-   "_update": "ast-2026-10-12"
+   "_update": "ast-2026-10-26"
   }
  ],
  "hyperedges": [
@@ -55260,5 +55630,5 @@
    "source_file": "2D-3D-CAD-Test-Generation/output/A040911E/A040911E_design_decisions.txt"
   }
  ],
- "built_at_commit": "6885c6ace377ca88c43073113b1398590ba74548"
+ "built_at_commit": "9309ba20f0aa9ddece15bc3b0a369c849c888bef"
 }

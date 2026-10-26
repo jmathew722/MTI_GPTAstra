@@ -1,0 +1,41 @@
+{
+  "model": "4C12291E.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 49147.849,
+  "bbox_mm": [
+    -0.0,
+    -33.8569,
+    -34.1376,
+    48.1584,
+    34.1376,
+    34.1376
+  ],
+  "size_mm": [
+    48.1584,
+    67.9945,
+    68.2752
+  ],
+  "center_mm": [
+    24.0792,
+    0.1404,
+    0.0
+  ],
+  "features": [
+    "Revolve1",
+    "Fillet1",
+    "Chamfer1",
+    "Fillet2",
+    "Cut-Extrude1",
+    "Hole1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "Fillet",
+    "Chamfer",
+    "Fillet",
+    "ICE",
+    "HoleWzd"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\4C1229\\ground_truth.step",
+  "part": "4C1229"
+}

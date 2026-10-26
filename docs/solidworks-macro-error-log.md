@@ -527,6 +527,30 @@ correct. Scorers must project along each hole's axis rather than assume model XY
 - **Rule:** batch builds never leave documents open. Before closing documents in a session,
   list them and close only the ones under this repo's `output/`.
 
+## E025 — Opening MTI's existing models: crashes, "not found", and wrong interface
+
+- **Date:** 2026-10-26 · **Stage:** `mti_groundtruth.py`, which exports MTI's SLDPRTs (the
+  answer key) to STEP.
+- **Symptoms, in order:**
+  1. Late-bound `OpenDoc6` → "Type mismatch" (its errors/warnings are by-ref outputs).
+  2. Typed `OpenDoc6`, plain `OpenDoc`, read-only or not, hidden or visible → **SolidWorks
+     crashed** ("RPC server unavailable"), every time, on the first open after the script had
+     **launched** SolidWorks.
+  3. In a SolidWorks session that was already up (started by the batch run), the same typed
+     `OpenDoc6` opened the file with errors = 0.
+  4. Then error **2** (`swFileNotFoundError`) for a **relative** path, and **65536**
+     (`swFileWithSameTitleAlreadyOpen`) for a file still open from a test.
+  5. Then "no attribute GetBodies2": the typed call returns a typed `IModelDoc2`, and body
+     calls live on `IPartDoc`.
+- **Not the cause:** file damage or version. Headers match our own SLDPRTs, and
+  `ISldWorks.VersionHistory` shows them last saved in SolidWorks 2025 (4C1229: 2015).
+- **Fix / rule:**
+  - Open existing models only in a SolidWorks session that is fully up. The crash was
+    consistent with add-ins still loading. If the script launches SolidWorks, run something
+    harmless first (the batch did).
+  - Use the typed `OpenDoc6`, an **absolute** path, and `GetOpenDocumentByName` on 65536.
+  - Re-wrap the returned document late-bound (`win32com.client.dynamic.Dispatch`).
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

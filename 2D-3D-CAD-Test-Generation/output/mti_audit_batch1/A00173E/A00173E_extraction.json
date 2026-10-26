@@ -1,0 +1,887 @@
+{
+  "part_name": "SPACER",
+  "part_number": "173-C",
+  "revision": "2",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "E-52100, BEARING QUALITY; heat treatment R/C 59\u201364",
+  "finish": "Datum A face: POLISH, surface texture 32 (presumed microinch under the inch drawing convention).",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1.020; 3 PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b1 [no value entered].",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Face view of annular spacer, with eight counterbored holes and two diametrically opposed tapped holes. Circular hole-location line is labeled diameter 10.375 REF.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010",
+        "D011",
+        "D012"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005",
+        "F006"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Horizontal and vertical centerlines define the ring center. Hole center marks and radial lines identify eight nominally 45-degree-spaced counterbored holes. Two additional tapped holes are opposite one another; lower-left hole is dimensioned 4.876 left and 1.774 below the center."
+    },
+    {
+      "view_type": "Section",
+      "description": "Unlettered axial section at the right of the front view, in the right-side-view position. Shows annulus thickness, central opening, counterbores entering from the left face, and ID/OD edge chamfers. Left axial face is datum A.",
+      "dimensions_shown": [
+        "D013",
+        "D014",
+        "D015",
+        "D016",
+        "D017",
+        "D018",
+        "D019",
+        "D020",
+        "D021"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F007",
+        "F008",
+        "F009"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Axial centerlines through sectioned top and bottom counterbored holes align with the face-view holes. Hatching identifies material above and below the large central opening. No section designation or cutting-plane label is given."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "diameter",
+      "value": 0.281,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "clearance_hole_diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "8 HOLES; general three-place tolerance applied. Section shows the smaller bore continuing through the remaining thickness."
+    },
+    {
+      "id": "D002",
+      "type": "diameter",
+      "value": 0.406,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "counterbore_diameter",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "8 HOLES; general three-place tolerance applied."
+    },
+    {
+      "id": "D003",
+      "type": "depth",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "counterbore_depth",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .406 diameter C'BORE .25 DEEP, 8 HOLES. Counterbore enters from datum-A side in section. General two-place tolerance applied."
+    },
+    {
+      "id": "D004",
+      "type": "diameter",
+      "value": 0.266,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "tap_drill_diameter",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Diameter preceding 5/16-18 2B TH'D, 2 HOLES. General three-place tolerance applied."
+    },
+    {
+      "id": "D005",
+      "type": "thread",
+      "value": 0.3125,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "internal_thread_nominal_diameter",
+      "feature_ref": "F006",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "5/16-18 2B TH'D, 2 HOLES. Nominal fractional size converted exactly to decimal. 18 threads/inch, internal class 2B; UNC series inferred from standard size/pitch, not printed. No thread depth or explicit THRU designation."
+    },
+    {
+      "id": "D006",
+      "type": "diameter",
+      "value": 10.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "hole_location_circle_diameter",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": true,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit REF; non-controlling. Circular location line passes through both hole families."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 1.774,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "tapped_hole_vertical_offset",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Lower-left tapped hole is this distance below horizontal centerline. General three-place tolerance applied."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 4.876,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "tapped_hole_horizontal_offset",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Lower-left tapped hole is this distance left of vertical centerline. General three-place tolerance applied."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 3.668,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "diagonal_counterbored_hole_horizontal_offset",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit dimension from vertical centerline to lower-right diagonal hole."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 5.187,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_counterbored_hole_horizontal_offset",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit dimension from vertical centerline to rightmost counterbored hole."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 3.668,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "diagonal_counterbored_hole_vertical_offset",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit dimension from horizontal centerline down to lower-right diagonal hole."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 5.187,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "bottom_counterbored_hole_vertical_offset",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit dimension from horizontal centerline down to bottom counterbored hole."
+    },
+    {
+      "id": "D013",
+      "type": "diameter",
+      "value": 11.75,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "outside_diameter",
+      "feature_ref": "F001",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-place tolerance applied."
+    },
+    {
+      "id": "D014",
+      "type": "diameter",
+      "value": 9.875,
+      "unit": "inch",
+      "tolerance_plus": 0.001,
+      "tolerance_minus": 0.001,
+      "tolerance_type": "bilateral",
+      "applies_to": "inside_diameter",
+      "feature_ref": "F001",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit bilateral tolerance."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 0.515,
+      "unit": "inch",
+      "tolerance_plus": 0.002,
+      "tolerance_minus": 0.002,
+      "tolerance_type": "bilateral",
+      "applies_to": "axial_thickness",
+      "feature_ref": "F001",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit bilateral tolerance. Datum A is the left face; opposite face is controlled parallel to A."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "opposite_datum_face_inside_edge_chamfer_size",
+      "feature_ref": "F007",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".06 X 45 degrees; right-hand ID edge in section. General two-place tolerance applied."
+    },
+    {
+      "id": "D017",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "inside_edge_chamfer_angle",
+      "feature_ref": "F007",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Value is in degrees; schema does not offer an angular unit. Angular tolerance entry in title block is blank."
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 0.03,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "datum_face_inside_edge_chamfer_size",
+      "feature_ref": "F008",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".03 X 45 degrees; left-hand ID edge in section. General two-place tolerance applied."
+    },
+    {
+      "id": "D019",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "inside_edge_chamfer_angle",
+      "feature_ref": "F008",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Value is in degrees; schema does not offer an angular unit. Angular tolerance entry in title block is blank."
+    },
+    {
+      "id": "D020",
+      "type": "linear",
+      "value": 0.03,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "both_outside_edges_chamfer_size",
+      "feature_ref": "F009",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Bottom .03 X 45 degrees callout has leaders to both OD corners. Applies to both axial ends of OD. General two-place tolerance applied."
+    },
+    {
+      "id": "D021",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "outside_edge_chamfer_angle",
+      "feature_ref": "F009",
+      "view": "Section",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Value is in degrees; schema does not offer an angular unit. Angular tolerance entry in title block is blank."
+    },
+    {
+      "id": "D022",
+      "type": "radial",
+      "value": 0.9375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_ring_radial_width",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value, not printed and not an additional controlling dimension: (11.75 - 9.875)/2."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "counterbore",
+      "diameter": 0.281,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.406,
+      "cbore_depth": 0.25,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 8,
+      "x_position": 5.187,
+      "y_position": 0.0,
+      "position_known": true,
+      "pattern": "circular",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          11.062,
+          5.875
+        ],
+        [
+          9.543,
+          9.543
+        ],
+        [
+          5.875,
+          11.062
+        ],
+        [
+          2.207,
+          9.543
+        ],
+        [
+          0.688,
+          5.875
+        ],
+        [
+          2.207,
+          2.207
+        ],
+        [
+          5.875,
+          0.688
+        ],
+        [
+          9.543,
+          2.207
+        ]
+      ],
+      "feature_ref": "F004",
+      "view": "Front; Section confirms counterbore entry and through bore"
+    },
+    {
+      "id": "H002",
+      "type": "tapped",
+      "diameter": 0.266,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "5/16-18 2B TH'D (UNC inferred)",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 2,
+      "x_position": -4.876,
+      "y_position": -1.774,
+      "position_known": true,
+      "pattern": "circular",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          0.999,
+          4.101
+        ],
+        [
+          10.751,
+          7.649
+        ]
+      ],
+      "feature_ref": "F006",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Extrude concentric annular sketch, OD 11.75 and ID 9.875, to thickness .515. Use datum-A face as axial starting plane. The central opening is included in the base sketch.",
+      "related_dimensions": [
+        "D013",
+        "D014",
+        "D015",
+        "D022"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D015",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Seed .281 through clearance hole at rightmost location, x=5.187 and y=0 relative to ring center.",
+      "related_dimensions": [
+        "D001",
+        "D010"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 5.187,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Counterbore the seed clearance hole .406 diameter by .25 deep from datum-A face.",
+      "related_dimensions": [
+        "D002",
+        "D003",
+        "D010"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D003",
+      "parent_feature": "F002",
+      "offset_x": 5.187,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "pattern",
+      "description": "Eight total instances of the complete seed clearance-hole/counterbore pair F002/F003 about ring center. Nominal angular separation is 45 degrees. Preserve dimensioned cardinal and diagonal coordinate targets; a coordinate-driven pattern avoids treating the REF bolt circle as controlling.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D003",
+        "D006",
+        "D009",
+        "D010",
+        "D011",
+        "D012"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 8
+    },
+    {
+      "id": "F005",
+      "type": "hole",
+      "description": "Two .266 tap-drilled holes at nominal center-relative positions (-4.876,-1.774) and (+4.876,+1.774). Opposite location inferred from the depicted diametrical arrangement. Through drilling is assumed pending confirmation.",
+      "related_dimensions": [
+        "D004",
+        "D007",
+        "D008"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": -4.876,
+      "offset_y": -1.774,
+      "position_known": true,
+      "quantity": 2
+    },
+    {
+      "id": "F006",
+      "type": "thread",
+      "description": "Tap both F005 holes 5/16-18 class 2B. Full-through threading is a provisional interpretation because no thread depth is specified.",
+      "related_dimensions": [
+        "D005"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F005",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F007",
+      "type": "chamfer",
+      "description": "Chamfer ID edge on face opposite datum A, .06 X 45 degrees.",
+      "related_dimensions": [
+        "D016",
+        "D017"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F008",
+      "type": "chamfer",
+      "description": "Chamfer ID edge on datum-A face, .03 X 45 degrees.",
+      "related_dimensions": [
+        "D018",
+        "D019"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F009",
+      "type": "chamfer",
+      "description": "Chamfer OD edges at both axial faces, .03 X 45 degrees.",
+      "related_dimensions": [
+        "D020",
+        "D021"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [
+    {
+      "symbol": "flatness",
+      "value": 0.0005,
+      "datum": ""
+    },
+    {
+      "symbol": "parallelism",
+      "value": 0.0005,
+      "datum": "A"
+    }
+  ],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Front-view vertical diametral plane through ring axis",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F007",
+          "F008",
+          "F009"
+        ],
+        "description": "Annular body and eight-hole counterbore family are mirrored about this plane. The two tapped holes are not individually symmetric about this plane."
+      },
+      {
+        "plane": "Front-view horizontal diametral plane through ring axis",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F007",
+          "F008",
+          "F009"
+        ],
+        "description": "Annular body and eight-hole counterbore family are mirrored about this plane."
+      },
+      {
+        "plane": "180-degree rotational symmetry about ring axis",
+        "feature_ids": [
+          "F005",
+          "F006"
+        ],
+        "description": "Tapped holes are depicted diametrically opposite. Only lower-left hole has coordinate dimensions; upper-right coordinates are inferred by half-turn symmetry. This is rotational symmetry, not a mirror plane."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F004",
+          "F007",
+          "F008",
+          "F009"
+        ],
+        "description": "OD, ID, nominal eight-hole location circle, and annular edge chamfers share the ring axis."
+      },
+      {
+        "feature_ids": [
+          "F002",
+          "F003"
+        ],
+        "description": "Each .406 counterbore is coaxial with its .281 through bore, including all patterned instances."
+      },
+      {
+        "feature_ids": [
+          "F005",
+          "F006"
+        ],
+        "description": "Each internal thread is coaxial with its .266 tap-drilled hole."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "H001",
+        "qty": 8,
+        "spacing_value": 3.97034061,
+        "computed_from": "Nominal adjacent-center chord in inches = 10.375 REF * sin(22.5 degrees). Eight depicted locations imply 360/8 = 45 degrees nominal angular spacing. Controlling coordinate dimensions are rounded and do not yield an exact common circle."
+      },
+      {
+        "feature_ref": "H002",
+        "qty": 2,
+        "spacing_value": 10.37737038,
+        "computed_from": "Nominal diametrically opposite center distance in inches = 2*sqrt(4.876^2 + 1.774^2); upper-right location inferred by 180-degree symmetry."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D013",
+        "component_dimension_ids": [
+          "D014",
+          "D022",
+          "D022"
+        ],
+        "description": "OD = ID + twice the derived radial width: 11.75 = 9.875 + .9375 + .9375."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D022"
+    ],
+    "reference_dimension_ids": [
+      "D006"
+    ]
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F008",
+    "F009"
+  ],
+  "warnings": [
+    "No ASME/ANSI/ISO/DIN standard is explicitly named. Inch units and third-angle projection are explicit; the GD&T uses legacy US notation.",
+    "Revision recorded as 2 from latest CHG entry, MAY 23 '78. Earlier CHG 1 is APR 20 '78. There is no separately labeled revision field; the C in 173-C is retained as part of the drawing number.",
+    "Datum A is the left axial face in the section. Flatness .0005 applies to that face without a datum reference. Opposite axial face has parallelism .0005 to A; the legacy frame is printed in the order parallelism / A / .0005.",
+    "32 POLISH is a localized finish requirement on datum A, not a global finish requirement. Microinch interpretation is conventional; roughness units and parameter are not explicitly printed.",
+    "Angular tolerance line in title block contains no readable entered value. Do not assume a numerical angular tolerance.",
+    "General title-block tolerances have been applied by printed decimal precision; thread acceptance is governed by class 2B rather than a decimal nominal-size tolerance.",
+    "The two tapped holes have neither explicit THRU wording nor drilling/thread depths. H002 and F005/F006 use through as a provisional interpretation only; obtain confirmation before machining.",
+    "Eight-hole positions use dimensioned cardinal offsets 5.187 and diagonal offsets 3.668 with symmetry. Upper-left, upper-right, and lower-left counterpart coordinates are inferred from the depicted regular arrangement, not individually dimensioned.",
+    "Tapped-hole upper-right coordinates are inferred from diametrical opposition; only lower-left offsets 4.876 and 1.774 are explicitly dimensioned. Confirm implied symmetry if strict manufacturing authorization is required.",
+    "Hole instance_positions use the lower-left of the nominal 11.75-diameter bounding square as origin, adding 5.875 to center-relative x/y. This is a circular part, so the reference corner is a bounding-box corner, not a physical vertex.",
+    "Reference circle cross-check: 2*5.187 = 10.374 versus 10.375 REF; 2*sqrt(2)*3.668 is approximately 10.37467. These small rounding differences are within explicit location tolerances. Do not force REF diameter to override the coordinate dimensions.",
+    "Tapped-hole coordinates imply a circle diameter approximately 10.37737, also consistent with the nominal REF circle within their general tolerances.",
+    "Section is unlettered and lacks a cutting-plane label. Chamfer assignments follow the visible section geometry: .06 at right ID, .03 at left ID, and .03 at both OD edges.",
+    "Additional non-geometric annotation near the bottom reads WK^2 = .950, with no units. It is not treated as a manufacturing dimension.",
+    "Title block also identifies MODEL NO. 320, drawing date 1-21-77, and MANUFACTURING TECHNOLOGY INC.",
+    "Angular values D017, D019, and D021 are degrees despite the schema's length-only unit field."
+  ],
+  "confidence": 0.91
+}

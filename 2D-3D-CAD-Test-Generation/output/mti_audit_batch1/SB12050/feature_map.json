@@ -1,0 +1,49 @@
+{
+  "part": "SB-12050",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -0.875,
+    -0.875,
+    0.0,
+    0.875,
+    0.875,
+    2.12
+  ],
+  "volume": 3.352448,
+  "volume_mm3": 54936.785,
+  "features": [
+    "F001",
+    "F002"
+  ],
+  "skipped": {
+    "F003": "unresolved: Which terminal-bevel dimensions govern the exact CAD profile: .094 axial length, 30\u00b0 angle, or .625 end diameter? Their nominal values conflict.",
+    "F004": "unresolved: What nominal shoulder-root radius should be modeled? The drawing specifies only a maximum."
+  },
+  "holes": {},
+  "edge_points": {
+    "F002": [
+      [
+        -0.875,
+        0.0,
+        0.0
+      ]
+    ]
+  },
+  "starts": {},
+  "volume_after": {
+    "F001": 3.354894062,
+    "F002": 3.352448332
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -0.875,
+      -0.875,
+      0.0,
+      0.875,
+      0.875,
+      2.12
+    ]
+  }
+}

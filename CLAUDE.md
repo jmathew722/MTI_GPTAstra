@@ -184,6 +184,57 @@ MTI's own practices: `docs/mti-modeling-standards.md`; design and phases:
   sketch. Batch builds close each part after saving (E024). Never generate MTI's "generally avoid" features (sweep, loft, shell,
   draft, ribs, splines, real threads, ...).
 
+## MTI test files: "[MTI] Parts + Drawings Audit" (Google Drive, added 2026-10-26)
+
+**Where.** Google Drive folder **[MTI] Parts + Drawings Audit**
+(folder id `10wfwK0XK_IjcvvU84tfB7NDq0WqhpaKw`, owner account ggould@nd.edu).
+
+- **Local sync.** It is meant to sync to `G:\My Drive\[MTI] Parts + Drawings Audit` or
+  `G:\Shared drives\[MTI] Parts + Drawings Audit`. As of 2026-10-26 **Google Drive for
+  desktop is not installed on this PC** (no G:, no DriveFS).
+- **Composio.** Access goes through the Composio Google Drive connection instead:
+  `GOOGLEDRIVE_FIND_FILE` with `'<id>' in parents` to list, `GOOGLEDRIVE_DOWNLOAD_FILE` to
+  fetch by file id.
+- **If it ever syncs locally,** check both G: paths first. The folder name contains square
+  brackets, so quote every path and use `-LiteralPath` in PowerShell.
+
+**Layout.**
+
+- `A-Series\<PartNumber>\`, `SB-Series\<PartNumber>\` and `Other-Series\<PartNumber>\`: one
+  folder per part, holding the 2D drawing (`.PDF` scan or `.DWG`) and, if one exists, the 3D
+  model (`.SLDPRT`/`.SLDASM`).
+- `_Needs Review\`: old revisions and unrecognized names. **Skip it.**
+- **Scan of 2026-10-26, excluding `_Needs Review`:** 301 part folders (242 A, 56 SB, 3 Other),
+  443 files (186 PDF, 142 DWG, 114 SLDPRT, 1 SLDASM).
+- **Test set: 63 parts with both a drawing and a model** (34 A, 27 SB, 2 Other; 39 PDF and 24
+  DWG drawings). The drawing is the input; the existing SLDPRT is the ground truth.
+  - Listed in **`2D-3D-CAD-Test-Generation/bench/mti_test_set.csv`**: series, part number, drawing format,
+    Drive paths, Drive file ids, notes.
+  - 2 folders have a model but no drawing: A00687E and A09126 (an assembly).
+
+**Naming rules.**
+
+- **A-Series:** A + 5-digit part number + sheet digit + E/M suffix, e.g. `A001151E` = part
+  A00115, sheet 1, E. **E and M are separate parts.** Models named `MTI0xxxxx` belong to part
+  `A0xxxx` (`MTI004039E.SLDPRT` ↔ `A040391E.DWG`).
+- **SB-Series:** SB + 5-digit number, with -dash detail numbers. Old 7-digit names are the same
+  parts (`1367402E` = SB13674-02).
+- **Family folders hold many details:** SB13674 has 12 sheets and 45 models, SB01783 2 and 5,
+  SB12052 2 and 3, SB18461 5 sheets and 1 model. These need drawing-to-model pairing by
+  detail number before they can be scored.
+
+**Rules.**
+
+- **The Drive folder is READ-ONLY.** Never modify, move, rename, upload to or save into it.
+- Write every generated part and test result to `output/<PartNumber>/` in this project.
+- **Macros:** run SolidWorks VBA macros over COM (`SldWorks.Application`, pywin32) with
+  `RunMacro2` on MTI's `.swp` files. **They are not in this repo yet; ask the user where they
+  are.** Ask before running any macro on the test set.
+- **Tools:** `mti_batch.py` (drawing PDF → verified SolidWorks part, budget-guarded),
+  `mti_groundtruth.py` (MTI's SLDPRT → `ground_truth.step`; open only in a SolidWorks
+  session that is already up, E025), `mti_score.py` (IoU vs MTI's model). First batch:
+  `docs/test-reports/2026-10-26-test-report.md`.
+
 ## Next phase (designed 2026-09-28 — read before building)
 
 Roadmap: `docs/superpowers/specs/2026-09-28-ai-cad-roadmap-design.md`, with one spec

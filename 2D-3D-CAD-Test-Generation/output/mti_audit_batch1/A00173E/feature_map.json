@@ -1,0 +1,266 @@
+{
+  "part": "173-C",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -5.875,
+    -5.875,
+    0.0,
+    5.875,
+    5.875,
+    0.515
+  ],
+  "volume": 15.906782,
+  "volume_mm3": 260665.46,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F008",
+    "F009",
+    "F010",
+    "F011",
+    "F012"
+  ],
+  "skipped": {
+    "F013": "unresolved: Are these holes through drilled and through tapped, or what are their drill and thread depths?",
+    "F014": "unresolved: Second tapped hole shares the unresolved drill and thread depths of F013."
+  },
+  "holes": {
+    "F005": [
+      {
+        "planned_center": [
+          5.187,
+          0.0
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          5.187,
+          0.0
+        ],
+        "d": 0.281,
+        "depth": 0.265,
+        "axis": "Z"
+      }
+    ],
+    "F006": [
+      {
+        "planned_center": [
+          0.0,
+          -5.187
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          0.0,
+          -5.187
+        ],
+        "d": 0.281,
+        "depth": 0.265,
+        "axis": "Z"
+      }
+    ],
+    "F007": [
+      {
+        "planned_center": [
+          -5.187,
+          0.0
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          -5.187,
+          0.0
+        ],
+        "d": 0.281,
+        "depth": 0.265,
+        "axis": "Z"
+      }
+    ],
+    "F008": [
+      {
+        "planned_center": [
+          0.0,
+          5.187
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          0.0,
+          5.187
+        ],
+        "d": 0.281,
+        "depth": 0.265,
+        "axis": "Z"
+      }
+    ],
+    "F009": [
+      {
+        "planned_center": [
+          3.668,
+          -3.668
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          3.668,
+          -3.668
+        ],
+        "d": 0.281,
+        "depth": 0.265,
+        "axis": "Z"
+      }
+    ],
+    "F010": [
+      {
+        "planned_center": [
+          3.668,
+          3.668
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          3.668,
+          3.668
+        ],
+        "d": 0.281,
+        "depth": 0.265,
+        "axis": "Z"
+      }
+    ],
+    "F011": [
+      {
+        "planned_center": [
+          -3.668,
+          3.668
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          -3.668,
+          3.668
+        ],
+        "d": 0.281,
+        "depth": 0.265,
+        "axis": "Z"
+      }
+    ],
+    "F012": [
+      {
+        "planned_center": [
+          -3.668,
+          -3.668
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          -3.668,
+          -3.668
+        ],
+        "d": 0.281,
+        "depth": 0.265,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {
+    "F002": [
+      [
+        -4.9375,
+        0.0,
+        0.515
+      ]
+    ],
+    "F003": [
+      [
+        -4.9375,
+        0.0,
+        0.0
+      ]
+    ],
+    "F004": [
+      [
+        -5.875,
+        0.0,
+        0.0
+      ],
+      [
+        -5.875,
+        0.0,
+        0.515
+      ]
+    ]
+  },
+  "starts": {
+    "F005": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F006": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F007": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F008": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F009": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F010": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F011": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F012": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    }
+  },
+  "volume_after": {
+    "F001": 16.400402196,
+    "F002": 16.344334192,
+    "F003": 16.330345465,
+    "F004": 16.297179671,
+    "F005": 16.248380005,
+    "F006": 16.199580338,
+    "F007": 16.150780672,
+    "F008": 16.101981006,
+    "F009": 16.053181339,
+    "F010": 16.004381673,
+    "F011": 15.955582007,
+    "F012": 15.90678234
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -5.875,
+      -5.875,
+      0.0,
+      5.875,
+      5.875,
+      0.515
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "part": "A00173E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00173E\\A00173E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 12,
+  "questions": [
+    "F013: Are these holes through drilled and through tapped, or what are their drill and thread depths?",
+    "F014: Second tapped hole shares the unresolved drill and thread depths of F013."
+  ],
+  "flagged": [
+    "F007: Front-view symmetry mirrors the dimensioned right cardinal hole about the vertical centerline.",
+    "F008: Front-view symmetry mirrors the dimensioned bottom cardinal hole about the horizontal centerline.",
+    "F010: Front-view symmetry mirrors the dimensioned lower-right hole about the horizontal centerline.",
+    "F011: Front-view symmetry about both centerlines fixes this location from the dimensioned lower-right hole.",
+    "F012: Front-view symmetry mirrors the dimensioned lower-right hole about the vertical centerline."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00173E\\reference.step",
+  "volume": 15.906782,
+  "cq_skipped": {
+    "F013": "unresolved: Are these holes through drilled and through tapped, or what are their drill and thread depths?",
+    "F014": "unresolved: Second tapped hole shares the unresolved drill and thread depths of F013."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00173E\\173-C_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (1 edges selected by nearest point)",
+    "F003": "built (1 edges selected by nearest point)",
+    "F004": "built (2 edges selected by nearest point)",
+    "F005": "built (Hole Wizard 1/4 SHCS counterbore, Up To Next, 8 hole(s); one feature for F005, F006, F007, F008, F009, F010, F011, F012)",
+    "F006": "built (in F005 (one feature))",
+    "F007": "built (in F005 (one feature))",
+    "F008": "built (in F005 (one feature))",
+    "F009": "built (in F005 (one feature))",
+    "F010": "built (in F005 (one feature))",
+    "F011": "built (in F005 (one feature))",
+    "F012": "built (in F005 (one feature))",
+    "F013": "skipped (unresolved: Are these holes through drilled and through tapped, or what are their drill and thread depths?)",
+    "F014": "skipped (unresolved: Second tapped hole shares the unresolved drill and thread depths of F013.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F012: Hole Wizard 1/4 SHCS counterbore, Up To Next, 8 hole(s)",
+    "sketches fully defined: 1/2 (not: F012)"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F005: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.406 DIFFERS from the standard counterbore",
+    "[mti_hole_wizard] F006: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.406 DIFFERS from the standard counterbore",
+    "[mti_hole_wizard] F007: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.406 DIFFERS from the standard counterbore",
+    "[mti_hole_wizard] F008: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.406 DIFFERS from the standard counterbore",
+    "[mti_hole_wizard] F009: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.406 DIFFERS from the standard counterbore",
+    "[mti_hole_wizard] F010: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.406 DIFFERS from the standard counterbore",
+    "[mti_hole_wizard] F011: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.406 DIFFERS from the standard counterbore",
+    "[mti_hole_wizard] F012: \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.406 DIFFERS from the standard counterbore",
+    "[mti_hole_grouping] F005, F006, F007, F008, F009, F010, F011, F012: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+    "[mti_edge_ops_last] F005 (hole) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 0.8987,
+  "error": ""
+}

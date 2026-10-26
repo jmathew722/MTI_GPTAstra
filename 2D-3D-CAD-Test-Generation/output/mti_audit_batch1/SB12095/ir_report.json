@@ -1,0 +1,50 @@
+{
+  "part": "SB12095",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12095\\SB12095_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 7,
+  "questions": [
+    "F008: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile.",
+    "F009: What nominal radius is required within the .030 shoulder-radius maximum?"
+  ],
+  "flagged": [
+    "F001: The numerical factor 1.7320508075688772 is cotangent of the printed 30\u00b0 TYP. flank angle (D009); multiplying radial rise by this factor gives axial run. Symmetric groove flanks and centered flat follow the drawing. The provisional tip remains at major diameter until F008 is resolved.",
+    "F005: Standard Unified-thread tap-drill chart specifies No. 7 (.201 inch) for 1/4-20 UNC. Represent the printed .50 threaded depth by a flat-bottom cylinder; unspecified additional drilling and the cosmetic drill point are excluded.",
+    "F006: Standard Unified-thread tap-drill chart specifies No. 29 (.136 inch) for #8-36 UNF. Select the +Y side of the cylindrical wall with global top coordinates (x,z). The end view establishes the upward seed. Depth D017/2 ends at the part axis, overshooting the near bore wall into empty space without reaching the opposite wall."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12095\\reference.step",
+  "volume": 16.782216,
+  "cq_skipped": {
+    "F006": "failed: CompileError: wall(F001,1.0) can't be a start ref (use plane(...) or face(...))",
+    "F007": "failed: CompileError: ref to F006, which has no geometry (not built or skipped)",
+    "F008": "unresolved: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile.",
+    "F009": "unresolved: What nominal radius is required within the .030 shoulder-radius maximum?"
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12095\\SB-12095_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built",
+    "F003": "built (1 edges selected by nearest point)",
+    "F004": "built (1 edges selected by nearest point)",
+    "F005": "built (Hole Wizard 1/4-20 tapped, cosmetic thread, Blind + drill point, 1 hole(s))",
+    "F006": "skipped (failed: CompileError: wall(F001,1.0) can't be a start ref (use plane(...) or face(...)))",
+    "F007": "skipped (failed: CompileError: ref to F006, which has no geometry (not built or skipped))",
+    "F008": "skipped (unresolved: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile.)",
+    "F009": "skipped (unresolved: What nominal radius is required within the .030 shoulder-radius maximum?)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F005: Hole Wizard 1/4-20 tapped, cosmetic thread, Blind + drill point, 1 hole(s)",
+    "sketches fully defined: 2/3 (not: F005)"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F002: \u00d81.25 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_hole_wizard] F005: \u00d80.201 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole (close to 1/4 tap_drill: engineer check)",
+    "[mti_hole_wizard] F006 (+ pattern F007): \u00d80.136 = STANDARD-DERIVED: tap drill for #8 (inch), MTI Std 202.02.0003 -> Hole Wizard (non-preferred size)",
+    "[mti_edge_ops_last] F005 (hole) comes after F003 (fillet); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 1.0156,
+  "error": ""
+}

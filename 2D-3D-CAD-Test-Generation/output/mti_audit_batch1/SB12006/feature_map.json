@@ -1,0 +1,85 @@
+{
+  "part": "SB-12006",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -1.0,
+    -1.0,
+    0.0,
+    1.0,
+    1.0,
+    6.562
+  ],
+  "volume": 17.153091,
+  "volume_mm3": 281088.797,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004"
+  ],
+  "skipped": {
+    "F005": "unresolved: What total full-diameter pilot drilling depth is required beyond the specified .38-deep tapped region?",
+    "F006": "unresolved: What nominal radius should be used at the left shoulder, where only a .030 maximum is specified?",
+    "F007": "unsupported: Required stamped text on the cylindrical body is outside the IR feature vocabulary; character size, depth, and precise placement also require definition."
+  },
+  "holes": {
+    "F004": [
+      {
+        "planned_center": [
+          0.0,
+          0.0
+        ],
+        "planned_d": 0.159,
+        "measured": true,
+        "center": [
+          0.0,
+          0.0
+        ],
+        "d": 0.159,
+        "depth": 0.38,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {
+    "F002": [
+      [
+        -1.0,
+        0.0,
+        5.562
+      ]
+    ],
+    "F003": [
+      [
+        -0.5,
+        0.0,
+        5.562
+      ]
+    ]
+  },
+  "starts": {
+    "F004": {
+      "axis": "Z",
+      "coord": 6.562,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 17.157222367,
+    "F002": 17.11379299,
+    "F003": 17.160635986,
+    "F004": 17.153090839
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -1.0,
+      -1.0,
+      0.0,
+      1.0,
+      1.0,
+      6.562
+    ]
+  }
+}

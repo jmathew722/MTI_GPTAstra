@@ -1,0 +1,127 @@
+{
+  "dims": {
+    "D001": 36.0,
+    "D002": 5.375,
+    "D003": 1.5,
+    "D004": 2.25,
+    "D005": 6.0,
+    "D006": 12.0,
+    "D007": 18.0,
+    "D008": 24.0,
+    "D009": 30.0,
+    "D010": 2.25,
+    "D011": 0.812,
+    "D012": 1.188,
+    "D013": 0.78,
+    "D014": 2.25,
+    "D015": 1.5,
+    "D016": 0.125,
+    "D017": 3.75,
+    "D018": 3.125,
+    "D019": 0.72
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "142-C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X",
+        "top": "+Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Continuous rectangular way plate; drawing breaks and heat-treatment boundaries do not represent cuts or steps.",
+        "source_callouts": [
+          "36.00",
+          "5.375",
+          "APPX. SEE ASSY.",
+          "1.500 \u00b1.001"
+        ],
+        "status": "planned",
+        "justification": "Model the printed nominal D002 height; APPX. SEE ASSY. requires assembly confirmation before final manufacture.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D002",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D003",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Seed counterbored through hole enters the visible front face, opposite datum A, as confirmed by the right view.",
+        "source_callouts": [
+          ".812 \u2300 THRU.",
+          "1.188 \u2300 CBORE .78 DEEP",
+          "6 HL'S.",
+          "2.25",
+          "APPX. FIT AT ASSY.",
+          "2.250"
+        ],
+        "status": "planned",
+        "justification": "Use the printed nominal D004 end offset, subject to assembly fit. The counterbore opens at -Z, matching the left side of the right view. Through-drill depth D002 exceeds plate thickness D003 to ensure breakthrough.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004",
+        "v": "D010",
+        "spec": {
+          "type": "cbore",
+          "d": "D011",
+          "depth": "D002",
+          "cbore_d": "D012",
+          "cbore_depth": "D013",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Repeat the complete counterbored hole at six stations along the length; D006 through D009 confirm the cumulative basic distances.",
+        "source_callouts": [
+          "6 HL'S.",
+          "6.000 BSC.",
+          "12.000 BSC.",
+          "18.000 BSC.",
+          "24.000 BSC.",
+          "30.000 BSC."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "6",
+        "pitch": "D005",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      }
+    ],
+    "notes": [
+      "Overall height D002 and first-hole end offset D004 are printed approximate and require assembly confirmation. The plan uses their printed nominal values.",
+      "Datum A is the +Z broad face. Preserve .001 parallelism of the opposite broad face and .001 perpendicularity of the top to A as manufacturing requirements.",
+      "The .010 diametrical hole-position frame has no datum references shown; none are inferred.",
+      "Heat treatment: HRD. 3 SURFACES MARKED 'H' R/C 58 MIN. .125 MIN. DEPTH. D016 is minimum case depth, not removed material. Harden the top over its length, the -Z upper band extending D014 down from the top, and the +Z upper band extending D015 down from the top.",
+      "Preserve surface texture callouts 16 on the top and broad faces and 32 on the bottom; texture units and parameter are not explicitly specified.",
+      "Material: MFRS STD STEEL; specific alloy is not stated."
+    ]
+  }
+}
