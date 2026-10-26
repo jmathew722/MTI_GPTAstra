@@ -42,6 +42,14 @@ class CompileError(RuntimeError):
     """The plan can't be built as written (e.g. an ambiguous or empty ref)."""
 
 
+def _cylinder(face):
+    """gp_Cylinder of a CYLINDER face. Read through BRepAdaptor_Surface: a face trimmed by a
+    later cut (e.g. a slot through a revolved disc) has a Geom_RectangularTrimmedSurface, whose
+    raw _geomAdaptor() has no .Cylinder() (A050211E official run, 2026-10-26)."""
+    from OCP.BRepAdaptor import BRepAdaptor_Surface
+    return BRepAdaptor_Surface(face.wrapped).Cylinder()
+
+
 def _guarded(fn):
     """In non-strict mode a failing feature is recorded as skipped, not fatal (v1 parity)."""
     def wrapper(self, fid, *a, **kw):
@@ -308,7 +316,7 @@ class Model:
                 if f.geomType() == "PLANE":
                     continue
                 if radius is not None and (f.geomType() != "CYLINDER" or
-                                           abs(f._geomAdaptor().Cylinder().Radius() - radius) > TOL * 10):
+                                           abs(_cylinder(f).Radius() - radius) > TOL * 10):
                     continue
                 c = f.Center() if f.geomType() != "CYLINDER" else f.positionAt(0.5, 0.5)
                 if cq.Vertex.makeVertex(c.x, c.y, c.z).distance(tool) < TOL * 10:
@@ -360,10 +368,11 @@ class Model:
                 i, j = [n for n in range(3) if n != _idx(ax)]
                 best = None
                 for f in cyl:
-                    r = f._geomAdaptor().Cylinder().Radius()
-                    loc = f._geomAdaptor().Cylinder().Location()
+                    c = _cylinder(f)
+                    r = c.Radius()
+                    loc = c.Location()
                     p = (loc.X(), loc.Y(), loc.Z())
-                    dirn = f._geomAdaptor().Cylinder().Axis().Direction()
+                    dirn = c.Axis().Direction()
                     if abs(abs((dirn.X(), dirn.Y(), dirn.Z())[_idx(ax)]) - 1) > 1e-6:
                         continue
                     dist = math.hypot(p[i] - h["center_mm"][i], p[j] - h["center_mm"][j])
