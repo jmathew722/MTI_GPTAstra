@@ -1,0 +1,313 @@
+{
+  "dims": {
+    "D001": 6.88,
+    "D002": 5.5,
+    "D003": 0.25,
+    "D004": 1.88,
+    "D005": 4.38,
+    "D006": 4.5,
+    "D007": 3.5,
+    "D008": 0.422,
+    "D009": 2.25,
+    "D010": 2.75,
+    "D011": 2.5,
+    "D012": 5.0,
+    "D013": 0.8,
+    "D014": 0.375,
+    "D015": 2.938,
+    "D016": 2.875,
+    "D017": 1.938,
+    "D018": 5.375,
+    "D019": 0.938,
+    "D020": 1.156,
+    "D021": 2.344,
+    "D022": 4.75,
+    "D023": 1.531,
+    "D024": 5.282,
+    "D025": 4.031,
+    "D026": 4.282,
+    "D027": 6.531,
+    "D028": 3.282,
+    "D029": 2.5,
+    "D030": 2.5,
+    "D031": 1.0,
+    "D032": 1.0
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "M121-B",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Extrude the three-level stepped plate outline to its uniform thickness.",
+        "source_callouts": [
+          "6.88",
+          "5.50",
+          ".25",
+          "1.88",
+          "4.38",
+          "4.50",
+          "3.50"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "0",
+              "0"
+            ],
+            [
+              "D001",
+              "0"
+            ],
+            [
+              "D001",
+              "D007"
+            ],
+            [
+              "D005",
+              "D007"
+            ],
+            [
+              "D005",
+              "D006"
+            ],
+            [
+              "D004",
+              "D006"
+            ],
+            [
+              "D004",
+              "D002"
+            ],
+            [
+              "0",
+              "D002"
+            ]
+          ]
+        },
+        "depth": "D003",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Left clearance hole at the dimensioned center.",
+        "source_callouts": [
+          ".422 DIA. THRU. (2) HL'S.",
+          "2.250",
+          "2.750"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D009",
+        "v": "D010",
+        "spec": {
+          "type": "thru",
+          "d": "D008",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Second clearance hole at the specified horizontal center spacing.",
+        "source_callouts": [
+          ".422 DIA. THRU. (2) HL'S.",
+          "2.500 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D011",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Lower tapped hole of the left pair; drill extends past the back face.",
+        "source_callouts": [
+          "M5 X .8 TAP THRU. (2) HL'S. (3) PL'S.",
+          ".375",
+          "2.938"
+        ],
+        "status": "planned",
+        "justification": "Standard ISO metric M5 x 0.8 tap drill is 4.2 mm, major diameter minus pitch. D012 and D013 are intrinsically millimeters despite extraction unit labels; 25.4 mm/inch is the exact standard conversion.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D014",
+        "v": "D015",
+        "spec": {
+          "type": "tapped",
+          "d": "(D012 - D013) / 25.4",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "M5 x 0.8"
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Upper tapped hole of the left pair using typical offsets; drill extends past the back face.",
+        "source_callouts": [
+          "M5 X .8 TAP THRU. (2) HL'S. (3) PL'S.",
+          "1.156 TYP. \u00b1.005",
+          "2.344 TYP. \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard ISO metric M5 x 0.8 tap drill is 4.2 mm (major minus pitch); D012 and D013 are metric values converted using exactly 25.4 mm/inch. TYP offsets apply to all three pairs shown.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D014 + D020",
+        "v": "D015 + D021",
+        "spec": {
+          "type": "tapped",
+          "d": "(D012 - D013) / 25.4",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "M5 x 0.8"
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Lower tapped hole of the middle pair; drill extends past the back face.",
+        "source_callouts": [
+          "M5 X .8 TAP THRU. (2) HL'S. (3) PL'S.",
+          "2.875",
+          "1.938"
+        ],
+        "status": "planned",
+        "justification": "Standard ISO metric M5 x 0.8 tap drill is 4.2 mm (major minus pitch); D012 and D013 are metric values converted using exactly 25.4 mm/inch.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D016",
+        "v": "D017",
+        "spec": {
+          "type": "tapped",
+          "d": "(D012 - D013) / 25.4",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "M5 x 0.8"
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Upper tapped hole of the middle pair using typical offsets; drill extends past the back face.",
+        "source_callouts": [
+          "M5 X .8 TAP THRU. (2) HL'S. (3) PL'S.",
+          "1.156 TYP. \u00b1.005",
+          "2.344 TYP. \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard ISO metric M5 x 0.8 tap drill is 4.2 mm (major minus pitch); D012 and D013 are metric values converted using exactly 25.4 mm/inch. TYP offsets apply to all three pairs shown.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D016 + D020",
+        "v": "D017 + D021",
+        "spec": {
+          "type": "tapped",
+          "d": "(D012 - D013) / 25.4",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "M5 x 0.8"
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Lower tapped hole of the right pair; drill extends past the back face.",
+        "source_callouts": [
+          "M5 X .8 TAP THRU. (2) HL'S. (3) PL'S.",
+          "5.375",
+          ".938"
+        ],
+        "status": "planned",
+        "justification": "Standard ISO metric M5 x 0.8 tap drill is 4.2 mm (major minus pitch); D012 and D013 are metric values converted using exactly 25.4 mm/inch.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D018",
+        "v": "D019",
+        "spec": {
+          "type": "tapped",
+          "d": "(D012 - D013) / 25.4",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "M5 x 0.8"
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Upper tapped hole of the right pair using typical offsets; drill extends past the back face.",
+        "source_callouts": [
+          "M5 X .8 TAP THRU. (2) HL'S. (3) PL'S.",
+          "1.156 TYP. \u00b1.005",
+          "2.344 TYP. \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard ISO metric M5 x 0.8 tap drill is 4.2 mm (major minus pitch); D012 and D013 are metric values converted using exactly 25.4 mm/inch. TYP offsets apply to all three pairs shown.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D018 + D020",
+        "v": "D019 + D021",
+        "spec": {
+          "type": "tapped",
+          "d": "(D012 - D013) / 25.4",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "M5 x 0.8"
+        }
+      }
+    ],
+    "notes": [
+      "Material: 1018 STEEL. Origin is the front-view lower-left corner at z=0; thickness extends along +Z.",
+      "Two clearance holes and six tapped holes total. All holes pass completely through the plate; tapped-hole cutting depths deliberately overshoot the back face.",
+      "D012 and D013 encode a metric thread designation, not inch dimensions. Threads are cosmetic; no unspecified thread class is assumed.",
+      "No chamfers, fillets, or edge breaks are specified.",
+      "Use printed source dimensions and their tolerances; derived extraction dimensions are not independent requirements."
+    ]
+  }
+}

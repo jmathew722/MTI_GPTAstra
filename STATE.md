@@ -1,8 +1,16 @@
 # STATE.md — where mti-2d-3d stands
 
-**Last updated:** 2026-10-25 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
+**Last updated:** 2026-10-26 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **New (2026-10-26): MTI's parts audit as an answer key.** MTI's Drive holds 63 parts with both a
+> drawing and MTI's own model (`bench/mti_test_set.csv`). First batch of 10: **all 8 that ran build
+> and verify; 7 of 8 match MTI's model at IoU ≥ 0.985** (two at 1.000). The 8th, SB12050, matches its
+> drawing (2.12") but MTI's model is 3.5", a question for MTI. Polygon base outlines fixed. MTI's
+> turned parts put the origin at an end face, not the center (to change). **API budget: $19.35 of $20;
+> raise it to continue** (~$40 for the remaining 53). Record:
+> [docs/test-reports/2026-10-26-test-report.md](docs/test-reports/2026-10-26-test-report.md).
+>
 > **2026-10-25: Benchmark scorer + stage blame built (sub-project 2 of 3).** `python -m bench.score
 > <run_dir>` (spec [2026-10-24-benchmark-scorer-design](docs/superpowers/specs/2026-10-24-benchmark-scorer-design.md))
 > exports the SolidWorks part to STEP, reads its features and scores it 0-100 against the signed key,

@@ -780,9 +780,9 @@
     "semantic_hash": ""
   },
   "2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py": {
-    "mtime": 1791816917.9325385,
-    "seen": 1791817790.2225103,
-    "ast_hash": "c50dad8b76221b5e1156b0847003f362",
+    "mtime": 1793025074.096717,
+    "seen": 1793026956.5796463,
+    "ast_hash": "1b271ec2967529276b320a8545cad5f7",
     "semantic_hash": ""
   },
   "2D-3D-CAD-Test-Generation/pipeline/ir/cq_runtime.py": {
@@ -870,9 +870,9 @@
     "semantic_hash": ""
   },
   "2D-3D-CAD-Test-Generation/tests/test_ir_compile_solidworks.py": {
-    "mtime": 1791816113.0550048,
-    "seen": 1791817790.2290826,
-    "ast_hash": "b59565600de6b237cd7a986d8e363a5a",
+    "mtime": 1793024004.7524934,
+    "seen": 1793026956.5866177,
+    "ast_hash": "91a9e59f22ff19c9ed47636d3b688b50",
     "semantic_hash": ""
   },
   "2D-3D-CAD-Test-Generation/tests/test_ir_expr.py": {
@@ -960,15 +960,33 @@
     "semantic_hash": ""
   },
   "2D-3D-CAD-Test-Generation/tests/conftest.py": {
-    "mtime": 1791774873.3681946,
-    "seen": 1791775857.2395449,
-    "ast_hash": "864de8d9993a3ec2ae592308ca602e62",
+    "mtime": 1793024004.6895556,
+    "seen": 1793026956.5803354,
+    "ast_hash": "1923c76132b3dd7f059abcdb8b5c16e4",
     "semantic_hash": ""
   },
   "2D-3D-CAD-Test-Generation/tests/test_mti_standards.py": {
     "mtime": 1791812085.0758154,
     "seen": 1791813270.1573882,
     "ast_hash": "5360be812a658585c15d8bd975aad805",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/mti_batch.py": {
+    "mtime": 1793024397.0333507,
+    "seen": 1793026956.5389237,
+    "ast_hash": "a0739d984869e8e857b0b40dabbd9584",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/mti_groundtruth.py": {
+    "mtime": 1793026749.8618903,
+    "seen": 1793026956.5416589,
+    "ast_hash": "3c1f960b6e632503efe89f38acc4386c",
+    "semantic_hash": ""
+  },
+  "2D-3D-CAD-Test-Generation/mti_score.py": {
+    "mtime": 1793026800.1432393,
+    "seen": 1793026956.5432768,
+    "ast_hash": "37c74bcf989b79440d2a56b02db65122",
     "semantic_hash": ""
   }
 }

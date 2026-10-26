@@ -1,0 +1,43 @@
+{
+  "part": "A00115E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00115E\\A00115E_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 6,
+  "questions": [
+    "F007: What radius and axial extent apply to the four rounded external corners shown in the principal outline?"
+  ],
+  "flagged": [
+    "F004: The printed drill depth is full-diameter depth under standard drafting convention (ASME Y14.5); model a flat bottom at D015 and omit the cosmetic drill point.",
+    "F006: D019 is the full-diameter drilling depth, not thread engagement. Use a flat-bottom blind bore under standard drafting convention (ASME Y14.5). The 3/8-18 NPTF designation associated with D020 is cosmetic; no physical thread taper or unspecified thread depth is imposed."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00115E\\reference.step",
+  "volume": 11.50794,
+  "cq_skipped": {
+    "F007": "unresolved: What radius and axial extent apply to the four rounded external corners shown in the principal outline?"
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00115E\\115C_ir.sldprt",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Hole Wizard 3/8 clearance, Up To Next, 4 hole(s) on a construction rectangle; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (drill + counterbore; one feature for F004, F005)",
+    "F005": "built (in F004 (one feature))",
+    "F006": "built",
+    "F007": "skipped (unresolved: What radius and axial extent apply to the four rounded external corners shown in the principal outline?)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "F003: Hole Wizard 3/8 clearance, Up To Next, 4 hole(s) on a construction rectangle",
+    "sketches fully defined: 5/5"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.40625 = STANDARD-DERIVED: clearance (normal) for 3/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+    "[mti_hole_wizard] F004 (+ pattern F005): \u00d80.578125 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_hole_wizard] F006: \u00d80.578125 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole"
+  ],
+  "cost_usd": 0.6101,
+  "error": ""
+}

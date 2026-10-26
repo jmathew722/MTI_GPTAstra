@@ -1,0 +1,146 @@
+{
+  "dims": {
+    "D001": 2.12,
+    "D002": 0.875,
+    "D003": 0.5,
+    "D004": 0.094,
+    "D005": 0.03,
+    "D006": 45.0,
+    "D007": 1.75,
+    "D008": 0.625,
+    "D009": 0.746,
+    "D010": 30.0,
+    "D011": 30.0,
+    "D012": 0.062,
+    "D013": 0.03,
+    "D014": 1.245
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-12050",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "axis +Z runs left to right; radial direction shown vertically",
+        "Right": "+Z"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the solid body and projecting shank, including the circumferential groove. Leave the terminal edge square pending resolution of the conflicting bevel dimensions.",
+        "source_callouts": [
+          "2.12",
+          ".875",
+          "1.75 DIA.",
+          ".746 \u00b1.001 DIA.",
+          ".500",
+          ".062 CENT.",
+          ".625 DIA.",
+          "30\u00b0 TYP."
+        ],
+        "status": "planned",
+        "justification": "The .500 extension line meets the shoulder-side edge of the narrow groove-root land; .062 CENT. dimensions that central land between its two edges, not a centerline location. The groove root and reduced end are drawn on the same axial generators, establishing the .625 groove-root diameter. The factor 1.7320508075688772 is cot(30\u00b0), derived from the printed 30\u00b0 TYP. flank angle D011. Body length is D001-D002, not an independently dimensioned D014.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D001 - D002",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D001 - D002",
+            "r": "D009 / 2"
+          },
+          {
+            "z": "D001 - D002 + D003 - (D009 - D008) * 1.7320508075688772 / 2",
+            "r": "D009 / 2"
+          },
+          {
+            "z": "D001 - D002 + D003",
+            "r": "D008 / 2"
+          },
+          {
+            "z": "D001 - D002 + D003 + D012",
+            "r": "D008 / 2"
+          },
+          {
+            "z": "D001 - D002 + D003 + D012 + (D009 - D008) * 1.7320508075688772 / 2",
+            "r": "D009 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D009 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Apply the explicitly indicated chamfer to the large body's left outside edge.",
+        "source_callouts": [
+          ".03 x 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D005",
+        "angle": "D006",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D007 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Which terminal-bevel dimensions govern the exact CAD profile: .094 axial length, 30\u00b0 angle, or .625 end diameter? Their nominal values conflict.",
+        "source_callouts": [
+          ".094",
+          "30\u00b0",
+          ".625 DIA.",
+          ".746 \u00b1.001 DIA."
+        ],
+        "status": "unresolved",
+        "justification": "Do not execute this placeholder chamfer. At the nominal .746 shank diameter, .094 axial length and 30\u00b0 give approximately .63746 end diameter, whereas .625 and 30\u00b0 require approximately .10479 axial length. Although a profile can be selected within the combined tolerances, the drawing does not specify which nominal dimensions to adjust.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D004",
+        "angle": "D010",
+        "edges": [
+          "edge_between(face(F001,+Z,D001),wall(F001,D009 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "What nominal shoulder-root radius should be modeled? The drawing specifies only a maximum.",
+        "source_callouts": [
+          ".030 R. MAX."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D013",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D001 - D002),wall(F001,D009 / 2))"
+        ]
+      }
+    ],
+    "notes": [
+      "Origin is the center of the large body's left end face. The part is solid; the concentric circles in the end view are external diameters, not a bore.",
+      "The planned solid is incomplete at the terminal bevel and shoulder-root radius until F003 and F004 are resolved; their placeholder sizes must not be executed.",
+      "Required marking: STAMP \"SB-12050\" on the large cylindrical surface indicated by the leader. Text stamping is outside the supported Feature IR geometry; character size, depth and exact placement are unspecified. Preserve as a manufacturing annotation.",
+      "Material: 4150; hardness R/C 40\u201345.",
+      "Drawing dimensions are inches. General tolerances: two-place \u00b1.020, three-place \u00b1.010, angular \u00b11\u00b0. Shank diameter has explicit \u00b1.001 tolerance.",
+      "Re-read groove-location extension lines on the full sheet rather than adopting the extraction's tentative centered-groove interpretation."
+    ]
+  }
+}

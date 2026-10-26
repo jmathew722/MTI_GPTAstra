@@ -1,0 +1,41 @@
+{
+  "model": "SB12095.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 274575.85,
+  "bbox_mm": [
+    -150.7998,
+    -25.4,
+    -25.4,
+    0.0,
+    25.4,
+    25.4
+  ],
+  "size_mm": [
+    50.8,
+    50.8,
+    150.7998
+  ],
+  "center_mm": [
+    -75.3999,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Revolve1",
+    "1/4-20 Tapped Hole1",
+    "#8-36 Tapped Hole1",
+    "Fillet1",
+    "Fillet2",
+    "CirPattern1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "HoleWzd",
+    "HoleWzd",
+    "Fillet",
+    "Fillet",
+    "CirPattern"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12095\\ground_truth.step",
+  "part": "SB12095"
+}

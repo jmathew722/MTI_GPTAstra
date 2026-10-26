@@ -1,0 +1,32 @@
+{
+  "part": "A00142E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00142E\\A00142E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 3,
+  "questions": [],
+  "flagged": [
+    "F001: Model the printed nominal D002 height; APPX. SEE ASSY. requires assembly confirmation before final manufacture.",
+    "F002: Use the printed nominal D004 end offset, subject to assembly fit. The counterbore opens at -Z, matching the left side of the right view. Through-drill depth D002 exceeds plate thickness D003 to ensure breakthrough."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00142E\\reference.step",
+  "volume": 282.825273,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00142E\\142-C_ir.sldprt",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (drill + counterbore; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 3/3"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.812 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole"
+  ],
+  "cost_usd": 0.662,
+  "error": ""
+}

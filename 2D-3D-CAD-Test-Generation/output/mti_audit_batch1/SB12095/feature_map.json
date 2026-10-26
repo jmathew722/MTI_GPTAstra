@@ -1,0 +1,110 @@
+{
+  "part": "SB-12095",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -1.0,
+    -1.0,
+    0.0,
+    1.0,
+    1.0,
+    5.937
+  ],
+  "volume": 16.782216,
+  "volume_mm3": 275011.25,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005"
+  ],
+  "skipped": {
+    "F006": "failed: CompileError: wall(F001,1.0) can't be a start ref (use plane(...) or face(...))",
+    "F007": "failed: CompileError: ref to F006, which has no geometry (not built or skipped)",
+    "F008": "unresolved: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile.",
+    "F009": "unresolved: What nominal radius is required within the .030 shoulder-radius maximum?"
+  },
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          0.0,
+          0.0
+        ],
+        "planned_d": 1.25,
+        "measured": true,
+        "center": [
+          0.0,
+          0.0
+        ],
+        "d": 1.25,
+        "depth": 0.47,
+        "axis": "Z"
+      }
+    ],
+    "F005": [
+      {
+        "planned_center": [
+          0.0,
+          0.0
+        ],
+        "planned_d": 0.201,
+        "measured": true,
+        "center": [
+          0.0,
+          0.0
+        ],
+        "d": 0.201,
+        "depth": 0.5,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {
+    "F003": [
+      [
+        0.625,
+        0.0,
+        5.317
+      ]
+    ],
+    "F004": [
+      [
+        0.625,
+        0.0,
+        5.937
+      ]
+    ]
+  },
+  "starts": {
+    "F002": {
+      "axis": "Z",
+      "coord": 5.937,
+      "dir": -1
+    },
+    "F005": {
+      "axis": "Z",
+      "coord": 5.317,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 17.559624187,
+    "F002": 16.798769716,
+    "F003": 16.805376341,
+    "F004": 16.798081563,
+    "F005": 16.782216127
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -1.0,
+      -1.0,
+      0.0,
+      1.0,
+      1.0,
+      5.937
+    ]
+  }
+}

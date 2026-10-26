@@ -1,0 +1,396 @@
+{
+  "dims": {
+    "D001": 0.281,
+    "D002": 0.406,
+    "D003": 0.25,
+    "D004": 0.266,
+    "D005": 0.3125,
+    "D006": 10.375,
+    "D007": 1.774,
+    "D008": 4.876,
+    "D009": 3.668,
+    "D010": 5.187,
+    "D011": 3.668,
+    "D012": 5.187,
+    "D013": 11.75,
+    "D014": 9.875,
+    "D015": 0.515,
+    "D016": 0.06,
+    "D017": 45.0,
+    "D018": 0.03,
+    "D019": 45.0,
+    "D020": 0.03,
+    "D021": 45.0,
+    "D022": 0.9375
+  },
+  "reference_ids": [
+    "D006"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "173-C",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "section": "Datum A at z=0; +Z to right"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn annular spacer; section confirms central opening.",
+        "source_callouts": [
+          "11.75 \u00d8",
+          "9.875 \u00d8 \u00b1.001",
+          ".515 \u00b1.002"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D013 / 2"
+          },
+          {
+            "z": "D015",
+            "r": "D013 / 2"
+          }
+        ],
+        "inner": [
+          {
+            "z": "0",
+            "r": "D014 / 2"
+          },
+          {
+            "z": "D015",
+            "r": "D014 / 2"
+          }
+        ],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Chamfer inside edge opposite datum A.",
+        "source_callouts": [
+          ".06 X 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D016",
+        "angle": "D017",
+        "edges": [
+          "edge_between(face(F001,+Z),wall(F001,D014 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Chamfer datum-A inside edge.",
+        "source_callouts": [
+          ".03 X 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D018",
+        "angle": "D019",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D014 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Section leaders specify both outside corners.",
+        "source_callouts": [
+          ".03 X 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D020",
+        "angle": "D021",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D013 / 2))",
+          "edge_between(face(F001,+Z),wall(F001,D013 / 2))"
+        ]
+      },
+      {
+        "id": "F005",
+        "rationale": "Right cardinal counterbored hole; clearance drill overshoots opposite face.",
+        "source_callouts": [
+          ".281 \u00d8",
+          ".406 \u00d8 C'BORE .25 DEEP",
+          "8-HOLES.",
+          "5.187 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D010",
+        "v": "0",
+        "spec": {
+          "type": "cbore",
+          "d": "D001",
+          "depth": "2 * D015",
+          "cbore_d": "D002",
+          "cbore_depth": "D003",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Bottom cardinal counterbored through hole.",
+        "source_callouts": [
+          ".281 \u00d8",
+          ".406 \u00d8 C'BORE .25 DEEP",
+          "8-HOLES.",
+          "5.187 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "0",
+        "v": "-D012",
+        "spec": {
+          "type": "cbore",
+          "d": "D001",
+          "depth": "2 * D015",
+          "cbore_d": "D002",
+          "cbore_depth": "D003",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Left cardinal counterbored through hole.",
+        "source_callouts": [
+          ".281 \u00d8",
+          ".406 \u00d8 C'BORE .25 DEEP",
+          "8-HOLES.",
+          "5.187 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Front-view symmetry mirrors the dimensioned right cardinal hole about the vertical centerline.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D010",
+        "v": "0",
+        "spec": {
+          "type": "cbore",
+          "d": "D001",
+          "depth": "2 * D015",
+          "cbore_d": "D002",
+          "cbore_depth": "D003",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Top cardinal counterbored through hole.",
+        "source_callouts": [
+          ".281 \u00d8",
+          ".406 \u00d8 C'BORE .25 DEEP",
+          "8-HOLES.",
+          "5.187 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Front-view symmetry mirrors the dimensioned bottom cardinal hole about the horizontal centerline.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "0",
+        "v": "D012",
+        "spec": {
+          "type": "cbore",
+          "d": "D001",
+          "depth": "2 * D015",
+          "cbore_d": "D002",
+          "cbore_depth": "D003",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Lower-right diagonal hole uses both controlling Cartesian dimensions.",
+        "source_callouts": [
+          ".281 \u00d8",
+          ".406 \u00d8 C'BORE .25 DEEP",
+          "8-HOLES.",
+          "3.668 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D009",
+        "v": "-D011",
+        "spec": {
+          "type": "cbore",
+          "d": "D001",
+          "depth": "2 * D015",
+          "cbore_d": "D002",
+          "cbore_depth": "D003",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F010",
+        "rationale": "Upper-right diagonal counterbored through hole.",
+        "source_callouts": [
+          ".281 \u00d8",
+          ".406 \u00d8 C'BORE .25 DEEP",
+          "8-HOLES.",
+          "3.668 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Front-view symmetry mirrors the dimensioned lower-right hole about the horizontal centerline.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D009",
+        "v": "D011",
+        "spec": {
+          "type": "cbore",
+          "d": "D001",
+          "depth": "2 * D015",
+          "cbore_d": "D002",
+          "cbore_depth": "D003",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F011",
+        "rationale": "Upper-left diagonal counterbored through hole.",
+        "source_callouts": [
+          ".281 \u00d8",
+          ".406 \u00d8 C'BORE .25 DEEP",
+          "8-HOLES.",
+          "3.668 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Front-view symmetry about both centerlines fixes this location from the dimensioned lower-right hole.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D009",
+        "v": "D011",
+        "spec": {
+          "type": "cbore",
+          "d": "D001",
+          "depth": "2 * D015",
+          "cbore_d": "D002",
+          "cbore_depth": "D003",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F012",
+        "rationale": "Lower-left diagonal counterbored through hole.",
+        "source_callouts": [
+          ".281 \u00d8",
+          ".406 \u00d8 C'BORE .25 DEEP",
+          "8-HOLES.",
+          "3.668 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Front-view symmetry mirrors the dimensioned lower-right hole about the vertical centerline.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D009",
+        "v": "-D011",
+        "spec": {
+          "type": "cbore",
+          "d": "D001",
+          "depth": "2 * D015",
+          "cbore_d": "D002",
+          "cbore_depth": "D003",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F013",
+        "rationale": "Are these holes through drilled and through tapped, or what are their drill and thread depths?",
+        "source_callouts": [
+          ".266 \u00d8",
+          "5/16-18 2B TH'D",
+          "2-HOLES.",
+          "4.876",
+          "1.774"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D008",
+        "v": "-D007",
+        "spec": {
+          "type": "tapped",
+          "d": "D004",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "5/16-18 2B"
+        }
+      },
+      {
+        "id": "F014",
+        "rationale": "Second tapped hole shares the unresolved drill and thread depths of F013.",
+        "source_callouts": [
+          ".266 \u00d8",
+          "5/16-18 2B TH'D",
+          "2-HOLES.",
+          "4.876",
+          "1.774"
+        ],
+        "status": "unresolved",
+        "justification": "Front view depicts diametrically opposed tapped holes, fixing upper-right coordinates from the dimensioned lower-left location; depth alone remains unresolved.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D008",
+        "v": "D007",
+        "spec": {
+          "type": "tapped",
+          "d": "D004",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "5/16-18 2B"
+        }
+      }
+    ],
+    "notes": [
+      "Datum A is z=0 and is the counterbore entry face. Counterbore depths are exact; clearance drill depths exceed thickness to ensure breakthrough.",
+      "Use dimensioned Cartesian hole positions, not D006 (10.375 diameter REF), as controlling geometry.",
+      "D005 identifies nominal thread size; threads are cosmetic and D004 is the printed tap drill. No THRU instruction or depth is printed for these holes, and the section does not intersect them. F013 and F014 require clarification before construction.",
+      "Material: E-52100 bearing quality; heat treatment R/C 59-64.",
+      "Datum-A flatness .0005, opposite-face parallelism to A .0005, and localized 32 POLISH on datum A are manufacturing requirements rather than solid geometry.",
+      "Use printed tolerances and title-block general tolerances for inspection. D022 is derived rather than an additional controlling dimension."
+    ]
+  }
+}

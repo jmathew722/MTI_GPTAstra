@@ -455,6 +455,14 @@ class _SW:
         elif p.shape == "circle":
             cx, cy = self.pt(plane, self.in_plane(axis, self.n(p.u) + su, self.n(p.v) + sv))
             sm.CreateCircleByRadius(cx, cy, 0, self.n(p.d) * self.k / 2)
+        elif p.shape == "polygon":
+            # A closed outline of lines (L-shaped and stepped plates; A00121E/M, 2026-10-26).
+            # Drawn like the revolve profile: no inference, exact endpoints; the volume check
+            # confirms SolidWorks closed it.
+            pts = [self.pt(plane, self.in_plane(axis, self.n(a) + su, self.n(b) + sv)) for a, b in p.points]
+            for (x1, y1), (x2, y2) in zip(pts, pts[1:] + pts[:1]):
+                if (x1, y1) != (x2, y2):
+                    sm.CreateLine(x1, y1, 0, x2, y2, 0)
         else:
             sm.InsertSketch(True)
             return SwFeatureResult(f.id, "failed", note=f"profile {p.shape} not compiled for SolidWorks yet")

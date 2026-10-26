@@ -1,0 +1,147 @@
+{
+  "part": "142-C",
+  "units": "inch",
+  "origin_kind": "corner",
+  "bbox": [
+    0.0,
+    0.0,
+    0.0,
+    36.0,
+    5.375,
+    1.5
+  ],
+  "volume": 282.825273,
+  "volume_mm3": 4634675.85,
+  "features": [
+    "F001",
+    "F002",
+    "F003"
+  ],
+  "skipped": {},
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          2.25,
+          2.25
+        ],
+        "planned_d": 0.812,
+        "measured": true,
+        "center": [
+          2.25,
+          2.25
+        ],
+        "d": 0.812,
+        "depth": 0.72,
+        "axis": "Z"
+      }
+    ],
+    "F003": [
+      {
+        "planned_center": [
+          8.25,
+          2.25
+        ],
+        "planned_d": 0.812,
+        "measured": true,
+        "center": [
+          8.25,
+          2.25
+        ],
+        "d": 0.812,
+        "depth": 0.72,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          14.25,
+          2.25
+        ],
+        "planned_d": 0.812,
+        "measured": true,
+        "center": [
+          14.25,
+          2.25
+        ],
+        "d": 0.812,
+        "depth": 0.72,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          20.25,
+          2.25
+        ],
+        "planned_d": 0.812,
+        "measured": true,
+        "center": [
+          20.25,
+          2.25
+        ],
+        "d": 0.812,
+        "depth": 0.72,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          26.25,
+          2.25
+        ],
+        "planned_d": 0.812,
+        "measured": true,
+        "center": [
+          26.25,
+          2.25
+        ],
+        "d": 0.812,
+        "depth": 0.72,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          32.25,
+          2.25
+        ],
+        "planned_d": 0.812,
+        "measured": true,
+        "center": [
+          32.25,
+          2.25
+        ],
+        "d": 0.812,
+        "depth": 0.72,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {},
+  "starts": {
+    "F001": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    }
+  },
+  "volume_after": {
+    "F001": 290.25,
+    "F002": 289.012545503,
+    "F003": 282.82527302
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      0.0,
+      0.0,
+      0.0,
+      36.0,
+      5.375,
+      1.5
+    ]
+  }
+}

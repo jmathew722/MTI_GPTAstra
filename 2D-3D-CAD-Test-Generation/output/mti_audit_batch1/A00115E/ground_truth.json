@@ -1,0 +1,39 @@
+{
+  "model": "A001151E.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 189798.179,
+  "bbox_mm": [
+    -41.275,
+    -34.925,
+    -19.05,
+    41.275,
+    34.925,
+    19.05
+  ],
+  "size_mm": [
+    38.1,
+    69.85,
+    82.55
+  ],
+  "center_mm": [
+    -0.0,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Boss-Extrude1",
+    "3/8 Clearance Hole1",
+    "CBORE for 1/2 Socket Head Cap Screw1",
+    "1/2 Clearance Hole1",
+    "3/8 NPT Tapped Hole1"
+  ],
+  "feature_types": [
+    "Extrusion",
+    "HoleWzd",
+    "HoleWzd",
+    "HoleWzd",
+    "HoleWzd"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00115E\\ground_truth.step",
+  "part": "A00115E"
+}

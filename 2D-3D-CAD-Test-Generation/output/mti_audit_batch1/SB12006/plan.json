@@ -1,0 +1,233 @@
+{
+  "dims": {
+    "D001": 6.562,
+    "D002": 0.562,
+    "D003": 0.062,
+    "D004": 0.25,
+    "D005": 0.094,
+    "D006": 1.247,
+    "D007": 1.188,
+    "D008": 30.0,
+    "D009": 30.0,
+    "D010": 0.03,
+    "D011": 0.12,
+    "D012": 45.0,
+    "D013": 1.0,
+    "D014": 1.0,
+    "D015": 0.25,
+    "D016": 2.0,
+    "D017": 0.19,
+    "D018": 0.38,
+    "D019": 5.0,
+    "D020": 0.312
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-12006",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "axis +Z points right on sheet; radial direction vertical",
+        "Right": "+Z"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the complete coaxial exterior, including the left lead-in and circumferential groove; origin is the left end face.",
+        "source_callouts": [
+          "6.562",
+          ".562",
+          ".062 CENT.",
+          ".250",
+          ".094",
+          "1.247 DIA. +.000 -.002",
+          "1.188 DIA.",
+          "30\u00b0",
+          "30\u00b0 TYP.",
+          "1.000",
+          "1.000 DIA.",
+          "2.000 DIA."
+        ],
+        "status": "planned",
+        "justification": "The groove root land is centered at D002-D004 as shown by '.062 CENT.' and '.250'. The numerical factors 0.5773502691896257 and 1.7320508075688772 are tan(30 degrees) and cot(30 degrees), respectively, from printed D008 and D009; they express the specified conical slopes to floating-point precision. The left end radius follows the .094 axial bevel length and 30-degree angle, not the groove-root diameter.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D006 / 2 - D005 * 0.5773502691896257"
+          },
+          {
+            "z": "D005",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002 - D004 - D003 / 2 - (D006 - D007) / 2 * 1.7320508075688772",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002 - D004 - D003 / 2",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004 + D003 / 2",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004 + D003 / 2 + (D006 - D007) / 2 * 1.7320508075688772",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D016 / 2"
+          },
+          {
+            "z": "D001 - D013",
+            "r": "D016 / 2"
+          },
+          {
+            "z": "D001 - D013",
+            "r": "D014 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D014 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Chamfer the main body's right outside circular edge only.",
+        "source_callouts": [
+          ".12 \u00d7 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D011",
+        "angle": "D012",
+        "edges": [
+          "edge_between(face(F001,+Z,D001 - D013),wall(F001,D016 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Form the annular concave shoulder fillet at the right spigot root.",
+        "source_callouts": [
+          ".25 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D015",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D001 - D013),wall(F001,D014 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Model the coaxial tapped region from the right end using a standard tap drill and cosmetic thread.",
+        "source_callouts": [
+          "#10-32 TAP .38 DEEP"
+        ],
+        "status": "planned",
+        "justification": "A No. 21 drill, diameter 0.159 inch, is the standard tap drill for #10-32 UNF (D017 denotes nominal thread major diameter, not drill diameter). D018 defines the tapped region only. This feature models that established region; any additional pilot drilling is separately unresolved.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D001)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "tapped",
+          "d": "0.159",
+          "depth": "D018",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-32"
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "What total full-diameter pilot drilling depth is required beyond the specified .38-deep tapped region?",
+        "source_callouts": [
+          "#10-32 TAP .38 DEEP"
+        ],
+        "status": "unresolved",
+        "justification": "0.159 inch is the standard No. 21 tap drill for #10-32 UNF. The drawing specifies tapping depth but no separate pilot depth; do not infer it from the illustrated drill point.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D001)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "blind",
+          "d": "0.159",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "What nominal radius should be used at the left shoulder, where only a .030 maximum is specified?",
+        "source_callouts": [
+          ".030 R. MAX."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D010",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D002),wall(F001,D006 / 2))"
+        ]
+      },
+      {
+        "id": "F007",
+        "rationale": "Required stamped text on the cylindrical body is outside the IR feature vocabulary; character size, depth, and precise placement also require definition.",
+        "source_callouts": [
+          "STAMP \"SB-12006\""
+        ],
+        "status": "unsupported",
+        "justification": "Zero-sized profile is a non-executable placeholder for the unsupported marking, not a proposed machining feature.",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "0",
+          "h": "0",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "0",
+        "op": "cut"
+      }
+    ],
+    "notes": [
+      "Material: 4150; hardness R/C 40\u201345.",
+      "Nominal geometry uses the printed 1.247 spigot diameter; its explicit tolerance is +.000/-.002.",
+      "General tolerances: two-place \u00b1.020 inch, three-place \u00b1.010 inch, angular \u00b11 degree.",
+      "D019 and D020 are derived dimensions; axial stations are expressed directly using their printed source dimensions.",
+      "The right end contains a blind tapped hole, not a through bore. Thread geometry and drill-point shape are cosmetic; no additional pilot depth has been invented.",
+      "Unresolved and unsupported features must not execute. F006's size records the radius limit only, not an approved nominal fillet."
+    ]
+  }
+}

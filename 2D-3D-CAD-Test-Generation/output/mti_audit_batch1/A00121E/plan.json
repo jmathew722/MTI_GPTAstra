@@ -1,0 +1,312 @@
+{
+  "dims": {
+    "D001": 0.406,
+    "D002": 0.19,
+    "D003": 4.38,
+    "D004": 1.88,
+    "D005": 1.156,
+    "D006": 4.5,
+    "D007": 2.938,
+    "D008": 2.75,
+    "D009": 1.938,
+    "D010": 2.344,
+    "D011": 3.5,
+    "D012": 0.938,
+    "D013": 0.375,
+    "D014": 2.25,
+    "D015": 2.5,
+    "D016": 2.875,
+    "D017": 5.375,
+    "D018": 6.88,
+    "D019": 0.25,
+    "D020": 5.5,
+    "D021": 2.5,
+    "D022": 2.5,
+    "D023": 1.0,
+    "D024": 1.0,
+    "D025": 4.75,
+    "D026": 1.531,
+    "D027": 5.282,
+    "D028": 4.031,
+    "D029": 4.282,
+    "D030": 6.531,
+    "D031": 3.282
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "121-B",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Extrude the dimensioned stepped plate outline to its uniform thickness.",
+        "source_callouts": [
+          "6.88",
+          "5.50",
+          "4.38",
+          "1.88",
+          "4.50",
+          "3.50",
+          ".25"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "0",
+              "0"
+            ],
+            [
+              "D018",
+              "0"
+            ],
+            [
+              "D018",
+              "D011"
+            ],
+            [
+              "D003",
+              "D011"
+            ],
+            [
+              "D003",
+              "D006"
+            ],
+            [
+              "D004",
+              "D006"
+            ],
+            [
+              "D004",
+              "D020"
+            ],
+            [
+              "0",
+              "D020"
+            ]
+          ]
+        },
+        "depth": "D019",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Left clearance hole at the printed coordinates.",
+        "source_callouts": [
+          ".406 DIA. THRU. (2) HL'S.",
+          "2.250",
+          "2.750"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D014",
+        "v": "D008",
+        "spec": {
+          "type": "thru",
+          "d": "D001",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Second clearance hole at the printed center spacing.",
+        "source_callouts": [
+          ".406 DIA. THRU. (2) HL'S.",
+          "2.500 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D015",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Left lower tapped hole; drilling overshoots the plate thickness.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          ".375",
+          "2.938"
+        ],
+        "status": "planned",
+        "justification": "Standard UNC tap-drill chart gives #25 (.1495 inch) for #10-24 UNC. D002 is the nominal major diameter, not the drill diameter.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D013",
+        "v": "D007",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D019",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24 UNC"
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Left upper tapped hole located by the typical diagonal pair offsets; cut extends beyond plate.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          "1.156 TYP. \u00b1.005",
+          "2.344 TYP. \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard UNC tap-drill chart gives #25 (.1495 inch) for #10-24 UNC, whose nominal major diameter is D002.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D013 + D005",
+        "v": "D007 + D010",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D019",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24 UNC"
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Middle lower tapped hole at the printed coordinates; cut extends beyond plate.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          "2.875",
+          "1.938"
+        ],
+        "status": "planned",
+        "justification": "Standard UNC tap-drill chart gives #25 (.1495 inch) for #10-24 UNC, whose nominal major diameter is D002.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D016",
+        "v": "D009",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D019",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24 UNC"
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Middle upper tapped hole located by the typical diagonal pair offsets; cut extends beyond plate.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          "1.156 TYP. \u00b1.005",
+          "2.344 TYP. \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard UNC tap-drill chart gives #25 (.1495 inch) for #10-24 UNC, whose nominal major diameter is D002.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D016 + D005",
+        "v": "D009 + D010",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D019",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24 UNC"
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Right lower tapped hole at the printed coordinates; cut extends beyond plate.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          "5.375",
+          ".938"
+        ],
+        "status": "planned",
+        "justification": "Standard UNC tap-drill chart gives #25 (.1495 inch) for #10-24 UNC, whose nominal major diameter is D002.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D017",
+        "v": "D012",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D019",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24 UNC"
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Right upper tapped hole located by the typical diagonal pair offsets; cut extends beyond plate.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          "1.156 TYP. \u00b1.005",
+          "2.344 TYP. \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard UNC tap-drill chart gives #25 (.1495 inch) for #10-24 UNC, whose nominal major diameter is D002.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D017 + D005",
+        "v": "D012 + D010",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D019",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24 UNC"
+        }
+      }
+    ],
+    "notes": [
+      "Material: 1018 STEEL. Title: PLATE. Model: 250 BX.",
+      "All eight holes penetrate the full plate thickness. Tapped-hole cutting depth deliberately overshoots; threads are cosmetic through the material only.",
+      "No thread class is specified or inferred.",
+      "The six tapped holes form three diagonal pairs.",
+      "No corner radii, edge breaks, surface finish, or heat treatment are specified."
+    ]
+  }
+}
