@@ -69,6 +69,8 @@ Each entry gives the practice, what the pipeline does, the cause, and a fix sket
   - **Countersinks never use Hole Wizard** (cs:928; `from_v1.py:192` marks them unresolved).
   - Clearance-hole Hole Wizard depends on a git-ignored local table, `202.02.0003.local.json`
     (`mti_standards.py:85-87`). Without it, only tapped holes get Hole Wizard, and nothing says so.
+    *2026-10-26:* the source is `Bolt Hole Standards.png` in MTI's best-practices folder. It was re-transcribed
+    into the local file on this machine, so it is present now. The silent fallback remains.
 - **Fix sketch:**
   - Add a countersink Hole Wizard type.
   - Make benchmark runs fail loudly when the MTI hole table is missing.
