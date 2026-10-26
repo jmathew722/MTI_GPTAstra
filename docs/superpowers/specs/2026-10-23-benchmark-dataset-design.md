@@ -84,7 +84,7 @@ unknown).
    then `LoadFile4`, then `SaveAs3` to PDF with black & white and high quality set only for
    the run and restored. Then crop to content with PyMuPDF and drop empty pages. Every API
    call is already verified against `sldworks.tlb`/`swconst.tlb` (CLAUDE.md rule 1).
-   `SaveAs3` results are checked as error codes (E025).
+   `SaveAs3` results are checked as error codes (E026).
 3. **DWG → DXF** with the ODA File Converter (free; a one-time install, approved by the
    user). The converter path comes from `ODA_CONVERTER` in `.env`.
 4. **SLDPRT → STEP** (SolidWorks): open the copy in `source/` read-only

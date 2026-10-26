@@ -74,7 +74,7 @@
 > honour (e.g. A050411E draws 12 countersinks, model has 8). Data lives outside git in
 > `MTI_BENCH_DATA` (`.env`). Feature profile: no type above 30%. After the swap, format dev has
 > holes, taps, counterbores, a bore and a turned diameter, but no slots, pockets, flats, chamfers,
-> fillets or countersinks (4 parts can't cover every type). New error log entries: E025 (silent save) and E026 (a
+> fillets or countersinks (4 parts can't cover every type). New error log entries: E026 (silent save) and E027 (a
 > makepy cache broke COM byref calls). Next: sub-project 2 (placement-aware scorer + stage blame),
 > then 3 (the official run). Branch `bench/dataset`, local commits only.
 >

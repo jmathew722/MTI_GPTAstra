@@ -284,7 +284,7 @@ def test_pdf_success_moves_temp_into_place(no_com, tmp_path, monkeypatch):
 
 
 def test_connect_always_returns_a_late_bound_object(monkeypatch):
-    """E026: a makepy cache for sldworks.tlb made SolidWorks objects typed, and their
+    """E027: a makepy cache for sldworks.tlb made SolidWorks objects typed, and their
     [in,out] params rejected the byref VARIANTs passed to OpenDoc6/LoadFile4."""
     win32 = pytest.importorskip("win32com.client")
     import win32com.client.dynamic as dynamic

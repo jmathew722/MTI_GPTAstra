@@ -5,7 +5,7 @@ SolidWorks picks itself broke 9 of 21 drawings on 2026-10-12), export black & wh
 to content.
 SLDPRT -> STEP: open a COPY read-only, export STEP AP214 and a PNG picture.
 
-SaveAs3 returns an error code (0 = success; error log E025): never test it for truthiness,
+SaveAs3 returns an error code (0 = success; error log E026): never test it for truthiness,
 and require the output file to be new or rewritten (a stale file must not pass as success).
 Outputs are written to a temp name next to the target (same extension, so SolidWorks picks
 the right exporter) and moved into place only after every check passed, so a failure or an
@@ -37,7 +37,7 @@ class SwUnavailable(RuntimeError):
 def _late_bound(obj):
     """Always use late binding. If a makepy cache for sldworks.tlb exists (%TEMP%\\gen_py),
     pywin32 hands back typed wrappers whose [in,out] parameters reject the byref VARIANTs
-    passed to LoadFile4/OpenDoc6 ("int() argument must be ... not 'VARIANT'"). Error log E026."""
+    passed to LoadFile4/OpenDoc6 ("int() argument must be ... not 'VARIANT'"). Error log E027."""
     import win32com.client.dynamic as dynamic
     return dynamic.Dispatch(obj._oleobj_)
 
