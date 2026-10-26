@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import copy
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
@@ -29,6 +29,7 @@ class Config:
     gate_part_fraction: float
     fallback_tol: dict
     unsupported_types: tuple
+    practices: dict = field(default_factory=dict)   # MTI practices score (spec 2b)
 
 
 def _merge(base: dict, over: dict) -> dict:
@@ -48,4 +49,5 @@ def load(path: Optional[Path] = None) -> Config:
                   type_mismatch_cost=float(raw["type_mismatch_cost"]),
                   gate_tol_multiple=float(raw["gate"]["tol_multiple"]),
                   gate_part_fraction=float(raw["gate"]["part_fraction"]),
-                  fallback_tol=dict(raw["fallback_tol"]), unsupported_types=tuple(raw["unsupported_types"]))
+                  fallback_tol=dict(raw["fallback_tol"]), unsupported_types=tuple(raw["unsupported_types"]),
+                  practices=copy.deepcopy(raw.get("practices") or {}))
