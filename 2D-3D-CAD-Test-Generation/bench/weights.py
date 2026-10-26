@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import math
 
-from bench.features import Feature, Key
+from bench.features import HOLE_TYPES, Feature, Key
 from bench.score_config import Config
 
 BASE_ID = "BASE"
@@ -16,11 +16,13 @@ def base_body(key: Key) -> Feature:
 
 
 def feature_size(f: Feature) -> float:
-    """Largest characteristic dimension: diameters, planar extents and (except the base body) depth."""
+    """Largest characteristic dimension: diameters, planar extents and, for turned/other non-hole
+    features, depth (length). A hole is sized by its diameter only: a long drill is no more
+    important than a short one of the same size (calibration 2026-10-25)."""
     vals = [v for v in (f.d, f.cbore_d, f.csink_d) if v]
     if f.size:
         vals += [v for v in f.size if v]
-    if f.type != "base_body" and f.depth:
+    if f.type not in HOLE_TYPES and f.type != "base_body" and f.depth:
         vals.append(f.depth)
     return max(vals) if vals else 0.0
 

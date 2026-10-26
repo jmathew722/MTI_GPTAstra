@@ -27,8 +27,15 @@ def test_weights_tier_times_size_with_floor():
     part = 6.0
     assert weight(base_body(KEY), part, C) == pytest.approx(10.0)
     assert weight(KEY.feature("K2"), part, C) == pytest.approx(3 * (3.0 / 6.0) ** 0.5)
-    assert weight(KEY.feature("K1"), part, C) == pytest.approx(3 * 0.3)       # floored
-    assert weight(KEY.feature("K3"), part, C) == pytest.approx(1 * 0.3)
+    assert weight(KEY.feature("K1"), part, C) == pytest.approx(3 * C.size_floor)       # floored
+    assert weight(KEY.feature("K3"), part, C) == pytest.approx(1 * C.size_floor)
+
+
+def test_hole_is_sized_by_diameter_not_length():
+    long_hole = Feature(id="L", type="thru_hole", d=0.25, depth=5.0)
+    short_hole = Feature(id="S", type="thru_hole", d=0.25, depth=0.2)
+    assert feature_size(long_hole) == feature_size(short_hole) == 0.25
+    assert feature_size(Feature(id="T", type="turned_diameter", d=1.0, depth=4.0)) == 4.0
 
 
 def test_patterns_have_no_weight():

@@ -123,10 +123,14 @@ def _base_row(k: Key, gen: Key, part_size: float, cfg: Config) -> Row:
     tier = cfg.tiers.get("base_body", 0)
     if not gen.envelope or len(gen.envelope) != len(k.envelope):
         return Row(BASE_ID, "base_body", tier, w, "missing", reason="generated part has no envelope")
-    err = max(abs(a - b) for a, b in zip(k.envelope, gen.envelope))     # per axis: the pose is fixed
-    credits, shown = _credits(BASE_ID, {"size": err}, lambda a: _tol(kb, a, k.units, cfg), set(), cfg)
-    return Row(BASE_ID, "base_body", tier, w, "matched", BASE_ID, errors=shown, attr_credits=credits,
-               credit=feature_credit(credits, cfg))
+    # per axis (the pose is fixed); the body's size credit is the mean of the three axis credits, so
+    # one extent slightly off (often a secondary cut such as a deep flat) costs a third, not the body
+    t = _tol(kb, "size", k.units, cfg)
+    errs = [abs(a - b) for a, b in zip(k.envelope, gen.envelope)]
+    size = sum(attr_credit(e, t, cfg) for e in errs) / len(errs)
+    err = max(errs)
+    return Row(BASE_ID, "base_body", tier, w, "matched", BASE_ID, errors={"size": (err, err / t if t else math.inf)},
+               attr_credits={"size": size}, credit=feature_credit({"size": size}, cfg))
 
 
 def _evaluate(eff: overrides.Effective, gen: Key, cfg: Config) -> tuple[PartScore, float]:

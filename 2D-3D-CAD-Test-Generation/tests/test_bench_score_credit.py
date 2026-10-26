@@ -27,7 +27,8 @@ def test_zero_tolerance_is_guarded():
 
 
 def test_feature_credit_renormalises_missing_attributes():
-    # only size and type present: shares 0.30 and 0.15 renormalise to 2/3 and 1/3
-    assert feature_credit({"size": 0.5, "type": 1.0}, C) == pytest.approx(0.5 * 2 / 3 + 1 / 3)
+    # only size and type present: their shares renormalise over the two
+    s, t = C.shares["size"], C.shares["type"]
+    assert feature_credit({"size": 0.5, "type": 1.0}, C) == pytest.approx((0.5 * s + t) / (s + t))
     assert feature_credit({}, C) == 1.0
     assert feature_credit({"position": 1.0, "size": 1.0, "depth": 1.0, "type": 1.0}, C) == 1.0

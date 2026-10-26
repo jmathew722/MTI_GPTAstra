@@ -71,7 +71,7 @@ def test_type_error_costs_only_the_type_share():
     s = score_part(key, gen, C)
     assert s.row("K3").attr_credits["type"] == 0.0
     assert set(s.row("K3").attr_credits) == {"position", "size", "depth", "type"}
-    assert s.row("K3").credit == pytest.approx(1 - 0.15 / 1.0)   # all four attributes present
+    assert s.row("K3").credit == pytest.approx(1 - C.shares["type"])   # all four attributes present
 
 
 @pytest.mark.parametrize("gtype", ["blind_hole", "thru_hole"])
@@ -282,3 +282,12 @@ def test_metric_twin_waiver_is_limited_to_the_shortfall():
     s = score_part(key, gen, C)
     waived = [r for r in s.rows if r.feature_id in ("K1", "K2") and r.attr_credits["type"] == 1.0]
     assert len(waived) == 1 and not any(r.feature_id.startswith("EXPECT") for r in s.rows)
+
+
+def test_base_body_credit_is_the_mean_of_its_axis_credits():
+    from bench.credit import attr_credit
+    gen = _key()
+    tol = C.fallback_tol["inch"]
+    gen.envelope = [gen.envelope[0], gen.envelope[1], gen.envelope[2] + 3 * tol]
+    row = score_part(_key(), gen, C).row("BASE")
+    assert row.credit == pytest.approx((2 + attr_credit(3 * tol, tol, C)) / 3)
