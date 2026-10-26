@@ -36,8 +36,22 @@
 > Keys: A050481E (inner step 0.098), A050031E (.500-13) and A050031M (M12) now carry drawing-wins value
 > overrides; `bench.prep link` recorded drawing values + tolerances on all 19.
 >
-> Next: spec 2b (MTI best-practices sub-score), then sub-project 3 (paid official run on the 15 held-out
-> parts). Branch `feat/mti-benchmark`, local only.
+> **2026-10-25 (later): MTI practices score (spec 2b) built.**
+> - **What:** a separate 0-100 practices column, never blended with geometry. It covers checks C1-C7: origin
+>   centered, Top/Mid Plane base, fully defined sketches, edge ops last, 2D Hole Wizard sketches, one Hole Wizard
+>   per size per face, and no avoided features. Each failed check is blamed on the planner or SolidWorks.
+> - **Where it reads:** the SLDPRT feature tree (`bench/sw_tree.py`, cached as `feature_tree.json`, existing
+>   APIs only), plus `ir_report.json` (C1/C2, self-reported) and `plan.json` (C6).
+> - **Big problems:** the five practices the pipeline breaks by design are kept out of the score and recorded in
+>   [docs/mti-practices-big-problems.md](docs/mti-practices-big-problems.md).
+> - **Golden parts:** mean practices score 84.6. Three of the four put a fillet or chamfer before a cut (C4).
+> - **Validation on MTI's own models was limited.** The 15 simple-part SLDPRTs MTI delivered have **no feature
+>   history** (one body; the tree is material, planes and origin only; last saved in SW 2025). Only the 3
+>   complex models could be checked: 1801901 100, 1807408 100, 1901001E 83 (2 of 6 sketches under-defined).
+>   So MTI doesn't always fully define its own sketches.
+> - **Ask MTI** for native models with history for the simple parts.
+>
+> Next: sub-project 3 (paid official run on the 15 held-out parts). Branch `feat/mti-benchmark`, local only.
 >
 > **2026-10-24: Benchmark dataset built (sub-project 1 of 3).** MTI's 2026-10-11 delivery of
 > 150 legacy DWGs and 26 models gave 21 drawing-model pairs. `bench/` (spec
