@@ -551,6 +551,34 @@ correct. Scorers must project along each hole's axis rather than assume model XY
   - Use the typed `OpenDoc6`, an **absolute** path, and `GetOpenDocumentByName` on 65536.
   - Re-wrap the returned document late-bound (`win32com.client.dynamic.Dispatch`).
 
+## E026 — Slots and circular patterns of prisms were not compiled for SolidWorks
+
+- **Date:** 2026-10-26 · **Parts:** A00155E (4 slots), SB14306 (radial slots and pockets in 4×
+  and 24× circular patterns) · **Stage:** IR SolidWorks compiler.
+- **Symptom:** "profile slot not compiled for SolidWorks yet" and "only hole patterns and
+  linear/grid prism patterns are compiled". The CadQuery reference built them correctly (A00155E
+  IoU 0.984 against MTI's model), so the gap was only in SolidWorks.
+- **Fix:**
+  - **Slots:** `ISketchManager.CreateSketchSlot(swSketchSlotCreationType_line = 0,
+    swSketchSlotLengthType_CenterCenter = 0, width, end1, end2, 0, 0, 0, 1, False)`. The arc
+    centers are ±length/2 along the slot angle, the same as CadQuery's
+    `slot2D(length + width, width, angle)`. Signatures and enums were read from
+    `sldworks.tlb`/`swconst.tlb`.
+  - **Circular patterns of prisms:** one native `FeatureCircularPattern5` about a reference axis
+    along the part axis. The axis is made once with `InsertAxis2` from the two base planes that
+    contain it (`select_ref_plane(..., append=True)`). Selection is the axis at mark 1 and the
+    seed feature at mark 4. Both directions are tried, and the result is checked against the
+    reference volume. This is how MTI's own SB14306 model does it (`CirPattern`).
+  - The compiler now keeps the SolidWorks feature built for each IR feature (`feat_obj`), so
+    patterns can select their seed.
+- **Live ($0, rebuilt from the saved plans):**
+  - **A00155E** builds and verifies (4 slots).
+  - **SB14306** builds and verifies: 4 slots and **9 native circular patterns** (4×, 4×, 24× ×7),
+    every one volume-matched.
+  - SB14306 still skips 6 features in the reference itself: 4 holes hit a `KeyError: 'depth'`
+    in `cq_runtime`, 1 edge query matched no edges, and 2 are open MTI questions. Those are next.
+- **Tests:** `test_circular_prism_pattern_*` in `test_ir_compile_solidworks.py`.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

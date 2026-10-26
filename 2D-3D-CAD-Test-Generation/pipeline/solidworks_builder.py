@@ -327,15 +327,17 @@ def get_dimensions_for_feature(model: DrawingData, feature: Feature) -> dict[str
 PLANE_TREE_INDEX = {"Front Plane": 1, "Top Plane": 2, "Right Plane": 3}
 
 
-def select_ref_plane(sw_doc, name: str) -> bool:
+def select_ref_plane(sw_doc, name: str, append: bool = False) -> bool:
     """Select a base reference plane by name, falling back to its position in the
     feature tree (the n-th ``RefPlane``), so renamed or localized templates still work.
+    ``append`` adds it to the current selection (two planes for a reference axis).
 
     The fallback is MTI's own ``SelectPlane1/2/3`` macro pattern (FirstFeature ->
     GetTypeName2 = "RefPlane" -> GetNextFeature), and CLAUDE.md hard rule 4.
     """
-    sw_doc.ClearSelection2(True)
-    if sw_doc.Extension.SelectByID2(name, "PLANE", 0.0, 0.0, 0.0, False, 0, _null_dispatch(), 0):
+    if not append:
+        sw_doc.ClearSelection2(True)
+    if sw_doc.Extension.SelectByID2(name, "PLANE", 0.0, 0.0, 0.0, append, 0, _null_dispatch(), 0):
         return True
     want, seen = PLANE_TREE_INDEX.get(name, 0), 0
     feat = _g(sw_doc, "FirstFeature")
@@ -345,7 +347,7 @@ def select_ref_plane(sw_doc, name: str) -> bool:
             if seen == want:
                 log.warning("Plane %r not found by name; selected %r (tree position %d)",
                             name, feat.Name, want)
-                return bool(feat.Select2(False, 0))
+                return bool(feat.Select2(append, 0))
         feat = _g(feat, "GetNextFeature")
     return False
 

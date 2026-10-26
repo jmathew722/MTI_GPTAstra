@@ -1,7 +1,7 @@
 {
   "part": "SB14306",
   "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB14306\\SB14306_extraction.json",
-  "plan_attempts": 2,
+  "plan_attempts": 0,
   "gate1": "OK",
   "planned": 28,
   "questions": [
@@ -45,18 +45,18 @@
     "F017": "failed: CompileError: ref to F016, which has no geometry (not built or skipped)",
     "F028": "unresolved: What edge-break size and treatment should implement the general sharp-corner instruction?"
   },
-  "sw_ok": false,
-  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB14306\\SB14306COLLETSPECIAL_ir.sldprt",
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB14306\\SB14306COLLETSPECIAL_ir.SLDPRT",
   "sw_features": {
     "F001": "built",
     "F002": "built (2 edges selected by nearest point)",
     "F003": "skipped (failed: CompileError: F003: edge_between(face(F001,-Z,0.0),wall(F001,10.750354839)) matched no edges)",
     "F004": "built (1 edges selected by nearest point)",
     "F005": "skipped (unresolved: Confirm the other starred .375 blend's exact transition geometry: a simple fillet cannot fit the nominal .250 radial shoulder between the 18.625 and 18.125 bores.)",
-    "F006": "failed (profile slot not compiled for SolidWorks yet)",
-    "F007": "failed (only hole patterns and linear/grid prism patterns are compiled for SolidWorks yet)",
-    "F008": "failed (profile slot not compiled for SolidWorks yet)",
-    "F009": "failed (only hole patterns and linear/grid prism patterns are compiled for SolidWorks yet)",
+    "F006": "built",
+    "F007": "built (native circular pattern, 4 instances)",
+    "F008": "built",
+    "F009": "built (native circular pattern, 4 instances)",
     "F010": "skipped (failed: KeyError: 'depth')",
     "F011": "skipped (failed: CompileError: ref to F010, which has no geometry (not built or skipped))",
     "F012": "skipped (failed: KeyError: 'depth')",
@@ -65,23 +65,23 @@
     "F015": "skipped (failed: CompileError: ref to F014, which has no geometry (not built or skipped))",
     "F016": "skipped (failed: KeyError: 'depth')",
     "F017": "skipped (failed: CompileError: ref to F016, which has no geometry (not built or skipped))",
-    "F018": "mismatch (no direction matched the reference volume)",
-    "F019": "failed (only hole patterns and linear/grid prism patterns are compiled for SolidWorks yet)",
-    "F020": "mismatch (no direction matched the reference volume)",
-    "F021": "failed (only hole patterns and linear/grid prism patterns are compiled for SolidWorks yet)",
-    "F022": "mismatch (no direction matched the reference volume)",
-    "F023": "failed (only hole patterns and linear/grid prism patterns are compiled for SolidWorks yet)",
-    "F024": "mismatch (no direction matched the reference volume)",
-    "F025": "failed (only hole patterns and linear/grid prism patterns are compiled for SolidWorks yet)",
-    "F026": "failed (profile slot not compiled for SolidWorks yet)",
-    "F027": "failed (only hole patterns and linear/grid prism patterns are compiled for SolidWorks yet)",
+    "F018": "built (Up To Next)",
+    "F019": "built (native circular pattern, 24 instances)",
+    "F020": "built (Up To Next)",
+    "F021": "built (native circular pattern, 24 instances)",
+    "F022": "built (Up To Next)",
+    "F023": "built (native circular pattern, 24 instances)",
+    "F024": "built (Up To Next)",
+    "F025": "built (native circular pattern, 24 instances)",
+    "F026": "built",
+    "F027": "built (native circular pattern, 24 instances)",
     "F028": "skipped (unresolved: What edge-break size and treatment should implement the general sharp-corner instruction?)",
-    "F029": "mismatch (no direction matched the reference volume)",
-    "F030": "failed (only hole patterns and linear/grid prism patterns are compiled for SolidWorks yet)"
+    "F029": "built",
+    "F030": "built (native circular pattern, 24 instances)"
   },
   "conventions": [
     "origin centered: True",
-    "sketches fully defined: 6/6"
+    "sketches fully defined: 9/9"
   ],
   "mti_review": [
     "[mti_hole_wizard] F010 (+ pattern F011): \u00d80.65625 = STANDARD-DERIVED: tap drill for 3/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
@@ -92,6 +92,6 @@
     "[mti_hole_grouping] F014, F016: identical holes on face(F006,+Z) -> one Hole Wizard feature with several sketch points",
     "[mti_edge_ops_last] F006 (prism) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree"
   ],
-  "cost_usd": 1.2302,
+  "cost_usd": 0.0,
   "error": ""
 }

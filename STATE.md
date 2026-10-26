@@ -3,6 +3,9 @@
 **Last updated:** 2026-10-26 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-10-26 (later): slots and circular prism patterns now compile (E026), so 30 of 31 audit
+> parts build and verify** (A00155E and SB14306 fixed, $0). Test report §8.
+>
 > **2026-10-26 (batch 2, $40 cap): 31 audit parts run; 28 build and verify; 23 of 28 match MTI's
 > own models at IoU ≥ 0.979.** Two misses are MTI drawing-vs-model mismatches (SB12050, SB12009).
 > Next fixes, all free: slot profiles, circular prism patterns, 4C1229. **Budget: $39.16 of $40.**

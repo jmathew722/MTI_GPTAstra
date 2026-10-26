@@ -142,3 +142,20 @@ MTI's Google Drive audit holds **63 parts that have both a drawing and MTI's own
 - Budget for the remaining parts:
   - **≈ $6:** 7 PDF parts left plus SB12011's plan.
   - **≈ $25 more** for the 24 DWG parts, which first need converting to PDF.
+
+---
+
+## 8. Slots and circular patterns fixed (E026), $0
+
+- **Slots** (`CreateSketchSlot`) and **circular patterns of prisms** (native `FeatureCircularPattern5`
+  about a reference axis along the part axis) are now compiled for SolidWorks.
+- **A00155E** rebuilt from its saved plan → **builds and verifies** (IoU vs MTI 0.984).
+- **SB14306** rebuilt → **builds and verifies**, with 9 native circular patterns, the way MTI's own
+  model does it. It is still incomplete against MTI's model (IoU 0.74): 4 holes fail in the CadQuery
+  reference (`KeyError: 'depth'`), 1 edge query matches nothing, and 2 features are MTI questions.
+- **Combined: 30 of 31 parts run now build and verify.** The exception is 4C1229, whose reference
+  fails.
+- **Next (free):**
+  - the `depth` bug in `cq_runtime` hole handling (SB14306);
+  - 4C1229's reference failure;
+  - A00161E's score alignment.

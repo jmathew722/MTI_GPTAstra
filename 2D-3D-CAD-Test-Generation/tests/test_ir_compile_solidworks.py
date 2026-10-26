@@ -236,3 +236,35 @@ def test_failed_sketch_definition_is_recorded_not_raised(fake_sw):
     sw, _ = fake_sw({}, ref=9.0)
     sw.define_sketch("F001")   # COM unavailable on the fake: recorded as 0, never fails the build
     assert sw.sketch_status == {"F001": 0}
+
+
+# --------------------------------------------------------------------------- #
+# Circular patterns of prisms (E026)
+# --------------------------------------------------------------------------- #
+def _pattern_plan(axis="axis(part)", skip=()):
+    return BuildPlan.model_validate({
+        "part": "P", "frame": {"origin_kind": "axis_end", "units": "inch"},
+        "features": [
+            {"id": "F001", "kind": "revolve", "outer": [{"z": "0", "r": "D001"}, {"z": "D002", "r": "D001"}]},
+            {"id": "F002", "kind": "prism", "on": "plane(top)", "op": "cut", "depth": "thru",
+             "profile": {"shape": "slot", "length": "D003", "width": "D004", "angle": "90", "u": "0", "v": "D002 / 2"}},
+            {"id": "F003", "kind": "pattern", "seed": "F002", "mode": "circular", "count": "4", "step": "equal",
+             "axis": axis, "skip": list(skip)}]})
+
+
+def test_circular_prism_pattern_routes_to_the_native_pattern(fake_sw):
+    sw, _ = fake_sw({}, ref=9.0)
+    plan = _pattern_plan()
+    sw.plan = plan
+    res = sw.pattern(plan.feature("F003"))
+    # the fake never built the seed, so the native pattern refuses cleanly (no exception)
+    assert res.status == "failed" and "seed F002 was not built" in res.note
+
+
+@pytest.mark.parametrize("axis, skip", [("axis(F001)", ()), ("axis(part)", (2,))])
+def test_circular_prism_pattern_limits_are_reported(fake_sw, axis, skip):
+    sw, _ = fake_sw({}, ref=9.0)
+    plan = _pattern_plan(axis, skip)
+    sw.plan = plan
+    res = sw.pattern(plan.feature("F003"))
+    assert res.status == "failed" and "axis(part)" in res.note

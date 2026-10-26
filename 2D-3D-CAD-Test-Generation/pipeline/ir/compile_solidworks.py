@@ -209,6 +209,8 @@ class _SW:
         self.doc.SketchManager.AddToDB = True
         self.report = SwBuildReport(plan.part, None, convention="mti" if self.base else "drawing")
         self.flips: dict[str, bool] = {}   # direction each feature was verified with (pattern copies reuse it)
+        self.feat_obj: dict[str, Any] = {}   # SolidWorks feature built for each IR feature (pattern seeds)
+        self._part_axis = None               # reference axis along IR z (circular patterns)
         self.extra_removed = 0.0             # Hole Wizard drill-point cones (drawing units^3)
         self.layout_drawn = ""               # construction geometry under the last Hole Wizard
         self.sketch_status: dict[str, int] = {}   # MTI: every sketch fully defined (3 = fully)
@@ -423,6 +425,7 @@ class _SW:
             if feat is not None and self.check(fid, attempt):
                 res.status, res.sw_volume = "built", self.volume()
                 self.flips[fid] = flip
+                self.feat_obj[fid] = feat
                 return res
             if feat is not None:
                 self.doc.EditUndo2(1)
@@ -455,6 +458,20 @@ class _SW:
         elif p.shape == "circle":
             cx, cy = self.pt(plane, self.in_plane(axis, self.n(p.u) + su, self.n(p.v) + sv))
             sm.CreateCircleByRadius(cx, cy, 0, self.n(p.d) * self.k / 2)
+        elif p.shape == "slot":
+            # Straight slot, as CadQuery's slot2D(length + width, width, angle) centered on
+            # (u, v): arc centers +-length/2 along `angle` (degrees from +u). SolidWorks' own
+            # slot tool, center-to-center (CreateSketchSlot; signature from sldworks.tlb, E026).
+            cu, cv, half = self.n(p.u) + su, self.n(p.v) + sv, self.n(p.length) / 2
+            a = math.radians(self.n(p.angle))
+            ends = [self.pt(plane, self.in_plane(axis, cu + sgn * half * math.cos(a), cv + sgn * half * math.sin(a)))
+                    for sgn in (-1, 1)]
+            (x1, y1), (x2, y2) = ends
+            slot = sm.CreateSketchSlot(SLOT_STRAIGHT, SLOT_CENTER_TO_CENTER, self.n(p.width) * self.k,
+                                       x1, y1, 0, x2, y2, 0, 0, 0, 0, 1, False)
+            if not slot:
+                sm.InsertSketch(True)
+                return SwFeatureResult(f.id, "failed", note="CreateSketchSlot refused the slot")
         elif p.shape == "polygon":
             # A closed outline of lines (L-shaped and stepped plates; A00121E/M, 2026-10-26).
             # Drawn like the revolve profile: no inference, exact endpoints; the volume check
@@ -496,6 +513,7 @@ class _SW:
         from pipeline.solidworks_builder import _reselect_last_sketch
         feat = self.extrude(cut=False, reverse=False, depth=depth, start=0.0, end=END_MID_PLANE)
         if feat is not None and self.check(fid, 1):
+            self.feat_obj[fid] = feat
             self.flips[fid] = False
             self.report.conventions.append(f"{fid}: base sketch on the Top plane, Mid Plane extrude")
             return SwFeatureResult(fid, "built", sw_volume=self.volume(),
@@ -750,12 +768,76 @@ class _SW:
         seed = self.plan.feature(f.seed)
         if isinstance(seed, Prism) and f.mode in ("linear", "grid"):
             return self.prism_pattern(f, seed)
+        if isinstance(seed, Prism) and f.mode == "circular":
+            return self.circular_pattern(f, seed)
         if not isinstance(seed, Hole):
-            return SwFeatureResult(f.id, "failed", note="only hole patterns and linear/grid prism "
-                                                        "patterns are compiled for SolidWorks yet")
+            return SwFeatureResult(f.id, "failed", note="only hole and prism patterns are compiled "
+                                                        "for SolidWorks yet")
         st = self.fmap["starts"][seed.id]
         centers = [h["planned_center"] for h in self.fmap["holes"].get(f.id, [])]
         return self.holes(f.id, centers, seed.spec, st["axis"], st["coord"], st["dir"])
+
+    def part_axis(self):
+        """A reference axis along IR z through the IR origin (the turning axis of an
+        axis_end part): the intersection of the two base planes that contain it. Made once."""
+        from pipeline.solidworks_builder import _g, select_ref_plane, typed
+        if self._part_axis is not None:
+            return self._part_axis
+        z = self.pm.ir_basis[2]
+        planes = [name for name, (_, _, n) in self.pm.planes.items() if abs(_dot(n, z)) < 1e-9]
+        if len(planes) != 2 or any(abs(c) > 1e-9 for c in self.local((0.0, 0.0, 0.0))[:2]):
+            return None   # the IR axis must pass through the model origin
+        self.doc.ClearSelection2(True)
+        if not (select_ref_plane(self.doc, planes[0]) and select_ref_plane(self.doc, planes[1], append=True)):
+            return None
+        if not self.doc.InsertAxis2(True):
+            return None
+        feat = typed(self.doc.FeatureByPositionReverse(0), "IFeature")
+        if feat.GetTypeName2() != "RefAxis":
+            return None
+        self._part_axis = feat
+        self.doc.ClearSelection2(True)
+        return feat
+
+    def circular_pattern(self, f: Pattern, seed: Prism) -> SwFeatureResult:
+        """A circular pattern of a prism seed (radial slots and pockets) as ONE native
+        SolidWorks circular pattern about the part axis, as MTI models them (SB14306:
+        CirPattern). FeatureCircularPattern5, signature from sldworks.tlb (E026). Verified
+        against the reference volume, tried both directions."""
+        from pipeline.solidworks_builder import typed
+        res = SwFeatureResult(f.id, "failed", ref_volume=self.fmap.get("volume_after", {}).get(f.id))
+        if f.axis.replace(" ", "") != "axis(part)" or f.skip:
+            res.note = "circular prism patterns are compiled about axis(part), with no skipped instances"
+            return res
+        if f.seed not in self.feat_obj:
+            res.note = f"seed {f.seed} was not built"
+            return res
+        axis = self.part_axis()
+        if axis is None:
+            res.note = "could not make a reference axis along the part axis"
+            return res
+        count = int(round(self.n(f.count)))
+        equal = f.step == "equal"
+        spacing = 2 * math.pi if equal else math.radians(self.n(f.step))
+        seed_feat = typed(self.feat_obj[f.seed], "IFeature")
+        for attempt, flip in enumerate((False, True), start=1):
+            self.doc.ClearSelection2(True)
+            axis.Select2(False, 1)            # mark 1: pattern axis
+            seed_feat.Select2(True, 4)        # mark 4: features to pattern
+            feat = self.doc.FeatureManager.FeatureCircularPattern5(
+                count, spacing, flip, "", False, equal, False, False, False, False, 1, 0.0, "", False)
+            res.attempts = attempt
+            if feat is not None and self.check(f.id, attempt):
+                res.status, res.sw_volume = "built", self.volume()
+                res.note = f"native circular pattern, {count} instances"
+                self.feat_obj[f.id] = feat
+                return res
+            if feat is not None:
+                self.doc.EditUndo2(1)
+        res.status = "mismatch" if res.attempts else "failed"
+        res.sw_volume = self.volume()
+        res.note = "circular pattern did not match the reference volume"
+        return res
 
     def prism_pattern(self, f: Pattern, seed: Prism) -> SwFeatureResult:
         """Linear/grid copies of a prism seed: replayed shifted, then verified as a whole."""
@@ -952,6 +1034,7 @@ def hole_wizard_choice(spec, dims: dict[str, float], units: str) -> Optional[dic
             "label": f"Hole Wizard {best.size} {'SHCS counterbore' if kind == 'cbore' else 'clearance'}"}
 
 
+SLOT_STRAIGHT, SLOT_CENTER_TO_CENTER = 0, 0   # swSketchSlotCreationType_line, swSketchSlotLengthType_CenterCenter
 BAD_SKETCH_STATUS = (4, 5, 6)   # swConstrainedStatus_e: over-constrained, no / invalid solution
 FULLY_CONSTRAINED = 3           # swConstrainedStatus_e
 # FullyDefineSketch (signature from sldworks.tlb; verified live 2026-10-12, E023): all entities,

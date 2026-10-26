@@ -1,7 +1,7 @@
 {
   "part": "A00155E",
-  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00155E\\A00155E_extraction.json",
-  "plan_attempts": 1,
+  "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00155E\\A00155E_extraction.json",
+  "plan_attempts": 0,
   "gate1": "OK",
   "planned": 5,
   "questions": [
@@ -18,23 +18,23 @@
     "F006": "unresolved: Confirm the 19.25 value or its extension-line origins: the indicated left-tip spacing makes the right slot touch the plate edge, contradicting the enclosed slot shown.",
     "F007": "unresolved: Upper-right short-slot position depends on resolution of the conflicting horizontal dimension for F006."
   },
-  "sw_ok": false,
-  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00155E\\155-C_ir.sldprt",
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00155E\\155-C_ir.SLDPRT",
   "sw_features": {
     "F001": "built (Mid Plane)",
-    "F002": "failed (profile slot not compiled for SolidWorks yet)",
-    "F003": "failed (copy 1,0 failed)",
-    "F004": "failed (profile slot not compiled for SolidWorks yet)",
-    "F005": "failed (copy 1,0 failed)",
+    "F002": "built (Up To Next)",
+    "F003": "built (prism copies)",
+    "F004": "built (Up To Next)",
+    "F005": "built (prism copies)",
     "F006": "skipped (unresolved: Confirm the 19.25 value or its extension-line origins: the indicated left-tip spacing makes the right slot touch the plate edge, contradicting the enclosed slot shown.)",
     "F007": "skipped (unresolved: Upper-right short-slot position depends on resolution of the conflicting horizontal dimension for F006.)"
   },
   "conventions": [
     "origin centered: True",
     "F001: base sketch on the Top plane, Mid Plane extrude",
-    "sketches fully defined: 1/1"
+    "sketches fully defined: 5/5"
   ],
   "mti_review": [],
-  "cost_usd": 0.952,
+  "cost_usd": 0.0,
   "error": ""
 }
