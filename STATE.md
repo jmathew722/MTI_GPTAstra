@@ -1,8 +1,44 @@
 # STATE.md — where mti-2d-3d stands
 
-**Last updated:** 2026-10-24 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
+**Last updated:** 2026-10-25 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-10-25: Benchmark scorer + stage blame built (sub-project 2 of 3).** `python -m bench.score
+> <run_dir>` (spec [2026-10-24-benchmark-scorer-design](docs/superpowers/specs/2026-10-24-benchmark-scorer-design.md))
+> exports the SolidWorks part to STEP, reads its features and scores it 0-100 against the signed key,
+> with the drawing as ground truth. How it works:
+> - **Matching:** best of 24 orientations; the shift is bounded by the envelope difference, so a uniformly
+>   shifted hole set is an error; Hungarian matching.
+> - **Credit:** full within tolerance, 0.5 just past it, then decay.
+> - **Weights:** tier x size. Base body 10; thru holes 5; bores, turned diameters and planar features 3;
+>   small holes 2; edges 1.
+> - **Penalties:** extras cost half their weight. Drawing-wins overrides apply.
+> - **Blame:** every lost point goes to ground_truth / unsupported / extraction / **unresolved** (planner
+>   left it unbuilt as uncertain) / planner / cadquery / solidworks.
+> - **Report:** `scores.json` + `report.html`; each part also lists what the pipeline left unbuilt as uncertain.
+>
+> Tests, all $0:
+> - 978 tests; all 19 real parts score exactly 100 against their own model, under rotation and translation.
+> - Planted errors (moved / filled / extra holes, cbore→plain, mirror) cost exactly what the curve predicts.
+> - 2 strict xfails: keygen reads A050071E / A050061E differently upside down; fixing it needs a re-key.
+>
+> Calibrated with the user (`python -m bench.calibrate`):
+> - A hole 5x out of tolerance costs about 1.5-3 points; a missing hole about 3-7.
+> - One body extent 3x off costs about 6-16 points.
+>
+> Trial run on the 4 golden parts (SW 2025 parts, $0):
+> - A040911E, A040921E and SB11033 score 100; SB11780 scores 81.6 (the planner ran its flats the full bar
+>   length, 78.64 vs 73.093 in).
+> - SolidWorks reproduced every plan exactly.
+> - Lesson: golden plans skip features marked unresolved, so they are not complete answer keys. The A040921E
+>   and SB11033 keys had to be corrected against the drawings.
+>
+> Keys: A050481E (inner step 0.098), A050031E (.500-13) and A050031M (M12) now carry drawing-wins value
+> overrides; `bench.prep link` recorded drawing values + tolerances on all 19.
+>
+> Next: spec 2b (MTI best-practices sub-score), then sub-project 3 (paid official run on the 15 held-out
+> parts). Branch `feat/mti-benchmark`, local only.
+>
 > **2026-10-24: Benchmark dataset built (sub-project 1 of 3).** MTI's 2026-10-11 delivery of
 > 150 legacy DWGs and 26 models gave 21 drawing-model pairs. `bench/` (spec
 > [2026-10-23-benchmark-dataset-design](docs/superpowers/specs/2026-10-23-benchmark-dataset-design.md))
