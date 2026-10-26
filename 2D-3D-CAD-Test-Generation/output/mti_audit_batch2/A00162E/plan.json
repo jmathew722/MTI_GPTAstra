@@ -1,0 +1,144 @@
+{
+  "dims": {
+    "D001": 6.0,
+    "D002": 0.5,
+    "D003": 5.0,
+    "D004": 2.5,
+    "D005": 0.406,
+    "D006": 0.01,
+    "D007": 1.75,
+    "D008": 3.5,
+    "D009": 3.0,
+    "D010": 1.09,
+    "D011": 2.5,
+    "D012": 0.5,
+    "D013": 0.5,
+    "D014": 2.5,
+    "D015": 1.75,
+    "D016": 5.5,
+    "D017": 3.0
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "162-B",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "top": "+Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular plate using the explicit overall dimensions, with thickness along +Z.",
+        "source_callouts": [
+          "6.00",
+          ".50 (STOCK TOL.)",
+          "3.50 (STOCK TOL.)"
+        ],
+        "status": "planned",
+        "justification": "Use the explicit front-view 3.50 overall height (D008), not the conflicting .50 X 2.50 material-stock designation (D011). The nominal geometry is dimension-driven; the stock discrepancy requires confirmation before manufacture.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D008",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D002",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Central through bore on the common horizontal hole centerline.",
+        "source_callouts": [
+          "1.090 \u03c6 B",
+          "3.00",
+          "1.75"
+        ],
+        "status": "planned",
+        "justification": "Through extent follows the hole-wall lines spanning the full thickness in the upper edge view; no blind depth is indicated. The vertical position is measured down from the top edge.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D009",
+        "v": "D008 - D007",
+        "spec": {
+          "type": "thru",
+          "d": "D010",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Left small through hole located by the basic spacing from the central bore.",
+        "source_callouts": [
+          ".406 \u03c6 B",
+          "2 HOLES",
+          "2.500 BSC",
+          "1.75",
+          "\u2316 .010 \u03c6"
+        ],
+        "status": "planned",
+        "justification": "Through extent follows the edge-view hole-wall depiction across the stock thickness. The left-hole X coordinate is the central-hole edge offset minus the printed basic spacing.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D009 - D004",
+        "v": "D008 - D007",
+        "spec": {
+          "type": "thru",
+          "d": "D005",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F004",
+        "rationale": "Repeat the small hole at the printed basic center spacing along +X.",
+        "source_callouts": [
+          ".406 \u03c6 B",
+          "2 HOLES",
+          "5.000 BSC",
+          "\u2316 .010 \u03c6"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F003",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D003",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      }
+    ],
+    "notes": [
+      "Manufacturing hold: confirm the explicit 3.50 overall height and 1.75 top-edge hole offset against the conflicting material-block stock size .50 X 2.50. The plan uses the explicit geometry dimensions, not scaled image proportions.",
+      "Material is transcribed as 1E40 CR STEEL; confirm the internal material designation.",
+      "The referenced 1E421 HOLE TOLERANCE specification is not supplied. Both bore callouts retain suffix B; no datum B or additional bore geometry is inferred.",
+      "D006 specifies the .010-diameter position tolerance zone for the two small holes, not a geometric diameter to cut. The frame shows no datum references.",
+      "Numerical stock tolerances for D002 and D008 are not supplied. These dimensions are modeled at nominal size."
+    ]
+  }
+}

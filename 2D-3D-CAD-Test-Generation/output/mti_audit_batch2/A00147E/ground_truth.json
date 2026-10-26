@@ -1,0 +1,33 @@
+{
+  "model": "A001471E.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 3897293.144,
+  "bbox_mm": [
+    -704.85,
+    -31.7259,
+    -31.7259,
+    704.85,
+    31.7259,
+    31.7259
+  ],
+  "size_mm": [
+    63.4517,
+    63.4517,
+    1409.7
+  ],
+  "center_mm": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Revolve1",
+    "Chamfer1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "Chamfer"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00147E\\ground_truth.step",
+  "part": "A00147E"
+}

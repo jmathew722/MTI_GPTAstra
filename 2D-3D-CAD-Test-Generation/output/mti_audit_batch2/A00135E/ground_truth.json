@@ -1,0 +1,33 @@
+{
+  "model": "A001351E.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 44472.563,
+  "bbox_mm": [
+    -38.1,
+    -12.7,
+    -12.7,
+    38.1,
+    12.7,
+    12.7
+  ],
+  "size_mm": [
+    25.4,
+    25.4,
+    76.2
+  ],
+  "center_mm": [
+    -0.0,
+    -0.0,
+    0.0
+  ],
+  "features": [
+    "Base-Extrude",
+    "CBORE for 5/16 Socket Head Cap Screw1"
+  ],
+  "feature_types": [
+    "Extrusion",
+    "HoleWzd"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00135E\\ground_truth.step",
+  "part": "A00135E"
+}

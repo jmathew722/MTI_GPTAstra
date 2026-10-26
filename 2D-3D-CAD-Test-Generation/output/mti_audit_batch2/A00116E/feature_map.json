@@ -1,0 +1,162 @@
+{
+  "part": "116-C",
+  "units": "inch",
+  "origin_kind": "corner",
+  "bbox": [
+    0.0,
+    0.0,
+    0.0,
+    3.25,
+    2.75,
+    1.5
+  ],
+  "volume": 12.271657,
+  "volume_mm3": 201096.436,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005"
+  ],
+  "skipped": {
+    "F006": "unresolved: What radius is required for the four exterior plan corners? The drawing shows rounds but provides no radius."
+  },
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          0.435,
+          0.435
+        ],
+        "planned_d": 0.4,
+        "measured": true,
+        "center": [
+          0.435,
+          0.435
+        ],
+        "d": 0.4,
+        "depth": 1.5,
+        "axis": "Z"
+      }
+    ],
+    "F003": [
+      {
+        "planned_center": [
+          2.815,
+          0.435
+        ],
+        "planned_d": 0.4,
+        "measured": true,
+        "center": [
+          2.815,
+          0.435
+        ],
+        "d": 0.4,
+        "depth": 1.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          0.435,
+          2.315
+        ],
+        "planned_d": 0.4,
+        "measured": true,
+        "center": [
+          0.435,
+          2.315
+        ],
+        "d": 0.4,
+        "depth": 1.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          2.815,
+          2.315
+        ],
+        "planned_d": 0.4,
+        "measured": true,
+        "center": [
+          2.815,
+          2.315
+        ],
+        "d": 0.4,
+        "depth": 1.5,
+        "axis": "Z"
+      }
+    ],
+    "F004": [
+      {
+        "planned_center": [
+          0.935,
+          1.375
+        ],
+        "planned_d": 0.58,
+        "measured": true,
+        "center": [
+          0.935,
+          1.375
+        ],
+        "d": 0.58,
+        "depth": 0.389,
+        "axis": "Z"
+      }
+    ],
+    "F005": [
+      {
+        "planned_center": [
+          2.315,
+          1.375
+        ],
+        "planned_d": 0.58,
+        "measured": true,
+        "center": [
+          2.315,
+          1.375
+        ],
+        "d": 0.58,
+        "depth": 0.389,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {},
+  "starts": {
+    "F001": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 1.5,
+      "dir": -1
+    },
+    "F004": {
+      "axis": "Z",
+      "coord": 1.5,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 13.40625,
+    "F002": 13.217754441,
+    "F003": 12.652267763,
+    "F004": 12.461962612,
+    "F005": 12.271657461
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      0.0,
+      0.0,
+      0.0,
+      3.25,
+      2.75,
+      1.5
+    ]
+  }
+}

@@ -1,0 +1,426 @@
+{
+  "dims": {
+    "D001": 2.25,
+    "D002": 0.974,
+    "D003": 0.172,
+    "D004": 0.563,
+    "D005": 1.125,
+    "D006": 1.125,
+    "D007": 0.563,
+    "D008": 0.974,
+    "D009": 0.221,
+    "D010": 0.328,
+    "D011": 0.19,
+    "D012": 2.688,
+    "D013": 1.526,
+    "D014": 1.44,
+    "D015": 0.22,
+    "D016": 45.0,
+    "D017": 0.312,
+    "D018": 0.56,
+    "D019": 1.0,
+    "D020": 1.896,
+    "D021": 0.44,
+    "D022": 1.175,
+    "D023": 1.1892,
+    "D024": 1.7493,
+    "D025": 30.0,
+    "D026": 0.09,
+    "D027": 0.03,
+    "D028": 0.03,
+    "D029": 45.0,
+    "D030": 0.155,
+    "D031": 0.005,
+    "D032": 0.01,
+    "D033": 0.02,
+    "D034": 0.005,
+    "D035": 6.0,
+    "D036": 0.187,
+    "D037": 0.0005,
+    "D038": 0.0005,
+    "D039": 1.456,
+    "D040": 1.584,
+    "D041": 1.155,
+    "D042": 0.344,
+    "D043": 0.1254,
+    "D044": 0.11165
+  },
+  "reference_ids": [
+    "D001"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "4C1229",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "-Z",
+        "Section": "axial section; flange front at Z=0, rear end at +Z",
+        "Detail A": "enlarged axial section of annular grooves"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Revolve the hollow stepped bushing with both annular grooves, front bore-entry bevel, flange rear chamfer and rear body bevel.",
+        "source_callouts": [
+          "2.688 \u00d8",
+          ".312",
+          "1.7493 \u00b1.0003 \u00d8",
+          "1.896",
+          "1.1892 \u00b1.0004 \u00d8",
+          "1.1750 \u00b1.0005 \u00d8",
+          ".44",
+          ".22",
+          "45\u00b0",
+          "1.000",
+          "1.526 \u00d8 \u00b1.002",
+          ".155 +.005 -.000",
+          ".56",
+          "1.440 \u00d8 \u00b1.001",
+          ".187 +.005 -.000",
+          "6\u00b0",
+          ".03 X 45\u00b0",
+          ".09",
+          "30\u00b0"
+        ],
+        "status": "planned",
+        "justification": "The section's .56 extension locates the front root-side boundary of the internal groove; Detail A's .187 measures the theoretical root width. Apply the shown 6\u00b0 draft to both mirror-image flanks. Coefficient 0.10510423526567647 is tan(6\u00b0), calculated from printed D035; coefficient 0.5773502691896257 is tan(30\u00b0), calculated from printed D025. These are evaluated trigonometric coefficients, not additional dimensions. The rear .09 gives the axial bevel extent. The printed 45\u00b0 bore and flange bevels have equal radial and axial legs.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D012 / 2"
+          },
+          {
+            "z": "D017 - D028",
+            "r": "D012 / 2"
+          },
+          {
+            "z": "D017",
+            "r": "D012 / 2 - D028"
+          },
+          {
+            "z": "D017",
+            "r": "D024 / 2"
+          },
+          {
+            "z": "D019",
+            "r": "D024 / 2"
+          },
+          {
+            "z": "D019",
+            "r": "D013 / 2"
+          },
+          {
+            "z": "D019 + D030",
+            "r": "D013 / 2"
+          },
+          {
+            "z": "D019 + D030",
+            "r": "D024 / 2"
+          },
+          {
+            "z": "D020 - D026",
+            "r": "D024 / 2"
+          },
+          {
+            "z": "D020",
+            "r": "D024 / 2 - D026 * 0.5773502691896257"
+          }
+        ],
+        "inner": [
+          {
+            "z": "0",
+            "r": "D023 / 2 + D015"
+          },
+          {
+            "z": "D015",
+            "r": "D023 / 2"
+          },
+          {
+            "z": "D018 - (D014 - D023) / 2 * 0.10510423526567647",
+            "r": "D023 / 2"
+          },
+          {
+            "z": "D018",
+            "r": "D014 / 2"
+          },
+          {
+            "z": "D018 + D036",
+            "r": "D014 / 2"
+          },
+          {
+            "z": "D018 + D036 + (D014 - D023) / 2 * 0.10510423526567647",
+            "r": "D023 / 2"
+          },
+          {
+            "z": "D020 - D021",
+            "r": "D023 / 2"
+          },
+          {
+            "z": "D020 - D021",
+            "r": "D022 / 2"
+          },
+          {
+            "z": "D020",
+            "r": "D022 / 2"
+          }
+        ],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Round the concave flange-to-body shoulder.",
+        "source_callouts": [
+          ".030 R"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D027",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D017),wall(F001,D024 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Apply the nominal root radius to both bottom corners of the external groove.",
+        "source_callouts": [
+          ".010 \u00b1.005 R",
+          "DETAIL A"
+        ],
+        "status": "planned",
+        "justification": "Detail A shows matching root corners on the symmetric external groove.",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D032",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D019),wall(F001,D013 / 2))",
+          "edge_between(face(F001,-Z,D019 + D030),wall(F001,D013 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Round both intersections of the internal groove root cylinder and drafted flanks.",
+        "source_callouts": [
+          ".020 R",
+          "DETAIL A"
+        ],
+        "status": "planned",
+        "justification": "The groove root corners are mirror-image. The edge query selects both boundaries between the root cylinder and its adjacent conical walls.",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D033",
+        "angle": "45",
+        "edges": [
+          "edge_between(wall(F001,D014 / 2),wall(F001))"
+        ]
+      },
+      {
+        "id": "F005",
+        "rationale": "Upper through mounting hole, counterbored from the flange front face.",
+        "source_callouts": [
+          ".221 \u00d8 B",
+          ".328 \u00d8 C'BORE .19 DP.",
+          "3 HOLES",
+          "1.125 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "0",
+        "v": "D006",
+        "spec": {
+          "type": "cbore",
+          "d": "D009",
+          "depth": null,
+          "cbore_d": "D010",
+          "cbore_depth": "D011",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Lower-left mounting hole at the dimensioned Cartesian location.",
+        "source_callouts": [
+          ".221 \u00d8 B",
+          ".328 \u00d8 C'BORE .19 DP.",
+          "3 HOLES",
+          ".974 \u00b1.005",
+          ".563 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D008",
+        "v": "-D007",
+        "spec": {
+          "type": "cbore",
+          "d": "D009",
+          "depth": null,
+          "cbore_d": "D010",
+          "cbore_depth": "D011",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Lower-right mounting hole mirrored about the vertical centerline.",
+        "source_callouts": [
+          ".221 \u00d8 B",
+          ".328 \u00d8 C'BORE .19 DP.",
+          "3 HOLES",
+          ".974 \u00b1.005",
+          ".563 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "The front view shows the lower holes mirror-image about the vertical centerline. Preserve printed Cartesian offsets rather than imposing an exact circular pattern.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D008",
+        "v": "-D007",
+        "spec": {
+          "type": "cbore",
+          "d": "D009",
+          "depth": null,
+          "cbore_d": "D010",
+          "cbore_depth": "D011",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Cut the downward-open flange slot with its semicircular closed end at the dimensioned center.",
+        "source_callouts": [
+          ".172 R",
+          "1.125"
+        ],
+        "status": "planned",
+        "justification": "Three matching open slots are visible. Their sides are tangent to the R.172 closed ends. The slot profile uses overall capsule length; the remote end extends outside the flange by D012, and the cut is through.",
+        "kind": "prism",
+        "on": "face(F001,-Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "slot",
+          "length": "D012 + 2 * D003",
+          "width": "2 * D003",
+          "angle": "90",
+          "u": "0",
+          "v": "-D005 - D012 / 2"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F009",
+        "rationale": "Cut the upper-right open slot at its dimensioned center.",
+        "source_callouts": [
+          ".172 R",
+          ".974",
+          ".563"
+        ],
+        "status": "planned",
+        "justification": "The front view shows the three slot directions related by nominal 120\u00b0 rotational symmetry: the upper-right slot points at 30\u00b0. Keep the printed center offsets without polar rounding. Coefficient 0.8660254037844386 is cos(30\u00b0), calculated from this shown symmetric radial layout; sin(30\u00b0)=1/2. D012 extends the remote end past the OD.",
+        "kind": "prism",
+        "on": "face(F001,-Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "slot",
+          "length": "D012 + 2 * D003",
+          "width": "2 * D003",
+          "angle": "30",
+          "u": "D002 + D012 * 0.8660254037844386 / 2",
+          "v": "D004 + D012 / (2 * 2)"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F010",
+        "rationale": "Cut the upper-left open slot as the mirror of the upper-right slot.",
+        "source_callouts": [
+          ".172 R",
+          ".974",
+          ".563"
+        ],
+        "status": "planned",
+        "justification": "The two upper slots are mirror-image about the vertical centerline; their nominal directions are 30\u00b0 and 150\u00b0 in the shown threefold radial layout. Coefficient 0.8660254037844386 is cos(30\u00b0), evaluated from that layout. Preserve the printed Cartesian centers. The remote end extends beyond the flange.",
+        "kind": "prism",
+        "on": "face(F001,-Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "slot",
+          "length": "D012 + 2 * D003",
+          "width": "2 * D003",
+          "angle": "150",
+          "u": "-D002 - D012 * 0.8660254037844386 / 2",
+          "v": "D004 + D012 / (2 * 2)"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F011",
+        "rationale": "What nominal size and chamfer-versus-radius treatment should be used at the external groove lips? The drawing specifies only a maximum.",
+        "source_callouts": [
+          ".005 C/R MAX.",
+          "DETAIL A"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D031",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D019),wall(F001,D024 / 2))",
+          "edge_between(face(F001,-Z,D019 + D030),wall(F001,D024 / 2))"
+        ]
+      },
+      {
+        "id": "F012",
+        "rationale": "What nominal size and chamfer-versus-radius treatment should be used at the internal groove lips? The drawing specifies only a maximum.",
+        "source_callouts": [
+          ".005 C/R MAX.",
+          "DETAIL A"
+        ],
+        "status": "unresolved",
+        "justification": "Unexecuted placeholder. Intended edges are the two bore-to-groove-flank intersections only, excluding the front entry bevel. The operation and size fields do not establish a nominal edge break.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D034",
+        "angle": "45",
+        "edges": [
+          "edge_between(wall(F001,D023 / 2),wall(F001))"
+        ]
+      }
+    ],
+    "notes": [
+      "Material: #18 AMPCO BRONZE; no heat treatment specified.",
+      "Nominal geometry is in inches. Axis X=Y=0; flange front face Z=0.",
+      "The flange rear .03 X 45\u00b0 chamfer is included in the revolved profile before the open slots interrupt it.",
+      "Internal groove root location and width reference theoretical sharp corners before applying root fillets.",
+      "D001, 2.250 \u00d8 REF., is non-controlling. Printed Cartesian positions take precedence over exact circular-pattern centers.",
+      "Counterbored mounting holes have through pilots; their counterbores are blind to D011.",
+      "D039 through D044 are derived extraction values; governing printed dimensions are used directly.",
+      "Datum A is the D023 main bore. Preserve D037 and D038, .0005 TIR to A, as inspection requirements.",
+      "The .221 \u00d8 B designation requires IE 421. F/H texture classes and the 63 texture indication require IE 2122; no numerical interpretation is invented.",
+      "IE 507, IE 11, IE 421 and IE 2122 remain referenced manufacturing requirements. WK\u00b2=.005 is not used as geometry.",
+      "The unresolved C/R MAX treatments remain unapplied until nominal sizes and treatment types are selected."
+    ]
+  }
+}

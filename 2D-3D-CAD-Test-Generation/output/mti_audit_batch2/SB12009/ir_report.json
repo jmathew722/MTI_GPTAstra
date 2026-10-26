@@ -1,0 +1,39 @@
+{
+  "part": "SB12009",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12009\\SB12009_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 2,
+  "questions": [
+    "F003: What full-diameter drilling depth beyond the specified tapped length is required? The drawing does not dimension it.",
+    "F004: What actual shoulder-root radius should be modeled within the .030 maximum?"
+  ],
+  "flagged": [
+    "F001: Origin is the left spigot end. The .250 dimension locates the groove center from the main-body shoulder; .062 CENT. places the groove-bottom boundaries symmetrically about that center. Both flanks are the indicated 30\u00b0 TYP. The numerical coefficients 0.5773502691896258 and 1.7320508075688772 are tan(30\u00b0) and cot(30\u00b0), respectively, derived from the printed D008 and D009 angles, not independent dimensions. The .094 dimension is the axial lead-in length. Nominal diameters are modeled; the MAX shoulder blend is deferred separately.",
+    "F002: A #10-32 UNF thread (D012 nominal major diameter) conventionally uses a #21 drill, diameter .159 inch, from the Unified thread tap-drill chart. Crossed centerlines establish the hole at the part axis. D013 specifies the tapped length only: this feature represents that guaranteed threaded envelope with a flat bottom, not an inferred extra drilling depth or drill point. No thread fit class is assumed."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12009\\reference.step",
+  "volume": 9.393085,
+  "cq_skipped": {
+    "F003": "unresolved: What full-diameter drilling depth beyond the specified tapped length is required? The drawing does not dimension it.",
+    "F004": "unresolved: What actual shoulder-root radius should be modeled within the .030 maximum?"
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12009\\SB-12009_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s))",
+    "F003": "skipped (unresolved: What full-diameter drilling depth beyond the specified tapped length is required? The drawing does not dimension it.)",
+    "F004": "skipped (unresolved: What actual shoulder-root radius should be modeled within the .030 maximum?)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F002: Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s)",
+    "sketches fully defined: 1/2 (not: F002)"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F002: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole"
+  ],
+  "cost_usd": 0.5844,
+  "error": ""
+}

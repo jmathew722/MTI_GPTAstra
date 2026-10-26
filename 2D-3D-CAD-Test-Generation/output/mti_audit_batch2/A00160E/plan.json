@@ -1,0 +1,196 @@
+{
+  "dims": {
+    "D001": 22.0,
+    "D002": 0.75,
+    "D003": 0.188,
+    "D004": 2.0,
+    "D005": 4.5,
+    "D006": 9.0,
+    "D007": 13.5,
+    "D008": 18.0,
+    "D009": 0.44,
+    "D010": 0.281,
+    "D011": 0.31,
+    "D012": 2.0,
+    "D013": 6.5,
+    "D014": 11.0,
+    "D015": 15.5,
+    "D016": 20.0
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "160-B",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular spacer blank with length along X, width along Y, and thickness along Z.",
+        "source_callouts": [
+          "22.00",
+          ".75",
+          ".188"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D002",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D003",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "First through hole, located from the left edge and .440 below the top edge.",
+        "source_callouts": [
+          ".281 DR. THRU",
+          "5-HOLES",
+          "2.00",
+          ".440"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004",
+        "v": "D002 - D009",
+        "spec": {
+          "type": "thru",
+          "d": "D010",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Second through hole located by its baseline dimension from the first hole.",
+        "source_callouts": [
+          ".281 DR. THRU",
+          "5-HOLES",
+          "4.500 \u00b1.005",
+          ".440"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004 + D005",
+        "v": "D002 - D009",
+        "spec": {
+          "type": "thru",
+          "d": "D010",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F004",
+        "rationale": "Third through hole located independently from the first-hole baseline.",
+        "source_callouts": [
+          ".281 DR. THRU",
+          "5-HOLES",
+          "9.000 \u00b1.005",
+          ".440"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004 + D006",
+        "v": "D002 - D009",
+        "spec": {
+          "type": "thru",
+          "d": "D010",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Fourth through hole located independently from the first-hole baseline.",
+        "source_callouts": [
+          ".281 DR. THRU",
+          "5-HOLES",
+          "13.500 \u00b1.005",
+          ".440"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004 + D007",
+        "v": "D002 - D009",
+        "spec": {
+          "type": "thru",
+          "d": "D010",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Fifth through hole located independently from the first-hole baseline.",
+        "source_callouts": [
+          ".281 DR. THRU",
+          "5-HOLES",
+          "18.000 \u00b1.005",
+          ".440"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004 + D008",
+        "v": "D002 - D009",
+        "spec": {
+          "type": "thru",
+          "d": "D010",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      }
+    ],
+    "notes": [
+      "Material: 1018 STL.",
+      "Origin is the lower-left corner of the broad front face; the blank extends in positive X, Y, and Z.",
+      "Hole row is .440 below the top edge, not centered across the .75 width.",
+      "Separate hole features preserve the four independently toleranced baseline dimensions; do not treat them as cumulatively toleranced pitches.",
+      "General tolerances: two-place dimensions \u00b1.02 inch; three-place dimensions \u00b1.010 inch unless explicitly overridden. Baseline hole distances D005\u2013D008 each have \u00b1.005 inch tolerance."
+    ]
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "dims": {
+    "D001": 36.0,
+    "D002": 5.38,
+    "D003": 1.5,
+    "D004": 0.875,
+    "D005": 1.25,
+    "D006": 0.78,
+    "D007": 2.25,
+    "D008": 6.0,
+    "D009": 12.0,
+    "D010": 18.0,
+    "D011": 24.0,
+    "D012": 30.0,
+    "D013": 4.375,
+    "D014": 2.5,
+    "D015": 1.5,
+    "D016": 0.125,
+    "D017": 0.01,
+    "D018": 0.001,
+    "D019": 0.001,
+    "D020": 1.005,
+    "D021": 3.75,
+    "D022": 0.72
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "143-C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Continuous rectangular way plate; view breaks and H markings are not geometric discontinuities.",
+        "source_callouts": [
+          "36.00",
+          "5.38",
+          "1.500 \u00b1.001"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D002",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D003",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Seed counterbored through hole enters the front face opposite datum A; unspecified hole depth denotes through.",
+        "source_callouts": [
+          ".875 \u00d8 THRU.",
+          "1.250 \u00d8 CBORE .78 DEEP",
+          "6 HOLES",
+          "2.25 APRX.",
+          "FIT AT ASSY.",
+          "4.375"
+        ],
+        "status": "planned",
+        "justification": "D007 is the printed approximate nominal X location, subject to final assembly fit. The end view establishes counterbore entry opposite datum A.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D007",
+        "v": "D013",
+        "spec": {
+          "type": "cbore",
+          "d": "D004",
+          "depth": null,
+          "cbore_d": "D005",
+          "cbore_depth": "D006",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Six complete counterbored holes at uniform D008 basic pitch; D009 through D012 confirm the cumulative offsets.",
+        "source_callouts": [
+          "6 HOLES",
+          "6.000 BSC.",
+          "12.000 BSC.",
+          "18.000 BSC.",
+          "24.000 BSC.",
+          "30.000 BSC."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "6",
+        "pitch": "D008",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      }
+    ],
+    "notes": [
+      "Datum A is the +Z broad face; counterbores enter from Z=0. All hole X coordinates inherit the approximate D007 assembly-fit offset.",
+      "Hardening is manufacturing metadata, not geometry: HRD. 3 SURFACES MARKED 'H' R/C 58 MIN. .125 MIN. DEPTH. D014 and D015 define hardened band heights on the front and datum-A faces respectively; the bottom face is the third hardened surface. D016 is minimum hardened depth.",
+      "Surface texture 16 applies to both broad faces and the bottom face.",
+      "D017 is the hole-position tolerance zone diameter, not a hole size. No datum reference is printed in this frame; clarify inspection interpretation without inventing one.",
+      "D018 controls broad-face parallelism to datum A and D019 bottom-face perpendicularity to datum A; neither changes nominal geometry.",
+      "Material: MFRS STD STEEL. No fillets, chamfers or threads are specified."
+    ]
+  }
+}

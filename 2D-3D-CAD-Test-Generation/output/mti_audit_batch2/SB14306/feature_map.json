@@ -1,0 +1,173 @@
+{
+  "part": "SB 14306 \u2014 COLLET (SPECIAL)",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -10.750173,
+    -10.750173,
+    -0.0,
+    10.750173,
+    10.750173,
+    8.0
+  ],
+  "volume": 748.360133,
+  "volume_mm3": 12263425.392,
+  "features": [
+    "F001",
+    "F002",
+    "F004",
+    "F006",
+    "F007",
+    "F008",
+    "F009",
+    "F018",
+    "F019",
+    "F020",
+    "F021",
+    "F022",
+    "F023",
+    "F024",
+    "F025",
+    "F026",
+    "F027",
+    "F029",
+    "F030"
+  ],
+  "skipped": {
+    "F003": "failed: CompileError: F003: edge_between(face(F001,-Z,0.0),wall(F001,10.750354839)) matched no edges",
+    "F005": "unresolved: Confirm the other starred .375 blend's exact transition geometry: a simple fillet cannot fit the nominal .250 radial shoulder between the 18.625 and 18.125 bores.",
+    "F010": "failed: KeyError: 'depth'",
+    "F011": "failed: CompileError: ref to F010, which has no geometry (not built or skipped)",
+    "F012": "failed: KeyError: 'depth'",
+    "F013": "failed: CompileError: ref to F012, which has no geometry (not built or skipped)",
+    "F014": "failed: KeyError: 'depth'",
+    "F015": "failed: CompileError: ref to F014, which has no geometry (not built or skipped)",
+    "F016": "failed: KeyError: 'depth'",
+    "F017": "failed: CompileError: ref to F016, which has no geometry (not built or skipped)",
+    "F028": "unresolved: What edge-break size and treatment should implement the general sharp-corner instruction?"
+  },
+  "holes": {},
+  "edge_points": {
+    "F002": [
+      [
+        -9.75,
+        0.0,
+        3.38
+      ],
+      [
+        -9.75,
+        0.0,
+        4.38
+      ]
+    ],
+    "F004": [
+      [
+        -9.0625,
+        0.0,
+        6.5
+      ]
+    ]
+  },
+  "starts": {
+    "F006": {
+      "axis": "Z",
+      "coord": 8.0,
+      "dir": -1,
+      "thru": false
+    },
+    "F008": {
+      "axis": "Y",
+      "coord": 9.5625,
+      "dir": 1,
+      "thru": false
+    },
+    "F010": {
+      "axis": "Z",
+      "coord": 8.0,
+      "dir": -1
+    },
+    "F012": {
+      "axis": "Z",
+      "coord": 8.0,
+      "dir": -1
+    },
+    "F014": {
+      "axis": "Z",
+      "coord": 8.0,
+      "dir": -1
+    },
+    "F016": {
+      "axis": "Z",
+      "coord": 8.0,
+      "dir": -1
+    },
+    "F018": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": true
+    },
+    "F020": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": true
+    },
+    "F022": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": true
+    },
+    "F024": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": true
+    },
+    "F026": {
+      "axis": "Y",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F029": {
+      "axis": "Y",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    }
+  },
+  "volume_after": {
+    "F001": 814.19831868,
+    "F002": 814.577985554,
+    "F004": 816.280501115,
+    "F006": 810.487646898,
+    "F007": 793.10908425,
+    "F008": 791.740304902,
+    "F009": 787.639134458,
+    "F018": 787.093131093,
+    "F019": 774.533033971,
+    "F020": 774.477732347,
+    "F021": 773.20469987,
+    "F022": 773.201396802,
+    "F023": 773.12436774,
+    "F024": 773.121065682,
+    "F025": 773.04472726,
+    "F026": 772.60816506,
+    "F027": 760.671215137,
+    "F029": 760.157524464,
+    "F030": 748.360132844
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -10.750354839,
+      -10.750354839,
+      0.0,
+      10.750354839,
+      10.750354839,
+      8.0
+    ]
+  }
+}

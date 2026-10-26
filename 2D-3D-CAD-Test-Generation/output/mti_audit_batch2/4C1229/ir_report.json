@@ -1,0 +1,36 @@
+{
+  "part": "4C1229",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\4C1229\\4C1229_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 10,
+  "questions": [
+    "F011: What nominal size and chamfer-versus-radius treatment should be used at the external groove lips? The drawing specifies only a maximum.",
+    "F012: What nominal size and chamfer-versus-radius treatment should be used at the internal groove lips? The drawing specifies only a maximum."
+  ],
+  "flagged": [
+    "F001: The section's .56 extension locates the front root-side boundary of the internal groove; Detail A's .187 measures the theoretical root width. Apply the shown 6\u00b0 draft to both mirror-image flanks. Coefficient 0.10510423526567647 is tan(6\u00b0), calculated from printed D035; coefficient 0.5773502691896257 is tan(30\u00b0), calculated from printed D025. These are evaluated trigonometric coefficients, not additional dimensions. The rear .09 gives the axial bevel extent. The printed 45\u00b0 bore and flange bevels have equal radial and axial legs.",
+    "F003: Detail A shows matching root corners on the symmetric external groove.",
+    "F004: The groove root corners are mirror-image. The edge query selects both boundaries between the root cylinder and its adjacent conical walls.",
+    "F007: The front view shows the lower holes mirror-image about the vertical centerline. Preserve printed Cartesian offsets rather than imposing an exact circular pattern.",
+    "F008: Three matching open slots are visible. Their sides are tangent to the R.172 closed ends. The slot profile uses overall capsule length; the remote end extends outside the flange by D012, and the cut is through.",
+    "F009: The front view shows the three slot directions related by nominal 120\u00b0 rotational symmetry: the upper-right slot points at 30\u00b0. Keep the printed center offsets without polar rounding. Coefficient 0.8660254037844386 is cos(30\u00b0), calculated from this shown symmetric radial layout; sin(30\u00b0)=1/2. D012 extends the remote end past the OD.",
+    "F010: The two upper slots are mirror-image about the vertical centerline; their nominal directions are 30\u00b0 and 150\u00b0 in the shown threefold radial layout. Coefficient 0.8660254037844386 is cos(30\u00b0), evaluated from that layout. Preserve the printed Cartesian centers. The remote end extends beyond the flange."
+  ],
+  "reference_step": "",
+  "volume": null,
+  "cq_skipped": {},
+  "sw_ok": null,
+  "sldprt": "",
+  "sw_features": {},
+  "conventions": [],
+  "mti_review": [
+    "[mti_hole_wizard] F005: \u00d80.221 = STANDARD-DERIVED: clearance (normal) for #10 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.328 DIFFERS from the standard counterbore",
+    "[mti_hole_wizard] F006: \u00d80.221 = STANDARD-DERIVED: clearance (normal) for #10 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.328 DIFFERS from the standard counterbore",
+    "[mti_hole_wizard] F007: \u00d80.221 = STANDARD-DERIVED: clearance (normal) for #10 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d80.328 DIFFERS from the standard counterbore",
+    "[mti_hole_grouping] F005, F006, F007: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+    "[mti_edge_ops_last] F005 (hole) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 1.5618,
+  "error": "RuntimeError: CadQuery script failed:\nTraceback (most recent call last):\n  File \"C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\4C1229\\reference_script.py\", line 21, in <module>\n    fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)\n  File \"C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d-feat\\2D-3D-CAD-Test-Generation\\pipeline\\ir\\cq_runtime.py\", line 406, in finish"
+}

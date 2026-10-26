@@ -1,0 +1,230 @@
+{
+  "dims": {
+    "D001": 21.0,
+    "D002": 7.5,
+    "D003": 6.0,
+    "D004": 0.515,
+    "D005": 3.63,
+    "D006": 0.515,
+    "D007": 0.75,
+    "D008": 1.0,
+    "D009": 19.25,
+    "D010": 0.187,
+    "D011": 4.0,
+    "D012": 1.0,
+    "D013": 6.0,
+    "D014": 0.5,
+    "D015": 0.2575,
+    "D016": 0.2575,
+    "D017": 4.145,
+    "D018": 0.485,
+    "D019": 1.25,
+    "D020": 20.5,
+    "D021": 5.0,
+    "D022": 1.0,
+    "D023": 13.5,
+    "D024": 7.5,
+    "D025": 1.187,
+    "D026": 4.817,
+    "D027": 3.002
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "155-C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular support plate; origin at the lower-left front corner.",
+        "source_callouts": [
+          "21.00",
+          "6.00",
+          ".50"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D013",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D014",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Lower-left horizontal obround, located by its left tip and row centerline.",
+        "source_callouts": [
+          ".75",
+          "1.00 TYP. (4)",
+          ".515 CENT. (4)",
+          "1.00",
+          "R. TYP."
+        ],
+        "status": "planned",
+        "justification": "The front view shows semicircular slot ends, fixing the radius at D006/2. The slots are interpreted as through openings from the plate views; no blind depth is indicated. D008 is the overall tip-to-tip length.",
+        "kind": "prism",
+        "on": "face(F001,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "slot",
+          "length": "D008",
+          "width": "D006",
+          "angle": "0",
+          "u": "D007 + D008 / 2",
+          "v": "D012"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F003",
+        "rationale": "Repeat the left short slot at the dimensioned upper row.",
+        "source_callouts": [
+          "4.000 \u00b1.005",
+          ".515 CENT. (4)",
+          "1.00 TYP. (4)"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "D011",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Left vertical obround; retain the dimension-derived vertical center rather than forcing plate symmetry.",
+        "source_callouts": [
+          "7.50",
+          ".515 CENT. (2)",
+          "3.63",
+          ".187",
+          "1.00",
+          "R. TYP."
+        ],
+        "status": "planned",
+        "justification": "The 3.63 dimension spans the end-arc centers, so overall length is D005 + D004. The lower end center is D010 above the lower short-slot row. Semicircular ends shown fix the radius at D004/2. The plate views indicate a through slot with no blind depth specified.",
+        "kind": "prism",
+        "on": "face(F001,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "slot",
+          "length": "D005 + D004",
+          "width": "D004",
+          "angle": "90",
+          "u": "D002",
+          "v": "D012 + D010 + D005 / 2"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F005",
+        "rationale": "Second long slot at the specified horizontal center spacing.",
+        "source_callouts": [
+          "6.000",
+          ".515 CENT. (2)"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F004",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D003",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F006",
+        "rationale": "Confirm the 19.25 value or its extension-line origins: the indicated left-tip spacing makes the right slot touch the plate edge, contradicting the enclosed slot shown.",
+        "source_callouts": [
+          "19.25",
+          ".75",
+          "21.00",
+          "1.00 TYP. (4)",
+          ".515 CENT. (4)",
+          "R. TYP."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "prism",
+        "on": "face(F001,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "slot",
+          "length": "D008",
+          "width": "D006",
+          "angle": "0",
+          "u": "D007 + D008 / 2 + D009",
+          "v": "D012"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F007",
+        "rationale": "Upper-right short-slot position depends on resolution of the conflicting horizontal dimension for F006.",
+        "source_callouts": [
+          "19.25",
+          "4.000 \u00b1.005",
+          "1.00 TYP. (4)",
+          ".515 CENT. (4)"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F006",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "D011",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      }
+    ],
+    "notes": [
+      "Material: 1018 STL. Drawing title: PLATE - BRKT. SUPPORT.",
+      "F006 and F007 are withheld pending clarification; their expressions document the conflicting literal location, not approved geometry. Do not execute these unresolved features or manufacture from the partial model.",
+      "The 19.25 dimension visibly runs between short-slot left-tip extension lines. Do not silently replace it with symmetric spacing or reinterpret it as an ordinate from the plate edge.",
+      "All planned slot cuts use thru depth. The unresolved right slots would produce tangent, zero-thickness geometry under the literal dimensions; overshooting their profiles would not resolve the dimensional conflict.",
+      "R. TYP. refers to the depicted semicircular slot ends, incorporated in the obround profiles, not additional edge fillets.",
+      "General tolerances: two-place dimensions \u00b1.02 inch; three-place dimensions \u00b1.010 inch, except the explicit 4.000 \u00b1.005 row spacing."
+    ]
+  }
+}

@@ -89,3 +89,56 @@ MTI's Google Drive audit holds **63 parts that have both a drawing and MTI's own
 5. **Score feature trees as well as shape.** MTI's trees are available now (Hole Wizard counts, fillet and chamfer placement).
 
 **Questions for MTI:** SB12050 (2.12" drawing vs 3.5" model); conflicting bevel callouts on SB12050 and SB12095.
+
+---
+
+## 7. Batch 2 (same day): 21 more parts, cap raised to $40
+
+**Spend:** $19.81. The ledger went from $19.35 to **$39.16 of $40**. The guard stopped the run at SB12011 after its extraction, which is saved. Not run: SB12011's plan, SB12051, SB12053, SB12054, SB12055, SB12059 and SB12108.
+**Results:** `output/mti_audit_batch2/`.
+
+**18 of the 21 that ran build and verify in SolidWorks.** Against MTI's own models:
+
+| Part | IoU | Notes |
+|---|---|---|
+| A00147E, A00160E, A00162E | **1.000** | |
+| A00127E, SB12007, SB12008, SB12010 | 0.999–1.000 | |
+| A00144E, A00134E, A00143E, A00116E, A00135E | 0.992–0.998 | |
+| 2N2664 | 0.988 | 18 features; edge-break questions |
+| A00122E | 0.987 | 19 features; three Hole Wizard clearance sizes plus #8-32 taps |
+| A00155E | 0.984 | CadQuery reference correct; **SolidWorks failed (slots)** |
+| A00129E | 0.979 | open question: 1/4 **LOW HEAD** counterbore depth |
+| SB14306 | 0.740 | **SolidWorks failed**: slots, circular prism patterns, 5 cut mismatches |
+| A00161E | 0.291 | volume and size match (1.001); probably scorer alignment on a thin-walled channel, to check |
+| SB11488 | 0.000 | real miss: 332 mm vs 309 mm, volume +26% (a sheet from a set; placement questions) |
+| SB12009 | 0.000 | **MTI's model doesn't match the drawing**: the drawing says 3.343" (checked), the model is 4.25" |
+| 4C1229 | — | CadQuery reference failed at `finish` |
+
+**Combined (31 parts run):**
+
+- **28 build and verify.**
+- **Against MTI's models, 23 of 28 scored are at IoU ≥ 0.979.** Two of the misses are drawing-versus-model mismatches (SB12050, SB12009); MTI should check those, not the pipeline.
+
+**Findings:**
+
+1. **Origin convention depends on the series, not the part type.** A-Series turned parts (A00129E, A00147E, A00173E) are centered, like the plates. SB-Series turned parts have the origin at an end face. MTI's written practice says centered, so the compiler stays centered. *(A change to end-face origin for all turned parts was made and reverted the same day.)* Question for MTI: should the SB models be re-originated, or do they want end-face origins for SB parts?
+2. **Compiler gaps (free to fix):**
+   - slot profiles (A00155E, SB14306);
+   - circular patterns of prisms (SB14306);
+   - SB14306's cut mismatches;
+   - 4C1229's reference failure.
+3. **Recurring SB drawing questions:**
+   - the 30° bevel vs tip-diameter conflict (SB12050, SB12095, SB12010);
+   - ".030 R MAX" with no nominal radius;
+   - drill depth beyond the tapped length.
+   
+   One answer from MTI would settle most SB parts.
+
+**Next:**
+
+- Fix slots and circular prism patterns, then rebuild A00155E and SB14306 from their saved plans ($0).
+- Debug 4C1229.
+- Check A00161E's alignment.
+- Budget for the remaining parts:
+  - **≈ $6:** 7 PDF parts left plus SB12011's plan.
+  - **≈ $25 more** for the 24 DWG parts, which first need converting to PDF.

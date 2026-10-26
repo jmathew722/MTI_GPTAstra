@@ -1,0 +1,80 @@
+{
+  "part": "SB11488",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB11488\\SB11488_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 15,
+  "questions": [
+    "F014: Confirm whether the first blind tapped hole is located at (-1.625,+5.000).",
+    "F015: Where is the second blind tapped hole, and does the 6.000 ordinate locate it?",
+    "F018: Confirm flank-start X coordinate and axial extent, including whether apparent alignment with the right mounting column is controlling.",
+    "F019: Confirm the central meridian: .250 and .83 attachments, taper angles, intermediate arc diameter, and opening face.",
+    "F020: Confirm the .50 R reading and the central-profile surfaces it joins."
+  ],
+  "flagged": [
+    "F010: 0.201 inch is the standard No. 7 tap drill for the D001 nominal 1/4-20 thread. The square is centered on both drawing centerlines. Null depth denotes a through hole.",
+    "F012: 0.53125 inch is the standard 17/32 tap drill for the D009 nominal 5/8-11 thread. Null depth denotes through.",
+    "F013: 0.53125 inch is the standard 17/32 tap drill for the D009 nominal 5/8-11 thread. Null depth denotes through.",
+    "F016: The front view shows a semicircular end centered at the crossing centerlines and tangent to the horizontal throat walls. Diameter follows from D016 rather than the provisional extracted radius D034.",
+    "F017: The front view shows an open throat. This cut creates only its constant-width core; the flared mouth is recorded separately. D040 overshoots the OD."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB11488\\reference.step",
+  "volume": 152.261603,
+  "cq_skipped": {
+    "F010": "failed: KeyError: 'depth'",
+    "F011": "failed: CompileError: ref to F010, which has no geometry (not built or skipped)",
+    "F012": "failed: KeyError: 'depth'",
+    "F013": "failed: KeyError: 'depth'",
+    "F014": "unresolved: Confirm whether the first blind tapped hole is located at (-1.625,+5.000).",
+    "F015": "unresolved: Where is the second blind tapped hole, and does the 6.000 ordinate locate it?",
+    "F018": "unresolved: Confirm flank-start X coordinate and axial extent, including whether apparent alignment with the right mounting column is controlling.",
+    "F019": "unresolved: Confirm the central meridian: .250 and .83 attachments, taper angles, intermediate arc diameter, and opening face.",
+    "F020": "unresolved: Confirm the .50 R reading and the central-profile surfaces it joins."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB11488\\SB11488detail4_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (1 edges selected by nearest point)",
+    "F003": "built (Hole Wizard 5/8 SHCS counterbore, Up To Next, 7 hole(s); one feature for F003, F004, F005, F006, F007, F008, F009)",
+    "F004": "built (in F003 (one feature))",
+    "F005": "built (in F003 (one feature))",
+    "F006": "built (in F003 (one feature))",
+    "F007": "built (in F003 (one feature))",
+    "F008": "built (in F003 (one feature))",
+    "F009": "built (in F003 (one feature))",
+    "F010": "skipped (failed: KeyError: 'depth')",
+    "F011": "skipped (failed: CompileError: ref to F010, which has no geometry (not built or skipped))",
+    "F012": "skipped (failed: KeyError: 'depth')",
+    "F013": "skipped (failed: KeyError: 'depth')",
+    "F014": "skipped (unresolved: Confirm whether the first blind tapped hole is located at (-1.625,+5.000).)",
+    "F015": "skipped (unresolved: Where is the second blind tapped hole, and does the 6.000 ordinate locate it?)",
+    "F016": "built (Up To Next)",
+    "F017": "built (Up To Next)",
+    "F018": "skipped (unresolved: Confirm flank-start X coordinate and axial extent, including whether apparent alignment with the right mounting column is controlling.)",
+    "F019": "skipped (unresolved: Confirm the central meridian: .250 and .83 attachments, taper angles, intermediate arc diameter, and opening face.)",
+    "F020": "skipped (unresolved: Confirm the .50 R reading and the central-profile surfaces it joins.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F009: Hole Wizard 5/8 SHCS counterbore, Up To Next, 7 hole(s)",
+    "sketches fully defined: 3/4 (not: F009)"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F003: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F004: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F005: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F006: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F007: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F008: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F009: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F010 (+ pattern F011): \u00d80.201 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole (close to 1/4 tap_drill: engineer check)",
+    "[mti_hole_wizard] F012: \u00d80.53125 = STANDARD-DERIVED: tap drill for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+    "[mti_hole_wizard] F013: \u00d80.53125 = STANDARD-DERIVED: tap drill for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+    "[mti_hole_grouping] F003, F004, F005, F006, F007, F008, F009: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+    "[mti_hole_grouping] F012, F013: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+    "[mti_edge_ops_last] F003 (hole) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 1.9467,
+  "error": ""
+}

@@ -1,0 +1,33 @@
+{
+  "model": "A001601E.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 49876.03,
+  "bbox_mm": [
+    -279.4,
+    -9.525,
+    -2.3876,
+    279.4,
+    9.525,
+    2.3876
+  ],
+  "size_mm": [
+    4.7752,
+    19.05,
+    558.8
+  ],
+  "center_mm": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Base-Extrude",
+    "1/4 Clearance Hole1"
+  ],
+  "feature_types": [
+    "Extrusion",
+    "HoleWzd"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00160E\\ground_truth.step",
+  "part": "A00160E"
+}

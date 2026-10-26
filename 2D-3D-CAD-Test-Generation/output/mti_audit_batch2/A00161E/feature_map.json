@@ -1,0 +1,85 @@
+{
+  "part": "161-B",
+  "units": "inch",
+  "origin_kind": "corner",
+  "bbox": [
+    0.0,
+    0.0,
+    -0.0,
+    38.37,
+    14.12,
+    4.0
+  ],
+  "volume": 20.559057,
+  "volume_mm3": 336902.591,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006"
+  ],
+  "skipped": {
+    "F007": "unresolved: What hole quantity, horizontal positions, and wall application are required by TO SUIT?"
+  },
+  "holes": {},
+  "edge_points": {},
+  "starts": {
+    "F001": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F003": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F004": {
+      "axis": "Z",
+      "coord": 4.0,
+      "dir": -1,
+      "thru": true
+    },
+    "F005": {
+      "axis": "Z",
+      "coord": 4.0,
+      "dir": -1,
+      "thru": true
+    },
+    "F006": {
+      "axis": "Z",
+      "coord": 4.0,
+      "dir": -1,
+      "thru": true
+    }
+  },
+  "volume_after": {
+    "F001": 1408.011382914,
+    "F002": 1447.675477922,
+    "F003": 1487.339572893,
+    "F004": 96.806837096,
+    "F005": 58.682947292,
+    "F006": 20.559057482
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      2.268013722,
+      0.0,
+      0.0,
+      36.101986278,
+      14.12,
+      4.0
+    ]
+  }
+}

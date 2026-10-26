@@ -1,0 +1,223 @@
+{
+  "dims": {
+    "D001": 17.5,
+    "D002": 15.812,
+    "D003": 0.844,
+    "D004": 0.75,
+    "D005": 11.25,
+    "D006": 6.25,
+    "D007": 14.0,
+    "D008": 6.0,
+    "D009": 6.5,
+    "D010": 0.5,
+    "D011": 6.781,
+    "D012": 7.0,
+    "D013": 0.531,
+    "D014": 0.5,
+    "D015": 1.0,
+    "D016": 0.844,
+    "D017": 2.0,
+    "D018": 7.0,
+    "D019": 1.0,
+    "D020": 0.5,
+    "D021": 7.625,
+    "D022": 8.125,
+    "D023": 14.625,
+    "D024": 16.656,
+    "D025": 13.25
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "127-C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "Top": "+Z",
+        "Front": "-Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular plate; lower-left top-view corner is the origin, thickness along +Z.",
+        "source_callouts": [
+          "17.50",
+          "14.00",
+          "1.00"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D007",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D015",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Lower-left outer clearance hole with top-face counterbore.",
+        "source_callouts": [
+          "DR. & C'BORE FOR .500 SOC. HD. SCR. (4) HL'S.",
+          ".844",
+          ".750",
+          "11.250 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "The supplied SHCS chart (ASME B18.3 head; normal-fit drill) for the D014 = .500 screw specifies .531 drill, .812 counterbore diameter and .500 counterbore depth. D013 equals the independently chart-established drill diameter and D014 equals the chart-established counterbore depth. Review these standard-derived sizes against the MTI shop standard. The front view shows top-face entry. Drill depth D001 exceeds plate thickness to ensure breakthrough.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D003",
+        "v": "D007 - D004 - D005",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": "D001",
+          "cbore_d": "0.812",
+          "cbore_depth": "D014",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Repeat the complete counterbored hole at all four dimensioned outer positions.",
+        "source_callouts": [
+          "DR. & C'BORE FOR .500 SOC. HD. SCR. (4) HL'S.",
+          "15.812 \u00b1.005",
+          "11.250 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D002",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D005",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Upper-left plain through hole located from the outer hole column and upper outer row.",
+        "source_callouts": [
+          ".531 DR. THRU. (4) HL'S.",
+          "6.781",
+          "6.250"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D003 + D011",
+        "v": "D007 - D004 - D006",
+        "spec": {
+          "type": "thru",
+          "d": "D013",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Upper-right plain through hole at the dimensioned horizontal spacing.",
+        "source_callouts": [
+          ".531 DR. THRU. (4) HL'S.",
+          "7.000 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D003 + D011 + D012",
+        "v": "D007 - D004 - D006",
+        "spec": {
+          "type": "thru",
+          "d": "D013",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Lower-left plain hole offset rightward from the upper-left plain hole; not a rectangular grid.",
+        "source_callouts": [
+          ".531 DR. THRU. (4) HL'S.",
+          ".500 \u00b1.005",
+          "6.000 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D003 + D011 + D010",
+        "v": "D007 - D004 - D006 - D008",
+        "spec": {
+          "type": "thru",
+          "d": "D013",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Lower-right plain through hole aligned with the upper-right plain hole.",
+        "source_callouts": [
+          ".531 DR. THRU. (4) HL'S.",
+          "6.500 \u00b1.005",
+          "7.000 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D003 + D011 + D012",
+        "v": "D007 - D004 - D006 - D009",
+        "spec": {
+          "type": "thru",
+          "d": "D013",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      }
+    ],
+    "notes": [
+      "Material: 1018 STL. Model No. 250 BX; drawing number 127-C.",
+      "Model nominal dimensions; retain printed tolerances for manufacturing acceptance.",
+      "Prior H001 counterbore values .813 and .59 are not printed dimensions; use the supplied SHCS chart instead.",
+      "Faint interior traces do not establish any additional dimensioned pocket or cut. No edge treatment is specified."
+    ]
+  }
+}

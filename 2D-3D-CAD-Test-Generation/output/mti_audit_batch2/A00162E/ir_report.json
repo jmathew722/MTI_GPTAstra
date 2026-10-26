@@ -1,0 +1,36 @@
+{
+  "part": "A00162E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00162E\\A00162E_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 4,
+  "questions": [],
+  "flagged": [
+    "F001: Use the explicit front-view 3.50 overall height (D008), not the conflicting .50 X 2.50 material-stock designation (D011). The nominal geometry is dimension-driven; the stock discrepancy requires confirmation before manufacture.",
+    "F002: Through extent follows the hole-wall lines spanning the full thickness in the upper edge view; no blind depth is indicated. The vertical position is measured down from the top edge.",
+    "F003: Through extent follows the edge-view hole-wall depiction across the stock thickness. The left-hole X coordinate is the central-hole edge offset minus the printed basic spacing."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00162E\\reference.step",
+  "volume": 9.903972,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00162E\\162-B_ir.sldprt",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Up To Next)",
+    "F003": "built (Hole Wizard 3/8 clearance, Up To Next, 2 hole(s) on a construction line; one feature for F003, F004)",
+    "F004": "built (in F003 (one feature))"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "F004: Hole Wizard 3/8 clearance, Up To Next, 2 hole(s) on a construction line",
+    "sketches fully defined: 3/3"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F002: \u00d81.09 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_hole_wizard] F003 (+ pattern F004): \u00d80.406 = STANDARD-DERIVED: clearance (normal) for 3/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)"
+  ],
+  "cost_usd": 0.4679,
+  "error": ""
+}

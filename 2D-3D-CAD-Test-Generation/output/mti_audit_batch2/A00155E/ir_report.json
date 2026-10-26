@@ -1,0 +1,40 @@
+{
+  "part": "A00155E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00155E\\A00155E_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 5,
+  "questions": [
+    "F006: Confirm the 19.25 value or its extension-line origins: the indicated left-tip spacing makes the right slot touch the plate edge, contradicting the enclosed slot shown.",
+    "F007: Upper-right short-slot position depends on resolution of the conflicting horizontal dimension for F006."
+  ],
+  "flagged": [
+    "F002: The front view shows semicircular slot ends, fixing the radius at D006/2. The slots are interpreted as through openings from the plate views; no blind depth is indicated. D008 is the overall tip-to-tip length.",
+    "F004: The 3.63 dimension spans the end-arc centers, so overall length is D005 + D004. The lower end center is D010 above the lower short-slot row. Semicircular ends shown fix the radius at D004/2. The plate views indicate a through slot with no blind depth specified."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00155E\\reference.step",
+  "volume": 59.933711,
+  "cq_skipped": {
+    "F006": "unresolved: Confirm the 19.25 value or its extension-line origins: the indicated left-tip spacing makes the right slot touch the plate edge, contradicting the enclosed slot shown.",
+    "F007": "unresolved: Upper-right short-slot position depends on resolution of the conflicting horizontal dimension for F006."
+  },
+  "sw_ok": false,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00155E\\155-C_ir.sldprt",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "failed (profile slot not compiled for SolidWorks yet)",
+    "F003": "failed (copy 1,0 failed)",
+    "F004": "failed (profile slot not compiled for SolidWorks yet)",
+    "F005": "failed (copy 1,0 failed)",
+    "F006": "skipped (unresolved: Confirm the 19.25 value or its extension-line origins: the indicated left-tip spacing makes the right slot touch the plate edge, contradicting the enclosed slot shown.)",
+    "F007": "skipped (unresolved: Upper-right short-slot position depends on resolution of the conflicting horizontal dimension for F006.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 1/1"
+  ],
+  "mti_review": [],
+  "cost_usd": 0.952,
+  "error": ""
+}

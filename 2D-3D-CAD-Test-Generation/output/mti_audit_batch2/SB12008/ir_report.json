@@ -1,0 +1,40 @@
+{
+  "part": "SB12008",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12008\\SB12008_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 3,
+  "questions": [
+    "F003: Which additional groove or lead-in transition edges are included in .030 R. TYP.?"
+  ],
+  "flagged": [
+    "F001: The groove is symmetric about the centerline .250 from the shoulder; .062 CENT. defines the centered root flat. The 1.188 diameter defines the groove root, not the lead-in tip. The numeric factor 0.5773502691896257 is tan(30 degrees), calculated from printed D008; 1.7320508075688772 is cot(30 degrees), calculated from printed D009. These are angle-derived factors, not additional dimensional assumptions. The lead-in tip radius is derived independently from .094 and 30 degrees.",
+    "F004: The standard Unified #10-32 UNF tap-drill chart specifies a #21 drill, diameter .159 inch. D012 is the nominal thread major diameter, not the drill diameter. The drawn centerlines establish coaxial placement. Model D013 as the flat-bottom cosmetic tapped extent; no unspecified additional manufacturing drilling allowance is added."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12008\\reference.step",
+  "volume": 12.243274,
+  "cq_skipped": {
+    "F003": "unresolved: Which additional groove or lead-in transition edges are included in .030 R. TYP.?",
+    "F005": "unsupported: Cylindrical-surface text stamping is outside this IR; character dimensions and exact placement are also unspecified."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12008\\SB-12008_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (1 edges selected by nearest point)",
+    "F003": "skipped (unresolved: Which additional groove or lead-in transition edges are included in .030 R. TYP.?)",
+    "F004": "built (Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s))",
+    "F005": "skipped (unsupported: Cylindrical-surface text stamping is outside this IR; character dimensions and exact placement are also unspecified.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F004: Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s)",
+    "sketches fully defined: 1/2 (not: F004)"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F004: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_edge_ops_last] F004 (hole) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 0.7256,
+  "error": ""
+}

@@ -1,0 +1,19 @@
+{
+  "part": "SB12011",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12011\\SB12011_extraction.json",
+  "plan_attempts": 0,
+  "gate1": "",
+  "planned": 0,
+  "questions": [],
+  "flagged": [],
+  "reference_step": "",
+  "volume": null,
+  "cq_skipped": {},
+  "sw_ok": null,
+  "sldprt": "",
+  "sw_features": {},
+  "conventions": [],
+  "mti_review": [],
+  "cost_usd": 0.3313,
+  "error": ""
+}

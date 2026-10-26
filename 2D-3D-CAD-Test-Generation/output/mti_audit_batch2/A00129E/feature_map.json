@@ -1,0 +1,114 @@
+{
+  "part": "129-B",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -2.5,
+    -2.5,
+    0.0,
+    2.5,
+    2.5,
+    0.25
+  ],
+  "volume": 2.299306,
+  "volume_mm3": 37678.881,
+  "features": [
+    "F001",
+    "F002",
+    "F003"
+  ],
+  "skipped": {
+    "F004": "unresolved: What counterbore depth is required for the intended 1/4-inch LOW HEAD screw? The supplied ordinary-head table does not establish a low-head recess depth.",
+    "F005": "unresolved: Repeat the rear counterbore at all four mounting positions once the seed counterbore depth is resolved."
+  },
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          2.188,
+          0.0
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          2.188,
+          0.0
+        ],
+        "d": 0.281,
+        "depth": 0.25,
+        "axis": "Z"
+      }
+    ],
+    "F003": [
+      {
+        "planned_center": [
+          0.0,
+          2.188
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          0.0,
+          2.188
+        ],
+        "d": 0.281,
+        "depth": 0.25,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -2.188,
+          0.0
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          -2.188,
+          0.0
+        ],
+        "d": 0.281,
+        "depth": 0.25,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -0.0,
+          -2.188
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          -0.0,
+          -2.188
+        ],
+        "d": 0.281,
+        "depth": 0.25,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {},
+  "starts": {
+    "F002": {
+      "axis": "Z",
+      "coord": 0.25,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 2.361322237,
+    "F002": 2.345818281,
+    "F003": 2.299306413
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -2.5,
+      -2.5,
+      0.0,
+      2.5,
+      2.5,
+      0.25
+    ]
+  }
+}

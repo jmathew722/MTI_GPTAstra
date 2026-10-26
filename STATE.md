@@ -3,6 +3,11 @@
 **Last updated:** 2026-10-26 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-10-26 (batch 2, $40 cap): 31 audit parts run; 28 build and verify; 23 of 28 match MTI's
+> own models at IoU ≥ 0.979.** Two misses are MTI drawing-vs-model mismatches (SB12050, SB12009).
+> Next fixes, all free: slot profiles, circular prism patterns, 4C1229. **Budget: $39.16 of $40.**
+> Test report §7.
+>
 > **New (2026-10-26): MTI's parts audit as an answer key.** MTI's Drive holds 63 parts with both a
 > drawing and MTI's own model (`bench/mti_test_set.csv`). First batch of 10: **all 8 that ran build
 > and verify; 7 of 8 match MTI's model at IoU ≥ 0.985** (two at 1.000). The 8th, SB12050, matches its

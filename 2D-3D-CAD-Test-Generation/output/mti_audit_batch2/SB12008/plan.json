@@ -1,0 +1,182 @@
+{
+  "dims": {
+    "D001": 4.25,
+    "D002": 0.562,
+    "D003": 0.062,
+    "D004": 0.25,
+    "D005": 0.094,
+    "D006": 1.247,
+    "D007": 1.188,
+    "D008": 30.0,
+    "D009": 30.0,
+    "D010": 0.03,
+    "D011": 2.0,
+    "D012": 0.19,
+    "D013": 0.38,
+    "D014": 3.688,
+    "D015": 0.312,
+    "D016": 0.0295
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-12008",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "axis +Z points right; radial +Y points up",
+        "Right": "+Z"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the solid body and spigot with its lead-in and centered annular groove in a single axial profile.",
+        "source_callouts": [
+          "4.250",
+          ".562",
+          ".062 CENT.",
+          ".250",
+          ".094",
+          "1.247 DIA. +.000/-.002",
+          "1.188 DIA.",
+          "30\u00b0",
+          "30\u00b0 TYP.",
+          "2.000 DIA."
+        ],
+        "status": "planned",
+        "justification": "The groove is symmetric about the centerline .250 from the shoulder; .062 CENT. defines the centered root flat. The 1.188 diameter defines the groove root, not the lead-in tip. The numeric factor 0.5773502691896257 is tan(30 degrees), calculated from printed D008; 1.7320508075688772 is cot(30 degrees), calculated from printed D009. These are angle-derived factors, not additional dimensional assumptions. The lead-in tip radius is derived independently from .094 and 30 degrees.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D006 / 2 - D005 * 0.5773502691896257"
+          },
+          {
+            "z": "D005",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002 - D004 - D003 / 2 - ((D006 - D007) / 2) * 1.7320508075688772",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002 - D004 - D003 / 2",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004 + D003 / 2",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004 + D003 / 2 + ((D006 - D007) / 2) * 1.7320508075688772",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D011 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D011 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Round the spigot-to-body shoulder explicitly identified by the radius leader.",
+        "source_callouts": [
+          ".030 R. TYP."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D010",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D002),wall(F001,D006 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Which additional groove or lead-in transition edges are included in .030 R. TYP.?",
+        "source_callouts": [
+          ".030 R. TYP."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D010",
+        "angle": "45",
+        "edges": [
+          "edge_between(wall(F001,D007 / 2),wall(F001))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Model the coaxial blind tapped hole from the large end using a standard tap-drill cylinder and cosmetic thread.",
+        "source_callouts": [
+          "#10-32 TAP .38 DEEP"
+        ],
+        "status": "planned",
+        "justification": "The standard Unified #10-32 UNF tap-drill chart specifies a #21 drill, diameter .159 inch. D012 is the nominal thread major diameter, not the drill diameter. The drawn centerlines establish coaxial placement. Model D013 as the flat-bottom cosmetic tapped extent; no unspecified additional manufacturing drilling allowance is added.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "tapped",
+          "d": "0.159",
+          "depth": "D013",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-32 UNF; .38 DEEP; fit class unspecified"
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Cylindrical-surface text stamping is outside this IR; character dimensions and exact placement are also unspecified.",
+        "source_callouts": [
+          "STAMP \"SB-12008\""
+        ],
+        "status": "unsupported",
+        "justification": "Non-executing placeholder only; zero dimensions do not prescribe stamp geometry.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "0",
+          "h": "0",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "0",
+        "op": "cut"
+      }
+    ],
+    "notes": [
+      "Origin is the spigot end; the shoulder is at z = D002 and the large end is at z = D001.",
+      "Material: 4150; hardness R/C 40-45.",
+      "Nominal geometry is modeled. Preserve D006 +.000/-.002 and the drawing's general tolerances in manufacturing documentation.",
+      "D014, D015 and D016 are derived extraction values; use their printed parent dimensions as above.",
+      "D008 and D009 are degrees, despite the extraction's inch unit labels.",
+      "Only the directly indicated shoulder radius is applied. The additional scope of the typical radius remains unresolved.",
+      "The cosmetic tapped-hole model does not prescribe a separate production drilling depth, drill point or thread fit class.",
+      "Stamping remains a manufacturing requirement, not executable geometry in this IR."
+    ]
+  }
+}

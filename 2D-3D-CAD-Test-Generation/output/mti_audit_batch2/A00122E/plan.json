@@ -1,0 +1,552 @@
+{
+  "dims": {
+    "D001": 34.38,
+    "D002": 21.0,
+    "D003": 0.38,
+    "D004": 25.25,
+    "D005": 12.75,
+    "D006": 9.62,
+    "D007": 3.0,
+    "D008": 0.938,
+    "D009": 1.875,
+    "D010": 3.44,
+    "D011": 5.94,
+    "D012": 1.438,
+    "D013": 1.438,
+    "D014": 0.281,
+    "D015": 1.062,
+    "D016": 4.125,
+    "D017": 0.164,
+    "D018": 2.281,
+    "D019": 1.141,
+    "D020": 1.975,
+    "D021": 3.0,
+    "D022": 5.25,
+    "D023": 0.531,
+    "D024": 0.344,
+    "D025": 2.82,
+    "D026": 0.161,
+    "D027": 3.0,
+    "D028": 2.02,
+    "D029": 3.562,
+    "D030": 2.0,
+    "D031": 4.0,
+    "D032": 0.25,
+    "D033": 9.5,
+    "D034": 1.938,
+    "D035": 1.75,
+    "D036": 10.5,
+    "D037": 16.4,
+    "D038": 14.0,
+    "D039": 17.38,
+    "D040": 16.0,
+    "D041": 0.5,
+    "D042": 2.188,
+    "D043": 8.906,
+    "D044": 12.375,
+    "D045": 0.937,
+    "D046": 2.5,
+    "D047": 2.002,
+    "D048": 15.06,
+    "D049": 18.0,
+    "D050": 1.542,
+    "D051": 22.13,
+    "D052": 3.98,
+    "D053": 1.0,
+    "D054": 9.562,
+    "D055": 9.906,
+    "D056": 8.125,
+    "D057": 2.0
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "122-D",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular plate at printed thickness.",
+        "source_callouts": [
+          "34.38",
+          "21.00",
+          ".38"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D002",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D003",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Lower-left seed of the upper-left clearance-hole rectangle.",
+        "source_callouts": [
+          ".281 \u00d8 THRU 4-HOLES",
+          ".938",
+          "1.438"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D007 - D008",
+        "v": "D002 - D011 - D013",
+        "spec": {
+          "type": "thru",
+          "d": "D014",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Complete the four clearance holes using printed dimension chains.",
+        "source_callouts": [
+          ".281 \u00d8 THRU 4-HOLES",
+          "1.875 \u00b1.005",
+          "3.440",
+          "5.940",
+          "1.438"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D009",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D011 - D010 + D012 + D013",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Lower 1.062-inch hole on the dimensioned vertical centerline.",
+        "source_callouts": [
+          "1.062 \u00d8 THRU 2-HOLES",
+          "3.00",
+          "5.940"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D007",
+        "v": "D002 - D011",
+        "spec": {
+          "type": "thru",
+          "d": "D015",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Locate the upper hole from the two top-edge dimensions.",
+        "source_callouts": [
+          "1.062 \u00d8 THRU 2-HOLES",
+          "3.440",
+          "5.940"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F004",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "D011 - D010",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F006",
+        "rationale": "Large left through opening.",
+        "source_callouts": [
+          "4.125 \u00d8 THRU",
+          "9.62",
+          "3.00"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D006",
+        "v": "D002 - D021",
+        "spec": {
+          "type": "thru",
+          "d": "D016",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Independent through hole referenced from the top and left.",
+        "source_callouts": [
+          ".531 \u00d8 THRU",
+          "12.75",
+          "5.25"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D005",
+        "v": "D002 - D022",
+        "spec": {
+          "type": "thru",
+          "d": "D023",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Large right through opening.",
+        "source_callouts": [
+          "2.820 \u00d8 THRU",
+          "25.25",
+          "3.00"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D004",
+        "v": "D002 - D027",
+        "spec": {
+          "type": "thru",
+          "d": "D025",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Lower-left hole around the right opening; preserve the asymmetric vertical placement.",
+        "source_callouts": [
+          ".161 \u00d8 THRU (4) HOLES",
+          "2.020 \u00b1.005",
+          "3.562 \u00b1.005",
+          "2.000 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D004 - D030",
+        "v": "D002 - D027 + D028 - D029",
+        "spec": {
+          "type": "thru",
+          "d": "D026",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F010",
+        "rationale": "Complete the small-hole rectangle around the right opening.",
+        "source_callouts": [
+          ".161 \u00d8 THRU (4) HOLES",
+          "4.000 \u00b1.005",
+          "3.562 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F009",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D031",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D029",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F011",
+        "rationale": "Lower-left .344-inch mounting hole.",
+        "source_callouts": [
+          ".344 \u00d8 THRU (4)-HOLES",
+          "17.38",
+          ".50"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D039",
+        "v": "D041",
+        "spec": {
+          "type": "thru",
+          "d": "D024",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F012",
+        "rationale": "Complete mounting rectangle; 12.375 is the row spacing.",
+        "source_callouts": [
+          ".344 \u00d8 THRU (4)-HOLES",
+          "16.000 \u00b1.005",
+          "12.375 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F011",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D040",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D044",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F013",
+        "rationale": "Upper tapped hole on the left opening centerline; drilling overshoots plate thickness.",
+        "source_callouts": [
+          "#8-32 TAP THRU (3) HOLES",
+          "2.281 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard UNC tap-drill chart specifies #29 (.136 inch) for #8-32, whose nominal major diameter is identified by D017. Cosmetic thread only; depth 2 * D003 ensures through penetration.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D006",
+        "v": "D002 - D021 + D018",
+        "spec": {
+          "type": "tapped",
+          "d": "0.136",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#8-32 UNC"
+        }
+      },
+      {
+        "id": "F014",
+        "rationale": "Lower-left tapped hole at the printed Cartesian offsets.",
+        "source_callouts": [
+          "#8-32 TAP THRU (3) HOLES",
+          "1.141 \u00b1.005",
+          "1.975 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard UNC tap-drill chart specifies #29 (.136 inch) for #8-32. Cosmetic thread only; depth 2 * D003 overshoots the plate.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D006 - D020",
+        "v": "D002 - D021 - D019",
+        "spec": {
+          "type": "tapped",
+          "d": "0.136",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#8-32 UNC"
+        }
+      },
+      {
+        "id": "F015",
+        "rationale": "Complete the lower tapped pair by depicted symmetry, not an exact circular pattern.",
+        "source_callouts": [
+          "#8-32 TAP THRU (3) HOLES",
+          "1.975 \u00b1.005",
+          "1.141 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "The front view shows the lower pair mirrored about the opening centerline; use the printed left offset D020 equally on the right.",
+        "kind": "pattern",
+        "seed": "F014",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "2 * D020",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F016",
+        "rationale": "Lower-left tapped hole in the left array.",
+        "source_callouts": [
+          ".250-20 TAP THRU 8-HOLES",
+          "1.75",
+          "1.938"
+        ],
+        "status": "planned",
+        "justification": "Standard UNC tap-drill chart specifies #7 (.201 inch) for 1/4-20; D032 is the nominal major diameter, not the drill. Cosmetic thread only; depth 2 * D003 overshoots the plate.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D035",
+        "v": "D034",
+        "spec": {
+          "type": "tapped",
+          "d": "0.201",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/4-20 UNC"
+        }
+      },
+      {
+        "id": "F017",
+        "rationale": "Complete the left tapped rectangle.",
+        "source_callouts": [
+          ".250-20 TAP THRU 8-HOLES",
+          "10.500 \u00b1.005",
+          "9.500 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F016",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D036",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D033",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F018",
+        "rationale": "Lower-left tapped hole in the independently positioned right array.",
+        "source_callouts": [
+          ".250-20 TAP THRU 8-HOLES",
+          "16.40",
+          "2.188"
+        ],
+        "status": "planned",
+        "justification": "Standard UNC tap-drill chart specifies #7 (.201 inch) for 1/4-20. Cosmetic thread only; depth 2 * D003 overshoots the plate.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D037",
+        "v": "D042",
+        "spec": {
+          "type": "tapped",
+          "d": "0.201",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/4-20 UNC"
+        }
+      },
+      {
+        "id": "F019",
+        "rationale": "Complete the right tapped rectangle with its own spacings.",
+        "source_callouts": [
+          ".250-20 TAP THRU 8-HOLES",
+          "14.000 \u00b1.005",
+          "8.906 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F018",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D038",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D043",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      }
+    ],
+    "notes": [
+      "Material: 1020 STEEL. Title: PLATE; drawing 122-D, model 250 BX.",
+      "Use printed dimensions, not drawing scale. Thickness remains .38 inch.",
+      "All 28 openings penetrate the plate; 11 have cosmetic threads. Thread-fit classes are not specified.",
+      "Preserve the .938 offset and 1.875 span of the .281-hole columns rather than enforcing exact symmetry.",
+      "No chamfers, fillets, counterbores, countersinks, or blind features are called out."
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "model": "A001431E.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 4634702.231,
+  "bbox_mm": [
+    -457.2,
+    -19.05,
+    -68.2625,
+    457.2,
+    19.05,
+    68.2625
+  ],
+  "size_mm": [
+    38.1,
+    136.525,
+    914.4
+  ],
+  "center_mm": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Base-Extrude",
+    "CBORE for 3/4 Socket Head Cap Screw1"
+  ],
+  "feature_types": [
+    "Extrusion",
+    "HoleWzd"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00143E\\ground_truth.step",
+  "part": "A00143E"
+}

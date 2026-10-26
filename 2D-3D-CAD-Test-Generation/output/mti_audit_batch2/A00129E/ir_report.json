@@ -1,0 +1,40 @@
+{
+  "part": "A00129E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00129E\\A00129E_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 3,
+  "questions": [
+    "F004: What counterbore depth is required for the intended 1/4-inch LOW HEAD screw? The supplied ordinary-head table does not establish a low-head recess depth.",
+    "F005: Repeat the rear counterbore at all four mounting positions once the seed counterbore depth is resolved."
+  ],
+  "flagged": [
+    "F002: The supplied SHCS normal-fit clearance chart specifies a .281-inch drill for a 1/4-inch nominal screw (D008); the screw's low head does not change its shank clearance. Use D003, not the rounded reference bolt-circle diameter, to locate the hole.",
+    "F003: The front view shows four mirror-symmetric cardinal hole positions; the TYP radial dimension D003 controls all four. The reference bolt circle D001 is not controlling."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00129E\\reference.step",
+  "volume": 2.299306,
+  "cq_skipped": {
+    "F004": "unresolved: What counterbore depth is required for the intended 1/4-inch LOW HEAD screw? The supplied ordinary-head table does not establish a low-head recess depth.",
+    "F005": "unresolved: Repeat the rear counterbore at all four mounting positions once the seed counterbore depth is resolved."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00129E\\129-B_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (Hole Wizard 1/4 clearance, Up To Next, 4 hole(s) on a construction circle; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "skipped (unresolved: What counterbore depth is required for the intended 1/4-inch LOW HEAD screw? The supplied ordinary-head table does not establish a low-head recess depth.)",
+    "F005": "skipped (unresolved: Repeat the rear counterbore at all four mounting positions once the seed counterbore depth is resolved.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F003: Hole Wizard 1/4 clearance, Up To Next, 4 hole(s) on a construction circle",
+    "sketches fully defined: 2/2"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.281 = STANDARD-DERIVED: clearance (normal) for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)"
+  ],
+  "cost_usd": 0.7384,
+  "error": ""
+}

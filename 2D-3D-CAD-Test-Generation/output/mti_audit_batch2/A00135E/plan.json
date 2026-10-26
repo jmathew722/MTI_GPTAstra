@@ -1,0 +1,108 @@
+{
+  "dims": {
+    "D001": 3.0,
+    "D002": 0.5,
+    "D003": 2.0,
+    "D004": 0.5,
+    "D005": 1.0,
+    "D006": 1.0,
+    "D007": 0.312,
+    "D008": 0.5,
+    "D009": 0.5,
+    "D010": 2.5
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "135-A",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "Top": "+Z",
+        "Front": "-Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular keystock envelope with length along X, width along Y and thickness along Z.",
+        "source_callouts": [
+          "3.00",
+          "1.000 +.000/-.001",
+          "1.00",
+          "KEYSTOCK"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D005",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D006",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "First counterbored clearance hole; hidden bore lines in the front view establish breakthrough at the bottom face.",
+        "source_callouts": [
+          "DR. & C'BORE FOR .312-18 SOC. HD. SCR. 2 HLS.",
+          ".500",
+          ".500 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "D007 specifies the mating .312-18 socket-head screw, not an internal thread. The supplied SHCS counterbore chart (ASME B18.3 head; normal-fit drill), nominal 0.3125 row, supplies drill 0.344, counterbore diameter 0.531 and counterbore depth 0.312 inches. Verify against MTI shop standard. Bore depth D001 exceeds thickness D006 to ensure breakthrough as shown by hidden lines.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002",
+        "v": "D005 - D004",
+        "spec": {
+          "type": "cbore",
+          "d": "0.344",
+          "depth": "D001",
+          "cbore_d": "0.531",
+          "cbore_depth": "0.312",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Repeat the entire counterbored hole at the printed center spacing, producing two total holes.",
+        "source_callouts": [
+          "2.000 \u00b1.005",
+          "DR. & C'BORE FOR .312-18 SOC. HD. SCR. 2 HLS."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D003",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      }
+    ],
+    "notes": [
+      "Nominal geometry is in inches; retain printed tolerances for inspection.",
+      "Counterbores open on the upper face shown in the top view; no internal threads are specified.",
+      "Material: KEYSTOCK, alloy unspecified. Model number: 250BX.",
+      "General three-place and angular tolerances are blank; none are assumed."
+    ]
+  }
+}
