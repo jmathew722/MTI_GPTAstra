@@ -213,7 +213,8 @@ MTI's own practices: `docs/mti-modeling-standards.md`; design and phases:
   443 files (186 PDF, 142 DWG, 114 SLDPRT, 1 SLDASM).
 - **Test set: 63 parts with both a drawing and a model** (34 A, 27 SB, 2 Other; 39 PDF and 24
   DWG drawings). The drawing is the input; the existing SLDPRT is the ground truth.
-  - Listed in **`2D-3D-CAD-Test-Generation/bench/mti_test_set.csv`**: series, part number, drawing format,
+  - Listed in **`2D-3D-CAD-Test-Generation/bench/mti_test_set.csv`** (identical copy at the repo root,
+    `test_set.csv`): series, part number, drawing format,
     Drive paths, Drive file ids, notes.
   - 2 folders have a model but no drawing: A00687E and A09126 (an assembly).
 
