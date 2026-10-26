@@ -168,3 +168,50 @@ Rules that already apply to new code:
 - **Model IDs are pinned in `config/models.json`** (`gpt-6-astra`), never hard-coded
   at call sites. **Decision 2026-10-04: GPT-6 Astra only.** No Anthropic/Opus path and no
   model benchmark.
+
+## MTI test files: "[MTI] Parts + Drawings Audit" (Google Drive, added 2026-10-26)
+
+**Where.** Google Drive folder **[MTI] Parts + Drawings Audit**
+(folder id `10wfwK0XK_IjcvvU84tfB7NDq0WqhpaKw`, owner account ggould@nd.edu).
+
+- **Local sync.** It is meant to sync to `G:\My Drive\[MTI] Parts + Drawings Audit` or
+  `G:\Shared drives\[MTI] Parts + Drawings Audit`. As of 2026-10-26 **Google Drive for
+  desktop is not installed on this PC** (no G:, no DriveFS).
+- **Composio.** Access goes through the Composio Google Drive connection instead:
+  `GOOGLEDRIVE_FIND_FILE` with `'<id>' in parents` to list, `GOOGLEDRIVE_DOWNLOAD_FILE` to
+  fetch by file id.
+- **If it ever syncs locally,** check both G: paths first. The folder name contains square
+  brackets, so quote every path and use `-LiteralPath` in PowerShell.
+
+**Layout.**
+
+- `A-Series\<PartNumber>\`, `SB-Series\<PartNumber>\` and `Other-Series\<PartNumber>\`: one
+  folder per part, holding the 2D drawing (`.PDF` scan or `.DWG`) and, if one exists, the 3D
+  model (`.SLDPRT`/`.SLDASM`).
+- `_Needs Review\`: old revisions and unrecognized names. **Skip it.**
+- **Scan of 2026-10-26, excluding `_Needs Review`:** 301 part folders (242 A, 56 SB, 3 Other),
+  443 files (186 PDF, 142 DWG, 114 SLDPRT, 1 SLDASM).
+- **Test set: 63 parts with both a drawing and a model** (34 A, 27 SB, 2 Other; 39 PDF and 24
+  DWG drawings). The drawing is the input; the existing SLDPRT is the ground truth.
+  - Listed in **`test_set.csv`** at the repo root: series, part number, drawing format,
+    Drive paths, Drive file ids, notes.
+  - 2 folders have a model but no drawing: A00687E and A09126 (an assembly).
+
+**Naming rules.**
+
+- **A-Series:** A + 5-digit part number + sheet digit + E/M suffix, e.g. `A001151E` = part
+  A00115, sheet 1, E. **E and M are separate parts.** Models named `MTI0xxxxx` belong to part
+  `A0xxxx` (`MTI004039E.SLDPRT` ↔ `A040391E.DWG`).
+- **SB-Series:** SB + 5-digit number, with -dash detail numbers. Old 7-digit names are the same
+  parts (`1367402E` = SB13674-02).
+- **Family folders hold many details:** SB13674 has 12 sheets and 45 models, SB01783 2 and 5,
+  SB12052 2 and 3, SB18461 5 sheets and 1 model. These need drawing-to-model pairing by
+  detail number before they can be scored.
+
+**Rules.**
+
+- **The Drive folder is READ-ONLY.** Never modify, move, rename, upload to or save into it.
+- Write every generated part and test result to `output/<PartNumber>/` in this project.
+- **Macros:** run SolidWorks VBA macros over COM (`SldWorks.Application`, pywin32) with
+  `RunMacro2` on MTI's `.swp` files. **They are not in this repo yet; ask the user where they
+  are.** Ask before running any macro on the test set.
