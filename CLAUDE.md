@@ -62,9 +62,10 @@ python run_models.py <folder> --output ./output              # COM build, Window
 python rebuild_from_json.py output/<P>/<P>_extraction.json   # rebuild saved extractions in SW, no API cost
 python ir_build.py tests/golden/ir/*.json --solidworks       # Feature IR: CadQuery reference + native SW, verified per feature
 python ir_run.py --split dev --solidworks                    # drawing -> Astra extract+plan -> reference -> SW (paid, budget-guarded)
+python ir_run.py --split held_out --solidworks --output <new dir> --reuse  # official benchmark run: MTI parts read drawing.pdf from MTI_BENCH_DATA (paid)
 python main.py --drawing <file> --ir --engine com            # same, one drawing
 python ir_compare.py                                         # v1 vs IR on the dev set (no API)
-python -m pytest tests/ -v                                   # tests (1010 passing, 2 xfailed, as of 2026-10-26)
+python -m pytest tests/ -v                                   # tests (1013 passing, 2 xfailed, as of 2026-10-26)
 python -m bench.prep status                                  # benchmark data (needs MTI_BENCH_DATA + ODA_CONVERTER in .env)
 python -m bench.prep <copy|dxf|pdf|step|keys|check|link|review|accept|signoff|profile>  # benchmark prep (no API cost)
 python -m bench.score <run_dir> [--keys-dir DIR] [--no-sw]   # geometry score 0-100 + stage blame, plus a separate MTI practices score -> scores.json, report.html (no API cost)

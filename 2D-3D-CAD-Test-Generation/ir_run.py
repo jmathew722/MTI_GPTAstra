@@ -18,7 +18,7 @@ from pathlib import Path
 
 def main() -> int:
     from pipeline.budget import BudgetExceeded, cap_usd, spent_usd
-    from pipeline.ir_pipeline import connect_sw, dev_parts, external_parts, run_part
+    from pipeline.ir_pipeline import BENCH_DRAWING, bench_part_specs, connect_sw, dev_parts, run_part
     from pipeline.token_tracker import LEDGER_NAME, TokenTracker
 
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -31,14 +31,14 @@ def main() -> int:
                     default=[Path("output/astra_2026-10-04"), Path("output/ir_runs")])
     args = ap.parse_args()
 
-    specs = dev_parts(split=args.split)
-    skipped = external_parts(args.split)
+    bench_specs, skipped = bench_part_specs(split=args.split)
+    specs = dev_parts(split=args.split) + bench_specs
     if args.parts:
         specs = [s for s in specs if s.part in args.parts]
         skipped = [p for p in skipped if p in args.parts]
     if skipped:
-        print(f"{len(skipped)} mti_bench part(s) in split {args.split} skipped: no in-repo drawing "
-              "(runnable after benchmark sub-project 3)")
+        print(f"{len(skipped)} mti_bench part(s) in split {args.split} skipped: no {BENCH_DRAWING} under "
+              f"MTI_BENCH_DATA ({', '.join(skipped)})")
     if not specs:
         print(f"No runnable parts in split {args.split}"
               + (f" matching --parts {args.parts}" if args.parts else "") + "; nothing written.",

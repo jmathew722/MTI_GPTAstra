@@ -47,6 +47,33 @@ def external_parts(split: str = "dev", manifest: Path = CODE_ROOT / "bench" / "m
     return [p["part"] for p in m["splits"].get(split) or [] if p.get("source") == "mti_bench"]
 
 
+BENCH_DRAWING = "drawing.pdf"     # rendered by image_prep at 300 dpi; drawing.png is only a review preview
+
+
+def bench_part_specs(split: str = "dev", manifest: Path = CODE_ROOT / "bench" / "manifest.yaml",
+                     root: Optional[Path] = None) -> tuple[list[PartSpec], list[str]]:
+    """mti_bench parts of a split whose drawing is in MTI_BENCH_DATA: (runnable specs, missing part ids).
+    Drawings stay outside git (confidential); without MTI_BENCH_DATA every part is missing."""
+    import yaml
+    if root is None:
+        from bench import config
+        try:
+            root = config.data_root(required=False)
+        except config.BenchConfigError:
+            root = None
+    m = yaml.safe_load(manifest.read_text(encoding="utf-8"))
+    specs, missing = [], []
+    for p in m["splits"].get(split) or []:
+        if p.get("source") != "mti_bench":
+            continue
+        drawing = Path(root) / p["part"] / BENCH_DRAWING if root else None
+        if drawing is not None and drawing.is_file():
+            specs.append(PartSpec(p["part"], drawing, p.get("units", "")))
+        else:
+            missing.append(p["part"])
+    return specs, missing
+
+
 def images_for(spec: PartSpec) -> list[tuple[str, str, str]]:
     """[(label, view_type, base64 png)] with the FULL sheet first (crops can hide callouts)."""
     from utils.image_prep import prepare_image
