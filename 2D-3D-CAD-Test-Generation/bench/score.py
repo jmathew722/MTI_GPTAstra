@@ -125,7 +125,10 @@ def score_one(part: str, d: Path, key: Key, generated: Optional[Path], cfg,
               tree: Optional[list] = None, tree_note: str = "") -> tuple[dict, PartScore, dict]:
     ir = _json(d / "ir_report.json")
     plan = _json(d / "plan.json")
-    prac = practices_result(tree, ir, plan, cfg, tree_note)
+    try:
+        prac = practices_result(tree, ir, plan, cfg, tree_note)
+    except Exception as e:                   # practices never cost the part its geometry score
+        prac = {"score": None, "rows": [], "checked": False, "note": f"practices failed: {type(e).__name__}: {e}"}
     ext_path = find_extraction(d, ir)
     ref_step = d / REFERENCE
     ref = None

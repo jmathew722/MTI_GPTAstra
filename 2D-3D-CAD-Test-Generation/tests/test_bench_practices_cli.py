@@ -149,3 +149,19 @@ def test_report_practices_escapes(tmp_path):
     report.write_html(tmp_path / "r.html", results, summary)
     html = (tmp_path / "r.html").read_text(encoding="utf-8")
     assert "<script>" not in html and "&lt;script&gt;" in html and "&lt;b&gt;" in html
+
+
+def test_practices_failure_keeps_the_geometry_score(tmp_path, monkeypatch):
+    from bench import practices
+    run, keys = tmp_path / "run", tmp_path / "keys"
+    _part(run, keys, "PH", GOOD_TREE, sldprt=True)
+
+    def boom(*a, **k):
+        raise ZeroDivisionError("division by zero")
+
+    monkeypatch.setattr(practices, "check_part", boom)
+    assert score.main([str(run), "--keys-dir", str(keys), "--no-sw"]) == 0
+    p = _out(run)["parts"][0]
+    assert not p.get("error") and p["score"] == pytest.approx(100.0)
+    assert p["practices"]["score"] is None and not p["practices"]["checked"] and p["practices"]["rows"] == []
+    assert "practices failed: ZeroDivisionError" in p["practices"]["note"]

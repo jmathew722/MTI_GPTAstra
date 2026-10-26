@@ -47,7 +47,7 @@ CFG = score_config.load()
 def test_config_has_practices_section():
     p = CFG.practices
     assert set(p["weights"]) == {f"C{i}" for i in range(1, 8)} and set(p["weights"].values()) == {1}
-    assert p["edge_ops"] == ["Fillet", "Chamfer"]
+    assert p["edge_ops"] == ["Fillet", "VarFillet", "Chamfer"]
     assert "HoleWzd" in p["solid_ops"] and "Sweep" in p["avoid"]
     assert p["three_d_sketch"] == "3DProfileFeature"
 
@@ -151,7 +151,7 @@ def test_c7_avoid_and_blame():
     planned = plan_of({"id": "F009", "kind": "shell", "status": "planned"})
     assert rows(check_part(tree, {}, planned, CFG))["C7"].stage == "planner"
     assert rows(check_part(good_tree(), {}, {}, CFG))["C7"].credit == 1.0
-    assert rows(check_part(ORIGIN, {}, {}, CFG))["C7"].applicable           # always, with a tree
+    assert not rows(check_part(ORIGIN, {}, {}, CFG))["C7"].applicable       # no solid feature: nothing to judge
 
 
 def test_no_tree_marks_sldprt_checks_not_checked():
@@ -182,3 +182,40 @@ def test_asdict_roundtrip():
     assert set(d) == {"score", "rows", "checked"}
     assert set(d["rows"][0]) == {"id", "name", "credit", "applicable", "source", "stage", "reason"}
     assert practices.CHECK_IDS == ("C1", "C2", "C3", "C4", "C5", "C6", "C7")
+
+
+# ---- review fixes (2026-10-26) ---------------------------------------------------------
+
+def test_c6_review_fallback_all_merged_is_not_applicable():
+    ir = {"mti_review": ["[mti_hole_grouping] F004, F005: identical holes"],
+          "sw_features": {"F004": "built (in F003 (one feature))", "F005": "built (in F003 (one feature))"}}
+    r = rows(check_part([], ir, None, {}))["C6"]
+    assert not r.applicable
+
+
+def test_c6_review_fallback_reason_is_approximate():
+    ir = {"mti_review": ["[mti_hole_grouping] F003, F004: identical holes on face(F001,-Z) -> one feature"]}
+    assert "approximate (from review findings)" in rows(check_part([], ir, {}, CFG))["C6"].reason
+
+
+def test_c7_needs_a_solid_feature():
+    assert not rows(check_part([], {}, {}, CFG))["C7"].applicable
+    assert not rows(check_part(ORIGIN, {}, {}, CFG))["C7"].applicable
+    assert check_part(ORIGIN, {}, {}, CFG).score is None                    # an empty tree can't score 100
+
+
+def test_c3_unreadable_status():
+    tree = ORIGIN + [F("Boss-Extrude1", "Extrusion", S("Sketch1", status=None))]
+    r = rows(check_part(tree, {}, {}, CFG))["C3"]
+    assert not r.applicable and r.reason == "sketch status unreadable"
+
+
+def test_verified_type_names():
+    p = CFG.practices
+    assert p["edge_ops"] == ["Fillet", "VarFillet", "Chamfer"]
+    assert {"ICE", "Boss", "CutThin", "AdvHoleWzd", "MirrorSolid", "CombineBodies"} <= set(p["solid_ops"])
+    assert {"NetBlend", "OffsetRefSuface", "SurfCut", "UnTrimRefSurf"} <= set(p["avoid"])
+    assert not {"Boundary", "BoundaryCut", "MoveFace"} & set(p["avoid"])
+    assert set(practices.AVOID_KIND) <= set(p["avoid"])
+    tree = ORIGIN + [F("Boss-Extrude1", "Extrusion"), F("VarFillet1", "VarFillet"), F("Cut1", "Cut")]
+    assert rows(check_part(tree, {}, {}, CFG))["C4"].reason == "VarFillet1 before Cut1"

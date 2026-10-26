@@ -32,19 +32,28 @@ NAMES = {
 }
 DEFAULTS = {
     "weights": {c: 1 for c in CHECK_IDS},
-    "edge_ops": ["Fillet", "Chamfer"],
-    "solid_ops": ["Extrusion", "ICE", "Cut", "HoleWzd", "Revolution", "RevCut", "LPattern", "CirPattern"],
-    "avoid": ["Sweep", "SweepCut", "Blend", "BlendCut", "Shell", "Draft", "Rib", "MoveFace", "MoveCopyBody",
-              "Boundary", "BoundaryCut"],
+    "edge_ops": ["Fillet", "VarFillet", "Chamfer"],
+    "solid_ops": ["ICE", "Extrusion", "Boss", "BossThin", "Cut", "CutThin", "BaseBody", "Revolution",
+                  "RevolutionThin", "RevCut", "HoleWzd", "AdvHoleWzd", "SketchHole", "LPattern", "CirPattern",
+                  "MirrorPattern", "MirrorSolid", "CombineBodies"],
+    "avoid": ["Sweep", "SweepCut", "Blend", "BlendCut", "NetBlend", "Shell", "Draft", "Rib", "MoveCopyBody",
+              "SweepThread", "Dome", "Deform", "Bending", "Thicken", "ThickenCut", "ReplaceFace", "DelFace",
+              "ExtruRefSurface", "RevolvRefSurf", "SweepRefSurface", "BlendRefSurface", "FillRefSurface",
+              "OffsetRefSuface", "PlanarSurface", "RadiateRefSurface", "RuledSrfFromEdge", "SewRefSurface",
+              "TrimRefSurface", "ExtendRefSurface", "MidRefSurface", "SurfCut", "UnTrimRefSurf"],
     "three_d_sketch": "3DProfileFeature",
 }
 FULLY_DEFINED = 3          # swConstrainedStatus_e (the IR compiler's mapping, error log E023)
 SKETCH = "ProfileFeature"
 HOLE_WIZARD = "HoleWzd"
 # SolidWorks type -> the IR kind (pipeline/ir/mti_review.AVOID_KINDS) that would have planned it
-AVOID_KIND = {"Sweep": "sweep", "SweepCut": "sweep", "Blend": "loft", "BlendCut": "loft", "Shell": "shell",
-              "Draft": "draft", "Rib": "rib", "MoveFace": "move_face", "MoveCopyBody": "move_copy_body",
-              "Boundary": "boundary", "BoundaryCut": "boundary"}
+# (surface types map to "surface"; SweepThread to "thread")
+_SURFACES = ("ExtruRefSurface", "RevolvRefSurf", "SweepRefSurface", "BlendRefSurface", "FillRefSurface",
+             "OffsetRefSuface", "PlanarSurface", "RadiateRefSurface", "RuledSrfFromEdge", "SewRefSurface",
+             "TrimRefSurface", "ExtendRefSurface", "MidRefSurface", "SurfCut", "UnTrimRefSurf")
+AVOID_KIND = {"Sweep": "sweep", "SweepCut": "sweep", "Blend": "loft", "BlendCut": "loft", "NetBlend": "boundary",
+              "Shell": "shell", "Draft": "draft", "Rib": "rib", "MoveCopyBody": "move_copy_body",
+              "SweepThread": "thread", **{t: "surface" for t in _SURFACES}}
 NOT_CHECKED = "not checked (no feature tree: SLDPRT not read)"
 
 
@@ -129,6 +138,9 @@ def _sketches(tree: list) -> list[dict]:
 def c3_sketches(tree: list) -> Check:
     sk = _sketches(tree)
     if not sk:
+        if any(f.get("type") == SKETCH or any(s.get("type") == SKETCH for s in f.get("subs") or [])
+               for f in tree):
+            return _na("C3", "sldprt", "sketch status unreadable")
         return _na("C3", "sldprt", "no sketches")
     under = [s for s in sk if s["status"] != FULLY_DEFINED]
     credit = 1.0 - len(under) / len(sk)
@@ -167,6 +179,8 @@ def _plan_features(plan: dict) -> list[dict]:
 def c7_avoid(tree: list, st: dict, plan: dict) -> Check:
     avoid = set(st["avoid"])
     bad = [f for f in tree if f.get("type") in avoid]
+    if not bad and not any(f.get("type") in set(st["solid_ops"]) for f in tree):
+        return _na("C7", "sldprt", "no solid features in the tree")   # an empty tree must not score 100
     if not bad:
         return _row("C7", "sldprt", 1.0, "none")
     kinds = {f.get("kind") for f in _plan_features(plan)}
@@ -256,8 +270,10 @@ def c6_hole_grouping(ir: dict, plan: dict) -> Check:
                 if fid not in merged:
                     n += 1
                     groups.setdefault(i, []).append(fid)
+        if not n:
+            return _na("C6", "self-reported", "no hole features built")
         credit, reason = _credit_c6(n, groups)
-        return _row("C6", "self-reported", credit, reason, "planner")
+        return _row("C6", "self-reported", credit, "approximate (from review findings): " + reason, "planner")
     return _na("C6", "plan", "no hole features")
 
 

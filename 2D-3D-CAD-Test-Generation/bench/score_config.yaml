@@ -33,7 +33,14 @@ unsupported_types: [countersink]   # cannot be expressed in the IR today (blame 
 # MTI practices score (spec 2026-10-25, 2b): a separate 0-100 column, never blended into the score.
 practices:
   weights: {C1: 1, C2: 1, C3: 1, C4: 1, C5: 1, C6: 1, C7: 1}
-  edge_ops: [Fillet, Chamfer]                     # GetTypeName2 of fillets / chamfers
-  solid_ops: [Extrusion, ICE, Cut, HoleWzd, Revolution, RevCut, LPattern, CirPattern]
-  avoid: [Sweep, SweepCut, Blend, BlendCut, Shell, Draft, Rib, MoveFace, MoveCopyBody, Boundary, BoundaryCut]
+  # Type names verified against the local SolidWorks 2025 API help (sldworksapi.chm, the
+  # IFeature::GetTypeName2 table), plus ICE: what GetTypeName2 returns for Instant3D
+  # extrudes/cuts, observed in real trees. "OffsetRefSuface" is SolidWorks' own spelling.
+  edge_ops: [Fillet, VarFillet, Chamfer]
+  solid_ops: [ICE, Extrusion, Boss, BossThin, Cut, CutThin, BaseBody, Revolution, RevolutionThin, RevCut,
+              HoleWzd, AdvHoleWzd, SketchHole, LPattern, CirPattern, MirrorPattern, MirrorSolid, CombineBodies]
+  avoid: [Sweep, SweepCut, Blend, BlendCut, NetBlend, Shell, Draft, Rib, MoveCopyBody, SweepThread, Dome, Deform,
+          Bending, Thicken, ThickenCut, ReplaceFace, DelFace, ExtruRefSurface, RevolvRefSurf, SweepRefSurface,
+          BlendRefSurface, FillRefSurface, OffsetRefSuface, PlanarSurface, RadiateRefSurface, RuledSrfFromEdge,
+          SewRefSurface, TrimRefSurface, ExtendRefSurface, MidRefSurface, SurfCut, UnTrimRefSurf]
   three_d_sketch: 3DProfileFeature
