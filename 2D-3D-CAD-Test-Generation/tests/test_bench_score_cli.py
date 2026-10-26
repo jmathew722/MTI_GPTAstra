@@ -145,6 +145,7 @@ def test_fresh_generated_step_skips_export(tmp_path, monkeypatch):
     os.utime(sld, (old, old))
     _plate(run / "PI", "generated.step", [(-20, -10), (20, -10)])
     _plate(run / "PI", "reference.step", [(-20, -10), (20, -10)])
+    (run / "PI" / "feature_tree.json").write_text("[]", encoding="utf-8")   # fresh tree: practices need no SW
     monkeypatch.setattr(sw_tasks, "connect", lambda *a, **k: pytest.fail("SolidWorks must not be needed"))
     assert score.main([str(run), "--keys-dir", str(keys)]) == 0
     assert _out(run)["parts"][0]["score"] == pytest.approx(100.0)

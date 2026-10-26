@@ -58,6 +58,20 @@ def _rollup(title: str, d: dict) -> str:
     return f"<h3>{_e(title)}</h3>" + (_table(["", "points lost"], rows) if rows else "<p>none</p>")
 
 
+def _practices(pr: dict) -> str:
+    """The per-part MTI practices table (spec 2b): a separate score, never blended."""
+    if not pr:
+        return ""
+    head = (f"<h3>MTI practices: {_n(pr.get('score'), 1) or 'n/a'}</h3><p>A separate score, never blended into "
+            "the geometry score. <i>self-reported</i> rows read the compiler's own report."
+            + ("" if pr.get("checked") else " SLDPRT checks: not checked.")
+            + (f" {_e(pr['note'])}" if pr.get("note") else "") + "</p>")
+    rows = [[_e(r.get("id")), _e(r.get("name")), _n(r.get("credit")) if r.get("applicable") else "n/a",
+             _e(r.get("source")), _e(r.get("stage") or ""), _e(r.get("reason") or "")]
+            for r in pr.get("rows") or []]
+    return head + _table(["check", "practice", "credit", "source", "blame", "reason"], rows)
+
+
 def _part(p: dict) -> str:
     head = f'<h2 id="part-{_e(p["part"])}">{_e(p["part"])}</h2>'
     if p.get("error"):
@@ -91,6 +105,7 @@ def _part(p: dict) -> str:
                 "scored missing (blame <i>unresolved</i>); when it doesn't, it is listed here only.</p>") + _table(
             ["plan id", "kind", "question"],
             [[_e(u.get("id")), _e(u.get("kind")), _e(u.get("question"))] for u in p["unresolved"]])
+    out += _practices(p.get("practices"))
     if p.get("drawing_only"):
         out += "<h3>Drawing-only values (reported, not scored)</h3><ul>" + "".join(
             f"<li>{_e(x)}</li>" for x in p["drawing_only"]) + "</ul>"
@@ -112,8 +127,9 @@ def _note(p: dict) -> str:
 
 def write_html(path: Path, results: list, summary: dict, skipped_unsigned=(), no_key=()) -> None:
     s = summary or {}
-    summ = _table(["part", "score", "exact", "reference", "extraction", "note"], [
+    summ = _table(["part", "score", "practices", "exact", "reference", "extraction", "note"], [
         [f'<a href="#part-{_e(p["part"])}">{_e(p["part"])}</a>', _n(p.get("score")),
+         _n((p.get("practices") or {}).get("score"), 1),
          "yes" if p.get("exact") else "no", _n(p.get("reference_score")),
          {True: "found", False: "not found"}.get(p.get("extraction_found"), ""), _note(p)]
         for p in results])
@@ -129,7 +145,8 @@ td,th{{border:1px solid #bbb;padding:3px 6px;vertical-align:top}}th{{background:
 .cols{{display:flex;gap:24px;flex-wrap:wrap}}</style></head><body>
 <h1>Benchmark scores</h1>
 <p>parts scored {_n(s.get('n_scored'), 0)} &middot; mean {_n(s.get('mean'))} &middot; median {_n(s.get('median'))}
-&middot; exact-part rate {_n(s.get('exact_rate'))} &middot; errors {_e(', '.join(s.get('errors') or []) or 'none')}</p>
+&middot; exact-part rate {_n(s.get('exact_rate'))}
+&middot; practices mean {_n(s.get('practices_mean'))} (separate, never blended) &middot; errors {_e(', '.join(s.get('errors') or []) or 'none')}</p>
 {skipped}{summ}
 <h2>Points lost</h2><div class="cols"><div>{_rollup('by stage', roll.get('by_stage'))}</div>
 <div>{_rollup('by feature type', roll.get('by_type'))}</div><div>{_rollup('by tier', roll.get('by_tier'))}</div></div>
