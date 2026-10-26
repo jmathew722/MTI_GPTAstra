@@ -1,0 +1,175 @@
+{
+  "part": "4C1229",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -1.344,
+    -1.332949,
+    -0.0,
+    1.344,
+    1.344,
+    1.896
+  ],
+  "volume": 2.864263,
+  "volume_mm3": 46936.866,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F008",
+    "F009",
+    "F010"
+  ],
+  "skipped": {
+    "F011": "unresolved: What nominal size and chamfer-versus-radius treatment should be used at the external groove lips? The drawing specifies only a maximum.",
+    "F012": "unresolved: What nominal size and chamfer-versus-radius treatment should be used at the internal groove lips? The drawing specifies only a maximum."
+  },
+  "holes": {
+    "F005": [
+      {
+        "planned_center": [
+          0.0,
+          1.125
+        ],
+        "planned_d": 0.221,
+        "measured": true,
+        "center": [
+          0.0,
+          1.125
+        ],
+        "d": 0.221,
+        "depth": 0.122,
+        "axis": "Z"
+      }
+    ],
+    "F006": [
+      {
+        "planned_center": [
+          -0.974,
+          -0.563
+        ],
+        "planned_d": 0.221,
+        "measured": true,
+        "center": [
+          -0.974,
+          -0.563
+        ],
+        "d": 0.221,
+        "depth": 0.122,
+        "axis": "Z"
+      }
+    ],
+    "F007": [
+      {
+        "planned_center": [
+          0.974,
+          -0.563
+        ],
+        "planned_d": 0.221,
+        "measured": true,
+        "center": [
+          0.974,
+          -0.563
+        ],
+        "d": 0.221,
+        "depth": 0.122,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {
+    "F002": [
+      [
+        -0.87465,
+        0.0,
+        0.312
+      ]
+    ],
+    "F003": [
+      [
+        -0.763,
+        0.0,
+        1.0
+      ],
+      [
+        -0.763,
+        0.0,
+        1.155
+      ]
+    ],
+    "F004": [
+      [
+        -0.72,
+        0.0,
+        0.747
+      ],
+      [
+        -0.72,
+        0.0,
+        0.56
+      ]
+    ]
+  },
+  "starts": {
+    "F005": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F006": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F007": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F008": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": true
+    },
+    "F009": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": true
+    },
+    "F010": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": true
+    }
+  },
+  "volume_after": {
+    "F001": 3.172729181,
+    "F002": 3.17379874,
+    "F003": 3.174005105,
+    "F004": 3.174607503,
+    "F005": 3.153873335,
+    "F006": 3.133139168,
+    "F007": 3.112405,
+    "F008": 3.029688008,
+    "F009": 2.946975658,
+    "F010": 2.864263308
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -1.344,
+      -1.344,
+      0.0,
+      1.344,
+      1.344,
+      1.896
+    ]
+  }
+}

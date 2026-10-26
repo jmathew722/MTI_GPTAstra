@@ -3,6 +3,10 @@
 **Last updated:** 2026-10-26 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-10-26 (latest): all 31 audit parts run now build and verify.** E027 fixed three CadQuery
+> reference bugs (through-tapped holes, trimmed cylinders, seam edges): 4C1229 builds (IoU 0.938 vs
+> MTI) and SB14306 gets its 8 tapped holes. $0. Test report §9.
+>
 > **2026-10-26 (later): slots and circular prism patterns now compile (E026), so 30 of 31 audit
 > parts build and verify** (A00155E and SB14306 fixed, $0). Test report §8.
 >

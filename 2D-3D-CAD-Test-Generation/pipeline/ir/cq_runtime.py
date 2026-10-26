@@ -55,6 +55,13 @@ def _guarded(fn):
     return wrapper
 
 
+def _cylinder(face):
+    """gp_Cylinder of a CYLINDER face. BRepAdaptor, not _geomAdaptor(): after a cut the
+    surface can be a Geom_RectangularTrimmedSurface, which has no Cylinder() (4C1229)."""
+    from OCP.BRepAdaptor import BRepAdaptor_Surface
+    return BRepAdaptor_Surface(face.wrapped).Cylinder()
+
+
 def _idx(axis: str) -> int:
     return "XYZ".index(axis)
 
@@ -218,7 +225,7 @@ class Model:
         dvec = [0.0, 0.0, 0.0]
         dvec[_idx(axis)] = float(into)
         dirv = cq.Vector(*dvec)
-        if spec["type"] in ("thru",) or (spec["type"] == "cbore" and spec.get("depth") is None):
+        if spec["type"] == "thru" or spec.get("depth") is None:  # null depth = through (".750-10 TAP THRU")
             big = self._big()
             tool = cq.Solid.makeCylinder(d / 2, 2 * big, cq.Vector(*start) - dirv * big, dirv)
         elif spec["type"] in ("blind", "tapped", "cbore"):
@@ -308,9 +315,9 @@ class Model:
                 if f.geomType() == "PLANE":
                     continue
                 if radius is not None and (f.geomType() != "CYLINDER" or
-                                           abs(f._geomAdaptor().Cylinder().Radius() - radius) > TOL * 10):
+                                           abs(_cylinder(f).Radius() - radius) > TOL * 10):
                     continue
-                c = f.Center() if f.geomType() != "CYLINDER" else f.positionAt(0.5, 0.5)
+                c = f.positionAt(0.5, 0.5)   # on the surface; a revolved face's Center() is on the axis
                 if cq.Vertex.makeVertex(c.x, c.y, c.z).distance(tool) < TOL * 10:
                     out.append(f)
             return out
@@ -322,7 +329,10 @@ class Model:
         for q in edges:
             a, b = parse_edge_query(q)
             fa, fb = self._faces_for(a), self._faces_for(b)
-            found = [e for x in fa for e in x.Edges() if any(e.isSame(y) for g in fb for y in g.Edges())]
+            # two DISTINCT faces: wall(F001) also matches wall(F001,r), and a cylinder's seam
+            # is an edge "between" the face and itself (4C1229 F004)
+            found = [e for x in fa for e in x.Edges()
+                     if any(e.isSame(y) for g in fb if not g.isSame(x) for y in g.Edges())]
             if not found:
                 raise CompileError(f"{fid}: {q} matched no edges")
             for e in found:
@@ -360,10 +370,9 @@ class Model:
                 i, j = [n for n in range(3) if n != _idx(ax)]
                 best = None
                 for f in cyl:
-                    r = f._geomAdaptor().Cylinder().Radius()
-                    loc = f._geomAdaptor().Cylinder().Location()
+                    c = _cylinder(f)
+                    r, loc, dirn = c.Radius(), c.Location(), c.Axis().Direction()
                     p = (loc.X(), loc.Y(), loc.Z())
-                    dirn = f._geomAdaptor().Cylinder().Axis().Direction()
                     if abs(abs((dirn.X(), dirn.Y(), dirn.Z())[_idx(ax)]) - 1) > 1e-6:
                         continue
                     dist = math.hypot(p[i] - h["center_mm"][i], p[j] - h["center_mm"][j])

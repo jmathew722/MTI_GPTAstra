@@ -159,3 +159,28 @@ MTI's Google Drive audit holds **63 parts that have both a drawing and MTI's own
   - the `depth` bug in `cq_runtime` hole handling (SB14306);
   - 4C1229's reference failure;
   - A00161E's score alignment.
+
+---
+
+## 9. Through-tapped holes and 4C1229 fixed (E027), $0
+
+Three bugs in the CadQuery reference runtime (`cq_runtime.py`):
+
+1. Holes with `depth: null` (".750-10 TAP THRU") crashed unless they were counterbores.
+2. Hole measurement crashed on cylinders trimmed by the slot cuts.
+3. An edge query paired a cylinder with itself and picked its seam line.
+
+Rebuilt from saved plans:
+
+| Part | Before | After | IoU vs MTI | Volume ratio |
+|---|---|---|---|---|
+| 4C1229 | reference failed, no build | **builds and verifies** (2 MTI questions skipped) | **0.938** | 0.955 |
+| SB14306 | 4 tapped-hole families skipped | **builds and verifies**, all 8 tapped holes via Hole Wizard | 0.744 | 1.273 |
+
+- **Combined: all 31 audit parts run now build and verify.**
+- **SB14306** didn't move on IoU: the holes are small against a 546 mm part. Its +27% volume is
+  elsewhere, probably the F005 blend and the F003 edge query (still "matched no edges") or a bore
+  profile. That needs a look against MTI's model.
+- **4C1229** is 4.5% light against MTI. F011 and F012 (groove-lip breaks, "MAX" only) are MTI
+  questions.
+- **Tests:** 442 passing.

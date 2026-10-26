@@ -136,3 +136,40 @@ def test_bearing_counterbores_taps_and_chamfers():
     assert all(h["measured"] and h["depth"] == pytest.approx(1.0, abs=1e-6) for h in taps)
     assert m.contains(2.75, 0, 1.2)                  # tapped hole is blind (1.00 DP of 1.500)
     assert len(fm["edge_points"]["F007"]) == 4
+
+
+# --- MTI audit 2026-10-26: SB14306 tapped THRU holes, 4C1229 slots through a revolve --- #
+def _flange():
+    from pipeline.ir.cq_runtime import Model
+    m = Model("T", origin_kind="axis_end", units="inch", strict=True)
+    m.revolve("F001", outer=[(0, 3.0), (0.5, 3.0)], inner=[(0, 0.5), (0.5, 0.5)], op="add")
+    return m
+
+
+def test_tapped_hole_with_null_depth_cuts_through():
+    m = _flange()
+    m.hole("F002", on="face(F001,+Z)", u=2.0, v=0, spec={"type": "tapped", "d": 0.3125, "depth": None,
+                                                         "thread": ".375-16 UNC THRU"})
+    assert not m.skipped
+    assert not m.contains(2.0, 0, 0.05) and not m.contains(2.0, 0, 0.45)   # through the whole flange
+    hole = m.feature_map()["holes"]["F002"][0]
+    assert hole["measured"] and hole["depth"] == pytest.approx(0.5, abs=1e-6)
+
+
+def test_holes_are_measured_after_slots_trim_the_bore():
+    m = _flange()   # 4C1229: the slot cuts leave trimmed cylinder surfaces (no _geomAdaptor().Cylinder())
+    m.prism("F002", on="face(F001,-Z)", offset=0, depth="thru", op="cut",
+            profile={"shape": "slot", "length": 3.0, "width": 0.344, "angle": 90, "u": 0, "v": -1.5})
+    m.hole("F003", on="face(F001,-Z)", u=0, v=1.125,
+           spec={"type": "cbore", "d": 0.221, "cbore_d": 0.328, "cbore_depth": 0.19})
+    fm = m.feature_map()
+    assert fm["holes"]["F003"][0]["measured"]
+
+
+def test_edge_query_never_selects_a_cylinder_seam():
+    from pipeline.ir.cq_runtime import Model
+    m = Model("T", origin_kind="axis_end", units="inch", strict=True)   # bore steps out through a cone
+    m.revolve("F001", outer=[(0, 3.0), (0.5, 3.0)], inner=[(0, 0.5), (0.2, 0.5), (0.3, 0.7), (0.5, 0.7)], op="add")
+    # 4C1229 F004: wall(F001) also matches the bore itself, and its seam is not an edge "between"
+    m.edge_op("F002", operation="fillet", size=0.02, angle=45, edges=["edge_between(wall(F001,0.5),wall(F001))"])
+    assert [round(p[2], 6) for p in m.edge_points["F002"]] == [0.2]     # the bore-to-cone circle only

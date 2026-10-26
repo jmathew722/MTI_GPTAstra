@@ -10,8 +10,8 @@
     10.750173,
     8.0
   ],
-  "volume": 748.360133,
-  "volume_mm3": 12263425.392,
+  "volume": 743.994426,
+  "volume_mm3": 12191884.278,
   "features": [
     "F001",
     "F002",
@@ -20,6 +20,14 @@
     "F007",
     "F008",
     "F009",
+    "F010",
+    "F011",
+    "F012",
+    "F013",
+    "F014",
+    "F015",
+    "F016",
+    "F017",
     "F018",
     "F019",
     "F020",
@@ -36,17 +44,266 @@
   "skipped": {
     "F003": "failed: CompileError: F003: edge_between(face(F001,-Z,0.0),wall(F001,10.750354839)) matched no edges",
     "F005": "unresolved: Confirm the other starred .375 blend's exact transition geometry: a simple fillet cannot fit the nominal .250 radial shoulder between the 18.625 and 18.125 bores.",
-    "F010": "failed: KeyError: 'depth'",
-    "F011": "failed: CompileError: ref to F010, which has no geometry (not built or skipped)",
-    "F012": "failed: KeyError: 'depth'",
-    "F013": "failed: CompileError: ref to F012, which has no geometry (not built or skipped)",
-    "F014": "failed: KeyError: 'depth'",
-    "F015": "failed: CompileError: ref to F014, which has no geometry (not built or skipped)",
-    "F016": "failed: KeyError: 'depth'",
-    "F017": "failed: CompileError: ref to F016, which has no geometry (not built or skipped)",
     "F028": "unresolved: What edge-break size and treatment should implement the general sharp-corner instruction?"
   },
-  "holes": {},
+  "holes": {
+    "F010": [
+      {
+        "planned_center": [
+          -3.0,
+          -5.196
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          -3.0,
+          -5.196
+        ],
+        "d": 0.65625,
+        "depth": 1.5,
+        "axis": "Z"
+      }
+    ],
+    "F011": [
+      {
+        "planned_center": [
+          3.0,
+          -5.196
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          3.0,
+          -5.196
+        ],
+        "d": 0.65625,
+        "depth": 1.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -3.0,
+          5.196
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          -3.0,
+          5.196
+        ],
+        "d": 0.65625,
+        "depth": 1.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          3.0,
+          5.196
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          3.0,
+          5.196
+        ],
+        "d": 0.65625,
+        "depth": 1.5,
+        "axis": "Z"
+      }
+    ],
+    "F012": [
+      {
+        "planned_center": [
+          -5.196,
+          -3.0
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          -5.196,
+          -3.0
+        ],
+        "d": 0.65625,
+        "depth": 1.5,
+        "axis": "Z"
+      }
+    ],
+    "F013": [
+      {
+        "planned_center": [
+          5.196,
+          -3.0
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          5.196,
+          -3.0
+        ],
+        "d": 0.65625,
+        "depth": 1.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -5.196,
+          3.0
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          -5.196,
+          3.0
+        ],
+        "d": 0.65625,
+        "depth": 1.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          5.196,
+          3.0
+        ],
+        "planned_d": 0.65625,
+        "measured": true,
+        "center": [
+          5.196,
+          3.0
+        ],
+        "d": 0.65625,
+        "depth": 1.5,
+        "axis": "Z"
+      }
+    ],
+    "F014": [
+      {
+        "planned_center": [
+          5.125,
+          0.0
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          5.125,
+          0.0
+        ],
+        "d": 0.3125,
+        "depth": 0.5,
+        "axis": "Z"
+      }
+    ],
+    "F015": [
+      {
+        "planned_center": [
+          0.0,
+          5.125
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          0.0,
+          5.125
+        ],
+        "d": 0.3125,
+        "depth": 0.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -5.125,
+          0.0
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          -5.125,
+          0.0
+        ],
+        "d": 0.3125,
+        "depth": 0.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -0.0,
+          -5.125
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          -0.0,
+          -5.125
+        ],
+        "d": 0.3125,
+        "depth": 0.5,
+        "axis": "Z"
+      }
+    ],
+    "F016": [
+      {
+        "planned_center": [
+          7.125,
+          0.0
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          7.125,
+          0.0
+        ],
+        "d": 0.3125,
+        "depth": 0.5,
+        "axis": "Z"
+      }
+    ],
+    "F017": [
+      {
+        "planned_center": [
+          0.0,
+          7.125
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          0.0,
+          7.125
+        ],
+        "d": 0.3125,
+        "depth": 0.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -7.125,
+          0.0
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          -7.125,
+          0.0
+        ],
+        "d": 0.3125,
+        "depth": 0.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -0.0,
+          -7.125
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          -0.0,
+          -7.125
+        ],
+        "d": 0.3125,
+        "depth": 0.5,
+        "axis": "Z"
+      }
+    ]
+  },
   "edge_points": {
     "F002": [
       [
@@ -146,18 +403,26 @@
     "F007": 793.10908425,
     "F008": 791.740304902,
     "F009": 787.639134458,
-    "F018": 787.093131093,
-    "F019": 774.533033971,
-    "F020": 774.477732347,
-    "F021": 773.20469987,
-    "F022": 773.201396802,
-    "F023": 773.12436774,
-    "F024": 773.121065682,
-    "F025": 773.04472726,
-    "F026": 772.60816506,
-    "F027": 760.671215137,
-    "F029": 760.157524464,
-    "F030": 748.360132844
+    "F010": 787.131754728,
+    "F011": 785.609650029,
+    "F012": 785.102264997,
+    "F013": 783.580170146,
+    "F014": 783.54183001,
+    "F015": 783.426755697,
+    "F016": 783.388420283,
+    "F017": 783.273343545,
+    "F018": 782.727323723,
+    "F019": 770.167309867,
+    "F020": 770.112003422,
+    "F021": 768.83898526,
+    "F022": 768.83568263,
+    "F023": 768.758661998,
+    "F024": 768.755360544,
+    "F025": 768.679025993,
+    "F026": 768.242465007,
+    "F027": 756.305519717,
+    "F029": 755.791830586,
+    "F030": 743.994426223
   },
   "base": {
     "fid": "F001",

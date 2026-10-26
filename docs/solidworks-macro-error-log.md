@@ -579,6 +579,38 @@ correct. Scorers must project along each hole's axis rather than assume model XY
     in `cq_runtime`, 1 edge query matched no edges, and 2 are open MTI questions. Those are next.
 - **Tests:** `test_circular_prism_pattern_*` in `test_ir_compile_solidworks.py`.
 
+## E027 — CadQuery reference: through-tapped holes, trimmed cylinders, seam edges (SB14306, 4C1229)
+
+- **Symptoms:**
+  1. SB14306 F010/F012/F014/F016 (".750-10 TAP THRU", ".375-16 TAP THRU") were skipped:
+     `TypeError: None * float` (seen in the report as `KeyError: 'depth'`).
+  2. 4C1229's reference failed at `finish`: `'Geom_RectangularTrimmedSurface' object has no
+     attribute 'Cylinder'`, so no `reference.step` and no SolidWorks build.
+  3. Once (2) was fixed, 4C1229 F004 (groove-root fillet) failed in SolidWorks: "no edge within
+     0.01 mm of [0.72, 0.0, 0.6535]".
+- **Root causes** (all in `pipeline/ir/cq_runtime.py`, the reference, not the SW compiler):
+  1. Only a counterbore with no depth was treated as through. A tapped or blind hole with
+     `depth: null` (the planner's way of writing THRU) multiplied `None`.
+  2. `measure_holes` read radii with `face._geomAdaptor().Cylinder()`. After the slot cuts the
+     bore's surface is a trimmed surface, which has no `Cylinder()`.
+  3. `edge_between(wall(F001,0.72), wall(F001))`: `wall(F001)` also matches the 0.72 cylinder
+     itself, so its **seam line** counted as an edge "between" the face and itself. SolidWorks
+     has no edge there. Separately, `wall()` tested curved faces by `Center()`, which for a
+     revolved face lies on the axis, so cones never matched.
+- **Fixes:**
+  - any hole with `depth: null` is through (reference and `compile_solidworks._SW.hole`;
+    Hole Wizard already used Up To Next);
+  - `_cylinder(face)` via `BRepAdaptor_Surface`;
+  - edge queries need two distinct faces; `wall()` tests a point on the surface
+    (`positionAt(0.5, 0.5)`).
+- **Generator rule:** never use `_geomAdaptor()` for analytic surface data; never let an edge
+  query pair a face with itself.
+- **Live ($0, from saved plans):** 4C1229 builds and verifies (IoU 0.938 vs MTI); SB14306 builds
+  and verifies with all 8 tapped holes (Hole Wizard, cosmetic threads).
+- **Tests:** `test_tapped_hole_with_null_depth_cuts_through`,
+  `test_holes_are_measured_after_slots_trim_the_bore`,
+  `test_edge_query_never_selects_a_cylinder_seam` (`test_ir_compile_cadquery.py`).
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

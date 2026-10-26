@@ -546,7 +546,7 @@ class _SW:
 
         circles(self.n(spec.d))
         start = coord * self.k * sign
-        thru = spec.type == "thru" or (spec.type == "cbore" and spec.depth is None)
+        thru = spec.type == "thru" or spec.depth is None  # null depth = through (tapped THRU too)
         depth = None if thru else self.n(spec.depth) * self.k
 
         def drill(flip, end=None):
