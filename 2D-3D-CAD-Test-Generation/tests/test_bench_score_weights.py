@@ -27,8 +27,8 @@ def test_weights_tier_times_size_with_floor():
     part = 6.0
     assert weight(base_body(KEY), part, C) == pytest.approx(10.0)
     assert weight(KEY.feature("K2"), part, C) == pytest.approx(3 * (3.0 / 6.0) ** 0.5)
-    assert weight(KEY.feature("K1"), part, C) == pytest.approx(3 * C.size_floor)       # floored
-    assert weight(KEY.feature("K3"), part, C) == pytest.approx(1 * C.size_floor)
+    assert weight(KEY.feature("K1"), part, C) == pytest.approx(C.tiers["thru_hole"] * C.size_floor)       # floored
+    assert weight(KEY.feature("K3"), part, C) == pytest.approx(C.tiers["tapped_hole"] * C.size_floor)
 
 
 def test_hole_is_sized_by_diameter_not_length():

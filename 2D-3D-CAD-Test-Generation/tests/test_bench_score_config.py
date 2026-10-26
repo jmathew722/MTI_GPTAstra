@@ -7,7 +7,7 @@ def test_defaults_load_and_are_sane():
     c = load()
     assert c.credit.drop == 0.5 and 4.0 < c.credit.k < 5.0
     assert abs(sum(c.shares.values()) - 1.0) < 1e-9
-    assert c.tiers["base_body"] == 10 and c.tiers["thru_hole"] == 3 and c.tiers["tapped_hole"] == 1
+    assert c.tiers["base_body"] == 10 and c.tiers["thru_hole"] == 5 and c.tiers["tapped_hole"] == 2
     assert c.size_floor == 0.5 and c.extra_penalty == 0.5
     assert c.fallback_tol == {"inch": 0.005, "mm": 0.1}
     assert "countersink" in c.unsupported_types

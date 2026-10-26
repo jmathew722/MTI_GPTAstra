@@ -11,15 +11,15 @@ tiers:               # importance tier weights by feature type
   base_body: 10
   bore: 3
   turned_diameter: 3
-  thru_hole: 3
+  thru_hole: 5        # calibration 2026-10-25: was 3; a misplaced/missing hole must cost real points
   slot: 3
   pocket_step: 3
   flat: 3
   boss: 3
-  tapped_hole: 1
-  counterbore: 1
-  countersink: 1
-  blind_hole: 1
+  tapped_hole: 2
+  counterbore: 2
+  countersink: 2
+  blind_hole: 2
   chamfer: 1
   fillet: 1
 size_floor: 0.5      # size factor = clamp(sqrt(feature size / part size), size_floor, 1)
