@@ -1,8 +1,20 @@
 # STATE.md — where mti-2d-3d stands
 
-**Last updated:** 2026-10-26 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
+**Last updated:** 2026-10-28 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-10-28: the two worst audit scores are MTI model-vs-drawing differences, not pipeline
+> errors.** SB14306: MTI's model uses bores that aren't on the drawing (a Ø10 web bore where the
+> drawing has Ø6.00); ours matches the drawing. A00161E: MTI's end radius is 3.036 where the drawing
+> has 3.00 R; a 0.9 mm offset on a 1.5 mm sheet reads as IoU 0.29. Fixed on the way:
+> - the cone-rim fillet query (SB14306 F003);
+> - the loose `GetBodyBox` in the final check, now `GetExtremePoint` (E030);
+> - `mti_score.py` now reports surface deviation in mm.
+>
+> **SB14306 now builds with 26/28 features.** Merged smcanuff's benchmark scorer from `main`; this
+> branch's error-log entries were renumbered E028/E029. $0. Tests 976 passed, 66 skipped. Test report
+> [2026-10-28](docs/test-reports/2026-10-28-test-report.md).
+>
 > **2026-10-26 (latest): all 31 audit parts run now build and verify.** E029 fixed three CadQuery
 > reference bugs (through-tapped holes, trimmed cylinders, seam edges): 4C1229 builds (IoU 0.938 vs
 > MTI) and SB14306 gets its 8 tapped holes. $0. Test report §9.

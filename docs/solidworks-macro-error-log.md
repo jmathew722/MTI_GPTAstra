@@ -624,6 +624,32 @@ The full entry was kept local; add it here.
   `test_holes_are_measured_after_slots_trim_the_bore`,
   `test_edge_query_never_selects_a_cylinder_seam` (`test_ir_compile_cadquery.py`).
 
+## E030 — GetBodyBox is not tight: a correct part failed the final bounding-box check (SB14306)
+
+- **Symptom:** after the nose fillet (F003) was fixed, SB14306 built every feature with
+  matching volumes (743.7666 vs 743.7645 in³), yet `sw_ok` was false.
+- **Root cause:** the final check compares the SolidWorks body box with the reference within
+  1e-4. `IBody2.GetBodyBox` is not tight on curved faces: with the .12 R fillet on the largest
+  rim it read **10.7281"** (and −4.0068 on a flat side) where the part is exactly **10.7218"**.
+  Before the fillet the rim was a plain cylinder edge and the box happened to be exact.
+- **Fix:** `compile_solidworks.body_box(body)`: six calls to `IBody2.GetExtremePoint(X, Y, Z,
+  out x, out y, out z)` along ±X/±Y/±Z. The signature was checked in `sldworks.tlb`, and the call
+  was tried live on the saved SB14306 part: exact to 1e-6", matching the reference. It is used for
+  the origin-centered check and the final bbox check. If the call fails, it falls back to
+  `GetBodyBox`. (The byref outputs come back as a tuple through the typed wrapper; see E027 for
+  the makepy trap.)
+- **Generator rule:** never compare a `GetBodyBox` against an exact box with a tight tolerance;
+  use extreme points.
+- **Also in this round (reference runtime, no SolidWorks change):**
+  - `wall(F, r)` now matches a **cone** whose rim circle has radius r. A taper is dimensioned at
+    its end, so SB14306's F003 (".12 R" at the tapered nose) had "matched no edges". An exact
+    cylinder still wins over a cone rim.
+  - `score.surface_deviation`: the sampled surface distance in mm, now reported by
+    `mti_score.py` next to IoU.
+- **Tests:** `test_body_box_uses_extreme_points`, `test_body_box_falls_back_to_get_body_box`
+  (`test_ir_compile_solidworks.py`); `test_wall_radius_matches_a_cone_at_its_rim`,
+  `test_surface_deviation_reads_a_thin_wall_offset_in_mm` (`test_ir_compile_cadquery.py`).
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

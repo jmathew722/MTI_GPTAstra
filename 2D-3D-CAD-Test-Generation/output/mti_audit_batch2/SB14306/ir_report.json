@@ -31,9 +31,8 @@
     "F029: The detail shows the narrow slit connecting the open end to the enlarged relief. The tool overshoots the open end and terminates inside the already removed relief, without extending the 5.00 closed-end envelope. Its radial depth overshoots the OD."
   ],
   "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB14306\\reference.step",
-  "volume": 743.994426,
+  "volume": 743.764502,
   "cq_skipped": {
-    "F003": "failed: CompileError: F003: edge_between(face(F001,-Z,0.0),wall(F001,10.750354839)) matched no edges",
     "F005": "unresolved: Confirm the other starred .375 blend's exact transition geometry: a simple fillet cannot fit the nominal .250 radial shoulder between the 18.625 and 18.125 bores.",
     "F028": "unresolved: What edge-break size and treatment should implement the general sharp-corner instruction?"
   },
@@ -42,7 +41,7 @@
   "sw_features": {
     "F001": "built",
     "F002": "built (2 edges selected by nearest point)",
-    "F003": "skipped (failed: CompileError: F003: edge_between(face(F001,-Z,0.0),wall(F001,10.750354839)) matched no edges)",
+    "F003": "built (1 edges selected by nearest point)",
     "F004": "built (1 edges selected by nearest point)",
     "F005": "skipped (unresolved: Confirm the other starred .375 blend's exact transition geometry: a simple fillet cannot fit the nominal .250 radial shoulder between the 18.625 and 18.125 bores.)",
     "F006": "built",

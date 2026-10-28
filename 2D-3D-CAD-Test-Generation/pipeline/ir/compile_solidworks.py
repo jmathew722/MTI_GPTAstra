@@ -1131,6 +1131,27 @@ def base_axis(plan: BuildPlan, fmap: dict[str, Any]) -> str:
     return st["axis"] if st else "Z"
 
 
+def body_box(body) -> list[float]:
+    """Tight box [xmin, ymin, zmin, xmax, ymax, zmax] (m) from IBody2.GetExtremePoint along
+    the six axis directions (sldworks.tlb: X, Y, Z in; Outx, Outy, Outz byref; returns bool).
+    IBody2.GetBodyBox is NOT tight on curved faces: SB14306's filleted rim read 10.7281" for
+    10.7218" and failed the bbox check (E030). Falls back to GetBodyBox."""
+    from pipeline.solidworks_builder import typed
+    try:
+        tb = typed(body, "IBody2")
+        box = [0.0] * 6
+        for i in range(6):
+            d = [0.0, 0.0, 0.0]
+            d[i % 3] = -1.0 if i < 3 else 1.0
+            ok, *pt = tb.GetExtremePoint(*d)
+            if not ok:
+                raise RuntimeError("GetExtremePoint returned False")
+            box[i] = pt[i % 3]
+        return box
+    except Exception:
+        return list(body.GetBodyBox())
+
+
 def origin_centered(bbox: list[float], tol_m: float = 1e-6) -> bool:
     """MTI: the base body is symmetric about the three base planes (box centered on the
     origin). ``bbox`` is a SolidWorks body box in meters."""
@@ -1194,7 +1215,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         log.info("  %s %s: %s %s", f.id, f.kind, res.status, res.note)
         if sw.base and f.id == sw.base["fid"] and res.status == "built":
             body = (sw.doc.GetBodies2(0, False) or [None])[0]
-            sw.report.origin_ok = body is not None and origin_centered(list(body.GetBodyBox()))
+            sw.report.origin_ok = body is not None and origin_centered(body_box(body))
         if progress is not None:
             progress(f, res)
 
@@ -1211,7 +1232,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         sw.doc.Extension.SetUserPreferenceToggle(SW_DISPLAY_COSMETIC_THREADS, 0, True)
     bodies = sw.doc.GetBodies2(0, False)
     if bodies:
-        bb = bodies[0].GetBodyBox()
+        bb = body_box(bodies[0])
         ext = sorted((bb[i + 3] - bb[i]) / sw.k for i in range(3))
         ref = sorted(fmap["bbox"][i + 3] - fmap["bbox"][i] for i in range(3))
         sw.report.bbox_ok = all(abs(a - b) <= 1e-4 * max(1.0, b) for a, b in zip(ext, ref))

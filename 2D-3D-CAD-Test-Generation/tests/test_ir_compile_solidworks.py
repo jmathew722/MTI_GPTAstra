@@ -268,3 +268,34 @@ def test_circular_prism_pattern_limits_are_reported(fake_sw, axis, skip):
     sw.plan = plan
     res = sw.pattern(plan.feature("F003"))
     assert res.status == "failed" and "axis(part)" in res.note
+
+
+# --- E030: GetBodyBox is loose on curved faces; the final bbox check uses extreme points --- #
+class _Body:
+    """SB14306 after the nose fillet: GetBodyBox overshoots, GetExtremePoint is exact."""
+    R = 10.721764 * 0.0254
+
+    def GetBodyBox(self):
+        return (-10.728124 * 0.0254, -0.2, -10.728124 * 0.0254, 10.728516 * 0.0254, 0.2, 10.728516 * 0.0254)
+
+    def GetExtremePoint(self, x, y, z):
+        lim = (self.R, 0.2, self.R)
+        return (True, *[d * l for d, l in zip((x, y, z), lim)])
+
+
+def test_body_box_uses_extreme_points(monkeypatch):
+    import pipeline.solidworks_builder as sb
+    from pipeline.ir.compile_solidworks import body_box
+    monkeypatch.setattr(sb, "typed", lambda obj, iface: obj)
+    box = body_box(_Body())
+    assert box == pytest.approx([-_Body.R, -0.2, -_Body.R, _Body.R, 0.2, _Body.R])
+
+
+def test_body_box_falls_back_to_get_body_box(monkeypatch):
+    import pipeline.solidworks_builder as sb
+    from pipeline.ir.compile_solidworks import body_box
+
+    def boom(obj, iface):
+        raise RuntimeError("no typelib")
+    monkeypatch.setattr(sb, "typed", boom)
+    assert body_box(_Body()) == list(_Body().GetBodyBox())
