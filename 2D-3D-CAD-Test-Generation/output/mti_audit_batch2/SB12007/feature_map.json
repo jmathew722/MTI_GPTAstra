@@ -10,16 +10,15 @@
     1.0,
     4.718
   ],
-  "volume": 13.712775,
-  "volume_mm3": 224712.119,
+  "volume": 13.710437,
+  "volume_mm3": 224673.812,
   "features": [
     "F001",
-    "F002"
+    "F002",
+    "F003",
+    "F004"
   ],
-  "skipped": {
-    "F003": "unresolved: What exact shoulder-root radius should be modeled? The drawing specifies only a maximum.",
-    "F004": "unresolved: What total full-diameter pilot drilling depth is required beyond the specified .38 tapped depth? No drill depth is given."
-  },
+  "skipped": {},
   "holes": {
     "F002": [
       {
@@ -34,14 +33,44 @@
           0.0
         ],
         "d": 0.159,
-        "depth": 0.38,
+        "depth": 0.53625,
+        "axis": "Z"
+      }
+    ],
+    "F004": [
+      {
+        "planned_center": [
+          0.0,
+          0.0
+        ],
+        "planned_d": 0.159,
+        "measured": true,
+        "center": [
+          0.0,
+          0.0
+        ],
+        "d": 0.159,
+        "depth": 0.53625,
         "axis": "Z"
       }
     ]
   },
-  "edge_points": {},
+  "edge_points": {
+    "F003": [
+      [
+        -0.6235,
+        0.0,
+        0.562
+      ]
+    ]
+  },
   "starts": {
     "F002": {
+      "axis": "Z",
+      "coord": 4.718,
+      "dir": -1
+    },
+    "F004": {
       "axis": "Z",
       "coord": 4.718,
       "dir": -1
@@ -49,7 +78,9 @@
   },
   "volume_after": {
     "F001": 13.720320004,
-    "F002": 13.712774856
+    "F002": 13.712774856,
+    "F003": 13.713539634,
+    "F004": 13.710437188
   },
   "base": {
     "fid": "F001",

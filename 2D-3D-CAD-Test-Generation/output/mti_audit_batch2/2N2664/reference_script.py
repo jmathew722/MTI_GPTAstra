@@ -9,9 +9,9 @@ m.revolve('F001', outer=[(0, 3.874), (0.438, 3.874), (0.438, 3.219), (0.875, 3.2
 m.edge_op('F002', operation='fillet', size=0.5, angle=45, edges=['edge_between(face(F001,+Z,1.75),wall(F001,1.6875))'])  # size=D023; edges=['edge_between(face(F001,+Z,D002),wall(F001,D019 / 2))']
 m.edge_op('F003', operation='fillet', size=0.12, angle=45, edges=['edge_between(face(F001,+Z,0.875),wall(F001,2.875))'])  # size=D026; edges=['edge_between(face(F001,+Z,D003),wall(F001,D021 / 2))']
 m.edge_op('F004', operation='fillet', size=0.06, angle=45, edges=['edge_between(face(F001,+Z,6.25),wall(F001,2.25))'])  # size=D024; edges=['edge_between(face(F001,+Z,D001),wall(F001,D020 / 2))']
-m.skip('F005', 'unresolved: Should the .12 C/R hub shoulder edge be a chamfer or a radius?')
-m.skip('F006', 'unresolved: Confirm which small depicted edge breaks are chamfers rather than limited-radius corners before applying the general chamfer note.')
-m.skip('F007', 'unresolved: What nominal radius and complete edge set are required for unspecified radii? A maximum alone does not define finished geometry.')
+m.edge_op('F005', operation='chamfer', size=0.12, angle=45, edges=['edge_between(face(F001,+Z,1.75),wall(F001,2.875))'])  # size=D007; edges=['edge_between(face(F001,+Z,D002),wall(F001,D021 / 2))']
+m.edge_op('F006', operation='chamfer', size=0.06, angle=45, edges=['edge_between(face(F001,-Z,0.0),wall(F001,3.874))', 'edge_between(face(F001,+Z,0.438),wall(F001,3.874))', 'edge_between(face(F001,-Z,1.5),wall(F001,1.37575))'])  # size=D062; edges=['edge_between(face(F001,-Z,0),wall(F001,D013 / 2))', 'edge_between(face(F001,+Z,D004),wall(F001,D013 / 2))', 'edge_between(face(F001,-Z,D027),wall(F001,D011 / 2))']
+m.edge_op('F007', operation='fillet', size=0.047, angle=45, edges=['edge_between(face(F001,-Z,0.438),wall(F001,2.754))'])  # size=D064; edges=['edge_between(face(F001,-Z,D014),wall(F001,D010 / 2))']
 m.hole('F010', on='face(F001,+Z,0.438)', u=3.562, v=0, spec={'type': 'tapped', 'd': 0.203})  # u=D040, v=0, d=D052
 m.hole('F011', on='face(F001,+Z,0.438)', u=-3.562, v=0, spec={'type': 'tapped', 'd': 0.203})  # u=-D040, v=0, d=D052
 m.hole('F012', on='face(F001,+Z,0.438)', u=1.781, v=3.085, spec={'type': 'tapped', 'd': 0.203})  # u=D041, v=D042, d=D052
@@ -27,6 +27,6 @@ m.skip('F021', 'unsupported: The one-sided radial drilling axis is 30 degrees le
 m.prism('F022', on='face(F001,+Z,6.25)', offset=0, profile={'shape': 'rect', 'w': 0.377, 'h': 2, 'anchor': 'corner', 'u': -0.188, 'v': 0}, depth=0.5, op='cut')  # w=D032, h=D039 + D034, u=-D033, v=0; depth=D006; offset=0
 m.edge_op('F023', operation='fillet', size=0.188, angle=45, edges=['edge_between(face(F022,+X),face(F022,-Y))', 'edge_between(face(F022,-X),face(F022,-Y))'])  # size=D034; edges=['edge_between(face(F022,+X),face(F022,-Y))', 'edge_between(face(F022,-X),face(F022,-Y))']
 m.hole('F024', on='face(F022,+Z,5.75)', u=0, v=1.75, spec={'type': 'blind', 'd': 0.136, 'depth': 0.69})  # u=0, v=D043, d=D035
-m.skip('F025', 'unresolved: Does the printed internal 8-32-2A thread intend class 2B? Confirm before assigning the cosmetic thread.')
+m.hole('F025', on='face(F022,+Z,5.75)', u=0, v=1.75, spec={'type': 'tapped', 'd': 0.136, 'depth': 0.5})  # u=0, v=D043, d=D035
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

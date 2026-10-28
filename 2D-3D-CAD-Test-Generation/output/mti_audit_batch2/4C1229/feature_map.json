@@ -24,10 +24,7 @@
     "F009",
     "F010"
   ],
-  "skipped": {
-    "F011": "unresolved: What nominal size and chamfer-versus-radius treatment should be used at the external groove lips? The drawing specifies only a maximum.",
-    "F012": "unresolved: What nominal size and chamfer-versus-radius treatment should be used at the internal groove lips? The drawing specifies only a maximum."
-  },
+  "skipped": {},
   "holes": {
     "F005": [
       {

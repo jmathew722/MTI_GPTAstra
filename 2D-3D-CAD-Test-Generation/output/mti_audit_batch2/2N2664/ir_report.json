@@ -1,17 +1,15 @@
 {
   "part": "2N2664",
-  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\2N2664\\2N2664_extraction.json",
-  "plan_attempts": 2,
+  "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\2N2664\\2N2664_extraction.json",
+  "plan_attempts": 0,
   "gate1": "OK",
-  "planned": 18,
-  "questions": [
-    "F005: Should the .12 C/R hub shoulder edge be a chamfer or a radius?",
-    "F006: Confirm which small depicted edge breaks are chamfers rather than limited-radius corners before applying the general chamfer note.",
-    "F007: What nominal radius and complete edge set are required for unspecified radii? A maximum alone does not define finished geometry.",
-    "F025: Does the printed internal 8-32-2A thread intend class 2B? Confirm before assigning the cosmetic thread."
-  ],
+  "planned": 22,
+  "questions": [],
   "flagged": [
     "F001: The smaller bore land is between the 1.500 shoulder and the shoulder 4.12 from the right end; the 2.484 relief continues rightward from there. This corrects the extraction's description of the 4.12 shoulder as the front of the precision land. The phantom .500 balls touch the right end plane, and their inner separation is 1.9734. The taper end radius is (D017+D028)/2+(D028/2)*(sec(15 degrees)+tan(15 degrees)). Numeric factors 1.303225372841206 and 0.2679491924311227 are respectively sec(D009)+tan(D009) and tan(D009), calculated from the printed 15-degree callout, not additional dimensions. The 3.1250 REF diameter is only a check.",
+    "F005: DEFAULT D3: chamfer-or-radius built as a 45 deg chamfer",
+    "F006: DEFAULT D7: general/TYP callout applied to the planned edges",
+    "F007: DEFAULT D1: max-only radius built at the max value",
     "F010: Section B-B shows the outer threaded holes passing through the flange. Threads are cosmetic; .203 is the printed drill diameter. An omitted depth denotes a through hole.",
     "F011: Mirror placement about the vertical centerline is shown in the end view; the hole passes through the flange.",
     "F012: Section B-B establishes the through-flange condition.",
@@ -24,36 +22,36 @@
     "F020: The lower main section shows this passage ending in the radial cross-hole at axial station D029. Cutting to the cross-hole center passes beyond its near wall without an unshown breakthrough through the front web. D002-D029 is a shown-extent inference, not a printed blind depth.",
     "F022: Section shows the recess extending D006 from the rear face. The rectangular precursor extends inward to the axis, safely beyond the bore surface. Subsequent corner radii form the rounded end. Retain the printed left offset rather than centering a .377 slot.",
     "F023: Two .188 corner arcs retain the nominal .377 width and .188 left offset. Their tangencies are at radial ordinate D039. The nominal crown has a D032-2*D034 land (.001), rather than changing the width to .376 or the radius to .1885. Review this nominal treatment against the original detail, which depicts a visually semicircular end.",
-    "F024: Section shows the hole starting at the recess floor, Z=D001-D006. Under the standard full-diameter blind-drill-depth convention, model a flat bottom at .69 depth; the drill point is cosmetic."
+    "F024: Section shows the hole starting at the recess floor, Z=D001-D006. Under the standard full-diameter blind-drill-depth convention, model a flat bottom at .69 depth; the drill point is cosmetic.",
+    "F025: DEFAULT D6: thread class doesn't change geometry; threads are cosmetic"
+  ],
+  "defaults": [
+    "F005: D3 chamfer 0.12 x 45 (C/R)",
+    "F006: D7 chamfer 0.06 on the 3 planned edge(s)",
+    "F007: D1 fillet at the max value 0.047",
+    "F025: D6 #8-32: class not needed"
   ],
   "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\2N2664\\reference.step",
-  "volume": 65.115988,
+  "volume": 64.839009,
   "cq_skipped": {
-    "F005": "unresolved: Should the .12 C/R hub shoulder edge be a chamfer or a radius?",
-    "F006": "unresolved: Confirm which small depicted edge breaks are chamfers rather than limited-radius corners before applying the general chamfer note.",
-    "F007": "unresolved: What nominal radius and complete edge set are required for unspecified radii? A maximum alone does not define finished geometry.",
-    "F010": "failed: KeyError: 'depth'",
-    "F011": "failed: KeyError: 'depth'",
-    "F012": "failed: KeyError: 'depth'",
-    "F013": "failed: CompileError: ref to F012, which has no geometry (not built or skipped)",
     "F021": "unsupported: The one-sided radial drilling axis is 30 degrees left of downward vertical; this IR lacks angular placement or an arbitrary oriented drilling plane.",
     "F023": "failed: CompileError: F023: edge_between(face(F022,+X),face(F022,-Y)) matched no edges",
-    "F025": "unresolved: Does the printed internal 8-32-2A thread intend class 2B? Confirm before assigning the cosmetic thread."
+    "F025": "failed: CompileError: F025: cut removed no material (check position/direction)"
   },
   "sw_ok": true,
-  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\2N2664\\2N2664_ir.sldprt",
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\2N2664\\2N2664_ir.SLDPRT",
   "sw_features": {
     "F001": "built",
     "F002": "built (1 edges selected by nearest point)",
     "F003": "built (1 edges selected by nearest point)",
     "F004": "built (1 edges selected by nearest point)",
-    "F005": "skipped (unresolved: Should the .12 C/R hub shoulder edge be a chamfer or a radius?)",
-    "F006": "skipped (unresolved: Confirm which small depicted edge breaks are chamfers rather than limited-radius corners before applying the general chamfer note.)",
-    "F007": "skipped (unresolved: What nominal radius and complete edge set are required for unspecified radii? A maximum alone does not define finished geometry.)",
-    "F010": "skipped (failed: KeyError: 'depth')",
-    "F011": "skipped (failed: KeyError: 'depth')",
-    "F012": "skipped (failed: KeyError: 'depth')",
-    "F013": "skipped (failed: CompileError: ref to F012, which has no geometry (not built or skipped))",
+    "F005": "built (1 edges selected by nearest point)",
+    "F006": "built (3 edges selected by nearest point)",
+    "F007": "built (1 edges selected by nearest point)",
+    "F010": "built (Up To Next; one feature for F010, F011, F012)",
+    "F011": "built (in F010 (one feature))",
+    "F012": "built (in F010 (one feature))",
+    "F013": "built (Hole Wizard 1/4-20 tapped, cosmetic thread, Up To Next, 3 hole(s))",
     "F014": "built (Hole Wizard 1/4 SHCS counterbore, Up To Next, 2 hole(s) on a construction line; one feature for F014, F015)",
     "F015": "built (in F014 (one feature))",
     "F016": "built (Hole Wizard 1/4 SHCS counterbore, Up To Next, 4 hole(s) on a construction rectangle; one feature for F016, F017)",
@@ -65,13 +63,15 @@
     "F022": "built",
     "F023": "skipped (failed: CompileError: F023: edge_between(face(F022,+X),face(F022,-Y)) matched no edges)",
     "F024": "built",
-    "F025": "skipped (unresolved: Does the printed internal 8-32-2A thread intend class 2B? Confirm before assigning the cosmetic thread.)"
+    "F025": "skipped (failed: CompileError: F025: cut removed no material (check position/direction))"
   },
   "conventions": [
     "origin centered: True",
+    "F012: Hole Wizard 1/4-20 tapped, cosmetic thread did not match the reference (points); plain cut",
+    "F013: Hole Wizard 1/4-20 tapped, cosmetic thread, Up To Next, 3 hole(s)",
     "F015: Hole Wizard 1/4 SHCS counterbore, Up To Next, 2 hole(s) on a construction line",
     "F017: Hole Wizard 1/4 SHCS counterbore, Up To Next, 4 hole(s) on a construction rectangle",
-    "sketches fully defined: 8/9 (not: F015)"
+    "sketches fully defined: 10/11 (not: F015)"
   ],
   "mti_review": [
     "[mti_hole_wizard] F010: \u00d80.203 = STANDARD-DERIVED: tap drill for 1/4 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
@@ -83,10 +83,11 @@
     "[mti_hole_wizard] F019: \u00d80.3758 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
     "[mti_hole_wizard] F020: \u00d80.188 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole (close to #8 clearance_normal: engineer check)",
     "[mti_hole_wizard] F024: \u00d80.136 = STANDARD-DERIVED: tap drill for #8 (inch), MTI Std 202.02.0003 -> Hole Wizard (non-preferred size)",
+    "[mti_hole_wizard] F025: \u00d80.136 = STANDARD-DERIVED: tap drill for #8 (inch), MTI Std 202.02.0003 -> Hole Wizard (non-preferred size)",
     "[mti_hole_grouping] F010, F011, F012: identical holes on face(F001,+Z,D004) -> one Hole Wizard feature with several sketch points",
     "[mti_hole_grouping] F014, F016: identical holes on face(F001,+Z,D002) -> one Hole Wizard feature with several sketch points",
     "[mti_edge_ops_last] F010 (hole) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree"
   ],
-  "cost_usd": 1.8322,
+  "cost_usd": 0.0,
   "error": ""
 }

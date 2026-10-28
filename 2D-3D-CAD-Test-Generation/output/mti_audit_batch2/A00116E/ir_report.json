@@ -1,30 +1,28 @@
 {
   "part": "A00116E",
-  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00116E\\A00116E_extraction.json",
-  "plan_attempts": 1,
+  "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00116E\\A00116E_extraction.json",
+  "plan_attempts": 0,
   "gate1": "OK",
   "planned": 5,
-  "questions": [
-    "F006: What radius is required for the four exterior plan corners? The drawing shows rounds but provides no radius."
-  ],
+  "questions": [],
   "flagged": [
     "F002: The plan view shows the mounting pattern symmetrically inset from opposite body edges; locate it using equal margins (D009-D001)/2 and (D002-D003)/2.",
     "F004: ASME Y14.5 blind-drill depth convention treats .50 as the full-diameter depth measured from the entry face; use a flat bottom and omit the cosmetic drill point. The printed counterbore limits are legible despite their reversed depth order; model at the lower diameter and depth limits D012 and D013. Printed sizes control over the schematic circle and section proportions."
   ],
+  "defaults": [
+    "F006: D4 not modelled: edge break with no printed size"
+  ],
   "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00116E\\reference.step",
   "volume": 12.271657,
-  "cq_skipped": {
-    "F006": "unresolved: What radius is required for the four exterior plan corners? The drawing shows rounds but provides no radius."
-  },
+  "cq_skipped": {},
   "sw_ok": true,
-  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00116E\\116-C_ir.sldprt",
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00116E\\116-C_ir.SLDPRT",
   "sw_features": {
     "F001": "built (Mid Plane)",
     "F002": "built (Up To Next; one feature for F002, F003)",
     "F003": "built (in F002 (one feature))",
     "F004": "built (drill + counterbore; one feature for F004, F005)",
-    "F005": "built (in F004 (one feature))",
-    "F006": "skipped (unresolved: What radius is required for the four exterior plan corners? The drawing shows rounds but provides no radius.)"
+    "F005": "built (in F004 (one feature))"
   },
   "conventions": [
     "origin centered: True",
@@ -35,6 +33,6 @@
     "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.4 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole (close to 3/8 clearance_normal: engineer check)",
     "[mti_hole_wizard] F004 (+ pattern F005): \u00d80.58 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole"
   ],
-  "cost_usd": 0.5251,
+  "cost_usd": 0.0,
   "error": ""
 }

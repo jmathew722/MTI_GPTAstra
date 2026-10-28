@@ -118,6 +118,7 @@ class IRResult:
     planned: int = 0
     questions: list[str] = field(default_factory=list)      # unresolved features, as human questions
     flagged: list[str] = field(default_factory=list)        # planned with a justification -> review
+    defaults: list[str] = field(default_factory=list)       # callout defaults applied (pipeline/ir/defaults.py)
     reference_step: str = ""
     volume: Optional[float] = None
     cq_skipped: dict = field(default_factory=dict)
@@ -165,6 +166,8 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
         plan = pr.plan
         (out / "plan.json").write_text(json.dumps({"dims": dims, "reference_ids": sorted(refs),
                                                    "plan": plan.model_dump(mode="json")}, indent=2), encoding="utf-8")
+        from pipeline.ir.defaults import apply_defaults   # after saving: plan.json stays the planner's own
+        plan, res.defaults = apply_defaults(plan, dims)
         findings = plan.check(dims, refs)
         hard = [f for f in findings if f.severity == "error" and f.code != "unresolved"]
         res.gate1 = "REJECT" if hard else "OK"

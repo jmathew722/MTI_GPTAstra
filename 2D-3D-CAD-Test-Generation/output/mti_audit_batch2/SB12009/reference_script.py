@@ -7,7 +7,7 @@ from pipeline.ir.cq_runtime import Model
 m = Model('SB-12009', origin_kind='axis_end', units='inch', strict=False)
 m.revolve('F001', outer=[(0, 0.569229075), (0.094, 0.6235), (0.229904501, 0.6235), (0.281, 0.594), (0.343, 0.594), (0.394095499, 0.6235), (0.562, 0.6235), (0.562, 1), (3.343, 1)], inner=[], op='add')  # outer (0,D006 / 2 - D005 * 0.5773502691896258) (D005,D006 / 2) (D002 - D004 - D003 / 2 - (D006 - D007) / 2 * 1.7320508075688772,D006 / 2) (D002 - D004 - D003 / 2,D007 / 2) (D002 - D004 + D003 / 2,D007 / 2) (D002 - D004 + D003 / 2 + (D006 - D007) / 2 * 1.7320508075688772,D006 / 2) (D002,D006 / 2) (D002,D011 / 2) (D001,D011 / 2)
 m.hole('F002', on='face(F001,+Z)', u=0, v=0, spec={'type': 'tapped', 'd': 0.159, 'depth': 0.38})  # u=0, v=0, d=0.159
-m.skip('F003', 'unresolved: What full-diameter drilling depth beyond the specified tapped length is required? The drawing does not dimension it.')
-m.skip('F004', 'unresolved: What actual shoulder-root radius should be modeled within the .030 maximum?')
+m.hole('F003', on='face(F001,+Z)', u=0, v=0, spec={'type': 'tapped', 'd': 0.159, 'depth': 0.53625})  # u=0, v=0, d=0.159
+m.edge_op('F004', operation='fillet', size=0.03, angle=45, edges=['edge_between(face(F001,-Z,0.562),wall(F001,0.6235))'])  # size=D010; edges=['edge_between(face(F001,-Z,D002),wall(F001,D006 / 2))']
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

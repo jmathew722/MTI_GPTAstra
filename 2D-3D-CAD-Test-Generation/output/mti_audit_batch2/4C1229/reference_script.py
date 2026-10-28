@@ -15,7 +15,5 @@ m.hole('F007', on='face(F001,-Z)', u=0.974, v=-0.563, spec={'type': 'cbore', 'd'
 m.prism('F008', on='face(F001,-Z)', offset=0, profile={'shape': 'slot', 'length': 3.032, 'width': 0.344, 'angle': 90, 'u': 0, 'v': -2.469}, depth='thru', op='cut')  # length=D012 + 2 * D003, width=2 * D003, angle=90, u=0, v=-D005 - D012 / 2; depth=thru; offset=0
 m.prism('F009', on='face(F001,-Z)', offset=0, profile={'shape': 'slot', 'length': 3.032, 'width': 0.344, 'angle': 30, 'u': 2.137938143, 'v': 1.235}, depth='thru', op='cut')  # length=D012 + 2 * D003, width=2 * D003, angle=30, u=D002 + D012 * 0.8660254037844386 / 2, v=D004 + D012 / (2 * 2); depth=thru; offset=0
 m.prism('F010', on='face(F001,-Z)', offset=0, profile={'shape': 'slot', 'length': 3.032, 'width': 0.344, 'angle': 150, 'u': -2.137938143, 'v': 1.235}, depth='thru', op='cut')  # length=D012 + 2 * D003, width=2 * D003, angle=150, u=-D002 - D012 * 0.8660254037844386 / 2, v=D004 + D012 / (2 * 2); depth=thru; offset=0
-m.skip('F011', 'unresolved: What nominal size and chamfer-versus-radius treatment should be used at the external groove lips? The drawing specifies only a maximum.')
-m.skip('F012', 'unresolved: What nominal size and chamfer-versus-radius treatment should be used at the internal groove lips? The drawing specifies only a maximum.')
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

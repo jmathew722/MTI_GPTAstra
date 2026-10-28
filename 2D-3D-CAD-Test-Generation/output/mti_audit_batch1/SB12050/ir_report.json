@@ -1,35 +1,37 @@
 {
   "part": "SB12050",
-  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12050\\SB12050_extraction.json",
-  "plan_attempts": 1,
+  "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12050\\SB12050_extraction.json",
+  "plan_attempts": 0,
   "gate1": "OK",
-  "planned": 2,
+  "planned": 3,
   "questions": [
-    "F003: Which terminal-bevel dimensions govern the exact CAD profile: .094 axial length, 30\u00b0 angle, or .625 end diameter? Their nominal values conflict.",
-    "F004: What nominal shoulder-root radius should be modeled? The drawing specifies only a maximum."
+    "F003: Which terminal-bevel dimensions govern the exact CAD profile: .094 axial length, 30\u00b0 angle, or .625 end diameter? Their nominal values conflict."
   ],
   "flagged": [
-    "F001: The .500 extension line meets the shoulder-side edge of the narrow groove-root land; .062 CENT. dimensions that central land between its two edges, not a centerline location. The groove root and reduced end are drawn on the same axial generators, establishing the .625 groove-root diameter. The factor 1.7320508075688772 is cot(30\u00b0), derived from the printed 30\u00b0 TYP. flank angle D011. Body length is D001-D002, not an independently dimensioned D014."
+    "F001: The .500 extension line meets the shoulder-side edge of the narrow groove-root land; .062 CENT. dimensions that central land between its two edges, not a centerline location. The groove root and reduced end are drawn on the same axial generators, establishing the .625 groove-root diameter. The factor 1.7320508075688772 is cot(30\u00b0), derived from the printed 30\u00b0 TYP. flank angle D011. Body length is D001-D002, not an independently dimensioned D014.",
+    "F004: DEFAULT D1: max-only radius built at the max value"
+  ],
+  "defaults": [
+    "F004: D1 fillet at the max value 0.03"
   ],
   "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12050\\reference.step",
-  "volume": 3.352448,
+  "volume": 3.352909,
   "cq_skipped": {
-    "F003": "unresolved: Which terminal-bevel dimensions govern the exact CAD profile: .094 axial length, 30\u00b0 angle, or .625 end diameter? Their nominal values conflict.",
-    "F004": "unresolved: What nominal shoulder-root radius should be modeled? The drawing specifies only a maximum."
+    "F003": "unresolved: Which terminal-bevel dimensions govern the exact CAD profile: .094 axial length, 30\u00b0 angle, or .625 end diameter? Their nominal values conflict."
   },
   "sw_ok": true,
-  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12050\\SB-12050_ir.sldprt",
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12050\\SB-12050_ir.SLDPRT",
   "sw_features": {
     "F001": "built",
     "F002": "built (1 edges selected by nearest point)",
     "F003": "skipped (unresolved: Which terminal-bevel dimensions govern the exact CAD profile: .094 axial length, 30\u00b0 angle, or .625 end diameter? Their nominal values conflict.)",
-    "F004": "skipped (unresolved: What nominal shoulder-root radius should be modeled? The drawing specifies only a maximum.)"
+    "F004": "built (1 edges selected by nearest point)"
   },
   "conventions": [
     "origin centered: True",
     "sketches fully defined: 1/1"
   ],
   "mti_review": [],
-  "cost_usd": 0.5253,
+  "cost_usd": 0.0,
   "error": ""
 }

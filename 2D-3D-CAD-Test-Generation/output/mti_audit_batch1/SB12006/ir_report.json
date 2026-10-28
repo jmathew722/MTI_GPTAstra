@@ -1,44 +1,48 @@
 {
   "part": "SB12006",
-  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12006\\SB12006_extraction.json",
-  "plan_attempts": 1,
+  "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12006\\SB12006_extraction.json",
+  "plan_attempts": 0,
   "gate1": "OK",
-  "planned": 4,
-  "questions": [
-    "F005: What total full-diameter pilot drilling depth is required beyond the specified .38-deep tapped region?",
-    "F006: What nominal radius should be used at the left shoulder, where only a .030 maximum is specified?"
-  ],
+  "planned": 6,
+  "questions": [],
   "flagged": [
     "F001: The groove root land is centered at D002-D004 as shown by '.062 CENT.' and '.250'. The numerical factors 0.5773502691896257 and 1.7320508075688772 are tan(30 degrees) and cot(30 degrees), respectively, from printed D008 and D009; they express the specified conical slopes to floating-point precision. The left end radius follows the .094 axial bevel length and 30-degree angle, not the groove-root diameter.",
-    "F004: A No. 21 drill, diameter 0.159 inch, is the standard tap drill for #10-32 UNF (D017 denotes nominal thread major diameter, not drill diameter). D018 defines the tapped region only. This feature models that established region; any additional pilot drilling is separately unresolved."
+    "F004: A No. 21 drill, diameter 0.159 inch, is the standard tap drill for #10-32 UNF (D017 denotes nominal thread major diameter, not drill diameter). D018 defines the tapped region only. This feature models that established region; any additional pilot drilling is separately unresolved.",
+    "F005: 0.159 inch is the standard No. 21 tap drill for #10-32 UNF. The drawing specifies tapping depth but no separate pilot depth; do not infer it from the illustrated drill point. DEFAULT D5: drill depth = printed thread depth + 5 pitches (literal 5 / 32 is 5 thread pitches)",
+    "F006: DEFAULT D1: max-only radius built at the max value"
+  ],
+  "defaults": [
+    "F005: D5 #10-32 drill depth = 0.38 thread + 5 pitches",
+    "F006: D1 fillet at the max value 0.03"
   ],
   "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12006\\reference.step",
-  "volume": 17.153091,
+  "volume": 17.150753,
   "cq_skipped": {
-    "F005": "unresolved: What total full-diameter pilot drilling depth is required beyond the specified .38-deep tapped region?",
-    "F006": "unresolved: What nominal radius should be used at the left shoulder, where only a .030 maximum is specified?",
     "F007": "unsupported: Required stamped text on the cylindrical body is outside the IR feature vocabulary; character size, depth, and precise placement also require definition."
   },
   "sw_ok": true,
-  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12006\\SB-12006_ir.sldprt",
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12006\\SB-12006_ir.SLDPRT",
   "sw_features": {
     "F001": "built",
     "F002": "built (1 edges selected by nearest point)",
     "F003": "built (1 edges selected by nearest point)",
     "F004": "built (Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s))",
-    "F005": "skipped (unresolved: What total full-diameter pilot drilling depth is required beyond the specified .38-deep tapped region?)",
-    "F006": "skipped (unresolved: What nominal radius should be used at the left shoulder, where only a .030 maximum is specified?)",
+    "F005": "built",
+    "F006": "built (1 edges selected by nearest point)",
     "F007": "skipped (unsupported: Required stamped text on the cylindrical body is outside the IR feature vocabulary; character size, depth, and precise placement also require definition.)"
   },
   "conventions": [
     "origin centered: True",
     "F004: Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s)",
-    "sketches fully defined: 1/2 (not: F004)"
+    "F005: Hole Wizard #10-32 tapped, cosmetic thread did not match the reference (points); plain cut",
+    "sketches fully defined: 2/3 (not: F004)"
   ],
   "mti_review": [
     "[mti_hole_wizard] F004: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_hole_wizard] F005: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_hole_grouping] F004, F005: identical holes on face(F001,+Z,D001) -> one Hole Wizard feature with several sketch points",
     "[mti_edge_ops_last] F004 (hole) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree"
   ],
-  "cost_usd": 0.584,
+  "cost_usd": 0.0,
   "error": ""
 }

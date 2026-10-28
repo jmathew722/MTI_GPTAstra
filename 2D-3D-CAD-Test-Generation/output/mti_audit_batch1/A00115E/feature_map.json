@@ -20,9 +20,7 @@
     "F005",
     "F006"
   ],
-  "skipped": {
-    "F007": "unresolved: What radius and axial extent apply to the four rounded external corners shown in the principal outline?"
-  },
+  "skipped": {},
   "holes": {
     "F002": [
       {

@@ -10,15 +10,15 @@
     1.0,
     4.25
   ],
-  "volume": 12.243274,
-  "volume_mm3": 200631.319,
+  "volume": 12.243316,
+  "volume_mm3": 200631.997,
   "features": [
     "F001",
     "F002",
+    "F003",
     "F004"
   ],
   "skipped": {
-    "F003": "unresolved: Which additional groove or lead-in transition edges are included in .030 R. TYP.?",
     "F005": "unsupported: Cylindrical-surface text stamping is outside this IR; character dimensions and exact placement are also unspecified."
   },
   "holes": {
@@ -47,6 +47,18 @@
         0.0,
         0.562
       ]
+    ],
+    "F003": [
+      [
+        -0.594,
+        0.0,
+        0.281
+      ],
+      [
+        -0.594,
+        0.0,
+        0.343
+      ]
     ]
   },
   "starts": {
@@ -59,7 +71,8 @@
   "volume_after": {
     "F001": 12.250054642,
     "F002": 12.250819419,
-    "F004": 12.243274272
+    "F003": 12.250860791,
+    "F004": 12.243315644
   },
   "base": {
     "fid": "F001",

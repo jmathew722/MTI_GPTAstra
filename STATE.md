@@ -3,6 +3,14 @@
 **Last updated:** 2026-10-28 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-10-28 (later): callout defaults.** Vague callouts are now built by documented rules instead of
+> being skipped (`pipeline/ir/defaults.py`; values measured from MTI's own models; switch:
+> `MTI_CALLOUT_DEFAULTS=0`).
+> - Covers ".030 R MAX", "C/R", "BREAK ALL SHARP CORNERS" and a tap with a thread depth only.
+> - Unresolved features: **36 → 16**; 11 parts fully resolved.
+> - All 11 rebuilt parts verify; no score went down (SB12006 → 1.000, 2N2664 → 0.993). $0.
+> - Test report 2026-10-28 §7.
+>
 > **2026-10-28: the two worst audit scores are MTI model-vs-drawing differences, not pipeline
 > errors.** SB14306: MTI's model uses bores that aren't on the drawing (a Ø10 web bore where the
 > drawing has Ø6.00); ours matches the drawing. A00161E: MTI's end radius is 3.036 where the drawing

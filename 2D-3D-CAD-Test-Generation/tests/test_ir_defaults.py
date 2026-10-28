@@ -1,0 +1,107 @@
+"""Callout defaults (spec 2026-10-28-callout-defaults-design.md): vague callouts get a documented
+answer instead of being skipped. Cases are the audit parts the rules were measured on."""
+import pytest
+
+from pipeline.ir.defaults import apply_defaults
+from pipeline.ir.model import BuildPlan
+
+BASE = {"id": "F001", "kind": "revolve", "outer": [{"z": "0", "r": "D001"}, {"z": "D002", "r": "D001"}]}
+DIMS = {"D001": 0.5, "D002": 1.0, "D003": 0.03, "D004": 0.005, "D005": 0.38, "D006": 0.12, "D007": 0.159}
+EDGE = ["edge_between(face(F001,-Z,0),wall(F001,D001))"]
+
+
+def plan(*features):
+    return BuildPlan.model_validate({"part": "T", "frame": {"origin_kind": "axis_end", "units": "inch"},
+                                     "features": [BASE, *features]})
+
+
+def edge(callout, size, op="fillet"):
+    return {"id": "F002", "kind": "edge_op", "status": "unresolved", "operation": op, "size": size,
+            "edges": EDGE, "source_callouts": [callout] if callout else [], "rationale": "?"}
+
+
+def run(*features):
+    new, applied = apply_defaults(plan(*features), DIMS)
+    return new, applied, new.feature("F002")
+
+
+def test_d1_max_only_radius_is_built_at_the_max():          # SB12006 ".030 R. MAX."
+    _, applied, f = run(edge(".030 R. MAX.", "D003"))
+    assert f.status == "planned" and f.operation == "fillet" and f.size == "D003"
+    assert "DEFAULT D1" in f.justification and applied[0].startswith("F002: D1")
+
+
+def test_d1_general_radii_max_note():                       # 2N2664 "ALL RADII .047 MAX"
+    _, _, f = run(edge("ALL RADII .047 MAX", "D003"))
+    assert f.status == "planned" and "DEFAULT D1" in f.justification
+
+
+def test_d2_tiny_break_is_not_modelled():                   # 4C1229 ".005 C/R MAX."
+    new, applied, f = run(edge(".005 C/R MAX.", "D004", op="chamfer"))
+    assert f is None and applied == ["F002: D2 not modelled: 0.005 break is at or below 0.01"]
+    assert [x.id for x in new.features] == ["F001"]
+
+
+def test_d3_c_or_r_is_a_chamfer():                          # 2N2664 ".12 C/R"
+    _, _, f = run(edge(".12 C/R", "D006", op="fillet"))
+    assert f.status == "planned" and f.operation == "chamfer" and f.angle == "45"
+
+
+def test_d4_unsized_break_is_not_modelled():                # SB14306 "BREAK ALL SHARP CORNERS."
+    _, applied, f = run(edge("BREAK ALL SHARP CORNERS.", "0", op="chamfer"))
+    assert f is None and "D4" in applied[0]
+
+
+def test_d5_tap_with_thread_depth_only_gets_a_drill_depth():   # SB12006 "#10-32 TAP .38 DEEP"
+    hole = {"id": "F002", "kind": "hole", "status": "unresolved", "on": "face(F001,+Z,D002)", "u": "0", "v": "0",
+            "spec": {"type": "blind", "d": "D007"}, "source_callouts": ["#10-32 TAP .38 DEEP"], "rationale": "?"}
+    new, applied, f = run(hole)
+    assert f.status == "planned" and f.spec.type == "tapped" and f.spec.thread == "#10-32"
+    assert f.spec.depth == "D005 + 5 / 32"
+    from pipeline.ir.expr import evaluate
+    assert evaluate(f.spec.depth, DIMS).value == pytest.approx(0.53625)    # MTI's model: .536
+    assert not [x for x in new.check(DIMS) if x.severity == "error"]      # literal is justified
+
+
+def test_d6_thread_class_never_blocks_geometry():           # 2N2664 "8-32-2A THD .50 DEEP"
+    hole = {"id": "F002", "kind": "hole", "status": "unresolved", "on": "face(F001,+Z,D002)", "u": "0", "v": "0",
+            "spec": {"type": "tapped", "d": "D007", "depth": "D005", "thread": "8-32-2A THD"},
+            "source_callouts": ["8-32-2A THD .50 DEEP"],
+            "rationale": "Does the printed internal 8-32-2A thread intend class 2B?"}
+    _, _, f = run(hole)
+    assert f.status == "planned" and f.spec.thread == "#8-32"
+
+
+def test_d7_typ_with_a_size_uses_the_planned_edges():      # SB12008 ".030 R. TYP."
+    _, _, f = run(edge(".030 R. TYP.", "D003"))
+    assert f.status == "planned" and "DEFAULT D7" in f.justification
+
+
+@pytest.mark.parametrize("callouts", [[".094", "30°", "1.188 DIA."],      # SB12010 bevel conflict
+                                      ["*.375 R", "18.625 DIA."]])        # SB14306 blend question
+def test_real_questions_stay_unresolved(callouts):
+    f = edge(None, "D006")
+    f["source_callouts"] = callouts
+    _, applied, g = run(f)
+    assert g.status == "unresolved" and applied == []
+
+
+def test_tap_with_no_printed_depth_stays_a_question():      # A00173E "5/16-18 2B TH'D", no depth
+    hole = {"id": "F002", "kind": "hole", "status": "unresolved", "on": "face(F001,+Z,D002)", "u": "0", "v": "0",
+            "spec": {"type": "tapped", "d": "D007", "thread": "5/16-18 2B"},
+            "source_callouts": ["5/16-18 2B TH'D", "2-HOLES."], "rationale": "through or blind?"}
+    _, applied, f = run(hole)
+    assert f.status == "unresolved" and applied == []
+
+
+def test_planned_features_are_never_touched():
+    f = edge(".030 R. MAX.", "D003")
+    f["status"] = "planned"
+    _, applied, g = run(f)
+    assert applied == [] and g.justification == ""
+
+
+def test_switch_turns_the_rules_off(monkeypatch):
+    monkeypatch.setenv("MTI_CALLOUT_DEFAULTS", "0")
+    _, applied, f = run(edge(".030 R. MAX.", "D003"))
+    assert f.status == "unresolved" and applied == []

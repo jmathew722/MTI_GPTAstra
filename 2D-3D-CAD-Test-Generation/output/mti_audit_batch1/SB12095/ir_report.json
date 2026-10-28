@@ -1,28 +1,30 @@
 {
   "part": "SB12095",
-  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12095\\SB12095_extraction.json",
-  "plan_attempts": 2,
+  "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12095\\SB12095_extraction.json",
+  "plan_attempts": 0,
   "gate1": "OK",
-  "planned": 7,
+  "planned": 8,
   "questions": [
-    "F008: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile.",
-    "F009: What nominal radius is required within the .030 shoulder-radius maximum?"
+    "F008: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile."
   ],
   "flagged": [
     "F001: The numerical factor 1.7320508075688772 is cotangent of the printed 30\u00b0 TYP. flank angle (D009); multiplying radial rise by this factor gives axial run. Symmetric groove flanks and centered flat follow the drawing. The provisional tip remains at major diameter until F008 is resolved.",
     "F005: Standard Unified-thread tap-drill chart specifies No. 7 (.201 inch) for 1/4-20 UNC. Represent the printed .50 threaded depth by a flat-bottom cylinder; unspecified additional drilling and the cosmetic drill point are excluded.",
-    "F006: Standard Unified-thread tap-drill chart specifies No. 29 (.136 inch) for #8-36 UNF. Select the +Y side of the cylindrical wall with global top coordinates (x,z). The end view establishes the upward seed. Depth D017/2 ends at the part axis, overshooting the near bore wall into empty space without reaching the opposite wall."
+    "F006: Standard Unified-thread tap-drill chart specifies No. 29 (.136 inch) for #8-36 UNF. Select the +Y side of the cylindrical wall with global top coordinates (x,z). The end view establishes the upward seed. Depth D017/2 ends at the part axis, overshooting the near bore wall into empty space without reaching the opposite wall.",
+    "F009: DEFAULT D1: max-only radius built at the max value"
+  ],
+  "defaults": [
+    "F009: D1 fillet at the max value 0.03"
   ],
   "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12095\\reference.step",
-  "volume": 16.782216,
+  "volume": 16.782981,
   "cq_skipped": {
     "F006": "failed: CompileError: wall(F001,1.0) can't be a start ref (use plane(...) or face(...))",
     "F007": "failed: CompileError: ref to F006, which has no geometry (not built or skipped)",
-    "F008": "unresolved: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile.",
-    "F009": "unresolved: What nominal radius is required within the .030 shoulder-radius maximum?"
+    "F008": "unresolved: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile."
   },
   "sw_ok": true,
-  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12095\\SB-12095_ir.sldprt",
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12095\\SB-12095_ir.SLDPRT",
   "sw_features": {
     "F001": "built",
     "F002": "built",
@@ -32,7 +34,7 @@
     "F006": "skipped (failed: CompileError: wall(F001,1.0) can't be a start ref (use plane(...) or face(...)))",
     "F007": "skipped (failed: CompileError: ref to F006, which has no geometry (not built or skipped))",
     "F008": "skipped (unresolved: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile.)",
-    "F009": "skipped (unresolved: What nominal radius is required within the .030 shoulder-radius maximum?)"
+    "F009": "built (1 edges selected by nearest point)"
   },
   "conventions": [
     "origin centered: True",
@@ -45,6 +47,6 @@
     "[mti_hole_wizard] F006 (+ pattern F007): \u00d80.136 = STANDARD-DERIVED: tap drill for #8 (inch), MTI Std 202.02.0003 -> Hole Wizard (non-preferred size)",
     "[mti_edge_ops_last] F005 (hole) comes after F003 (fillet); MTI puts fillets and chamfers at the end of the tree"
   ],
-  "cost_usd": 1.0156,
+  "cost_usd": 0.0,
   "error": ""
 }

@@ -8,8 +8,8 @@ m = Model('SB-12010', origin_kind='axis_end', units='inch', strict=False)
 m.revolve('F001', outer=[(0, 0.6235), (0.229904501, 0.6235), (0.281, 0.594), (0.343, 0.594), (0.394095499, 0.6235), (0.562, 0.6235), (0.562, 1), (5.38, 1), (5.5, 0.88), (5.5, 0.5), (6.25, 0.5)], inner=[], op='add')  # outer (0,D006 / 2) (D002 - D004 - D003 / 2 - (D006 - D007) / 2 * 1.7320508075688772,D006 / 2) (D002 - D004 - D003 / 2,D007 / 2) (D002 - D004 + D003 / 2,D007 / 2) (D002 - D004 + D003 / 2 + (D006 - D007) / 2 * 1.7320508075688772,D006 / 2) (D002,D006 / 2) (D002,D016 / 2) (D001 - D013 - D011,D016 / 2) (D001 - D013,D016 / 2 - D011) (D001 - D013,D014 / 2) (D001,D014 / 2)
 m.edge_op('F002', operation='fillet', size=0.25, angle=45, edges=['edge_between(face(F001,+Z,5.5),wall(F001,0.5))'])  # size=D015; edges=['edge_between(face(F001,+Z,D001 - D013),wall(F001,D014 / 2))']
 m.hole('F003', on='face(F001,+Z,6.25)', u=0, v=0, spec={'type': 'tapped', 'd': 0.159, 'depth': 0.38})  # u=0, v=0, d=0.159
-m.skip('F004', 'unresolved: What total full-diameter tap-drill depth is required beyond the .38 tapped length?')
+m.hole('F004', on='face(F001,+Z,6.25)', u=0, v=0, spec={'type': 'tapped', 'd': 0.159, 'depth': 0.53625})  # u=0, v=0, d=0.159
 m.skip('F005', 'unresolved: Does .094 specify the axial bevel extent at 30 degrees, or must the end-tip diameter also equal 1.188? Those requirements yield different bevels.')
-m.skip('F006', 'unresolved: What nominal left shoulder radius should be modeled within the specified maximum?')
+m.edge_op('F006', operation='fillet', size=0.03, angle=45, edges=['edge_between(face(F001,-Z,0.562),wall(F001,0.6235))'])  # size=D010; edges=['edge_between(face(F001,-Z,D002),wall(F001,D006 / 2))']
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

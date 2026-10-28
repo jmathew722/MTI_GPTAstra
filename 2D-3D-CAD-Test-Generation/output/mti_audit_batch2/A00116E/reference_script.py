@@ -10,6 +10,5 @@ m.hole('F002', on='face(F001,+Z)', u=0.435, v=0.435, spec={'type': 'thru', 'd': 
 m.pattern('F003', seed='F002', mode='grid', count=2, pitch=2.38, dir='+X', count2=2, pitch2=1.88, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D001
 m.hole('F004', on='face(F001,+Z)', u=0.935, v=1.375, spec={'type': 'cbore', 'd': 0.58, 'depth': 0.5, 'cbore_d': 1.002, 'cbore_depth': 0.111})  # u=(D009 + D001) / 2 - D007, v=(D002 + D003) / 2 - D004, d=D010, cbore=D012xD013
 m.pattern('F005', seed='F004', mode='linear', count=2, pitch=1.38, dir='+X', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D007 - D006
-m.skip('F006', 'unresolved: What radius is required for the four exterior plan corners? The drawing shows rounds but provides no radius.')
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

@@ -89,7 +89,8 @@ is never guessed. Use `--reprice` after filling one in.
 Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KEY`
 (required for openai) / `ANTHROPIC_API_KEY` (required for anthropic), `EXTRACTION_MODEL`
 (default `gpt-6-astra` / `claude-sonnet-4-6`), `EXTRACTION_CONFIDENCE_THRESHOLD`, `MAX_IMAGE_LONG_EDGE`
-(2576), `MACRO_READINESS_THRESHOLD`, `SOLIDWORKS_TEMPLATE_PATH`. Never commit `.env`.
+(2576), `MACRO_READINESS_THRESHOLD`, `SOLIDWORKS_TEMPLATE_PATH`, `MTI_CALLOUT_DEFAULTS` (`1` default;
+`0` leaves vague callouts unresolved, see `pipeline/ir/defaults.py`). Never commit `.env`.
 
 ## Hard rules (learned the hard way — see docs/solidworks-macro-error-log.md)
 

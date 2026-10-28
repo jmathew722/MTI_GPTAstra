@@ -117,3 +117,66 @@ diameters were compared for both models:
    here. Its feature-level score and stage blame replace IoU as the headline.
 3. Free, small: let the IoU alignment also try the part's own pattern angles about the axis
    (4C1229's 3-fold slots).
+
+---
+
+## 7. Callout defaults: vague callouts are built by rule, not skipped ($0)
+
+**Spec:** `docs/superpowers/specs/2026-10-28-callout-defaults-design.md`. **Code:** `pipeline/ir/defaults.py`,
+which is applied after planning. `plan.json` stays the planner's own output; switch the rules off
+with `MTI_CALLOUT_DEFAULTS=0`.
+
+**Why:**
+
+- 36 features across the audit plans were `unresolved`, and so skipped.
+- Most were the same vague callouts: ".030 R MAX", "C/R", "BREAK ALL SHARP CORNERS", and a tap
+  with a thread depth only.
+- All of them already carried full geometry in the plan.
+- In production only the drawing is given, so each needs one documented answer.
+
+**Rules, with values measured from MTI's own models:**
+
+| Rule | Callout | Action | MTI's models |
+|---|---|---|---|
+| D1 | ".030 R MAX", "ALL RADII .047 MAX" | fillet at the max value | R.030, R.047 ×9 |
+| D2 | break ≤ .010 (".005 C/R MAX") | not modelled | not modelled |
+| D3 | "C/R" | 45° chamfer | both forms used |
+| D4 | no printed size ("BREAK ALL SHARP CORNERS", unsized corners) | not modelled | not modelled on plates |
+| D5 | "#10-32 TAP .38 DEEP" (no drill depth) | drill = thread + 5 pitches | .536 = .38 + 5/32 exactly |
+| D6 | thread class only (8-32-**2A** internal) | build it; threads are cosmetic | n/a |
+| D7 | "ALL CHAMFERS .06 × 45° U.O.S.", "... TYP." | apply to the planned edges | .06 × 45° ×14 |
+
+**Result:**
+
+- **Unresolved features: 36 → 16** across the audit plans. 11 parts are now fully resolved.
+- The 16 left are real drawing questions: bevel vs tip conflicts, "TO SUIT", low-head
+  counterbore, SB11488's unread profile, and SB14306's blend.
+- **All 11 rebuilt parts build and verify in SolidWorks.**
+- **17 of 18 defaulted features are built.** The exception, 2N2664 F025 (D6), turned out to have a
+  hole position off the part ("cut removed no material"); the thread-class question had been
+  hiding that plan error.
+
+| Part | Defaults | IoU before → after | Deviation max / mean (mm) |
+|---|---|---|---|
+| SB12006 | D5, D1 | 0.9998 → **1.0000** | 1.00 / 0.007 |
+| 2N2664 | D3, D7, D1, D6 | 0.988 → **0.993** | 6.03 / 0.10 |
+| SB12007 | D1, D5 | 0.9998 → 0.9999 | 1.20 / 0.07 |
+| SB12010 | D5, D1 | 0.9992 → 0.9994 | 1.19 / 0.02 |
+| SB12008 | D7 | 0.9997 (same) | 5.17 / 0.44 |
+| SB12095 | D1 | 0.9975 (same) | 7.63 / 0.18 |
+| A00115E, A00116E | D4 | same (0.985, 0.995) | 3.4 / 0.30, 3.7 / 0.18 |
+| 4C1229 | D2 ×2 | 0.938 (same) | 4.26 / 0.26 |
+| SB12009, SB12050 | D5 + D1, D1 | 0.0 (MTI model ≠ drawing) | n/a |
+
+No score went down.
+
+**Follow-ups:**
+
+- On SB12006 one D5 tap fell back from Hole Wizard to a plain cut. Hole Wizard's placement didn't
+  match the reference; the fallback is volume-verified, so the geometry is correct.
+- 2N2664 F025's position.
+- **SB11488 (the only real miss, +26% volume)** is three large unresolved cuts the planner couldn't
+  read (F018–F020) on a multi-detail sheet. It needs a re-plan with a tighter crop (~$0.75), which
+  is budget-blocked.
+
+**Tests:** 13 in `tests/test_ir_defaults.py`. **Suite: 989 passed, 66 skipped.**

@@ -10,17 +10,17 @@
     1.0,
     6.25
   ],
-  "volume": 16.771665,
-  "volume_mm3": 274838.353,
+  "volume": 16.769328,
+  "volume_mm3": 274800.045,
   "features": [
     "F001",
     "F002",
-    "F003"
+    "F003",
+    "F004",
+    "F006"
   ],
   "skipped": {
-    "F004": "unresolved: What total full-diameter tap-drill depth is required beyond the .38 tapped length?",
-    "F005": "unresolved: Does .094 specify the axial bevel extent at 30 degrees, or must the end-tip diameter also equal 1.188? Those requirements yield different bevels.",
-    "F006": "unresolved: What nominal left shoulder radius should be modeled within the specified maximum?"
+    "F005": "unresolved: Does .094 specify the axial bevel extent at 30 degrees, or must the end-tip diameter also equal 1.188? Those requirements yield different bevels."
   },
   "holes": {
     "F003": [
@@ -36,7 +36,24 @@
           0.0
         ],
         "d": 0.159,
-        "depth": 0.38,
+        "depth": 0.53625,
+        "axis": "Z"
+      }
+    ],
+    "F004": [
+      {
+        "planned_center": [
+          0.0,
+          0.0
+        ],
+        "planned_d": 0.159,
+        "measured": true,
+        "center": [
+          0.0,
+          0.0
+        ],
+        "d": 0.159,
+        "depth": 0.53625,
         "axis": "Z"
       }
     ]
@@ -48,10 +65,22 @@
         0.0,
         5.5
       ]
+    ],
+    "F006": [
+      [
+        -0.6235,
+        0.0,
+        0.562
+      ]
     ]
   },
   "starts": {
     "F003": {
+      "axis": "Z",
+      "coord": 6.25,
+      "dir": -1
+    },
+    "F004": {
       "axis": "Z",
       "coord": 6.25,
       "dir": -1
@@ -60,7 +89,9 @@
   "volume_after": {
     "F001": 16.732367443,
     "F002": 16.779210439,
-    "F003": 16.771665292
+    "F003": 16.771665292,
+    "F004": 16.768562846,
+    "F006": 16.769327624
   },
   "base": {
     "fid": "F001",

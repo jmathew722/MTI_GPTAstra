@@ -4,10 +4,7 @@
   "plan_attempts": 0,
   "gate1": "OK",
   "planned": 10,
-  "questions": [
-    "F011: What nominal size and chamfer-versus-radius treatment should be used at the external groove lips? The drawing specifies only a maximum.",
-    "F012: What nominal size and chamfer-versus-radius treatment should be used at the internal groove lips? The drawing specifies only a maximum."
-  ],
+  "questions": [],
   "flagged": [
     "F001: The section's .56 extension locates the front root-side boundary of the internal groove; Detail A's .187 measures the theoretical root width. Apply the shown 6\u00b0 draft to both mirror-image flanks. Coefficient 0.10510423526567647 is tan(6\u00b0), calculated from printed D035; coefficient 0.5773502691896257 is tan(30\u00b0), calculated from printed D025. These are evaluated trigonometric coefficients, not additional dimensions. The rear .09 gives the axial bevel extent. The printed 45\u00b0 bore and flange bevels have equal radial and axial legs.",
     "F003: Detail A shows matching root corners on the symmetric external groove.",
@@ -17,12 +14,13 @@
     "F009: The front view shows the three slot directions related by nominal 120\u00b0 rotational symmetry: the upper-right slot points at 30\u00b0. Keep the printed center offsets without polar rounding. Coefficient 0.8660254037844386 is cos(30\u00b0), calculated from this shown symmetric radial layout; sin(30\u00b0)=1/2. D012 extends the remote end past the OD.",
     "F010: The two upper slots are mirror-image about the vertical centerline; their nominal directions are 30\u00b0 and 150\u00b0 in the shown threefold radial layout. Coefficient 0.8660254037844386 is cos(30\u00b0), evaluated from that layout. Preserve the printed Cartesian centers. The remote end extends beyond the flange."
   ],
+  "defaults": [
+    "F011: D2 not modelled: 0.005 break is at or below 0.01",
+    "F012: D2 not modelled: 0.005 break is at or below 0.01"
+  ],
   "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\4C1229\\reference.step",
   "volume": 2.864263,
-  "cq_skipped": {
-    "F011": "unresolved: What nominal size and chamfer-versus-radius treatment should be used at the external groove lips? The drawing specifies only a maximum.",
-    "F012": "unresolved: What nominal size and chamfer-versus-radius treatment should be used at the internal groove lips? The drawing specifies only a maximum."
-  },
+  "cq_skipped": {},
   "sw_ok": true,
   "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\4C1229\\4C1229_ir.SLDPRT",
   "sw_features": {
@@ -35,9 +33,7 @@
     "F007": "built (in F005 (one feature))",
     "F008": "built (Through All)",
     "F009": "built (Through All)",
-    "F010": "built (Through All)",
-    "F011": "skipped (unresolved: What nominal size and chamfer-versus-radius treatment should be used at the external groove lips? The drawing specifies only a maximum.)",
-    "F012": "skipped (unresolved: What nominal size and chamfer-versus-radius treatment should be used at the internal groove lips? The drawing specifies only a maximum.)"
+    "F010": "built (Through All)"
   },
   "conventions": [
     "origin centered: True",

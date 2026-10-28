@@ -19,9 +19,7 @@
     "F004",
     "F005"
   ],
-  "skipped": {
-    "F006": "unresolved: What radius is required for the four exterior plan corners? The drawing shows rounds but provides no radius."
-  },
+  "skipped": {},
   "holes": {
     "F002": [
       {

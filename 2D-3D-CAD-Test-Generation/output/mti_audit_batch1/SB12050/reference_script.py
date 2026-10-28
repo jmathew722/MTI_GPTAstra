@@ -8,6 +8,6 @@ m = Model('SB-12050', origin_kind='axis_end', units='inch', strict=False)
 m.revolve('F001', outer=[(0, 0.875), (1.245, 0.875), (1.245, 0.373), (1.640210926, 0.373), (1.745, 0.3125), (1.807, 0.3125), (1.911789074, 0.373), (2.12, 0.373)], inner=[], op='add')  # outer (0,D007 / 2) (D001 - D002,D007 / 2) (D001 - D002,D009 / 2) (D001 - D002 + D003 - (D009 - D008) * 1.7320508075688772 / 2,D009 / 2) (D001 - D002 + D003,D008 / 2) (D001 - D002 + D003 + D012,D008 / 2) (D001 - D002 + D003 + D012 + (D009 - D008) * 1.7320508075688772 / 2,D009 / 2) (D001,D009 / 2)
 m.edge_op('F002', operation='chamfer', size=0.03, angle=45, edges=['edge_between(face(F001,-Z),wall(F001,0.875))'])  # size=D005; edges=['edge_between(face(F001,-Z),wall(F001,D007 / 2))']
 m.skip('F003', 'unresolved: Which terminal-bevel dimensions govern the exact CAD profile: .094 axial length, 30° angle, or .625 end diameter? Their nominal values conflict.')
-m.skip('F004', 'unresolved: What nominal shoulder-root radius should be modeled? The drawing specifies only a maximum.')
+m.edge_op('F004', operation='fillet', size=0.03, angle=45, edges=['edge_between(face(F001,+Z,1.245),wall(F001,0.373))'])  # size=D013; edges=['edge_between(face(F001,+Z,D001 - D002),wall(F001,D009 / 2))']
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)
