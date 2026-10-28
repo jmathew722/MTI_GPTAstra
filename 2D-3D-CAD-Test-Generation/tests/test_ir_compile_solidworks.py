@@ -239,7 +239,7 @@ def test_failed_sketch_definition_is_recorded_not_raised(fake_sw):
 
 
 # --------------------------------------------------------------------------- #
-# Circular patterns of prisms (E026)
+# Circular patterns of prisms (E028)
 # --------------------------------------------------------------------------- #
 def _pattern_plan(axis="axis(part)", skip=()):
     return BuildPlan.model_validate({

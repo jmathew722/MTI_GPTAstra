@@ -461,7 +461,7 @@ class _SW:
         elif p.shape == "slot":
             # Straight slot, as CadQuery's slot2D(length + width, width, angle) centered on
             # (u, v): arc centers +-length/2 along `angle` (degrees from +u). SolidWorks' own
-            # slot tool, center-to-center (CreateSketchSlot; signature from sldworks.tlb, E026).
+            # slot tool, center-to-center (CreateSketchSlot; signature from sldworks.tlb, E028).
             cu, cv, half = self.n(p.u) + su, self.n(p.v) + sv, self.n(p.length) / 2
             a = math.radians(self.n(p.angle))
             ends = [self.pt(plane, self.in_plane(axis, cu + sgn * half * math.cos(a), cv + sgn * half * math.sin(a)))
@@ -802,7 +802,7 @@ class _SW:
     def circular_pattern(self, f: Pattern, seed: Prism) -> SwFeatureResult:
         """A circular pattern of a prism seed (radial slots and pockets) as ONE native
         SolidWorks circular pattern about the part axis, as MTI models them (SB14306:
-        CirPattern). FeatureCircularPattern5, signature from sldworks.tlb (E026). Verified
+        CirPattern). FeatureCircularPattern5, signature from sldworks.tlb (E028). Verified
         against the reference volume, tried both directions."""
         from pipeline.solidworks_builder import typed
         res = SwFeatureResult(f.id, "failed", ref_volume=self.fmap.get("volume_after", {}).get(f.id))

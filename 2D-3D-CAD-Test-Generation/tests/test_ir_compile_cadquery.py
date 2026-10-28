@@ -193,3 +193,24 @@ def test_surface_deviation_reads_a_thin_wall_offset_in_mm():
     assert value < 0.6
     dev = surface_deviation(aligned(a, b, key), b)
     assert dev["max"] == pytest.approx(0.9, abs=0.05)
+
+
+# --- A050211E (2026-10-26 official run): a slot trims a revolved face -> Geom_RectangularTrimmedSurface --- #
+def test_feature_map_survives_trimmed_cylinder_faces(tmp_path):
+    """The bench retainer plan crashed measure_holes: the slot cut leaves a cylinder whose
+    _geomAdaptor() is a trimmed surface with no .Cylinder(). Holes must still be measured."""
+    from pipeline.ir.cq_runtime import Model
+    m = Model("RETAINER", origin_kind="axis_end", units="inch", strict=False)
+    m.revolve("F001", outer=[(0, 3.375), (0.5, 3.375)], inner=[(0, 1.94), (0.5, 1.94)], op="add")
+    m.hole("F002", on="face(F001,+Z)", u=-2.88, v=0, spec={"type": "thru", "d": 0.344})
+    m.hole("F003", on="face(F001,+Z)", u=2.88, v=0, spec={"type": "thru", "d": 0.344})
+    m.hole("F004", on="face(F001,+Z)", u=-1.44, v=-2.494, spec={"type": "thru", "d": 0.344})
+    m.pattern("F005", seed="F004", mode="grid", count=2, pitch=2.88, dir="+X", count2=2, pitch2=4.988,
+              dir2="+Y", axis="axis(part)", step="equal", skip=[], op="cut")
+    m.prism("F006", on="face(F001,+Z)", offset=0, profile={"shape": "slot", "length": 7.99, "width": 1.24,
+            "angle": 90, "u": 0, "v": -6.315}, depth="thru", op="cut")
+    fm = m.finish(str(tmp_path))
+    holes = [h for fid in ("F002", "F003", "F004", "F005") for h in fm["holes"].get(fid, [])]
+    assert holes and all(h["measured"] for h in holes)
+    assert all(abs(h["d"] - 0.344) < 1e-6 for h in holes)
+    assert (tmp_path / "reference.step").is_file()

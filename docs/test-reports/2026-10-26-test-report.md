@@ -145,7 +145,7 @@ MTI's Google Drive audit holds **63 parts that have both a drawing and MTI's own
 
 ---
 
-## 8. Slots and circular patterns fixed (E026), $0
+## 8. Slots and circular patterns fixed (E028), $0
 
 - **Slots** (`CreateSketchSlot`) and **circular patterns of prisms** (native `FeatureCircularPattern5`
   about a reference axis along the part axis) are now compiled for SolidWorks.
@@ -162,7 +162,7 @@ MTI's Google Drive audit holds **63 parts that have both a drawing and MTI's own
 
 ---
 
-## 9. Through-tapped holes and 4C1229 fixed (E027), $0
+## 9. Through-tapped holes and 4C1229 fixed (E029), $0
 
 Three bugs in the CadQuery reference runtime (`cq_runtime.py`):
 

@@ -42,6 +42,14 @@ class CompileError(RuntimeError):
     """The plan can't be built as written (e.g. an ambiguous or empty ref)."""
 
 
+def _cylinder(face):
+    """gp_Cylinder of a CYLINDER face. Read through BRepAdaptor_Surface: a face trimmed by a
+    later cut (e.g. a slot through a revolved disc) has a Geom_RectangularTrimmedSurface, whose
+    raw _geomAdaptor() has no .Cylinder() (A050211E official run and 4C1229, 2026-10-26)."""
+    from OCP.BRepAdaptor import BRepAdaptor_Surface
+    return BRepAdaptor_Surface(face.wrapped).Cylinder()
+
+
 def _guarded(fn):
     """In non-strict mode a failing feature is recorded as skipped, not fatal (v1 parity)."""
     def wrapper(self, fid, *a, **kw):
@@ -63,13 +71,6 @@ def _has_radius(face, radius: float) -> bool:
     if face.geomType() == "CONE":
         return any(e.geomType() == "CIRCLE" and abs(e.radius() - radius) <= TOL * 10 for e in face.Edges())
     return False
-
-
-def _cylinder(face):
-    """gp_Cylinder of a CYLINDER face. BRepAdaptor, not _geomAdaptor(): after a cut the
-    surface can be a Geom_RectangularTrimmedSurface, which has no Cylinder() (4C1229)."""
-    from OCP.BRepAdaptor import BRepAdaptor_Surface
-    return BRepAdaptor_Surface(face.wrapped).Cylinder()
 
 
 def _idx(axis: str) -> int:

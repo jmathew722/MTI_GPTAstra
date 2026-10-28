@@ -1,0 +1,46 @@
+# Benchmark scorer constants (spec 2026-10-24). Change numbers here, never in code.
+credit:
+  drop: 0.5          # credit just past tolerance
+  k: 4.48            # decay: credit = drop * exp(-(e - 1) / k) for e = error/tolerance > 1  (2x->0.40, 5x->0.20, 10x->0.07)
+shares:              # attribute shares inside a feature's credit (renormalised over present attributes)
+  position: 0.55     # calibration 2026-10-25: was 0.40/0.30/0.15/0.15; a misplaced feature is the core failure
+  size: 0.25
+  depth: 0.10
+  type: 0.10
+tiers:               # importance tier weights by feature type
+  base_body: 10
+  bore: 3
+  turned_diameter: 3
+  thru_hole: 5        # calibration 2026-10-25: was 3; a misplaced/missing hole must cost real points
+  slot: 3
+  pocket_step: 3
+  flat: 3
+  boss: 3
+  tapped_hole: 2
+  counterbore: 2
+  countersink: 2
+  blind_hole: 2
+  chamfer: 1
+  fillet: 1
+size_floor: 0.5      # size factor = clamp(sqrt(feature size / part size), size_floor, 1)
+extra_penalty: 0.5   # an extra (unmatched generated) feature costs this x its own weight
+type_mismatch_cost: 2.0   # added to the pair cost when matched types differ
+gate:
+  tol_multiple: 20   # pairs farther than min(20 x tol, 10% of part size) never match
+  part_fraction: 0.10
+fallback_tol: {inch: 0.005, mm: 0.1}
+unsupported_types: [countersink]   # cannot be expressed in the IR today (blame = unsupported)
+# MTI practices score (spec 2026-10-25, 2b): a separate 0-100 column, never blended into the score.
+practices:
+  weights: {C1: 1, C2: 1, C3: 1, C4: 1, C5: 1, C6: 1, C7: 1}
+  # Type names verified against the local SolidWorks 2025 API help (sldworksapi.chm, the
+  # IFeature::GetTypeName2 table), plus ICE: what GetTypeName2 returns for Instant3D
+  # extrudes/cuts, observed in real trees. "OffsetRefSuface" is SolidWorks' own spelling.
+  edge_ops: [Fillet, VarFillet, Chamfer]
+  solid_ops: [ICE, Extrusion, Boss, BossThin, Cut, CutThin, BaseBody, Revolution, RevolutionThin, RevCut,
+              HoleWzd, AdvHoleWzd, SketchHole, LPattern, CirPattern, MirrorPattern, MirrorSolid, CombineBodies]
+  avoid: [Sweep, SweepCut, Blend, BlendCut, NetBlend, Shell, Draft, Rib, MoveCopyBody, SweepThread, Dome, Deform,
+          Bending, Thicken, ThickenCut, ReplaceFace, DelFace, ExtruRefSurface, RevolvRefSurf, SweepRefSurface,
+          BlendRefSurface, FillRefSurface, OffsetRefSuface, PlanarSurface, RadiateRefSurface, RuledSrfFromEdge,
+          SewRefSurface, TrimRefSurface, ExtendRefSurface, MidRefSurface, SurfCut, UnTrimRefSurf]
+  three_d_sketch: 3DProfileFeature

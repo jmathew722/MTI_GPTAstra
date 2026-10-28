@@ -551,7 +551,20 @@ correct. Scorers must project along each hole's axis rather than assume model XY
   - Use the typed `OpenDoc6`, an **absolute** path, and `GetOpenDocumentByName` on 65536.
   - Re-wrap the returned document late-bound (`win32com.client.dynamic.Dispatch`).
 
-## E026 — Slots and circular patterns of prisms were not compiled for SolidWorks
+## E026 — SaveAs3 failed silently (benchmark dataset; entry reserved)
+
+Number taken by smcanuff's benchmark work on `main` (`bench/sw_tasks.py`): `SaveAs3` returns an
+error code (0 = success) and must never be tested for truthiness. The full entry was kept local;
+add it here.
+
+## E027 — A makepy cache broke COM byref calls (benchmark dataset; entry reserved)
+
+Number taken by smcanuff's benchmark work on `main` (`bench/sw_tasks.py`,
+`tests/test_bench_sw_tasks.py`): a makepy cache for sldworks.tlb made SolidWorks objects typed,
+and byref arguments to LoadFile4/OpenDoc6 failed ("int() argument must be ... not 'VARIANT'").
+The full entry was kept local; add it here.
+
+## E028 — Slots and circular patterns of prisms were not compiled for SolidWorks
 
 - **Date:** 2026-10-26 · **Parts:** A00155E (4 slots), SB14306 (radial slots and pockets in 4×
   and 24× circular patterns) · **Stage:** IR SolidWorks compiler.
@@ -579,7 +592,7 @@ correct. Scorers must project along each hole's axis rather than assume model XY
     in `cq_runtime`, 1 edge query matched no edges, and 2 are open MTI questions. Those are next.
 - **Tests:** `test_circular_prism_pattern_*` in `test_ir_compile_solidworks.py`.
 
-## E027 — CadQuery reference: through-tapped holes, trimmed cylinders, seam edges (SB14306, 4C1229)
+## E029 — CadQuery reference: through-tapped holes, trimmed cylinders, seam edges (SB14306, 4C1229)
 
 - **Symptoms:**
   1. SB14306 F010/F012/F014/F016 (".750-10 TAP THRU", ".375-16 TAP THRU") were skipped:

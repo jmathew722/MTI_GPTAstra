@@ -1,5 +1,6 @@
 """IR v2 Task 8: the end-to-end pipeline's no-API parts (part list, images, reuse)."""
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -47,3 +48,60 @@ def test_reuse_plan_rebuilds_without_calling_the_planner(tmp_path, monkeypatch):
     # The golden plan's D-IDs differ from the extraction's, so Gate 1 may reject it.
     # The point is that the saved plan was used and nothing was paid.
     assert r.gate1 in ("OK", "REJECT")
+
+
+def test_mti_bench_parts_are_skipped_but_reported():
+    from pipeline.ir_pipeline import external_parts
+    assert dev_parts(split="held_out") == []
+    assert not {s.part for s in dev_parts()} & set(external_parts("dev"))
+    assert len(external_parts("held_out")) == 15
+    assert len(external_parts("dev")) == 4
+
+
+def test_bench_parts_resolve_to_their_drawing_pdf_under_the_data_root(tmp_path):
+    from pipeline.ir_pipeline import BENCH_DRAWING, bench_part_specs, external_parts
+    held = external_parts("held_out")
+    for p in held[:-1]:                                  # last one has no drawing
+        (tmp_path / p).mkdir()
+        (tmp_path / p / BENCH_DRAWING).write_bytes(b"%PDF-1.4")
+    specs, missing = bench_part_specs("held_out", root=tmp_path)
+    assert [s.part for s in specs] == held[:-1] and missing == [held[-1]]
+    assert all(s.views == tmp_path / s.part / BENCH_DRAWING and s.views.is_file() for s in specs)
+    assert all(s.units in ("inch", "mm") for s in specs)
+    assert bench_part_specs("held_out", root=tmp_path / "nowhere") == ([], held)
+
+
+def test_bench_pdf_spec_is_one_full_sheet(tmp_path, monkeypatch):
+    import pipeline.ir_pipeline as irp
+    import utils.image_prep as prep
+    monkeypatch.setattr(prep, "prepare_image", lambda p: "b64")
+    pdf = tmp_path / "drawing.pdf"
+    pdf.write_bytes(b"%PDF-1.4")
+    assert irp.images_for(PartSpec("X", pdf, "inch")) == [("FULL SHEET", "full", "b64")]
+
+
+def test_real_held_out_drawings_are_all_present():
+    from bench import config
+    from pipeline.ir_pipeline import bench_part_specs
+    try:
+        root = config.data_root(required=False)
+    except config.BenchConfigError:
+        root = None
+    if root is None:
+        pytest.skip("MTI_BENCH_DATA not set (confidential benchmark data)")
+    specs, missing = bench_part_specs("held_out")
+    assert len(specs) == 15 and missing == []
+
+
+def test_ir_run_fails_on_empty_split_without_writing_summary(tmp_path, monkeypatch, capsys):
+    import ir_run
+    import pipeline.ir_pipeline as ip
+    monkeypatch.setattr(ip, "connect_sw", lambda: (_ for _ in ()).throw(AssertionError("connect_sw called")))
+    monkeypatch.setattr(ip, "run_part", lambda *a, **k: pytest.fail("run_part called (would spend)"))
+    empty = tmp_path / "no_bench_data"                   # no drawings: every held-out part is skipped
+    empty.mkdir()
+    monkeypatch.setenv("MTI_BENCH_DATA", str(empty))
+    monkeypatch.setattr(sys, "argv", ["ir_run.py", "--split", "held_out", "--solidworks", "--output", str(tmp_path)])
+    assert ir_run.main() == 2
+    assert not (tmp_path / "ir_run_summary.json").exists()
+    assert "15 mti_bench part(s) in split held_out skipped" in capsys.readouterr().out

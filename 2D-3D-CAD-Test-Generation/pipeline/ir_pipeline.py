@@ -35,7 +35,43 @@ class PartSpec:
 def dev_parts(manifest: Path = CODE_ROOT / "bench" / "manifest.yaml", split: str = "dev") -> list[PartSpec]:
     import yaml
     m = yaml.safe_load(manifest.read_text(encoding="utf-8"))
-    return [PartSpec(p["part"], REPO / p["views"], p.get("units", "")) for p in m["splits"].get(split) or []]
+    # mti_bench entries have no in-repo views (files live under MTI_BENCH_DATA); skip them here.
+    return [PartSpec(p["part"], REPO / p["views"], p.get("units", ""))
+            for p in m["splits"].get(split) or [] if p.get("source") != "mti_bench"]
+
+
+def external_parts(split: str = "dev", manifest: Path = CODE_ROOT / "bench" / "manifest.yaml") -> list[str]:
+    """mti_bench parts in a split: skipped by dev_parts() (files live under MTI_BENCH_DATA)."""
+    import yaml
+    m = yaml.safe_load(manifest.read_text(encoding="utf-8"))
+    return [p["part"] for p in m["splits"].get(split) or [] if p.get("source") == "mti_bench"]
+
+
+BENCH_DRAWING = "drawing.pdf"     # rendered by image_prep at 300 dpi; drawing.png is only a review preview
+
+
+def bench_part_specs(split: str = "dev", manifest: Path = CODE_ROOT / "bench" / "manifest.yaml",
+                     root: Optional[Path] = None) -> tuple[list[PartSpec], list[str]]:
+    """mti_bench parts of a split whose drawing is in MTI_BENCH_DATA: (runnable specs, missing part ids).
+    Drawings stay outside git (confidential); without MTI_BENCH_DATA every part is missing."""
+    import yaml
+    if root is None:
+        from bench import config
+        try:
+            root = config.data_root(required=False)
+        except config.BenchConfigError:
+            root = None
+    m = yaml.safe_load(manifest.read_text(encoding="utf-8"))
+    specs, missing = [], []
+    for p in m["splits"].get(split) or []:
+        if p.get("source") != "mti_bench":
+            continue
+        drawing = Path(root) / p["part"] / BENCH_DRAWING if root else None
+        if drawing is not None and drawing.is_file():
+            specs.append(PartSpec(p["part"], drawing, p.get("units", "")))
+        else:
+            missing.append(p["part"])
+    return specs, missing
 
 
 def images_for(spec: PartSpec) -> list[tuple[str, str, str]]:
