@@ -55,6 +55,16 @@ def _guarded(fn):
     return wrapper
 
 
+def _has_radius(face, radius: float) -> bool:
+    """wall(F,r): a cylinder of radius r, or a cone with a rim circle of radius r (a taper is
+    dimensioned at its end; SB14306 F003). _faces_for prefers the cylinder when both match."""
+    if face.geomType() == "CYLINDER":
+        return abs(_cylinder(face).Radius() - radius) <= TOL * 10
+    if face.geomType() == "CONE":
+        return any(e.geomType() == "CIRCLE" and abs(e.radius() - radius) <= TOL * 10 for e in face.Edges())
+    return False
+
+
 def _cylinder(face):
     """gp_Cylinder of a CYLINDER face. BRepAdaptor, not _geomAdaptor(): after a cut the
     surface can be a Geom_RectangularTrimmedSurface, which has no Cylinder() (4C1229)."""
@@ -314,12 +324,13 @@ class Model:
             for f in faces:
                 if f.geomType() == "PLANE":
                     continue
-                if radius is not None and (f.geomType() != "CYLINDER" or
-                                           abs(_cylinder(f).Radius() - radius) > TOL * 10):
+                if radius is not None and not _has_radius(f, radius):
                     continue
                 c = f.positionAt(0.5, 0.5)   # on the surface; a revolved face's Center() is on the axis
                 if cq.Vertex.makeVertex(c.x, c.y, c.z).distance(tool) < TOL * 10:
                     out.append(f)
+            if radius is not None and any(f.geomType() == "CYLINDER" for f in out):
+                out = [f for f in out if f.geomType() == "CYLINDER"]   # cone rims only as a fallback
             return out
         raise CompileError(f"{ref} can't be used in an edge query")
 

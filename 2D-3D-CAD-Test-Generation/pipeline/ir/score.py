@@ -64,6 +64,30 @@ def _align_candidates(src: cq.Shape, dst: cq.Shape):
             yield (name, fx, fy, fz), s.translate(dc)
 
 
+def aligned(a: cq.Shape, b: cq.Shape, key) -> cq.Shape:
+    """``a`` placed on ``b`` by the alignment ``key`` that iou() returned."""
+    return next(s for k, s in _align_candidates(a, b) if k == key)
+
+
+def surface_deviation(a: cq.Shape, b: cq.Shape, samples: int = 400) -> dict[str, float]:
+    """Symmetric surface distance between two ALIGNED solids, in their units: points on each
+    surface (tessellation vertices, evenly subsampled) to the other surface. ``max`` is a
+    sampled Hausdorff distance. IoU punishes thin parts: a 0.9 mm offset on a 1.5 mm sheet
+    wall reads as IoU 0.29 (A00161E), while this reads 0.9 mm, comparable to a tolerance."""
+    def pts(s: cq.Shape) -> list[cq.Vector]:
+        bb = s.BoundingBox()
+        verts = s.tessellate(max(bb.xlen, bb.ylen, bb.zlen) / 500)[0]
+        step = max(1, len(verts) // samples)
+        return verts[::step]
+
+    def dists(src: cq.Shape, dst: cq.Shape) -> list[float]:
+        skin = cq.Compound.makeCompound(dst.Faces())   # the surface: a point inside a solid is at 0
+        return [skin.distance(cq.Vertex.makeVertex(p.x, p.y, p.z)) for p in pts(src)]
+
+    d = dists(a, b) + dists(b, a)
+    return {"max": max(d), "mean": sum(d) / len(d)}
+
+
 def iou(a: cq.Shape, b: cq.Shape) -> tuple[float, Any]:
     va = b.Volume()
     best = (0.0, None)

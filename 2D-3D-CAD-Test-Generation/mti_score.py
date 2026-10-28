@@ -3,7 +3,8 @@
 (``ground_truth.step``, from mti_groundtruth.py), per part folder.
 
 Aligned IoU (pipeline/ir/score.py: best of the 48 signed axis permutations, centered by
-bounding box) plus volume and size ratios. No API cost, no SolidWorks.
+bounding box), surface deviation in mm (max and mean; fairer than IoU on thin sheet parts),
+plus volume and size ratios. No API cost, no SolidWorks.
 
     python mti_score.py --out <output dir> A00115E ...
 """
@@ -21,7 +22,7 @@ def main() -> int:
     ap.add_argument("--out", type=Path, required=True)
     args = ap.parse_args()
     import cadquery as cq
-    from pipeline.ir.score import iou
+    from pipeline.ir.score import aligned, iou, surface_deviation
 
     rows = []
     for part in args.parts:
@@ -35,7 +36,10 @@ def main() -> int:
             va, vb = a.Volume(), b.Volume()
             sa = sorted((a.BoundingBox().xlen, a.BoundingBox().ylen, a.BoundingBox().zlen))
             sb = sorted((b.BoundingBox().xlen, b.BoundingBox().ylen, b.BoundingBox().zlen))
-            row.update(iou=round(iou(a, b)[0], 4), volume_ratio=round(va / vb, 4),
+            value, key = iou(a, b)
+            dev = surface_deviation(aligned(a, b, key), b) if key else None
+            row.update(iou=round(value, 4), volume_ratio=round(va / vb, 4),
+                       deviation_mm=({k: round(v, 3) for k, v in dev.items()} if dev else None),
                        size_ratio=[round(x / y, 4) for x, y in zip(sa, sb)],
                        ours_mm=[round(x, 2) for x in sa], mti_mm=[round(x, 2) for x in sb])
         rows.append(row)

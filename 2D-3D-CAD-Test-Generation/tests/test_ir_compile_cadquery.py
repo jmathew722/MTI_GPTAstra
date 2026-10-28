@@ -173,3 +173,23 @@ def test_edge_query_never_selects_a_cylinder_seam():
     # 4C1229 F004: wall(F001) also matches the bore itself, and its seam is not an edge "between"
     m.edge_op("F002", operation="fillet", size=0.02, angle=45, edges=["edge_between(wall(F001,0.5),wall(F001))"])
     assert [round(p[2], 6) for p in m.edge_points["F002"]] == [0.2]     # the bore-to-cone circle only
+
+
+def test_wall_radius_matches_a_cone_at_its_rim():
+    from pipeline.ir.cq_runtime import Model
+    m = Model("T", origin_kind="axis_end", units="inch", strict=True)   # SB14306 F003: tapered nose
+    m.revolve("F001", outer=[(0, 3.0), (1.0, 2.8), (2.0, 2.8)], inner=[(0, 1.0), (2.0, 1.0)], op="add")
+    m.edge_op("F002", operation="fillet", size=0.05, angle=45, edges=["edge_between(face(F001,-Z,0),wall(F001,3.0))"])
+    assert [round(p[2], 6) for p in m.edge_points["F002"]] == [0.0]
+
+
+def test_surface_deviation_reads_a_thin_wall_offset_in_mm():
+    import cadquery as cq
+    from pipeline.ir.score import aligned, iou, surface_deviation
+    # A00161E: a 1.5 mm sheet offset by 0.9 mm has a poor IoU but a 0.9 mm deviation
+    ring = lambda r: cq.Workplane().circle(r + 1.5).circle(r).extrude(100).val()
+    a, b = ring(100.0), ring(100.9)
+    value, key = iou(a, b)
+    assert value < 0.6
+    dev = surface_deviation(aligned(a, b, key), b)
+    assert dev["max"] == pytest.approx(0.9, abs=0.05)
