@@ -93,6 +93,8 @@ def _edge(f: EdgeOp, dims) -> tuple[Optional[EdgeOp], str] | None:
 
 def _hole(f: Hole, dims) -> tuple[Hole, str] | None:
     text, spec = _text(f), f.spec
+    if not f.on.replace(" ", "").startswith(("face(", "plane(")):
+        return None   # e.g. a radial hole on wall(...): the IR can't start a hole there (SB12059 F005)
     if spec.depth is None:
         m = _TAP_DEPTH.search(text)
         thread = _thread(text)

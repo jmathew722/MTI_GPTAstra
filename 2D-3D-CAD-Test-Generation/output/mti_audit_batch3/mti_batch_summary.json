@@ -1,0 +1,19 @@
+[
+  {
+    "part": "SB12059",
+    "gate1": "OK",
+    "planned": 5,
+    "sw_ok": true,
+    "cost_usd": 0.0,
+    "error": "",
+    "questions": [
+      "F005: Specify the full-diameter blind drill depth: .38 is explicitly the tapped depth, not the drill depth. The seed radial axis is 45 degrees from the vertical sawcut, at axial station D002 + D006.",
+      "F006: Four radial tapped holes at 90-degree intervals; blocked by the unresolved seed drill depth and radial placement representation, not by the printed count or angular indexing.",
+      "F007: What included angle or mouth diameter defines the .03-deep countersinks on the four radial tapped holes? Depth alone does not define their shape."
+    ],
+    "conventions": [
+      "origin centered: True",
+      "sketches fully defined: 2/2"
+    ]
+  }
+]

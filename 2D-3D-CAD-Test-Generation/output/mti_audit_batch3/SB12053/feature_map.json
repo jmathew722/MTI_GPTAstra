@@ -1,0 +1,165 @@
+{
+  "part": "SB-12053 \u2014 Detail 1 actuator; separate Detail 4 recorded but not merged",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -2.234,
+    -2.219911,
+    0.0,
+    2.234,
+    2.219911,
+    11.5
+  ],
+  "volume": 52.269275,
+  "volume_mm3": 856539.959,
+  "features": [
+    "F001",
+    "F002",
+    "F005",
+    "F006",
+    "F007",
+    "F008",
+    "F010",
+    "F011",
+    "F013",
+    "F014",
+    "F015"
+  ],
+  "skipped": {
+    "F003": "unresolved: Clarify how the .06 radius blends the .025 radial OD step; a simple tangent quarter-round cannot fit the nominal shoulder.",
+    "F004": "failed: StdFail_NotDone: BRep_API: command not done",
+    "F009": "unresolved: What numerical radius is required at the thread-relief root? The drawing labels it only R.; D030 is not an authoritative size.",
+    "F012": "failed: CompileError: F012: edge_between(face(F010,+Y),face(F010,+X)) matched no edges",
+    "F014": "failed: CompileError: F014: cut removed no material (check position/direction)",
+    "F015": "failed: CompileError: F015: cut removed no material (check position/direction)",
+    "F016": "unresolved: What additional full-diameter drilling depth, if any, is required beyond the .44 tapped depth for both #10 holes?",
+    "F017": "unsupported: Attach the external thread specification to the existing end land; this IR has no external cosmetic-thread feature and must not add a duplicate solid.",
+    "F018": "unsupported: Detail 4 is a separate rectangular component, quantity two; a separate corner-origin part document is required and must not be fused to Detail 1.",
+    "F019": "unsupported: Record the complete centered SHCS hole for each separate Detail 4 block; execute only in that component's own document.",
+    "F020": "failed: CompileError: ref to F018, which has no geometry (not built or skipped)"
+  },
+  "holes": {
+    "F014": [
+      {
+        "planned_center": [
+          0.0,
+          10.297
+        ],
+        "planned_d": 0.159,
+        "measured": false,
+        "center": null,
+        "d": null,
+        "depth": null,
+        "axis": "Y"
+      }
+    ],
+    "F015": [
+      {
+        "planned_center": [
+          0.0,
+          10.297
+        ],
+        "planned_d": 0.159,
+        "measured": false,
+        "center": null,
+        "d": null,
+        "depth": null,
+        "axis": "Y"
+      }
+    ]
+  },
+  "edge_points": {
+    "F002": [
+      [
+        -1.375,
+        0.0,
+        9.75
+      ]
+    ],
+    "F005": [
+      [
+        -0.625,
+        0.0,
+        3.25
+      ]
+    ],
+    "F006": [
+      [
+        -1.4,
+        0.0,
+        0.0
+      ]
+    ],
+    "F007": [
+      [
+        -2.234,
+        0.0,
+        9.75
+      ]
+    ],
+    "F008": [
+      [
+        -1.9375,
+        0.0,
+        11.5
+      ],
+      [
+        -1.031,
+        0.0,
+        11.5
+      ]
+    ]
+  },
+  "starts": {
+    "F010": {
+      "axis": "Z",
+      "coord": -11.5,
+      "dir": 1,
+      "thru": false
+    },
+    "F011": {
+      "axis": "Z",
+      "coord": -11.5,
+      "dir": 1,
+      "thru": false
+    },
+    "F013": {
+      "axis": "Y",
+      "coord": -2.75,
+      "dir": 1,
+      "thru": true
+    },
+    "F014": {
+      "axis": "Y",
+      "coord": 6.498,
+      "dir": -1
+    },
+    "F015": {
+      "axis": "Y",
+      "coord": -6.498,
+      "dir": 1
+    }
+  },
+  "volume_after": {
+    "F001": 52.082806638,
+    "F002": 52.583961525,
+    "F005": 52.576666747,
+    "F006": 52.561059315,
+    "F007": 52.536019565,
+    "F008": 52.502446621,
+    "F010": 52.409687166,
+    "F011": 52.316927712,
+    "F013": 52.269275236
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -2.234,
+      -2.234,
+      0.0,
+      2.234,
+      2.234,
+      11.5
+    ]
+  }
+}

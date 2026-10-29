@@ -1,0 +1,70 @@
+{
+  "part": "SB-12059",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -1.937268,
+    -1.937268,
+    -0.0,
+    1.937268,
+    1.937268,
+    1.687
+  ],
+  "volume": 17.716329,
+  "volume_mm3": 290318.622,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F008",
+    "F009"
+  ],
+  "skipped": {
+    "F005": "unresolved: Specify the full-diameter blind drill depth: .38 is explicitly the tapped depth, not the drill depth. The seed radial axis is 45 degrees from the vertical sawcut, at axial station D002 + D",
+    "F006": "unresolved: Four radial tapped holes at 90-degree intervals; blocked by the unresolved seed drill depth and radial placement representation, not by the printed count or angular indexing.",
+    "F007": "unresolved: What included angle or mouth diameter defines the .03-deep countersinks on the four radial tapped holes? Depth alone does not define their shape."
+  },
+  "holes": {},
+  "edge_points": {
+    "F002": [
+      [
+        -0.3125,
+        0.0,
+        0.0
+      ]
+    ],
+    "F003": [
+      [
+        -1.87475,
+        0.0,
+        1.687
+      ]
+    ]
+  },
+  "starts": {
+    "F008": {
+      "axis": "Z",
+      "coord": 1.687,
+      "dir": -1,
+      "thru": true
+    }
+  },
+  "volume_after": {
+    "F001": 18.389379124,
+    "F002": 18.3734324,
+    "F003": 18.352455671,
+    "F008": 18.193424072,
+    "F009": 17.716329275
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -1.9375,
+      -1.9375,
+      0.0,
+      1.9375,
+      1.9375,
+      1.687
+    ]
+  }
+}

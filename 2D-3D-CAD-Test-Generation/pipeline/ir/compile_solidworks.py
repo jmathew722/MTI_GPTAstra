@@ -1152,6 +1152,13 @@ def body_box(body) -> list[float]:
         return list(body.GetBodyBox())
 
 
+def parts_box(bodies) -> list[float]:
+    """Box around EVERY body. A sawcut part is several bodies by design (SB12059's four collet
+    pads); the first body's box alone failed a correct part (E031)."""
+    boxes = [body_box(b) for b in bodies]
+    return [min(x[i] for x in boxes) for i in range(3)] + [max(x[i] for x in boxes) for i in range(3, 6)]
+
+
 def origin_centered(bbox: list[float], tol_m: float = 1e-6) -> bool:
     """MTI: the base body is symmetric about the three base planes (box centered on the
     origin). ``bbox`` is a SolidWorks body box in meters."""
@@ -1232,7 +1239,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         sw.doc.Extension.SetUserPreferenceToggle(SW_DISPLAY_COSMETIC_THREADS, 0, True)
     bodies = sw.doc.GetBodies2(0, False)
     if bodies:
-        bb = body_box(bodies[0])
+        bb = parts_box(bodies)
         ext = sorted((bb[i + 3] - bb[i]) / sw.k for i in range(3))
         ref = sorted(fmap["bbox"][i + 3] - fmap["bbox"][i] for i in range(3))
         sw.report.bbox_ok = all(abs(a - b) <= 1e-4 * max(1.0, b) for a, b in zip(ext, ref))

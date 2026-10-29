@@ -1,0 +1,46 @@
+{
+  "part": "SB12059",
+  "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12059\\SB12059_extraction.json",
+  "plan_attempts": 0,
+  "gate1": "OK",
+  "planned": 5,
+  "questions": [
+    "F005: Specify the full-diameter blind drill depth: .38 is explicitly the tapped depth, not the drill depth. The seed radial axis is 45 degrees from the vertical sawcut, at axial station D002 + D006.",
+    "F006: Four radial tapped holes at 90-degree intervals; blocked by the unresolved seed drill depth and radial placement representation, not by the printed count or angular indexing.",
+    "F007: What included angle or mouth diameter defines the .03-deep countersinks on the four radial tapped holes? Depth alone does not define their shape."
+  ],
+  "flagged": [
+    "F008: Both views show the sawcuts connecting the bore to the outside and traversing the full axial thickness. The profile starts on the axis, inside the bore, and extends to D005, beyond the flange radius; thru prevents a coincident axial stopping surface."
+  ],
+  "defaults": [
+    "F004: D4 not modelled: edge break with no printed size"
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12059\\reference.step",
+  "volume": 17.716329,
+  "cq_skipped": {
+    "F005": "unresolved: Specify the full-diameter blind drill depth: .38 is explicitly the tapped depth, not the drill depth. The seed radial axis is 45 degrees from the vertical sawcut, at axial station D002 + D",
+    "F006": "unresolved: Four radial tapped holes at 90-degree intervals; blocked by the unresolved seed drill depth and radial placement representation, not by the printed count or angular indexing.",
+    "F007": "unresolved: What included angle or mouth diameter defines the .03-deep countersinks on the four radial tapped holes? Depth alone does not define their shape."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12059\\SB-12059_ir.SLDPRT",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (1 edges selected by nearest point)",
+    "F003": "built (1 edges selected by nearest point)",
+    "F005": "skipped (unresolved: Specify the full-diameter blind drill depth: .38 is explicitly the tapped depth, not the drill depth. The seed radial axis is 45 degrees from the vertical sawcut, at axial station D002 + D)",
+    "F006": "skipped (unresolved: Four radial tapped holes at 90-degree intervals; blocked by the unresolved seed drill depth and radial placement representation, not by the printed count or angular indexing.)",
+    "F007": "skipped (unresolved: What included angle or mouth diameter defines the .03-deep countersinks on the four radial tapped holes? Depth alone does not define their shape.)",
+    "F008": "built (Up To Next)",
+    "F009": "built (native circular pattern, 4 instances)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "sketches fully defined: 2/2"
+  ],
+  "mti_review": [
+    "[mti_edge_ops_last] F008 (prism) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 0.0,
+  "error": ""
+}

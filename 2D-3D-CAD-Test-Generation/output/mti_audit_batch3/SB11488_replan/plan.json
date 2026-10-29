@@ -1,0 +1,570 @@
+{
+  "dims": {
+    "D001": 0.25,
+    "D002": 0.312,
+    "D003": 0.75,
+    "D004": 1.53,
+    "D005": 1.625,
+    "D006": 3.8,
+    "D007": 1.9,
+    "D008": 11.875,
+    "D009": 0.625,
+    "D010": 5.375,
+    "D011": 5.0,
+    "D012": 6.0,
+    "D013": 1.9,
+    "D014": 3.8,
+    "D015": 1.5,
+    "D016": 3.0,
+    "D017": 45.0,
+    "D018": 135.0,
+    "D019": 0.656,
+    "D020": 1.0,
+    "D021": 0.64,
+    "D022": 4.198,
+    "D023": 3.407,
+    "D024": 5.937,
+    "D025": 1.53,
+    "D026": 4.198,
+    "D027": 4.863,
+    "D028": 5.73,
+    "D029": 5.937,
+    "D030": 4.198,
+    "D031": 4.863,
+    "D032": 5.73,
+    "D033": 5.937,
+    "D034": 1.5,
+    "D035": 1.9,
+    "D036": 1.9,
+    "D037": 1.5,
+    "D038": 1.375,
+    "D039": 0.25,
+    "D040": 13.248,
+    "D041": 7.0,
+    "D042": 7.0,
+    "D043": 0.83,
+    "D044": 30.0,
+    "D045": 10.0,
+    "D046": 0.5,
+    "D047": 0.06,
+    "D048": 45.0,
+    "D049": 1.125,
+    "D050": 6.624
+  },
+  "reference_ids": [
+    "D008",
+    "D010"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB 11488 \u2014 detail 4",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Circular blank, centered at the front end of its axis.",
+        "source_callouts": [
+          "13.248 DIA.",
+          "1.375"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D040 / 2"
+          },
+          {
+            "z": "D038",
+            "r": "D040 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Concentric semicircular closed end of the through throat.",
+        "source_callouts": [
+          "R.",
+          "1.50",
+          "3.00"
+        ],
+        "status": "planned",
+        "justification": "Front view shows the radius leader from the plate center and the semicircular end tangent to the 3.00-wide throat; radius is D016/2.",
+        "kind": "prism",
+        "on": "face(F001,-Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "D016",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F003",
+        "rationale": "Open the parallel throat to the right; cutter overshoots the OD.",
+        "source_callouts": [
+          "1.50",
+          "3.00"
+        ],
+        "status": "planned",
+        "justification": "Views show an open through throat. Rectangular cutter overlaps the circular end; flared mouth is separately unresolved.",
+        "kind": "prism",
+        "on": "face(F001,-Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D040",
+          "h": "D016",
+          "anchor": "corner",
+          "u": "0",
+          "v": "-D015"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F004",
+        "rationale": "Confirm mouth-flank starting station and axial extent, including apparent alignment with the right mounting-hole column.",
+        "source_callouts": [
+          "45\u00b0 TYP.",
+          "135\u00b0 TYP."
+        ],
+        "status": "unresolved",
+        "justification": "Non-executable candidate only: D023 is visually aligned but not established as the mouth-start dimension; verify degraded 135-degree annotation.",
+        "kind": "prism",
+        "on": "face(F001,-Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "D023",
+              "-D015"
+            ],
+            [
+              "D040",
+              "-D015 - (D040 - D023)"
+            ],
+            [
+              "D040",
+              "D015 + (D040 - D023)"
+            ],
+            [
+              "D023",
+              "D015"
+            ]
+          ]
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F005",
+        "rationale": "Confirm exact internal section and attachments of .83, .250, 30 degrees and 10 degrees.",
+        "source_callouts": [
+          "DIA. 7.000",
+          "7.00 DIA.",
+          ".250",
+          ".83",
+          "30\u00b0",
+          "10\u00b0",
+          ".50 R"
+        ],
+        "status": "unresolved",
+        "justification": "Non-executable recess-envelope placeholder, not a cylindrical substitute for the contoured section. Rear material supports the four tapped holes; do not make a 7-inch through bore.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D041 / 2"
+          },
+          {
+            "z": "D038 - D039",
+            "r": "D041 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "cut"
+      },
+      {
+        "id": "F006",
+        "rationale": "Confirm the section junction receiving .50 R before selecting the actual edge.",
+        "source_callouts": [
+          ".50 R"
+        ],
+        "status": "unresolved",
+        "justification": "Non-executable edge placeholder pending F005; not an assertion of a front-rim fillet.",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D046",
+        "angle": "45",
+        "edges": [
+          "edge_between(wall(F005),face(F001,-Z))"
+        ]
+      },
+      {
+        "id": "F007",
+        "rationale": "Top mounting hole and front counterbore.",
+        "source_callouts": [
+          ".656 DR THRU & 1.000 C'BORE .64 DP 7-HL'S",
+          "5.937 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "0",
+        "v": "D029",
+        "spec": {
+          "type": "cbore",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": "D020",
+          "cbore_depth": "D021",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Upper-left mounting hole.",
+        "source_callouts": [
+          ".656 DR THRU & 1.000 C'BORE .64 DP 7-HL'S",
+          "4.198 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D022",
+        "v": "D026",
+        "spec": {
+          "type": "cbore",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": "D020",
+          "cbore_depth": "D021",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Leftmost mounting hole on centerline.",
+        "source_callouts": [
+          ".656 DR THRU & 1.000 C'BORE .64 DP 7-HL'S",
+          "5.937 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D024",
+        "v": "0",
+        "spec": {
+          "type": "cbore",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": "D020",
+          "cbore_depth": "D021",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F010",
+        "rationale": "Lower-left mounting hole.",
+        "source_callouts": [
+          ".656 DR THRU & 1.000 C'BORE .64 DP 7-HL'S",
+          "4.198 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D022",
+        "v": "-D030",
+        "spec": {
+          "type": "cbore",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": "D020",
+          "cbore_depth": "D021",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F011",
+        "rationale": "Bottom mounting hole.",
+        "source_callouts": [
+          ".656 DR THRU & 1.000 C'BORE .64 DP 7-HL'S",
+          "5.937 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "0",
+        "v": "-D033",
+        "spec": {
+          "type": "cbore",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": "D020",
+          "cbore_depth": "D021",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F012",
+        "rationale": "Lower-right mounting hole.",
+        "source_callouts": [
+          ".656 DR THRU & 1.000 C'BORE .64 DP 7-HL'S",
+          "3.407 \u00b1.005",
+          "4.863 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D023",
+        "v": "-D031",
+        "spec": {
+          "type": "cbore",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": "D020",
+          "cbore_depth": "D021",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F013",
+        "rationale": "Upper-right mounting hole; seven holes are not equally spaced.",
+        "source_callouts": [
+          ".656 DR THRU & 1.000 C'BORE .64 DP 7-HL'S",
+          "3.407 \u00b1.005",
+          "4.863 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D023",
+        "v": "D027",
+        "spec": {
+          "type": "cbore",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": "D020",
+          "cbore_depth": "D021",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F014",
+        "rationale": "Tapped-square seed, through from the intact rear face.",
+        "source_callouts": [
+          ".250-20 TAP THRU 4-HL'S",
+          "3.800 \u00b1.005",
+          "1.900 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard No. 7 tap drill, 0.201 inch, for D001 nominal 1/4-20 UNC. Null depth denotes through; rear-face entry avoids selecting a face within the unresolved recess.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D007 - D006",
+        "v": "D013 - D014",
+        "spec": {
+          "type": "tapped",
+          "d": "0.201",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/4-20 UNC THRU; cosmetic; class unspecified"
+        }
+      },
+      {
+        "id": "F015",
+        "rationale": "Complete four-hole square.",
+        "source_callouts": [
+          ".250-20 TAP THRU 4-HL'S",
+          "3.800 \u00b1.005",
+          "1.900 \u00b1.005",
+          "5.375 B.C. REF."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F014",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D006",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D014",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F016",
+        "rationale": "Upper-right pull hole.",
+        "source_callouts": [
+          ".625-11 TAP THRU 2 PULL HL'S.",
+          "1.53",
+          "5.73"
+        ],
+        "status": "planned",
+        "justification": "Standard 17/32-inch tap drill for D009 nominal 5/8-11 UNC; null depth denotes through.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004",
+        "v": "D028",
+        "spec": {
+          "type": "tapped",
+          "d": "0.53125",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "5/8-11 UNC THRU; cosmetic; class unspecified"
+        }
+      },
+      {
+        "id": "F017",
+        "rationale": "Lower-left pull hole.",
+        "source_callouts": [
+          ".625-11 TAP THRU 2 PULL HL'S.",
+          "1.53",
+          "5.73"
+        ],
+        "status": "planned",
+        "justification": "Standard 17/32-inch tap drill for D009 nominal 5/8-11 UNC; null depth denotes through.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D025",
+        "v": "-D032",
+        "spec": {
+          "type": "tapped",
+          "d": "0.53125",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "5/8-11 UNC THRU; cosmetic; class unspecified"
+        }
+      },
+      {
+        "id": "F018",
+        "rationale": "Verify upper blind-hole location and attachment of 1.625 and 5.000 extension lines.",
+        "source_callouts": [
+          ".312-18 TAP .75 DP. 2-HL'S",
+          "1.625",
+          "5.000 \u00b1.005",
+          "6.000 \u00b1.005"
+        ],
+        "status": "unresolved",
+        "justification": "Standard letter F tap drill, 0.257 inch, for D002 nominal 5/16-18 UNC. Coordinates are a non-executable candidate. D003 is stated tapped depth; a deeper pilot-drill depth is not specified.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D005",
+        "v": "D011",
+        "spec": {
+          "type": "tapped",
+          "d": "0.257",
+          "depth": "D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "5/16-18 UNC; cosmetic; class unspecified"
+        }
+      },
+      {
+        "id": "F019",
+        "rationale": "Locate the second blind tapped hole and establish whether the 6.000 ordinate applies to this pair.",
+        "source_callouts": [
+          ".312-18 TAP .75 DP. 2-HL'S",
+          "6.000 \u00b1.005"
+        ],
+        "status": "unresolved",
+        "justification": "Standard letter F tap drill, 0.257 inch, for 5/16-18 UNC. Zero coordinates are schema placeholders, not a hole proposed at the axis; no diametric pattern assumed.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "tapped",
+          "d": "0.257",
+          "depth": "D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "5/16-18 UNC; cosmetic; class unspecified"
+        }
+      },
+      {
+        "id": "F020",
+        "rationale": "Chamfer indicated rear OD edge only.",
+        "source_callouts": [
+          ".06 X 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "Side-view leader identifies the rear OD/end-face intersection. Apply only to surviving circular OD edge, not front rim or slot edges.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D047",
+        "angle": "D048",
+        "edges": [
+          "edge_between(face(F001,+Z),wall(F001))"
+        ]
+      }
+    ],
+    "notes": [
+      "Material: 4140 HT RC28\u201332; ONE REQD. Tailstock fixture, model 120ME, sheet 6 of 10, detail 4.",
+      "Partial executable plan only: unresolved features must be withheld. Not release-ready until section, mouth geometry and blind-hole locations are confirmed.",
+      "Coordinates are centered on the axis, not corner-offset DrawingData coordinates. Positive X points toward the mouth; positive Y points upward in front view.",
+      "Individual mounting-hole coordinates control; D008 and D010 bolt circles are reference dimensions only.",
+      "D011 and D012 remain unresolved location evidence and are not substitutes for mounting-hole ordinates.",
+      "Repeated 7.000/7.00 recess annotations agree nominally but their governing tolerance needs clarification. Verify degraded OD unilateral tolerance before manufacturing.",
+      "D019 uses the extracted .656 reading; inspect the original before manufacturing because the printed digits are degraded. Counterbore diameter and depth are independently printed.",
+      "Cosmetic threads only; no thread class or drill-point geometry inferred.",
+      "D034 is not accepted as an independent printed radius; throat radius follows D016 and the shown semicircle.",
+      "Replace unresolved F005 and F006 with the exact tapered/blended section; their placeholder geometry must not execute."
+    ]
+  }
+}

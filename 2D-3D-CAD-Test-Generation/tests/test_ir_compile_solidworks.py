@@ -299,3 +299,21 @@ def test_body_box_falls_back_to_get_body_box(monkeypatch):
         raise RuntimeError("no typelib")
     monkeypatch.setattr(sb, "typed", boom)
     assert body_box(_Body()) == list(_Body().GetBodyBox())
+
+
+def test_parts_box_spans_every_body(monkeypatch):
+    """E031: SB12059 is four collet pads (sawcut through); the box must cover all of them."""
+    import pipeline.solidworks_builder as sb
+    from pipeline.ir.compile_solidworks import parts_box
+
+    class Pad:
+        def __init__(self, box):
+            self.box = box
+
+        def GetBodyBox(self):
+            return self.box
+
+    monkeypatch.setattr(sb, "typed", lambda obj, iface: (_ for _ in ()).throw(RuntimeError()))  # use GetBodyBox
+    pads = [Pad((-2, -2, 0, -0.03, -0.03, 1.7)), Pad((0.03, 0.03, 0, 2, 2, 1.7)),
+            Pad((-2, 0.03, 0, -0.03, 2, 1.7)), Pad((0.03, -2, 0, 2, -0.03, 1.7))]
+    assert parts_box(pads) == [-2, -2, 0, 2, 2, 1.7]

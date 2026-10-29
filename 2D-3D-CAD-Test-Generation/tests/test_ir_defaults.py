@@ -105,3 +105,10 @@ def test_switch_turns_the_rules_off(monkeypatch):
     monkeypatch.setenv("MTI_CALLOUT_DEFAULTS", "0")
     _, applied, f = run(edge(".030 R. MAX.", "D003"))
     assert f.status == "unresolved" and applied == []
+
+
+def test_never_defaults_a_hole_the_ir_cannot_start():      # SB12059 F005: radial tap on the OD
+    hole = {"id": "F002", "kind": "hole", "status": "unresolved", "on": "wall(F001,D001)", "u": "0", "v": "0",
+            "spec": {"type": "blind", "d": "D007"}, "source_callouts": [".375-24 TAP .38 DEEP"], "rationale": "?"}
+    _, applied, f = run(hole)
+    assert f.status == "unresolved" and applied == []

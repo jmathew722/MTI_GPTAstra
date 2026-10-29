@@ -1,0 +1,29 @@
+{
+  "part": "SB12051",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12051\\SB12051_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 3,
+  "questions": [],
+  "flagged": [
+    "F001: The .500 extension locates the groove center; '.062 CENT' and symmetric flanks establish the .062 root width centered at that station. The numerical factor 1.7320508075688772 is sqrt(3), derived from the printed 30\u00b0 angles D010 and D011: flank axial run equals radial depth divided by tan(30\u00b0), and bevel radial reduction equals axial length times tan(30\u00b0). Zero denotes the end datum. End-view circles represent exterior surfaces, not a bore."
+  ],
+  "defaults": [],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12051\\reference.step",
+  "volume": 4.060165,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12051\\SB-12051_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (1 edges selected by nearest point)",
+    "F003": "built (1 edges selected by nearest point)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "sketches fully defined: 1/1"
+  ],
+  "mti_review": [],
+  "cost_usd": 0.7347,
+  "error": ""
+}

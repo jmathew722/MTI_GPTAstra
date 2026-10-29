@@ -1,0 +1,57 @@
+{
+  "part": "SB-12055",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -0.5,
+    -0.5,
+    0.0,
+    0.5,
+    0.5,
+    6.12
+  ],
+  "volume": 4.445504,
+  "volume_mm3": 72848.755,
+  "features": [
+    "F001",
+    "F002",
+    "F003"
+  ],
+  "skipped": {
+    "F004": "unresolved: What are the shoulder thread-relief width, root diameter, and transition form? MIN. RELIEF supplies none of these.",
+    "F005": "unsupported: External thread annotation is required on the stud. This IR has no external cosmetic-thread feature; do not replace the stud with a tapped hole or infer helical geometry.",
+    "F008": "unsupported: Stamped text is outside the available profile types; character size, depth, and exact placement also require specification."
+  },
+  "holes": {},
+  "edge_points": {},
+  "starts": {
+    "F002": {
+      "axis": "X",
+      "coord": -1.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F003": {
+      "axis": "X",
+      "coord": -1.0,
+      "dir": 1,
+      "thru": false
+    }
+  },
+  "volume_after": {
+    "F001": 4.464743122,
+    "F002": 4.455123461,
+    "F003": 4.445503801
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -0.5,
+      -0.5,
+      0.0,
+      0.5,
+      0.5,
+      6.12
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "part": "SB12053",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12053\\SB12053_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 14,
+  "questions": [
+    "F003: Clarify how the .06 radius blends the .025 radial OD step; a simple tangent quarter-round cannot fit the nominal shoulder.",
+    "F009: What numerical radius is required at the thread-relief root? The drawing labels it only R.; D030 is not an authoritative size.",
+    "F016: What additional full-diameter drilling depth, if any, is required beyond the .44 tapped depth for both #10 holes?"
+  ],
+  "flagged": [
+    "F001: Use the supplied ASME B18.3 normal-fit SHCS chart for the .750 screw: .781 clearance drill and 1.188 counterbore diameter. Printed axial shoulder positions override the chart counterbore depth. The separate 1.250 stage remains as printed. Zero stations denote the chosen end-face datum.",
+    "F010: The end view shows an open notch; the longitudinal section shows the flat floor across the flange land. Its floor lies outside every other OD, so an axially overshooting cut affects only that land.",
+    "F011: The two notches are mirror images about the end-view centerline. Radial and axial overshoots leave the part without changing the nominal notch.",
+    "F013: A #7 drill, .201 inch, is the standard tap drill for 1/4-20 UNC. Section A-A locates the common radial axis at D002-D006 and shows both wall openings. Plane(top) uses global (X,Z); starting below the OD ensures complete breakthrough. Threads are cosmetic.",
+    "F014: Use standard #21 (.159 inch) tap drill for #10-32 UNF. Re-reading the section, .391 spans the hole axis to the flange's right edge at the relief, not the left flange shoulder; use D001-D015+D016-D018. Model the explicitly required tapped depth as a flat-bottom cosmetic-thread pilot, without inventing extra drill allowance.",
+    "F015: Use standard #21 (.159 inch) tap drill for #10-32 UNF. Opposed notch-floor entries and equal axial stations are shown in section; .391 is measured back from the relief edge. The pilot represents the specified thread depth only.",
+    "F020: DEFAULT D7: general/TYP callout applied to the planned edges"
+  ],
+  "defaults": [
+    "F020: D7 chamfer 0.06 on the 2 planned edge(s)"
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12053\\reference.step",
+  "volume": 52.269275,
+  "cq_skipped": {
+    "F003": "unresolved: Clarify how the .06 radius blends the .025 radial OD step; a simple tangent quarter-round cannot fit the nominal shoulder.",
+    "F004": "failed: StdFail_NotDone: BRep_API: command not done",
+    "F009": "unresolved: What numerical radius is required at the thread-relief root? The drawing labels it only R.; D030 is not an authoritative size.",
+    "F012": "failed: CompileError: F012: edge_between(face(F010,+Y),face(F010,+X)) matched no edges",
+    "F014": "failed: CompileError: F014: cut removed no material (check position/direction)",
+    "F015": "failed: CompileError: F015: cut removed no material (check position/direction)",
+    "F016": "unresolved: What additional full-diameter drilling depth, if any, is required beyond the .44 tapped depth for both #10 holes?",
+    "F017": "unsupported: Attach the external thread specification to the existing end land; this IR has no external cosmetic-thread feature and must not add a duplicate solid.",
+    "F018": "unsupported: Detail 4 is a separate rectangular component, quantity two; a separate corner-origin part document is required and must not be fused to Detail 1.",
+    "F019": "unsupported: Record the complete centered SHCS hole for each separate Detail 4 block; execute only in that component's own document.",
+    "F020": "failed: CompileError: ref to F018, which has no geometry (not built or skipped)"
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12053\\SB-12053Detail1actuatorseparateDetail4recordedbutnotmerged_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (1 edges selected by nearest point)",
+    "F003": "skipped (unresolved: Clarify how the .06 radius blends the .025 radial OD step; a simple tangent quarter-round cannot fit the nominal shoulder.)",
+    "F004": "skipped (failed: StdFail_NotDone: BRep_API: command not done)",
+    "F005": "built (1 edges selected by nearest point)",
+    "F006": "built (1 edges selected by nearest point)",
+    "F007": "built (1 edges selected by nearest point)",
+    "F008": "built (2 edges selected by nearest point)",
+    "F009": "skipped (unresolved: What numerical radius is required at the thread-relief root? The drawing labels it only R.; D030 is not an authoritative size.)",
+    "F010": "built",
+    "F011": "built",
+    "F012": "skipped (failed: CompileError: F012: edge_between(face(F010,+Y),face(F010,+X)) matched no edges)",
+    "F013": "built (Up To Next)",
+    "F014": "skipped (failed: CompileError: F014: cut removed no material (check position/direction))",
+    "F015": "skipped (failed: CompileError: F015: cut removed no material (check position/direction))",
+    "F016": "skipped (unresolved: What additional full-diameter drilling depth, if any, is required beyond the .44 tapped depth for both #10 holes?)",
+    "F017": "skipped (unsupported: Attach the external thread specification to the existing end land; this IR has no external cosmetic-thread feature and must not add a duplicate solid.)",
+    "F018": "skipped (unsupported: Detail 4 is a separate rectangular component, quantity two; a separate corner-origin part document is required and must not be fused to Detail 1.)",
+    "F019": "skipped (unsupported: Record the complete centered SHCS hole for each separate Detail 4 block; execute only in that component's own document.)",
+    "F020": "skipped (failed: CompileError: ref to F018, which has no geometry (not built or skipped))"
+  },
+  "conventions": [
+    "origin centered: True",
+    "sketches fully defined: 4/4"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F014: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_hole_wizard] F015: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_edge_ops_last] F010 (prism) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 1.7305,
+  "error": ""
+}

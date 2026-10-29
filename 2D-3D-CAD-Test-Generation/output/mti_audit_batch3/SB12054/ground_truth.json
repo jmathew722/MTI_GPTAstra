@@ -1,0 +1,59 @@
+{
+  "model": "SB12054-001.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 2125969.486,
+  "bbox_mm": [
+    -177.8,
+    -101.6,
+    -101.6,
+    0.0,
+    101.6,
+    101.6
+  ],
+  "size_mm": [
+    177.8,
+    203.2,
+    203.2
+  ],
+  "center_mm": [
+    -88.9,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Revolve1",
+    "Cut-Extrude1",
+    "Fillet1",
+    "Fillet2",
+    "Chamfer1",
+    "Chamfer2",
+    "3/8-16 Tapped Hole1",
+    "1/2-13 Tapped Hole1",
+    "Cut-Extrude2",
+    "Fillet3",
+    "CBORE for 1/2 Socket Head Cap Screw1",
+    "Cut-Extrude3",
+    "Cut-Extrude4",
+    "1/4-20 Tapped Hole1",
+    "CirPattern1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "ICE",
+    "Fillet",
+    "Fillet",
+    "Chamfer",
+    "Chamfer",
+    "HoleWzd",
+    "HoleWzd",
+    "ICE",
+    "Fillet",
+    "HoleWzd",
+    "ICE",
+    "ICE",
+    "HoleWzd",
+    "CirPattern"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12054\\ground_truth.step",
+  "part": "SB12054"
+}

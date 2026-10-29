@@ -650,6 +650,22 @@ The full entry was kept local; add it here.
   (`test_ir_compile_solidworks.py`); `test_wall_radius_matches_a_cone_at_its_rim`,
   `test_surface_deviation_reads_a_thin_wall_offset_in_mm` (`test_ir_compile_cadquery.py`).
 
+## E031 — A correct multi-body part failed the bounding-box check (SB12059)
+
+- **Symptom:** SB12059 built every feature with matching volumes but reported not verified.
+- **Root cause:** the part is four pieces by design ("COLLET PAD": four .060 sawcuts clean
+  through), so `GetBodies2` returns 4 bodies. The final check boxed only `bodies[0]`, one
+  quarter of the part. The volume check already summed every body.
+- **Fix:** `compile_solidworks.parts_box(bodies)`, the box around every body (extreme points per
+  body, E030).
+- **Also:** `pipeline/ir/defaults.py` never marks a hole planned unless it starts on a `face(...)`
+  or `plane(...)`. D5 had promoted SB12059's radial tap on `wall(...)`, which the reference can't
+  start a hole from.
+- **Generator rule:** final checks cover every body; a defaults rule never produces a feature the
+  IR can't build.
+- **Tests:** `test_parts_box_spans_every_body` (`test_ir_compile_solidworks.py`),
+  `test_never_defaults_a_hole_the_ir_cannot_start` (`test_ir_defaults.py`).
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

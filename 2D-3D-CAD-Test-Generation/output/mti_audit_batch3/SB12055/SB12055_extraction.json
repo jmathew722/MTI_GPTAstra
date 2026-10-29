@@ -1,0 +1,508 @@
+{
+  "part_name": "STOP BLOCK",
+  "part_number": "SB-12055",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1 (FULL)",
+  "material": "1018 steel",
+  "finish": "",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2-PLACE DIM. \u00b1.020; 3-PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b11\u00b0.",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Longitudinal elevation of a cylindrical stop block with a reduced externally threaded left end, minimal thread relief at the shoulder, two opposed flats near the right end, and end chamfers.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005",
+        "F006"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Horizontal centerline is the common shaft/thread axis. Dashed lines within the left stud represent the external thread minor diameter, not an internal hole."
+    },
+    {
+      "view_type": "Right",
+      "description": "Right-end view: circular body, smaller concentric chamfer edge, and hidden chords representing opposed flats behind the full-diameter end.",
+      "dimensions_shown": [
+        "D007",
+        "D008"
+      ],
+      "visible_features": [
+        "F001",
+        "F006"
+      ],
+      "hidden_features": [
+        "F003"
+      ],
+      "centerline_notes": "Crossed centerlines locate the shaft axis. The .44 FLAT TYP dimension runs from the horizontal centerline to a flat, not between both flats. Concentric circles are external end/chamfer edges, not a hole."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 6.12,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_axial_length",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Leftmost stud end to rightmost body end. General two-place tolerance applies."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 5.125,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "main_body_length",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Thread shoulder to right end. General three-place tolerance applies."
+    },
+    {
+      "id": "D003",
+      "type": "diameter",
+      "value": 0.75,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "threaded_stud_major_diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .750 DIA. General three-place dimensional tolerance applies to the diameter callout; thread fit/class is not specified."
+    },
+    {
+      "id": "D004",
+      "type": "thread",
+      "value": 0.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "external_thread",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .750-10 THD.: nominal major diameter .750 inch, 10 threads per inch. Thread series, fit class, hand, and exact full-form thread length are not explicitly specified. Do not substitute a decimal tolerance for a thread fit specification."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "opposed_flats_axial_length",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Left .50 dimension between the two axial boundaries of the flats. General two-place tolerance applies."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_end_to_near_flat_boundary",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Right .50 dimension: full-diameter terminal section from the right boundary of the flats to the extreme right end, including the end chamfer. General two-place tolerance applies."
+    },
+    {
+      "id": "D007",
+      "type": "diameter",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "main_body_diameter",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.00 DIA. General two-place tolerance applies."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 0.44,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "axis_to_flat_distance",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .44 FLAT TYP. Dimension from shaft centerline to lower flat, typical for upper and lower flats. General two-place tolerance applies."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 0.995,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "stud_projection_from_shoulder",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: D001 - D002 = 6.12 - 5.125 = .995. Not a separately printed dimension. Worst-case dimensional stack is \u00b1.030 inch. Includes end chamfer and shoulder relief; not the full-form thread length."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 4.125,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "shoulder_to_left_flat_boundary",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: D002 - D005 - D006 = 5.125 - .50 - .50 = 4.125. Worst-case stack is \u00b1.050 inch; no independent tolerance."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 0.88,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "distance_across_opposed_flats",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 2 \u00d7 D008 = .88. Each flat is .44 from the axis; worst-case across-flats stack is \u00b1.040 inch. Not an independently dimensioned width."
+    },
+    {
+      "id": "D012",
+      "type": "depth",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "flat_radial_cut_depth",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: D007 / 2 - D008 = .50 - .44 = .06. Worst-case stack is \u00b1.030 inch; no independent tolerance."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 0.1,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "external_thread_pitch",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 1 / 10 TPI = .100 inch pitch. Thread profile and fit require specification confirmation."
+    }
+  ],
+  "hole_callouts": [],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Base cylindrical body, diameter 1.00 and length 5.125. Use the left main-body shoulder center as the modeling origin, axial direction toward the right end.",
+      "related_dimensions": [
+        "D002",
+        "D007"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D002",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_boss",
+      "description": "Coaxial reduced left stud, nominal diameter .750, projecting .995 from the main-body shoulder in the opposite axial direction. Projection is derived from the overall and main-body lengths.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D003",
+        "D009"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D009",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Two opposed planar flats, each .50 long axially and .44 from the shaft axis. The nearer flat boundary is .50 from the right end. Cut only the upper and lower caps of the cylinder; this is not an annular groove. Nominal axial interval is 4.125 to 4.625 from the main-body shoulder.",
+      "related_dimensions": [
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D010",
+        "D011",
+        "D012"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F004",
+      "type": "extrude_cut",
+      "description": "Minimal annular thread relief immediately adjacent to the left main-body shoulder, called out MIN. RELIEF. Width, root diameter, and transition radius are not specified; exact relief geometry requires confirmation. An annular sketch cut coaxially into the stud can implement the relief once specified.",
+      "related_dimensions": [],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F005",
+      "type": "thread",
+      "description": "External .750-10 thread on the left stud. Terminate at the minimal shoulder relief, allowing for the left-end chamfer. Series, profile, class, and full-form length are not explicitly called out.",
+      "related_dimensions": [
+        "D003",
+        "D004",
+        "D009",
+        "D013"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F006",
+      "type": "chamfer",
+      "description": "Chamfers depicted at the left stud end and right body end. The right-end view shows the circular edge of the right chamfer. Neither chamfer size nor angle is dimensioned; do not infer a controlled 45-degree angle or equal sizes.",
+      "related_dimensions": [],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Longitudinal plane through the shaft axis midway between the upper and lower flats",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F006"
+        ],
+        "description": "Nominal opposed-flat geometry is symmetric about the axial midplane, as indicated by .44 FLAT TYP. Helical thread details and the identification stamp are excluded from the symmetry assertion."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F004",
+          "F005",
+          "F006"
+        ],
+        "description": "Main cylindrical body, reduced threaded stud, shoulder relief, external thread, and circular end chamfers share the shaft axis. No concentricity GD&T is specified."
+      }
+    ],
+    "equal_spacing": [],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D009",
+          "D002"
+        ],
+        "description": "Overall axial length = stud projection + main body length: .995 + 5.125 = 6.12."
+      },
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D010",
+          "D005",
+          "D006"
+        ],
+        "description": "Main body length = shoulder-to-flat distance + flat length + terminal section: 4.125 + .50 + .50 = 5.125."
+      },
+      {
+        "total_dimension_id": "D011",
+        "component_dimension_ids": [
+          "D008",
+          "D008"
+        ],
+        "description": "Across-flat distance = two typical axis-to-flat distances: .44 + .44 = .88."
+      },
+      {
+        "total_dimension_id": "D007",
+        "component_dimension_ids": [
+          "D012",
+          "D011",
+          "D012"
+        ],
+        "description": "Body diameter = upper cap removal + across-flats distance + lower cap removal: .06 + .88 + .06 = 1.00."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D009",
+      "D010",
+      "D011",
+      "D012",
+      "D013"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006"
+  ],
+  "warnings": [
+    "Drawing explicitly specifies inches and third-angle projection but does not name an ASME, ISO, or DIN standard; drawing_standard is therefore blank.",
+    "MIN. RELIEF is a qualitative callout only. Relief width, depth/root diameter, and transition form must be resolved before producing an exact manufacturing model.",
+    "Both end chamfers are drawn but undimensioned. Their widths and angles must be resolved before producing an exact manufacturing model.",
+    "The external thread is called out only as .750-10 THD. A 3/4-10 UNC interpretation is conventional but not explicitly stated; verify thread standard, class, handedness requirements, and full-form length.",
+    "The .44 FLAT TYP callout denotes two opposed flats .44 from the centerline. Do not model the .50-long reduced-looking region as a circumferential groove.",
+    "STAMP SB-12055 is specified on the main body. Character size, stamp depth, and exact location/orientation are not dimensioned; marking is not represented as a controlled cut feature.",
+    "No surface finish, revision, datum system, or geometric tolerance frame is given. Zero/default tolerances on derived and thread dimensions do not imply exact zero manufacturing tolerance.",
+    "Title-block model number is 220-B; tool number is SB-12055. Drawing date is March 14, 1979; sheet 1 of 1, size B.",
+    "Material note reads MAT'L. ~1018, interpreted as 1018 steel; no heat treatment is specified."
+  ],
+  "confidence": 0.94
+}

@@ -3,6 +3,14 @@
 **Last updated:** 2026-10-28 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-10-28 (latest): all 38 PDF audit parts run, all build and verify** ($7.52; ledger $46.68 of $50).
+> - New parts SB12011, SB12055, SB12053, SB12054 and SB12059 match MTI at IoU 0.990–0.9999.
+> - **MTI's SB12050 and SB12051 models are swapped in Drive:** each of our parts matches the other
+>   folder's model at IoU 1.000 / 0.996.
+> - SB12059 is four collet pads by design; the final check now covers every body (E031).
+> - The SB11488 re-plan builds all holes, but its central profile is still unread (noisy scan).
+> - Test report 2026-10-28 §8.
+>
 > **2026-10-28 (later): callout defaults.** Vague callouts are now built by documented rules instead of
 > being skipped (`pipeline/ir/defaults.py`; values measured from MTI's own models; switch:
 > `MTI_CALLOUT_DEFAULTS=0`).

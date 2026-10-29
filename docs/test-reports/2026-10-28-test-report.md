@@ -2,7 +2,7 @@
 
 **Project:** mti-2d-3d · **Date:** 2026-10-28 · **Operator:** ggould, with Claude Code
 **Branch:** `feat/openai-extractor-sw2025` · **Host:** Windows 11, SolidWorks 2025 SP5
-**API spend today: $0.** Everything was rebuilt from saved plans. Ledger unchanged at **$39.16 of $40**.
+**API spend today: $7.52**: the last 7 PDF parts ($6.63) and the SB11488 re-plan ($0.89). Everything else was rebuilt from saved plans at $0. Ledger **$39.16 → $46.68 of $50** (the cap was raised to $50 today). An expired OpenAI key caused one failed attempt at $0.
 
 ## 1. Overall statement
 
@@ -180,3 +180,58 @@ No score went down.
   is budget-blocked.
 
 **Tests:** 13 in `tests/test_ir_defaults.py`. **Suite: 989 passed, 66 skipped.**
+
+---
+
+## 8. The last 7 PDF parts, the SB11488 re-plan, and a model swap ($7.52)
+
+**Run:** `mti_batch.py` on SB12011 (plan only; its extraction was saved), SB12051, SB12053, SB12054,
+SB12055, SB12059 and SB12108. The first attempt failed at $0 on an expired OpenAI key; after
+the key was replaced it ran clean. **Results:** `output/mti_audit_batch3/`.
+
+| Part | Cost | Builds & verifies | Questions | IoU vs MTI | Deviation max / mean (mm) | Note |
+|---|---|---|---|---|---|---|
+| SB12011 | $0.18 | ✅ | 0 | **0.9999** | 1.20 / 0.07 | |
+| SB12055 | $0.45 | ✅ | 1 | **0.9993** | 0.76 / 0.17 | |
+| SB12053 | $1.73 | ✅ | 3 | **0.9977** | 11.8 / 0.30 | 14 features |
+| SB12054 | $2.08 | ✅ | 3 | **0.9949** | 14.9 / 0.53 | 22 features |
+| SB12059 | $0.67 | ✅ (after E031) | 2 | **0.9901** | 10.5 / 0.46 | four collet pads; see below |
+| SB12108 | $0.79 | ✅ | 4 | 0.783 | 31.8 / 0.12 | MTI's model is a weldment; 4 open questions |
+| SB12051 | $0.73 | ✅ | 0 | 0.000 → **1.000** | 0.0 / 0.0 | **MTI's models of SB12050 and SB12051 are swapped** |
+
+**MTI's SB12050 and SB12051 models are swapped in Drive.**
+
+- Our SB12051 (3.5" long, to its drawing) scores IoU **1.000** with 0.0 mm deviation against
+  the file in MTI's SB12050 folder.
+- Our SB12050 (2.12") scores **0.996** against the file in the SB12051 folder.
+- So both of our parts are right, and SB12050 is no longer a drawing-vs-model mismatch.
+- The summary for MTI (`docs/mti-questions/`) is updated.
+
+**SB12059 is four separate pieces by design (E031).**
+
+- The drawing ("COLLET PAD") shows four .060 sawcuts running clean through, from bore to OD. The
+  part is four pads; MTI's model is the uncut ring.
+- Every feature was volume-matched, but the final check boxed only the first body, so the
+  correct four-body part failed. It now boxes every body (`parts_box`).
+- The defaults also got a guard. D5 had turned a radial tapped hole (it starts on `wall(...)`,
+  which the IR can't drill from) into a planned feature, which failed in the reference. Defaults
+  now never apply to a hole that doesn't start on a face or plane. The hole stays a question; the
+  IR has no radial holes yet.
+
+**SB11488 re-plan ($0.89):**
+
+- **Inputs:** the full sheet plus 200–300 dpi crops of detail 4's front view and side section
+  (`output/sb11488_replan/views/`), reusing the saved extraction.
+- **Better:** all holes now build through Hole Wizard: 7 counterbores, 4 1/4-20 taps and 2
+  5/8-11 taps. It builds and verifies.
+- **Not fixed:** the planner still won't commit to the central profile (F004–F006: how .83, .250,
+  30° and 10° attach). That profile is the +25% volume, so IoU stays 0 (size 332 vs 309 mm fails
+  alignment). The scan is too noisy for the planner to read the profile; it needs a human reading
+  of the section or a better scan.
+
+**Totals across the audit (38 PDF parts run):**
+
+- **All 38 build and verify** in SolidWorks.
+- **Model-vs-drawing mismatches for MTI:** SB12009, SB14306 and A00161E. SB12050/SB12051 are a
+  file swap.
+- **Tests:** 991 passed, 66 skipped.

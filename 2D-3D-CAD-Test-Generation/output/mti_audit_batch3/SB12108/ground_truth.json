@@ -1,0 +1,47 @@
+{
+  "model": "SB12108.SLDPRT",
+  "bodies": 4,
+  "volume_mm3": 529697.012,
+  "bbox_mm": [
+    -63.5,
+    12.7,
+    12.7,
+    -50.8,
+    152.4,
+    57.15
+  ],
+  "size_mm": [
+    12.7,
+    44.45,
+    139.7
+  ],
+  "center_mm": [
+    -57.15,
+    82.55,
+    34.925
+  ],
+  "features": [
+    "Weldment",
+    "Boss-Extrude1",
+    "Boss-Extrude2",
+    "Cut-List-Item1",
+    "Cut-List-Item2",
+    "Boss-Extrude3",
+    "Cut-Extrude1",
+    "5/16 Clearance Hole1",
+    "5/16-18 Tapped Hole1"
+  ],
+  "feature_types": [
+    "WeldmentFeature",
+    "Extrusion",
+    "ICE",
+    "CutListFolder",
+    "CutListFolder",
+    "ICE",
+    "ICE",
+    "HoleWzd",
+    "HoleWzd"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12108\\ground_truth.step",
+  "part": "SB12108"
+}

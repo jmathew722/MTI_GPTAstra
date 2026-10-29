@@ -1,0 +1,571 @@
+{
+  "dims": {
+    "D001": 11.5,
+    "D002": 3.25,
+    "D003": 0.875,
+    "D004": 1.75,
+    "D005": 1.5,
+    "D006": 0.312,
+    "D007": 2.8,
+    "D008": 0.06,
+    "D009": 45.0,
+    "D010": 0.06,
+    "D011": 0.06,
+    "D012": 1.25,
+    "D013": 0.06,
+    "D014": 45.0,
+    "D015": 1.75,
+    "D016": 0.938,
+    "D017": 0.12,
+    "D018": 0.391,
+    "D019": 0.19,
+    "D020": 0.44,
+    "D021": 180.0,
+    "D022": 2.062,
+    "D023": 2.75,
+    "D024": 3.62,
+    "D025": 3.875,
+    "D026": 4.468,
+    "D027": 0.5,
+    "D028": 0.06,
+    "D029": 45.0,
+    "D030": 0.06,
+    "D031": 0.06,
+    "D032": 45.0,
+    "D033": 3.875,
+    "D034": 0.25,
+    "D035": 0.501,
+    "D036": 2.03,
+    "D037": 0.047,
+    "D038": 0.75,
+    "D039": 0.75,
+    "D040": 0.375,
+    "D041": 0.5,
+    "D042": 0.25,
+    "D043": 0.375,
+    "D044": 0.06,
+    "D045": 45.0,
+    "D046": 0.19,
+    "D047": 9.75,
+    "D048": 2.375,
+    "D049": 2.938,
+    "D050": 8.25,
+    "D051": 0.875,
+    "D052": 0.692,
+    "D053": 0.204,
+    "D054": 10.141,
+    "D055": 10.688,
+    "D056": 10.808
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-12053 \u2014 Detail 1 actuator; separate Detail 4 recorded but not merged",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Section A-A": "XZ longitudinal section; drawing left end is Z=0; drawing upward is +Y",
+        "Right end": "+Z; horizontal X, vertical Y",
+        "top": "+Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the stepped exterior and stepped axial passage in one annular profile, including the thread-relief land.",
+        "source_callouts": [
+          "11.500",
+          "2.800 DIA.",
+          "1.750",
+          "2.750 DIA.",
+          "4.468 DIA.",
+          ".938",
+          ".12",
+          "3.62 DIA.",
+          "3.875 DIA.",
+          "3.250",
+          ".875",
+          "1.50",
+          "1.250 \u00b1.001",
+          "2.062 \u00b1.005 DIA.",
+          "DRILL & C'BORE TO DEPTH SHOWN FOR .750 SOC. HD. CAP SCR."
+        ],
+        "status": "planned",
+        "justification": "Use the supplied ASME B18.3 normal-fit SHCS chart for the .750 screw: .781 clearance drill and 1.188 counterbore diameter. Printed axial shoulder positions override the chart counterbore depth. The separate 1.250 stage remains as printed. Zero stations denote the chosen end-face datum.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D023 / 2"
+          },
+          {
+            "z": "D001 - D015",
+            "r": "D023 / 2"
+          },
+          {
+            "z": "D001 - D015",
+            "r": "D026 / 2"
+          },
+          {
+            "z": "D001 - D015 + D016",
+            "r": "D026 / 2"
+          },
+          {
+            "z": "D001 - D015 + D016",
+            "r": "D024 / 2"
+          },
+          {
+            "z": "D001 - D015 + D016 + D017",
+            "r": "D024 / 2"
+          },
+          {
+            "z": "D001 - D015 + D016 + D017",
+            "r": "D025 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D025 / 2"
+          }
+        ],
+        "inner": [
+          {
+            "z": "0",
+            "r": "0.781 / 2"
+          },
+          {
+            "z": "D005",
+            "r": "0.781 / 2"
+          },
+          {
+            "z": "D005",
+            "r": "1.188 / 2"
+          },
+          {
+            "z": "D002 - D003",
+            "r": "1.188 / 2"
+          },
+          {
+            "z": "D002 - D003",
+            "r": "D012 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D012 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D022 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D022 / 2"
+          }
+        ],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Blend the long shank into the flange.",
+        "source_callouts": [
+          ".50 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D027",
+        "angle": "45",
+        "edges": [
+          "edge_between(wall(F001,D023 / 2),face(F001,-Z,D001 - D015))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Clarify how the .06 radius blends the .025 radial OD step; a simple tangent quarter-round cannot fit the nominal shoulder.",
+        "source_callouts": [
+          ".06 R.",
+          "2.800 DIA.",
+          "2.750 DIA."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D010",
+        "angle": "45",
+        "edges": [
+          "edge_between(wall(F001,D023 / 2),face(F001,+Z,D004))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Round the two internal concave corners identified by the branched radius leader.",
+        "source_callouts": [
+          ".060 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D011",
+        "angle": "45",
+        "edges": [
+          "edge_between(wall(F001,D012 / 2),face(F001,+Z,D002 - D003))",
+          "edge_between(wall(F001,D022 / 2),face(F001,+Z,D002))"
+        ]
+      },
+      {
+        "id": "F005",
+        "rationale": "Chamfer the small-bore exit into the main bore.",
+        "source_callouts": [
+          ".060 x 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D013",
+        "angle": "D014",
+        "edges": [
+          "edge_between(wall(F001,D012 / 2),face(F001,+Z,D002))"
+        ]
+      },
+      {
+        "id": "F006",
+        "rationale": "Break the left outside end edge.",
+        "source_callouts": [
+          ".06 x 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D008",
+        "angle": "D009",
+        "edges": [
+          "edge_between(wall(F001,D007 / 2),face(F001,-Z))"
+        ]
+      },
+      {
+        "id": "F007",
+        "rationale": "Chamfer the flange leading outer circumference before machining its notches.",
+        "source_callouts": [
+          ".06 x 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D028",
+        "angle": "D029",
+        "edges": [
+          "edge_between(wall(F001,D026 / 2),face(F001,-Z,D001 - D015))"
+        ]
+      },
+      {
+        "id": "F008",
+        "rationale": "Chamfer both indicated right-end rims.",
+        "source_callouts": [
+          ".06 x 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D031",
+        "angle": "D032",
+        "edges": [
+          "edge_between(wall(F001,D025 / 2),face(F001,+Z,D001))",
+          "edge_between(wall(F001,D022 / 2),face(F001,+Z,D001))"
+        ]
+      },
+      {
+        "id": "F009",
+        "rationale": "What numerical radius is required at the thread-relief root? The drawing labels it only R.; D030 is not an authoritative size.",
+        "source_callouts": [
+          "R."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D030",
+        "angle": "45",
+        "edges": [
+          "edge_between(wall(F001,D024 / 2),face(F001,+Z,D001 - D015 + D016))",
+          "edge_between(wall(F001,D024 / 2),face(F001,-Z,D001 - D015 + D016 + D017))"
+        ]
+      },
+      {
+        "id": "F010",
+        "rationale": "Mill the upper centered notch through the flange land.",
+        "source_callouts": [
+          ".501 +.001/-.000 CENT. TYP. 2-PLACES",
+          "2.030 TYP."
+        ],
+        "status": "planned",
+        "justification": "The end view shows an open notch; the longitudinal section shows the flat floor across the flange land. Its floor lies outside every other OD, so an axially overshooting cut affects only that land.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "-D001",
+        "profile": {
+          "shape": "rect",
+          "w": "D035",
+          "h": "D026",
+          "anchor": "corner",
+          "u": "-D035 / 2",
+          "v": "D036"
+        },
+        "depth": "2 * D001",
+        "op": "cut"
+      },
+      {
+        "id": "F011",
+        "rationale": "Mill the diametrically opposite flange notch.",
+        "source_callouts": [
+          ".501 +.001/-.000 CENT. TYP. 2-PLACES",
+          "2.030 TYP."
+        ],
+        "status": "planned",
+        "justification": "The two notches are mirror images about the end-view centerline. Radial and axial overshoots leave the part without changing the nominal notch.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "-D001",
+        "profile": {
+          "shape": "rect",
+          "w": "D035",
+          "h": "D026",
+          "anchor": "corner",
+          "u": "-D035 / 2",
+          "v": "-D036 - D026"
+        },
+        "depth": "2 * D001",
+        "op": "cut"
+      },
+      {
+        "id": "F012",
+        "rationale": "Apply the four longitudinal notch-floor corner radii visible in the end view.",
+        "source_callouts": [
+          ".047 R. TYP."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D037",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F010,+Y),face(F010,+X))",
+          "edge_between(face(F010,+Y),face(F010,-X))",
+          "edge_between(face(F011,-Y),face(F011,+X))",
+          "edge_between(face(F011,-Y),face(F011,-X))"
+        ]
+      },
+      {
+        "id": "F013",
+        "rationale": "Drill the two collinear opposed through-wall tap pilots with one transverse through cut; annotate both wall openings .250-20.",
+        "source_callouts": [
+          ".250-20 TAP THRU",
+          "2-HOLES IN LINE",
+          ".312"
+        ],
+        "status": "planned",
+        "justification": "A #7 drill, .201 inch, is the standard tap drill for 1/4-20 UNC. Section A-A locates the common radial axis at D002-D006 and shows both wall openings. Plane(top) uses global (X,Z); starting below the OD ensures complete breakthrough. Threads are cosmetic.",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "-D023",
+        "profile": {
+          "shape": "circle",
+          "d": "0.201",
+          "u": "0",
+          "v": "D002 - D006"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F014",
+        "rationale": "Tap the upper notch-floor mounting hole to the printed depth.",
+        "source_callouts": [
+          "#10-32 TAP .44 DEEP",
+          "2-HOLES 180\u00b0 APART",
+          ".391 TYP."
+        ],
+        "status": "planned",
+        "justification": "Use standard #21 (.159 inch) tap drill for #10-32 UNF. Re-reading the section, .391 spans the hole axis to the flange's right edge at the relief, not the left flange shoulder; use D001-D015+D016-D018. Model the explicitly required tapped depth as a flat-bottom cosmetic-thread pilot, without inventing extra drill allowance.",
+        "kind": "hole",
+        "on": "face(F010,+Y)",
+        "u": "0",
+        "v": "D001 - D015 + D016 - D018",
+        "spec": {
+          "type": "tapped",
+          "d": "0.159",
+          "depth": "D020",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-32 UNF; .44 DEEP"
+        }
+      },
+      {
+        "id": "F015",
+        "rationale": "Tap the opposite notch-floor mounting hole.",
+        "source_callouts": [
+          "#10-32 TAP .44 DEEP",
+          "2-HOLES 180\u00b0 APART",
+          ".391 TYP."
+        ],
+        "status": "planned",
+        "justification": "Use standard #21 (.159 inch) tap drill for #10-32 UNF. Opposed notch-floor entries and equal axial stations are shown in section; .391 is measured back from the relief edge. The pilot represents the specified thread depth only.",
+        "kind": "hole",
+        "on": "face(F011,-Y)",
+        "u": "0",
+        "v": "D001 - D015 + D016 - D018",
+        "spec": {
+          "type": "tapped",
+          "d": "0.159",
+          "depth": "D020",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-32 UNF; .44 DEEP"
+        }
+      },
+      {
+        "id": "F016",
+        "rationale": "What additional full-diameter drilling depth, if any, is required beyond the .44 tapped depth for both #10 holes?",
+        "source_callouts": [
+          "#10-32 TAP .44 DEEP"
+        ],
+        "status": "unresolved",
+        "justification": "Standard #21 (.159 inch) tap drill; D020 is only a placeholder for the specified thread depth, not an independently specified extra drilling depth. Do not execute this duplicate feature.",
+        "kind": "hole",
+        "on": "face(F010,+Y)",
+        "u": "0",
+        "v": "D001 - D015 + D016 - D018",
+        "spec": {
+          "type": "blind",
+          "d": "0.159",
+          "depth": "D020",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F017",
+        "rationale": "Attach the external thread specification to the existing end land; this IR has no external cosmetic-thread feature and must not add a duplicate solid.",
+        "source_callouts": [
+          "3.875-12 THD. CLASS 3A."
+        ],
+        "status": "unsupported",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "D001 - D015 + D016 + D017",
+            "r": "D033 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D033 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F018",
+        "rationale": "Detail 4 is a separate rectangular component, quantity two; a separate corner-origin part document is required and must not be fused to Detail 1.",
+        "source_callouts": [
+          ".750",
+          ".500 +.000/-.001",
+          ".375",
+          "TWO REQ'D."
+        ],
+        "status": "unsupported",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D039",
+          "h": "D041",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D043",
+        "op": "add"
+      },
+      {
+        "id": "F019",
+        "rationale": "Record the complete centered SHCS hole for each separate Detail 4 block; execute only in that component's own document.",
+        "source_callouts": [
+          "DRILL & C'BORE FOR #10 SOC. HD. CAP SCR.",
+          ".375",
+          ".250 \u00b1.005"
+        ],
+        "status": "unsupported",
+        "justification": "The supplied ASME B18.3 normal-fit SHCS chart for #10 supplies .219 clearance, .375 counterbore diameter, and .190 counterbore depth. H004's .250 counterbore depth is not printed and is rejected.",
+        "kind": "hole",
+        "on": "face(F018,+Z)",
+        "u": "D040",
+        "v": "D042",
+        "spec": {
+          "type": "cbore",
+          "d": "0.219",
+          "depth": null,
+          "cbore_d": "0.375",
+          "cbore_depth": "0.19",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F020",
+        "rationale": "Which complete set of Detail 4 edges receives the typical chamfer? The side-view leaders do not unambiguously define all edges.",
+        "source_callouts": [
+          ".06 x 45\u00b0 TYP."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D044",
+        "angle": "D045",
+        "edges": [
+          "edge_between(face(F018,+Z),face(F018,-Y))",
+          "edge_between(face(F018,-Z),face(F018,-Y))"
+        ]
+      }
+    ],
+    "notes": [
+      "Detail 1: one required; 4130; Rockwell C 40\u201345; make from actuator blank SB-12094.",
+      "STAMP OR ETCH SB-12053 is a manufacturing annotation; text geometry and marking depth are not defined by this IR.",
+      "Detail 4: two separate pieces; 4140; Rockwell C 34\u201339. F018\u2013F020 document the separate part rather than introducing bodies at an invented assembly position.",
+      "Do not use D030's provisional .060 value as a relief radius. The unresolved feature is deliberately excluded from executable geometry.",
+      "D018 and derived D054 in the prior extraction misidentify the .391 reference. The section shows the hole axis .391 left of the flange-to-relief edge.",
+      "The stepped-bore and small outside-step blends should be checked during regeneration for available tangent length; do not silently reduce printed radii.",
+      "No helical thread solids are requested. Preserve .250-20 on both radial openings and #10-32 on both blind pilots as cosmetic manufacturing specifications.",
+      "Unresolved and unsupported records must not execute. The planned nominal body is not a released production model until those items are dispositioned."
+    ]
+  }
+}

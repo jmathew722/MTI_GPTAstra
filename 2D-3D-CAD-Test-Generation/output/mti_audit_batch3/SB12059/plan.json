@@ -1,0 +1,265 @@
+{
+  "dims": {
+    "D001": 1.687,
+    "D002": 0.625,
+    "D003": 0.372,
+    "D004": 3.7495,
+    "D005": 3.875,
+    "D006": 0.75,
+    "D007": 0.12,
+    "D008": 45.0,
+    "D009": 0.06,
+    "D010": 45.0,
+    "D011": 0.375,
+    "D012": 0.38,
+    "D013": 0.03,
+    "D014": 45.0,
+    "D015": 0.625,
+    "D016": 0.06,
+    "D017": 0.997,
+    "D018": 0.69,
+    "D019": 1.375,
+    "D020": 0.312,
+    "D021": 0.378
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-12059",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "longitudinal view": "axis +Z runs from left end to right end",
+        "right end view": "+Z; sawcuts lie on the X and Y centerlines"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the annular body and integral raised flange; axial zero is the left end of the longitudinal view. Shoulder reliefs remain separately unresolved.",
+        "source_callouts": [
+          "1.687",
+          ".625",
+          ".372 \u00b1.001",
+          "3.7495 \u00b1.0005 DIA.",
+          "3.875 DIA.",
+          ".625 \u00b1.001 DIA."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D004 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D004 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D005 / 2"
+          },
+          {
+            "z": "D002 + D003",
+            "r": "D005 / 2"
+          },
+          {
+            "z": "D002 + D003",
+            "r": "D004 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D004 / 2"
+          }
+        ],
+        "inner": [
+          {
+            "z": "0",
+            "r": "D015 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D015 / 2"
+          }
+        ],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Chamfer the left entrance of the axial bore, not the left outside diameter.",
+        "source_callouts": [
+          ".12 x 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D007",
+        "angle": "D008",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D015 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Chamfer the outside edge at the right end.",
+        "source_callouts": [
+          ".06 x 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D009",
+        "angle": "D010",
+        "edges": [
+          "edge_between(face(F001,+Z),wall(F001,D004 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "What are the widths, root diameters, and root radii of the two shoulder undercuts? The note supplies no numeric geometry.",
+        "source_callouts": [
+          "MIN. RADIUS U' CUT"
+        ],
+        "status": "unresolved",
+        "justification": "This is a nonexecuting shoulder-relief review marker, not a proposed fillet. Zero size is a placeholder only. Once specified, incorporate both undercuts as steps in F001's revolved profile and apply the specified root radii.",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "0",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D002),wall(F001,D004 / 2))",
+          "edge_between(face(F001,+Z,D002 + D003),wall(F001,D004 / 2))"
+        ]
+      },
+      {
+        "id": "F005",
+        "rationale": "Specify the full-diameter blind drill depth: .38 is explicitly the tapped depth, not the drill depth. The seed radial axis is 45 degrees from the vertical sawcut, at axial station D002 + D006.",
+        "source_callouts": [
+          ".375-24 TAP .38 DEEP & C'SINK .03 DEEP",
+          "4-HOLES EQ. SPACED",
+          ".750 \u00b1.002",
+          "45\u00b0"
+        ],
+        "status": "unresolved",
+        "justification": "A letter-Q drill, diameter .332 inch, is the standard tap drill for 3/8-24 UNF; that diameter is grounded and is not the unresolved item. No drill depth is printed. The IR does not document angular coordinates on a cylindrical wall or provide an explicit radial-axis field; u=0 is a nonexecuting placeholder, not a proposed hole location. The known axial station is retained in v. D012 is the required cosmetic thread depth and must not be substituted for an unspecified drill depth.",
+        "kind": "hole",
+        "on": "wall(F001,D004 / 2)",
+        "u": "0",
+        "v": "D002 + D006",
+        "spec": {
+          "type": "tapped",
+          "d": "0.332",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "3/8-24 UNF; tapped depth D012; class unspecified"
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Four radial tapped holes at 90-degree intervals; blocked by the unresolved seed drill depth and radial placement representation, not by the printed count or angular indexing.",
+        "source_callouts": [
+          "4-HOLES EQ. SPACED",
+          "45\u00b0"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F005",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F007",
+        "rationale": "What included angle or mouth diameter defines the .03-deep countersinks on the four radial tapped holes? Depth alone does not define their shape.",
+        "source_callouts": [
+          "C'SINK .03 DEEP",
+          "4-HOLES EQ. SPACED"
+        ],
+        "status": "unresolved",
+        "justification": "D013 records the printed depth only. This nonexecuting marker references the seed mouth; the resolved countersink must be repeated with the radial hole pattern. No countersink angle is assumed; the zero angle is a placeholder.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D013",
+        "angle": "0",
+        "edges": [
+          "edge_between(wall(F001,D004 / 2),wall(F005))"
+        ]
+      },
+      {
+        "id": "F008",
+        "rationale": "Cut the centered +Y radial sawcut from within the existing bore past the largest outside radius, through the entire axial length.",
+        "source_callouts": [
+          ".060 CENT. SAWCUT",
+          "4-SLOTS EQ. SPACED"
+        ],
+        "status": "planned",
+        "justification": "Both views show the sawcuts connecting the bore to the outside and traversing the full axial thickness. The profile starts on the axis, inside the bore, and extends to D005, beyond the flange radius; thru prevents a coincident axial stopping surface.",
+        "kind": "prism",
+        "on": "face(F001,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D016",
+          "h": "D005",
+          "anchor": "corner",
+          "u": "-D016 / 2",
+          "v": "0"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F009",
+        "rationale": "Repeat the radial sawcut at the four cardinal directions, retaining four disconnected quadrant solids.",
+        "source_callouts": [
+          ".060 CENT. SAWCUT",
+          "4-SLOTS EQ. SPACED"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F008",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      }
+    ],
+    "notes": [
+      "This is a partially resolved manufacturing plan, not a release-ready exact finished model. Do not execute unresolved features or interpret their required schema placeholders as manufacturing geometry.",
+      "The finished pad is a four-body result. Do not heal the sawcuts or force the quadrants into one connected solid.",
+      "Radial hole center plane is z=D002+D006. End-view axes lie on the four diagonals, 45 degrees from the sawcut centerlines. Provide explicit radial-axis placement support before executing these holes; do not reinterpret them as axial holes.",
+      "The standard .332-inch tap drill is established; the additional blind drilling depth beneath the .38-inch tapped length is not. Drill-point geometry is cosmetic, but the missing full-diameter drilling depth requires clarification.",
+      "The two shoulder undercuts must ultimately be incorporated into the turned-body stations, not modeled using the zero-size fillet review marker.",
+      "STAMP SB-12059 / .625 DIA. is a marking instruction. Font, size, depth, and exact position are unspecified; no engraved geometry is invented.",
+      "COMPLETE WITH #193 LUGS is an assembly requirement. Obtain the lug drawing and attachment details; no lug solids are inferred from this sheet.",
+      "Material and processing: 8620 CARB., HDN. & GR.; R/C 60-62.",
+      "Use the printed nominal dimensions and explicit tolerances. D017 through D021 are derived values, not additional independently toleranced constraints."
+    ]
+  }
+}

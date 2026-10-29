@@ -1,0 +1,766 @@
+{
+  "dims": {
+    "D001": 1.687,
+    "D002": 2.923,
+    "D003": 0.937,
+    "D004": 0.31,
+    "D005": 0.375,
+    "D006": 0.501,
+    "D007": 2.438,
+    "D008": 0.047,
+    "D009": 6.75,
+    "D010": 1.687,
+    "D011": 3.375,
+    "D012": 2.923,
+    "D013": 0.531,
+    "D014": 0.812,
+    "D015": 0.03,
+    "D016": 7.0,
+    "D017": 3.0,
+    "D018": 2.0,
+    "D019": 1.12,
+    "D020": 0.62,
+    "D021": 1.25,
+    "D022": 0.5,
+    "D023": 0.03,
+    "D024": 8.0,
+    "D025": 5.5,
+    "D026": 4.5,
+    "D027": 4.562,
+    "D028": 4.195,
+    "D029": 0.5,
+    "D030": 5.312,
+    "D031": 5.875,
+    "D032": 8.0,
+    "D033": 45.0,
+    "D034": 12.0,
+    "D035": 0.06,
+    "D036": 45.0,
+    "D037": 0.38,
+    "D038": 0.03,
+    "D039": 0.03,
+    "D040": 0.12,
+    "D041": 45.0,
+    "D042": 0.12,
+    "D043": 45.0,
+    "D044": 0.625,
+    "D045": 0.047,
+    "D046": 0.501,
+    "D047": 3.12,
+    "D048": 0.25,
+    "D049": 0.5,
+    "D050": 0.2505,
+    "D051": 0.5,
+    "D052": 0.75,
+    "D053": 0.625,
+    "D054": 0.25,
+    "D055": 0.06,
+    "D056": 45.0,
+    "D057": 0.25,
+    "D058": 0.936,
+    "D059": 0.625,
+    "D060": 0.03,
+    "D061": 45.0,
+    "D062": 0.406,
+    "D063": 0.625,
+    "D064": 0.38,
+    "D065": 0.03,
+    "D066": 0.0005,
+    "D067": 0.0005,
+    "D068": 0.0005,
+    "D069": 3.375,
+    "D070": 1.764236,
+    "D071": 5.235764,
+    "D072": 2.38,
+    "D073": 1.0625,
+    "D074": 4.6875,
+    "D075": 3.5675,
+    "D076": 6.375,
+    "D077": 0.188
+  },
+  "reference_ids": [
+    "D009",
+    "D069"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-12054-1",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front, detail 1": "-Z",
+        "Section A-A": "axial section; left end is Z=0",
+        "Rear detail, detail 1": "+Z"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the hollow main body, including both flanges, the register, stepped bore, rear taper and explicitly dimensioned chamfers.",
+        "source_callouts": [
+          "7.00",
+          "1.12",
+          ".62",
+          "3.00",
+          "1.25",
+          "8.000 DIA.",
+          "5.875 DIA.",
+          "5.5000 DIA.",
+          "4.500 DIA.",
+          "4.562 DIA.",
+          "5.312 DIA.",
+          "12\u00b0 \u00b10\u00b005\u2032",
+          "45\u00b0",
+          ".060 x 45\u00b0",
+          ".12 x 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "The section establishes an open hollow body, not a solid shaft. The 45-degree external cone has equal radial and axial changes. D070 is the extraction's derived taper length from D030, D027 and D034; retain its derivation at full precision when evaluating the 12-degree cone, rather than treating the rounded six-place value as a new controlling dimension.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D024 / 2"
+          },
+          {
+            "z": "D019 - D040",
+            "r": "D024 / 2"
+          },
+          {
+            "z": "D019",
+            "r": "D024 / 2 - D040"
+          },
+          {
+            "z": "D019",
+            "r": "D031 / 2"
+          },
+          {
+            "z": "D016 - D021 - (D032 - D031) / 2",
+            "r": "D031 / 2"
+          },
+          {
+            "z": "D016 - D021",
+            "r": "D032 / 2"
+          },
+          {
+            "z": "D016 - D042",
+            "r": "D032 / 2"
+          },
+          {
+            "z": "D016",
+            "r": "D032 / 2 - D042"
+          }
+        ],
+        "inner": [
+          {
+            "z": "0",
+            "r": "D025 / 2 + D035"
+          },
+          {
+            "z": "D035",
+            "r": "D025 / 2"
+          },
+          {
+            "z": "D020",
+            "r": "D025 / 2"
+          },
+          {
+            "z": "D020",
+            "r": "D026 / 2"
+          },
+          {
+            "z": "D017",
+            "r": "D026 / 2"
+          },
+          {
+            "z": "D017",
+            "r": "D027 / 2"
+          },
+          {
+            "z": "D016 - D070",
+            "r": "D027 / 2"
+          },
+          {
+            "z": "D016",
+            "r": "D030 / 2"
+          }
+        ],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Blend the front flange into the cylindrical waist at the explicitly indicated root.",
+        "source_callouts": [
+          ".38 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D037",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D019),wall(F001,D031 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Round the bottom corner of the front register recess.",
+        "source_callouts": [
+          ".030 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D023",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D020),wall(F001,D025 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Apply the indicated small radius at the enlargement of the bore at Z=3.00.",
+        "source_callouts": [
+          ".030 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D039",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D017),wall(F001,D027 / 2))"
+        ]
+      },
+      {
+        "id": "F005",
+        "rationale": "Top mounting hole with its spotface on the back of the front flange; do not drill the rear flange.",
+        "source_callouts": [
+          ".531 DRILL THRU & .812 DIA. BACK SPOTFACE .030 DEEP",
+          "6-HOLES",
+          "3.375 TYP"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z,D019)",
+        "u": "0",
+        "v": "D011",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": "2 * D019",
+          "cbore_d": "D014",
+          "cbore_depth": "D015",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Bottom mounting hole; preserve the controlling coordinate ordinate.",
+        "source_callouts": [
+          ".531 DRILL THRU & .812 DIA. BACK SPOTFACE .030 DEEP",
+          "6-HOLES",
+          "3.375 TYP"
+        ],
+        "status": "planned",
+        "justification": "The six-hole layout is mirror symmetric about the drawn centerlines; coordinate dimensions, not the reference bolt circle, control.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D019)",
+        "u": "0",
+        "v": "-D011",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": "2 * D019",
+          "cbore_d": "D014",
+          "cbore_depth": "D015",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Upper-right mounting hole and back spotface.",
+        "source_callouts": [
+          ".531 DRILL THRU & .812 DIA. BACK SPOTFACE .030 DEEP",
+          "6-HOLES",
+          "2.923 TYP",
+          "1.687 TYP"
+        ],
+        "status": "planned",
+        "justification": "Mirror-image ordinate placement is established by the front view.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D019)",
+        "u": "D012",
+        "v": "D010",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": "2 * D019",
+          "cbore_d": "D014",
+          "cbore_depth": "D015",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Lower-right mounting hole and back spotface.",
+        "source_callouts": [
+          ".531 DRILL THRU & .812 DIA. BACK SPOTFACE .030 DEEP",
+          "6-HOLES",
+          "2.923 TYP",
+          "1.687 TYP"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z,D019)",
+        "u": "D012",
+        "v": "-D010",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": "2 * D019",
+          "cbore_d": "D014",
+          "cbore_depth": "D015",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Upper-left mounting hole and back spotface.",
+        "source_callouts": [
+          ".531 DRILL THRU & .812 DIA. BACK SPOTFACE .030 DEEP",
+          "6-HOLES",
+          "2.923 TYP",
+          "1.687 TYP"
+        ],
+        "status": "planned",
+        "justification": "Mirror-image ordinate placement is established by the front view.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D019)",
+        "u": "-D012",
+        "v": "D010",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": "2 * D019",
+          "cbore_d": "D014",
+          "cbore_depth": "D015",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F010",
+        "rationale": "Lower-left mounting hole and back spotface.",
+        "source_callouts": [
+          ".531 DRILL THRU & .812 DIA. BACK SPOTFACE .030 DEEP",
+          "6-HOLES",
+          "2.923 TYP",
+          "1.687 TYP"
+        ],
+        "status": "planned",
+        "justification": "Mirror-image ordinate placement is established by the front view.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D019)",
+        "u": "-D012",
+        "v": "-D010",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": "2 * D019",
+          "cbore_d": "D014",
+          "cbore_depth": "D015",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F011",
+        "rationale": "Tap the offset front-flange hole, stopping the tool in the free space behind that flange rather than cutting the rear flange.",
+        "source_callouts": [
+          ".375-16 TAP THRU",
+          "1.687",
+          "2.923"
+        ],
+        "status": "planned",
+        "justification": "5/16 inch is the standard tap drill for 3/8-16 UNC. The section and front view show this hole through the front flange only.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D001",
+        "v": "D002",
+        "spec": {
+          "type": "tapped",
+          "d": "0.3125",
+          "depth": "2 * D019",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "3/8-16 UNC THRU front flange"
+        }
+      },
+      {
+        "id": "F012",
+        "rationale": "Counterbore the offset tapped hole from the front face for the separate detail-5 insert.",
+        "source_callouts": [
+          ".937 DIA. .31 DEEP"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "-D001",
+        "v": "D002",
+        "spec": {
+          "type": "blind",
+          "d": "D003",
+          "depth": "D004",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F013",
+        "rationale": "The second .030-radius leader indicates the bottom of the offset counterbore in the aligned section.",
+        "source_callouts": [
+          ".030 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D023",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F012,-Z),wall(F012))"
+        ]
+      },
+      {
+        "id": "F014",
+        "rationale": "Cut the upper internal keyway through the bore lands; the larger register and rear taper naturally remove its ends.",
+        "source_callouts": [
+          ".501 CENT. 2-PLACES",
+          "2.438 2-PLACES"
+        ],
+        "status": "planned",
+        "justification": "Section A-A shows the longitudinal keyway floor continuing from the register shoulder until it exits into the expanding rear bore. A full-length cutter gives precisely that visible extent; the cutter overshoots both end planes.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "-D019",
+        "profile": {
+          "shape": "rect",
+          "w": "D006",
+          "h": "D007",
+          "anchor": "corner",
+          "u": "-D006 / 2",
+          "v": "0"
+        },
+        "depth": "D016 + 2 * D019",
+        "op": "cut"
+      },
+      {
+        "id": "F015",
+        "rationale": "Produce the diametrically opposite internal keyway.",
+        "source_callouts": [
+          ".501 CENT. 2-PLACES",
+          "2.438 2-PLACES"
+        ],
+        "status": "planned",
+        "justification": "The front view explicitly shows two centered opposed keyways.",
+        "kind": "pattern",
+        "seed": "F014",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F016",
+        "rationale": "Confirm the angular location of the radial .500-13 hole relative to the bent section trace before orienting its radial drilling axis.",
+        "source_callouts": [
+          ".500-13 TAP THRU",
+          "2.00"
+        ],
+        "status": "unresolved",
+        "justification": "27/64 inch is the standard tap drill for 1/2-13 UNC. The drilling depth would break into the bore without reaching the opposite wall. The coordinates are a non-executable placeholder pending confirmation of clocking.",
+        "kind": "hole",
+        "on": "wall(F001,D031 / 2)",
+        "u": "0",
+        "v": "D018",
+        "spec": {
+          "type": "tapped",
+          "d": "0.421875",
+          "depth": "D031 / 2",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/2-13 UNC THRU one wall"
+        }
+      },
+      {
+        "id": "F017",
+        "rationale": "Mill the bottom rear retaining pocket, open to the tapered bore and semicircular at the screw end.",
+        "source_callouts": [
+          ".501 CENT. 4-PLACES EQ. SPACED",
+          ".625 TYP.",
+          "3.12 TYP.",
+          "R. TYP."
+        ],
+        "status": "planned",
+        "justification": "The rear detail shows a semicircular end concentric with the retaining screw, tangent to the two parallel .501-wide sides; its radius is therefore D046/2. The other slot end lies wholly in the existing bore, overshooting the open inner boundary. The pocket seat depth is explicitly .625.",
+        "kind": "prism",
+        "on": "face(F001,+Z,D016)",
+        "offset": "0",
+        "profile": {
+          "shape": "slot",
+          "length": "D047 + D046",
+          "width": "D046",
+          "angle": "90",
+          "u": "0",
+          "v": "-D047 / 2"
+        },
+        "depth": "D044",
+        "op": "cut"
+      },
+      {
+        "id": "F018",
+        "rationale": "Repeat the rear retaining pocket at the four equally spaced positions.",
+        "source_callouts": [
+          ".501 CENT. 4-PLACES EQ. SPACED"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F017",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F019",
+        "rationale": "Model the specified threaded length of the rear retaining screw hole from the pocket seat.",
+        "source_callouts": [
+          ".250-20 TAP .50 DEEP",
+          "4-HOLES EQ. SPACED",
+          "3.12 TYP."
+        ],
+        "status": "planned",
+        "justification": "The standard #7 tap drill for 1/4-20 UNC is .201 inch. This flat-bottom nominal representation covers the explicitly specified threaded length only; any deeper pilot is separately flagged rather than invented.",
+        "kind": "hole",
+        "on": "face(F017,+Z)",
+        "u": "0",
+        "v": "-D047",
+        "spec": {
+          "type": "tapped",
+          "d": "0.201",
+          "depth": "D049",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/4-20 UNC, .50 thread depth"
+        }
+      },
+      {
+        "id": "F020",
+        "rationale": "Repeat the retaining screw threaded holes with the four pockets.",
+        "source_callouts": [
+          ".250-20 TAP .50 DEEP",
+          "4-HOLES EQ. SPACED"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F019",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F021",
+        "rationale": "What full-diameter pilot depth, if any, is required beyond the .50 specified thread depth in the four retaining holes?",
+        "source_callouts": [
+          ".250-20 TAP .50 DEEP",
+          "4-HOLES EQ. SPACED"
+        ],
+        "status": "unresolved",
+        "justification": "Standard #7 tap drill is .201 inch. The drawing specifies tap depth, not a separate pilot depth; this unresolved feature must not execute or duplicate the planned nominal threaded envelope.",
+        "kind": "hole",
+        "on": "face(F017,+Z)",
+        "u": "0",
+        "v": "-D047",
+        "spec": {
+          "type": "blind",
+          "d": "0.201",
+          "depth": "D049",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F022",
+        "rationale": "Confirm the complete edge set intended by .047 R. TYP. on the two keyways before applying the corner rounds.",
+        "source_callouts": [
+          ".047 R. TYP."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D008",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F014,+X),face(F014,-Y))"
+        ]
+      },
+      {
+        "id": "F023",
+        "rationale": "Confirm whether the rear .047 R. TYP. applies to the entire pocket-seat perimeter or only the indicated seat-to-side intersections.",
+        "source_callouts": [
+          ".047 R. TYP."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D045",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F017,+Z),wall(F017))"
+        ]
+      },
+      {
+        "id": "F024",
+        "rationale": "Confirm the extent of .030 R. TYP. on the small external corners; the callout does not uniquely enumerate the edges.",
+        "source_callouts": [
+          ".030 R. TYP."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D038",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D019),wall(F001))"
+        ]
+      },
+      {
+        "id": "F025",
+        "rationale": "Confirm that the .38 root-radius callout also controls the drawn waist-to-rear-cone blend.",
+        "source_callouts": [
+          ".38 R."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D037",
+        "angle": "45",
+        "edges": [
+          "edge_between(wall(F001,D031 / 2),wall(F001))"
+        ]
+      },
+      {
+        "id": "F026",
+        "rationale": "Specify the size and edge selection for the general sharp-corner breaks; no numerical size is given.",
+        "source_callouts": [
+          "BREAK SHARP CORNERS MIN. BLEND ALL RADII",
+          "BREAK ALL SHARP CORNERS REMOVE BURRS"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "0",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D024 / 2))"
+        ]
+      },
+      {
+        "id": "F027",
+        "rationale": "Stamping or etching text is not represented by the available Feature IR primitives; font, size and depth are also unspecified.",
+        "source_callouts": [
+          "STAMP OR ETCH SB-12054"
+        ],
+        "status": "unsupported",
+        "justification": "",
+        "kind": "prism",
+        "on": "face(F001,+Z,D016)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "0",
+          "h": "0",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "0",
+        "op": "cut"
+      }
+    ],
+    "notes": [
+      "This single-part plan covers detail 1, SB-12054-1. Details 4 (four retainers) and 5 (one insert) are separate parts, not bosses to fuse to detail 1. Their dimensions D051-D064 require separate part plans and separate frames; the supplied single-part IR has no component/assembly container.",
+      "Do not build unresolved or unsupported features. Their geometry fields are placeholders, not approved manufacturing definitions.",
+      "The front-face view is the -Z view, with its horizontal and vertical coordinates retained as global X and Y. Z=0 is the front register face; Z=D016 is the rear end.",
+      "Mounting-hole centers use D010-D012, including the rounded coordinate values. Do not force an exact sixfold circular pattern from the reference bolt-circle diameter.",
+      "Axial holes through the front flange use deliberately overshooting finite depths. A global thru cut would incorrectly perforate the rear flange.",
+      "D028 and D029 describe inspection balls and the measurement between them; neither is a chuck bore diameter or a component to add. Verify the finished taper against that inspection requirement.",
+      "The extracted D070 is rounded. Its controlling relation is (D030-D027)/(2*tan(D034 degrees)); use that relation at full precision in the dimensional environment.",
+      "D050 is not a printed radius. Rear-pocket semicircular end geometry is grounded in the rear view and modeled as D046/2, not as an independent measured dimension.",
+      "D065 is a carburized case-depth range, not a geometric cut. Detail 1 material is 4130 or 8630 steel; carburize and harden .030-.040 deep, grind wear surfaces to Rc58-62, other surfaces Rc40-45, temper at 350-400\u00b0F after quench.",
+      "Preserve datum A at the 5.5000 register, the front-face perpendicularity D066, and the bore/taper .0005 TIR requirements D067-D068 as inspection metadata.",
+      "Threads are cosmetic. The standard tap drills used here do not imply an unprinted thread fit class.",
+      "Confirm the faint title-block suffix before manufacturing release; the explicit part marking is SB-12054."
+    ]
+  }
+}

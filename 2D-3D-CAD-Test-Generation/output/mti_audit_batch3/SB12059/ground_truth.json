@@ -1,0 +1,41 @@
+{
+  "model": "SB12059.SLDPRT",
+  "bodies": 4,
+  "volume_mm3": 287453.556,
+  "bbox_mm": [
+    -21.4249,
+    0.762,
+    0.7615,
+    21.4255,
+    49.2066,
+    49.2066
+  ],
+  "size_mm": [
+    42.8504,
+    48.4446,
+    48.4451
+  ],
+  "center_mm": [
+    0.0003,
+    24.9843,
+    24.984
+  ],
+  "features": [
+    "Revolve1",
+    "3/8-24 Tapped Hole1",
+    "Chamfer1",
+    "Chamfer2",
+    "Cut-Extrude1",
+    "CirPattern1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "HoleWzd",
+    "Chamfer",
+    "Chamfer",
+    "ICE",
+    "CirPattern"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12059\\ground_truth.step",
+  "part": "SB12059"
+}
