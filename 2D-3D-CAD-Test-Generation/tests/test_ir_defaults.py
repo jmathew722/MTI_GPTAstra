@@ -143,3 +143,53 @@ def test_d6_merges_a_tap_into_its_drill():                   # 2N2664: drill F00
     assert [x.id for x in new.features] == ["F001", "F002"]
     assert f.spec.type == "tapped" and f.spec.thread == "#8-32" and f.spec.depth == "D002"
     assert applied == ["F003: D6 tap #8-32 merged into drill F002"]
+
+
+def test_d8_general_notes_cover_every_edge_on_turned_parts():   # 2N2664: ALL CHAMFERS .06 / ALL RADII .047 MAX
+    chamfer = {"id": "F002", "kind": "edge_op", "operation": "chamfer", "size": "D006", "edges": EDGE,
+               "source_callouts": ["UNLESS OTHERWISE SPECIFIED ALL CHAMFERS .06 x 45°"]}
+    radii = {"id": "F003", "kind": "edge_op", "status": "unresolved", "operation": "fillet", "size": "D003",
+             "edges": EDGE, "source_callouts": ["ALL RADII .047 MAX"], "rationale": "?"}
+    new, applied, _ = run(chamfer, radii)
+    extra = [f for f in new.features if f.id in ("F004", "F005")]
+    assert [(f.operation, f.edges) for f in extra] == [("chamfer", ["edges(convex)"]), ("fillet", ["edges(concave)"])]
+    assert all("DEFAULT D8" in f.justification for f in extra)
+    assert sum("D8" in a for a in applied) == 2
+    assert not [x for x in new.check(DIMS) if x.severity == "error"]
+
+
+def test_d8_is_for_turned_parts_only():
+    plate = BuildPlan.model_validate({"part": "P", "frame": {"origin_kind": "corner", "units": "inch"}, "features": [
+        {"id": "F001", "kind": "prism", "on": "plane(front)", "profile": {"shape": "rect", "w": "D001", "h": "D001"}, "depth": "D002"},
+        {"id": "F002", "kind": "edge_op", "operation": "chamfer", "size": "D006",
+         "edges": ["edge_between(face(F001,+Z),face(F001,+X))"], "source_callouts": ["ALL CHAMFERS .06 x 45"]}]})
+    new, applied = apply_defaults(plate, DIMS)
+    assert len(new.features) == 2 and not applied
+
+
+def _d9_plan(origin_kind="corner"):
+    return BuildPlan.model_validate({"part": "P", "frame": {"origin_kind": origin_kind, "units": "inch"}, "features": [
+        {"id": "F001", "kind": "prism", "on": "plane(front)", "profile": {"shape": "rect", "w": "D001", "h": "D002"},
+         "depth": "D003"}] if origin_kind == "corner" else [BASE]})
+
+
+EXTRACTION = {"general_tolerance": "UNLESS OTHERWISE SPECIFIED: 3 PLACE DIM. ±.010; 2 PLACE DIM. ±.02; ANGULAR ±1°",
+              "dimensions": [{"id": "D001", "tolerance_plus": 0.02, "tolerance_minus": 0.02},      # 34.38 two-place
+                             {"id": "D002", "tolerance_plus": 0.01, "tolerance_minus": 0.01},      # .440 three-place
+                             {"id": "D003", "tolerance_plus": 0.02, "tolerance_minus": 0.02},      # .38 plate
+                             {"id": "D004", "tolerance_plus": 0.0, "tolerance_minus": 0.0}]}       # derived
+
+
+def test_d9_two_place_prints_of_fractions_become_the_fraction_on_plates():   # A00122E: .38 plate, 34.38 wide
+    dims = {"D001": 34.38, "D002": 0.44, "D003": 0.38, "D004": 0.31}
+    from pipeline.ir.defaults import nominal_fractions
+    out, applied = nominal_fractions(_d9_plan(), dims, EXTRACTION)
+    assert out == {"D001": 34.375, "D002": 0.44, "D003": 0.375, "D004": 0.31}   # .440 and derived untouched
+    assert len(applied) == 2 and all("D9" in a for a in applied)
+
+
+def test_d9_leaves_turned_parts_and_unreadable_title_blocks_alone():   # SB12055 keeps its printed 6.12
+    from pipeline.ir.defaults import nominal_fractions
+    dims = {"D001": 34.38, "D003": 0.38}
+    assert nominal_fractions(_d9_plan("axis_end"), dims, EXTRACTION) == (dims, [])
+    assert nominal_fractions(_d9_plan(), dims, {**EXTRACTION, "general_tolerance": "PLACE DIM. ±; PLACE DIM. ±"}) == (dims, [])

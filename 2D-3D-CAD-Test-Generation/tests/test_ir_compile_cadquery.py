@@ -298,3 +298,22 @@ def test_face_query_on_a_pocket_selects_its_own_walls():
               edges=["edge_between(face(F002,+X),face(F002,+Y))", "edge_between(face(F002,-X),face(F002,+Y))"])
     pts = m.edge_points["F003"]
     assert len(pts) == 2 and all(abs(p[1] - 3.0) < 1e-6 for p in pts)     # the two corners at the +Y end
+
+
+def test_turned_corner_edges_and_general_note_treatments():
+    """D8 selector: outside corners take the general chamfer, inside corners the general radius."""
+    from pipeline.ir.cq_runtime import Model
+    from pipeline.ir.model import edge_selector
+    assert edge_selector("edges(convex)") == "convex" and edge_selector("edges( concave )") == "concave"
+    m = Model("T", origin_kind="axis_end", units="inch", strict=True)
+    m.revolve("F001", outer=[(0, 1.5), (1, 1.5), (1, 1.0), (2, 1.0)], inner=[(0, 0.5), (2, 0.5)], op="add")
+    corners = lambda kind: sorted((round(e.radius() / 25.4, 3), round(e.Center().z / 25.4, 3))
+                                  for e in m._turned_corner_edges(kind))
+    assert corners("convex") == [(0.5, 0.0), (0.5, 2.0), (1.0, 2.0), (1.5, 0.0), (1.5, 1.0)]
+    assert corners("concave") == [(1.0, 1.0)]
+    v0 = m.solid.Volume()
+    m.edge_op("F002", operation="chamfer", size=0.06, angle=45, edges=["edges(convex)"])
+    v1 = m.solid.Volume()
+    m.edge_op("F003", operation="fillet", size=0.047, angle=45, edges=["edges(concave)"])
+    assert v1 < v0 < m.solid.Volume() + (v0 - v1) and m.solid.Volume() > v1     # chamfers remove, the fillet adds
+    assert not m.skipped and len(m.edge_points["F002"]) == 5 and len(m.edge_points["F003"]) == 1

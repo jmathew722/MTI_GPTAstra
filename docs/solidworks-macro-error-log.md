@@ -722,6 +722,26 @@ The full entry was kept local; add it here.
 - **Result:** the 2N2664 re-plan builds and verifies with the radial cross-hole; IoU **0.9957** vs
   MTI (the earlier plan scored 0.9926).
 
+## E034 — Scores that changed run to run: CadQuery's parallel booleans are not deterministic
+
+- **Symptom:** the same part scored very differently from run to run.
+  - 2N2664 with D8 scored IoU **0.00075** in one run and 0.994 in the next.
+  - A valid part, near-identical to MTI's, read **0.32**.
+  - `intersect` returned a null shape for a pose that had worked seconds earlier.
+  - Discrepancy pieces added up to 192% of a 0.002% gap (SB12006).
+- **Root cause:** CadQuery runs OpenCascade booleans with `SetRunParallel(True)`, and parallel
+  booleans on these solids (many small edge treatments, fuzzy tolerance) were **not deterministic**.
+  The exact (non-fuzzy) mode also failed where E033 showed it fails.
+- **Fix:** `score.boolean(kind, a, b, fuzzy)` calls `BRepAlgoAPI_Common/Cut/Fuse` directly with
+  `SetRunParallel(False)`, `SetNonDestructive(True)` and `SetFuzzyValue(0.01 mm)`.
+  - It is used by `iou`, `clocked` and the discrepancy pieces.
+  - Three repeated runs over all 48 poses of 2N2664: identical results, no failures.
+  - `clocked` takes the strict IoU as a baseline and tries 27 pattern angles (15° steps plus 72°
+    steps), because serial booleans are slower.
+- **Generator rule:** scoring and analysis booleans are serial and fuzzy. A score that moves between
+  identical runs is a tooling bug, not a result.
+- **Tests:** the existing scorer tests, plus `test_clocked_iou_forgives_rotation_about_the_axis_only`.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

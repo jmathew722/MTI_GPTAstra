@@ -3,6 +3,17 @@
 **Last updated:** 2026-10-28 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-11-02 (later): fine-tuning started.**
+> - **Automatic discrepancy analysis** (`mti_discrepancy.py`) explains each part's gap to MTI's
+>   model.
+> - **Drawing markups** with OCR-placed boxes (`mti_markup.py`, rapidocr) for 21 parts; local only.
+> - **Two measured rules:**
+>   - D9: two-place prints of 1/16" fractions on plates. **A00122E 0.9865 → 1.0000**; A00121E →
+>     0.99999.
+>   - D8: general notes on every eligible edge. **2N2664 → 0.9980.**
+> - **E034:** checked, serial booleans make scores trustworthy.
+> - $0. Tests 1018 passed. Test report `docs/test-reports/2026-11-02-test-report.md`.
+>
 > **2026-11-02: MTI demo ready** (`docs/demo/2026-11-02-mti-demo-runbook.md`, $0 replay).
 > - Hero: the 2N2664 re-plan, a turned hub with Hole Wizard taps, a radial cross-hole at 240°
 >   and one honest question. IoU **0.9957** vs MTI's own model.

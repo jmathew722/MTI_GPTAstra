@@ -26,6 +26,48 @@ from pipeline.ir.compile_cadquery import build
 from pipeline.ir.model import BuildPlan
 
 HOLE_TOL = 0.005  # drawing units: 3-place inch tolerance class
+FUZZY_MM = 0.01   # fuzzy booleans (E033): an exact intersect read a valid, near-identical part as IoU 0.32
+
+
+def boolean(kind: str, a: cq.Shape, b: cq.Shape, fuzzy: Optional[float] = FUZZY_MM) -> cq.Shape:
+    """a ∩ b / a − b / a ∪ b with OpenCascade run SERIALLY, fuzzy and non-destructive.
+    CadQuery's own booleans run in parallel, and parallel OCC booleans were not deterministic here:
+    the same intersect failed in one run and worked in the next (2N2664 + D8 scored 0.00075, then
+    0.994). Serial: identical results over repeated runs, no failures (E034)."""
+    from OCP.BRepAlgoAPI import BRepAlgoAPI_Common, BRepAlgoAPI_Cut, BRepAlgoAPI_Fuse
+    from OCP.TopTools import TopTools_ListOfShape
+    op = {"common": BRepAlgoAPI_Common, "cut": BRepAlgoAPI_Cut, "fuse": BRepAlgoAPI_Fuse}[kind]()
+    la, lb = TopTools_ListOfShape(), TopTools_ListOfShape()
+    la.Append(a.wrapped)
+    lb.Append(b.wrapped)
+    op.SetArguments(la)
+    op.SetTools(lb)
+    op.SetRunParallel(False)
+    op.SetNonDestructive(True)
+    if fuzzy:
+        op.SetFuzzyValue(fuzzy)
+    op.Build()
+    if not op.IsDone():
+        raise ValueError(f"{kind} failed")
+    return cq.Shape.cast(op.Shape())
+
+
+def inter_volume(a: cq.Shape, b: cq.Shape) -> float:
+    """Volume of a ∩ b, checked: it must lie in [0, min volume]. No single OpenCascade mode is
+    reliable on every part (E033, E034: parallel was non-deterministic; serial fuzzy once returned
+    an intersection 21% LARGER than the part, A00173E), so modes are tried in turn until one gives a
+    possible answer: serial fuzzy, serial exact, CadQuery (parallel) fuzzy, CadQuery exact."""
+    cap = min(a.Volume(), b.Volume()) * (1 + 1e-6)
+    tries = (lambda: boolean("common", a, b, FUZZY_MM), lambda: boolean("common", a, b, None),
+             lambda: a.intersect(b, tol=FUZZY_MM), lambda: a.intersect(b))
+    for make in tries:
+        try:
+            v = make().Volume()
+        except Exception:
+            continue
+        if 0 <= v <= cap:
+            return v
+    raise ValueError("no boolean mode gave a possible intersection")
 
 
 # Exact 90-degree rotations that realise the 6 axis permutations (signs come from the mirrors).
@@ -69,7 +111,7 @@ def aligned(a: cq.Shape, b: cq.Shape, key) -> cq.Shape:
     return next(s for k, s in _align_candidates(a, b) if k == key)
 
 
-CLOCK_ANGLES = sorted({round(360.0 / n * i, 6) % 360 for n in range(2, 25) for i in range(1, n)})
+CLOCK_ANGLES = sorted({15.0 * i for i in range(1, 24)} | {72.0 * i for i in range(1, 5)})   # 3/4/6/8/12/24- and 5-fold patterns; serial booleans are slow
 
 
 def turned_axis(s: cq.Shape, tol: float = 0.01) -> Optional[int]:
@@ -83,19 +125,25 @@ def turned_axis(s: cq.Shape, tol: float = 0.01) -> Optional[int]:
     return None
 
 
-def clocked(a: cq.Shape, b: cq.Shape, angles=None) -> tuple[float, float, cq.Shape]:
+def clocked(a: cq.Shape, b: cq.Shape, angles=None, base: Optional[float] = None) -> tuple[float, float, cq.Shape]:
     """Best IoU of an ALIGNED ``a`` against ``b`` over rotations about the turned axis.
     Clocking about the axis (where the first of 3 slots points) is an orientation choice,
     not a placement error (4C1229: our slots at -90/30/150 deg, MTI's at 180/+-60).
-    Returns (iou, angle in degrees, rotated a); angle 0 when ``b`` isn't round."""
+    Returns (iou, angle in degrees, rotated a); angle 0 when ``b`` isn't round. ``base`` (the
+    strict IoU from iou()) stands in when OpenCascade can't recompute the unrotated pose."""
     ax = turned_axis(b)
     va, vb = a.Volume(), b.Volume()
 
     def score(c):
-        inter = c.intersect(b).Volume()
+        inter = inter_volume(c, b)
         return inter / (va + vb - inter)
 
-    best = (score(a), 0.0, a)
+    try:
+        best = (score(a), 0.0, a)
+    except Exception:
+        if base is None:
+            raise
+        best = (base, 0.0, a)
     if ax is None:
         return best
     bb = b.BoundingBox()
@@ -104,7 +152,8 @@ def clocked(a: cq.Shape, b: cq.Shape, angles=None) -> tuple[float, float, cq.Sha
     for ang in (angles if angles is not None else CLOCK_ANGLES):
         c = a.rotate(ctr, ctr + d, ang)
         try:
-            v = score(c)
+            inter = inter_volume(c, b)
+            v = inter / (va + vb - inter)
         except Exception:
             continue
         if v > best[0]:
@@ -136,7 +185,7 @@ def iou(a: cq.Shape, b: cq.Shape) -> tuple[float, Any]:
     best = (0.0, None)
     for key, cand in _align_candidates(a, b):
         try:
-            inter = cand.intersect(b).Volume()
+            inter = inter_volume(cand, b)
         except Exception:
             continue
         union = cand.Volume() + va - inter

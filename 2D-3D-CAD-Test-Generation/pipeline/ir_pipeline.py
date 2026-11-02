@@ -166,8 +166,10 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
         plan = pr.plan
         (out / "plan.json").write_text(json.dumps({"dims": dims, "reference_ids": sorted(refs),
                                                    "plan": plan.model_dump(mode="json")}, indent=2), encoding="utf-8")
-        from pipeline.ir.defaults import apply_defaults   # after saving: plan.json stays the planner's own
+        from pipeline.ir.defaults import apply_defaults, nominal_fractions   # after saving: plan.json stays the planner's own
         plan, res.defaults = apply_defaults(plan, dims)
+        dims, fractions = nominal_fractions(plan, dims, raw)   # D9: two-place prints of 1/16 fractions
+        res.defaults += fractions
         findings = plan.check(dims, refs)
         hard = [f for f in findings if f.severity == "error" and f.code != "unresolved"]
         res.gate1 = "REJECT" if hard else "OK"

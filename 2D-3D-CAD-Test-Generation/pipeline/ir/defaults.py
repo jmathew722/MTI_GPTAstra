@@ -18,7 +18,7 @@ import re
 from typing import Optional
 
 from pipeline.ir.expr import ExprError, evaluate
-from pipeline.ir.model import BuildPlan, EdgeOp, Hole
+from pipeline.ir.model import BuildPlan, EdgeOp, Hole, edge_selector
 
 TINY_BREAK = 0.010          # inch; at or below this an edge break is not modelled (D2)
 TAP_EXTRA_PITCHES = 5       # drill depth beyond the thread (D5): MTI's #10-32 x .38 holes are .536 deep
@@ -189,4 +189,67 @@ def apply_defaults(plan: BuildPlan, dims: dict[str, float]) -> tuple[BuildPlan, 
         applied.append(f"{f.id}: {note}")
         if new is not None:
             out.append(new)
+    if plan.frame.origin_kind == "axis_end":
+        out, more = _general_note_edges(plan, out, dims)
+        applied += more
     return plan.model_copy(update={"features": out}), applied
+
+
+_ALL_CHAMFERS = re.compile(r"\bALL\s+CHAMFERS\b", re.I)
+_ALL_RADII = re.compile(r"\bALL\s+(RADII|FILLETS)\b", re.I)
+
+
+def _general_note_edges(plan: BuildPlan, out: list, dims: dict[str, float]) -> tuple[list, list[str]]:
+    """D8 (turned parts): a general note applies to EVERY edge it covers, not only the ones the plan
+    names. "ALL CHAMFERS .06 x 45 U.O.S." -> a chamfer on every still-sharp outside corner;
+    "ALL RADII .047 MAX" -> a fillet at the max on every still-sharp inside corner. Added last, so
+    edges the drawing treats explicitly are already rounded or chamfered and are left alone.
+    Measured on 2N2664: MTI's model has these on every such edge (0.26% of overlap)."""
+    if any(isinstance(g, EdgeOp) and any(edge_selector(q) for q in g.edges) for g in out):
+        return out, []                                   # the plan already does it
+    nid = max(int(g.id[1:]) for g in plan.features) + 1
+    added, notes = [], []
+    for rx, op, sel, rule in ((_ALL_CHAMFERS, "chamfer", "edges(convex)", "chamfer"),
+                              (_ALL_RADII, "fillet", "edges(concave)", "fillet")):
+        src = next((g for g in plan.features if isinstance(g, EdgeOp) and rx.search(_text(g))), None)
+        size = _value(src.size, dims) if src else None
+        if not size or size <= TINY_BREAK:
+            continue
+        add = EdgeOp(id=f"F{nid:03d}", operation=op, size=src.size, angle=src.angle if op == "chamfer" else "45",
+                     edges=[sel], source_callouts=src.source_callouts, rationale=f"general note on every {sel[6:-1]} edge",
+                     justification=_flag(src.model_copy(update={"justification": ""}), "D8",
+                                         f"general note applied to every still-sharp {sel[6:-1]} edge"))
+        added.append(add)
+        notes.append(f"{add.id}: D8 {op} {size:g} on every still-sharp {sel[6:-1]} edge (general note)")
+        nid += 1
+    return out + added, notes
+
+
+_TWO_PLACE = re.compile(r"2\s*PLACE\s*DIM\.?\s*[±+\-]+\s*(\.\d+)", re.I)
+
+
+def nominal_fractions(plan: BuildPlan, dims: dict[str, float], extraction: dict | None) -> tuple[dict[str, float], list[str]]:
+    """D9 (prismatic parts): a TWO-PLACE dimension within .005 of a 1/16" fraction is that fraction.
+    Old drawings print fractional stock and sizes rounded to two places (".38" for 3/8 plate,
+    "34.38" for 34-3/8). MTI's models use the fraction on every A-Series plate checked (A00121E/M,
+    A00122E 0.9865 -> 1.0000, A00134E, A00143E); turned SB parts keep the printed value (SB12055
+    6.12), so turned parts are left alone. Two-place is read from the dimension's tolerance: it must
+    equal the drawing's 2-place general tolerance (".440" is three-place, +-.010: never rounded;
+    A00160E). Reference/derived values (tolerance 0) and unreadable title blocks are left alone."""
+    if not enabled() or plan.frame.origin_kind != "corner" or not extraction:
+        return dims, []
+    m = _TWO_PLACE.search(str(extraction.get("general_tolerance") or ""))
+    if not m:
+        return dims, []
+    two = float(m.group(1))
+    tol = {d["id"]: (d.get("tolerance_plus") or 0.0, d.get("tolerance_minus") or 0.0)
+           for d in extraction.get("dimensions", [])}
+    out, applied = dict(dims), []
+    for k, v in dims.items():
+        if k not in tol or abs(tol[k][0] - two) > 1e-9 or abs(tol[k][1] - two) > 1e-9:
+            continue
+        f = round(v * 16) / 16
+        if 0 < abs(v - f) <= 0.0051:
+            out[k] = f
+            applied.append(f"{k}: D9 {v:g} -> {f:g} (two-place print of a 1/16 fraction)")
+    return out, applied

@@ -13,3 +13,5 @@ pytest>=7.0.0
 pyyaml>=6.0
 # Feature IR v2 reference compiler (OpenCascade). Large; IR tests skip without it.
 cadquery>=2.4
+# Drawing markups (mti_markup.py): locate callouts on scanned sheets. Local models, no API cost.
+rapidocr-onnxruntime>=1.4

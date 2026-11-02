@@ -39,7 +39,7 @@ def main() -> int:
             sb = sorted((b.BoundingBox().xlen, b.BoundingBox().ylen, b.BoundingBox().zlen))
             value, key = iou(a, b)
             c = aligned(a, b, key) if key else None
-            cv, ang, c = clocked(c, b) if c is not None else (value, 0.0, None)
+            cv, ang, c = clocked(c, b, base=value) if c is not None else (value, 0.0, None)
             dev = surface_deviation(c, b) if c is not None else None
             row.update(iou=round(value, 4), iou_clocked=round(cv, 4), clock_deg=ang,
                        volume_ratio=round(va / vb, 4),

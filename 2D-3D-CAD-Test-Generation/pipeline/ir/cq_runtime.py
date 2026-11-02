@@ -25,7 +25,7 @@ from typing import Any, Optional
 
 import cadquery as cq
 
-from pipeline.ir.model import parse_edge_query, parse_ref
+from pipeline.ir.model import edge_selector, parse_edge_query, parse_ref
 
 AXES = {"X": (1.0, 0.0, 0.0), "Y": (0.0, 1.0, 0.0), "Z": (0.0, 0.0, 1.0)}
 BOOL_FUZZY_MM = 0.01   # fuzzy tolerance for cuts (10 um, far below any drawing tolerance; E033)
@@ -93,6 +93,7 @@ class Model:
         self.axes: dict[str, tuple[tuple[float, float, float], str]] = {}
         self.order: list[str] = []
         self.holes: dict[str, list[dict]] = {}
+        self.notes: dict[str, str] = {}
         self.cut_ops: set[str] = set()
         self.edge_points: dict[str, list[list[float]]] = {}
         self.skipped: dict[str, str] = {}
@@ -372,10 +373,45 @@ class Model:
             return out
         raise CompileError(f"{ref} can't be used in an edge query")
 
+    def _turned_corner_edges(self, kind: str) -> list:
+        """Still-sharp circular edges coaxial with the part axis whose corner is ``kind``
+        ('convex' = an outside corner, 'concave' = an inside corner). Decided in the profile
+        half-plane through the edge: of four points diagonally around the corner, 1 inside the
+        material = convex, 3 = concave, 2 = rounded/tangent (skipped). A hole or slot can sit at
+        one angle, so up to three angles are tried and the first clear answer is kept."""
+        from OCP.BRepAdaptor import BRepAdaptor_Curve
+        if self.origin_kind != "axis_end":
+            raise CompileError("edges(convex|concave) is for turned parts (frame origin_kind 'axis_end')")
+        eps, out = 0.1, []                                   # mm
+        for e in self.solid.Edges():
+            if e.geomType() != "CIRCLE":
+                continue
+            c = BRepAdaptor_Curve(e.wrapped).Circle()
+            loc, ax = c.Location(), c.Axis().Direction()
+            if abs(abs(ax.Z()) - 1) > 1e-6 or math.hypot(loc.X(), loc.Y()) > TOL * 10:
+                continue                                     # not coaxial with the part axis
+            r0, z0 = c.Radius(), loc.Z()
+            for phi in (0.37, 2.46, 4.55):                   # radians, away from the usual 90-deg hole layouts
+                cs, sn = math.cos(phi), math.sin(phi)
+                n = sum(self.solid.isInside(cq.Vector((r0 + dr) * cs, (r0 + dr) * sn, z0 + dz), 1e-4)
+                        for dr in (-eps, eps) for dz in (-eps, eps))
+                if n in (1, 3):
+                    if (n == 1) == (kind == "convex"):
+                        out.append(e)
+                    break
+        return out
+
     @_guarded
     def edge_op(self, fid: str, *, operation: str, size: float, angle: float, edges: list[str]) -> None:
+        from OCP.BRepAdaptor import BRepAdaptor_Curve
         targets = []
         for q in edges:
+            if edge_selector(q):
+                found = self._turned_corner_edges(edge_selector(q))
+                if not found:
+                    raise CompileError(f"{fid}: {q} matched no edges")
+                targets += [e for e in found if not any(e.isSame(t) for t in targets)]
+                continue
             a, b = parse_edge_query(q)
             fa, fb = self._faces_for(a), self._faces_for(b)
             # two DISTINCT faces: wall(F001) also matches wall(F001,r), and a cylinder's seam
@@ -388,12 +424,52 @@ class Model:
                 if not any(e.isSame(t) for t in targets):
                     targets.append(e)
         k = self.k
-        if operation == "fillet":
-            new = self.solid.fillet(size * k, targets)
-        else:
-            d2 = size * k * math.tan(math.radians(angle))
-            new = self.solid.chamfer(size * k, None if abs(angle - 45) < 1e-9 else d2, targets)
-        self.edge_points[fid] = [[round(c / k, 6) for c in e.positionAt(0.5).toTuple()] for e in targets]
+        d2 = size * k * math.tan(math.radians(angle))
+
+        def treat(solid, es):
+            if operation == "fillet":
+                return solid.fillet(size * k, es)
+            return solid.chamfer(size * k, None if abs(angle - 45) < 1e-9 else d2, es)
+
+        selector = next((edge_selector(q) for q in edges if edge_selector(q)), None)
+
+        def sane(before, after, es) -> bool:
+            """One valid solid, changed the right way by no more than a ring of that size holds:
+            a chamfer removes, an inside-corner fillet adds (2N2664: one bad fillet took 2.3 in^3)."""
+            if not after.isValid() or len(after.Solids()) != 1:
+                return False
+            dv = after.Volume() - before.Volume()
+            cap = sum(2 * math.pi * BRepAdaptor_Curve(e.wrapped).Circle().Radius() for e in es) * (size * k) ** 2
+            want = 1 if (operation == "fillet" and selector == "concave") else -1
+            return dv * want > 0 and abs(dv) <= 1.5 * cap
+
+        try:
+            new, done = treat(self.solid, targets), targets
+            if selector and not sane(self.solid, new, targets):
+                raise CompileError("the multi-edge operation gave an implausible solid")
+        except Exception:
+            if not selector:
+                raise
+            # a general note covers many edges, and one that can't take it (next to a hole,
+            # too short) sinks a single multi-edge operation: apply edge by edge, keep what works,
+            # re-finding each edge by its midpoint (edges are renumbered after every change)
+            mids = [e.positionAt(0.5) for e in targets]
+            new, done = self.solid, []
+            for m in mids:
+                hit = [e for e in new.Edges() if e.geomType() == "CIRCLE" and e.distance(cq.Vertex.makeVertex(m.x, m.y, m.z)) < 1e-4]
+                if not hit:
+                    continue
+                try:
+                    cand = treat(new, hit[:1])
+                except Exception:
+                    continue
+                if sane(new, cand, hit[:1]):
+                    new = cand
+                    done.append(hit[0])
+            if not done:
+                raise CompileError(f"{fid}: no edge could take the {operation}")
+            self.notes[fid] = f"{len(done)} of {len(targets)} edges (the rest can't take it)"
+        self.edge_points[fid] = [[round(c / k, 6) for c in e.positionAt(0.5).toTuple()] for e in done]
         self.tools[fid] = new
         self.order.append(fid)
         self.solid = new.clean()

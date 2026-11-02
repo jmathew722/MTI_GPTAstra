@@ -175,8 +175,10 @@ def main() -> int:
                                            encoding="utf-8")
     else:
         plan = BuildPlan.model_validate(json.loads((saved / "plan.json").read_text(encoding="utf-8"))["plan"])
-    from pipeline.ir.defaults import apply_defaults
+    from pipeline.ir.defaults import apply_defaults, nominal_fractions
     plan, defaults = apply_defaults(plan, dims)   # documented answers to vague callouts
+    dims, fractions = nominal_fractions(plan, dims, raw)
+    defaults += fractions
     t = Table(show_header=True, header_style="bold", box=None)
     for c in ("ID", "feature", "status"):
         t.add_column(c)
@@ -265,7 +267,7 @@ def main() -> int:
             b = cqm.importers.importStep(str(gt)).val()
             value, key = iou(a, b)
             c = aligned(a, b, key) if key else None
-            cv, _, c = clocked(c, b) if c is not None else (value, 0.0, None)
+            cv, _, c = clocked(c, b, base=value) if c is not None else (value, 0.0, None)
             dev = surface_deviation(c, b) if c is not None else None
             mti = (max(value, cv), a.Volume() / b.Volume(), dev)
         console.print(f"  overlap (IoU) [bold]{mti[0]:.4f}[/bold] · volume ratio {mti[1]:.4f}"

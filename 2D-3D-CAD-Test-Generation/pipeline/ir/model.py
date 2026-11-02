@@ -77,6 +77,17 @@ def parse_ref(ref: str) -> tuple[str, tuple[str, ...]]:
     raise ValueError(f"not a valid ref: {ref!r}")
 
 
+_EDGE_SELECTOR_RE = re.compile(r"^edges\((convex|concave)\)$")
+
+
+def edge_selector(q: str) -> str | None:
+    """'convex' / 'concave' for a whole-part selector (spec 2026-11-02-discrepancy-markup-design.md):
+    every still-sharp circular edge coaxial with a turned part's axis whose corner is convex (an
+    outside corner: general-note chamfers) or concave (an inside corner: general-note radii)."""
+    m = _EDGE_SELECTOR_RE.match(q.replace(" ", ""))
+    return m.group(1) if m else None
+
+
 def parse_edge_query(q: str) -> tuple[str, str]:
     m = _EDGE_RE.match(q.replace(" ", ""))
     if not m:
@@ -106,6 +117,8 @@ def resolve_ref(ref: str, dims: dict[str, float]) -> str:
 
 
 def resolve_edge_query(q: str, dims: dict[str, float]) -> str:
+    if edge_selector(q):
+        return q.replace(" ", "")
     a, b = parse_edge_query(q)
     return f"edge_between({resolve_ref(a, dims)},{resolve_ref(b, dims)})"
 
@@ -294,11 +307,12 @@ class EdgeOp(_Feature):
     @classmethod
     def _edges(cls, v):
         for q in v:
-            parse_edge_query(q)
+            if not edge_selector(q):
+                parse_edge_query(q)
         return v
 
     def refs(self):
-        return [r for q in self.edges for r in parse_edge_query(q)]
+        return [r for q in self.edges if not edge_selector(q) for r in parse_edge_query(q)]
 
 
 FeatureIR = Annotated[Union[Prism, Revolve, Hole, Pattern, EdgeOp], Field(discriminator="kind")]
