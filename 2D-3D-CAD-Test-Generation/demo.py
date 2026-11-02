@@ -11,6 +11,8 @@ Modes:
     python demo.py                      # REPLAY (default): saved Astra extraction + plan. Free, no network.
     python demo.py --live               # Astra plans the part fresh in front of the room (~$0.2-0.5)
     python demo.py --part A040911E      # pick a dev part (default SB11033)
+    python demo.py --part 2N2664 --from <output dir>   # an MTI audit part: ends by scoring the
+                                        # result against MTI's own SolidWorks model
     python demo.py --no-pause --pace 0  # unattended rehearsal
 
 Windows + SolidWorks for step 6 (use --no-solidworks to stop after the reference).
@@ -31,7 +33,7 @@ from rich.table import Table
 
 ROOT = Path(__file__).resolve().parent
 console = Console()
-STEPS = 7
+STEPS = 7   # 8 when MTI's own model is there to compare against
 
 
 def quiet() -> None:
@@ -84,13 +86,15 @@ def main() -> int:
     ap.add_argument("--no-pause", action="store_true")
     ap.add_argument("--pace", type=float, default=1.5, help="seconds between SolidWorks features")
     ap.add_argument("--no-solidworks", action="store_true")
+    ap.add_argument("--from", dest="src", type=Path, default=ROOT / "output",
+                    help="MTI audit part folders (<dir>/<part>/source, plan.json, ground_truth.step)")
     args = ap.parse_args()
 
     from pipeline import budget
     from pipeline.ir.compile_cadquery import emit_script, run_script
     from pipeline.ir.from_v1 import dims_of, reference_ids
     from pipeline.ir.model import BuildPlan
-    from pipeline.ir_pipeline import dev_parts, get_extraction, images_for
+    from pipeline.ir_pipeline import PartSpec, dev_parts, get_extraction, images_for
     from pipeline.schema import DrawingData
     from run_models import resolve_unknowns
     from pipeline.ir.compile_solidworks import compile_solidworks
@@ -98,11 +102,19 @@ def main() -> int:
 
     quiet()   # after the imports: each module's logger setup resets the level
 
+    global STEPS
     spec = next((s for s in dev_parts() if s.part == args.part), None)
-    if spec is None:
-        console.print(f"[red]Unknown part {args.part}. Dev parts: {[s.part for s in dev_parts()]}[/red]")
-        return 2
-    saved = ROOT / "output" / "ir_runs" / spec.part
+    saved = ROOT / "output" / "ir_runs" / args.part
+    if spec is None:   # an MTI audit part: drawing in <src>/<part>/source, saved run next to it
+        saved = args.src / args.part
+        pdfs = sorted(p for p in (saved / "source").glob("*") if p.suffix.lower() == ".pdf")
+        if not pdfs or not (saved / "plan.json").exists():
+            console.print(f"[red]Unknown part {args.part}: no dev part, and no {saved}/source/*.pdf with a "
+                          f"saved plan.json. Dev parts: {[s.part for s in dev_parts()]}[/red]")
+            return 2
+        spec = PartSpec(args.part, pdfs[0])
+    gt = saved / "ground_truth.step"   # MTI's own model, exported by mti_groundtruth.py
+    STEPS = 8 if gt.exists() else 7
     out = ROOT / "output" / "demo" / spec.part
     out.mkdir(parents=True, exist_ok=True)
     t0, spent0 = time.time(), budget.spent_usd()
@@ -129,7 +141,7 @@ def main() -> int:
 
     # 2 -------------------------------------------------------------------------
     step(2, "What GPT-6 Astra read", "Every dimension gets an ID (D001...). The plan may only use these IDs.")
-    raw, how = get_extraction(spec, images, out, [ROOT / "output" / "astra_2026-10-04", ROOT / "output" / "ir_runs"])
+    raw, how = get_extraction(spec, images, out, [saved, ROOT / "output" / "astra_2026-10-04", ROOT / "output" / "ir_runs"])
     resolve_unknowns(raw, spec.part)
     m = DrawingData.model_validate(raw)
     dims, refs = dims_of(m), reference_ids(m)
@@ -163,6 +175,8 @@ def main() -> int:
                                            encoding="utf-8")
     else:
         plan = BuildPlan.model_validate(json.loads((saved / "plan.json").read_text(encoding="utf-8"))["plan"])
+    from pipeline.ir.defaults import apply_defaults
+    plan, defaults = apply_defaults(plan, dims)   # documented answers to vague callouts
     t = Table(show_header=True, header_style="bold", box=None)
     for c in ("ID", "feature", "status"):
         t.add_column(c)
@@ -182,6 +196,8 @@ def main() -> int:
     questions = [f for f in plan.features if f.status == "unresolved"]
     for f in questions:
         console.print(f"  [yellow]? question for an engineer[/yellow] {f.id}: {f.rationale}")
+    for d in defaults:
+        console.print(f"  [magenta]= default rule[/magenta] {d}")
     flagged = [f for f in plan.features if f.status == "planned" and f.justification]
     for f in flagged[:3]:
         console.print(f"  [cyan]i flagged for review[/cyan] {f.id}: {f.justification[:110]}")
@@ -237,15 +253,35 @@ def main() -> int:
                           f"body · base sketch on the Top plane · through holes Up To Next")
         pause(args)
 
-    # 7 -------------------------------------------------------------------------
-    step(7, "Result", "What a reviewing engineer gets.")
+    # 7 (MTI parts) ---------------------------------------------------------------
+    mti = None
+    if gt.exists():
+        step(7, "Compared with MTI's own SolidWorks model", "MTI's existing model of this part, never shown to "
+             "the pipeline, as the answer key. Aligned, then overlap and surface distance.")
+        import cadquery as cqm
+        from pipeline.ir.score import aligned, clocked, iou, surface_deviation
+        with console.status("comparing with MTI's model..."):
+            a = cqm.importers.importStep(str(cq.step_path)).val()
+            b = cqm.importers.importStep(str(gt)).val()
+            value, key = iou(a, b)
+            c = aligned(a, b, key) if key else None
+            cv, _, c = clocked(c, b) if c is not None else (value, 0.0, None)
+            dev = surface_deviation(c, b) if c is not None else None
+            mti = (max(value, cv), a.Volume() / b.Volume(), dev)
+        console.print(f"  overlap (IoU) [bold]{mti[0]:.4f}[/bold] · volume ratio {mti[1]:.4f}"
+                      + (f" · surface distance mean {dev['mean']:.2f} mm, max {dev['max']:.2f} mm" if dev else ""))
+        pause(args)
+
+    # last ------------------------------------------------------------------------
+    step(STEPS, "Result", "What a reviewing engineer gets.")
     cost = budget.spent_usd() - spent0
     lines = [
         f"Part [bold]{spec.part}[/bold]: "
         + ("[bold green]built in SolidWorks, every feature verified[/bold green]" if sw_ok
            else "[bold yellow]reference built[/bold yellow]" if sw_ok is None else "[bold red]check the log[/bold red]"),
         f"Features planned: {sum(f.status == 'planned' for f in plan.features)} · questions for an engineer: "
-        f"{len(questions)} · values flagged for review: {len(flagged)}",
+        f"{len(questions)} · values flagged for review: {len(flagged)} · default rules applied: {len(defaults)}",
+        *([f"Against MTI's own model: overlap {mti[0]:.4f} · volume ratio {mti[1]:.4f}"] if mti else []),
         f"Time: {time.time() - t0:.0f} s (including pauses) · API cost this run: ${cost:.2f}"
         + ("" if args.live else " (replay)") + f" · budget used ${budget.spent_usd():.2f} of ${budget.cap_usd():.0f}",
         f"Files: {out}",

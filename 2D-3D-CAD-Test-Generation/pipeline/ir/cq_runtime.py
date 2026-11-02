@@ -89,6 +89,7 @@ class Model:
         self.axes: dict[str, tuple[tuple[float, float, float], str]] = {}
         self.order: list[str] = []
         self.holes: dict[str, list[dict]] = {}
+        self.cut_ops: set[str] = set()
         self.edge_points: dict[str, list[list[float]]] = {}
         self.skipped: dict[str, str] = {}
         self.starts: dict[str, dict] = {}         # resolved start plane per prism/hole (drawing units)
@@ -138,6 +139,8 @@ class Model:
     def _apply_inner(self, fid: str, tool: cq.Shape, op: str) -> None:
         self.tools[fid] = tool
         self.order.append(fid)
+        if op != "add":
+            self.cut_ops.add(fid)
         if self.solid is None:
             if op != "add":
                 raise CompileError(f"{fid}: the first feature must add material")
@@ -331,13 +334,16 @@ class Model:
             sd = args[1]
             axis, coord, _ = self._start(ref, 0.0)
             want = cq.Vector(*AXES[axis]) * (1 if sd[0] == "+" else -1)
+            # a cut's +X wall faces -X, into the pocket (2N2664 F023); its +Z opening is the
+            # surrounding material's +Z face: for a cut, either normal at that coordinate
+            wants = (want, want * -1) if args[0] in self.cut_ops else (want,)
             out = []
             for f in faces:
                 if f.geomType() != "PLANE":
                     continue
                 n = f.normalAt()
                 c = f.Center()
-                if (n - want).Length < 1e-6 and abs((c.x, c.y, c.z)[_idx(axis)] - coord) < TOL * 10:
+                if any((n - w).Length < 1e-6 for w in wants) and abs((c.x, c.y, c.z)[_idx(axis)] - coord) < TOL * 10:
                     out.append(f)
             return out
         if kind == "plane":

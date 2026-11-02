@@ -284,3 +284,17 @@ def test_clocked_iou_forgives_rotation_about_the_axis_only():
     assert iou(a, b)[0] < 0.99
     best, ang, _ = clocked(a, b)
     assert best > 0.999 and (ang + 15) % 72 == pytest.approx(0, abs=1e-6)
+
+
+def test_face_query_on_a_pocket_selects_its_own_walls():
+    """2N2664 F023: a cut's +X wall faces -X (into the pocket). face(F002,+X) must still find it."""
+    from pipeline.ir.cq_runtime import Model
+    m = Model("T", origin_kind="corner", units="inch", strict=True)
+    m.prism("F001", on="plane(front)", offset=0, profile={"shape": "rect", "w": 4, "h": 4, "anchor": "corner", "u": 0, "v": 0},
+            depth=1, op="add")
+    m.prism("F002", on="face(F001,+Z)", offset=0, profile={"shape": "rect", "w": 1, "h": 2, "anchor": "corner", "u": 1, "v": 1},
+            depth=0.5, op="cut")
+    m.edge_op("F003", operation="fillet", size=0.1, angle=45,
+              edges=["edge_between(face(F002,+X),face(F002,+Y))", "edge_between(face(F002,-X),face(F002,+Y))"])
+    pts = m.edge_points["F003"]
+    assert len(pts) == 2 and all(abs(p[1] - 3.0) < 1e-6 for p in pts)     # the two corners at the +Y end
