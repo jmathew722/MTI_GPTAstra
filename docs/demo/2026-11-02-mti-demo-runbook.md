@@ -1,4 +1,4 @@
-# MTI demo runbook (rehearsed 2026-11-02)
+# MTI demo runbook (rehearsed 2026-11-02; hero updated to the 2N2664 re-plan)
 
 **What it shows:** one of MTI's own scanned drawings goes in, and a verified, MTI-convention
 SolidWorks part comes out, feature by feature. It finishes by scoring the result against **MTI's
@@ -11,7 +11,8 @@ room costs about $1 (see "Live option").
 
 | Role | Part | What it is | Built | Against MTI's model | Run time |
 |---|---|---|---|---|---|
-| **Hero** | **2N2664** | Turned hub: 10-station turned profile, 4 Hole Wizard taps/clearances, bolt pattern, recess, 6 fillets/chamfers | 21 features planned, all verified; 0 questions; 4 default rules shown | **overlap 0.993**, volume 1.006, mean surface distance **0.10 mm** | ~5 min |
+| **Hero** | **2N2664, re-plan of 2026-11-02** | Turned hub: 10-station turned profile, Hole Wizard taps and counterbores (1/4-20, 1/4 SHCS), **a radial cross-hole at 240°**, 6 fillets and chamfers | All 16 built features verified; **1 question** (the recess end: it asks instead of guessing); 3 default rules shown | **overlap 0.996**, volume 1.003, mean surface distance 0.15 mm | ~2 min |
+| Fallback | 2N2664, earlier plan | The same hub, with the recess built and no radial hole | 21 planned, all built features verified; 0 questions; 4 default rules | overlap 0.993, volume 1.006, mean 0.10 mm | ~5 min |
 | **Backup** | **A00122E** | Plate: 19 features, 7 Hole Wizard features (three clearance sizes + #8-32 taps) | 19/19 verified; 0 questions | overlap 0.987, mean **0.06 mm**, max **0.21 mm** | ~45 s |
 | Wow, with caveat | SB14306 | 546 mm collet: 28 features, 9 native circular patterns, 8 Hole Wizard taps | 26/28 (2 MTI questions) | 0.74: **MTI's model doesn't match its drawing** (see `docs/mti-questions/`) | ~15 min |
 
@@ -33,14 +34,18 @@ room costs about $1 (see "Live option").
 
 ## Run it
 
+**Hero (re-plan):**
+
 ```powershell
-..\..\mti-2d-3d\.venv\Scripts\python.exe demo.py --part 2N2664 --from ..\..\mti-2d-3d\2D-3D-CAD-Test-Generation\output
+..\..\mti-2d-3d\.venv\Scripts\python.exe demo.py --part 2N2664 --from ..\..\mti-2d-3d\2D-3D-CAD-Test-Generation\output\2n2664_replan
 ```
+
+**Fallback (earlier plan):** the same command with `--from ..\..\mti-2d-3d\2D-3D-CAD-Test-Generation\output`.
+
+**Backup part:** `--part A00122E --from ..\..\mti-2d-3d\2D-3D-CAD-Test-Generation\output`.
 
 Press **Enter** between steps. `--pace 1.5` (the default) slows the SolidWorks steps down for the
 audience.
-
-**Backup:** the same command with `--part A00122E`.
 
 ## The eight steps, and what to say
 
@@ -54,15 +59,20 @@ audience.
    - Point at the magenta **default rules**: "'.12 C/R' becomes a 45° chamfer, and 'RADII .047
      MAX' becomes a .047 fillet. These are documented rules, with values taken from MTI's own
      models."
+   - Point at the yellow **question** (re-plan): "The recess end's .377 width, .188 offset and .188
+     R don't define a consistent semicircle, so it asks an engineer instead of guessing."
    - Point at the cyan flags: "Anything that isn't printed on the drawing is flagged for review."
 5. **Reference model.** "An independent build of the plan: the yardstick SolidWorks has to match."
 6. **SolidWorks, feature by feature.** "After every feature, the volume has to match the
    reference, or it's undone and retried."
    - Point out MTI's conventions: origin centred, base sketch on Top, Hole Wizard for bolt holes
      and taps, cosmetic threads, Up To Next, fully defined sketches.
+   - **F017, the radial cross-hole at 240°:** "Drilled into the side of a turned part at the angle
+     the drawing gives, '30° left of downward'."
 7. **Against MTI's own model.** "This is the model your engineer drew. We never showed it to the
-   pipeline. 99.3% overlap, and the surfaces are 0.1 mm apart on average."
-8. **Result.** "Questions it refused to guess: 0. Cost of this run: $0 in replay; about $1 live."
+   pipeline. 99.6% overlap, and its volume is within 0.3%." The 12 mm maximum distance is the
+   recess it asked about.
+8. **Result.** "One question it refused to guess. Cost of this run: $0 in replay; about $1 live."
 
 ## Talking points backed by the audit
 
@@ -77,10 +87,9 @@ audience.
 
 ## Known gaps (if asked)
 
-- **2N2664:** two features aren't built.
-  - The 30° radial cross-hole (F021): the plan predates radial-hole support.
-  - The .188 R end of the recess (F023): the plan names the wrong end.
-  - A re-plan (~$1) fixes both; see below.
+- **2N2664:** the re-plan builds the radial cross-hole but asks about the recess end (.377 wide
+  with a .188 R, inconsistent by .001). The earlier plan built the recess but couldn't place the
+  cross-hole. Answering the question, or a rule for "full R" ends, would complete it.
 - **Radial taps are plain cuts;** MTI uses Hole Wizard on the curved face. This is a follow-up.
 - **SB11488:** one noisy scan whose central profile the planner won't commit to.
 
@@ -91,5 +100,6 @@ audience.
 ```
 
 - **What it does:** GPT-6 Astra plans the part in front of the room. The extraction is reused.
-- **Risk:** a fresh plan can differ from the rehearsed one. Rehearse the live run once before the
-  meeting, if budget allows. $3.32 is left of $50.
+- **Risk:** a fresh plan can differ from the rehearsed one. The 2026-11-02 re-plan, for example,
+  differs from the earlier plan on the recess. $2.46 is left of $50, enough for about two live
+  runs.

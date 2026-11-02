@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 from pathlib import Path
 from typing import Any, Optional
 
@@ -27,6 +28,9 @@ import cadquery as cq
 from pipeline.ir.model import parse_edge_query, parse_ref
 
 AXES = {"X": (1.0, 0.0, 0.0), "Y": (0.0, 1.0, 0.0), "Z": (0.0, 0.0, 1.0)}
+BOOL_FUZZY_MM = 0.01   # fuzzy tolerance for cuts (10 um, far below any drawing tolerance; E033)
+if os.environ.get("MTI_BOOL_FUZZY_MM"):   # A/B check of the reference against exact booleans
+    BOOL_FUZZY_MM = float(os.environ["MTI_BOOL_FUZZY_MM"]) or None
 # base plane -> (normal axis, cq Plane xDir, cq Plane normal) chosen so local (u, v)
 # equal the GLOBAL in-plane coordinates: front (x, y), top (x, z), right (y, z).
 PLANES = {
@@ -152,7 +156,9 @@ class Model:
             self.solid = self.solid.fuse(tool).clean()
         else:
             before = self.solid.Volume()
-            self.solid = self.solid.cut(tool).clean()
+            # fuzzy boolean: an exact cut mis-counted a radial hole grazing other geometry as
+            # 0.551 in^3 where SolidWorks and point sampling give 0.282 (2N2664 F017, E033)
+            self.solid = self.solid.cut(tool, tol=BOOL_FUZZY_MM).clean()
             if self.solid.Volume() >= before - 1e-9:
                 raise CompileError(f"{fid}: cut removed no material (check position/direction)")
 

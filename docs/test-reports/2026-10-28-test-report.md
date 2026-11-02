@@ -324,3 +324,24 @@ to it.
 included angle), so it would change no current part.
 
 **Tests:** 1008 passed, 66 skipped.
+
+---
+
+## 11. (2026-11-02) The MTI demo, and the 2N2664 re-plan ($0.86)
+
+- **Demo:**
+  - `demo.py` now runs MTI audit parts (`--part P --from <dir>`), shows the callout defaults, and
+    scores the result against MTI's own model.
+  - Runbook: `docs/demo/2026-11-02-mti-demo-runbook.md`.
+  - Rehearsed: 2N2664, A00122E (19/19, 0.21 mm max, 45 s) and the 2N2664 re-plan.
+- **2N2664 re-plan** ($0.86; ledger **$47.54 of $50**):
+  - The planner used the radial-hole convention: F017 at u = 240°, matching "30° left of
+    downward".
+  - **E033:** the reference over-cut the hole (an exact-boolean failure); fixed with a fuzzy
+    tolerance of 0.01 mm. Verified neutral on every other saved reference.
+  - Result: **builds and verifies, IoU 0.9957 vs MTI** (earlier plan: 0.9926).
+  - It asks one question (the recess end's .377 / .188 / .188 R inconsistency) instead of guessing,
+    so the recess isn't built.
+- **Also:** `face()` queries on a cut accept either normal, so a pocket's walls and opening can
+  both be selected (test added).
+- **Tests:** 1009 passed, 66 skipped.

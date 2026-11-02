@@ -697,6 +697,31 @@ The full entry was kept local; add it here.
     `test_ir_compile_solidworks.py`;
   - `test_radial_tap_with_thread_depth_only_is_defaulted` in `test_ir_defaults.py`.
 
+## E033 — The CadQuery reference over-cut a radial hole (exact boolean), so a correct SolidWorks cut "mismatched"
+
+- **Symptom:** the 2N2664 re-plan's radial cross-hole F017 (240°, Ø.5003 to the axis) failed in
+  SolidWorks: "no direction matched the reference volume". SolidWorks removed 0.282 in³; the
+  reference said 0.551. F018 and F022 cascaded; F019's chamfer failed in the reference
+  ("ChFi3d_Builder: only 2 faces").
+- **Investigation:**
+  - A live probe of the SolidWorks hole showed the right axis (240° from +X in the IR frame), the
+    right station, and an extent from the OD to the bore.
+  - Point-sampling the reference's material inside the hole gave **0.288 in³**.
+  - Radial slices summed to 0.315.
+  - The reference's exact `solid.cut(tool)` (and `intersect`) gave 0.551, for any tool length.
+  - Fuzzy booleans: tolerances up to 1e-3 mm still gave 0.551; **0.01 mm gave 0.282**, matching
+    SolidWorks. So it was an OpenCascade exact-boolean failure on a hole that grazes existing
+    geometry.
+- **Fix:** `cq_runtime` cuts with a fuzzy tolerance `BOOL_FUZZY_MM = 0.01` (10 µm, far below any
+  drawing tolerance). Override with `MTI_BOOL_FUZZY_MM` (`0` = exact) for A/B checks.
+- **A/B over every saved reference** (all audit parts, all golden variants, ~90 builds): identical
+  per-feature volumes everywhere except the 2N2664 re-plan, which is now right. F017 builds and
+  F019 builds.
+- **Generator rule:** when SolidWorks and the reference disagree, check the reference independently
+  (point sampling) before blaming SolidWorks. Booleans in the reference use the fuzzy tolerance.
+- **Result:** the 2N2664 re-plan builds and verifies with the radial cross-hole; IoU **0.9957** vs
+  MTI (the earlier plan scored 0.9926).
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

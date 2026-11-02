@@ -3,6 +3,14 @@
 **Last updated:** 2026-10-28 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-11-02: MTI demo ready** (`docs/demo/2026-11-02-mti-demo-runbook.md`, $0 replay).
+> - Hero: the 2N2664 re-plan, a turned hub with Hole Wizard taps, a radial cross-hole at 240°
+>   and one honest question. IoU **0.9957** vs MTI's own model.
+> - Backup: A00122E (19/19 built, 0.21 mm max).
+> - E033: the reference now uses a fuzzy boolean (exact OpenCascade over-cut a radial hole);
+>   neutral on all other references.
+> - Ledger $47.54 of $50.
+>
 > **2026-10-28 (free fixes):** taps and their pilot drills are now merged into ONE Hole Wizard tap
 > (SB12006/07/09/10/11, 2N2664; all verify). `mti_score` reports `iou_clocked` for turned parts.
 > **All 23 DWG audit drawings are converted to PDF** (bench `dwg_to_pdf`) and MTI's models
