@@ -1,0 +1,32 @@
+{
+  "_note": "Synthetic radial-hole part (spec 2026-10-28-radial-holes-design.md): a tube with four radial taps at 45 deg (pattern) and one cross-hole through the whole diameter at 0 deg. Shaped after SB12059 (collet pad taps) and 2N2664 (cross-hole).",
+  "_checked_against": "hand-built: OD 4.000, bore 1.000, length 2.000",
+  "dims": {
+    "D001": 4.0,
+    "D002": 2.0,
+    "D003": 1.0,
+    "D004": 0.332,
+    "D005": 0.5,
+    "D006": 0.75,
+    "D007": 45.0,
+    "D008": 0.25,
+    "D009": 1.5
+  },
+  "plan": {
+    "part": "RADIAL_DEMO",
+    "frame": {"origin_kind": "axis_end", "units": "inch"},
+    "features": [
+      {"id": "F001", "kind": "revolve", "rationale": "Tube: OD D001, bore D003, length D002.",
+       "outer": [{"z": "0", "r": "D001 / 2"}, {"z": "D002", "r": "D001 / 2"}],
+       "inner": [{"z": "0", "r": "D003 / 2"}, {"z": "D002", "r": "D003 / 2"}], "op": "add"},
+      {"id": "F002", "kind": "hole", "rationale": "Radial .375-24 tap, .50 deep, at 45 deg, .75 from the end.",
+       "on": "wall(F001,D001 / 2)", "u": "D007", "v": "D006",
+       "spec": {"type": "tapped", "d": "D004", "depth": "D005", "thread": ".375-24"}},
+      {"id": "F003", "kind": "pattern", "rationale": "Four radial taps, equally spaced.",
+       "seed": "F002", "mode": "circular", "count": "4", "axis": "axis(part)", "step": "equal"},
+      {"id": "F004", "kind": "hole", "rationale": "Cross-hole through the whole diameter at 0 deg.",
+       "on": "wall(F001,D001 / 2)", "u": "0", "v": "D009",
+       "spec": {"type": "thru", "d": "D008"}}
+    ]
+  }
+}

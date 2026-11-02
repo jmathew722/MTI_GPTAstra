@@ -10,19 +10,19 @@
     1.0,
     5.937
   ],
-  "volume": 16.782981,
-  "volume_mm3": 275023.782,
+  "volume": 16.766595,
+  "volume_mm3": 274755.268,
   "features": [
     "F001",
     "F002",
     "F003",
     "F004",
     "F005",
+    "F006",
+    "F007",
     "F009"
   ],
   "skipped": {
-    "F006": "failed: CompileError: wall(F001,1.0) can't be a start ref (use plane(...) or face(...))",
-    "F007": "failed: CompileError: ref to F006, which has no geometry (not built or skipped)",
     "F008": "unresolved: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile."
   },
   "holes": {
@@ -94,6 +94,13 @@
       "axis": "Z",
       "coord": 5.317,
       "dir": -1
+    },
+    "F006": {
+      "radial": true,
+      "angle": 0,
+      "z": 5.687,
+      "r": 1.0,
+      "depth": 1
     }
   },
   "volume_after": {
@@ -102,7 +109,9 @@
     "F003": 16.805376341,
     "F004": 16.798081563,
     "F005": 16.782216127,
-    "F009": 16.782980905
+    "F006": 16.776749777,
+    "F007": 16.765830376,
+    "F009": 16.766595141
   },
   "base": {
     "fid": "F001",

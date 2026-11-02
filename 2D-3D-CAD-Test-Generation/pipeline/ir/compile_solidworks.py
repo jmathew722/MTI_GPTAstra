@@ -35,7 +35,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from pipeline.ir.expr import evaluate
-from pipeline.ir.model import BuildPlan, EdgeOp, Hole, Pattern, Prism, Revolve
+from pipeline.ir.model import BuildPlan, EdgeOp, Hole, Pattern, Prism, Revolve, parse_ref
 from utils.logger import get_logger
 
 log = get_logger()
@@ -762,13 +762,80 @@ class _SW:
 
     def hole(self, f: Hole) -> SwFeatureResult:
         st = self.fmap["starts"][f.id]
+        if st.get("radial"):
+            return self.radial_hole(f)
         return self.holes(f.id, [[self.n(f.u), self.n(f.v)]], f.spec, st["axis"], st["coord"], st["dir"])
+
+    def radial_hole(self, f: Hole) -> SwFeatureResult:
+        """A hole drilled into the outside of a turned part toward its axis (spec
+        2026-10-28-radial-holes-design.md). Volume can't tell a radial hole at the wrong angle
+        or mirrored from the right one, so the geometry is made unambiguous:
+
+        1. a line on the base plane normal to the part axis, from the axis to P just OUTSIDE
+           the part at angle u (explicit coordinates, read back);
+        2. a reference plane perpendicular to that line through P (InsertRefPlane,
+           Perpendicular + Coincident; sldworks.tlb / swconst.tlb);
+        3. the hole circle on that plane at P + z (ISketch.ModelToSketchTransform);
+        4. a blind cut from outside, inward: aimed the wrong way it removes nothing, which the
+           volume check catches, so flip-and-retry is safe.
+
+        A plain cut (MTI would use a Hole Wizard on the curved face: a follow-up)."""
+        from pipeline.solidworks_builder import _g, com_doubles, typed
+        st, k = self.fmap["starts"][f.id], self.k
+        a = math.radians(self.n(f.u))
+        z, r = self.n(f.v), st["r"]
+        bb = self.fmap["bbox"]
+        rmax = max(abs(c) for c in (bb[0], bb[1], bb[3], bb[4]))
+        reach = rmax + max(0.1 * rmax, 0.05)               # P is this far from the axis
+        depth = reach + rmax if st["depth"] is None else reach - r + self.n(st["depth"])
+        res = SwFeatureResult(f.id, "failed", ref_volume=self.fmap.get("volume_after", {}).get(f.id))
+
+        sm, fm = self.doc.SketchManager, self.doc.FeatureManager
+        plane, _ = self.sketch_on("Z")
+        (x0, y0), (x1, y1) = self.pt(plane, (0.0, 0.0, 0.0)), self.pt(plane, (reach * math.cos(a), reach * math.sin(a), 0.0))
+        seg = sm.CreateLine(x0, y0, 0, x1, y1, 0)
+        # CreateLine hands back the ISketchSegment view: endpoints are on ISketchLine
+        end = typed(typed(seg, "ISketchLine").GetEndPoint2(), "ISketchPoint") if seg is not None else None
+        if end is None or abs(end.X - x1) > 1e-9 or abs(end.Y - y1) > 1e-9:   # no inference (E020)
+            sm.InsertSketch(True)
+            res.note = "the radial direction line did not land where it was drawn"
+            return res
+        sm.InsertSketch(True)
+
+        self.doc.ClearSelection2(True)
+        data = _g(self.doc.SelectionManager, "CreateSelectData")
+        data.Mark = 0
+        typed(seg, "ISketchSegment").Select4(False, data)
+        data.Mark = 1
+        end.Select4(True, data)
+        if fm.InsertRefPlane(REFPLANE_PERPENDICULAR, 0.0, REFPLANE_COINCIDENT, 0.0, 0, 0.0) is None:
+            res.note = "InsertRefPlane refused the plane at the hole start"
+            return res
+        ref = typed(self.doc.FeatureByPositionReverse(0), "IFeature")   # IRefPlane can't be selected
+        if ref.GetTypeName2() != "RefPlane":
+            res.note = f"expected the new reference plane, got {ref.GetTypeName2()}"
+            return res
+
+        self.doc.ClearSelection2(True)
+        ref.Select2(False, 0)
+        sm.InsertSketch(True)
+        xf = typed(sm.ActiveSketch, "ISketch").ModelToSketchTransform
+        mu = typed(_g(self.app, "GetMathUtility"), "IMathUtility")
+        q = self.pm.to_model(tuple(c * k for c in self.local((reach * math.cos(a), reach * math.sin(a), z))))
+        cx, cy, _ = typed(typed(mu.CreatePoint(com_doubles(*q)), "IMathPoint").MultiplyTransform(xf),
+                          "IMathPoint").ArrayData
+        sm.CreateCircleByRadius(cx, cy, 0, self.n(f.spec.d) * k / 2)
+        sm.InsertSketch(True)
+        res = self.with_retry(f.id, lambda flip: self.extrude(cut=True, reverse=flip, depth=depth * k, start=0.0))
+        if res.status == "built":
+            res.note = f"radial, {self.n(f.u):g} deg, plain cut"
+        return res
 
     def pattern(self, f: Pattern) -> SwFeatureResult:
         seed = self.plan.feature(f.seed)
         if isinstance(seed, Prism) and f.mode in ("linear", "grid"):
             return self.prism_pattern(f, seed)
-        if isinstance(seed, Prism) and f.mode == "circular":
+        if f.mode == "circular" and (isinstance(seed, Prism) or is_radial(seed)):
             return self.circular_pattern(f, seed)
         if not isinstance(seed, Hole):
             return SwFeatureResult(f.id, "failed", note="only hole and prism patterns are compiled "
@@ -1034,7 +1101,8 @@ def hole_wizard_choice(spec, dims: dict[str, float], units: str) -> Optional[dic
             "label": f"Hole Wizard {best.size} {'SHCS counterbore' if kind == 'cbore' else 'clearance'}"}
 
 
-SLOT_STRAIGHT, SLOT_CENTER_TO_CENTER = 0, 0   # swSketchSlotCreationType_line, swSketchSlotLengthType_CenterCenter
+SLOT_STRAIGHT, SLOT_CENTER_TO_CENTER = 0, 0
+REFPLANE_PERPENDICULAR, REFPLANE_COINCIDENT = 2, 4   # swRefPlaneReferenceConstraints_e (swconst.tlb)   # swSketchSlotCreationType_line, swSketchSlotLengthType_CenterCenter
 BAD_SKETCH_STATUS = (4, 5, 6)   # swConstrainedStatus_e: over-constrained, no / invalid solution
 FULLY_CONSTRAINED = 3           # swConstrainedStatus_e
 # FullyDefineSketch (signature from sldworks.tlb; verified live 2026-10-12, E023): all entities,
@@ -1104,6 +1172,11 @@ def hole_signature(f: Hole, dims: dict[str, float]) -> tuple:
         return None if e is None else round(evaluate(e, dims).value, 9)
     return (f.on.replace(" ", ""), sp.type, v(sp.d), v(sp.depth), v(sp.cbore_d), v(sp.cbore_depth),
             v(sp.csink_d), v(sp.csink_angle), sp.thread)
+
+
+def is_radial(f) -> bool:
+    """A hole that starts on wall(F, r): drilled into a turned part toward its axis."""
+    return isinstance(f, Hole) and parse_ref(f.on)[0] == "wall"
 
 
 def mergeable_holes(rest: list, first: Hole, dims: dict[str, float], skipped: dict) -> list[Hole]:
@@ -1192,7 +1265,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
             sw.report.features.append(SwFeatureResult(f.id, "skipped", note=skipped.get(f.id, f.status)))
             continue
         group = [f]
-        if convention == "mti" and isinstance(f, Hole):   # same hole, same face: one feature
+        if convention == "mti" and isinstance(f, Hole) and not is_radial(f):   # same hole, same face: one feature
             nxt = features[i] if i < len(features) else None
             if (isinstance(nxt, Pattern) and nxt.seed == f.id and nxt.status == "planned"
                     and nxt.id not in skipped):
@@ -1209,7 +1282,11 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
                 res = getattr(sw, f.kind)(f)
         except Exception as e:  # COM errors: record, keep building (non-strict, like v1)
             _close_open_sketch(sw.doc)
-            res = SwFeatureResult(group[-1].id, "failed", note=f"{type(e).__name__}: {e}"[:300])
+            import traceback
+            ours = [t for t in traceback.extract_tb(e.__traceback__) if t.filename == __file__]
+            at = (ours or traceback.extract_tb(e.__traceback__))[-1]   # COM errors don't say which call
+            res = SwFeatureResult(group[-1].id, "failed",
+                                  note=f"{type(e).__name__}: {e} (at {at.name}:{at.lineno})"[:300])
         if len(group) > 1:
             ids = ", ".join(g.id for g in group)
             res.note = f"{res.note}; one feature for {ids}".lstrip("; ")

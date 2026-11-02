@@ -107,8 +107,39 @@ def test_switch_turns_the_rules_off(monkeypatch):
     assert f.status == "unresolved" and applied == []
 
 
-def test_never_defaults_a_hole_the_ir_cannot_start():      # SB12059 F005: radial tap on the OD
-    hole = {"id": "F002", "kind": "hole", "status": "unresolved", "on": "wall(F001,D001)", "u": "0", "v": "0",
+def test_never_defaults_a_hole_the_ir_cannot_start():      # a wall start with no radius
+    hole = {"id": "F002", "kind": "hole", "status": "unresolved", "on": "wall(F001)", "u": "0", "v": "0",
             "spec": {"type": "blind", "d": "D007"}, "source_callouts": [".375-24 TAP .38 DEEP"], "rationale": "?"}
     _, applied, f = run(hole)
     assert f.status == "unresolved" and applied == []
+
+
+def test_radial_tap_with_thread_depth_only_is_defaulted():   # SB12059 F005, now that radial holes exist
+    hole = {"id": "F002", "kind": "hole", "status": "unresolved", "on": "wall(F001,D001)", "u": "45", "v": "0",
+            "spec": {"type": "blind", "d": "D007"}, "source_callouts": [".375-24 TAP .38 DEEP"], "rationale": "?"}
+    _, applied, f = run(hole)
+    assert f.status == "planned" and f.spec.thread == ".375-24" and "D5" in applied[0]
+
+
+def test_d5_merges_a_pilot_drill_into_its_tap():             # SB12006: tap F002 + unresolved pilot F003
+    tap = {"id": "F002", "kind": "hole", "on": "face(F001,+Z,D002)", "u": "0", "v": "0",
+           "spec": {"type": "tapped", "d": "D007", "depth": "D005", "thread": "#10-32"},
+           "source_callouts": ["#10-32 TAP .38 DEEP"]}
+    pilot = {"id": "F003", "kind": "hole", "status": "unresolved", "on": "face(F001,+Z,D002)", "u": "0", "v": "0",
+             "spec": {"type": "blind", "d": "D007"}, "source_callouts": ["#10-32 TAP .38 DEEP"], "rationale": "?"}
+    new, applied, f = run(tap, pilot)
+    assert [x.id for x in new.features] == ["F001", "F002"]           # one tap, no second hole
+    assert f.spec.depth == "D005 + 5 / 32" and "pilot F003 merged" in f.justification
+    assert applied == ["F003: D5 pilot drill merged into tap F002 (drill = thread + 5 pitches)"]
+
+
+def test_d6_merges_a_tap_into_its_drill():                   # 2N2664: drill F002 .69 deep + tap F003 .50
+    drill = {"id": "F002", "kind": "hole", "on": "face(F001,+Z,D002)", "u": "0", "v": "0",
+             "spec": {"type": "blind", "d": "D007", "depth": "D002"}}
+    tap = {"id": "F003", "kind": "hole", "status": "unresolved", "on": "face(F001,+Z,D002)", "u": "0", "v": "0",
+           "spec": {"type": "tapped", "d": "D007", "depth": "D005", "thread": "8-32-2A THD"},
+           "source_callouts": ["8-32-2A THD .50 DEEP"], "rationale": "Does the 2A thread intend class 2B?"}
+    new, applied, f = run(drill, tap)
+    assert [x.id for x in new.features] == ["F001", "F002"]
+    assert f.spec.type == "tapped" and f.spec.thread == "#8-32" and f.spec.depth == "D002"
+    assert applied == ["F003: D6 tap #8-32 merged into drill F002"]

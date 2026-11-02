@@ -17,10 +17,8 @@
     "F009: D1 fillet at the max value 0.03"
   ],
   "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12095\\reference.step",
-  "volume": 16.782981,
+  "volume": 16.766595,
   "cq_skipped": {
-    "F006": "failed: CompileError: wall(F001,1.0) can't be a start ref (use plane(...) or face(...))",
-    "F007": "failed: CompileError: ref to F006, which has no geometry (not built or skipped)",
     "F008": "unresolved: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile."
   },
   "sw_ok": true,
@@ -31,8 +29,8 @@
     "F003": "built (1 edges selected by nearest point)",
     "F004": "built (1 edges selected by nearest point)",
     "F005": "built (Hole Wizard 1/4-20 tapped, cosmetic thread, Blind + drill point, 1 hole(s))",
-    "F006": "skipped (failed: CompileError: wall(F001,1.0) can't be a start ref (use plane(...) or face(...)))",
-    "F007": "skipped (failed: CompileError: ref to F006, which has no geometry (not built or skipped))",
+    "F006": "built (radial, 0 deg, plain cut)",
+    "F007": "built (native circular pattern, 3 instances)",
     "F008": "skipped (unresolved: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile.)",
     "F009": "built (1 edges selected by nearest point)"
   },

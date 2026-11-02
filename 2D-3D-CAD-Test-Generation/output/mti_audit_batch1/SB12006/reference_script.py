@@ -8,8 +8,7 @@ m = Model('SB-12006', origin_kind='axis_end', units='inch', strict=False)
 m.revolve('F001', outer=[(0, 0.569229075), (0.094, 0.6235), (0.229904501, 0.6235), (0.281, 0.594), (0.343, 0.594), (0.394095499, 0.6235), (0.562, 0.6235), (0.562, 1), (5.562, 1), (5.562, 0.5), (6.562, 0.5)], inner=[], op='add')  # outer (0,D006 / 2 - D005 * 0.5773502691896257) (D005,D006 / 2) (D002 - D004 - D003 / 2 - (D006 - D007) / 2 * 1.7320508075688772,D006 / 2) (D002 - D004 - D003 / 2,D007 / 2) (D002 - D004 + D003 / 2,D007 / 2) (D002 - D004 + D003 / 2 + (D006 - D007) / 2 * 1.7320508075688772,D006 / 2) (D002,D006 / 2) (D002,D016 / 2) (D001 - D013,D016 / 2) (D001 - D013,D014 / 2) (D001,D014 / 2)
 m.edge_op('F002', operation='chamfer', size=0.12, angle=45, edges=['edge_between(face(F001,+Z,5.562),wall(F001,1.0))'])  # size=D011; edges=['edge_between(face(F001,+Z,D001 - D013),wall(F001,D016 / 2))']
 m.edge_op('F003', operation='fillet', size=0.25, angle=45, edges=['edge_between(face(F001,+Z,5.562),wall(F001,0.5))'])  # size=D015; edges=['edge_between(face(F001,+Z,D001 - D013),wall(F001,D014 / 2))']
-m.hole('F004', on='face(F001,+Z,6.562)', u=0, v=0, spec={'type': 'tapped', 'd': 0.159, 'depth': 0.38})  # u=0, v=0, d=0.159
-m.hole('F005', on='face(F001,+Z,6.562)', u=0, v=0, spec={'type': 'tapped', 'd': 0.159, 'depth': 0.53625})  # u=0, v=0, d=0.159
+m.hole('F004', on='face(F001,+Z,6.562)', u=0, v=0, spec={'type': 'tapped', 'd': 0.159, 'depth': 0.53625})  # u=0, v=0, d=0.159
 m.edge_op('F006', operation='fillet', size=0.03, angle=45, edges=['edge_between(face(F001,-Z,0.562),wall(F001,0.6235))'])  # size=D010; edges=['edge_between(face(F001,-Z,D002),wall(F001,D006 / 2))']
 m.skip('F007', 'unsupported: Required stamped text on the cylindrical body is outside the IR feature vocabulary; character size, depth, and precise placement also require definition.')
 

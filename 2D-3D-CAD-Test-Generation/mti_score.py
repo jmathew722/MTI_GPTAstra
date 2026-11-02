@@ -3,7 +3,8 @@
 (``ground_truth.step``, from mti_groundtruth.py), per part folder.
 
 Aligned IoU (pipeline/ir/score.py: best of the 48 signed axis permutations, centered by
-bounding box), surface deviation in mm (max and mean; fairer than IoU on thin sheet parts),
+bounding box); for turned parts also the best IoU over rotations about the axis
+(``iou_clocked``: clocking is an orientation choice, not a placement error); surface deviation in mm (max and mean; fairer than IoU on thin sheet parts),
 plus volume and size ratios. No API cost, no SolidWorks.
 
     python mti_score.py --out <output dir> A00115E ...
@@ -22,7 +23,7 @@ def main() -> int:
     ap.add_argument("--out", type=Path, required=True)
     args = ap.parse_args()
     import cadquery as cq
-    from pipeline.ir.score import aligned, iou, surface_deviation
+    from pipeline.ir.score import aligned, clocked, iou, surface_deviation
 
     rows = []
     for part in args.parts:
@@ -37,8 +38,11 @@ def main() -> int:
             sa = sorted((a.BoundingBox().xlen, a.BoundingBox().ylen, a.BoundingBox().zlen))
             sb = sorted((b.BoundingBox().xlen, b.BoundingBox().ylen, b.BoundingBox().zlen))
             value, key = iou(a, b)
-            dev = surface_deviation(aligned(a, b, key), b) if key else None
-            row.update(iou=round(value, 4), volume_ratio=round(va / vb, 4),
+            c = aligned(a, b, key) if key else None
+            cv, ang, c = clocked(c, b) if c is not None else (value, 0.0, None)
+            dev = surface_deviation(c, b) if c is not None else None
+            row.update(iou=round(value, 4), iou_clocked=round(cv, 4), clock_deg=ang,
+                       volume_ratio=round(va / vb, 4),
                        deviation_mm=({k: round(v, 3) for k, v in dev.items()} if dev else None),
                        size_ratio=[round(x / y, 4) for x, y in zip(sa, sb)],
                        ours_mm=[round(x, 2) for x in sa], mti_mm=[round(x, 2) for x in sb])

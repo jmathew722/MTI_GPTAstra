@@ -666,6 +666,37 @@ The full entry was kept local; add it here.
 - **Tests:** `test_parts_box_spans_every_body` (`test_ir_compile_solidworks.py`),
   `test_never_defaults_a_hole_the_ir_cannot_start` (`test_ir_defaults.py`).
 
+## E032 — Radial holes: "Member not found" on a sketch line, and a reference plane that can't be selected
+
+- **Symptom:** the first live build of radial holes failed with
+  `com_error -2147352573 'Member not found'`. Every radial hole was skipped.
+- **Root causes:**
+  - `SketchManager.CreateLine` returns the **ISketchSegment** view of the line. `GetEndPoint2` is
+    a member of **ISketchLine**, and late binding can't reach it.
+  - `FeatureManager.InsertRefPlane` returns an **IRefPlane**, which has no `Select2`.
+- **Fixes:**
+  - `typed(seg, "ISketchLine").GetEndPoint2()`, `typed(seg, "ISketchSegment").Select4(...)` and
+    `typed(point, "ISketchPoint")`;
+  - the new plane is taken as the last feature (`FeatureByPositionReverse(0)` → `IFeature`,
+    type-checked `RefPlane`) and selected from there.
+- **Also:** the compiler's failure note now names our own function and line that raised
+  (`(at radial_hole:797)`). A COM error doesn't say which call failed, and the deepest traceback
+  frame is inside pywin32.
+- **Verified live:**
+  - `tests/golden/ir/radial_demo.json` (four taps at 45° as one native circular pattern, plus a
+    through cross-hole) builds and verifies.
+  - A chiral test part (stepped tube, tap at 30°, cross-hole at 0°) matches the reference at
+    **IoU 1.000 under proper rotations only**; the best mirrored alignment is 0.996. So radial
+    holes keep the right handedness.
+- **Generator rule:** cast to the interface that owns the member (`typed`) before calling it.
+  Select new reference geometry through its `IFeature`.
+- **Tests:**
+  - `test_radial_*` in `test_ir_compile_cadquery.py`;
+  - `test_radial_holes_are_recognised_and_never_grouped` and
+    `test_radial_pattern_routes_to_the_native_circular_pattern` in
+    `test_ir_compile_solidworks.py`;
+  - `test_radial_tap_with_thread_depth_only_is_defaulted` in `test_ir_defaults.py`.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

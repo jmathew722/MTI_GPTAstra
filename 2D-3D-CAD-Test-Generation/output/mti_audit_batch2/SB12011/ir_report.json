@@ -1,19 +1,37 @@
 {
   "part": "SB12011",
-  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12011\\SB12011_extraction.json",
+  "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12011\\SB12011_extraction.json",
   "plan_attempts": 0,
-  "gate1": "",
-  "planned": 0,
+  "gate1": "OK",
+  "planned": 3,
   "questions": [],
-  "flagged": [],
-  "reference_step": "",
-  "volume": null,
+  "flagged": [
+    "F001: The origin is the small left end face. The .062 CENT. groove root is symmetric about the location .250 from the main shoulder, as shown by the centerline and opposed groove flanks. The constant 0.57735026918962576451 is tan(30 degrees), calculated from the printed 30\u00b0 end taper (D008) and 30\u00b0 TYP. groove flanks (D009); angles are measured to the axis. The end taper has the printed .094 axial extent. Use nominal 1.247 OD; retain the unilateral tolerance as manufacturing metadata.",
+    "F002: A #21 drill, diameter .159 inch, is the standard tap drill for #10-32 UNF (nominal major diameter D012). D013 specifies the tapped length, not a separately dimensioned pilot-drilling depth. This feature represents the specified threaded region only; additional pilot depth is separately unresolved. The end view locates the hole on the part axis. DEFAULT D5: drill depth = printed thread depth + 5 pitches (pilot F004 merged)",
+    "F003: DEFAULT D1: max-only radius built at the max value"
+  ],
+  "defaults": [
+    "F003: D1 fillet at the max value 0.03",
+    "F004: D5 pilot drill merged into tap F002 (drill = thread + 5 pitches)"
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12011\\reference.step",
+  "volume": 17.637428,
   "cq_skipped": {},
-  "sw_ok": null,
-  "sldprt": "",
-  "sw_features": {},
-  "conventions": [],
-  "mti_review": [],
-  "cost_usd": 0.3313,
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12011\\SB-12011_ir.SLDPRT",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s))",
+    "F003": "built (1 edges selected by nearest point)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F002: Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s)",
+    "sketches fully defined: 1/2 (not: F002)"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F002: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole"
+  ],
+  "cost_usd": 0.0,
   "error": ""
 }

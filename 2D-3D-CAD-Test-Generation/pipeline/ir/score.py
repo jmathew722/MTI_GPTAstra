@@ -18,7 +18,7 @@ STEP, not golden plans.
 from __future__ import annotations
 
 import itertools
-from typing import Any
+from typing import Any, Optional
 
 import cadquery as cq
 
@@ -67,6 +67,49 @@ def _align_candidates(src: cq.Shape, dst: cq.Shape):
 def aligned(a: cq.Shape, b: cq.Shape, key) -> cq.Shape:
     """``a`` placed on ``b`` by the alignment ``key`` that iou() returned."""
     return next(s for k, s in _align_candidates(a, b) if k == key)
+
+
+CLOCK_ANGLES = sorted({round(360.0 / n * i, 6) % 360 for n in range(2, 25) for i in range(1, n)})
+
+
+def turned_axis(s: cq.Shape, tol: float = 0.01) -> Optional[int]:
+    """Index (0/1/2) of the bbox axis whose two cross extents agree within 1% (a turned part's
+    axis; slots and flats nibble the outline: 4C1229 is 67.99 x 68.28), or None."""
+    e = _ext(s.BoundingBox())
+    for i in range(3):
+        j, k = [n for n in range(3) if n != i]
+        if abs(e[j] - e[k]) <= tol * max(e[j], e[k], 1e-9):
+            return i
+    return None
+
+
+def clocked(a: cq.Shape, b: cq.Shape, angles=None) -> tuple[float, float, cq.Shape]:
+    """Best IoU of an ALIGNED ``a`` against ``b`` over rotations about the turned axis.
+    Clocking about the axis (where the first of 3 slots points) is an orientation choice,
+    not a placement error (4C1229: our slots at -90/30/150 deg, MTI's at 180/+-60).
+    Returns (iou, angle in degrees, rotated a); angle 0 when ``b`` isn't round."""
+    ax = turned_axis(b)
+    va, vb = a.Volume(), b.Volume()
+
+    def score(c):
+        inter = c.intersect(b).Volume()
+        return inter / (va + vb - inter)
+
+    best = (score(a), 0.0, a)
+    if ax is None:
+        return best
+    bb = b.BoundingBox()
+    ctr = cq.Vector((bb.xmin + bb.xmax) / 2, (bb.ymin + bb.ymax) / 2, (bb.zmin + bb.zmax) / 2)
+    d = cq.Vector(*[1.0 if n == ax else 0.0 for n in range(3)])
+    for ang in (angles if angles is not None else CLOCK_ANGLES):
+        c = a.rotate(ctr, ctr + d, ang)
+        try:
+            v = score(c)
+        except Exception:
+            continue
+        if v > best[0]:
+            best = (v, ang, c)
+    return best
 
 
 def surface_deviation(a: cq.Shape, b: cq.Shape, samples: int = 400) -> dict[str, float]:

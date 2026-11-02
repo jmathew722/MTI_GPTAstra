@@ -317,3 +317,33 @@ def test_parts_box_spans_every_body(monkeypatch):
     pads = [Pad((-2, -2, 0, -0.03, -0.03, 1.7)), Pad((0.03, 0.03, 0, 2, 2, 1.7)),
             Pad((-2, 0.03, 0, -0.03, 2, 1.7)), Pad((0.03, -2, 0, 2, -0.03, 1.7))]
     assert parts_box(pads) == [-2, -2, 0, 2, 2, 1.7]
+
+
+# --- Radial holes (spec 2026-10-28-radial-holes-design.md) --- #
+def _radial_plan():
+    return BuildPlan.model_validate({
+        "part": "P", "frame": {"origin_kind": "axis_end", "units": "inch"},
+        "features": [
+            {"id": "F001", "kind": "revolve", "outer": [{"z": "0", "r": "D001"}, {"z": "D002", "r": "D001"}]},
+            {"id": "F002", "kind": "hole", "on": "wall(F001,D001)", "u": "45", "v": "D002 / 2",
+             "spec": {"type": "blind", "d": "D004", "depth": "D004"}},
+            {"id": "F003", "kind": "pattern", "seed": "F002", "mode": "circular", "count": "4", "step": "equal",
+             "axis": "axis(part)"},
+            {"id": "F004", "kind": "hole", "on": "wall(F001,D001)", "u": "0", "v": "D002 / 4",
+             "spec": {"type": "blind", "d": "D004", "depth": "D004"}}]})
+
+
+def test_radial_holes_are_recognised_and_never_grouped():
+    from pipeline.ir.compile_solidworks import is_radial
+    plan = _radial_plan()
+    assert is_radial(plan.feature("F002")) and not is_radial(plan.feature("F001"))
+    # two identical radial holes on one wall are still separate features (not one sketch)
+    assert [f.id for f in plan.features if is_radial(f)] == ["F002", "F004"]
+
+
+def test_radial_pattern_routes_to_the_native_circular_pattern(fake_sw):
+    sw, _ = fake_sw({}, ref=9.0)
+    plan = _radial_plan()
+    sw.plan = plan
+    res = sw.pattern(plan.feature("F003"))
+    assert res.status == "failed" and "seed F002 was not built" in res.note   # routed, not the hole-sketch path

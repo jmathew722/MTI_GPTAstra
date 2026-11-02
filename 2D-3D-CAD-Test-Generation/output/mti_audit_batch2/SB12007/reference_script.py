@@ -6,8 +6,7 @@ from pipeline.ir.cq_runtime import Model
 
 m = Model('SB-12007', origin_kind='axis_end', units='inch', strict=False)
 m.revolve('F001', outer=[(0, 0.569229075), (0.094, 0.6235), (0.229904501, 0.6235), (0.281, 0.594), (0.343, 0.594), (0.394095499, 0.6235), (0.562, 0.6235), (0.562, 1), (4.718, 1)], inner=[], op='add')  # outer (0,D006 / 2 - D005 * 0.5773502691896258) (D005,D006 / 2) (D002 - D004 - D003 / 2 - (D006 - D007) / (2 * 0.5773502691896258),D006 / 2) (D002 - D004 - D003 / 2,D007 / 2) (D002 - D004 + D003 / 2,D007 / 2) (D002 - D004 + D003 / 2 + (D006 - D007) / (2 * 0.5773502691896258),D006 / 2) (D002,D006 / 2) (D002,D011 / 2) (D001,D011 / 2)
-m.hole('F002', on='face(F001,+Z,4.718)', u=0, v=0, spec={'type': 'tapped', 'd': 0.159, 'depth': 0.38})  # u=0, v=0, d=0.159
+m.hole('F002', on='face(F001,+Z,4.718)', u=0, v=0, spec={'type': 'tapped', 'd': 0.159, 'depth': 0.53625})  # u=0, v=0, d=0.159
 m.edge_op('F003', operation='fillet', size=0.03, angle=45, edges=['edge_between(face(F001,-Z,0.562),wall(F001,0.6235))'])  # size=D010; edges=['edge_between(face(F001,-Z,D002),wall(F001,D006 / 2))']
-m.hole('F004', on='face(F001,+Z,4.718)', u=0, v=0, spec={'type': 'tapped', 'd': 0.159, 'depth': 0.53625})  # u=0, v=0, d=0.159
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

@@ -214,3 +214,73 @@ def test_feature_map_survives_trimmed_cylinder_faces(tmp_path):
     assert holes and all(h["measured"] for h in holes)
     assert all(abs(h["d"] - 0.344) < 1e-6 for h in holes)
     assert (tmp_path / "reference.step").is_file()
+
+
+# --- Radial holes (spec 2026-10-28-radial-holes-design.md): SB12059, SB12095, 2N2664 --- #
+def _tube():
+    from pipeline.ir.cq_runtime import Model
+    m = Model("T", origin_kind="axis_end", units="inch", strict=True)
+    m.revolve("F001", outer=[(0, 2.0), (2.0, 2.0)], inner=[(0, 0.5), (2.0, 0.5)], op="add")
+    return m
+
+
+def _polar(r, deg, z):
+    a = math.radians(deg)
+    return r * math.cos(a), r * math.sin(a), z
+
+
+def test_radial_blind_hole_at_an_angle():
+    m = _tube()   # SB12059: .375-24 tap .38 deep at 45 deg, .75 from the end
+    m.hole("F002", on="wall(F001,2.0)", u=45, v=0.75, spec={"type": "tapped", "d": 0.332, "depth": 0.5})
+    assert not m.skipped
+    assert not m.contains(*_polar(1.9, 45, 0.75))          # drilled near the surface at 45 deg
+    assert not m.contains(*_polar(1.6, 45, 0.75))          # 0.4 deep: still inside the hole
+    assert m.contains(*_polar(1.4, 45, 0.75))              # past the .5 depth: material
+    assert m.contains(*_polar(1.9, -45, 0.75))             # the mirror angle is untouched
+    assert m.contains(*_polar(1.9, 45, 0.3))               # other axial stations untouched
+    assert m.starts["F002"]["radial"]
+
+
+def test_radial_thru_hole_crosses_the_whole_diameter():
+    m = _tube()
+    m.hole("F002", on="wall(F001,2.0)", u=0, v=1.0, spec={"type": "thru", "d": 0.25})
+    assert not m.contains(1.9, 0, 1.0) and not m.contains(-1.9, 0, 1.0)
+    assert m.contains(0, 1.9, 1.0)
+
+
+def test_radial_hole_pattern_about_the_part_axis():
+    m = _tube()   # 4 radial holes, seed at 45 deg, every 90 deg
+    m.hole("F002", on="wall(F001,2.0)", u=45, v=1.0, spec={"type": "blind", "d": 0.25, "depth": 0.5})
+    m.pattern("F003", seed="F002", mode="circular", count=4, pitch=0, dir="+X", count2=1, pitch2=0, dir2="+Y",
+              axis="axis(part)", step="equal", skip=[], op="cut")
+    for deg in (45, 135, 225, 315):
+        assert not m.contains(*_polar(1.9, deg, 1.0)), deg
+    for deg in (0, 90, 180, 270):
+        assert m.contains(*_polar(1.9, deg, 1.0)), deg
+
+
+def test_radial_hole_needs_a_wall_radius():
+    from pipeline.ir.cq_runtime import CompileError
+    m = _tube()
+    with pytest.raises(CompileError, match="wall radius"):
+        m.hole("F002", on="wall(F001)", u=0, v=1.0, spec={"type": "thru", "d": 0.25})
+
+
+def test_clocked_iou_forgives_rotation_about_the_axis_only():
+    """4C1229: a slot pattern clocked differently from MTI's is the same part. Five slots 15 deg
+    apart can't be lined up by the strict 90-deg / mirror alignments (those reach 18-deg steps)."""
+    import cadquery as cq
+    from pipeline.ir.score import clocked, iou, turned_axis
+
+    def part(deg):
+        disk = cq.Workplane().circle(50).extrude(10)
+        for i in range(5):
+            a = math.radians(deg + 72 * i)
+            disk = disk.cut(cq.Workplane().center(40 * math.cos(a), 40 * math.sin(a)).circle(4).extrude(10))
+        return disk.val()
+
+    a, b = part(15), part(0)
+    assert turned_axis(b) == 2
+    assert iou(a, b)[0] < 0.99
+    best, ang, _ = clocked(a, b)
+    assert best > 0.999 and (ang + 15) % 72 == pytest.approx(0, abs=1e-6)

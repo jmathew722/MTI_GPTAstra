@@ -72,17 +72,17 @@ diameters were compared for both models:
 | Part | Builds & verifies | IoU vs MTI | Volume ratio | Deviation max / mean (mm) | Reading |
 |---|---|---|---|---|---|
 | A00161E | ✅ | 0.291 | 1.001 | 0.91 / 0.35 | MTI's radius is 3.036 vs drawn 3.00 |
-| 4C1229 | ✅ | 0.938 | 0.955 | 4.26 / 0.26 | max is slot clocking (below) |
+| 4C1229 | ✅ | 0.938 | 0.955 | 4.26 / 0.26 | not clocking: see the correction in §10 |
 | SB14306 | ✅ | 0.744 | 1.273 | 50.8 / 2.76 | MTI's model ≠ drawing (§2) |
 
 **4C1229:**
 
-- The 4.26 mm peaks are the closed ends of its three slots: ours point at −90°/30°/150°, MTI's
-  at 180°/±60°.
-- The tip radius is identical (0.953"). The clocking about the axis differs by 30°, and the
-  scorer's 90° alignments can't line up a 3-fold pattern.
-- That is an orientation choice, not a misplaced feature. The 1.4 mm points are the groove-lip
-  edge breaks we skip as MTI questions (F011, F012).
+- ~~The 4.26 mm peaks are slot clocking, an orientation choice.~~ **Corrected in §10:** holes
+  and slots have the same relative arrangement in our part, MTI's model and the drawing, and
+  rotations about the axis don't raise the score. The 0.938 (4.5% light) is a different, still
+  unexplained difference.
+- The 1.4 mm points are the groove-lip edge breaks (F011, F012). The ≤ .010 default (D2) doesn't
+  model them.
 
 ## 5. Merged `origin/main`: smcanuff's benchmark scorer
 
@@ -235,3 +235,92 @@ the key was replaced it ran clean. **Results:** `output/mti_audit_batch3/`.
 - **Model-vs-drawing mismatches for MTI:** SB12009, SB14306 and A00161E. SB12050/SB12051 are a
   file swap.
 - **Tests:** 991 passed, 66 skipped.
+
+---
+
+## 9. Radial holes ($0)
+
+**Spec:** `docs/superpowers/specs/2026-10-28-radial-holes-design.md`. There is no schema change.
+
+- **IR:**
+  - A `hole` on `wall(F, r)` is radial: `u` is the angle in degrees about the part axis (from +X
+    toward +Y), `v` the axial station, and the depth is radial ("thru" = the whole diameter).
+  - The planner was already writing radial holes this way, with `u = "0"`; the prompt now
+    defines `u` as the angle.
+- **Reference:** `cq_runtime._radial_hole`.
+- **SolidWorks:** `_SW.radial_hole`.
+  - A line from the axis to a point just outside the part at the angle, then a reference plane
+    perpendicular to it through that point.
+  - The hole circle goes on that plane at the exact model point, then a blind cut inward.
+  - A wrong direction removes nothing, so the volume check catches it.
+  - Patterns of a radial seed are native circular patterns. Radial holes never join the
+    face-hole grouping.
+- **Defaults:** D5 can now apply to a radial tap on `wall(F, r)`.
+- **E032:** two COM interface casts, found on the first live build.
+
+**Results:**
+
+| Check | Result |
+|---|---|
+| `radial_demo` golden (4 taps at 45° + cross-hole) | builds and verifies in SolidWorks |
+| Chiral part (tap at 30°, cross-hole at 0°, stepped tube) | SolidWorks vs reference IoU **1.000 under proper rotations only** (mirrors: 0.996): right handedness |
+| SB12095 (three #8-36 radial taps), saved plan | **0.9975 → 0.9985** vs MTI; the taps are now built |
+| SB12059, saved plan | 0.990 → 0.988: the seed tap builds, but the plan predates the angle field (u = 0 is a sawcut line; the drawing has 45°) and its pattern is unresolved. Needs a re-plan. |
+
+**Follow-ups:**
+
+- Re-plan the parts whose radial holes were written before the angle convention: SB12059, SB12054
+  and 2N2664 (~$0.70 each).
+- Hole Wizard on a curved face for radial taps (MTI uses `HoleWzd`). This needs a 3D placement
+  sketch.
+- Radial counterbores and countersinks (SB12059's ".03 C'SINK").
+
+**Tests:** 1005 passed, 66 skipped.
+
+---
+
+## 10. Free fixes: tap + pilot merges, a clocking-aware score, DWG drawings converted ($0)
+
+**1. A tap and its pilot drill became one Hole Wizard tap (D5/D6 merges in `pipeline/ir/defaults.py`).**
+
+- **SB12006, SB12007, SB12009, SB12010, SB12011:** "#10-32 TAP .38 DEEP" was planned as a tap
+  (.38) plus an unresolved pilot drill at the same spot.
+  - D5 had made the pilot a second tap on top of the first, which Hole Wizard couldn't verify,
+    so it fell back to a plain cut.
+  - Now the tap is deepened to thread + 5 pitches (.536, MTI's own value) and the pilot is
+    dropped.
+- **2N2664 F024/F025, the other way round:** a planned Ø.136 × .69 drill plus an unresolved
+  8-32 × .50 tap.
+  - The tap alone cut nothing ("cut removed no material"). It was not a position error, as I had
+    first written.
+  - Now the drill becomes the #8-32 tap.
+- **Result:** all 6 rebuilt parts verify, and each tap is now **one** Hole Wizard feature with a
+  cosmetic thread, as MTI models it. Scores held: SB12006 1.000, SB12011 0.9999, SB12007 0.9999,
+  SB12010 0.9994, 2N2664 0.993; SB12009 stays a model mismatch.
+
+**2. `mti_score.py` reports `iou_clocked`** (`score.clocked`): for a turned part, the best IoU
+over rotations about its axis at pattern angles (360/n, n = 2–24). The strict `iou` is kept next
+to it.
+
+- A unit test shows a 5-slot part clocked 15° scoring below 0.99 strict and 1.000 clocked.
+- **Correction on 4C1229:**
+  - Measured from both models, the counterbores and slots are in the same relative arrangement:
+    ours holes 90/210/330°, slots 30/150/270°; MTI's holes 0/120/240°, slots 60/180/300°.
+  - The drawing agrees with ours.
+  - So the strict alignment already lines up the clocking, and `iou_clocked` stays 0.938.
+  - The 4.5% volume gap is something else, probably the groove profile or slot depth. Open.
+
+**3. The 24 DWG drawings are converted.**
+
+- 23 parts (SB18461 is a 5-sheet family and is left out) were downloaded read-only through
+  Composio: drawing + MTI model, 46 files.
+- Each drawing was converted to PDF with smcanuff's `bench.sw_tasks.dwg_to_pdf` (SolidWorks
+  `LoadFile4` → `SaveAs3`; no ODA needed).
+- MTI's models were exported with `mti_groundtruth.py`: **23/23 each.**
+- The parts are ready to run. Extraction and planning are the only cost: about $17 at ~$0.75 a
+  part, against $3.32 left.
+
+**Deferred:** radial counterbores and countersinks. SB12059's ".03 C'SINK" is still unresolved (no
+included angle), so it would change no current part.
+
+**Tests:** 1008 passed, 66 skipped.

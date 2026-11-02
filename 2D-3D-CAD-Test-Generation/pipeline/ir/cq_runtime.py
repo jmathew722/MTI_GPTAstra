@@ -227,6 +227,8 @@ class Model:
     # --------------------------------------------------------------- hole --
     @_guarded
     def hole(self, fid: str, *, on: str, u: float, v: float, spec: dict) -> None:
+        if parse_ref(on)[0] == "wall":
+            return self._radial_hole(fid, on, u, v, spec)
         axis, coord, outward = self._start(on, 0.0)
         k = self.k
         into = -outward if parse_ref(on)[0] == "face" else +1
@@ -249,6 +251,29 @@ class Model:
         self.axes[fid] = (start, axis)
         self.holes[fid] = [{"center_mm": list(start), "axis": axis, "into": into, "d_mm": d,
                             "spec": spec}]
+        self._apply(fid, tool, "cut")
+
+    def _radial_hole(self, fid: str, on: str, u: float, v: float, spec: dict) -> None:
+        """Radial hole (spec 2026-10-28-radial-holes-design.md): from wall(F, r) toward the part
+        axis, u = angle in degrees from +X about +Z, v = axial station z. Not added to
+        self.holes (measure_holes assumes X/Y/Z holes); verified by volume like any feature."""
+        _, args = parse_ref(on)
+        if self.origin_kind != "axis_end":
+            raise CompileError(f"{fid}: a radial hole needs frame origin_kind 'axis_end'")
+        if len(args) != 2:
+            raise CompileError(f"{fid}: a radial hole needs the wall radius: wall(F, r)")
+        if spec["type"] in ("cbore", "csink"):
+            raise CompileError(f"{fid}: radial {spec['type']} holes are not supported yet")
+        k = self.k
+        r, z, th = float(args[1]) * k, v * k, math.radians(u)
+        out = cq.Vector(math.cos(th), math.sin(th), 0.0)
+        big = self._big()
+        thru = spec["type"] == "thru" or spec.get("depth") is None
+        length = 2 * big if thru else big + spec["depth"] * k
+        start = out * (big if thru else r + big) + cq.Vector(0.0, 0.0, z)
+        tool = cq.Solid.makeCylinder(spec["d"] * k / 2, length, start, out * -1)
+        self.starts[fid] = {"radial": True, "angle": u, "z": v, "r": float(args[1]),
+                            "depth": None if thru else spec["depth"]}
         self._apply(fid, tool, "cut")
 
     # ------------------------------------------------------------ pattern --

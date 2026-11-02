@@ -3,7 +3,7 @@
   "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\2N2664\\2N2664_extraction.json",
   "plan_attempts": 0,
   "gate1": "OK",
-  "planned": 22,
+  "planned": 21,
   "questions": [],
   "flagged": [
     "F001: The smaller bore land is between the 1.500 shoulder and the shoulder 4.12 from the right end; the 2.484 relief continues rightward from there. This corrects the extraction's description of the 4.12 shoulder as the front of the precision land. The phantom .500 balls touch the right end plane, and their inner separation is 1.9734. The taper end radius is (D017+D028)/2+(D028/2)*(sec(15 degrees)+tan(15 degrees)). Numeric factors 1.303225372841206 and 0.2679491924311227 are respectively sec(D009)+tan(D009) and tan(D009), calculated from the printed 15-degree callout, not additional dimensions. The 3.1250 REF diameter is only a check.",
@@ -22,21 +22,19 @@
     "F020: The lower main section shows this passage ending in the radial cross-hole at axial station D029. Cutting to the cross-hole center passes beyond its near wall without an unshown breakthrough through the front web. D002-D029 is a shown-extent inference, not a printed blind depth.",
     "F022: Section shows the recess extending D006 from the rear face. The rectangular precursor extends inward to the axis, safely beyond the bore surface. Subsequent corner radii form the rounded end. Retain the printed left offset rather than centering a .377 slot.",
     "F023: Two .188 corner arcs retain the nominal .377 width and .188 left offset. Their tangencies are at radial ordinate D039. The nominal crown has a D032-2*D034 land (.001), rather than changing the width to .376 or the radius to .1885. Review this nominal treatment against the original detail, which depicts a visually semicircular end.",
-    "F024: Section shows the hole starting at the recess floor, Z=D001-D006. Under the standard full-diameter blind-drill-depth convention, model a flat bottom at .69 depth; the drill point is cosmetic.",
-    "F025: DEFAULT D6: thread class doesn't change geometry; threads are cosmetic"
+    "F024: Section shows the hole starting at the recess floor, Z=D001-D006. Under the standard full-diameter blind-drill-depth convention, model a flat bottom at .69 depth; the drill point is cosmetic. DEFAULT D6: tapped #8-32 (tap F025 merged; threads are cosmetic)"
   ],
   "defaults": [
     "F005: D3 chamfer 0.12 x 45 (C/R)",
     "F006: D7 chamfer 0.06 on the 3 planned edge(s)",
     "F007: D1 fillet at the max value 0.047",
-    "F025: D6 #8-32: class not needed"
+    "F025: D6 tap #8-32 merged into drill F024"
   ],
   "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\2N2664\\reference.step",
   "volume": 64.839009,
   "cq_skipped": {
     "F021": "unsupported: The one-sided radial drilling axis is 30 degrees left of downward vertical; this IR lacks angular placement or an arbitrary oriented drilling plane.",
-    "F023": "failed: CompileError: F023: edge_between(face(F022,+X),face(F022,-Y)) matched no edges",
-    "F025": "failed: CompileError: F025: cut removed no material (check position/direction)"
+    "F023": "failed: CompileError: F023: edge_between(face(F022,+X),face(F022,-Y)) matched no edges"
   },
   "sw_ok": true,
   "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\2N2664\\2N2664_ir.SLDPRT",
@@ -62,8 +60,7 @@
     "F021": "skipped (unsupported: The one-sided radial drilling axis is 30 degrees left of downward vertical; this IR lacks angular placement or an arbitrary oriented drilling plane.)",
     "F022": "built",
     "F023": "skipped (failed: CompileError: F023: edge_between(face(F022,+X),face(F022,-Y)) matched no edges)",
-    "F024": "built",
-    "F025": "skipped (failed: CompileError: F025: cut removed no material (check position/direction))"
+    "F024": "built (Hole Wizard #8-32 tapped, cosmetic thread, Up To Next, 1 hole(s))"
   },
   "conventions": [
     "origin centered: True",
@@ -71,6 +68,7 @@
     "F013: Hole Wizard 1/4-20 tapped, cosmetic thread, Up To Next, 3 hole(s)",
     "F015: Hole Wizard 1/4 SHCS counterbore, Up To Next, 2 hole(s) on a construction line",
     "F017: Hole Wizard 1/4 SHCS counterbore, Up To Next, 4 hole(s) on a construction rectangle",
+    "F024: Hole Wizard #8-32 tapped, cosmetic thread, Up To Next, 1 hole(s)",
     "sketches fully defined: 10/11 (not: F015)"
   ],
   "mti_review": [
@@ -83,7 +81,6 @@
     "[mti_hole_wizard] F019: \u00d80.3758 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
     "[mti_hole_wizard] F020: \u00d80.188 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole (close to #8 clearance_normal: engineer check)",
     "[mti_hole_wizard] F024: \u00d80.136 = STANDARD-DERIVED: tap drill for #8 (inch), MTI Std 202.02.0003 -> Hole Wizard (non-preferred size)",
-    "[mti_hole_wizard] F025: \u00d80.136 = STANDARD-DERIVED: tap drill for #8 (inch), MTI Std 202.02.0003 -> Hole Wizard (non-preferred size)",
     "[mti_hole_grouping] F010, F011, F012: identical holes on face(F001,+Z,D004) -> one Hole Wizard feature with several sketch points",
     "[mti_hole_grouping] F014, F016: identical holes on face(F001,+Z,D002) -> one Hole Wizard feature with several sketch points",
     "[mti_edge_ops_last] F010 (hole) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree"

@@ -3,7 +3,21 @@
 **Last updated:** 2026-10-28 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
-> **2026-10-28 (latest): all 38 PDF audit parts run, all build and verify** ($7.52; ledger $46.68 of $50).
+> **2026-10-28 (free fixes):** taps and their pilot drills are now merged into ONE Hole Wizard tap
+> (SB12006/07/09/10/11, 2N2664; all verify). `mti_score` reports `iou_clocked` for turned parts.
+> **All 23 DWG audit drawings are converted to PDF** (bench `dwg_to_pdf`) and MTI's models
+> exported: ready to run, ~$17 of extraction needed. 4C1229's 0.938 is not clocking (corrected).
+> $0. Test report §10.
+>
+> **2026-10-28 (radial holes): holes drilled into the outside of turned parts now build** in the
+> reference and in SolidWorks (`wall(F, r)` start, `u` = angle; spec
+> `2026-10-28-radial-holes-design.md`; E032).
+> - Verified live, including handedness: a chiral test part gives IoU 1.000 under proper
+>   rotations only.
+> - SB12095's radial taps are now built (vs MTI 0.9985).
+> - SB12059, SB12054 and 2N2664 need a re-plan to use the angle. $0. Test report §9.
+>
+> **2026-10-28 (all PDF parts): all 38 PDF audit parts run, all build and verify** ($7.52; ledger $46.68 of $50).
 > - New parts SB12011, SB12055, SB12053, SB12054 and SB12059 match MTI at IoU 0.990–0.9999.
 > - **MTI's SB12050 and SB12051 models are swapped in Drive:** each of our parts matches the other
 >   folder's model at IoU 1.000 / 0.996.

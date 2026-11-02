@@ -32,13 +32,11 @@
     "F019",
     "F020",
     "F022",
-    "F024",
-    "F025"
+    "F024"
   ],
   "skipped": {
     "F021": "unsupported: The one-sided radial drilling axis is 30 degrees left of downward vertical; this IR lacks angular placement or an arbitrary oriented drilling plane.",
-    "F023": "failed: CompileError: F023: edge_between(face(F022,+X),face(F022,-Y)) matched no edges",
-    "F025": "failed: CompileError: F025: cut removed no material (check position/direction)"
+    "F023": "failed: CompileError: F023: edge_between(face(F022,+X),face(F022,-Y)) matched no edges"
   },
   "holes": {
     "F010": [
@@ -304,23 +302,6 @@
         "depth": 0.69,
         "axis": "Z"
       }
-    ],
-    "F025": [
-      {
-        "planned_center": [
-          0.0,
-          1.75
-        ],
-        "planned_d": 0.136,
-        "measured": true,
-        "center": [
-          0.0,
-          1.75
-        ],
-        "d": 0.136,
-        "depth": 0.69,
-        "axis": "Z"
-      }
     ]
   },
   "edge_points": {
@@ -425,11 +406,6 @@
       "thru": false
     },
     "F024": {
-      "axis": "Z",
-      "coord": 5.75,
-      "dir": -1
-    },
-    "F025": {
       "axis": "Z",
       "coord": 5.75,
       "dir": -1

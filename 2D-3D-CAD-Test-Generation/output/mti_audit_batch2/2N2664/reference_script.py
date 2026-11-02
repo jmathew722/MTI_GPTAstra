@@ -26,7 +26,6 @@ m.hole('F020', on='face(F001,+Z,1.75)', u=-1.25, v=-2.165, spec={'type': 'blind'
 m.skip('F021', 'unsupported: The one-sided radial drilling axis is 30 degrees left of downward vertical; this IR lacks angular placement or an arbitrary oriented drilling plane.')
 m.prism('F022', on='face(F001,+Z,6.25)', offset=0, profile={'shape': 'rect', 'w': 0.377, 'h': 2, 'anchor': 'corner', 'u': -0.188, 'v': 0}, depth=0.5, op='cut')  # w=D032, h=D039 + D034, u=-D033, v=0; depth=D006; offset=0
 m.edge_op('F023', operation='fillet', size=0.188, angle=45, edges=['edge_between(face(F022,+X),face(F022,-Y))', 'edge_between(face(F022,-X),face(F022,-Y))'])  # size=D034; edges=['edge_between(face(F022,+X),face(F022,-Y))', 'edge_between(face(F022,-X),face(F022,-Y))']
-m.hole('F024', on='face(F022,+Z,5.75)', u=0, v=1.75, spec={'type': 'blind', 'd': 0.136, 'depth': 0.69})  # u=0, v=D043, d=D035
-m.hole('F025', on='face(F022,+Z,5.75)', u=0, v=1.75, spec={'type': 'tapped', 'd': 0.136, 'depth': 0.5})  # u=0, v=D043, d=D035
+m.hole('F024', on='face(F022,+Z,5.75)', u=0, v=1.75, spec={'type': 'tapped', 'd': 0.136, 'depth': 0.69})  # u=0, v=D043, d=D035
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

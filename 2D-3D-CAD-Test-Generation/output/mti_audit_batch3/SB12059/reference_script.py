@@ -8,7 +8,7 @@ m = Model('SB-12059', origin_kind='axis_end', units='inch', strict=False)
 m.revolve('F001', outer=[(0, 1.87475), (0.625, 1.87475), (0.625, 1.9375), (0.997, 1.9375), (0.997, 1.87475), (1.687, 1.87475)], inner=[(0, 0.3125), (1.687, 0.3125)], op='add')  # outer (0,D004 / 2) (D002,D004 / 2) (D002,D005 / 2) (D002 + D003,D005 / 2) (D002 + D003,D004 / 2) (D001,D004 / 2); inner (0,D015 / 2) (D001,D015 / 2)
 m.edge_op('F002', operation='chamfer', size=0.12, angle=45, edges=['edge_between(face(F001,-Z),wall(F001,0.3125))'])  # size=D007; edges=['edge_between(face(F001,-Z),wall(F001,D015 / 2))']
 m.edge_op('F003', operation='chamfer', size=0.06, angle=45, edges=['edge_between(face(F001,+Z),wall(F001,1.87475))'])  # size=D009; edges=['edge_between(face(F001,+Z),wall(F001,D004 / 2))']
-m.skip('F005', 'unresolved: Specify the full-diameter blind drill depth: .38 is explicitly the tapped depth, not the drill depth. The seed radial axis is 45 degrees from the vertical sawcut, at axial station D002 + D')
+m.hole('F005', on='wall(F001,1.87475)', u=0, v=1.375, spec={'type': 'tapped', 'd': 0.332, 'depth': 0.588333333})  # u=0, v=D002 + D006, d=0.332
 m.skip('F006', 'unresolved: Four radial tapped holes at 90-degree intervals; blocked by the unresolved seed drill depth and radial placement representation, not by the printed count or angular indexing.')
 m.skip('F007', 'unresolved: What included angle or mouth diameter defines the .03-deep countersinks on the four radial tapped holes? Depth alone does not define their shape.')
 m.prism('F008', on='face(F001,+Z)', offset=0, profile={'shape': 'rect', 'w': 0.06, 'h': 3.875, 'anchor': 'corner', 'u': -0.03, 'v': 0}, depth='thru', op='cut')  # w=D016, h=D005, u=-D016 / 2, v=0; depth=thru; offset=0

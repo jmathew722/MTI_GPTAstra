@@ -3,18 +3,17 @@
   "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12010\\SB12010_extraction.json",
   "plan_attempts": 0,
   "gate1": "OK",
-  "planned": 5,
+  "planned": 4,
   "questions": [
     "F005: Does .094 specify the axial bevel extent at 30 degrees, or must the end-tip diameter also equal 1.188? Those requirements yield different bevels."
   ],
   "flagged": [
     "F001: The .062 CENT. groove is symmetric about the line .250 left of the main shoulder, with the depicted 1.188 root diameter. The factor 1.7320508075688772 is cotangent of the printed 30-degree flank angle D009, giving the axial flank run from the radial rise; it is not an independently assumed dimension. The printed 45-degree chamfer D012 has equal axial and radial components.",
-    "F003: A #21 drill, .159 inch diameter, is the standard cutting-tap drill for #10-32 UNF from standard Unified thread tap-drill charts. The end view centers the hole on the axis. D018 controls the threaded length only; additional drilling allowance remains unresolved.",
-    "F004: The .159 diameter is the standard #21 tap drill for #10-32 UNF. No separate total drilling depth is specified. The drill point is cosmetic. DEFAULT D5: drill depth = printed thread depth + 5 pitches (literal 5 / 32 is 5 thread pitches)",
+    "F003: A #21 drill, .159 inch diameter, is the standard cutting-tap drill for #10-32 UNF from standard Unified thread tap-drill charts. The end view centers the hole on the axis. D018 controls the threaded length only; additional drilling allowance remains unresolved. DEFAULT D5: drill depth = printed thread depth + 5 pitches (pilot F004 merged)",
     "F006: D010 is an upper bound, not a specified nominal radius. DEFAULT D1: max-only radius built at the max value"
   ],
   "defaults": [
-    "F004: D5 #10-32 drill depth = 0.38 thread + 5 pitches",
+    "F004: D5 pilot drill merged into tap F003 (drill = thread + 5 pitches)",
     "F006: D1 fillet at the max value 0.03"
   ],
   "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12010\\reference.step",
@@ -28,20 +27,16 @@
     "F001": "built",
     "F002": "built (1 edges selected by nearest point)",
     "F003": "built (Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s))",
-    "F004": "built",
     "F005": "skipped (unresolved: Does .094 specify the axial bevel extent at 30 degrees, or must the end-tip diameter also equal 1.188? Those requirements yield different bevels.)",
     "F006": "built (1 edges selected by nearest point)"
   },
   "conventions": [
     "origin centered: True",
     "F003: Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s)",
-    "F004: Hole Wizard #10-32 tapped, cosmetic thread did not match the reference (points); plain cut",
-    "sketches fully defined: 2/3 (not: F003)"
+    "sketches fully defined: 1/2 (not: F003)"
   ],
   "mti_review": [
     "[mti_hole_wizard] F003: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
-    "[mti_hole_wizard] F004: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
-    "[mti_hole_grouping] F003, F004: identical holes on face(F001,+Z,D001) -> one Hole Wizard feature with several sketch points",
     "[mti_edge_ops_last] F003 (hole) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree"
   ],
   "cost_usd": 0.0,

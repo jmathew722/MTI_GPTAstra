@@ -3,17 +3,16 @@
   "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12007\\SB12007_extraction.json",
   "plan_attempts": 0,
   "gate1": "OK",
-  "planned": 4,
+  "planned": 3,
   "questions": [],
   "flagged": [
     "F001: Origin is the left spigot end. The .062 CENT. groove root is centered .250 from the body shoulder, as indicated by the centered dimension and groove extension lines. The numerical factor 0.5773502691896258 is tan(30 degrees), derived from the printed D008 and D009 angles; it converts axial bevel length to radial change, and radial groove depth to flank axial run. D014 and D015 are derived dimensions, not independent controls.",
-    "F002: Use the standard #21 drill, .159 inch, for a #10-32 thread (standard UNF tap-drill chart). D012 is the nominal thread major diameter, not the drill diameter. D013 controls the specified tapped extent only; additional pilot drilling depth is separately unresolved.",
-    "F003: DEFAULT D1: max-only radius built at the max value",
-    "F004: The .159 inch diameter is the standard #21 tap drill for #10-32, from the standard UNF tap-drill chart. This unresolved feature records only the unspecified additional drilling extent; it does not reinterpret the tapped-depth dimension as a printed drilling depth. DEFAULT D5: drill depth = printed thread depth + 5 pitches (literal 5 / 32 is 5 thread pitches)"
+    "F002: Use the standard #21 drill, .159 inch, for a #10-32 thread (standard UNF tap-drill chart). D012 is the nominal thread major diameter, not the drill diameter. D013 controls the specified tapped extent only; additional pilot drilling depth is separately unresolved. DEFAULT D5: drill depth = printed thread depth + 5 pitches (pilot F004 merged)",
+    "F003: DEFAULT D1: max-only radius built at the max value"
   ],
   "defaults": [
     "F003: D1 fillet at the max value 0.03",
-    "F004: D5 #10-32 drill depth = 0.38 thread + 5 pitches"
+    "F004: D5 pilot drill merged into tap F002 (drill = thread + 5 pitches)"
   ],
   "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12007\\reference.step",
   "volume": 13.710437,
@@ -23,20 +22,15 @@
   "sw_features": {
     "F001": "built",
     "F002": "built (Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s))",
-    "F003": "built (1 edges selected by nearest point)",
-    "F004": "built"
+    "F003": "built (1 edges selected by nearest point)"
   },
   "conventions": [
     "origin centered: True",
     "F002: Hole Wizard #10-32 tapped, cosmetic thread, Blind + drill point, 1 hole(s)",
-    "F004: Hole Wizard #10-32 tapped, cosmetic thread did not match the reference (points); plain cut",
-    "sketches fully defined: 2/3 (not: F002)"
+    "sketches fully defined: 1/2 (not: F002)"
   ],
   "mti_review": [
-    "[mti_hole_wizard] F002: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
-    "[mti_hole_wizard] F004: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
-    "[mti_hole_grouping] F002, F004: identical holes on face(F001,+Z,D001) -> one Hole Wizard feature with several sketch points",
-    "[mti_edge_ops_last] F004 (hole) comes after F003 (fillet); MTI puts fillets and chamfers at the end of the tree"
+    "[mti_hole_wizard] F002: \u00d80.159 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole"
   ],
   "cost_usd": 0.0,
   "error": ""

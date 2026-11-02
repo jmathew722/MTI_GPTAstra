@@ -93,8 +93,9 @@ def _edge(f: EdgeOp, dims) -> tuple[Optional[EdgeOp], str] | None:
 
 def _hole(f: Hole, dims) -> tuple[Hole, str] | None:
     text, spec = _text(f), f.spec
-    if not f.on.replace(" ", "").startswith(("face(", "plane(")):
-        return None   # e.g. a radial hole on wall(...): the IR can't start a hole there (SB12059 F005)
+    on = f.on.replace(" ", "")
+    if not (on.startswith(("face(", "plane(")) or re.fullmatch(r"wall\(F\d+,.+\)", on)):
+        return None   # only starts the IR can drill from: a radial hole needs wall(F, r) (E031)
     if spec.depth is None:
         m = _TAP_DEPTH.search(text)
         thread = _thread(text)
@@ -118,12 +119,64 @@ def _hole(f: Hole, dims) -> tuple[Hole, str] | None:
     return None
 
 
+def _pilot_of(f: Hole, out: list) -> Optional[int]:
+    """Index in ``out`` of the planned tap that the unresolved blind hole ``f`` is the pilot
+    drill of: same start, position and diameter, no depth of its own (SB12006/07/09/10:
+    "#10-32 TAP .38 DEEP" planned as a tap plus an unresolved drill at the same spot)."""
+    if f.spec.depth is not None or f.spec.type not in ("blind", "tapped"):
+        return None
+    key = (f.on.replace(" ", ""), f.u, f.v, f.spec.d)
+    for i, g in enumerate(out):
+        if (isinstance(g, Hole) and g.status == "planned" and g.spec.type == "tapped" and g.spec.depth
+                and (g.on.replace(" ", ""), g.u, g.v, g.spec.d) == key):
+            return i
+    return None
+
+
+def _drill_for(f: Hole, out: list, dims: dict[str, float]) -> Optional[int]:
+    """Index in ``out`` of the planned drill that the unresolved tap ``f`` belongs in: same
+    start, position and diameter, at least as deep."""
+    if f.spec.type != "tapped" or f.spec.depth is None:
+        return None
+    key, depth = (f.on.replace(" ", ""), f.u, f.v, f.spec.d), _value(f.spec.depth, dims)
+    for i, g in enumerate(out):
+        if (isinstance(g, Hole) and g.status == "planned" and g.spec.type == "blind" and g.spec.depth
+                and (g.on.replace(" ", ""), g.u, g.v, g.spec.d) == key
+                and depth is not None and (_value(g.spec.depth, dims) or 0) >= depth):
+            return i
+    return None
+
+
 def apply_defaults(plan: BuildPlan, dims: dict[str, float]) -> tuple[BuildPlan, list[str]]:
     if not enabled():
         return plan, []
     out, applied = [], []
     for f in plan.features:
         res = None
+        if f.status == "unresolved" and isinstance(f, Hole) and (i := _pilot_of(f, out)) is not None:
+            # D5 for a tap and its pilot: ONE tap drilled thread depth + 5 pitches (MTI: one
+            # Hole Wizard tap; a second tap on top of the first can't be volume-checked as one)
+            tap = out[i]
+            pitches = _pitch_expr(_thread(tap.spec.thread or _text(f)) or "")
+            if pitches:
+                out[i] = tap.model_copy(update={
+                    "spec": tap.spec.model_copy(update={"depth": f"{tap.spec.depth} + {pitches}"}),
+                    "justification": _flag(tap, "D5", f"drill depth = printed thread depth + "
+                                                      f"{TAP_EXTRA_PITCHES} pitches (pilot {f.id} merged)")})
+                applied.append(f"{f.id}: D5 pilot drill merged into tap {tap.id} "
+                               f"(drill = thread + {TAP_EXTRA_PITCHES} pitches)")
+                continue
+        if f.status == "unresolved" and isinstance(f, Hole) and (i := _drill_for(f, out, dims)) is not None:
+            # the other way round (2N2664 F024/F025): a planned drill and an unresolved tap at the
+            # same spot -> the drill becomes the tap (thread is cosmetic, D6). A tap shallower
+            # than its drill cut nothing on its own ("cut removed no material").
+            drill = out[i]
+            thread = _thread(f.spec.thread or _text(f)) or f.spec.thread
+            out[i] = drill.model_copy(update={
+                "spec": drill.spec.model_copy(update={"type": "tapped", "thread": thread}),
+                "justification": _flag(drill, "D6", f"tapped {thread} (tap {f.id} merged; threads are cosmetic)")})
+            applied.append(f"{f.id}: D6 tap {thread} merged into drill {drill.id}")
+            continue
         if f.status == "unresolved":
             if isinstance(f, EdgeOp):
                 res = _edge(f, dims)
