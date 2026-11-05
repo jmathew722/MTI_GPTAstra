@@ -742,6 +742,46 @@ The full entry was kept local; add it here.
   identical runs is a tooling bug, not a result.
 - **Tests:** the existing scorer tests, plus `test_clocked_iou_forgives_rotation_about_the_axis_only`.
 
+## E035 — Hole Wizard placement sketches were left under-defined; now fully defined without adding a hole
+
+- **Symptom:** 18 of 171 sketches in the audit parts were under-defined, and **all 18 were Hole
+  Wizard placement sketches**.
+  - The SB single taps at the centre of a turned end face.
+  - Hole groups on plates and bolt circles (A00122E, A00144E, A00173E, SB11488, SB12054, 2N2664).
+  - MTI's practice is that every sketch is fully defined.
+- **Why they were excluded (E023):** Hole Wizard drills at every free sketch point, so the origin
+  anchor point used for plane sketches would become a hole.
+- **Findings (live, SolidWorks 2025 SP5):**
+  1. Fully Define Sketch with the part origin as datum leaves a placement sketch under-defined. A
+     **coincident between an existing hole point and `Point1@<origin>`** (EXTSKETCHPOINT) defines
+     it, with the point count and volume unchanged (SB12006).
+  2. **Fully Define Sketch never dimensions Hole Wizard's own placement point.** Every hole we
+     added got a distance dimension; that one kept only its coincidents, and stayed free along
+     its layout line (A00144E) or bolt circle (A00173E). A coincident to that point also did not
+     apply, and neither did a merge.
+  3. A layout line's endpoints were not tied to the end holes (only "point on line"), so the
+     line's length floated.
+  4. A zero offset can't be a dimension: a hole level with the origin returns `None` from
+     `AddVerticalDimension2` (A00173E).
+- **Fix** (`compile_solidworks`):
+  - **`hw_datum`:** relates a hole point or layout centre at the origin to the origin. Otherwise
+    it adds a **construction** line from the origin to an added hole (not Hole Wizard's own point);
+    Hole Wizard ignores construction geometry and its end points (E022).
+  - **`define_sketch(datum=)`:** Fully Define Sketch from that point.
+  - **`dimension_free_points`:** horizontal and vertical dimensions from the datum to any point
+    still free, or `sgVERTICALPOINTS2D` / `sgHORIZONTALPOINTS2D` for a zero offset. A dimension
+    that over-defines is undone. `swInputDimValOnCreate` (10) is off while adding them, then
+    restored.
+  - **`layout_geometry`:** a hole at a layout line's end is related to that endpoint, point to
+    point.
+- **Verified:** all 37 audit builds rebuilt from saved plans ($0). **Every part verifies, and 145
+  of 145 sketches are fully defined**, every Hole Wizard placement sketch included. No hole moved:
+  the volume checks are unchanged.
+- **Generator rule:** never leave a placement sketch under-defined, and never add a free point to
+  one. Tie an existing point (or a construction line's end) to the origin, then dimension.
+- **Tests:** 1018 passed. This is live-only behaviour (it needs SolidWorks); the full rebuild is
+  the regression check.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

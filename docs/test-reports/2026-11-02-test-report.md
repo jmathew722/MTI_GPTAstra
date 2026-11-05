@@ -143,3 +143,18 @@ leaves out the known model-vs-drawing mismatch parts.
    ```bash
    python mti_discrepancy.py --out <output> --all
    ```
+
+---
+
+## 9. (2026-11-05) Every sketch fully defined, Hole Wizard placement sketches included ($0, E035)
+
+- **Before:** 18 of 171 sketches under-defined, all Hole Wizard placement sketches. They were
+  excluded on purpose (E023) because Hole Wizard drills at every free point.
+- **Now:** each placement sketch is tied to the origin through an existing point or a construction
+  line, Fully Defined from it, and then given explicit dimensions or alignment relations for the
+  points Fully Define skips. Hole Wizard's own placement point is always one of those.
+- **Full rebuild of all 37 audit builds from saved plans:**
+  - **every part verifies;**
+  - **145 / 145 sketches are fully defined;**
+  - volumes unchanged (no extra or moved holes);
+  - tests: 1018 passed.

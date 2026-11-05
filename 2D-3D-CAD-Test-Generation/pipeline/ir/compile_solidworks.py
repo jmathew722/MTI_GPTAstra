@@ -249,7 +249,7 @@ class _SW:
         """IR point from in-plane coords (u, v) of an IR axis plane (front: x,y; top: x,z; right: y,z)."""
         return {"Z": (a, b, 0.0), "Y": (a, 0.0, b), "X": (0.0, a, b)}[axis]  # type: ignore
 
-    def define_sketch(self, fid: str, relations: bool = False, anchor_ok: bool = True) -> None:
+    def define_sketch(self, fid: str, relations: bool = False, anchor_ok: bool = True, datum=None) -> None:
         """MTI: every sketch fully defined, dimensioned from model edges (practices 3 and 7).
 
         SolidWorks' own Fully Define Sketch on the ACTIVE sketch (verified live, E023):
@@ -278,6 +278,13 @@ class _SW:
             r = tsm.FullyDefineSketch(AUTODIM_ALL, True, EXACT_RELATIONS, True, AUTODIM_BASELINE, hd,
                                       AUTODIM_BASELINE, vd, 1, 1)
             how = "model edges" if (hd is not None or vd is not None) else "no datum"
+            if datum is not None and sk.GetConstrainedStatus() != FULLY_CONSTRAINED:
+                # Hole Wizard placement sketch: a point already tied to the origin (hw_datum)
+                r = tsm.FullyDefineSketch(AUTODIM_ALL, True, EXACT_RELATIONS, True, AUTODIM_BASELINE,
+                                          datum, AUTODIM_BASELINE, datum, 1, 1)
+                how += " + origin-tied hole point"
+                if sk.GetConstrainedStatus() != FULLY_CONSTRAINED:
+                    how += f" + {self.dimension_free_points(sk, datum)} explicit dimension(s)"
             if anchor_ok and sk.GetConstrainedStatus() != FULLY_CONSTRAINED:
                 anchor = self.origin_anchor()
                 if anchor is not None:
@@ -695,7 +702,7 @@ class _SW:
             self.layout_drawn = ""
             if layout:
                 self.layout_geometry(sk, points, want, layout)
-            self.define_sketch(self._hw_fid, anchor_ok=False)
+            self.define_sketch(self._hw_fid, anchor_ok=False, datum=self.hw_datum(sk, to_sketch((0.0, 0.0, 0.0)), points))
             status = sk.GetConstrainedStatus()
         finally:
             sm.InsertSketch(True)
@@ -708,6 +715,113 @@ class _SW:
         if not ok:
             log.info("  Hole Wizard points: wanted %s, got %s (m, sketch), status %s", want, got, status)
         return ok
+
+    def hw_datum(self, sk, origin_xy: tuple[float, float], points: list):
+        """A point of the Hole Wizard placement sketch tied to the part origin, WITHOUT a new
+        free sketch point (Hole Wizard drills at every one; E023). Verified live (SB12006): a
+        hole point related coincident to the origin takes the sketch to fully defined with the
+        point count and the volume unchanged; Fully Define with the origin as datum alone doesn't.
+
+        * a hole point or a layout centre already at the origin: relate it (coincident);
+        * otherwise a CONSTRUCTION line from the origin to the first hole (Hole Wizard ignores
+          construction geometry and its end points, E022): its start tied to the origin, its end
+          to the hole. The start point is the datum for Fully Define Sketch."""
+        from pipeline.solidworks_builder import _g, _null_dispatch, typed
+        sm = self.doc.SketchManager
+        ox, oy = origin_xy
+        sel = typed(_g(self.doc, "SelectionManager"), "ISelectionMgr")
+
+        def tie_to_origin(pt) -> bool:
+            if not getattr(self, "_origin_name", None):
+                self.origin_anchor_name()
+            self.doc.ClearSelection2(True)
+            pt.Select4(False, sel.CreateSelectData())
+            ok = self.doc.Extension.SelectByID2(f"Point1@{getattr(self, '_origin_name', 'Origin')}", "EXTSKETCHPOINT",
+                                                0, 0, 0, True, 0, _null_dispatch(), 0)
+            if ok:
+                self.doc.SketchAddConstraints("sgCOINCIDENT")
+            self.doc.ClearSelection2(True)
+            return bool(ok)
+
+        try:
+            at_origin = [typed(q, "ISketchPoint") for q in (sk.GetSketchPoints2() or ())]
+            at_origin = [q for q in at_origin if abs(q.X - ox) < 1e-9 and abs(q.Y - oy) < 1e-9]
+            if at_origin:
+                return at_origin[0] if tie_to_origin(at_origin[0]) else None
+            if not points:
+                return None
+            # not the first point: that is Hole Wizard's own placement point, and a coincident to
+            # it did not apply (A00144E: the line stayed free at that end; merge did not either).
+            # Points we added take relations; among them the one with the fewest.
+            target = min(points[1:] or points, key=lambda q: q.GetRelationsCount())
+            prev = sm.AddToDB
+            sm.AddToDB = True                       # no inference: the line lands exactly (E020)
+            try:
+                seg = sm.CreateLine(ox, oy, 0.0, target.X, target.Y, 0.0)
+            finally:
+                sm.AddToDB = prev
+            if seg is None:
+                return None
+            typed(seg, "ISketchSegment").ConstructionGeometry = True
+            line = typed(seg, "ISketchLine")
+            start, end = typed(line.GetStartPoint2(), "ISketchPoint"), typed(line.GetEndPoint2(), "ISketchPoint")
+            self.doc.ClearSelection2(True)
+            end.Select4(False, sel.CreateSelectData())
+            target.Select4(True, sel.CreateSelectData())
+            self.doc.SketchAddConstraints("sgCOINCIDENT")
+            self.doc.ClearSelection2(True)
+            return start if tie_to_origin(start) else None
+        except Exception as e:   # practices, not rules: never fail a build over sketch definition
+            log.info("  Hole Wizard sketch datum: %s", e)
+            return None
+
+    def dimension_free_points(self, sk, datum) -> int:
+        """Horizontal and vertical dimensions from ``datum`` to every point still free.
+        Fully Define Sketch skips Hole Wizard's own placement point (A00144E: every other hole got
+        a distance, that one only its coincidents, and stayed free along the layout line). A
+        dimension that over-defines the sketch is undone. The "enter dimension value" dialog
+        (swInputDimValOnCreate) is switched off while adding them, then restored. Returns the
+        number kept."""
+        from pipeline.solidworks_builder import _g, typed
+        sel = typed(_g(self.doc, "SelectionManager"), "ISelectionMgr")
+        prev = self.app.GetUserPreferenceToggle(SW_INPUT_DIM_ON_CREATE)
+        self.app.SetUserPreferenceToggle(SW_INPUT_DIM_ON_CREATE, False)
+        kept = 0
+        try:
+            for q in [typed(x, "ISketchPoint") for x in (sk.GetSketchPoints2() or ())]:
+                # horizontal dimension measures dx, vertical dy; a zero offset can't be a
+                # dimension (A00173E: a bolt-circle hole level with the origin), so it becomes
+                # the matching alignment relation (types 26 / 25, as Fully Define uses them)
+                for add, offset, relation in ((self.doc.AddHorizontalDimension2, q.X - datum.X, "sgVERTICALPOINTS2D"),
+                                              (self.doc.AddVerticalDimension2, q.Y - datum.Y, "sgHORIZONTALPOINTS2D")):
+                    if q.Status != 2 or sk.GetConstrainedStatus() == FULLY_CONSTRAINED:
+                        break
+                    self.doc.ClearSelection2(True)
+                    q.Select4(False, sel.CreateSelectData())
+                    datum.Select4(True, sel.CreateSelectData())
+                    if abs(offset) < 1e-9:
+                        self.doc.SketchAddConstraints(relation)
+                    elif add(q.X + 0.005, q.Y + 0.005, 0.0) is None:
+                        continue
+                    if sk.GetConstrainedStatus() in BAD_SKETCH_STATUS:
+                        self.doc.EditUndo2(1)          # redundant: it over-defined the sketch
+                    else:
+                        kept += 1
+            self.doc.ClearSelection2(True)
+        finally:
+            self.app.SetUserPreferenceToggle(SW_INPUT_DIM_ON_CREATE, prev)
+        return kept
+
+    def origin_anchor_name(self) -> None:
+        """The origin feature's name, found by type (rule 4)."""
+        from pipeline.solidworks_builder import _g, typed
+        f = _g(self.doc, "FirstFeature")
+        while f is not None:
+            tf = typed(f, "IFeature")
+            if tf.GetTypeName2() == "OriginProfileFeature":
+                self._origin_name = tf.Name
+                return
+            f = tf.GetNextFeature()
 
     def layout_geometry(self, sk, points: list, want: list[tuple[float, float]], layout: str) -> None:
         """Construction geometry under patterned holes, with coincident relations."""
@@ -733,14 +847,23 @@ class _SW:
         self.layout_drawn = "circle" if any(k == "circle" for k, _, _ in segs) else (
             ("rectangle" if len(segs) == 4 else "line") if segs else "")
         sel = typed(_g(self.doc, "SelectionManager"), "ISelectionMgr")
+        ends = {}   # line endpoints, so a hole AT an end ties the line's length (else it floats)
+        for kind, a, seg in segs:
+            if kind != "circle":
+                ln = typed(seg, "ISketchLine")
+                ends[id(seg)] = [typed(ln.GetStartPoint2(), "ISketchPoint"), typed(ln.GetEndPoint2(), "ISketchPoint")]
         for p, w in zip(points, want):
             for kind, a, seg in segs:
-                if on_shape(w, kind, a):   # only the geometry the point lies on (else: invalid sketch)
-                    data = sel.CreateSelectData()
-                    self.doc.ClearSelection2(True)
-                    p.Select4(False, data)
-                    seg.Select4(True, data)
-                    self.doc.SketchAddConstraints("sgCOINCIDENT")
+                if not on_shape(w, kind, a):   # only the geometry the point lies on (else: invalid sketch)
+                    continue
+                end = next((e for e in ends.get(id(seg), []) if math.dist((e.X, e.Y), w) <= 1e-9), None)
+                data = sel.CreateSelectData()
+                self.doc.ClearSelection2(True)
+                p.Select4(False, data)
+                # a hole at a line's end: point-to-point with that end (point-on-line left the
+                # line's length free and the sketch under-defined, A00144E); else on the line
+                (end or seg).Select4(True, data)
+                self.doc.SketchAddConstraints("sgCOINCIDENT")
         self.doc.ClearSelection2(True)
 
     def hole_and_pattern(self, seed: Hole, pat: Pattern) -> SwFeatureResult:
@@ -1105,6 +1228,7 @@ SLOT_STRAIGHT, SLOT_CENTER_TO_CENTER = 0, 0
 REFPLANE_PERPENDICULAR, REFPLANE_COINCIDENT = 2, 4   # swRefPlaneReferenceConstraints_e (swconst.tlb)   # swSketchSlotCreationType_line, swSketchSlotLengthType_CenterCenter
 BAD_SKETCH_STATUS = (4, 5, 6)   # swConstrainedStatus_e: over-constrained, no / invalid solution
 FULLY_CONSTRAINED = 3           # swConstrainedStatus_e
+SW_INPUT_DIM_ON_CREATE = 10     # swUserPreferenceToggle_e.swInputDimValOnCreate (swconst.tlb)
 # FullyDefineSketch (signature from sldworks.tlb; verified live 2026-10-12, E023): all entities,
 # baseline (regular, not ordinate) dimensions, and only these relations: H | V | Midpoint |
 # Coincident (checked not to move nearly-aligned geometry, unlike sketch inference).

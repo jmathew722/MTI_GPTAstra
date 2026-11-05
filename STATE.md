@@ -3,6 +3,10 @@
 **Last updated:** 2026-10-28 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-11-05: every sketch is fully defined, Hole Wizard placement sketches included** (E035).
+> They are tied to the origin without adding a hole point, then dimensioned.
+> - All 37 audit builds rebuilt: every part verifies, 145/145 sketches fully defined. $0.
+>
 > **2026-11-02 (later): fine-tuning started.**
 > - **Automatic discrepancy analysis** (`mti_discrepancy.py`) explains each part's gap to MTI's
 >   model.
