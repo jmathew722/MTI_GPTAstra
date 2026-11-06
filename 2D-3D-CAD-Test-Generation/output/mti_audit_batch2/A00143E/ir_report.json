@@ -1,0 +1,31 @@
+{
+  "part": "A00143E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00143E\\A00143E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 3,
+  "questions": [],
+  "flagged": [
+    "F002: D007 is the printed approximate nominal X location, subject to final assembly fit. The end view establishes counterbore entry opposite datum A."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00143E\\reference.step",
+  "volume": 282.179072,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00143E\\143-C_ir.sldprt",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (drill + counterbore; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 3/3"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F002 (+ pattern F003): \u00d80.875 = STANDARD-DERIVED: tap drill for 1 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81.25 DIFFERS from the standard counterbore"
+  ],
+  "cost_usd": 0.6558,
+  "error": ""
+}

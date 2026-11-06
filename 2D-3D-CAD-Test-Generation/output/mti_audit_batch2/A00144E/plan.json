@@ -1,0 +1,274 @@
+{
+  "dims": {
+    "D001": 99.0,
+    "D002": 3.0,
+    "D003": 0.75,
+    "D004": 1.5,
+    "D005": 1.25,
+    "D006": 1.25,
+    "D007": 12.0,
+    "D008": 24.0,
+    "D009": 36.0,
+    "D010": 48.0,
+    "D011": 60.0,
+    "D012": 72.0,
+    "D013": 84.0,
+    "D014": 96.0,
+    "D015": 70.0,
+    "D016": 76.0,
+    "D017": 0.562,
+    "D018": 0.5,
+    "D019": 2.5,
+    "D020": 0.5,
+    "D021": 1.5,
+    "D022": 6.0
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "144-D",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Continuous rectangular plate; drawing breaks are not physical gaps.",
+        "source_callouts": [
+          "99.00",
+          "3.000 \u00b1.062",
+          ".750 \u00b1.025"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D002",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D003",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "First lower-row drilled through hole.",
+        "source_callouts": [
+          ".562 \u00d8 DR. THRU., 9 HLS.",
+          "1.50",
+          "1.25"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D004",
+        "v": "D005",
+        "spec": {
+          "type": "thru",
+          "d": "D017",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Nine lower holes including seed, at the dimensioned twelve-inch stations.",
+        "source_callouts": [
+          ".562 \u00d8 DR. THRU., 9 HLS.",
+          "12.000 BSC.",
+          "24.000 BSC.",
+          "36.000 BSC.",
+          "48.000 BSC.",
+          "60.000 BSC.",
+          "72.000 BSC.",
+          "84.000 BSC.",
+          "96.000 BSC."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "9",
+        "pitch": "D007",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "First upper tapped hole, with cosmetic thread and bore depth exceeding plate thickness.",
+        "source_callouts": [
+          "1/2-13 TAP THRU., 10 HLS.",
+          "1.50",
+          "1.25"
+        ],
+        "status": "planned",
+        "justification": "Standard Unified coarse-thread tap-drill charts specify 27/64 inch (0.421875 inch) for 1/2-13 UNC, whose nominal diameter is D018. No thread class is assumed. Twice the thickness ensures breakthrough.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D004",
+        "v": "D005 + D006",
+        "spec": {
+          "type": "tapped",
+          "d": "0.421875",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/2-13"
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "First six upper holes occupy offsets zero through sixty inches.",
+        "source_callouts": [
+          "1/2-13 TAP THRU., 10 HLS.",
+          "12.000 BSC.",
+          "24.000 BSC.",
+          "36.000 BSC.",
+          "48.000 BSC.",
+          "60.000 BSC."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F004",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "6",
+        "pitch": "D007",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F006",
+        "rationale": "Upper tapped through hole at the seventy-inch baseline station.",
+        "source_callouts": [
+          "1/2-13 TAP THRU., 10 HLS.",
+          "70.000 BSC."
+        ],
+        "status": "planned",
+        "justification": "Standard Unified coarse-thread tap-drill charts specify 27/64 inch (0.421875 inch) for 1/2-13 UNC. Cosmetic thread, no class assumed; twice the thickness ensures breakthrough.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D004 + D015",
+        "v": "D005 + D006",
+        "spec": {
+          "type": "tapped",
+          "d": "0.421875",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/2-13"
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Upper tapped through hole at the seventy-six-inch baseline station.",
+        "source_callouts": [
+          "1/2-13 TAP THRU., 10 HLS.",
+          "76.000 BSC."
+        ],
+        "status": "planned",
+        "justification": "Standard Unified coarse-thread tap-drill charts specify 27/64 inch (0.421875 inch) for 1/2-13 UNC. Cosmetic thread, no class assumed; twice the thickness ensures breakthrough.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D004 + D016",
+        "v": "D005 + D006",
+        "spec": {
+          "type": "tapped",
+          "d": "0.421875",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/2-13"
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Upper tapped through hole aligned with the eighty-four-inch lower station.",
+        "source_callouts": [
+          "1/2-13 TAP THRU., 10 HLS.",
+          "84.000 BSC."
+        ],
+        "status": "planned",
+        "justification": "Standard Unified coarse-thread tap-drill charts specify 27/64 inch (0.421875 inch) for 1/2-13 UNC. Cosmetic thread, no class assumed; twice the thickness ensures breakthrough.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D004 + D013",
+        "v": "D005 + D006",
+        "spec": {
+          "type": "tapped",
+          "d": "0.421875",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/2-13"
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Final upper tapped through hole aligned with the ninety-six-inch lower station.",
+        "source_callouts": [
+          "1/2-13 TAP THRU., 10 HLS.",
+          "96.000 BSC."
+        ],
+        "status": "planned",
+        "justification": "Standard Unified coarse-thread tap-drill charts specify 27/64 inch (0.421875 inch) for 1/2-13 UNC. Cosmetic thread, no class assumed; twice the thickness ensures breakthrough.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D004 + D014",
+        "v": "D005 + D006",
+        "spec": {
+          "type": "tapped",
+          "d": "0.421875",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/2-13"
+        }
+      }
+    ],
+    "notes": [
+      "Nine drilled and ten tapped holes. No upper hole at the seventy-two-inch baseline station.",
+      "Upper row elevation is D005 + D006 from the bottom edge.",
+      "Retain the diametrical .020 position tolerance attached to the tapped holes for inspection; no datum references are shown.",
+      "No edge breaks or thread class are specified. Verify faint material and general tolerance handwriting before manufacturing."
+    ]
+  }
+}

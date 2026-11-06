@@ -1,0 +1,42 @@
+{
+  "part": "A00161E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00161E\\A00161E_extraction.json",
+  "plan_attempts": 3,
+  "gate1": "OK",
+  "planned": 6,
+  "questions": [
+    "F007: What hole quantity, horizontal positions, and wall application are required by TO SUIT?"
+  ],
+  "flagged": [
+    "F001: Symmetry and tangent joins follow the top view. Interpret R3 as inside radius, consistent with inside width and approximate developed length. Numerical coefficients are evaluated from the printed D005=15\u00b0: sin=0.25881904510252074, cos=0.9659258262890683, cot=3.7320508075688772, csc=3.8637033051562732. They are derived angle coefficients, not guessed dimensions; they implement the tangent construction to floating-point precision because the expression evaluator does not support trigonometric functions or radicals.",
+    "F002: Outside radius is interpreted inside radius plus printed sheet thickness; center lies on the drawn centerline.",
+    "F003: Equal ends and center spacing are shown; outside radius includes sheet thickness.",
+    "F004: Use the shown symmetry and tangent interior contour. Constants are computed from printed D005=15\u00b0: sin=0.25881904510252074, cos=0.9659258262890683, cot=3.7320508075688772, csc=3.8637033051562732. These derived angle coefficients express tangent points and flat intersections to floating-point precision, not additional assumed dimensions.",
+    "F005: Inside-radius interpretation as established in F001; cut overlaps the polygonal opening.",
+    "F006: Equal ends and center spacing follow the top view; cut overlaps the polygonal opening."
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00161E\\reference.step",
+  "volume": 20.559057,
+  "cq_skipped": {
+    "F007": "unresolved: What hole quantity, horizontal positions, and wall application are required by TO SUIT?"
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00161E\\161-B_ir.sldprt",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built",
+    "F003": "built",
+    "F004": "built (Up To Next)",
+    "F005": "built (Up To Next)",
+    "F006": "built (Up To Next)",
+    "F007": "skipped (unresolved: What hole quantity, horizontal positions, and wall application are required by TO SUIT?)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 6/6"
+  ],
+  "mti_review": [],
+  "cost_usd": 1.3536,
+  "error": ""
+}

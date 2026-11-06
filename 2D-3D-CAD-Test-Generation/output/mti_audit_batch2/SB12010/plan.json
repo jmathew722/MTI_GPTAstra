@@ -1,0 +1,220 @@
+{
+  "dims": {
+    "D001": 6.25,
+    "D002": 0.562,
+    "D003": 0.062,
+    "D004": 0.25,
+    "D005": 0.094,
+    "D006": 1.247,
+    "D007": 1.188,
+    "D008": 30.0,
+    "D009": 30.0,
+    "D010": 0.03,
+    "D011": 0.12,
+    "D012": 45.0,
+    "D013": 0.75,
+    "D014": 1.0,
+    "D015": 0.25,
+    "D016": 2.0,
+    "D017": 0.19,
+    "D018": 0.38,
+    "D019": 4.938,
+    "D020": 0.312,
+    "D021": 0.281,
+    "D022": 0.343,
+    "D023": 5.38,
+    "D024": 5.5,
+    "D025": 4.818,
+    "D026": 0.0295,
+    "D027": 0.03125
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-12010",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "longitudinal view; drawing left to right is +Z",
+        "Right": "+Z"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the solid body, spigots, centered circumferential groove and right body chamfer. The disputed left end bevel is deferred.",
+        "source_callouts": [
+          "6.250",
+          ".562",
+          ".062 CENT.",
+          ".250",
+          "1.247 DIA. +.000/-.002",
+          "1.188 DIA.",
+          "30\u00b0 TYP.",
+          ".12 x 45\u00b0",
+          ".750",
+          "1.000 DIA.",
+          "2.000 DIA."
+        ],
+        "status": "planned",
+        "justification": "The .062 CENT. groove is symmetric about the line .250 left of the main shoulder, with the depicted 1.188 root diameter. The factor 1.7320508075688772 is cotangent of the printed 30-degree flank angle D009, giving the axial flank run from the radial rise; it is not an independently assumed dimension. The printed 45-degree chamfer D012 has equal axial and radial components.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002 - D004 - D003 / 2 - (D006 - D007) / 2 * 1.7320508075688772",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002 - D004 - D003 / 2",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004 + D003 / 2",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004 + D003 / 2 + (D006 - D007) / 2 * 1.7320508075688772",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D016 / 2"
+          },
+          {
+            "z": "D001 - D013 - D011",
+            "r": "D016 / 2"
+          },
+          {
+            "z": "D001 - D013",
+            "r": "D016 / 2 - D011"
+          },
+          {
+            "z": "D001 - D013",
+            "r": "D014 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D014 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Apply the specified concave right shoulder radius.",
+        "source_callouts": [
+          ".25 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D015",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D001 - D013),wall(F001,D014 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Model the centered tapped region with a standard tap-drill cylinder and cosmetic thread.",
+        "source_callouts": [
+          "#10-32 TAP .38 DEEP"
+        ],
+        "status": "planned",
+        "justification": "A #21 drill, .159 inch diameter, is the standard cutting-tap drill for #10-32 UNF from standard Unified thread tap-drill charts. The end view centers the hole on the axis. D018 controls the threaded length only; additional drilling allowance remains unresolved.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D001)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "tapped",
+          "d": "0.159",
+          "depth": "D018",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-32 UNF; .38 thread depth; class unspecified"
+        }
+      },
+      {
+        "id": "F004",
+        "rationale": "What total full-diameter tap-drill depth is required beyond the .38 tapped length?",
+        "source_callouts": [
+          "#10-32 TAP .38 DEEP"
+        ],
+        "status": "unresolved",
+        "justification": "The .159 diameter is the standard #21 tap drill for #10-32 UNF. No separate total drilling depth is specified. The drill point is cosmetic.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D001)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "blind",
+          "d": "0.159",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Does .094 specify the axial bevel extent at 30 degrees, or must the end-tip diameter also equal 1.188? Those requirements yield different bevels.",
+        "source_callouts": [
+          ".094",
+          "30\u00b0",
+          "1.188 DIA.",
+          "1.247 DIA. +.000/-.002"
+        ],
+        "status": "unresolved",
+        "justification": "The parameters identify disputed printed requirements, not an approved chamfer. Leave the end square pending clarification.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D005",
+        "angle": "D008",
+        "edges": [
+          "edge_between(face(F001,-Z,0),wall(F001,D006 / 2))"
+        ]
+      },
+      {
+        "id": "F006",
+        "rationale": "What nominal left shoulder radius should be modeled within the specified maximum?",
+        "source_callouts": [
+          ".030 R. MAX."
+        ],
+        "status": "unresolved",
+        "justification": "D010 is an upper bound, not a specified nominal radius.",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D010",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D002),wall(F001,D006 / 2))"
+        ]
+      }
+    ],
+    "notes": [
+      "Origin is the center of the left end face; +Z points toward the tapped right end.",
+      "Unresolved features must not be executed using placeholder parameters. The left end bevel and left shoulder radius remain provisional.",
+      "The .38 tapped depth is not a separately specified total drilling depth.",
+      "STAMP \"SB-12010\" on the main cylindrical surface is a manufacturing instruction. Text stamping is unsupported by the available Feature IR geometry types; character size, depth, orientation and precise location are unspecified.",
+      "Material: 4150; hardness R/C 40\u201345.",
+      "Explicit left spigot diameter tolerance: +.000/-.002. General tolerances: two-place \u00b1.020 inch, three-place \u00b1.010 inch, angular \u00b11 degree. Derived stations carry no independent tolerances."
+    ]
+  }
+}

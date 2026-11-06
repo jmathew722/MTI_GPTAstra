@@ -1,0 +1,82 @@
+{
+  "part": "147-D",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -1.24905,
+    -1.24905,
+    0.0,
+    1.24905,
+    1.24905,
+    55.5
+  ],
+  "volume": 237.837829,
+  "volume_mm3": 3897463.728,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004"
+  ],
+  "skipped": {
+    "F005": "unsupported: Left external cosmetic thread annotation: IR v2 has no external cosmetic-thread feature. Do not execute this annotation carrier as a solid operation.",
+    "F006": "unsupported: Right external cosmetic thread annotation: IR v2 has no external cosmetic-thread feature. Do not execute this annotation carrier as a solid operation."
+  },
+  "holes": {},
+  "edge_points": {
+    "F002": [
+      [
+        -0.999,
+        0.0,
+        8.25
+      ],
+      [
+        -0.999,
+        0.0,
+        47.25
+      ]
+    ],
+    "F003": [
+      [
+        -0.934,
+        -0.0,
+        6.37
+      ],
+      [
+        -0.934,
+        -0.0,
+        49.13
+      ]
+    ],
+    "F004": [
+      [
+        -0.934,
+        -0.0,
+        0.0
+      ],
+      [
+        -0.934,
+        -0.0,
+        55.5
+      ]
+    ]
+  },
+  "starts": {},
+  "volume_after": {
+    "F001": 237.853779238,
+    "F002": 237.856220164,
+    "F003": 237.85850333,
+    "F004": 237.837829137
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -1.24905,
+      -1.24905,
+      0.0,
+      1.24905,
+      1.24905,
+      55.5
+    ]
+  }
+}

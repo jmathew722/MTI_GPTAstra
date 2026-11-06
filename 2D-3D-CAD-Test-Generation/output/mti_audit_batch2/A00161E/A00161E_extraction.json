@@ -1,0 +1,455 @@
+{
+  "part_name": "DRIP PAN",
+  "part_number": "161-B",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:4",
+  "material": "1020 SHEET STL.",
+  "finish": "",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1.02; 3 PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b11\u00b0.",
+  "views": [
+    {
+      "view_type": "Top",
+      "description": "Upper view: elongated closed sheet-wall outline with rounded ends, four sloping sides, and short central horizontal flats. Inside transverse width is 14.00.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005"
+      ],
+      "visible_features": [
+        "F001"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Longitudinal centerline passes through rounded-end centers; transverse center marks identify centers 32.25 apart."
+    },
+    {
+      "view_type": "Front",
+      "description": "Lower view: formed wall elevation, 4.00 high, with two illustrative holes .50 above lower edge. Hole spacing and quantity are explicitly to suit.",
+      "dimensions_shown": [
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010"
+      ],
+      "visible_features": [
+        "F001",
+        "F002"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Horizontal hole centerline .50 above lower edge; short vertical center marks at two illustrated holes. No horizontal hole-location dimensions."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 32.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "rounded_end_center_spacing",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Center-to-center distance, not overall length. General two-place tolerance applies."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 14.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "inside_transverse_width",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "14.00 (INSIDE). INSIDE specifies surfaces, not reference status. General two-place tolerance applies."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 7.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "centerline_to_lower_inside_flat",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "7.00; general two-place tolerance applies."
+    },
+    {
+      "id": "D004",
+      "type": "radial",
+      "value": 3.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "rounded_end_radius",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "3.00 R. TYP.; both rounded ends. Interpreted as inside radius. General two-place tolerance applies."
+    },
+    {
+      "id": "D005",
+      "type": "angular",
+      "value": 15.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "sloping_side_angle_to_horizontal",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "15\u00b0 TYP.; four sloping sides. Value and tolerance are degrees; schema lacks a degree unit option."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "sheet_thickness",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": true,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "16 GA. (.060). Parenthesized nominal gauge equivalent; sheet gauge tolerance not stated."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 4.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "wall_height",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "4.00; general two-place tolerance applies."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "hole_center_height_above_lower_edge",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".50; general two-place tolerance applies."
+    },
+    {
+      "id": "D009",
+      "type": "diameter",
+      "value": 0.218,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "drilled_hole_diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".218 DR. THRU; SPACING & QUANTITY OF HOLES TO SUIT. General three-place tolerance applies."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 85.68,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "approximate_developed_strip_length",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": true,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "APX. DEVELOPED. LGTH. = 85.68. Treated as informational because explicitly approximate, although not marked REF or parenthesized. Not projected overall length."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 7.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "centerline_to_upper_inside_flat",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: 14.00 - 7.00 = 7.00. No independent tolerance."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 38.25,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "inside_longitudinal_envelope",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived conditionally on inside R3 interpretation: 32.25 + 2(3.00) = 38.25. No independent tolerance."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 3.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "hole_center_to_upper_edge",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: 4.00 - .50 = 3.50. No independent tolerance."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 0.218,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 0.0,
+      "y_position": 0.5,
+      "position_known": false,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [],
+      "feature_ref": "F002",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Represent formed sheet wall as a closed thin-band profile extruded 4.00 high. Nominal .060 wall outward from inside contour; rounded R3.00 ends with centers 32.25 apart, inside transverse width 14.00, four 15-degree sloping sides joining central flats. Tangency and left/right symmetry inferred. Models depicted wall only, not an unshown bottom plate.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D010",
+        "D011",
+        "D012"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D007",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Representative .218 drilled through-wall hole, center .50 above lower edge. Quantity 1 is a schema placeholder for the seed, not the manufacturing count. Two holes illustrated; actual quantity and spacing TO SUIT. Do not instantiate a fixed pattern or cut both opposing walls without clarification.",
+      "related_dimensions": [
+        "D008",
+        "D009",
+        "D013"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.5,
+      "position_known": false,
+      "quantity": 1
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Vertical longitudinal plane through top-view centerline",
+        "feature_ids": [
+          "F001"
+        ],
+        "description": "Upper/lower outline symmetry: 14.00 inside width and 7.00 lower half imply 7.00 upper half."
+      },
+      {
+        "plane": "Vertical transverse plane midway between rounded-end centers",
+        "feature_ids": [
+          "F001"
+        ],
+        "description": "Left/right outline symmetry inferred from view and typical radius/angle callouts; not an explicit GD&T control. Hole symmetry not established."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001"
+        ],
+        "description": "Inside/outside wall arcs at each end interpreted as concentric, separated by nominal .060 sheet thickness. Opposite ends have separate centers."
+      }
+    ],
+    "equal_spacing": [],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D003",
+          "D011"
+        ],
+        "description": "14.00 = 7.00 lower half + 7.00 derived upper half."
+      },
+      {
+        "total_dimension_id": "D012",
+        "component_dimension_ids": [
+          "D004",
+          "D001",
+          "D004"
+        ],
+        "description": "Conditional inside length: 38.25 = 3.00 + 32.25 + 3.00."
+      },
+      {
+        "total_dimension_id": "D007",
+        "component_dimension_ids": [
+          "D008",
+          "D013"
+        ],
+        "description": "4.00 wall height = .50 below hole centers + 3.50 above."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D011",
+      "D012",
+      "D013"
+    ],
+    "reference_dimension_ids": [
+      "D006",
+      "D010"
+    ]
+  },
+  "build_order": [
+    "F001",
+    "F002"
+  ],
+  "warnings": [
+    "No ASME/ISO/DIN designation is printed. Third-angle projection and inch units are explicit.",
+    "161-B is the complete drawing/part number; no separate revision is entered.",
+    "Hole quantity and spacing are TO SUIT. H001 qty=1 and F002 quantity=1 are required-schema representative-seed placeholders, NOT established manufacturing quantities. Two holes are illustrated. Horizontal positions and individual instance coordinates are unavailable; clarification is required before final hole placement.",
+    "Only hole height .50 is known; position_known is false because X locations are unspecified. One-wall versus opposing-wall hole application is not established.",
+    "R3.00 is interpreted as inside radius, consistent with inside width and approximate developed length, but the radius callout does not explicitly say INSIDE.",
+    "Despite the title DRIP PAN, no bottom thickness, bottom attachment, seam, weld, or closure construction is specified. Do not invent a bottom plate.",
+    "Tangency and left/right symmetry are inferred. Small forming radii at transitions into central flats are not dimensioned.",
+    "85.68 is explicitly approximate developed length; exact bend allowance, neutral-axis convention, seam allowance, and fabrication method are unspecified.",
+    "Heat treatment and finish are blank. Model designation: VERT. 90; date: NOV. 9, 76; drawn by JWZ.",
+    "Angular dimension and tolerance are degrees despite required schema length-unit entry."
+  ],
+  "confidence": 0.89
+}

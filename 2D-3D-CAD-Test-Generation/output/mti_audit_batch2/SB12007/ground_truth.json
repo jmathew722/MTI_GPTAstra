@@ -1,0 +1,33 @@
+{
+  "model": "SB12007.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 224656.236,
+  "bbox_mm": [
+    -119.8372,
+    -25.4,
+    -25.4,
+    0.0,
+    25.4,
+    25.4
+  ],
+  "size_mm": [
+    50.8,
+    50.8,
+    119.8372
+  ],
+  "center_mm": [
+    -59.9186,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Revolve1",
+    "#10-32 Tapped Hole1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "HoleWzd"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12007\\ground_truth.step",
+  "part": "SB12007"
+}

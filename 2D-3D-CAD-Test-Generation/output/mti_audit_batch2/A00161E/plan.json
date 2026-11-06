@@ -1,0 +1,271 @@
+{
+  "dims": {
+    "D001": 32.25,
+    "D002": 14.0,
+    "D003": 7.0,
+    "D004": 3.0,
+    "D005": 15.0,
+    "D006": 0.06,
+    "D007": 4.0,
+    "D008": 0.5,
+    "D009": 0.218,
+    "D010": 85.68,
+    "D011": 7.0,
+    "D012": 38.25,
+    "D013": 3.5
+  },
+  "reference_ids": [
+    "D006",
+    "D010"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "161-B",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "Top": "+Z",
+        "Front": "-Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Outer polygon connecting the tangent points and central flats; rounded ends follow.",
+        "source_callouts": [
+          "32.25",
+          "14.00 (INSIDE)",
+          "7.00",
+          "3.00 R. TYP.",
+          "15\u00b0 TYP.",
+          "16 GA. (.060)",
+          "4.00"
+        ],
+        "status": "planned",
+        "justification": "Symmetry and tangent joins follow the top view. Interpret R3 as inside radius, consistent with inside width and approximate developed length. Numerical coefficients are evaluated from the printed D005=15\u00b0: sin=0.25881904510252074, cos=0.9659258262890683, cot=3.7320508075688772, csc=3.8637033051562732. They are derived angle coefficients, not guessed dimensions; they implement the tangent construction to floating-point precision because the expression evaluator does not support trigonometric functions or radicals.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "D004+D006-(D004+D006)*0.25881904510252074",
+              "D003+D006+(D004+D006)*0.9659258262890683"
+            ],
+            [
+              "D004+D006+(D003+D006)*3.7320508075688772-(D004+D006)*3.8637033051562732",
+              "D002+2*D006"
+            ],
+            [
+              "D004+D006+D001-(D003+D006)*3.7320508075688772+(D004+D006)*3.8637033051562732",
+              "D002+2*D006"
+            ],
+            [
+              "D004+D006+D001+(D004+D006)*0.25881904510252074",
+              "D003+D006+(D004+D006)*0.9659258262890683"
+            ],
+            [
+              "D004+D006+D001+(D004+D006)*0.25881904510252074",
+              "D003+D006-(D004+D006)*0.9659258262890683"
+            ],
+            [
+              "D004+D006+D001-(D003+D006)*3.7320508075688772+(D004+D006)*3.8637033051562732",
+              "0"
+            ],
+            [
+              "D004+D006+(D003+D006)*3.7320508075688772-(D004+D006)*3.8637033051562732",
+              "0"
+            ],
+            [
+              "D004+D006-(D004+D006)*0.25881904510252074",
+              "D003+D006-(D004+D006)*0.9659258262890683"
+            ]
+          ]
+        },
+        "depth": "D007",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Left rounded outside end overlapping the polygon.",
+        "source_callouts": [
+          "3.00 R. TYP.",
+          "16 GA. (.060)",
+          "4.00"
+        ],
+        "status": "planned",
+        "justification": "Outside radius is interpreted inside radius plus printed sheet thickness; center lies on the drawn centerline.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "2*(D004+D006)",
+          "u": "D004+D006",
+          "v": "D003+D006"
+        },
+        "depth": "D007",
+        "op": "add"
+      },
+      {
+        "id": "F003",
+        "rationale": "Symmetric right rounded outside end.",
+        "source_callouts": [
+          "32.25",
+          "3.00 R. TYP.",
+          "16 GA. (.060)",
+          "4.00"
+        ],
+        "status": "planned",
+        "justification": "Equal ends and center spacing are shown; outside radius includes sheet thickness.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "2*(D004+D006)",
+          "u": "D004+D006+D001",
+          "v": "D003+D006"
+        },
+        "depth": "D007",
+        "op": "add"
+      },
+      {
+        "id": "F004",
+        "rationale": "Remove the polygonal interior through the full wall height; no bottom is depicted.",
+        "source_callouts": [
+          "14.00 (INSIDE)",
+          "7.00",
+          "32.25",
+          "3.00 R. TYP.",
+          "15\u00b0 TYP.",
+          "16 GA. (.060)"
+        ],
+        "status": "planned",
+        "justification": "Use the shown symmetry and tangent interior contour. Constants are computed from printed D005=15\u00b0: sin=0.25881904510252074, cos=0.9659258262890683, cot=3.7320508075688772, csc=3.8637033051562732. These derived angle coefficients express tangent points and flat intersections to floating-point precision, not additional assumed dimensions.",
+        "kind": "prism",
+        "on": "face(F001,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "D004+D006-D004*0.25881904510252074",
+              "D003+D006+D004*0.9659258262890683"
+            ],
+            [
+              "D004+D006+D003*3.7320508075688772-D004*3.8637033051562732",
+              "D002+D006"
+            ],
+            [
+              "D004+D006+D001-D003*3.7320508075688772+D004*3.8637033051562732",
+              "D002+D006"
+            ],
+            [
+              "D004+D006+D001+D004*0.25881904510252074",
+              "D003+D006+D004*0.9659258262890683"
+            ],
+            [
+              "D004+D006+D001+D004*0.25881904510252074",
+              "D003+D006-D004*0.9659258262890683"
+            ],
+            [
+              "D004+D006+D001-D003*3.7320508075688772+D004*3.8637033051562732",
+              "D006"
+            ],
+            [
+              "D004+D006+D003*3.7320508075688772-D004*3.8637033051562732",
+              "D006"
+            ],
+            [
+              "D004+D006-D004*0.25881904510252074",
+              "D003+D006-D004*0.9659258262890683"
+            ]
+          ]
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F005",
+        "rationale": "Complete the left rounded interior with an overlapping through-cut.",
+        "source_callouts": [
+          "3.00 R. TYP.",
+          "7.00",
+          "16 GA. (.060)"
+        ],
+        "status": "planned",
+        "justification": "Inside-radius interpretation as established in F001; cut overlaps the polygonal opening.",
+        "kind": "prism",
+        "on": "face(F002,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "2*D004",
+          "u": "D004+D006",
+          "v": "D003+D006"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F006",
+        "rationale": "Complete the symmetric right rounded interior.",
+        "source_callouts": [
+          "32.25",
+          "3.00 R. TYP.",
+          "7.00",
+          "16 GA. (.060)"
+        ],
+        "status": "planned",
+        "justification": "Equal ends and center spacing follow the top view; cut overlaps the polygonal opening.",
+        "kind": "prism",
+        "on": "face(F003,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "2*D004",
+          "u": "D004+D006+D001",
+          "v": "D003+D006"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F007",
+        "rationale": "What hole quantity, horizontal positions, and wall application are required by TO SUIT?",
+        "source_callouts": [
+          ".218 DR. THRU",
+          "SPACING & QUANTITY OF HOLES TO SUIT",
+          ".50"
+        ],
+        "status": "unresolved",
+        "justification": "Only diameter and height are established. The supporting face and u coordinate are nonexecuting placeholders. Do not instantiate the two illustrative holes or cut opposing walls without clarification.",
+        "kind": "hole",
+        "on": "face(F001,-Y)",
+        "u": "0",
+        "v": "D008",
+        "spec": {
+          "type": "thru",
+          "d": "D009",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      }
+    ],
+    "notes": [
+      "Model only the depicted formed-sheet wall. No bottom plate, seam, or weld detail is specified.",
+      "D010, APX. DEVELOPED. LGTH. = 85.68, is approximate fabrication information, not an exact finished-profile constraint.",
+      "Angle coefficients are specialized to D005=15 degrees and must be recomputed if D005 changes.",
+      "Outside envelope: (D001+2*(D004+D006)) by (D002+2*D006) by D007; its minimum corner is the origin.",
+      "Central flat-to-slope transitions are nominal sharp intersections; no forming radius is dimensioned.",
+      "Material: 1020 SHEET STL., 16 GA. (.060). Hole layout remains unresolved."
+    ]
+  }
+}

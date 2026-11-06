@@ -1,0 +1,887 @@
+{
+  "part_name": "COLLET PAD (.625 DIA.)",
+  "part_number": "SB-12059",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "FULL (1:1)",
+  "material": "8620 steel; carburize, harden and grind; Rockwell C 60\u201362",
+  "finish": "Ground; no numerical surface roughness specified.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2-PLACE DIM. \u00b1.020; 3-PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b11\u00b0.",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Left-hand longitudinal side elevation of the collet pad: axial length, stepped outside diameters, central raised circumferential flange, shoulder reliefs, radial tapped hole mouths, bore hidden lines and end chamfers.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010",
+        "D011",
+        "D012",
+        "D013"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F005",
+        "F006",
+        "F007",
+        "F008",
+        "F009",
+        "F011"
+      ],
+      "hidden_features": [
+        "F004",
+        "F010"
+      ],
+      "centerline_notes": "Short centerlines identify radial tapped hole axes. Hidden longitudinal lines show the central axial bore and its left-end entrance chamfer. The horizontal gap is a sawcut, not a drawing break."
+    },
+    {
+      "view_type": "Right",
+      "description": "Right-hand circular end view, consistent with the stated third-angle projection. Shows central bore, four radial sawcuts, concentric outside steps and four hidden radial tapped holes at diagonal positions.",
+      "dimensions_shown": [
+        "D014",
+        "D015",
+        "D016"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F004",
+        "F008",
+        "F009",
+        "F011"
+      ],
+      "hidden_features": [
+        "F005",
+        "F006",
+        "F007"
+      ],
+      "centerline_notes": "Horizontal and vertical centerlines locate the common axis and bisect the four centered sawcuts. Diagonal centerlines locate radial tapped holes; one hole axis is 45\u00b0 from the vertical slot axis. Four equally spaced holes and four equally spaced slots each imply 90\u00b0 indexing."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 1.687,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall axial length",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 0.625,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "left end to left face of raised flange",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance; measured to flange face, not to the adjacent relief outer edge."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 0.372,
+      "unit": "inch",
+      "tolerance_plus": 0.001,
+      "tolerance_minus": 0.001,
+      "tolerance_type": "bilateral",
+      "applies_to": "raised flange axial width",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit \u00b1.001. Outside dimension arrow and text are to the right of the narrow flange."
+    },
+    {
+      "id": "D004",
+      "type": "diameter",
+      "value": 3.7495,
+      "unit": "inch",
+      "tolerance_plus": 0.0005,
+      "tolerance_minus": 0.0005,
+      "tolerance_type": "bilateral",
+      "applies_to": "main cylindrical outside diameter",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D005",
+      "type": "diameter",
+      "value": 3.875,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "raised flange outside diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 0.75,
+      "unit": "inch",
+      "tolerance_plus": 0.002,
+      "tolerance_minus": 0.002,
+      "tolerance_type": "bilateral",
+      "applies_to": "left flange face to radial tapped hole axial center plane",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .750 \u00b1.002. The starting extension line is the left flange face, not the part left end or right flange face."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 0.12,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "left bore entrance chamfer leg",
+      "feature_ref": "F010",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".12 \u00d7 45\u00b0; general two-place tolerance."
+    },
+    {
+      "id": "D008",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "left bore entrance chamfer angle",
+      "feature_ref": "F010",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Value and tolerance are degrees. Unit field is inch solely because the reporting schema has no angular unit."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "right outside edge chamfer leg",
+      "feature_ref": "F011",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".06 \u00d7 45\u00b0; leader points to right-end outside edge; general two-place tolerance."
+    },
+    {
+      "id": "D010",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "right outside edge chamfer angle",
+      "feature_ref": "F011",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Value and tolerance are degrees; schema has no angular unit."
+    },
+    {
+      "id": "D011",
+      "type": "thread",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "four radial tapped holes, nominal major diameter",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '.375-24 TAP .38 DEEP & C'SINK .03 DEEP / 4-HOLES EQ. SPACED'. 24 threads/inch; nominally 3/8-24. Thread class and thread standard are not specified. No tap-drill diameter is given; nominal thread size is not a drilled-hole diameter."
+    },
+    {
+      "id": "D012",
+      "type": "depth",
+      "value": 0.38,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "radial tapped depth, four holes",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Tap depth, not a separately specified drill depth. General two-place tolerance."
+    },
+    {
+      "id": "D013",
+      "type": "depth",
+      "value": 0.03,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "countersink depth at four radial tapped hole entrances",
+      "feature_ref": "F007",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": true,
+      "notes": "General two-place tolerance. Countersink depth is legible, but its included angle and major diameter are not specified; do not assume them."
+    },
+    {
+      "id": "D014",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "radial tapped hole angular offset from vertical sawcut centerline",
+      "feature_ref": "F005",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Shown to upper-left radial hole axis. Value and tolerance are degrees; schema has no angular unit."
+    },
+    {
+      "id": "D015",
+      "type": "diameter",
+      "value": 0.625,
+      "unit": "inch",
+      "tolerance_plus": 0.001,
+      "tolerance_minus": 0.001,
+      "tolerance_type": "bilateral",
+      "applies_to": "central axial through bore",
+      "feature_ref": "F004",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit \u00b1.001. Also repeated nominally in the title and in the stamp text; these repetitions are identification text, not additional bore specifications."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "centered radial sawcut width, four equally spaced slots",
+      "feature_ref": "F008",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '.060 CENT. SAWCUT / 4-SLOTS EQ. SPACED'. General three-place tolerance. Each slot is centered on a radial cardinal centerline and connects the bore to the outside."
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 0.997,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left end to right flange face",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D002 + D003 = .625 + .372 = .997. Not separately printed or independently toleranced."
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 0.69,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right flange face to right end",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D001 - D002 - D003 = 1.687 - .625 - .372 = .690. Includes adjacent relief region; not an independently toleranced land width."
+    },
+    {
+      "id": "D019",
+      "type": "linear",
+      "value": 1.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left end to radial tapped hole axial center plane",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D002 + D006 = .625 + .750 = 1.375. Not independently toleranced."
+    },
+    {
+      "id": "D020",
+      "type": "linear",
+      "value": 0.312,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "radial tapped hole axial center plane to right end",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D001 - D019 = 1.687 - 1.375 = .312. Not independently toleranced."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 0.378,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right flange face to radial tapped hole axial center plane",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D006 - D003 = .750 - .372 = .378. Not independently toleranced."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 0.625,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 0.0,
+      "y_position": 0.0,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [],
+      "feature_ref": "F004",
+      "view": "Right"
+    },
+    {
+      "id": "H002",
+      "type": "tapped",
+      "diameter": 0.375,
+      "thru": false,
+      "depth": 0.38,
+      "thread_spec": ".375-24 TAP; 4 HOLES EQ. SPACED; C'SINK .03 DEEP",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 4,
+      "x_position": 0.0,
+      "y_position": 0.0,
+      "position_known": false,
+      "pattern": "circular",
+      "pattern_spacing": 0.0,
+      "instance_positions": [],
+      "feature_ref": "F005",
+      "view": "Front; angular placement in Right"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Base cylinder, outside diameter 3.7495 and axial length 1.687. Use a circular end-plane sketch with origin on the cylinder axis; axial zero is the left end of the longitudinal view.",
+      "related_dimensions": [
+        "D001",
+        "D004"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D001",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_boss",
+      "description": "Coaxial raised flange, diameter 3.875, axial width .372; starts .625 from the left end. Sketch on an end-parallel plane at axial coordinate .625.",
+      "related_dimensions": [
+        "D002",
+        "D003",
+        "D005",
+        "D017"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "D003",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Two circumferential shoulder reliefs, one immediately adjacent to each flange face. Drawing note is 'MIN. RADIUS U CUT'. Implement as annular cuts only after the missing groove widths, root diameters and minimum-radius requirements are resolved.",
+      "related_dimensions": [
+        "D002",
+        "D003"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F004",
+      "type": "hole",
+      "description": "Coaxial .625 \u00b1.001 axial through bore.",
+      "related_dimensions": [
+        "D015",
+        "D001"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D001",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F005",
+      "type": "hole",
+      "description": "Seed radial blind tapped hole, .375-24, tapped .38 deep. Axis lies in the plane 1.375 from the left end and is 45\u00b0 from the vertical end-view centerline. Thread class, tap drill and drill-point depth are unspecified.",
+      "related_dimensions": [
+        "D006",
+        "D011",
+        "D012",
+        "D014",
+        "D019",
+        "D020",
+        "D021"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "D012",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F006",
+      "type": "pattern",
+      "description": "Circular pattern of radial tapped seed hole: four total instances, 90\u00b0 apart about the cylinder axis, one on each diagonal.",
+      "related_dimensions": [
+        "D014"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F005",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F007",
+      "type": "chamfer",
+      "description": "Countersink the four radial tapped hole mouths .03 deep. Angle and major diameter are not provided; exact countersink shape must be resolved before building.",
+      "related_dimensions": [
+        "D013"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "D013",
+      "parent_feature": "F005",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F008",
+      "type": "extrude_cut",
+      "description": "Seed centered .060-wide radial sawcut connecting the axial bore to the outside, through the full axial thickness as shown. First slot lies on a cardinal radial centerline.",
+      "related_dimensions": [
+        "D016",
+        "D001"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D001",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F009",
+      "type": "pattern",
+      "description": "Four total radial sawcuts at 90\u00b0 intervals. These split the pad into four separate quadrant segments; preserve a multibody result.",
+      "related_dimensions": [
+        "D016"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F008",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F010",
+      "type": "chamfer",
+      "description": "Left-end central bore entrance chamfer, .12 \u00d7 45\u00b0.",
+      "related_dimensions": [
+        "D007",
+        "D008"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F004",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F011",
+      "type": "chamfer",
+      "description": "Right-end main outside diameter edge chamfer, .06 \u00d7 45\u00b0.",
+      "related_dimensions": [
+        "D009",
+        "D010"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Longitudinal plane through the horizontal diameter in the Right view",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007",
+          "F008",
+          "F009",
+          "F010",
+          "F011"
+        ],
+        "description": "Geometry is mirror symmetric about this axial plane, excluding stamped identification."
+      },
+      {
+        "plane": "Longitudinal plane through the vertical diameter in the Right view",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007",
+          "F008",
+          "F009",
+          "F010",
+          "F011"
+        ],
+        "description": "Four quadrants, with holes halfway between sawcuts. No axial midlength symmetry: flange and chamfers are not axially symmetric."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F010",
+          "F011"
+        ],
+        "description": "Main outside cylinder, flange, annular reliefs, axial bore and circular end chamfers share the longitudinal axis."
+      },
+      {
+        "feature_ids": [
+          "F005",
+          "F007"
+        ],
+        "description": "Each radial tapped hole entrance countersink is coaxial with its own radial hole; the four radial holes are not mutually coaxial."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "F006",
+        "qty": 4,
+        "spacing_value": 90.0,
+        "computed_from": "4 HOLES EQ. SPACED: 360\u00b0 / 4 = 90\u00b0. Spacing value is angular degrees, not inches; hole axes offset 45\u00b0 from sawcut axes."
+      },
+      {
+        "feature_ref": "F009",
+        "qty": 4,
+        "spacing_value": 90.0,
+        "computed_from": "4 SLOTS EQ. SPACED: 360\u00b0 / 4 = 90\u00b0. Spacing value is angular degrees, not inches."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D002",
+          "D003",
+          "D018"
+        ],
+        "description": "Overall axial length = left-end-to-flange distance + flange width + right remainder: 1.687 = .625 + .372 + .690."
+      },
+      {
+        "total_dimension_id": "D017",
+        "component_dimension_ids": [
+          "D002",
+          "D003"
+        ],
+        "description": "Right flange face coordinate: .997 = .625 + .372."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D017",
+          "D018"
+        ],
+        "description": "Overall axial length: 1.687 = .997 + .690."
+      },
+      {
+        "total_dimension_id": "D019",
+        "component_dimension_ids": [
+          "D002",
+          "D006"
+        ],
+        "description": "Radial hole axial location: 1.375 = .625 + .750."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D019",
+          "D020"
+        ],
+        "description": "Hole plane partitions overall length: 1.687 = 1.375 + .312."
+      },
+      {
+        "total_dimension_id": "D006",
+        "component_dimension_ids": [
+          "D003",
+          "D021"
+        ],
+        "description": "Hole location from left flange face: .750 = .372 + .378."
+      },
+      {
+        "total_dimension_id": "D018",
+        "component_dimension_ids": [
+          "D021",
+          "D020"
+        ],
+        "description": "Right-side axial remainder: .690 = .378 + .312."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D017",
+      "D018",
+      "D019",
+      "D020",
+      "D021"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F004",
+    "F005",
+    "F006",
+    "F003",
+    "F008",
+    "F009",
+    "F007",
+    "F010",
+    "F011"
+  ],
+  "warnings": [
+    "No ASME/ISO/DIN standard designation is printed. Third-angle projection and inch units are explicit; the standard field is intentionally blank.",
+    "No revision is legibly specified in the title block.",
+    "Two shoulder reliefs are called out only as 'MIN. RADIUS U CUT'. No numeric radius, groove width or root diameter is provided. Exact geometry requires clarification; do not obtain dimensions by scaling the image.",
+    "The four tapped-hole entrance countersinks have .03 depth specified but no included angle or major diameter. These must be resolved for exact geometry.",
+    "Tapped holes are radial, not axial holes on a planar bolt circle. They are located by axial station and angular indexing. No edge-referenced planar hole-center coordinates are printed, so instance_positions is intentionally empty.",
+    "The .38 depth applies to tapping; tap-drill diameter, blind drilled depth and point angle are not specified. The reported .375 hole diameter is the nominal thread diameter, not the minor diameter.",
+    "Angular dimensions and angular pattern spacings are in degrees; the dimension schema only permits length-unit labels, so angular dimension unit fields carry inch with explanatory notes.",
+    "The four full-length sawcuts produce four disconnected quadrant pads. Do not force the finished part into a single connected solid.",
+    "Stamp instruction: 'SB-12059' and '.625 DIA.' on the indicated end face. Letter size, marking depth and exact position are unspecified; marking is not modeled as an invented cut.",
+    "Assembly note: 'COMPLETE WITH #193 LUGS'. Lug geometry and attachment details are not provided on this drawing and cannot be extracted as buildable solids.",
+    "Title block additionally identifies model 220-B, date March 16, 1979, and use with COLLET SB-1944 and CHUCK SB-12054.",
+    "No GD&T feature control frames or datum letters are shown. General dimensional and angular tolerances apply where indicated; derived nominal dimensions have no independent tolerances."
+  ],
+  "confidence": 0.91
+}

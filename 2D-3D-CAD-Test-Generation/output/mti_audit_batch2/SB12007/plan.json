@@ -1,0 +1,163 @@
+{
+  "dims": {
+    "D001": 4.718,
+    "D002": 0.562,
+    "D003": 0.062,
+    "D004": 0.25,
+    "D005": 0.094,
+    "D006": 1.247,
+    "D007": 1.188,
+    "D008": 30.0,
+    "D009": 30.0,
+    "D010": 0.03,
+    "D011": 2.0,
+    "D012": 0.19,
+    "D013": 0.38,
+    "D014": 4.156,
+    "D015": 0.312
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-12007",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "longitudinal view; part +Z runs left to right",
+        "Right": "+Z end view"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the body and projecting spigot, including the end bevel and centered annular groove, as one continuous axial profile.",
+        "source_callouts": [
+          "4.718",
+          ".562",
+          ".062 CENT.",
+          ".250",
+          ".094",
+          "1.247 DIA. +.000 -.002",
+          "1.188 DIA.",
+          "30\u00b0",
+          "30\u00b0 TYP.",
+          "2.000 DIA."
+        ],
+        "status": "planned",
+        "justification": "Origin is the left spigot end. The .062 CENT. groove root is centered .250 from the body shoulder, as indicated by the centered dimension and groove extension lines. The numerical factor 0.5773502691896258 is tan(30 degrees), derived from the printed D008 and D009 angles; it converts axial bevel length to radial change, and radial groove depth to flank axial run. D014 and D015 are derived dimensions, not independent controls.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D006 / 2 - D005 * 0.5773502691896258"
+          },
+          {
+            "z": "D005",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002 - D004 - D003 / 2 - (D006 - D007) / (2 * 0.5773502691896258)",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002 - D004 - D003 / 2",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004 + D003 / 2",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004 + D003 / 2 + (D006 - D007) / (2 * 0.5773502691896258)",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D011 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D011 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Provide the centered blind tapped hole entering the large right end; represent the thread cosmetically.",
+        "source_callouts": [
+          "#10-32 TAP .38 DEEP"
+        ],
+        "status": "planned",
+        "justification": "Use the standard #21 drill, .159 inch, for a #10-32 thread (standard UNF tap-drill chart). D012 is the nominal thread major diameter, not the drill diameter. D013 controls the specified tapped extent only; additional pilot drilling depth is separately unresolved.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D001)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "tapped",
+          "d": "0.159",
+          "depth": "D013",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-32"
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "What exact shoulder-root radius should be modeled? The drawing specifies only a maximum.",
+        "source_callouts": [
+          ".030 R. MAX."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D010",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D002),wall(F001,D006 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "What total full-diameter pilot drilling depth is required beyond the specified .38 tapped depth? No drill depth is given.",
+        "source_callouts": [
+          "#10-32 TAP .38 DEEP"
+        ],
+        "status": "unresolved",
+        "justification": "The .159 inch diameter is the standard #21 tap drill for #10-32, from the standard UNF tap-drill chart. This unresolved feature records only the unspecified additional drilling extent; it does not reinterpret the tapped-depth dimension as a printed drilling depth.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D001)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "blind",
+          "d": "0.159",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      }
+    ],
+    "notes": [
+      "Material: 4150; hardness R/C 40-45.",
+      "STAMP \"SB-12007\" on the indicated cylindrical body surface. Text stamping is outside the supported Feature IR geometry; character size, precise placement, orientation and depth are not specified. Retain as a manufacturing requirement, not invented engraving geometry.",
+      "The shoulder remains sharp in the planned base geometry until the maximum-only radius requirement is resolved.",
+      "Thread geometry is cosmetic; no thread class is invented. Drill-point geometry is omitted.",
+      "Apply the explicit +.000/-.002 tolerance to D006. General tolerances: two-place \u00b1.020 inch, three-place \u00b1.010 inch, angular \u00b11 degree."
+    ]
+  }
+}

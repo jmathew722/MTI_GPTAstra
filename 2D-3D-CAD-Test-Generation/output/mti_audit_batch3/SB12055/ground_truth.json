@@ -1,0 +1,33 @@
+{
+  "model": "SB12055.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 72796.023,
+  "bbox_mm": [
+    -155.448,
+    -12.7,
+    -12.7,
+    0.0,
+    12.7,
+    12.7
+  ],
+  "size_mm": [
+    25.4,
+    25.4,
+    155.448
+  ],
+  "center_mm": [
+    -77.724,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Revolve1",
+    "Cut-Extrude1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "ICE"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12055\\ground_truth.step",
+  "part": "SB12055"
+}

@@ -1,0 +1,45 @@
+{
+  "model": "SB11488-004.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 1982562.186,
+  "bbox_mm": [
+    -168.2496,
+    -168.2496,
+    0.0,
+    140.678,
+    168.2496,
+    34.925
+  ],
+  "size_mm": [
+    34.925,
+    308.9276,
+    336.4992
+  ],
+  "center_mm": [
+    -13.7858,
+    0.0,
+    17.4625
+  ],
+  "features": [
+    "Revolve1",
+    "Cut-Extrude1",
+    "Cut-Extrude2",
+    "1/4-20 Tapped Hole2",
+    "CirPattern1",
+    "7-C'Bore Holes",
+    "5/8-11 Tapped Hole1",
+    "5/16-18 Tapped Hole1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "ICE",
+    "ICE",
+    "HoleWzd",
+    "CirPattern",
+    "HoleWzd",
+    "HoleWzd",
+    "HoleWzd"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB11488\\ground_truth.step",
+  "part": "SB11488"
+}

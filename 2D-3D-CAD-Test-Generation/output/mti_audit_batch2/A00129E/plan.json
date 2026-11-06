@@ -1,0 +1,176 @@
+{
+  "dims": {
+    "D001": 4.375,
+    "D002": 3.5,
+    "D003": 2.188,
+    "D004": 0.25,
+    "D005": 3.765,
+    "D006": 5.0,
+    "D007": 0.094,
+    "D008": 0.25,
+    "D009": 0.156,
+    "D010": 4.376,
+    "D011": 2.5,
+    "D012": 0.312
+  },
+  "reference_ids": [
+    "D001"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "129-B",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the annular retainer with its larger central recess opening at the front end and its smaller bore continuing through the rear.",
+        "source_callouts": [
+          "5.00 DIA.",
+          ".250",
+          "3.500 DIA.",
+          "3.765 DIA.",
+          ".094"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D006 / 2"
+          }
+        ],
+        "inner": [
+          {
+            "z": "0",
+            "r": "D005 / 2"
+          },
+          {
+            "z": "D007",
+            "r": "D005 / 2"
+          },
+          {
+            "z": "D007",
+            "r": "D002 / 2"
+          },
+          {
+            "z": "D004",
+            "r": "D002 / 2"
+          }
+        ],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Drill the first mounting clearance hole at the explicitly toleranced radial offset for the D008 nominal screw size.",
+        "source_callouts": [
+          "DR. & C'BORE FOR 1/4 (LOW HEAD) SOC. HD. SCR. (4) HLS.",
+          "2.188 \u00b1.005 TYP."
+        ],
+        "status": "planned",
+        "justification": "The supplied SHCS normal-fit clearance chart specifies a .281-inch drill for a 1/4-inch nominal screw (D008); the screw's low head does not change its shank clearance. Use D003, not the rounded reference bolt-circle diameter, to locate the hole.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D003",
+        "v": "0",
+        "spec": {
+          "type": "thru",
+          "d": "0.281",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Repeat the clearance hole at the four cardinal positions shown in the front view.",
+        "source_callouts": [
+          "DR. & C'BORE FOR 1/4 (LOW HEAD) SOC. HD. SCR. (4) HLS.",
+          "2.188 \u00b1.005 TYP.",
+          "4.375 B.C. REF"
+        ],
+        "status": "planned",
+        "justification": "The front view shows four mirror-symmetric cardinal hole positions; the TYP radial dimension D003 controls all four. The reference bolt circle D001 is not controlling.",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "90",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "What counterbore depth is required for the intended 1/4-inch LOW HEAD screw? The supplied ordinary-head table does not establish a low-head recess depth.",
+        "source_callouts": [
+          "DR. & C'BORE FOR 1/4 (LOW HEAD) SOC. HD. SCR. (4) HLS."
+        ],
+        "status": "unresolved",
+        "justification": "The supplied SHCS chart gives .281 clearance and .438 counterbore diameter for nominal 1/4-inch hardware (D008). Its .250 ordinary-head counterbore depth must not be applied to this LOW HEAD callout, particularly in a .250-thick plate. Rear-face entry is established by the hidden larger circles in the front view and the right-view hidden steps. The .438 diameter is a chart-based proposal requiring verification against the selected low-head hardware; no recess depth is invented.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D003",
+        "v": "0",
+        "spec": {
+          "type": "cbore",
+          "d": "0.281",
+          "depth": null,
+          "cbore_d": "0.438",
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Repeat the rear counterbore at all four mounting positions once the seed counterbore depth is resolved.",
+        "source_callouts": [
+          "DR. & C'BORE FOR 1/4 (LOW HEAD) SOC. HD. SCR. (4) HLS."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F004",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "90",
+        "skip": []
+      }
+    ],
+    "notes": [
+      "The front end is z=0; the rear end is z=D004. The central recess extends from z=0 to z=D007.",
+      "Reject the extraction's mounting-hole diameter .250 and counterbore depth .320: .250 is the nominal screw size, and .320 is not printed on the drawing.",
+      "Do not infer mounting counterbore depth from the unrelated .094 central-recess dimension or its derived .156 remaining thickness.",
+      "No edge breaks are specified. Material marking appears to read 'IE 357 STL.' and requires confirmation before procurement."
+    ]
+  }
+}

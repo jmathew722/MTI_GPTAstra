@@ -1,0 +1,47 @@
+{
+  "part": "SB12059",
+  "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12059\\SB12059_extraction.json",
+  "plan_attempts": 0,
+  "gate1": "OK",
+  "planned": 6,
+  "questions": [
+    "F006: Four radial tapped holes at 90-degree intervals; blocked by the unresolved seed drill depth and radial placement representation, not by the printed count or angular indexing.",
+    "F007: What included angle or mouth diameter defines the .03-deep countersinks on the four radial tapped holes? Depth alone does not define their shape."
+  ],
+  "flagged": [
+    "F005: A letter-Q drill, diameter .332 inch, is the standard tap drill for 3/8-24 UNF; that diameter is grounded and is not the unresolved item. No drill depth is printed. The IR does not document angular coordinates on a cylindrical wall or provide an explicit radial-axis field; u=0 is a nonexecuting placeholder, not a proposed hole location. The known axial station is retained in v. D012 is the required cosmetic thread depth and must not be substituted for an unspecified drill depth. DEFAULT D5: drill depth = printed thread depth + 5 pitches (literal 5 / 24 is 5 thread pitches)",
+    "F008: Both views show the sawcuts connecting the bore to the outside and traversing the full axial thickness. The profile starts on the axis, inside the bore, and extends to D005, beyond the flange radius; thru prevents a coincident axial stopping surface."
+  ],
+  "defaults": [
+    "F004: D4 not modelled: edge break with no printed size",
+    "F005: D5 .375-24 drill depth = 0.38 thread + 5 pitches"
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12059\\reference.step",
+  "volume": 17.677212,
+  "cq_skipped": {
+    "F006": "unresolved: Four radial tapped holes at 90-degree intervals; blocked by the unresolved seed drill depth and radial placement representation, not by the printed count or angular indexing.",
+    "F007": "unresolved: What included angle or mouth diameter defines the .03-deep countersinks on the four radial tapped holes? Depth alone does not define their shape."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12059\\SB-12059_ir.SLDPRT",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (1 edges selected by nearest point)",
+    "F003": "built (1 edges selected by nearest point)",
+    "F005": "built (radial, 0 deg, plain cut)",
+    "F006": "skipped (unresolved: Four radial tapped holes at 90-degree intervals; blocked by the unresolved seed drill depth and radial placement representation, not by the printed count or angular indexing.)",
+    "F007": "skipped (unresolved: What included angle or mouth diameter defines the .03-deep countersinks on the four radial tapped holes? Depth alone does not define their shape.)",
+    "F008": "built (Up To Next)",
+    "F009": "built (native circular pattern, 4 instances)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "sketches fully defined: 2/2"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F005: \u00d80.332 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole",
+    "[mti_edge_ops_last] F005 (hole) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 0.0,
+  "error": ""
+}

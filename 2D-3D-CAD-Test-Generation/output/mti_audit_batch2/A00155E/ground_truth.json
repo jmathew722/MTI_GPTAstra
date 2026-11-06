@@ -1,0 +1,33 @@
+{
+  "model": "A001551E.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 983365.642,
+  "bbox_mm": [
+    -266.7,
+    -76.2,
+    -6.35,
+    266.7,
+    76.2,
+    6.35
+  ],
+  "size_mm": [
+    12.7,
+    152.4,
+    533.4
+  ],
+  "center_mm": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Base-Extrude",
+    "Cut-Extrude4"
+  ],
+  "feature_types": [
+    "Extrusion",
+    "ICE"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00155E\\ground_truth.step",
+  "part": "A00155E"
+}

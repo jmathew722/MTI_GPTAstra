@@ -551,6 +551,237 @@ correct. Scorers must project along each hole's axis rather than assume model XY
   - Use the typed `OpenDoc6`, an **absolute** path, and `GetOpenDocumentByName` on 65536.
   - Re-wrap the returned document late-bound (`win32com.client.dynamic.Dispatch`).
 
+## E026 — SaveAs3 failed silently (benchmark dataset; entry reserved)
+
+Number taken by smcanuff's benchmark work on `main` (`bench/sw_tasks.py`): `SaveAs3` returns an
+error code (0 = success) and must never be tested for truthiness. The full entry was kept local;
+add it here.
+
+## E027 — A makepy cache broke COM byref calls (benchmark dataset; entry reserved)
+
+Number taken by smcanuff's benchmark work on `main` (`bench/sw_tasks.py`,
+`tests/test_bench_sw_tasks.py`): a makepy cache for sldworks.tlb made SolidWorks objects typed,
+and byref arguments to LoadFile4/OpenDoc6 failed ("int() argument must be ... not 'VARIANT'").
+The full entry was kept local; add it here.
+
+## E028 — Slots and circular patterns of prisms were not compiled for SolidWorks
+
+- **Date:** 2026-10-26 · **Parts:** A00155E (4 slots), SB14306 (radial slots and pockets in 4×
+  and 24× circular patterns) · **Stage:** IR SolidWorks compiler.
+- **Symptom:** "profile slot not compiled for SolidWorks yet" and "only hole patterns and
+  linear/grid prism patterns are compiled". The CadQuery reference built them correctly (A00155E
+  IoU 0.984 against MTI's model), so the gap was only in SolidWorks.
+- **Fix:**
+  - **Slots:** `ISketchManager.CreateSketchSlot(swSketchSlotCreationType_line = 0,
+    swSketchSlotLengthType_CenterCenter = 0, width, end1, end2, 0, 0, 0, 1, False)`. The arc
+    centers are ±length/2 along the slot angle, the same as CadQuery's
+    `slot2D(length + width, width, angle)`. Signatures and enums were read from
+    `sldworks.tlb`/`swconst.tlb`.
+  - **Circular patterns of prisms:** one native `FeatureCircularPattern5` about a reference axis
+    along the part axis. The axis is made once with `InsertAxis2` from the two base planes that
+    contain it (`select_ref_plane(..., append=True)`). Selection is the axis at mark 1 and the
+    seed feature at mark 4. Both directions are tried, and the result is checked against the
+    reference volume. This is how MTI's own SB14306 model does it (`CirPattern`).
+  - The compiler now keeps the SolidWorks feature built for each IR feature (`feat_obj`), so
+    patterns can select their seed.
+- **Live ($0, rebuilt from the saved plans):**
+  - **A00155E** builds and verifies (4 slots).
+  - **SB14306** builds and verifies: 4 slots and **9 native circular patterns** (4×, 4×, 24× ×7),
+    every one volume-matched.
+  - SB14306 still skips 6 features in the reference itself: 4 holes hit a `KeyError: 'depth'`
+    in `cq_runtime`, 1 edge query matched no edges, and 2 are open MTI questions. Those are next.
+- **Tests:** `test_circular_prism_pattern_*` in `test_ir_compile_solidworks.py`.
+
+## E029 — CadQuery reference: through-tapped holes, trimmed cylinders, seam edges (SB14306, 4C1229)
+
+- **Symptoms:**
+  1. SB14306 F010/F012/F014/F016 (".750-10 TAP THRU", ".375-16 TAP THRU") were skipped:
+     `TypeError: None * float` (seen in the report as `KeyError: 'depth'`).
+  2. 4C1229's reference failed at `finish`: `'Geom_RectangularTrimmedSurface' object has no
+     attribute 'Cylinder'`, so no `reference.step` and no SolidWorks build.
+  3. Once (2) was fixed, 4C1229 F004 (groove-root fillet) failed in SolidWorks: "no edge within
+     0.01 mm of [0.72, 0.0, 0.6535]".
+- **Root causes** (all in `pipeline/ir/cq_runtime.py`, the reference, not the SW compiler):
+  1. Only a counterbore with no depth was treated as through. A tapped or blind hole with
+     `depth: null` (the planner's way of writing THRU) multiplied `None`.
+  2. `measure_holes` read radii with `face._geomAdaptor().Cylinder()`. After the slot cuts the
+     bore's surface is a trimmed surface, which has no `Cylinder()`.
+  3. `edge_between(wall(F001,0.72), wall(F001))`: `wall(F001)` also matches the 0.72 cylinder
+     itself, so its **seam line** counted as an edge "between" the face and itself. SolidWorks
+     has no edge there. Separately, `wall()` tested curved faces by `Center()`, which for a
+     revolved face lies on the axis, so cones never matched.
+- **Fixes:**
+  - any hole with `depth: null` is through (reference and `compile_solidworks._SW.hole`;
+    Hole Wizard already used Up To Next);
+  - `_cylinder(face)` via `BRepAdaptor_Surface`;
+  - edge queries need two distinct faces; `wall()` tests a point on the surface
+    (`positionAt(0.5, 0.5)`).
+- **Generator rule:** never use `_geomAdaptor()` for analytic surface data; never let an edge
+  query pair a face with itself.
+- **Live ($0, from saved plans):** 4C1229 builds and verifies (IoU 0.938 vs MTI); SB14306 builds
+  and verifies with all 8 tapped holes (Hole Wizard, cosmetic threads).
+- **Tests:** `test_tapped_hole_with_null_depth_cuts_through`,
+  `test_holes_are_measured_after_slots_trim_the_bore`,
+  `test_edge_query_never_selects_a_cylinder_seam` (`test_ir_compile_cadquery.py`).
+
+## E030 — GetBodyBox is not tight: a correct part failed the final bounding-box check (SB14306)
+
+- **Symptom:** after the nose fillet (F003) was fixed, SB14306 built every feature with
+  matching volumes (743.7666 vs 743.7645 in³), yet `sw_ok` was false.
+- **Root cause:** the final check compares the SolidWorks body box with the reference within
+  1e-4. `IBody2.GetBodyBox` is not tight on curved faces: with the .12 R fillet on the largest
+  rim it read **10.7281"** (and −4.0068 on a flat side) where the part is exactly **10.7218"**.
+  Before the fillet the rim was a plain cylinder edge and the box happened to be exact.
+- **Fix:** `compile_solidworks.body_box(body)`: six calls to `IBody2.GetExtremePoint(X, Y, Z,
+  out x, out y, out z)` along ±X/±Y/±Z. The signature was checked in `sldworks.tlb`, and the call
+  was tried live on the saved SB14306 part: exact to 1e-6", matching the reference. It is used for
+  the origin-centered check and the final bbox check. If the call fails, it falls back to
+  `GetBodyBox`. (The byref outputs come back as a tuple through the typed wrapper; see E027 for
+  the makepy trap.)
+- **Generator rule:** never compare a `GetBodyBox` against an exact box with a tight tolerance;
+  use extreme points.
+- **Also in this round (reference runtime, no SolidWorks change):**
+  - `wall(F, r)` now matches a **cone** whose rim circle has radius r. A taper is dimensioned at
+    its end, so SB14306's F003 (".12 R" at the tapered nose) had "matched no edges". An exact
+    cylinder still wins over a cone rim.
+  - `score.surface_deviation`: the sampled surface distance in mm, now reported by
+    `mti_score.py` next to IoU.
+- **Tests:** `test_body_box_uses_extreme_points`, `test_body_box_falls_back_to_get_body_box`
+  (`test_ir_compile_solidworks.py`); `test_wall_radius_matches_a_cone_at_its_rim`,
+  `test_surface_deviation_reads_a_thin_wall_offset_in_mm` (`test_ir_compile_cadquery.py`).
+
+## E031 — A correct multi-body part failed the bounding-box check (SB12059)
+
+- **Symptom:** SB12059 built every feature with matching volumes but reported not verified.
+- **Root cause:** the part is four pieces by design ("COLLET PAD": four .060 sawcuts clean
+  through), so `GetBodies2` returns 4 bodies. The final check boxed only `bodies[0]`, one
+  quarter of the part. The volume check already summed every body.
+- **Fix:** `compile_solidworks.parts_box(bodies)`, the box around every body (extreme points per
+  body, E030).
+- **Also:** `pipeline/ir/defaults.py` never marks a hole planned unless it starts on a `face(...)`
+  or `plane(...)`. D5 had promoted SB12059's radial tap on `wall(...)`, which the reference can't
+  start a hole from.
+- **Generator rule:** final checks cover every body; a defaults rule never produces a feature the
+  IR can't build.
+- **Tests:** `test_parts_box_spans_every_body` (`test_ir_compile_solidworks.py`),
+  `test_never_defaults_a_hole_the_ir_cannot_start` (`test_ir_defaults.py`).
+
+## E032 — Radial holes: "Member not found" on a sketch line, and a reference plane that can't be selected
+
+- **Symptom:** the first live build of radial holes failed with
+  `com_error -2147352573 'Member not found'`. Every radial hole was skipped.
+- **Root causes:**
+  - `SketchManager.CreateLine` returns the **ISketchSegment** view of the line. `GetEndPoint2` is
+    a member of **ISketchLine**, and late binding can't reach it.
+  - `FeatureManager.InsertRefPlane` returns an **IRefPlane**, which has no `Select2`.
+- **Fixes:**
+  - `typed(seg, "ISketchLine").GetEndPoint2()`, `typed(seg, "ISketchSegment").Select4(...)` and
+    `typed(point, "ISketchPoint")`;
+  - the new plane is taken as the last feature (`FeatureByPositionReverse(0)` → `IFeature`,
+    type-checked `RefPlane`) and selected from there.
+- **Also:** the compiler's failure note now names our own function and line that raised
+  (`(at radial_hole:797)`). A COM error doesn't say which call failed, and the deepest traceback
+  frame is inside pywin32.
+- **Verified live:**
+  - `tests/golden/ir/radial_demo.json` (four taps at 45° as one native circular pattern, plus a
+    through cross-hole) builds and verifies.
+  - A chiral test part (stepped tube, tap at 30°, cross-hole at 0°) matches the reference at
+    **IoU 1.000 under proper rotations only**; the best mirrored alignment is 0.996. So radial
+    holes keep the right handedness.
+- **Generator rule:** cast to the interface that owns the member (`typed`) before calling it.
+  Select new reference geometry through its `IFeature`.
+- **Tests:**
+  - `test_radial_*` in `test_ir_compile_cadquery.py`;
+  - `test_radial_holes_are_recognised_and_never_grouped` and
+    `test_radial_pattern_routes_to_the_native_circular_pattern` in
+    `test_ir_compile_solidworks.py`;
+  - `test_radial_tap_with_thread_depth_only_is_defaulted` in `test_ir_defaults.py`.
+
+## E033 — The CadQuery reference over-cut a radial hole (exact boolean), so a correct SolidWorks cut "mismatched"
+
+- **Symptom:** the 2N2664 re-plan's radial cross-hole F017 (240°, Ø.5003 to the axis) failed in
+  SolidWorks: "no direction matched the reference volume". SolidWorks removed 0.282 in³; the
+  reference said 0.551. F018 and F022 cascaded; F019's chamfer failed in the reference
+  ("ChFi3d_Builder: only 2 faces").
+- **Investigation:**
+  - A live probe of the SolidWorks hole showed the right axis (240° from +X in the IR frame), the
+    right station, and an extent from the OD to the bore.
+  - Point-sampling the reference's material inside the hole gave **0.288 in³**.
+  - Radial slices summed to 0.315.
+  - The reference's exact `solid.cut(tool)` (and `intersect`) gave 0.551, for any tool length.
+  - Fuzzy booleans: tolerances up to 1e-3 mm still gave 0.551; **0.01 mm gave 0.282**, matching
+    SolidWorks. So it was an OpenCascade exact-boolean failure on a hole that grazes existing
+    geometry.
+- **Fix:** `cq_runtime` cuts with a fuzzy tolerance `BOOL_FUZZY_MM = 0.01` (10 µm, far below any
+  drawing tolerance). Override with `MTI_BOOL_FUZZY_MM` (`0` = exact) for A/B checks.
+- **A/B over every saved reference** (all audit parts, all golden variants, ~90 builds): identical
+  per-feature volumes everywhere except the 2N2664 re-plan, which is now right. F017 builds and
+  F019 builds.
+- **Generator rule:** when SolidWorks and the reference disagree, check the reference independently
+  (point sampling) before blaming SolidWorks. Booleans in the reference use the fuzzy tolerance.
+- **Result:** the 2N2664 re-plan builds and verifies with the radial cross-hole; IoU **0.9957** vs
+  MTI (the earlier plan scored 0.9926).
+
+## E034 — Scores that changed run to run: CadQuery's parallel booleans are not deterministic
+
+- **Symptom:** the same part scored very differently from run to run.
+  - 2N2664 with D8 scored IoU **0.00075** in one run and 0.994 in the next.
+  - A valid part, near-identical to MTI's, read **0.32**.
+  - `intersect` returned a null shape for a pose that had worked seconds earlier.
+  - Discrepancy pieces added up to 192% of a 0.002% gap (SB12006).
+- **Root cause:** CadQuery runs OpenCascade booleans with `SetRunParallel(True)`, and parallel
+  booleans on these solids (many small edge treatments, fuzzy tolerance) were **not deterministic**.
+  The exact (non-fuzzy) mode also failed where E033 showed it fails.
+- **Fix:** `score.boolean(kind, a, b, fuzzy)` calls `BRepAlgoAPI_Common/Cut/Fuse` directly with
+  `SetRunParallel(False)`, `SetNonDestructive(True)` and `SetFuzzyValue(0.01 mm)`.
+  - It is used by `iou`, `clocked` and the discrepancy pieces.
+  - Three repeated runs over all 48 poses of 2N2664: identical results, no failures.
+  - `clocked` takes the strict IoU as a baseline and tries 27 pattern angles (15° steps plus 72°
+    steps), because serial booleans are slower.
+- **Generator rule:** scoring and analysis booleans are serial and fuzzy. A score that moves between
+  identical runs is a tooling bug, not a result.
+- **Tests:** the existing scorer tests, plus `test_clocked_iou_forgives_rotation_about_the_axis_only`.
+
+## E035 — Hole Wizard placement sketches were left under-defined; now fully defined without adding a hole
+
+- **Symptom:** 18 of 171 sketches in the audit parts were under-defined, and **all 18 were Hole
+  Wizard placement sketches**.
+  - The SB single taps at the centre of a turned end face.
+  - Hole groups on plates and bolt circles (A00122E, A00144E, A00173E, SB11488, SB12054, 2N2664).
+  - MTI's practice is that every sketch is fully defined.
+- **Why they were excluded (E023):** Hole Wizard drills at every free sketch point, so the origin
+  anchor point used for plane sketches would become a hole.
+- **Findings (live, SolidWorks 2025 SP5):**
+  1. Fully Define Sketch with the part origin as datum leaves a placement sketch under-defined. A
+     **coincident between an existing hole point and `Point1@<origin>`** (EXTSKETCHPOINT) defines
+     it, with the point count and volume unchanged (SB12006).
+  2. **Fully Define Sketch never dimensions Hole Wizard's own placement point.** Every hole we
+     added got a distance dimension; that one kept only its coincidents, and stayed free along
+     its layout line (A00144E) or bolt circle (A00173E). A coincident to that point also did not
+     apply, and neither did a merge.
+  3. A layout line's endpoints were not tied to the end holes (only "point on line"), so the
+     line's length floated.
+  4. A zero offset can't be a dimension: a hole level with the origin returns `None` from
+     `AddVerticalDimension2` (A00173E).
+- **Fix** (`compile_solidworks`):
+  - **`hw_datum`:** relates a hole point or layout centre at the origin to the origin. Otherwise
+    it adds a **construction** line from the origin to an added hole (not Hole Wizard's own point);
+    Hole Wizard ignores construction geometry and its end points (E022).
+  - **`define_sketch(datum=)`:** Fully Define Sketch from that point.
+  - **`dimension_free_points`:** horizontal and vertical dimensions from the datum to any point
+    still free, or `sgVERTICALPOINTS2D` / `sgHORIZONTALPOINTS2D` for a zero offset. A dimension
+    that over-defines is undone. `swInputDimValOnCreate` (10) is off while adding them, then
+    restored.
+  - **`layout_geometry`:** a hole at a layout line's end is related to that endpoint, point to
+    point.
+- **Verified:** all 37 audit builds rebuilt from saved plans ($0). **Every part verifies, and 145
+  of 145 sketches are fully defined**, every Hole Wizard placement sketch included. No hole moved:
+  the volume checks are unchanged.
+- **Generator rule:** never leave a placement sketch under-defined, and never add a free point to
+  one. Tie an existing point (or a construction line's end) to the origin, then dimension.
+- **Tests:** 1018 passed. This is live-only behaviour (it needs SolidWorks); the full rebuild is
+  the regression check.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

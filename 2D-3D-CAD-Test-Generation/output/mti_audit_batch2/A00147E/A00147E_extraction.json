@@ -1,0 +1,659 @@
+{
+  "part_name": "TIE ROD",
+  "part_number": "147-D",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:2",
+  "material": "MFR STD STL; approved supplier Thomson Industries, Inc.; Class S steel shafting",
+  "finish": "HARDENED & GROUND 60 CASE. Heat treatment: VENDORS STD LENGTH \"H\", RKW C 58-63. Surface texture 63 on the 1.9980 diameter journals; stacked 16/32 marking on the main diameter; K marking at the end-shaft surface texture symbol. Referenced specification 1E122 SURF TEX.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1.020; 3 PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b11\u00b0. Referenced specifications: 1E507 IDENT; 1E122 SURF TEX; 1E500 THD; 1E11 TOL.",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Longitudinal elevation of a solid, stepped, externally threaded tie rod. The central cylindrical length is shortened graphically by a conventional shaft break; hatching at the break is not a separate section view. Both ends have reduced journals, further reduced threaded-end extensions, shoulder radii, and end chamfers.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010",
+        "D011",
+        "D012",
+        "D013",
+        "D014",
+        "D015",
+        "D016"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005",
+        "F006",
+        "F007"
+      ],
+      "hidden_features": [
+        "F004"
+      ],
+      "centerline_notes": "Horizontal axial centerline shared by all cylindrical steps and external threads. Dashed lines near the ends represent conventional thread minor-diameter geometry, not internal holes. Datum A is the axis established by the main 2.4981 diameter."
+    },
+    {
+      "view_type": "Left",
+      "description": "Left end view, consistent with the stated third-angle projection. Concentric circular outlines represent the solid shaft steps and end/thread/chamfer geometry; no bore is indicated.",
+      "dimensions_shown": [],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F007"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Crossed horizontal and vertical centerlines establish the common shaft axis. Circular outlines are concentric."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 55.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_length",
+      "feature_ref": "",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 55.50, with \"H\" PERMITTED below. Two-place general tolerance applies. The H notation is not a reference-dimension designation."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 8.25,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_end_to_main_shoulder",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 8.250; three-place general tolerance applies. Includes the reduced journal and the end extension."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 39.0,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "main_cylinder_length_between_shoulders",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 39.000, with \"H\" LENGTH below; three-place general tolerance applies."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 1.88,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "reduced_journal_length",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "2 PLACES; length between the main shoulder and the next smaller-diameter shoulder. Two-place general tolerance applies."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "end_chamfer_size",
+      "feature_ref": "F007",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".06 X 45\u00b0, 2 PLACES; two-place general tolerance applies."
+    },
+    {
+      "id": "D006",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "end_chamfer_angle",
+      "feature_ref": "F007",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Angle and tolerance are in degrees, not inches. The schema does not provide a degree unit. Part linear units are inches. 2 PLACES; general angular tolerance applies."
+    },
+    {
+      "id": "D007",
+      "type": "diameter",
+      "value": 1.868,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "end_extension_diameter",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit diameter tolerance; part of the combined end-diameter/external-thread callout, 2 PLACES."
+    },
+    {
+      "id": "D008",
+      "type": "thread",
+      "value": 1.875,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "external_thread_nominal_diameter",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.875-12-2A THD, 2 PLACES. External threads, 12 threads/inch, class 2A. Thread series is not explicitly printed. Thread tolerances are governed by the thread class and referenced 1E500 THD specification, not inferred from decimal-place tolerances."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 3.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "minimum_external_thread_length",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "3.00 MIN. THD LENGTH, 2 PLACES. This is a minimum requirement, not a bilateral length tolerance. Maximum thread length and exact thread termination are not dimensioned."
+    },
+    {
+      "id": "D010",
+      "type": "diameter",
+      "value": 1.998,
+      "unit": "inch",
+      "tolerance_plus": 0.0005,
+      "tolerance_minus": 0.0005,
+      "tolerance_type": "bilateral",
+      "applies_to": "reduced_journal_diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "A",
+      "gdt_symbol": "circular_runout",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.9980 diameter \u00b1.0005, 2 PLACES. Associated legacy frame shows a single runout arrow, A, .0005 T.I.R.; extracted separately as D016."
+    },
+    {
+      "id": "D011",
+      "type": "diameter",
+      "value": 2.4981,
+      "unit": "inch",
+      "tolerance_plus": 0.0004,
+      "tolerance_minus": 0.0004,
+      "tolerance_type": "bilateral",
+      "applies_to": "main_shaft_diameter",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "A",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit diameter tolerance. Boxed -A- identifies the main cylinder as datum feature A, establishing the longitudinal datum axis."
+    },
+    {
+      "id": "D012",
+      "type": "radial",
+      "value": 0.03,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "journal_to_end_extension_shoulder_radius",
+      "feature_ref": "F006",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Upper of the two .030 R callouts at the right end; 2 PLACES. Three-place general tolerance applies."
+    },
+    {
+      "id": "D013",
+      "type": "radial",
+      "value": 0.03,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "main_cylinder_to_journal_shoulder_radius",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Lower of the two .030 R callouts at the right end; 2 PLACES. Three-place general tolerance applies."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_main_shoulder_perpendicularity",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "A",
+      "gdt_symbol": "perpendicularity",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Legacy frame printed perpendicularity | A | .001. This is the geometric tolerance-zone width, not an additional size dimension."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_main_shoulder_perpendicularity",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "A",
+      "gdt_symbol": "perpendicularity",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Second independent frame printed perpendicularity | A | .001, on the right main shoulder."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 0.0005,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "reduced_journal_runout",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "A",
+      "gdt_symbol": "circular_runout",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Single-arrow runout symbol | A | .0005 T.I.R., associated with the 1.9980 diameter, 2 PLACES. Preserve the original T.I.R. wording; it is not a double-arrow total-runout symbol."
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 8.25,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_main_shoulder_to_end",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal dimension, not printed: 55.50 - 39.000 - 8.250 = 8.250. No independent tolerance assigned; governing tolerance stack comes from the printed dimensions."
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 6.37,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "each_small_diameter_end_extension_length",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal length: 8.250 - 1.88 = 6.370 at each end. Thread occupies at least the outer 3.00 of this extension. No independent tolerance assigned."
+    }
+  ],
+  "hole_callouts": [],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Solid central cylindrical shaft, diameter 2.4981 and length 39.000 between shoulders. Establish its axis as datum A; preferably use a mid-plane extrusion. The drawing's central break does not remove material.",
+      "related_dimensions": [
+        "D003",
+        "D011",
+        "D014",
+        "D015"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D003",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_boss",
+      "description": "Two coaxial reduced journals, one on each central-cylinder end face, diameter 1.9980 and length 1.88 each. Implement as two bosses or a mirrored boss.",
+      "related_dimensions": [
+        "D004",
+        "D010",
+        "D016"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "D004",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F003",
+      "type": "extrude_boss",
+      "description": "Two coaxial end extensions, diameter 1.868, extending outward from the reduced journals. Each has derived nominal length 6.370; overall part length is 55.50. These are solid external-thread blanks, not holes.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D007",
+        "D017",
+        "D018"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "D018",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F004",
+      "type": "thread",
+      "description": "External 1.875-12-2A threads at both ends, 3.00 minimum thread length each. Exact termination is unspecified; a cosmetic-thread model can preserve the minimum callout without inventing a manufactured runout.",
+      "related_dimensions": [
+        "D007",
+        "D008",
+        "D009"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "D009",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F005",
+      "type": "fillet",
+      "description": "R.030 concave shoulder blends between the main cylinder and each 1.9980 journal, two places.",
+      "related_dimensions": [
+        "D013"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F006",
+      "type": "fillet",
+      "description": "R.030 concave shoulder blends between each 1.9980 journal and the 1.868 end extension, two places.",
+      "related_dimensions": [
+        "D012"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F007",
+      "type": "chamfer",
+      "description": "External end-edge chamfers, .06 x 45 degrees, one at each free end.",
+      "related_dimensions": [
+        "D005",
+        "D006"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F004",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [
+    {
+      "symbol": "perpendicularity (left main shoulder; D014)",
+      "value": 0.001,
+      "datum": "A"
+    },
+    {
+      "symbol": "perpendicularity (right main shoulder; D015)",
+      "value": 0.001,
+      "datum": "A"
+    },
+    {
+      "symbol": "circular_runout (two reduced journals; .0005 T.I.R.; D016)",
+      "value": 0.0005,
+      "datum": "A"
+    }
+  ],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Transverse plane through the shaft midpoint, 27.75 from either end",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007"
+        ],
+        "description": "Nominal end geometry is mirrored. The right end length derived from the overall chain equals the dimensioned left end length. Paired sizes, radii, chamfers, and thread requirements are explicitly marked 2 PLACES; exact thread terminations need not be identical because only minimum lengths are specified."
+      },
+      {
+        "plane": "Any longitudinal plane through datum axis A, excluding the helical thread form",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F005",
+          "F006",
+          "F007"
+        ],
+        "description": "The turned solid envelope is rotationally symmetric about A."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007"
+        ],
+        "description": "All turned surfaces and external threads share the nominal shaft axis. Main cylinder establishes datum A; reduced journals have the explicit .0005 T.I.R. requirement."
+      }
+    ],
+    "equal_spacing": [],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D002",
+          "D003",
+          "D017"
+        ],
+        "description": "Overall axial length: 55.50 = 8.250 + 39.000 + 8.250."
+      },
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D004",
+          "D018"
+        ],
+        "description": "Left reduced end assembly: 8.250 = 1.88 journal + 6.370 end extension."
+      },
+      {
+        "total_dimension_id": "D017",
+        "component_dimension_ids": [
+          "D004",
+          "D018"
+        ],
+        "description": "Right reduced end assembly: 8.250 = 1.88 journal + 6.370 end extension."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D017",
+      "D018"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007"
+  ],
+  "warnings": [
+    "No explicit ASME/ISO/DIN standard designation is visible. Third-angle projection, inch units, class-2A external threads and legacy datum-first tolerance frames are stated or visible; a governing standard edition must not be assumed.",
+    "The title-block scale appears to read 1 = 2, interpreted as 1:2. Do not measure geometry from this image; the main view also contains a length break.",
+    "The main-cylinder surface texture marking shows stacked 16 and 32. These may express a roughness range, but the exact convention and units require the referenced surface-texture specification or a clearer original. The K marking at the end surface texture symbol likewise requires interpretation. Do not treat these as inch dimensions.",
+    "Referenced company specifications 1E507, 1E122, 1E500 and 1E11 are not supplied. Their leading character resembles the digit 1; verify their identifiers against the original.",
+    "Heat treatment is transcribed as RKW C 58-63 and HARDENED & GROUND 60 CASE. Do not convert '60 CASE' into an assumed case-depth requirement. Confirm the supplier specification, meaning of H, and permitted hardened length before manufacturing.",
+    "External thread callout does not explicitly give a thread-series abbreviation. Preserve 1.875-12-2A rather than adding an unsupported series designation.",
+    "The 3.00 thread length is a minimum, not an exact thread termination. No separately dimensioned thread relief or runout geometry is provided.",
+    "No internal holes, counterbores, countersinks or tapped holes are shown. The concentric end-view circles and dashed lines at the ends must not be interpreted as bores.",
+    "No revision is explicitly identified; the D in 147-D is retained as part of the drawing number.",
+    "Angular dimensions use the schema's inch unit field solely because a degree option is unavailable; D006 and its \u00b11 tolerance are in degrees."
+  ],
+  "confidence": 0.9
+}

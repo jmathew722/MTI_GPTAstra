@@ -1,0 +1,49 @@
+{
+  "model": "SB12053-001.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 857741.697,
+  "bbox_mm": [
+    -292.1,
+    -56.3857,
+    -56.7436,
+    0.0,
+    56.3857,
+    56.7436
+  ],
+  "size_mm": [
+    112.7715,
+    113.4872,
+    292.1
+  ],
+  "center_mm": [
+    -146.05,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Revolve1",
+    "CBORE for 3/4 Socket Head Cap Screw1",
+    "Cut-Extrude1",
+    "#10-32 Tapped Hole1",
+    "Fillet1",
+    "1/4-20 Tapped Hole1",
+    "CirPattern1",
+    "Fillet2",
+    "Fillet3",
+    "Chamfer1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "HoleWzd",
+    "ICE",
+    "HoleWzd",
+    "Fillet",
+    "HoleWzd",
+    "CirPattern",
+    "Fillet",
+    "Fillet",
+    "Chamfer"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12053\\ground_truth.step",
+  "part": "SB12053"
+}

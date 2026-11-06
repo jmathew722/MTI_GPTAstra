@@ -1,0 +1,88 @@
+{
+  "part": "SB-12008",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -1.0,
+    -1.0,
+    0.0,
+    1.0,
+    1.0,
+    4.25
+  ],
+  "volume": 12.243316,
+  "volume_mm3": 200631.997,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004"
+  ],
+  "skipped": {
+    "F005": "unsupported: Cylindrical-surface text stamping is outside this IR; character dimensions and exact placement are also unspecified."
+  },
+  "holes": {
+    "F004": [
+      {
+        "planned_center": [
+          0.0,
+          0.0
+        ],
+        "planned_d": 0.159,
+        "measured": true,
+        "center": [
+          0.0,
+          0.0
+        ],
+        "d": 0.159,
+        "depth": 0.38,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {
+    "F002": [
+      [
+        -0.6235,
+        0.0,
+        0.562
+      ]
+    ],
+    "F003": [
+      [
+        -0.594,
+        0.0,
+        0.281
+      ],
+      [
+        -0.594,
+        0.0,
+        0.343
+      ]
+    ]
+  },
+  "starts": {
+    "F004": {
+      "axis": "Z",
+      "coord": 4.25,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 12.250054642,
+    "F002": 12.250819419,
+    "F003": 12.250860791,
+    "F004": 12.243315644
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -1.0,
+      -1.0,
+      0.0,
+      1.0,
+      1.0,
+      4.25
+    ]
+  }
+}

@@ -1,0 +1,669 @@
+{
+  "part_name": "BRACKET",
+  "part_number": "162-B",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "1E40 CR STEEL; .50 X 2.50 stock",
+  "finish": "",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 3 PLACE DIM. \u00b1 .010; 2 PLACE DIM. \u00b1 .020; ANGULAR DIM. \u00b1 1\u00b0. Thickness and overall height marked STOCK TOL. Note: 1E421 HOLE TOLERANCE.",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Lower principal view: rectangular plate face with one large central hole and two small holes on a common horizontal centerline.",
+      "dimensions_shown": [
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Horizontal centerline passes through all three holes. Vertical centerlines identify the central hole and both small holes. Nominal geometry is symmetric horizontally and vertically."
+    },
+    {
+      "view_type": "Top",
+      "description": "Upper edge view, consistent with the stated third-angle projection; shows plate length and stock thickness.",
+      "dimensions_shown": [
+        "D001",
+        "D002"
+      ],
+      "visible_features": [
+        "F001"
+      ],
+      "hidden_features": [
+        "F002",
+        "F004"
+      ],
+      "centerline_notes": "Vertical centerlines align with all three hole axes in the front view. Dashed hole walls are readable for the central and right holes; left small-hole walls are not clearly depicted."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 6.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_length",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 6.00; general two-place tolerance applies."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "plate_thickness",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .50 (STOCK TOL.). Numerical stock tolerance is not supplied; zero tolerance fields do not mean an exact thickness. Material block also specifies .50 stock thickness."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 5.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "small_hole_center_spacing",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 5.000 BSC; basic dimension, not a reference dimension. Do not apply the general \u00b1.010 size tolerance."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 2.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_small_hole_to_central_hole_spacing",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.500 BSC; basic dimension, not a reference dimension."
+    },
+    {
+      "id": "D005",
+      "type": "diameter",
+      "value": 0.406,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "small_hole_diameter",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .406 DIA B, 2 HOLES. Suffix B is retained as written; its meaning and applicable size tolerance require the referenced 1E421 HOLE TOLERANCE specification. Do not interpret B as a datum reference."
+    },
+    {
+      "id": "D006",
+      "type": "diameter",
+      "value": 0.01,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "small_hole_position_tolerance_zone_diameter",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "position",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Feature-control frame below 2 HOLES contains the position symbol and .010 diameter. No datum compartments or material-condition modifiers are shown. Applies to both small holes, including the patterned instance."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 1.75,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "top_edge_to_common_hole_centerline",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.75 with a wavy underline. General two-place tolerance applies unless a separate revision convention overrides it. Controls the common horizontal centerline of all three holes; not parenthesized or marked REF."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 3.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "overall_height",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": true,
+      "notes": "Printed 3.50 (STOCK TOL.), with wavy underline. Value is readable, but conflicts with .50 X 2.50 stock in the material block. Numerical stock tolerance is not given. Resolve stock-width conflict before manufacture."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 3.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_edge_to_central_hole_axis",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 3.00; general two-place tolerance applies."
+    },
+    {
+      "id": "D010",
+      "type": "diameter",
+      "value": 1.09,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "central_hole_diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.090 DIA B. Suffix B is retained as written; verify hole size tolerance against the referenced 1E421 HOLE TOLERANCE specification rather than silently applying the general \u00b1.010 tolerance."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 2.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "material_stock_width",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": true,
+      "notes": "Read from material block: .50 X 2.50. Conflicts with front-view overall height 3.50. Not used as the modeled plate height pending clarification."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_edge_to_left_small_hole_axis",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal location: D009 - D004 = 3.00 - 2.500 = .500. Not an independently specified tolerance."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_small_hole_axis_to_right_edge",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal margin: D001 - D012 - D003 = 6.00 - .500 - 5.000 = .500."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 2.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "central_hole_to_right_small_hole_spacing",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D003 - D004 = 5.000 - 2.500 = 2.500."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 1.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "bottom_edge_to_common_hole_centerline",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D008 - D007 = 3.50 - 1.75 = 1.75. Conditional on accepting the explicit 3.50 overall height over the conflicting material stock width."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 5.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_edge_to_right_small_hole_axis",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D012 + D003 = .500 + 5.000 = 5.500."
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 3.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "central_hole_axis_to_right_edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D001 - D009 = 6.00 - 3.00 = 3.00."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 0.406,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 2,
+      "x_position": 0.5,
+      "y_position": 1.75,
+      "position_known": true,
+      "pattern": "linear",
+      "pattern_spacing": 5.0,
+      "instance_positions": [
+        [
+          0.5,
+          1.75
+        ],
+        [
+          5.5,
+          1.75
+        ]
+      ],
+      "feature_ref": "F003",
+      "view": "Front"
+    },
+    {
+      "id": "H002",
+      "type": "thru",
+      "diameter": 1.09,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 3.0,
+      "y_position": 1.75,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          3.0,
+          1.75
+        ]
+      ],
+      "feature_ref": "F002",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Rectangular plate, nominally 6.00 long by 3.50 high, extruded .50 thick. Use front-view lower-left corner as the in-plane origin. Height remains subject to material-stock discrepancy.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D008"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D002",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Central 1.090 diameter through hole at nominal edge-referenced coordinates (3.00, 1.75). Hole suffix B requires specification verification.",
+      "related_dimensions": [
+        "D010",
+        "D009",
+        "D007",
+        "D008",
+        "D015"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 3.0,
+      "offset_y": 1.75,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "hole",
+      "description": "Seed left .406 diameter through hole at nominal edge-referenced coordinates (.50, 1.75); one of two holes controlled by the diameter .010 position callout.",
+      "related_dimensions": [
+        "D005",
+        "D006",
+        "D004",
+        "D007",
+        "D009",
+        "D012",
+        "D015"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.5,
+      "offset_y": 1.75,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "pattern",
+      "description": "Two-instance linear pattern including the seed, 5.000 BSC along the plate length, placing the right .406 through hole at (5.50, 1.75).",
+      "related_dimensions": [
+        "D003",
+        "D005",
+        "D006",
+        "D016"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [
+    {
+      "symbol": "position",
+      "value": 0.01,
+      "datum": ""
+    }
+  ],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Vertical plane through x = 3.00, perpendicular to the front face",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004"
+        ],
+        "description": "Nominal lengthwise symmetry: the central hole is at half of 6.00 and the two small holes lie at \u00b12.500 from it."
+      },
+      {
+        "plane": "Horizontal plane through y = 1.75, perpendicular to the front face",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004"
+        ],
+        "description": "Nominal heightwise symmetry follows from 3.50 overall height and 1.75 top-edge offset; conditional on resolution of conflicting stock width."
+      }
+    ],
+    "concentric_groups": [],
+    "equal_spacing": [
+      {
+        "feature_ref": "H001",
+        "qty": 2,
+        "spacing_value": 5.0,
+        "computed_from": "Explicit 5.000 BSC center distance between the two small holes."
+      },
+      {
+        "feature_ref": "F004",
+        "qty": 3,
+        "spacing_value": 2.5,
+        "computed_from": "Three collinear hole axes: total outer-hole span 5.000 / 2 gaps = 2.500, agreeing with the explicit left-to-central 2.500 BSC dimension. This is axis spacing, not a three-instance equal-diameter feature pattern."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D012",
+          "D003",
+          "D013"
+        ],
+        "description": "6.00 = .50 left margin + 5.000 small-hole span + .50 right margin."
+      },
+      {
+        "total_dimension_id": "D003",
+        "component_dimension_ids": [
+          "D004",
+          "D014"
+        ],
+        "description": "5.000 = 2.500 left-to-central spacing + 2.500 central-to-right spacing."
+      },
+      {
+        "total_dimension_id": "D009",
+        "component_dimension_ids": [
+          "D012",
+          "D004"
+        ],
+        "description": "3.00 central-hole x coordinate = .50 left-hole x coordinate + 2.500 basic spacing."
+      },
+      {
+        "total_dimension_id": "D008",
+        "component_dimension_ids": [
+          "D007",
+          "D015"
+        ],
+        "description": "3.50 height = 1.75 above centerline + 1.75 below centerline."
+      },
+      {
+        "total_dimension_id": "D016",
+        "component_dimension_ids": [
+          "D012",
+          "D003"
+        ],
+        "description": "5.50 right-hole x coordinate = .50 + 5.000."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D016",
+          "D013"
+        ],
+        "description": "6.00 length = 5.50 right-hole x coordinate + .50 right margin."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D009",
+          "D017"
+        ],
+        "description": "6.00 length = 3.00 left-to-central axis + 3.00 central axis-to-right edge."
+      },
+      {
+        "total_dimension_id": "D017",
+        "component_dimension_ids": [
+          "D014",
+          "D013"
+        ],
+        "description": "3.00 central-axis-to-right edge = 2.500 central-to-right-hole spacing + .50 right margin."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D012",
+      "D013",
+      "D014",
+      "D015",
+      "D016",
+      "D017"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004"
+  ],
+  "warnings": [
+    "Manufacturing hold: explicit overall height 3.50 and top-edge hole offset 1.75 conflict with material stock designation .50 X 2.50. Front-view proportions resemble a 2.50-high plate, but dimensions, not image scaling, were used. Confirm the intended stock width and revised dimensions.",
+    "Material designation is transcribed as 1E40 CR STEEL; the handwritten internal designation must be verified. It has not been silently normalized to SAE 1040.",
+    "The note reads 1E421 HOLE TOLERANCE, and both hole diameters have suffix B. The referenced specification is absent; actual hole size limits and the meaning of B cannot be established reliably from this sheet alone.",
+    "Stock tolerances are called out for thickness and overall height without numerical limits.",
+    "The position frame specifies a .010-diameter zone for the two small holes but gives no explicit datum references or material-condition modifiers. No datum B has been inferred from the diameter suffixes.",
+    "THRU is inferred from the edge-view hole-wall depiction across the plate thickness and absence of blind-depth callouts; the word THRU is not printed.",
+    "All reported hole coordinates use the front-view lower-left corner as origin. Edge-referenced x and bottom-referenced y coordinates are arithmetically derived from the dimension chains, not individually printed coordinate dimensions.",
+    "The title block explicitly specifies third-angle projection and inches but does not identify ASME, ISO, or DIN by name.",
+    "162-B is treated as the complete drawing/part number; no separate revision value is established.",
+    "No surface finish, heat-treatment instruction, threads, counterbores, countersinks, fillets, chamfers, or additional views are specified."
+  ],
+  "confidence": 0.84
+}

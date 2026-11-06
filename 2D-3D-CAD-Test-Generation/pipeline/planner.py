@@ -66,7 +66,11 @@ axis(part) or axis(F###). Edge queries: edge_between(<ref>,<ref>).
 
 DIRECTION: from a face, op "add" goes outward and op "cut" goes into the material. From a base
 plane, both go +normal; "offset" moves the start plane. Holes start at "on" and go into the
-material; depth "thru" cuts through everything.
+material; depth "thru" cuts through everything. A RADIAL hole (drilled into the outside of a
+turned part, toward its axis) starts on wall(F###,<radius expr>), with u = its angle in degrees
+about the part axis from +X toward +Y (as drawn in the end view) and v = its axial station z;
+depth is radial from that surface ("THRU (1) WALL" = the wall thickness, "thru" = the whole
+diameter). Repeat it with a circular pattern about axis(part).
 
 FEATURES: prism (rect/circle/slot/polygon profile), revolve (outer/inner (z, r) stations; a
 turned part's necks, grooves and shoulders are steps in the stations, not separate cuts), hole

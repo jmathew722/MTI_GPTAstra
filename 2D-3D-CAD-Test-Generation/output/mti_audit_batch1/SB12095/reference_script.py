@@ -13,6 +13,6 @@ m.hole('F005', on='face(F002,+Z,5.317)', u=0, v=0, spec={'type': 'tapped', 'd': 
 m.hole('F006', on='wall(F001,1.0)', u=0, v=5.687, spec={'type': 'tapped', 'd': 0.136, 'depth': 1})  # u=0, v=D001 - D012, d=0.136
 m.pattern('F007', seed='F006', mode='circular', count=3, pitch=0, dir='+X', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step=120, skip=[], op='cut')  # count=3, pitch=0
 m.skip('F008', 'unresolved: Does 1.188 DIA. control the tip as well as the groove? It conflicts with a .094 axial taper at 30 degrees from 1.247 diameter; confirm the intended tip profile.')
-m.skip('F009', 'unresolved: What nominal radius is required within the .030 shoulder-radius maximum?')
+m.edge_op('F009', operation='fillet', size=0.03, angle=45, edges=['edge_between(face(F001,-Z,0.562),wall(F001,0.6235))'])  # size=D010; edges=['edge_between(face(F001,-Z,D002),wall(F001,D006 / 2))']
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

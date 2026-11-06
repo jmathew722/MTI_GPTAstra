@@ -1,0 +1,39 @@
+{
+  "model": "SB12010.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 274636.002,
+  "bbox_mm": [
+    -158.75,
+    -25.4,
+    -25.4,
+    0.0,
+    25.4,
+    25.4
+  ],
+  "size_mm": [
+    50.8,
+    50.8,
+    158.75
+  ],
+  "center_mm": [
+    -79.375,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Revolve1",
+    "Chamfer1",
+    "Fillet1",
+    "Fillet2",
+    "#10-32 Tapped Hole1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "Chamfer",
+    "Fillet",
+    "Fillet",
+    "HoleWzd"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12010\\ground_truth.step",
+  "part": "SB12010"
+}

@@ -35,7 +35,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from pipeline.ir.expr import evaluate
-from pipeline.ir.model import BuildPlan, EdgeOp, Hole, Pattern, Prism, Revolve
+from pipeline.ir.model import BuildPlan, EdgeOp, Hole, Pattern, Prism, Revolve, parse_ref
 from utils.logger import get_logger
 
 log = get_logger()
@@ -209,6 +209,8 @@ class _SW:
         self.doc.SketchManager.AddToDB = True
         self.report = SwBuildReport(plan.part, None, convention="mti" if self.base else "drawing")
         self.flips: dict[str, bool] = {}   # direction each feature was verified with (pattern copies reuse it)
+        self.feat_obj: dict[str, Any] = {}   # SolidWorks feature built for each IR feature (pattern seeds)
+        self._part_axis = None               # reference axis along IR z (circular patterns)
         self.extra_removed = 0.0             # Hole Wizard drill-point cones (drawing units^3)
         self.layout_drawn = ""               # construction geometry under the last Hole Wizard
         self.sketch_status: dict[str, int] = {}   # MTI: every sketch fully defined (3 = fully)
@@ -247,7 +249,7 @@ class _SW:
         """IR point from in-plane coords (u, v) of an IR axis plane (front: x,y; top: x,z; right: y,z)."""
         return {"Z": (a, b, 0.0), "Y": (a, 0.0, b), "X": (0.0, a, b)}[axis]  # type: ignore
 
-    def define_sketch(self, fid: str, relations: bool = False, anchor_ok: bool = True) -> None:
+    def define_sketch(self, fid: str, relations: bool = False, anchor_ok: bool = True, datum=None) -> None:
         """MTI: every sketch fully defined, dimensioned from model edges (practices 3 and 7).
 
         SolidWorks' own Fully Define Sketch on the ACTIVE sketch (verified live, E023):
@@ -276,6 +278,13 @@ class _SW:
             r = tsm.FullyDefineSketch(AUTODIM_ALL, True, EXACT_RELATIONS, True, AUTODIM_BASELINE, hd,
                                       AUTODIM_BASELINE, vd, 1, 1)
             how = "model edges" if (hd is not None or vd is not None) else "no datum"
+            if datum is not None and sk.GetConstrainedStatus() != FULLY_CONSTRAINED:
+                # Hole Wizard placement sketch: a point already tied to the origin (hw_datum)
+                r = tsm.FullyDefineSketch(AUTODIM_ALL, True, EXACT_RELATIONS, True, AUTODIM_BASELINE,
+                                          datum, AUTODIM_BASELINE, datum, 1, 1)
+                how += " + origin-tied hole point"
+                if sk.GetConstrainedStatus() != FULLY_CONSTRAINED:
+                    how += f" + {self.dimension_free_points(sk, datum)} explicit dimension(s)"
             if anchor_ok and sk.GetConstrainedStatus() != FULLY_CONSTRAINED:
                 anchor = self.origin_anchor()
                 if anchor is not None:
@@ -423,6 +432,7 @@ class _SW:
             if feat is not None and self.check(fid, attempt):
                 res.status, res.sw_volume = "built", self.volume()
                 self.flips[fid] = flip
+                self.feat_obj[fid] = feat
                 return res
             if feat is not None:
                 self.doc.EditUndo2(1)
@@ -455,6 +465,20 @@ class _SW:
         elif p.shape == "circle":
             cx, cy = self.pt(plane, self.in_plane(axis, self.n(p.u) + su, self.n(p.v) + sv))
             sm.CreateCircleByRadius(cx, cy, 0, self.n(p.d) * self.k / 2)
+        elif p.shape == "slot":
+            # Straight slot, as CadQuery's slot2D(length + width, width, angle) centered on
+            # (u, v): arc centers +-length/2 along `angle` (degrees from +u). SolidWorks' own
+            # slot tool, center-to-center (CreateSketchSlot; signature from sldworks.tlb, E028).
+            cu, cv, half = self.n(p.u) + su, self.n(p.v) + sv, self.n(p.length) / 2
+            a = math.radians(self.n(p.angle))
+            ends = [self.pt(plane, self.in_plane(axis, cu + sgn * half * math.cos(a), cv + sgn * half * math.sin(a)))
+                    for sgn in (-1, 1)]
+            (x1, y1), (x2, y2) = ends
+            slot = sm.CreateSketchSlot(SLOT_STRAIGHT, SLOT_CENTER_TO_CENTER, self.n(p.width) * self.k,
+                                       x1, y1, 0, x2, y2, 0, 0, 0, 0, 1, False)
+            if not slot:
+                sm.InsertSketch(True)
+                return SwFeatureResult(f.id, "failed", note="CreateSketchSlot refused the slot")
         elif p.shape == "polygon":
             # A closed outline of lines (L-shaped and stepped plates; A00121E/M, 2026-10-26).
             # Drawn like the revolve profile: no inference, exact endpoints; the volume check
@@ -496,6 +520,7 @@ class _SW:
         from pipeline.solidworks_builder import _reselect_last_sketch
         feat = self.extrude(cut=False, reverse=False, depth=depth, start=0.0, end=END_MID_PLANE)
         if feat is not None and self.check(fid, 1):
+            self.feat_obj[fid] = feat
             self.flips[fid] = False
             self.report.conventions.append(f"{fid}: base sketch on the Top plane, Mid Plane extrude")
             return SwFeatureResult(fid, "built", sw_volume=self.volume(),
@@ -528,7 +553,7 @@ class _SW:
 
         circles(self.n(spec.d))
         start = coord * self.k * sign
-        thru = spec.type == "thru" or (spec.type == "cbore" and spec.depth is None)
+        thru = spec.type == "thru" or spec.depth is None  # null depth = through (tapped THRU too)
         depth = None if thru else self.n(spec.depth) * self.k
 
         def drill(flip, end=None):
@@ -677,7 +702,7 @@ class _SW:
             self.layout_drawn = ""
             if layout:
                 self.layout_geometry(sk, points, want, layout)
-            self.define_sketch(self._hw_fid, anchor_ok=False)
+            self.define_sketch(self._hw_fid, anchor_ok=False, datum=self.hw_datum(sk, to_sketch((0.0, 0.0, 0.0)), points))
             status = sk.GetConstrainedStatus()
         finally:
             sm.InsertSketch(True)
@@ -690,6 +715,113 @@ class _SW:
         if not ok:
             log.info("  Hole Wizard points: wanted %s, got %s (m, sketch), status %s", want, got, status)
         return ok
+
+    def hw_datum(self, sk, origin_xy: tuple[float, float], points: list):
+        """A point of the Hole Wizard placement sketch tied to the part origin, WITHOUT a new
+        free sketch point (Hole Wizard drills at every one; E023). Verified live (SB12006): a
+        hole point related coincident to the origin takes the sketch to fully defined with the
+        point count and the volume unchanged; Fully Define with the origin as datum alone doesn't.
+
+        * a hole point or a layout centre already at the origin: relate it (coincident);
+        * otherwise a CONSTRUCTION line from the origin to the first hole (Hole Wizard ignores
+          construction geometry and its end points, E022): its start tied to the origin, its end
+          to the hole. The start point is the datum for Fully Define Sketch."""
+        from pipeline.solidworks_builder import _g, _null_dispatch, typed
+        sm = self.doc.SketchManager
+        ox, oy = origin_xy
+        sel = typed(_g(self.doc, "SelectionManager"), "ISelectionMgr")
+
+        def tie_to_origin(pt) -> bool:
+            if not getattr(self, "_origin_name", None):
+                self.origin_anchor_name()
+            self.doc.ClearSelection2(True)
+            pt.Select4(False, sel.CreateSelectData())
+            ok = self.doc.Extension.SelectByID2(f"Point1@{getattr(self, '_origin_name', 'Origin')}", "EXTSKETCHPOINT",
+                                                0, 0, 0, True, 0, _null_dispatch(), 0)
+            if ok:
+                self.doc.SketchAddConstraints("sgCOINCIDENT")
+            self.doc.ClearSelection2(True)
+            return bool(ok)
+
+        try:
+            at_origin = [typed(q, "ISketchPoint") for q in (sk.GetSketchPoints2() or ())]
+            at_origin = [q for q in at_origin if abs(q.X - ox) < 1e-9 and abs(q.Y - oy) < 1e-9]
+            if at_origin:
+                return at_origin[0] if tie_to_origin(at_origin[0]) else None
+            if not points:
+                return None
+            # not the first point: that is Hole Wizard's own placement point, and a coincident to
+            # it did not apply (A00144E: the line stayed free at that end; merge did not either).
+            # Points we added take relations; among them the one with the fewest.
+            target = min(points[1:] or points, key=lambda q: q.GetRelationsCount())
+            prev = sm.AddToDB
+            sm.AddToDB = True                       # no inference: the line lands exactly (E020)
+            try:
+                seg = sm.CreateLine(ox, oy, 0.0, target.X, target.Y, 0.0)
+            finally:
+                sm.AddToDB = prev
+            if seg is None:
+                return None
+            typed(seg, "ISketchSegment").ConstructionGeometry = True
+            line = typed(seg, "ISketchLine")
+            start, end = typed(line.GetStartPoint2(), "ISketchPoint"), typed(line.GetEndPoint2(), "ISketchPoint")
+            self.doc.ClearSelection2(True)
+            end.Select4(False, sel.CreateSelectData())
+            target.Select4(True, sel.CreateSelectData())
+            self.doc.SketchAddConstraints("sgCOINCIDENT")
+            self.doc.ClearSelection2(True)
+            return start if tie_to_origin(start) else None
+        except Exception as e:   # practices, not rules: never fail a build over sketch definition
+            log.info("  Hole Wizard sketch datum: %s", e)
+            return None
+
+    def dimension_free_points(self, sk, datum) -> int:
+        """Horizontal and vertical dimensions from ``datum`` to every point still free.
+        Fully Define Sketch skips Hole Wizard's own placement point (A00144E: every other hole got
+        a distance, that one only its coincidents, and stayed free along the layout line). A
+        dimension that over-defines the sketch is undone. The "enter dimension value" dialog
+        (swInputDimValOnCreate) is switched off while adding them, then restored. Returns the
+        number kept."""
+        from pipeline.solidworks_builder import _g, typed
+        sel = typed(_g(self.doc, "SelectionManager"), "ISelectionMgr")
+        prev = self.app.GetUserPreferenceToggle(SW_INPUT_DIM_ON_CREATE)
+        self.app.SetUserPreferenceToggle(SW_INPUT_DIM_ON_CREATE, False)
+        kept = 0
+        try:
+            for q in [typed(x, "ISketchPoint") for x in (sk.GetSketchPoints2() or ())]:
+                # horizontal dimension measures dx, vertical dy; a zero offset can't be a
+                # dimension (A00173E: a bolt-circle hole level with the origin), so it becomes
+                # the matching alignment relation (types 26 / 25, as Fully Define uses them)
+                for add, offset, relation in ((self.doc.AddHorizontalDimension2, q.X - datum.X, "sgVERTICALPOINTS2D"),
+                                              (self.doc.AddVerticalDimension2, q.Y - datum.Y, "sgHORIZONTALPOINTS2D")):
+                    if q.Status != 2 or sk.GetConstrainedStatus() == FULLY_CONSTRAINED:
+                        break
+                    self.doc.ClearSelection2(True)
+                    q.Select4(False, sel.CreateSelectData())
+                    datum.Select4(True, sel.CreateSelectData())
+                    if abs(offset) < 1e-9:
+                        self.doc.SketchAddConstraints(relation)
+                    elif add(q.X + 0.005, q.Y + 0.005, 0.0) is None:
+                        continue
+                    if sk.GetConstrainedStatus() in BAD_SKETCH_STATUS:
+                        self.doc.EditUndo2(1)          # redundant: it over-defined the sketch
+                    else:
+                        kept += 1
+            self.doc.ClearSelection2(True)
+        finally:
+            self.app.SetUserPreferenceToggle(SW_INPUT_DIM_ON_CREATE, prev)
+        return kept
+
+    def origin_anchor_name(self) -> None:
+        """The origin feature's name, found by type (rule 4)."""
+        from pipeline.solidworks_builder import _g, typed
+        f = _g(self.doc, "FirstFeature")
+        while f is not None:
+            tf = typed(f, "IFeature")
+            if tf.GetTypeName2() == "OriginProfileFeature":
+                self._origin_name = tf.Name
+                return
+            f = tf.GetNextFeature()
 
     def layout_geometry(self, sk, points: list, want: list[tuple[float, float]], layout: str) -> None:
         """Construction geometry under patterned holes, with coincident relations."""
@@ -715,14 +847,23 @@ class _SW:
         self.layout_drawn = "circle" if any(k == "circle" for k, _, _ in segs) else (
             ("rectangle" if len(segs) == 4 else "line") if segs else "")
         sel = typed(_g(self.doc, "SelectionManager"), "ISelectionMgr")
+        ends = {}   # line endpoints, so a hole AT an end ties the line's length (else it floats)
+        for kind, a, seg in segs:
+            if kind != "circle":
+                ln = typed(seg, "ISketchLine")
+                ends[id(seg)] = [typed(ln.GetStartPoint2(), "ISketchPoint"), typed(ln.GetEndPoint2(), "ISketchPoint")]
         for p, w in zip(points, want):
             for kind, a, seg in segs:
-                if on_shape(w, kind, a):   # only the geometry the point lies on (else: invalid sketch)
-                    data = sel.CreateSelectData()
-                    self.doc.ClearSelection2(True)
-                    p.Select4(False, data)
-                    seg.Select4(True, data)
-                    self.doc.SketchAddConstraints("sgCOINCIDENT")
+                if not on_shape(w, kind, a):   # only the geometry the point lies on (else: invalid sketch)
+                    continue
+                end = next((e for e in ends.get(id(seg), []) if math.dist((e.X, e.Y), w) <= 1e-9), None)
+                data = sel.CreateSelectData()
+                self.doc.ClearSelection2(True)
+                p.Select4(False, data)
+                # a hole at a line's end: point-to-point with that end (point-on-line left the
+                # line's length free and the sketch under-defined, A00144E); else on the line
+                (end or seg).Select4(True, data)
+                self.doc.SketchAddConstraints("sgCOINCIDENT")
         self.doc.ClearSelection2(True)
 
     def hole_and_pattern(self, seed: Hole, pat: Pattern) -> SwFeatureResult:
@@ -744,18 +885,149 @@ class _SW:
 
     def hole(self, f: Hole) -> SwFeatureResult:
         st = self.fmap["starts"][f.id]
+        if st.get("radial"):
+            return self.radial_hole(f)
         return self.holes(f.id, [[self.n(f.u), self.n(f.v)]], f.spec, st["axis"], st["coord"], st["dir"])
+
+    def radial_hole(self, f: Hole) -> SwFeatureResult:
+        """A hole drilled into the outside of a turned part toward its axis (spec
+        2026-10-28-radial-holes-design.md). Volume can't tell a radial hole at the wrong angle
+        or mirrored from the right one, so the geometry is made unambiguous:
+
+        1. a line on the base plane normal to the part axis, from the axis to P just OUTSIDE
+           the part at angle u (explicit coordinates, read back);
+        2. a reference plane perpendicular to that line through P (InsertRefPlane,
+           Perpendicular + Coincident; sldworks.tlb / swconst.tlb);
+        3. the hole circle on that plane at P + z (ISketch.ModelToSketchTransform);
+        4. a blind cut from outside, inward: aimed the wrong way it removes nothing, which the
+           volume check catches, so flip-and-retry is safe.
+
+        A plain cut (MTI would use a Hole Wizard on the curved face: a follow-up)."""
+        from pipeline.solidworks_builder import _g, com_doubles, typed
+        st, k = self.fmap["starts"][f.id], self.k
+        a = math.radians(self.n(f.u))
+        z, r = self.n(f.v), st["r"]
+        bb = self.fmap["bbox"]
+        rmax = max(abs(c) for c in (bb[0], bb[1], bb[3], bb[4]))
+        reach = rmax + max(0.1 * rmax, 0.05)               # P is this far from the axis
+        depth = reach + rmax if st["depth"] is None else reach - r + self.n(st["depth"])
+        res = SwFeatureResult(f.id, "failed", ref_volume=self.fmap.get("volume_after", {}).get(f.id))
+
+        sm, fm = self.doc.SketchManager, self.doc.FeatureManager
+        plane, _ = self.sketch_on("Z")
+        (x0, y0), (x1, y1) = self.pt(plane, (0.0, 0.0, 0.0)), self.pt(plane, (reach * math.cos(a), reach * math.sin(a), 0.0))
+        seg = sm.CreateLine(x0, y0, 0, x1, y1, 0)
+        # CreateLine hands back the ISketchSegment view: endpoints are on ISketchLine
+        end = typed(typed(seg, "ISketchLine").GetEndPoint2(), "ISketchPoint") if seg is not None else None
+        if end is None or abs(end.X - x1) > 1e-9 or abs(end.Y - y1) > 1e-9:   # no inference (E020)
+            sm.InsertSketch(True)
+            res.note = "the radial direction line did not land where it was drawn"
+            return res
+        sm.InsertSketch(True)
+
+        self.doc.ClearSelection2(True)
+        data = _g(self.doc.SelectionManager, "CreateSelectData")
+        data.Mark = 0
+        typed(seg, "ISketchSegment").Select4(False, data)
+        data.Mark = 1
+        end.Select4(True, data)
+        if fm.InsertRefPlane(REFPLANE_PERPENDICULAR, 0.0, REFPLANE_COINCIDENT, 0.0, 0, 0.0) is None:
+            res.note = "InsertRefPlane refused the plane at the hole start"
+            return res
+        ref = typed(self.doc.FeatureByPositionReverse(0), "IFeature")   # IRefPlane can't be selected
+        if ref.GetTypeName2() != "RefPlane":
+            res.note = f"expected the new reference plane, got {ref.GetTypeName2()}"
+            return res
+
+        self.doc.ClearSelection2(True)
+        ref.Select2(False, 0)
+        sm.InsertSketch(True)
+        xf = typed(sm.ActiveSketch, "ISketch").ModelToSketchTransform
+        mu = typed(_g(self.app, "GetMathUtility"), "IMathUtility")
+        q = self.pm.to_model(tuple(c * k for c in self.local((reach * math.cos(a), reach * math.sin(a), z))))
+        cx, cy, _ = typed(typed(mu.CreatePoint(com_doubles(*q)), "IMathPoint").MultiplyTransform(xf),
+                          "IMathPoint").ArrayData
+        sm.CreateCircleByRadius(cx, cy, 0, self.n(f.spec.d) * k / 2)
+        sm.InsertSketch(True)
+        res = self.with_retry(f.id, lambda flip: self.extrude(cut=True, reverse=flip, depth=depth * k, start=0.0))
+        if res.status == "built":
+            res.note = f"radial, {self.n(f.u):g} deg, plain cut"
+        return res
 
     def pattern(self, f: Pattern) -> SwFeatureResult:
         seed = self.plan.feature(f.seed)
         if isinstance(seed, Prism) and f.mode in ("linear", "grid"):
             return self.prism_pattern(f, seed)
+        if f.mode == "circular" and (isinstance(seed, Prism) or is_radial(seed)):
+            return self.circular_pattern(f, seed)
         if not isinstance(seed, Hole):
-            return SwFeatureResult(f.id, "failed", note="only hole patterns and linear/grid prism "
-                                                        "patterns are compiled for SolidWorks yet")
+            return SwFeatureResult(f.id, "failed", note="only hole and prism patterns are compiled "
+                                                        "for SolidWorks yet")
         st = self.fmap["starts"][seed.id]
         centers = [h["planned_center"] for h in self.fmap["holes"].get(f.id, [])]
         return self.holes(f.id, centers, seed.spec, st["axis"], st["coord"], st["dir"])
+
+    def part_axis(self):
+        """A reference axis along IR z through the IR origin (the turning axis of an
+        axis_end part): the intersection of the two base planes that contain it. Made once."""
+        from pipeline.solidworks_builder import _g, select_ref_plane, typed
+        if self._part_axis is not None:
+            return self._part_axis
+        z = self.pm.ir_basis[2]
+        planes = [name for name, (_, _, n) in self.pm.planes.items() if abs(_dot(n, z)) < 1e-9]
+        if len(planes) != 2 or any(abs(c) > 1e-9 for c in self.local((0.0, 0.0, 0.0))[:2]):
+            return None   # the IR axis must pass through the model origin
+        self.doc.ClearSelection2(True)
+        if not (select_ref_plane(self.doc, planes[0]) and select_ref_plane(self.doc, planes[1], append=True)):
+            return None
+        if not self.doc.InsertAxis2(True):
+            return None
+        feat = typed(self.doc.FeatureByPositionReverse(0), "IFeature")
+        if feat.GetTypeName2() != "RefAxis":
+            return None
+        self._part_axis = feat
+        self.doc.ClearSelection2(True)
+        return feat
+
+    def circular_pattern(self, f: Pattern, seed: Prism) -> SwFeatureResult:
+        """A circular pattern of a prism seed (radial slots and pockets) as ONE native
+        SolidWorks circular pattern about the part axis, as MTI models them (SB14306:
+        CirPattern). FeatureCircularPattern5, signature from sldworks.tlb (E028). Verified
+        against the reference volume, tried both directions."""
+        from pipeline.solidworks_builder import typed
+        res = SwFeatureResult(f.id, "failed", ref_volume=self.fmap.get("volume_after", {}).get(f.id))
+        if f.axis.replace(" ", "") != "axis(part)" or f.skip:
+            res.note = "circular prism patterns are compiled about axis(part), with no skipped instances"
+            return res
+        if f.seed not in self.feat_obj:
+            res.note = f"seed {f.seed} was not built"
+            return res
+        axis = self.part_axis()
+        if axis is None:
+            res.note = "could not make a reference axis along the part axis"
+            return res
+        count = int(round(self.n(f.count)))
+        equal = f.step == "equal"
+        spacing = 2 * math.pi if equal else math.radians(self.n(f.step))
+        seed_feat = typed(self.feat_obj[f.seed], "IFeature")
+        for attempt, flip in enumerate((False, True), start=1):
+            self.doc.ClearSelection2(True)
+            axis.Select2(False, 1)            # mark 1: pattern axis
+            seed_feat.Select2(True, 4)        # mark 4: features to pattern
+            feat = self.doc.FeatureManager.FeatureCircularPattern5(
+                count, spacing, flip, "", False, equal, False, False, False, False, 1, 0.0, "", False)
+            res.attempts = attempt
+            if feat is not None and self.check(f.id, attempt):
+                res.status, res.sw_volume = "built", self.volume()
+                res.note = f"native circular pattern, {count} instances"
+                self.feat_obj[f.id] = feat
+                return res
+            if feat is not None:
+                self.doc.EditUndo2(1)
+        res.status = "mismatch" if res.attempts else "failed"
+        res.sw_volume = self.volume()
+        res.note = "circular pattern did not match the reference volume"
+        return res
 
     def prism_pattern(self, f: Pattern, seed: Prism) -> SwFeatureResult:
         """Linear/grid copies of a prism seed: replayed shifted, then verified as a whole."""
@@ -952,8 +1224,11 @@ def hole_wizard_choice(spec, dims: dict[str, float], units: str) -> Optional[dic
             "label": f"Hole Wizard {best.size} {'SHCS counterbore' if kind == 'cbore' else 'clearance'}"}
 
 
+SLOT_STRAIGHT, SLOT_CENTER_TO_CENTER = 0, 0
+REFPLANE_PERPENDICULAR, REFPLANE_COINCIDENT = 2, 4   # swRefPlaneReferenceConstraints_e (swconst.tlb)   # swSketchSlotCreationType_line, swSketchSlotLengthType_CenterCenter
 BAD_SKETCH_STATUS = (4, 5, 6)   # swConstrainedStatus_e: over-constrained, no / invalid solution
 FULLY_CONSTRAINED = 3           # swConstrainedStatus_e
+SW_INPUT_DIM_ON_CREATE = 10     # swUserPreferenceToggle_e.swInputDimValOnCreate (swconst.tlb)
 # FullyDefineSketch (signature from sldworks.tlb; verified live 2026-10-12, E023): all entities,
 # baseline (regular, not ordinate) dimensions, and only these relations: H | V | Midpoint |
 # Coincident (checked not to move nearly-aligned geometry, unlike sketch inference).
@@ -1023,6 +1298,11 @@ def hole_signature(f: Hole, dims: dict[str, float]) -> tuple:
             v(sp.csink_d), v(sp.csink_angle), sp.thread)
 
 
+def is_radial(f) -> bool:
+    """A hole that starts on wall(F, r): drilled into a turned part toward its axis."""
+    return isinstance(f, Hole) and parse_ref(f.on)[0] == "wall"
+
+
 def mergeable_holes(rest: list, first: Hole, dims: dict[str, float], skipped: dict) -> list[Hole]:
     """The holes right after ``first`` that are the same hole on the same face. Only
     consecutive ones: the merged feature is checked against the last one's reference
@@ -1046,6 +1326,34 @@ def base_axis(plan: BuildPlan, fmap: dict[str, Any]) -> str:
         return "Y"
     st = fmap.get("starts", {}).get(fid)
     return st["axis"] if st else "Z"
+
+
+def body_box(body) -> list[float]:
+    """Tight box [xmin, ymin, zmin, xmax, ymax, zmax] (m) from IBody2.GetExtremePoint along
+    the six axis directions (sldworks.tlb: X, Y, Z in; Outx, Outy, Outz byref; returns bool).
+    IBody2.GetBodyBox is NOT tight on curved faces: SB14306's filleted rim read 10.7281" for
+    10.7218" and failed the bbox check (E030). Falls back to GetBodyBox."""
+    from pipeline.solidworks_builder import typed
+    try:
+        tb = typed(body, "IBody2")
+        box = [0.0] * 6
+        for i in range(6):
+            d = [0.0, 0.0, 0.0]
+            d[i % 3] = -1.0 if i < 3 else 1.0
+            ok, *pt = tb.GetExtremePoint(*d)
+            if not ok:
+                raise RuntimeError("GetExtremePoint returned False")
+            box[i] = pt[i % 3]
+        return box
+    except Exception:
+        return list(body.GetBodyBox())
+
+
+def parts_box(bodies) -> list[float]:
+    """Box around EVERY body. A sawcut part is several bodies by design (SB12059's four collet
+    pads); the first body's box alone failed a correct part (E031)."""
+    boxes = [body_box(b) for b in bodies]
+    return [min(x[i] for x in boxes) for i in range(3)] + [max(x[i] for x in boxes) for i in range(3, 6)]
 
 
 def origin_centered(bbox: list[float], tol_m: float = 1e-6) -> bool:
@@ -1081,7 +1389,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
             sw.report.features.append(SwFeatureResult(f.id, "skipped", note=skipped.get(f.id, f.status)))
             continue
         group = [f]
-        if convention == "mti" and isinstance(f, Hole):   # same hole, same face: one feature
+        if convention == "mti" and isinstance(f, Hole) and not is_radial(f):   # same hole, same face: one feature
             nxt = features[i] if i < len(features) else None
             if (isinstance(nxt, Pattern) and nxt.seed == f.id and nxt.status == "planned"
                     and nxt.id not in skipped):
@@ -1098,7 +1406,11 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
                 res = getattr(sw, f.kind)(f)
         except Exception as e:  # COM errors: record, keep building (non-strict, like v1)
             _close_open_sketch(sw.doc)
-            res = SwFeatureResult(group[-1].id, "failed", note=f"{type(e).__name__}: {e}"[:300])
+            import traceback
+            ours = [t for t in traceback.extract_tb(e.__traceback__) if t.filename == __file__]
+            at = (ours or traceback.extract_tb(e.__traceback__))[-1]   # COM errors don't say which call
+            res = SwFeatureResult(group[-1].id, "failed",
+                                  note=f"{type(e).__name__}: {e} (at {at.name}:{at.lineno})"[:300])
         if len(group) > 1:
             ids = ", ".join(g.id for g in group)
             res.note = f"{res.note}; one feature for {ids}".lstrip("; ")
@@ -1111,7 +1423,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         log.info("  %s %s: %s %s", f.id, f.kind, res.status, res.note)
         if sw.base and f.id == sw.base["fid"] and res.status == "built":
             body = (sw.doc.GetBodies2(0, False) or [None])[0]
-            sw.report.origin_ok = body is not None and origin_centered(list(body.GetBodyBox()))
+            sw.report.origin_ok = body is not None and origin_centered(body_box(body))
         if progress is not None:
             progress(f, res)
 
@@ -1128,7 +1440,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         sw.doc.Extension.SetUserPreferenceToggle(SW_DISPLAY_COSMETIC_THREADS, 0, True)
     bodies = sw.doc.GetBodies2(0, False)
     if bodies:
-        bb = bodies[0].GetBodyBox()
+        bb = parts_box(bodies)
         ext = sorted((bb[i + 3] - bb[i]) / sw.k for i in range(3))
         ref = sorted(fmap["bbox"][i + 3] - fmap["bbox"][i] for i in range(3))
         sw.report.bbox_ok = all(abs(a - b) <= 1e-4 * max(1.0, b) for a, b in zip(ext, ref))

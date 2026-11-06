@@ -1,0 +1,78 @@
+{
+  "part": "SB-12059",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -1.937268,
+    -1.937268,
+    -0.0,
+    1.937268,
+    1.937268,
+    1.687
+  ],
+  "volume": 17.677212,
+  "volume_mm3": 289677.602,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F005",
+    "F008",
+    "F009"
+  ],
+  "skipped": {
+    "F006": "unresolved: Four radial tapped holes at 90-degree intervals; blocked by the unresolved seed drill depth and radial placement representation, not by the printed count or angular indexing.",
+    "F007": "unresolved: What included angle or mouth diameter defines the .03-deep countersinks on the four radial tapped holes? Depth alone does not define their shape."
+  },
+  "holes": {},
+  "edge_points": {
+    "F002": [
+      [
+        -0.3125,
+        0.0,
+        0.0
+      ]
+    ],
+    "F003": [
+      [
+        -1.87475,
+        0.0,
+        1.687
+      ]
+    ]
+  },
+  "starts": {
+    "F005": {
+      "radial": true,
+      "angle": 0,
+      "z": 1.375,
+      "r": 1.87475,
+      "depth": 0.588333333
+    },
+    "F008": {
+      "axis": "Z",
+      "coord": 1.687,
+      "dir": -1,
+      "thru": true
+    }
+  },
+  "volume_after": {
+    "F001": 18.389379124,
+    "F002": 18.3734324,
+    "F003": 18.352455671,
+    "F005": 18.301704476,
+    "F008": 18.142669999,
+    "F009": 17.677211849
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -1.9375,
+      -1.9375,
+      0.0,
+      1.9375,
+      1.9375,
+      1.687
+    ]
+  }
+}

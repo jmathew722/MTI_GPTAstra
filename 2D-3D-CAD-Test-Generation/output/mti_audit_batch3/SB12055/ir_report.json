@@ -1,0 +1,42 @@
+{
+  "part": "SB12055",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12055\\SB12055_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 3,
+  "questions": [
+    "F004: What are the shoulder thread-relief width, root diameter, and transition form? MIN. RELIEF supplies none of these."
+  ],
+  "flagged": [
+    "F002: The elevation shows the flat extending only between the two dimensioned boundaries. The end view locates its plane .44 from the axis; TYP identifies the opposed pair. Cutter width and travel overshoot the circular envelope.",
+    "F003: Opposed flats are shown symmetrically about the shaft centerline and are designated TYP. The sketch and cutter travel extend beyond the OD."
+  ],
+  "defaults": [
+    "F006: D4 not modelled: edge break with no printed size",
+    "F007: D4 not modelled: edge break with no printed size"
+  ],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12055\\reference.step",
+  "volume": 4.445504,
+  "cq_skipped": {
+    "F004": "unresolved: What are the shoulder thread-relief width, root diameter, and transition form? MIN. RELIEF supplies none of these.",
+    "F005": "unsupported: External thread annotation is required on the stud. This IR has no external cosmetic-thread feature; do not replace the stud with a tapped hole or infer helical geometry.",
+    "F008": "unsupported: Stamped text is outside the available profile types; character size, depth, and exact placement also require specification."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12055\\SB-12055_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built",
+    "F003": "built",
+    "F004": "skipped (unresolved: What are the shoulder thread-relief width, root diameter, and transition form? MIN. RELIEF supplies none of these.)",
+    "F005": "skipped (unsupported: External thread annotation is required on the stud. This IR has no external cosmetic-thread feature; do not replace the stud with a tapped hole or infer helical geometry.)",
+    "F008": "skipped (unsupported: Stamped text is outside the available profile types; character size, depth, and exact placement also require specification.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "sketches fully defined: 3/3"
+  ],
+  "mti_review": [],
+  "cost_usd": 0.4534,
+  "error": ""
+}

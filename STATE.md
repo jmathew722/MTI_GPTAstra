@@ -1,8 +1,85 @@
 # STATE.md — where mti-2d-3d stands
 
-**Last updated:** 2026-10-26 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
+**Last updated:** 2026-10-28 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-11-05: every sketch is fully defined, Hole Wizard placement sketches included** (E035).
+> They are tied to the origin without adding a hole point, then dimensioned.
+> - All 37 audit builds rebuilt: every part verifies, 145/145 sketches fully defined. $0.
+>
+> **2026-11-02 (later): fine-tuning started.**
+> - **Automatic discrepancy analysis** (`mti_discrepancy.py`) explains each part's gap to MTI's
+>   model.
+> - **Drawing markups** with OCR-placed boxes (`mti_markup.py`, rapidocr) for 21 parts; local only.
+> - **Two measured rules:**
+>   - D9: two-place prints of 1/16" fractions on plates. **A00122E 0.9865 → 1.0000**; A00121E →
+>     0.99999.
+>   - D8: general notes on every eligible edge. **2N2664 → 0.9980.**
+> - **E034:** checked, serial booleans make scores trustworthy.
+> - $0. Tests 1018 passed. Test report `docs/test-reports/2026-11-02-test-report.md`.
+>
+> **2026-11-02: MTI demo ready** (`docs/demo/2026-11-02-mti-demo-runbook.md`, $0 replay).
+> - Hero: the 2N2664 re-plan, a turned hub with Hole Wizard taps, a radial cross-hole at 240°
+>   and one honest question. IoU **0.9957** vs MTI's own model.
+> - Backup: A00122E (19/19 built, 0.21 mm max).
+> - E033: the reference now uses a fuzzy boolean (exact OpenCascade over-cut a radial hole);
+>   neutral on all other references.
+> - Ledger $47.54 of $50.
+>
+> **2026-10-28 (free fixes):** taps and their pilot drills are now merged into ONE Hole Wizard tap
+> (SB12006/07/09/10/11, 2N2664; all verify). `mti_score` reports `iou_clocked` for turned parts.
+> **All 23 DWG audit drawings are converted to PDF** (bench `dwg_to_pdf`) and MTI's models
+> exported: ready to run, ~$17 of extraction needed. 4C1229's 0.938 is not clocking (corrected).
+> $0. Test report §10.
+>
+> **2026-10-28 (radial holes): holes drilled into the outside of turned parts now build** in the
+> reference and in SolidWorks (`wall(F, r)` start, `u` = angle; spec
+> `2026-10-28-radial-holes-design.md`; E032).
+> - Verified live, including handedness: a chiral test part gives IoU 1.000 under proper
+>   rotations only.
+> - SB12095's radial taps are now built (vs MTI 0.9985).
+> - SB12059, SB12054 and 2N2664 need a re-plan to use the angle. $0. Test report §9.
+>
+> **2026-10-28 (all PDF parts): all 38 PDF audit parts run, all build and verify** ($7.52; ledger $46.68 of $50).
+> - New parts SB12011, SB12055, SB12053, SB12054 and SB12059 match MTI at IoU 0.990–0.9999.
+> - **MTI's SB12050 and SB12051 models are swapped in Drive:** each of our parts matches the other
+>   folder's model at IoU 1.000 / 0.996.
+> - SB12059 is four collet pads by design; the final check now covers every body (E031).
+> - The SB11488 re-plan builds all holes, but its central profile is still unread (noisy scan).
+> - Test report 2026-10-28 §8.
+>
+> **2026-10-28 (later): callout defaults.** Vague callouts are now built by documented rules instead of
+> being skipped (`pipeline/ir/defaults.py`; values measured from MTI's own models; switch:
+> `MTI_CALLOUT_DEFAULTS=0`).
+> - Covers ".030 R MAX", "C/R", "BREAK ALL SHARP CORNERS" and a tap with a thread depth only.
+> - Unresolved features: **36 → 16**; 11 parts fully resolved.
+> - All 11 rebuilt parts verify; no score went down (SB12006 → 1.000, 2N2664 → 0.993). $0.
+> - Test report 2026-10-28 §7.
+>
+> **2026-10-28: the two worst audit scores are MTI model-vs-drawing differences, not pipeline
+> errors.** SB14306: MTI's model uses bores that aren't on the drawing (a Ø10 web bore where the
+> drawing has Ø6.00); ours matches the drawing. A00161E: MTI's end radius is 3.036 where the drawing
+> has 3.00 R; a 0.9 mm offset on a 1.5 mm sheet reads as IoU 0.29. Fixed on the way:
+> - the cone-rim fillet query (SB14306 F003);
+> - the loose `GetBodyBox` in the final check, now `GetExtremePoint` (E030);
+> - `mti_score.py` now reports surface deviation in mm.
+>
+> **SB14306 now builds with 26/28 features.** Merged smcanuff's benchmark scorer from `main`; this
+> branch's error-log entries were renumbered E028/E029. $0. Tests 976 passed, 66 skipped. Test report
+> [2026-10-28](docs/test-reports/2026-10-28-test-report.md).
+>
+> **2026-10-26 (latest): all 31 audit parts run now build and verify.** E029 fixed three CadQuery
+> reference bugs (through-tapped holes, trimmed cylinders, seam edges): 4C1229 builds (IoU 0.938 vs
+> MTI) and SB14306 gets its 8 tapped holes. $0. Test report §9.
+>
+> **2026-10-26 (later): slots and circular prism patterns now compile (E028), so 30 of 31 audit
+> parts build and verify** (A00155E and SB14306 fixed, $0). Test report §8.
+>
+> **2026-10-26 (batch 2, $40 cap): 31 audit parts run; 28 build and verify; 23 of 28 match MTI's
+> own models at IoU ≥ 0.979.** Two misses are MTI drawing-vs-model mismatches (SB12050, SB12009).
+> Next fixes, all free: slot profiles, circular prism patterns, 4C1229. **Budget: $39.16 of $40.**
+> Test report §7.
+>
 > **New (2026-10-26): MTI's parts audit as an answer key.** MTI's Drive holds 63 parts with both a
 > drawing and MTI's own model (`bench/mti_test_set.csv`). First batch of 10: **all 8 that ran build
 > and verify; 7 of 8 match MTI's model at IoU ≥ 0.985** (two at 1.000). The 8th, SB12050, matches its

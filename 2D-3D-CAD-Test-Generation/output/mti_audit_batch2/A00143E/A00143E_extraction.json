@@ -1,0 +1,755 @@
+{
+  "part_name": "WAY PLATE",
+  "part_number": "143-C",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:2",
+  "material": "MFRS STD STEEL",
+  "finish": "Surface finish 16 on both broad faces and bottom edge (microinch interpretation of inch drawing). Harden 3 surfaces marked H to Rockwell C 58 minimum, .125 inch minimum depth.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 3 PLACE DIM. \u00b1.010; 2 PLACE DIM. \u00b1.02; ANGULAR DIM. \u00b11\u00b0.",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Broken longitudinal view of a continuous rectangular way plate, showing six counterbored holes in one row. Break lines shorten the illustration; they are not slots or separate pieces. H denotes hardened surfaces.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010",
+        "D011",
+        "D012",
+        "D013",
+        "D017"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Crosshairs locate six concentric through-hole/counterbore pairs. All centers lie 4.375 above the bottom edge; basic longitudinal coordinates are measured from the first hole."
+    },
+    {
+      "view_type": "Right",
+      "description": "End view showing 1.500 plate thickness, hidden stepped hole profile, datum A on the right broad face, parallelism of the opposite broad face, perpendicularity of the bottom edge, and hardening extents on the two broad faces.",
+      "dimensions_shown": [
+        "D003",
+        "D014",
+        "D015",
+        "D018",
+        "D019"
+      ],
+      "visible_features": [
+        "F001"
+      ],
+      "hidden_features": [
+        "F002",
+        "F003",
+        "F004"
+      ],
+      "centerline_notes": "Horizontal centerline through the hidden stepped hole aligns with the hole row in the front view. Six holes overlap in this projection. The counterbore enters from the left face of this view, opposite datum A."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 36.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_length",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 36.00; general two-place tolerance."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 5.38,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_height",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-place tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 1.5,
+      "unit": "inch",
+      "tolerance_plus": 0.001,
+      "tolerance_minus": 0.001,
+      "tolerance_type": "bilateral",
+      "applies_to": "plate_thickness",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.500 \u00b1.001; explicit tolerance overrides general tolerance."
+    },
+    {
+      "id": "D004",
+      "type": "diameter",
+      "value": 0.875,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "through_hole_diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".875 diameter THRU, 6 HOLES. General three-place size tolerance; position controlled separately."
+    },
+    {
+      "id": "D005",
+      "type": "diameter",
+      "value": 1.25,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "counterbore_diameter",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.250 diameter CBORE; six places; general three-place tolerance."
+    },
+    {
+      "id": "D006",
+      "type": "depth",
+      "value": 0.78,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "counterbore_depth",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".78 DEEP; six places; general two-place tolerance."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 2.25,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_edge_to_first_hole_center",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicitly '2.25 APRX. FIT AT ASSY.' Approximate assembly-fit location, not a fixed manufacturing coordinate and not explicitly REF. Nominal positions reported using this value; final location must be established at assembly."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 6.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "first_to_second_hole_center",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "6.000 BSC.; basic dimension, not a bilateral \u00b1.010 dimension."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 12.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "first_to_third_hole_center",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "12.000 BSC.; basic dimension."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 18.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "first_to_fourth_hole_center",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "18.000 BSC.; basic dimension."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 24.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "first_to_fifth_hole_center",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "24.000 BSC.; basic dimension."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 30.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "first_to_sixth_hole_center",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "30.000 BSC.; basic dimension."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 4.375,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "bottom_edge_to_hole_row",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance; no BSC designation shown on this dimension."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 2.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "hardened_band_height_on_counterbore_entry_face",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.50, measured upward from bottom to the indicated H boundary on left face of end view. Heat-treatment extent, NOT a step or cut. General two-place tolerance."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 1.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "hardened_band_height_on_datum_A_face",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.50, measured upward from bottom to indicated H boundary on right face of end view. Heat-treatment extent, NOT a step or cut. General two-place tolerance."
+    },
+    {
+      "id": "D016",
+      "type": "depth",
+      "value": 0.125,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "minimum_hardened_depth",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Heat-treatment block: HRD. 3 SURFACES MARKED 'H' R/C 58 MIN. .125 MIN. DEPTH. Minimum requirement, not a symmetric size tolerance."
+    },
+    {
+      "id": "D017",
+      "type": "diameter",
+      "value": 0.01,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "hole_position_tolerance_zone",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "position",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Feature-control frame below six-hole callout: position, .010 diameter. No datum references or material-condition modifiers shown. This is a tolerance zone, not a hole diameter."
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "opposite_broad_face_parallelism",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "A",
+      "gdt_symbol": "parallelism",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Legacy frame order shown as parallelism | A | .001. Applies to left broad face in end view relative to right broad face datum A."
+    },
+    {
+      "id": "D019",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "bottom_edge_face_perpendicularity",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "A",
+      "gdt_symbol": "perpendicularity",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Legacy frame order shown as perpendicularity | A | .001; applies to bottom face."
+    },
+    {
+      "id": "D020",
+      "type": "linear",
+      "value": 1.005,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "hole_row_to_top_edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal clearance: 5.38 - 4.375 = 1.005. Not separately printed or independently toleranced."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 3.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "last_hole_center_to_right_edge",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived approximate nominal distance: 36.00 - 2.25 - 30.000 = 3.75. Depends on approximate assembly-fit first-hole location."
+    },
+    {
+      "id": "D022",
+      "type": "linear",
+      "value": 0.72,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "material_thickness_below_counterbore",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal axial length of smaller hole below counterbore: 1.500 - .78 = .72. Not independently toleranced."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "counterbore",
+      "diameter": 0.875,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 1.25,
+      "cbore_depth": 0.78,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 6,
+      "x_position": 2.25,
+      "y_position": 4.375,
+      "position_known": true,
+      "pattern": "linear",
+      "pattern_spacing": 6.0,
+      "instance_positions": [
+        [
+          2.25,
+          4.375
+        ],
+        [
+          8.25,
+          4.375
+        ],
+        [
+          14.25,
+          4.375
+        ],
+        [
+          20.25,
+          4.375
+        ],
+        [
+          26.25,
+          4.375
+        ],
+        [
+          32.25,
+          4.375
+        ]
+      ],
+      "feature_ref": "F002",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Continuous rectangular plate, 36.00 long by 5.38 high, extruded 1.500 thick. Front sketch origin at lower-left corner. No steps at H markings; these define hardened surface bands.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D003",
+        "D014",
+        "D015",
+        "D016",
+        "D018",
+        "D019"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D003",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Seed .875 diameter through hole at nominal x=2.25, y=4.375 from front lower-left corner. X location is approximate and fit at assembly.",
+      "related_dimensions": [
+        "D004",
+        "D007",
+        "D013"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 2.25,
+      "offset_y": 4.375,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Seed concentric 1.250 diameter counterbore, .78 deep from visible front face, opposite datum A.",
+      "related_dimensions": [
+        "D005",
+        "D006"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D006",
+      "parent_feature": "F002",
+      "offset_x": 2.25,
+      "offset_y": 4.375,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "pattern",
+      "description": "Linear pattern of BOTH the seed through hole F002 and its counterbore F003: six total instances, 6.000 basic pitch, along plate length.",
+      "related_dimensions": [
+        "D008",
+        "D009",
+        "D010",
+        "D011",
+        "D012",
+        "D017"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 6
+    }
+  ],
+  "geometric_tolerances": [
+    {
+      "symbol": "position",
+      "value": 0.01,
+      "datum": ""
+    },
+    {
+      "symbol": "parallelism",
+      "value": 0.001,
+      "datum": "A"
+    },
+    {
+      "symbol": "perpendicularity",
+      "value": 0.001,
+      "datum": "A"
+    }
+  ],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Base plate longitudinal and height midplanes",
+        "feature_ids": [
+          "F001"
+        ],
+        "description": "Rectangular uncut base is symmetric; the completed part is not centered about these planes because of the offset hole row and unequal longitudinal end margins. No hole-pattern centering assumption is permitted."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F002",
+          "F003"
+        ],
+        "description": "Through hole and counterbore share an axis; F004 preserves this coaxial relationship for all six pairs."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "F004",
+        "qty": 6,
+        "spacing_value": 6.0,
+        "computed_from": "30.000 basic first-to-last distance / (6 - 1) gaps = 6.000; confirmed by basic cumulative dimensions 6, 12, 18, 24, 30."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D009",
+        "component_dimension_ids": [
+          "D008",
+          "D008"
+        ],
+        "description": "12 = 6 + 6 basic."
+      },
+      {
+        "total_dimension_id": "D010",
+        "component_dimension_ids": [
+          "D009",
+          "D008"
+        ],
+        "description": "18 = 12 + 6 basic."
+      },
+      {
+        "total_dimension_id": "D011",
+        "component_dimension_ids": [
+          "D010",
+          "D008"
+        ],
+        "description": "24 = 18 + 6 basic."
+      },
+      {
+        "total_dimension_id": "D012",
+        "component_dimension_ids": [
+          "D011",
+          "D008"
+        ],
+        "description": "30 = 24 + 6 basic."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D007",
+          "D012",
+          "D021"
+        ],
+        "description": "Nominal length closure: 36 = 2.25 approximate + 30 basic + 3.75 derived approximate."
+      },
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D013",
+          "D020"
+        ],
+        "description": "Nominal height closure: 5.38 = 4.375 + 1.005 derived."
+      },
+      {
+        "total_dimension_id": "D003",
+        "component_dimension_ids": [
+          "D006",
+          "D022"
+        ],
+        "description": "Nominal thickness closure: 1.500 = .78 counterbore depth + .72 remaining axial thickness."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D020",
+      "D021",
+      "D022"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004"
+  ],
+  "warnings": [
+    "No explicit ASME/ISO/DIN standard designation is printed. Third-angle projection and inch units are explicit; GD&T uses legacy frame ordering.",
+    "143-C is the complete printed drawing/part number; C has not been assumed to be a revision. Revision table is blank. Model number is 250 BX.",
+    "The first hole location is explicitly approximate, FIT AT ASSY. All reported edge-referenced X coordinates are nominal and inherit this assembly adjustment; do not treat them as exact final manufacturing positions.",
+    "The positional tolerance is a diameter .010 zone with no datum references printed. Do not invent datum A in that frame; clarify inspection requirements if needed.",
+    "Basic dimensions have no supported basic tolerance_type in the reporting schema; they are identified in notes and must not receive the general three-place bilateral tolerance.",
+    "H markings indicate hardening, not geometric features. The 2.50 and 1.50 dimensions define hardening band heights on opposing broad faces; the bottom edge is the third hardened surface. These treatments extend longitudinally as indicated by H.",
+    "Surface texture value 16 appears on both broad faces and the bottom edge. Microinches are inferred from the inch drawing; a roughness parameter is not explicitly spelled out.",
+    "Scale is interpreted as 1:2 from handwritten '1=2' notation. Broken views must not be scaled for missing dimensions.",
+    "No fillets, chamfers, threads, or additional holes are specified. Manufacturer-standard steel is not a specific alloy designation."
+  ],
+  "confidence": 0.94
+}

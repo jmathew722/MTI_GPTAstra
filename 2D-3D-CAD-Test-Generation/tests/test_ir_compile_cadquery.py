@@ -138,6 +138,63 @@ def test_bearing_counterbores_taps_and_chamfers():
     assert len(fm["edge_points"]["F007"]) == 4
 
 
+# --- MTI audit 2026-10-26: SB14306 tapped THRU holes, 4C1229 slots through a revolve --- #
+def _flange():
+    from pipeline.ir.cq_runtime import Model
+    m = Model("T", origin_kind="axis_end", units="inch", strict=True)
+    m.revolve("F001", outer=[(0, 3.0), (0.5, 3.0)], inner=[(0, 0.5), (0.5, 0.5)], op="add")
+    return m
+
+
+def test_tapped_hole_with_null_depth_cuts_through():
+    m = _flange()
+    m.hole("F002", on="face(F001,+Z)", u=2.0, v=0, spec={"type": "tapped", "d": 0.3125, "depth": None,
+                                                         "thread": ".375-16 UNC THRU"})
+    assert not m.skipped
+    assert not m.contains(2.0, 0, 0.05) and not m.contains(2.0, 0, 0.45)   # through the whole flange
+    hole = m.feature_map()["holes"]["F002"][0]
+    assert hole["measured"] and hole["depth"] == pytest.approx(0.5, abs=1e-6)
+
+
+def test_holes_are_measured_after_slots_trim_the_bore():
+    m = _flange()   # 4C1229: the slot cuts leave trimmed cylinder surfaces (no _geomAdaptor().Cylinder())
+    m.prism("F002", on="face(F001,-Z)", offset=0, depth="thru", op="cut",
+            profile={"shape": "slot", "length": 3.0, "width": 0.344, "angle": 90, "u": 0, "v": -1.5})
+    m.hole("F003", on="face(F001,-Z)", u=0, v=1.125,
+           spec={"type": "cbore", "d": 0.221, "cbore_d": 0.328, "cbore_depth": 0.19})
+    fm = m.feature_map()
+    assert fm["holes"]["F003"][0]["measured"]
+
+
+def test_edge_query_never_selects_a_cylinder_seam():
+    from pipeline.ir.cq_runtime import Model
+    m = Model("T", origin_kind="axis_end", units="inch", strict=True)   # bore steps out through a cone
+    m.revolve("F001", outer=[(0, 3.0), (0.5, 3.0)], inner=[(0, 0.5), (0.2, 0.5), (0.3, 0.7), (0.5, 0.7)], op="add")
+    # 4C1229 F004: wall(F001) also matches the bore itself, and its seam is not an edge "between"
+    m.edge_op("F002", operation="fillet", size=0.02, angle=45, edges=["edge_between(wall(F001,0.5),wall(F001))"])
+    assert [round(p[2], 6) for p in m.edge_points["F002"]] == [0.2]     # the bore-to-cone circle only
+
+
+def test_wall_radius_matches_a_cone_at_its_rim():
+    from pipeline.ir.cq_runtime import Model
+    m = Model("T", origin_kind="axis_end", units="inch", strict=True)   # SB14306 F003: tapered nose
+    m.revolve("F001", outer=[(0, 3.0), (1.0, 2.8), (2.0, 2.8)], inner=[(0, 1.0), (2.0, 1.0)], op="add")
+    m.edge_op("F002", operation="fillet", size=0.05, angle=45, edges=["edge_between(face(F001,-Z,0),wall(F001,3.0))"])
+    assert [round(p[2], 6) for p in m.edge_points["F002"]] == [0.0]
+
+
+def test_surface_deviation_reads_a_thin_wall_offset_in_mm():
+    import cadquery as cq
+    from pipeline.ir.score import aligned, iou, surface_deviation
+    # A00161E: a 1.5 mm sheet offset by 0.9 mm has a poor IoU but a 0.9 mm deviation
+    ring = lambda r: cq.Workplane().circle(r + 1.5).circle(r).extrude(100).val()
+    a, b = ring(100.0), ring(100.9)
+    value, key = iou(a, b)
+    assert value < 0.6
+    dev = surface_deviation(aligned(a, b, key), b)
+    assert dev["max"] == pytest.approx(0.9, abs=0.05)
+
+
 # --- A050211E (2026-10-26 official run): a slot trims a revolved face -> Geom_RectangularTrimmedSurface --- #
 def test_feature_map_survives_trimmed_cylinder_faces(tmp_path):
     """The bench retainer plan crashed measure_holes: the slot cut leaves a cylinder whose
@@ -157,3 +214,106 @@ def test_feature_map_survives_trimmed_cylinder_faces(tmp_path):
     assert holes and all(h["measured"] for h in holes)
     assert all(abs(h["d"] - 0.344) < 1e-6 for h in holes)
     assert (tmp_path / "reference.step").is_file()
+
+
+# --- Radial holes (spec 2026-10-28-radial-holes-design.md): SB12059, SB12095, 2N2664 --- #
+def _tube():
+    from pipeline.ir.cq_runtime import Model
+    m = Model("T", origin_kind="axis_end", units="inch", strict=True)
+    m.revolve("F001", outer=[(0, 2.0), (2.0, 2.0)], inner=[(0, 0.5), (2.0, 0.5)], op="add")
+    return m
+
+
+def _polar(r, deg, z):
+    a = math.radians(deg)
+    return r * math.cos(a), r * math.sin(a), z
+
+
+def test_radial_blind_hole_at_an_angle():
+    m = _tube()   # SB12059: .375-24 tap .38 deep at 45 deg, .75 from the end
+    m.hole("F002", on="wall(F001,2.0)", u=45, v=0.75, spec={"type": "tapped", "d": 0.332, "depth": 0.5})
+    assert not m.skipped
+    assert not m.contains(*_polar(1.9, 45, 0.75))          # drilled near the surface at 45 deg
+    assert not m.contains(*_polar(1.6, 45, 0.75))          # 0.4 deep: still inside the hole
+    assert m.contains(*_polar(1.4, 45, 0.75))              # past the .5 depth: material
+    assert m.contains(*_polar(1.9, -45, 0.75))             # the mirror angle is untouched
+    assert m.contains(*_polar(1.9, 45, 0.3))               # other axial stations untouched
+    assert m.starts["F002"]["radial"]
+
+
+def test_radial_thru_hole_crosses_the_whole_diameter():
+    m = _tube()
+    m.hole("F002", on="wall(F001,2.0)", u=0, v=1.0, spec={"type": "thru", "d": 0.25})
+    assert not m.contains(1.9, 0, 1.0) and not m.contains(-1.9, 0, 1.0)
+    assert m.contains(0, 1.9, 1.0)
+
+
+def test_radial_hole_pattern_about_the_part_axis():
+    m = _tube()   # 4 radial holes, seed at 45 deg, every 90 deg
+    m.hole("F002", on="wall(F001,2.0)", u=45, v=1.0, spec={"type": "blind", "d": 0.25, "depth": 0.5})
+    m.pattern("F003", seed="F002", mode="circular", count=4, pitch=0, dir="+X", count2=1, pitch2=0, dir2="+Y",
+              axis="axis(part)", step="equal", skip=[], op="cut")
+    for deg in (45, 135, 225, 315):
+        assert not m.contains(*_polar(1.9, deg, 1.0)), deg
+    for deg in (0, 90, 180, 270):
+        assert m.contains(*_polar(1.9, deg, 1.0)), deg
+
+
+def test_radial_hole_needs_a_wall_radius():
+    from pipeline.ir.cq_runtime import CompileError
+    m = _tube()
+    with pytest.raises(CompileError, match="wall radius"):
+        m.hole("F002", on="wall(F001)", u=0, v=1.0, spec={"type": "thru", "d": 0.25})
+
+
+def test_clocked_iou_forgives_rotation_about_the_axis_only():
+    """4C1229: a slot pattern clocked differently from MTI's is the same part. Five slots 15 deg
+    apart can't be lined up by the strict 90-deg / mirror alignments (those reach 18-deg steps)."""
+    import cadquery as cq
+    from pipeline.ir.score import clocked, iou, turned_axis
+
+    def part(deg):
+        disk = cq.Workplane().circle(50).extrude(10)
+        for i in range(5):
+            a = math.radians(deg + 72 * i)
+            disk = disk.cut(cq.Workplane().center(40 * math.cos(a), 40 * math.sin(a)).circle(4).extrude(10))
+        return disk.val()
+
+    a, b = part(15), part(0)
+    assert turned_axis(b) == 2
+    assert iou(a, b)[0] < 0.99
+    best, ang, _ = clocked(a, b)
+    assert best > 0.999 and (ang + 15) % 72 == pytest.approx(0, abs=1e-6)
+
+
+def test_face_query_on_a_pocket_selects_its_own_walls():
+    """2N2664 F023: a cut's +X wall faces -X (into the pocket). face(F002,+X) must still find it."""
+    from pipeline.ir.cq_runtime import Model
+    m = Model("T", origin_kind="corner", units="inch", strict=True)
+    m.prism("F001", on="plane(front)", offset=0, profile={"shape": "rect", "w": 4, "h": 4, "anchor": "corner", "u": 0, "v": 0},
+            depth=1, op="add")
+    m.prism("F002", on="face(F001,+Z)", offset=0, profile={"shape": "rect", "w": 1, "h": 2, "anchor": "corner", "u": 1, "v": 1},
+            depth=0.5, op="cut")
+    m.edge_op("F003", operation="fillet", size=0.1, angle=45,
+              edges=["edge_between(face(F002,+X),face(F002,+Y))", "edge_between(face(F002,-X),face(F002,+Y))"])
+    pts = m.edge_points["F003"]
+    assert len(pts) == 2 and all(abs(p[1] - 3.0) < 1e-6 for p in pts)     # the two corners at the +Y end
+
+
+def test_turned_corner_edges_and_general_note_treatments():
+    """D8 selector: outside corners take the general chamfer, inside corners the general radius."""
+    from pipeline.ir.cq_runtime import Model
+    from pipeline.ir.model import edge_selector
+    assert edge_selector("edges(convex)") == "convex" and edge_selector("edges( concave )") == "concave"
+    m = Model("T", origin_kind="axis_end", units="inch", strict=True)
+    m.revolve("F001", outer=[(0, 1.5), (1, 1.5), (1, 1.0), (2, 1.0)], inner=[(0, 0.5), (2, 0.5)], op="add")
+    corners = lambda kind: sorted((round(e.radius() / 25.4, 3), round(e.Center().z / 25.4, 3))
+                                  for e in m._turned_corner_edges(kind))
+    assert corners("convex") == [(0.5, 0.0), (0.5, 2.0), (1.0, 2.0), (1.5, 0.0), (1.5, 1.0)]
+    assert corners("concave") == [(1.0, 1.0)]
+    v0 = m.solid.Volume()
+    m.edge_op("F002", operation="chamfer", size=0.06, angle=45, edges=["edges(convex)"])
+    v1 = m.solid.Volume()
+    m.edge_op("F003", operation="fillet", size=0.047, angle=45, edges=["edges(concave)"])
+    assert v1 < v0 < m.solid.Volume() + (v0 - v1) and m.solid.Volume() > v1     # chamfers remove, the fillet adds
+    assert not m.skipped and len(m.edge_points["F002"]) == 5 and len(m.edge_points["F003"]) == 1

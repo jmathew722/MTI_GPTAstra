@@ -1,0 +1,35 @@
+{
+  "model": "SB12051.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 54851.126,
+  "bbox_mm": [
+    0.0,
+    -22.225,
+    -22.225,
+    53.848,
+    22.225,
+    22.225
+  ],
+  "size_mm": [
+    44.45,
+    44.45,
+    53.848
+  ],
+  "center_mm": [
+    26.924,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Revolve1",
+    "Chamfer1",
+    "Fillet1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "Chamfer",
+    "Fillet"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\SB12051\\ground_truth.step",
+  "part": "SB12051"
+}

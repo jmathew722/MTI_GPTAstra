@@ -1,0 +1,870 @@
+{
+  "dims": {
+    "D001": 0.755,
+    "D002": 15.0,
+    "D003": 7.5,
+    "D004": 0.04,
+    "D005": 30.0,
+    "D006": 10.16,
+    "D007": 6.0,
+    "D008": 12.0,
+    "D009": 1.001,
+    "D010": 2.0,
+    "D011": 3.0,
+    "D012": 5.196,
+    "D013": 8.38,
+    "D014": 3.0,
+    "D015": 5.196,
+    "D016": 7.125,
+    "D017": 0.75,
+    "D018": 0.375,
+    "D019": 5.0,
+    "D020": 1.5,
+    "D021": 0.5,
+    "D022": 0.125,
+    "D023": 8.0,
+    "D024": 3.0,
+    "D025": 1.0,
+    "D026": 3.62,
+    "D027": 0.12,
+    "D028": 12.0833333333,
+    "D029": 21.5,
+    "D030": 22.405,
+    "D031": 18.254,
+    "D032": 18.25,
+    "D033": 18.625,
+    "D034": 18.125,
+    "D035": 19.5,
+    "D036": 19.999,
+    "D037": 0.375,
+    "D038": 0.5,
+    "D039": 1.5,
+    "D040": 2.38,
+    "D041": 0.437,
+    "D042": 0.12,
+    "D043": 0.5,
+    "D044": 2.75,
+    "D045": 1.005,
+    "D046": 5.125,
+    "D047": 0.5005,
+    "D048": 0.5025,
+    "D049": 0.25,
+    "D050": 0.001,
+    "D051": 5.62,
+    "D052": 0.88,
+    "D053": 0.38,
+    "D054": 4.38,
+    "D055": 3.38,
+    "D056": 0.38
+  },
+  "reference_ids": [
+    "D005",
+    "D008",
+    "D029"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB 14306 \u2014 COLLET (SPECIAL)",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "+Z, centered at x=0,y=0",
+        "Section A-A": "+Z from large tapered end to rear datum B",
+        "datum B": "z=D023"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Finished stepped annular collet, including the taper, external relief, internal bores, rear web and central opening.",
+        "source_callouts": [
+          "8.00",
+          "3.00",
+          "1.00",
+          "3.62",
+          "12\u00b05\u2032 \u00b10\u00b05\u2032",
+          "22.405 DIA. OVER ROLLS",
+          ".500 DIA. ROLL",
+          "21.500 DIA. REF.",
+          "18.250 DIA. AFTER SURFALLOY",
+          "18.625 DIA.",
+          "18.125 DIA.",
+          "19.500 DIA.",
+          "19.999 DIA.",
+          "1.500",
+          "2.38",
+          "6.00 \u00d8"
+        ],
+        "status": "planned",
+        "justification": "The roll centers shown tangent to the large-end plane are at z=D043/2. Cone intercept R=(D030-D043)/2-(D043/2)*sec(D028)+(D043/2)*tan(D028). Numeric coefficients 0.214077187 and 1.022657832 are respectively tan and sec of the printed 12\u00b05\u2032 (D028), evaluated for the arithmetic-only IR; their precision exceeds drawing tolerances. D029 is only a reference diameter. The inner profile includes the central 6.00 opening.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "(D030-D043)/2-D043*1.022657832/2+D043*0.214077187/2"
+          },
+          {
+            "z": "D023-D026-D025",
+            "r": "(D030-D043)/2-D043*1.022657832/2+D043*0.214077187/2-(D023-D026-D025)*0.214077187"
+          },
+          {
+            "z": "D023-D026-D025",
+            "r": "D035/2"
+          },
+          {
+            "z": "D023-D026",
+            "r": "D035/2"
+          },
+          {
+            "z": "D023-D026",
+            "r": "D036/2"
+          },
+          {
+            "z": "D023",
+            "r": "D036/2"
+          }
+        ],
+        "inner": [
+          {
+            "z": "0",
+            "r": "D032/2"
+          },
+          {
+            "z": "D024",
+            "r": "D032/2"
+          },
+          {
+            "z": "D024",
+            "r": "D033/2"
+          },
+          {
+            "z": "D023-D040",
+            "r": "D033/2"
+          },
+          {
+            "z": "D023-D040",
+            "r": "D034/2"
+          },
+          {
+            "z": "D023-D039",
+            "r": "D034/2"
+          },
+          {
+            "z": "D023-D039",
+            "r": "D007/2"
+          },
+          {
+            "z": "D023",
+            "r": "D007/2"
+          }
+        ],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Blend both roots of the external relieved land.",
+        "source_callouts": [
+          "*.12 R"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D027",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D023-D026-D025),wall(F001,D035/2))",
+          "edge_between(face(F001,-Z,D023-D026),wall(F001,D035/2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Round the outside large-end lip adjacent to the inspection roll.",
+        "source_callouts": [
+          ".12 R",
+          "12\u00b05\u2032",
+          "22.405 DIA. OVER ROLLS",
+          ".500 DIA. ROLL"
+        ],
+        "status": "planned",
+        "justification": "The cone wall radius selector uses the same coefficients derived from printed D028 as F001: tan(12\u00b05\u2032)=0.214077187 and sec(12\u00b05\u2032)=1.022657832.",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D042",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,0),wall(F001,(D030-D043)/2-D043*1.022657832/2+D043*0.214077187/2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Blend the internal rear-web root identified in section A-A.",
+        "source_callouts": [
+          "*.375 R"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D037",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D023-D039),wall(F001,D034/2))"
+        ]
+      },
+      {
+        "id": "F005",
+        "rationale": "Confirm the other starred .375 blend's exact transition geometry: a simple fillet cannot fit the nominal .250 radial shoulder between the 18.625 and 18.125 bores.",
+        "source_callouts": [
+          "*.375 R",
+          "18.625 DIA.",
+          "18.125 DIA.",
+          "2.38"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D037",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D023-D040),wall(F001,D034/2))"
+        ]
+      },
+      {
+        "id": "F006",
+        "rationale": "Rear radial keyway opening into the central hole, with its full-radius outer end at radius 8.38.",
+        "source_callouts": [
+          "1.001 CENT. TYP. (4)",
+          "8.38 TYP.",
+          "FULL R.",
+          ".500",
+          "1.500"
+        ],
+        "status": "planned",
+        "justification": "Section A-A's .500 extension lines identify the remaining material between the inside web face and radial-keyway floor, rather than another bore shoulder. The rear-face cutting depth is D039-D038. The inner end of the slot lies wholly inside the central opening.",
+        "kind": "prism",
+        "on": "face(F001,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "slot",
+          "length": "D013+D009",
+          "width": "D009",
+          "angle": "0",
+          "u": "(D013-D009)/2",
+          "v": "0"
+        },
+        "depth": "D039-D038",
+        "op": "cut"
+      },
+      {
+        "id": "F007",
+        "rationale": "Four radial keyways on the principal centerlines.",
+        "source_callouts": [
+          "1.001 CENT. TYP. (4)",
+          "ALL KEYWAYS TO BE IN LINE, CENT. AND/OR SQUARE TO EACH OTHER W/IN .001."
+        ],
+        "status": "planned",
+        "justification": "Four principal-axis positions and mirror symmetry are shown in the end view.",
+        "kind": "pattern",
+        "seed": "F006",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "90",
+        "skip": []
+      },
+      {
+        "id": "F008",
+        "rationale": "Outside axial keyway, closed with a full radius and open through the rear end.",
+        "source_callouts": [
+          ".437",
+          "2.75 TYP.",
+          "1.005 CENT. TYP. (4) EQ. SPACED",
+          "FULL R."
+        ],
+        "status": "planned",
+        "justification": "The detail dimensions 2.75 to the extreme closed end at z=D023-D044. The tool extends beyond datum B by D023. Its radial extrusion starts at the exact .437-deep floor and overshoots the outside cylinder.",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "D036/2-D041",
+        "profile": {
+          "shape": "slot",
+          "length": "D044+D023",
+          "width": "D045",
+          "angle": "90",
+          "u": "0",
+          "v": "(D023+D023+D023-D044)/2"
+        },
+        "depth": "D036",
+        "op": "cut"
+      },
+      {
+        "id": "F009",
+        "rationale": "Four outside axial keyways aligned with the rear radial keyways.",
+        "source_callouts": [
+          "1.005 CENT. TYP. (4) EQ. SPACED",
+          "ALL KEYWAYS TO BE IN LINE, CENT. AND/OR SQUARE TO EACH OTHER W/IN .001."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F008",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "90",
+        "skip": []
+      },
+      {
+        "id": "F010",
+        "rationale": "First large through-tapped hole, located by the controlling rectangular ordinates.",
+        "source_callouts": [
+          ".750-10 TAP THRU 8-HOLES",
+          "3.000 TYP.",
+          "5.196 TYP.",
+          "12.00 B.C. REF."
+        ],
+        "status": "planned",
+        "justification": "21/32 inch (0.65625) is the standard tap drill for 3/4-10 UNC. Null depth denotes through drilling. Threads are cosmetic, with no assumed fit class.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "-D014",
+        "v": "-D012",
+        "spec": {
+          "type": "tapped",
+          "d": "0.65625",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ".750-10 UNC THRU"
+        }
+      },
+      {
+        "id": "F011",
+        "rationale": "Four large tapped holes at (\u00b13.000, \u00b15.196).",
+        "source_callouts": [
+          ".750-10 TAP THRU 8-HOLES",
+          "3.000 TYP.",
+          "5.196 TYP."
+        ],
+        "status": "planned",
+        "justification": "Mirror symmetry about both centerlines is shown.",
+        "kind": "pattern",
+        "seed": "F010",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "2*D014",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "2*D012",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F012",
+        "rationale": "Second large tapped-hole family at interchanged ordinates.",
+        "source_callouts": [
+          ".750-10 TAP THRU 8-HOLES",
+          "3.000 TYP.",
+          "5.196 TYP."
+        ],
+        "status": "planned",
+        "justification": "21/32 inch (0.65625) is the standard tap drill for 3/4-10 UNC. Null depth denotes through drilling; threads are cosmetic.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "-D015",
+        "v": "-D011",
+        "spec": {
+          "type": "tapped",
+          "d": "0.65625",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ".750-10 UNC THRU"
+        }
+      },
+      {
+        "id": "F013",
+        "rationale": "Complete the eight large tapped holes with (\u00b15.196, \u00b13.000).",
+        "source_callouts": [
+          ".750-10 TAP THRU 8-HOLES",
+          "3.000 TYP.",
+          "5.196 TYP."
+        ],
+        "status": "planned",
+        "justification": "Mirror symmetry is shown. These eight holes are not equally spaced at 45 degrees.",
+        "kind": "pattern",
+        "seed": "F012",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "2*D015",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "2*D011",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F014",
+        "rationale": "Inner small tapped hole through the radial-keyway floor.",
+        "source_callouts": [
+          ".375-16 TAP THRU 8-HOLES",
+          "7.125 TYP.",
+          "2.000 TYP."
+        ],
+        "status": "planned",
+        "justification": "5/16 inch (0.3125) is the standard tap drill for 3/8-16 UNC. Its radial position is the outer radius minus the printed pair spacing. Null depth denotes through drilling.",
+        "kind": "hole",
+        "on": "face(F006,+Z)",
+        "u": "D016-D010",
+        "v": "0",
+        "spec": {
+          "type": "tapped",
+          "d": "0.3125",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ".375-16 UNC THRU"
+        }
+      },
+      {
+        "id": "F015",
+        "rationale": "Inner small tapped hole in each of four radial keyways.",
+        "source_callouts": [
+          ".375-16 TAP THRU 8-HOLES",
+          "2.000 TYP."
+        ],
+        "status": "planned",
+        "justification": "The end view shows four identical principal-axis radial pairs.",
+        "kind": "pattern",
+        "seed": "F014",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "90",
+        "skip": []
+      },
+      {
+        "id": "F016",
+        "rationale": "Outer small tapped hole through the radial-keyway floor.",
+        "source_callouts": [
+          ".375-16 TAP THRU 8-HOLES",
+          "7.125 TYP."
+        ],
+        "status": "planned",
+        "justification": "5/16 inch (0.3125) is the standard tap drill for 3/8-16 UNC. Null depth denotes through drilling; threads are cosmetic.",
+        "kind": "hole",
+        "on": "face(F006,+Z)",
+        "u": "D016",
+        "v": "0",
+        "spec": {
+          "type": "tapped",
+          "d": "0.3125",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ".375-16 UNC THRU"
+        }
+      },
+      {
+        "id": "F017",
+        "rationale": "Complete the four pairs of small tapped holes.",
+        "source_callouts": [
+          ".375-16 TAP THRU 8-HOLES",
+          "7.125 TYP.",
+          "2.000 TYP."
+        ],
+        "status": "planned",
+        "justification": "The end view shows four identical principal-axis radial pairs.",
+        "kind": "pattern",
+        "seed": "F016",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "90",
+        "skip": []
+      },
+      {
+        "id": "F018",
+        "rationale": "Central portion of a peripheral notch, with floor at radius 10.16 and the printed half-pitch phase.",
+        "source_callouts": [
+          ".755 TYP. (24) CENT.",
+          "10.16",
+          "7\u00b030\u2032 TYP.",
+          "*.04 R"
+        ],
+        "status": "planned",
+        "justification": "0.9914448613738104 and 0.1305261922200516 are cos and sin of printed 7\u00b030\u2032 (D003), numerically evaluated for arithmetic-only expressions. The axial cutter naturally exits the taper where it drops below the notch floor; its radial reach overshoots the OD. Together F018, F020, F022 and F024 form an exact rounded-root notch profile.",
+        "kind": "prism",
+        "on": "face(F001,-Z,0)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "D006*0.9914448613738104+(D001/2-D004)*0.1305261922200516",
+              "D006*0.1305261922200516-(D001/2-D004)*0.9914448613738104"
+            ],
+            [
+              "D029*0.9914448613738104+(D001/2-D004)*0.1305261922200516",
+              "D029*0.1305261922200516-(D001/2-D004)*0.9914448613738104"
+            ],
+            [
+              "D029*0.9914448613738104-(D001/2-D004)*0.1305261922200516",
+              "D029*0.1305261922200516+(D001/2-D004)*0.9914448613738104"
+            ],
+            [
+              "D006*0.9914448613738104-(D001/2-D004)*0.1305261922200516",
+              "D006*0.1305261922200516+(D001/2-D004)*0.9914448613738104"
+            ]
+          ]
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F019",
+        "rationale": "Repeat the central notch portions at the printed pitch.",
+        "source_callouts": [
+          "15\u00b0 TYP. (24)",
+          ".755 TYP. (24) CENT."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F018",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "24",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "D002",
+        "skip": []
+      },
+      {
+        "id": "F020",
+        "rationale": "Full-width outer portion of the notch above the root-radius tangency.",
+        "source_callouts": [
+          ".755 TYP. (24) CENT.",
+          "10.16",
+          "*.04 R",
+          "7\u00b030\u2032 TYP."
+        ],
+        "status": "planned",
+        "justification": "The rotation coefficients are cos(7\u00b030\u2032)=0.9914448613738104 and sin(7\u00b030\u2032)=0.1305261922200516, derived from printed D003. Radial and axial tools overshoot the part.",
+        "kind": "prism",
+        "on": "face(F001,-Z,0)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "(D006+D004)*0.9914448613738104+D001*0.1305261922200516/2",
+              "(D006+D004)*0.1305261922200516-D001*0.9914448613738104/2"
+            ],
+            [
+              "D029*0.9914448613738104+D001*0.1305261922200516/2",
+              "D029*0.1305261922200516-D001*0.9914448613738104/2"
+            ],
+            [
+              "D029*0.9914448613738104-D001*0.1305261922200516/2",
+              "D029*0.1305261922200516+D001*0.9914448613738104/2"
+            ],
+            [
+              "(D006+D004)*0.9914448613738104-D001*0.1305261922200516/2",
+              "(D006+D004)*0.1305261922200516+D001*0.9914448613738104/2"
+            ]
+          ]
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F021",
+        "rationale": "Repeat the full-width notch portions.",
+        "source_callouts": [
+          "15\u00b0 TYP. (24)",
+          ".755 TYP. (24) CENT."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F020",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "24",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "D002",
+        "skip": []
+      },
+      {
+        "id": "F022",
+        "rationale": "First .04 notch-root radius, formed directly by the cutting profile.",
+        "source_callouts": [
+          "*.04 R",
+          ".755 TYP. (24) CENT.",
+          "10.16",
+          "7\u00b030\u2032 TYP."
+        ],
+        "status": "planned",
+        "justification": "Rotation coefficients are cos and sin of printed D003: 0.9914448613738104 and 0.1305261922200516. The overlapping cutting profiles leave an exact quarter-circle root.",
+        "kind": "prism",
+        "on": "face(F001,-Z,0)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "2*D004",
+          "u": "(D006+D004)*0.9914448613738104-(D001/2-D004)*0.1305261922200516",
+          "v": "(D006+D004)*0.1305261922200516+(D001/2-D004)*0.9914448613738104"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F023",
+        "rationale": "Repeat the first notch-root radius.",
+        "source_callouts": [
+          "*.04 R",
+          "15\u00b0 TYP. (24)"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F022",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "24",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "D002",
+        "skip": []
+      },
+      {
+        "id": "F024",
+        "rationale": "Opposite .04 notch-root radius, completing the rounded cutting profile.",
+        "source_callouts": [
+          "*.04 R",
+          ".755 TYP. (24) CENT.",
+          "10.16",
+          "7\u00b030\u2032 TYP."
+        ],
+        "status": "planned",
+        "justification": "Rotation coefficients are cos and sin of printed D003: 0.9914448613738104 and 0.1305261922200516. The overlapping cutting profiles leave an exact quarter-circle root.",
+        "kind": "prism",
+        "on": "face(F001,-Z,0)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "2*D004",
+          "u": "(D006+D004)*0.9914448613738104+(D001/2-D004)*0.1305261922200516",
+          "v": "(D006+D004)*0.1305261922200516-(D001/2-D004)*0.9914448613738104"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F025",
+        "rationale": "Complete the two root radii on all 24 peripheral notches.",
+        "source_callouts": [
+          "*.04 R",
+          "15\u00b0 TYP. (24)"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F024",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "24",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "D002",
+        "skip": []
+      },
+      {
+        "id": "F026",
+        "rationale": "Enlarged radial-through finger relief at the closed end of a finger slit.",
+        "source_callouts": [
+          ".500 CENT.",
+          "1.50",
+          "5.00",
+          "* FULL R.",
+          "TYP. VIEW (24) PLC'S EQ. SPACED"
+        ],
+        "status": "planned",
+        "justification": "The oblique detail shows the enlarged 1.50-long relief at the closed end of the overall 5.00 extent measured from the open large end. The relief is modeled as the full-radius slot shown. The radial cutter starts inside the existing bore and overshoots the outer surface.",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "0",
+        "profile": {
+          "shape": "slot",
+          "length": "D020",
+          "width": "D021",
+          "angle": "90",
+          "u": "0",
+          "v": "D019-D020/2"
+        },
+        "depth": "D029",
+        "op": "cut"
+      },
+      {
+        "id": "F027",
+        "rationale": "Enlarged relief at all 24 finger-slit stations.",
+        "source_callouts": [
+          "TYP. VIEW (24) PLC'S EQ. SPACED",
+          "15\u00b0 TYP. (24)"
+        ],
+        "status": "planned",
+        "justification": "Slit stations lie on the principal axes and at 15-degree increments; the peripheral notches lie at the printed half-pitch offset.",
+        "kind": "pattern",
+        "seed": "F026",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "24",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "D002",
+        "skip": []
+      },
+      {
+        "id": "F028",
+        "rationale": "What edge-break size and treatment should implement the general sharp-corner instruction?",
+        "source_callouts": [
+          "BREAK ALL SHARP CORNERS."
+        ],
+        "status": "unresolved",
+        "justification": "Zero is a non-executable placeholder, not an inferred chamfer size. The instruction applies generally; the queried edge is representative only.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "0",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z),wall(F001,D036/2))"
+        ]
+      },
+      {
+        "id": "F029",
+        "rationale": "Centered narrow sawcut from the open large end into the enlarged relief.",
+        "source_callouts": [
+          ".125 CENT. SAWCUT",
+          "5.00",
+          "ALL MACHINING TO BE DONE BEFORE SAWCUT."
+        ],
+        "status": "planned",
+        "justification": "The detail shows the narrow slit connecting the open end to the enlarged relief. The tool overshoots the open end and terminates inside the already removed relief, without extending the 5.00 closed-end envelope. Its radial depth overshoots the OD.",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D022",
+          "h": "D023+D019-D020/2",
+          "anchor": "corner",
+          "u": "-D022/2",
+          "v": "-D023"
+        },
+        "depth": "D029",
+        "op": "cut"
+      },
+      {
+        "id": "F030",
+        "rationale": "Final 24 equally spaced finger sawcuts.",
+        "source_callouts": [
+          "TYP. VIEW (24) PLC'S EQ. SPACED",
+          ".125 CENT. SAWCUT",
+          "ALL MACHINING TO BE DONE BEFORE SAWCUT."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F029",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "24",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "D002",
+        "skip": []
+      }
+    ],
+    "notes": [
+      "Use the final 18.250 coated bore D032. The 18.254 before-SURFALLOY dimension D031 describes a manufacturing stage, not a second finished bore.",
+      "Inspection rolls are not part material. The over-roll requirement controls cone placement; the 21.500 reference diameter is not substituted for it.",
+      "D038 is interpreted from its section extension lines as remaining web thickness under the radial keyways, correcting the extraction's bore-step interpretation. D041 is exclusively the radial depth of the distinct outside axial keyways.",
+      "The second starred .375 internal transition blend remains unresolved; resolve it before production release.",
+      "Angle D-IDs contain degrees despite the extraction's unit field. Numerical trigonometric coefficients are documented against the printed source angles because the IR expression evaluator accepts arithmetic only.",
+      "All coordinates are global and axis-centered. The extraction's envelope-corner hole instance coordinates are not used.",
+      "Large tapped holes use controlling rectangular ordinates, not an equally spaced eight-hole circle. Small tapped holes form four radial pairs. Tapped holes with null depth are through; threads are cosmetic, without an inferred fit class.",
+      "Material: 8620, carburize, quench and temper. R/C 58\u201362 as designated; all other surfaces R/C 35\u201338. Apply #3 SURFALLOY where indicated.",
+      "Retain the indicated 63 finishes, general 250 finish, datum A finished-bore axis, datum B rear face and .001 geometric controls as manufacturing and inspection annotations.",
+      "Starred radii are high-stress areas: smoothly blend adjacent surfaces, remove all tool marks and polish if necessary.",
+      "Manufacturing routing must complete all machining and finishing before the sawcuts. The general edge-break size remains unresolved."
+    ]
+  }
+}

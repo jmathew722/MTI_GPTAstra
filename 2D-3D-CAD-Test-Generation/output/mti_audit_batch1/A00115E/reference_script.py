@@ -11,6 +11,5 @@ m.pattern('F003', seed='F002', mode='grid', count=2, pitch=2.375, dir='+X', coun
 m.hole('F004', on='face(F001,-Z)', u=0.93, v=1.37, spec={'type': 'cbore', 'd': 0.578125, 'depth': 1.12, 'cbore_d': 1.002, 'cbore_depth': 0.111})  # u=D001 - D004 - D010, v=D002 - D006 - D008, d=D014, cbore=D016xD017
 m.pattern('F005', seed='F004', mode='linear', count=2, pitch=1.38, dir='+X', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D010 - D009
 m.hole('F006', on='face(F001,+X)', u=1.37, v=0.75, spec={'type': 'tapped', 'd': 0.578125, 'depth': 2.38})  # u=D002 - D012, v=D011, d=D018
-m.skip('F007', 'unresolved: What radius and axial extent apply to the four rounded external corners shown in the principal outline?')
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

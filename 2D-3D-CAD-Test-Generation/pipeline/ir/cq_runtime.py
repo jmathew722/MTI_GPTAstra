@@ -19,14 +19,18 @@ from __future__ import annotations
 
 import json
 import math
+import os
 from pathlib import Path
 from typing import Any, Optional
 
 import cadquery as cq
 
-from pipeline.ir.model import parse_edge_query, parse_ref
+from pipeline.ir.model import edge_selector, parse_edge_query, parse_ref
 
 AXES = {"X": (1.0, 0.0, 0.0), "Y": (0.0, 1.0, 0.0), "Z": (0.0, 0.0, 1.0)}
+BOOL_FUZZY_MM = 0.01   # fuzzy tolerance for cuts (10 um, far below any drawing tolerance; E033)
+if os.environ.get("MTI_BOOL_FUZZY_MM"):   # A/B check of the reference against exact booleans
+    BOOL_FUZZY_MM = float(os.environ["MTI_BOOL_FUZZY_MM"]) or None
 # base plane -> (normal axis, cq Plane xDir, cq Plane normal) chosen so local (u, v)
 # equal the GLOBAL in-plane coordinates: front (x, y), top (x, z), right (y, z).
 PLANES = {
@@ -45,7 +49,7 @@ class CompileError(RuntimeError):
 def _cylinder(face):
     """gp_Cylinder of a CYLINDER face. Read through BRepAdaptor_Surface: a face trimmed by a
     later cut (e.g. a slot through a revolved disc) has a Geom_RectangularTrimmedSurface, whose
-    raw _geomAdaptor() has no .Cylinder() (A050211E official run, 2026-10-26)."""
+    raw _geomAdaptor() has no .Cylinder() (A050211E official run and 4C1229, 2026-10-26)."""
     from OCP.BRepAdaptor import BRepAdaptor_Surface
     return BRepAdaptor_Surface(face.wrapped).Cylinder()
 
@@ -61,6 +65,16 @@ def _guarded(fn):
             self.skipped[fid] = f"failed: {type(e).__name__}: {e}"[:300]
     wrapper.__name__ = fn.__name__
     return wrapper
+
+
+def _has_radius(face, radius: float) -> bool:
+    """wall(F,r): a cylinder of radius r, or a cone with a rim circle of radius r (a taper is
+    dimensioned at its end; SB14306 F003). _faces_for prefers the cylinder when both match."""
+    if face.geomType() == "CYLINDER":
+        return abs(_cylinder(face).Radius() - radius) <= TOL * 10
+    if face.geomType() == "CONE":
+        return any(e.geomType() == "CIRCLE" and abs(e.radius() - radius) <= TOL * 10 for e in face.Edges())
+    return False
 
 
 def _idx(axis: str) -> int:
@@ -79,6 +93,8 @@ class Model:
         self.axes: dict[str, tuple[tuple[float, float, float], str]] = {}
         self.order: list[str] = []
         self.holes: dict[str, list[dict]] = {}
+        self.notes: dict[str, str] = {}
+        self.cut_ops: set[str] = set()
         self.edge_points: dict[str, list[list[float]]] = {}
         self.skipped: dict[str, str] = {}
         self.starts: dict[str, dict] = {}         # resolved start plane per prism/hole (drawing units)
@@ -128,6 +144,8 @@ class Model:
     def _apply_inner(self, fid: str, tool: cq.Shape, op: str) -> None:
         self.tools[fid] = tool
         self.order.append(fid)
+        if op != "add":
+            self.cut_ops.add(fid)
         if self.solid is None:
             if op != "add":
                 raise CompileError(f"{fid}: the first feature must add material")
@@ -139,7 +157,9 @@ class Model:
             self.solid = self.solid.fuse(tool).clean()
         else:
             before = self.solid.Volume()
-            self.solid = self.solid.cut(tool).clean()
+            # fuzzy boolean: an exact cut mis-counted a radial hole grazing other geometry as
+            # 0.551 in^3 where SolidWorks and point sampling give 0.282 (2N2664 F017, E033)
+            self.solid = self.solid.cut(tool, tol=BOOL_FUZZY_MM).clean()
             if self.solid.Volume() >= before - 1e-9:
                 raise CompileError(f"{fid}: cut removed no material (check position/direction)")
 
@@ -217,6 +237,8 @@ class Model:
     # --------------------------------------------------------------- hole --
     @_guarded
     def hole(self, fid: str, *, on: str, u: float, v: float, spec: dict) -> None:
+        if parse_ref(on)[0] == "wall":
+            return self._radial_hole(fid, on, u, v, spec)
         axis, coord, outward = self._start(on, 0.0)
         k = self.k
         into = -outward if parse_ref(on)[0] == "face" else +1
@@ -226,7 +248,7 @@ class Model:
         dvec = [0.0, 0.0, 0.0]
         dvec[_idx(axis)] = float(into)
         dirv = cq.Vector(*dvec)
-        if spec["type"] in ("thru",) or (spec["type"] == "cbore" and spec.get("depth") is None):
+        if spec["type"] == "thru" or spec.get("depth") is None:  # null depth = through (".750-10 TAP THRU")
             big = self._big()
             tool = cq.Solid.makeCylinder(d / 2, 2 * big, cq.Vector(*start) - dirv * big, dirv)
         elif spec["type"] in ("blind", "tapped", "cbore"):
@@ -239,6 +261,29 @@ class Model:
         self.axes[fid] = (start, axis)
         self.holes[fid] = [{"center_mm": list(start), "axis": axis, "into": into, "d_mm": d,
                             "spec": spec}]
+        self._apply(fid, tool, "cut")
+
+    def _radial_hole(self, fid: str, on: str, u: float, v: float, spec: dict) -> None:
+        """Radial hole (spec 2026-10-28-radial-holes-design.md): from wall(F, r) toward the part
+        axis, u = angle in degrees from +X about +Z, v = axial station z. Not added to
+        self.holes (measure_holes assumes X/Y/Z holes); verified by volume like any feature."""
+        _, args = parse_ref(on)
+        if self.origin_kind != "axis_end":
+            raise CompileError(f"{fid}: a radial hole needs frame origin_kind 'axis_end'")
+        if len(args) != 2:
+            raise CompileError(f"{fid}: a radial hole needs the wall radius: wall(F, r)")
+        if spec["type"] in ("cbore", "csink"):
+            raise CompileError(f"{fid}: radial {spec['type']} holes are not supported yet")
+        k = self.k
+        r, z, th = float(args[1]) * k, v * k, math.radians(u)
+        out = cq.Vector(math.cos(th), math.sin(th), 0.0)
+        big = self._big()
+        thru = spec["type"] == "thru" or spec.get("depth") is None
+        length = 2 * big if thru else big + spec["depth"] * k
+        start = out * (big if thru else r + big) + cq.Vector(0.0, 0.0, z)
+        tool = cq.Solid.makeCylinder(spec["d"] * k / 2, length, start, out * -1)
+        self.starts[fid] = {"radial": True, "angle": u, "z": v, "r": float(args[1]),
+                            "depth": None if thru else spec["depth"]}
         self._apply(fid, tool, "cut")
 
     # ------------------------------------------------------------ pattern --
@@ -296,13 +341,16 @@ class Model:
             sd = args[1]
             axis, coord, _ = self._start(ref, 0.0)
             want = cq.Vector(*AXES[axis]) * (1 if sd[0] == "+" else -1)
+            # a cut's +X wall faces -X, into the pocket (2N2664 F023); its +Z opening is the
+            # surrounding material's +Z face: for a cut, either normal at that coordinate
+            wants = (want, want * -1) if args[0] in self.cut_ops else (want,)
             out = []
             for f in faces:
                 if f.geomType() != "PLANE":
                     continue
                 n = f.normalAt()
                 c = f.Center()
-                if (n - want).Length < 1e-6 and abs((c.x, c.y, c.z)[_idx(axis)] - coord) < TOL * 10:
+                if any((n - w).Length < 1e-6 for w in wants) and abs((c.x, c.y, c.z)[_idx(axis)] - coord) < TOL * 10:
                     out.append(f)
             return out
         if kind == "plane":
@@ -315,34 +363,113 @@ class Model:
             for f in faces:
                 if f.geomType() == "PLANE":
                     continue
-                if radius is not None and (f.geomType() != "CYLINDER" or
-                                           abs(_cylinder(f).Radius() - radius) > TOL * 10):
+                if radius is not None and not _has_radius(f, radius):
                     continue
-                c = f.Center() if f.geomType() != "CYLINDER" else f.positionAt(0.5, 0.5)
+                c = f.positionAt(0.5, 0.5)   # on the surface; a revolved face's Center() is on the axis
                 if cq.Vertex.makeVertex(c.x, c.y, c.z).distance(tool) < TOL * 10:
                     out.append(f)
+            if radius is not None and any(f.geomType() == "CYLINDER" for f in out):
+                out = [f for f in out if f.geomType() == "CYLINDER"]   # cone rims only as a fallback
             return out
         raise CompileError(f"{ref} can't be used in an edge query")
 
+    def _turned_corner_edges(self, kind: str) -> list:
+        """Still-sharp circular edges coaxial with the part axis whose corner is ``kind``
+        ('convex' = an outside corner, 'concave' = an inside corner). Decided in the profile
+        half-plane through the edge: of four points diagonally around the corner, 1 inside the
+        material = convex, 3 = concave, 2 = rounded/tangent (skipped). A hole or slot can sit at
+        one angle, so up to three angles are tried and the first clear answer is kept."""
+        from OCP.BRepAdaptor import BRepAdaptor_Curve
+        if self.origin_kind != "axis_end":
+            raise CompileError("edges(convex|concave) is for turned parts (frame origin_kind 'axis_end')")
+        eps, out = 0.1, []                                   # mm
+        for e in self.solid.Edges():
+            if e.geomType() != "CIRCLE":
+                continue
+            c = BRepAdaptor_Curve(e.wrapped).Circle()
+            loc, ax = c.Location(), c.Axis().Direction()
+            if abs(abs(ax.Z()) - 1) > 1e-6 or math.hypot(loc.X(), loc.Y()) > TOL * 10:
+                continue                                     # not coaxial with the part axis
+            r0, z0 = c.Radius(), loc.Z()
+            for phi in (0.37, 2.46, 4.55):                   # radians, away from the usual 90-deg hole layouts
+                cs, sn = math.cos(phi), math.sin(phi)
+                n = sum(self.solid.isInside(cq.Vector((r0 + dr) * cs, (r0 + dr) * sn, z0 + dz), 1e-4)
+                        for dr in (-eps, eps) for dz in (-eps, eps))
+                if n in (1, 3):
+                    if (n == 1) == (kind == "convex"):
+                        out.append(e)
+                    break
+        return out
+
     @_guarded
     def edge_op(self, fid: str, *, operation: str, size: float, angle: float, edges: list[str]) -> None:
+        from OCP.BRepAdaptor import BRepAdaptor_Curve
         targets = []
         for q in edges:
+            if edge_selector(q):
+                found = self._turned_corner_edges(edge_selector(q))
+                if not found:
+                    raise CompileError(f"{fid}: {q} matched no edges")
+                targets += [e for e in found if not any(e.isSame(t) for t in targets)]
+                continue
             a, b = parse_edge_query(q)
             fa, fb = self._faces_for(a), self._faces_for(b)
-            found = [e for x in fa for e in x.Edges() if any(e.isSame(y) for g in fb for y in g.Edges())]
+            # two DISTINCT faces: wall(F001) also matches wall(F001,r), and a cylinder's seam
+            # is an edge "between" the face and itself (4C1229 F004)
+            found = [e for x in fa for e in x.Edges()
+                     if any(e.isSame(y) for g in fb if not g.isSame(x) for y in g.Edges())]
             if not found:
                 raise CompileError(f"{fid}: {q} matched no edges")
             for e in found:
                 if not any(e.isSame(t) for t in targets):
                     targets.append(e)
         k = self.k
-        if operation == "fillet":
-            new = self.solid.fillet(size * k, targets)
-        else:
-            d2 = size * k * math.tan(math.radians(angle))
-            new = self.solid.chamfer(size * k, None if abs(angle - 45) < 1e-9 else d2, targets)
-        self.edge_points[fid] = [[round(c / k, 6) for c in e.positionAt(0.5).toTuple()] for e in targets]
+        d2 = size * k * math.tan(math.radians(angle))
+
+        def treat(solid, es):
+            if operation == "fillet":
+                return solid.fillet(size * k, es)
+            return solid.chamfer(size * k, None if abs(angle - 45) < 1e-9 else d2, es)
+
+        selector = next((edge_selector(q) for q in edges if edge_selector(q)), None)
+
+        def sane(before, after, es) -> bool:
+            """One valid solid, changed the right way by no more than a ring of that size holds:
+            a chamfer removes, an inside-corner fillet adds (2N2664: one bad fillet took 2.3 in^3)."""
+            if not after.isValid() or len(after.Solids()) != 1:
+                return False
+            dv = after.Volume() - before.Volume()
+            cap = sum(2 * math.pi * BRepAdaptor_Curve(e.wrapped).Circle().Radius() for e in es) * (size * k) ** 2
+            want = 1 if (operation == "fillet" and selector == "concave") else -1
+            return dv * want > 0 and abs(dv) <= 1.5 * cap
+
+        try:
+            new, done = treat(self.solid, targets), targets
+            if selector and not sane(self.solid, new, targets):
+                raise CompileError("the multi-edge operation gave an implausible solid")
+        except Exception:
+            if not selector:
+                raise
+            # a general note covers many edges, and one that can't take it (next to a hole,
+            # too short) sinks a single multi-edge operation: apply edge by edge, keep what works,
+            # re-finding each edge by its midpoint (edges are renumbered after every change)
+            mids = [e.positionAt(0.5) for e in targets]
+            new, done = self.solid, []
+            for m in mids:
+                hit = [e for e in new.Edges() if e.geomType() == "CIRCLE" and e.distance(cq.Vertex.makeVertex(m.x, m.y, m.z)) < 1e-4]
+                if not hit:
+                    continue
+                try:
+                    cand = treat(new, hit[:1])
+                except Exception:
+                    continue
+                if sane(new, cand, hit[:1]):
+                    new = cand
+                    done.append(hit[0])
+            if not done:
+                raise CompileError(f"{fid}: no edge could take the {operation}")
+            self.notes[fid] = f"{len(done)} of {len(targets)} edges (the rest can't take it)"
+        self.edge_points[fid] = [[round(c / k, 6) for c in e.positionAt(0.5).toTuple()] for e in done]
         self.tools[fid] = new
         self.order.append(fid)
         self.solid = new.clean()
@@ -369,10 +496,8 @@ class Model:
                 best = None
                 for f in cyl:
                     c = _cylinder(f)
-                    r = c.Radius()
-                    loc = c.Location()
+                    r, loc, dirn = c.Radius(), c.Location(), c.Axis().Direction()
                     p = (loc.X(), loc.Y(), loc.Z())
-                    dirn = c.Axis().Direction()
                     if abs(abs((dirn.X(), dirn.Y(), dirn.Z())[_idx(ax)]) - 1) > 1e-6:
                         continue
                     dist = math.hypot(p[i] - h["center_mm"][i], p[j] - h["center_mm"][j])

@@ -10,15 +10,15 @@
     0.875,
     2.12
   ],
-  "volume": 3.352448,
-  "volume_mm3": 54936.785,
+  "volume": 3.352909,
+  "volume_mm3": 54944.336,
   "features": [
     "F001",
-    "F002"
+    "F002",
+    "F004"
   ],
   "skipped": {
-    "F003": "unresolved: Which terminal-bevel dimensions govern the exact CAD profile: .094 axial length, 30\u00b0 angle, or .625 end diameter? Their nominal values conflict.",
-    "F004": "unresolved: What nominal shoulder-root radius should be modeled? The drawing specifies only a maximum."
+    "F003": "unresolved: Which terminal-bevel dimensions govern the exact CAD profile: .094 axial length, 30\u00b0 angle, or .625 end diameter? Their nominal values conflict."
   },
   "holes": {},
   "edge_points": {
@@ -28,12 +28,20 @@
         0.0,
         0.0
       ]
+    ],
+    "F004": [
+      [
+        -0.373,
+        0.0,
+        1.245
+      ]
     ]
   },
   "starts": {},
   "volume_after": {
     "F001": 3.354894062,
-    "F002": 3.352448332
+    "F002": 3.352448332,
+    "F004": 3.352909116
   },
   "base": {
     "fid": "F001",

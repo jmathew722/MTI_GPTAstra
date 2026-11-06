@@ -1,0 +1,222 @@
+{
+  "dims": {
+    "D001": 6.12,
+    "D002": 5.125,
+    "D003": 0.75,
+    "D004": 0.75,
+    "D005": 0.5,
+    "D006": 0.5,
+    "D007": 1.0,
+    "D008": 0.44,
+    "D009": 0.995,
+    "D010": 4.125,
+    "D011": 0.88,
+    "D012": 0.06,
+    "D013": 0.1
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-12055",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "shaft elevation; drawing right is +Z, drawing up is +Y",
+        "Right": "+Z end view"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Solid stepped shaft; origin at the left stud end. The apparent reduced region near the right end is formed by flats, not an annular groove.",
+        "source_callouts": [
+          "6.12",
+          "5.125",
+          ".750 DIA.",
+          "1.00 DIA."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D003 / 2"
+          },
+          {
+            "z": "D001 - D002",
+            "r": "D003 / 2"
+          },
+          {
+            "z": "D001 - D002",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D007 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Mill upper flat at Y = .44 over the dimensioned half-inch axial interval; cutter crosses the entire shaft in X.",
+        "source_callouts": [
+          ".44 FLAT TYP.",
+          ".50",
+          ".50"
+        ],
+        "status": "planned",
+        "justification": "The elevation shows the flat extending only between the two dimensioned boundaries. The end view locates its plane .44 from the axis; TYP identifies the opposed pair. Cutter width and travel overshoot the circular envelope.",
+        "kind": "prism",
+        "on": "plane(right)",
+        "offset": "-D007",
+        "profile": {
+          "shape": "rect",
+          "w": "D007 - D008",
+          "h": "D005",
+          "anchor": "corner",
+          "u": "D008",
+          "v": "D001 - D006 - D005"
+        },
+        "depth": "2 * D007",
+        "op": "cut"
+      },
+      {
+        "id": "F003",
+        "rationale": "Mill the mirror-image lower flat at Y = -.44, with the same axial boundaries.",
+        "source_callouts": [
+          ".44 FLAT TYP.",
+          ".50",
+          ".50"
+        ],
+        "status": "planned",
+        "justification": "Opposed flats are shown symmetrically about the shaft centerline and are designated TYP. The sketch and cutter travel extend beyond the OD.",
+        "kind": "prism",
+        "on": "plane(right)",
+        "offset": "-D007",
+        "profile": {
+          "shape": "rect",
+          "w": "D007 - D008",
+          "h": "D005",
+          "anchor": "corner",
+          "u": "-D007",
+          "v": "D001 - D006 - D005"
+        },
+        "depth": "2 * D007",
+        "op": "cut"
+      },
+      {
+        "id": "F004",
+        "rationale": "What are the shoulder thread-relief width, root diameter, and transition form? MIN. RELIEF supplies none of these.",
+        "source_callouts": [
+          "MIN. RELIEF"
+        ],
+        "status": "unresolved",
+        "justification": "Nonexecuting zero-width placeholder at the stud shoulder, not an inferred relief profile. Incorporate the resolved relief into F001 stations.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "D001 - D002",
+            "r": "D003 / 2"
+          },
+          {
+            "z": "D001 - D002",
+            "r": "D003 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "cut"
+      },
+      {
+        "id": "F005",
+        "rationale": "External thread annotation is required on the stud. This IR has no external cosmetic-thread feature; do not replace the stud with a tapped hole or infer helical geometry.",
+        "source_callouts": [
+          ".750-10 THD."
+        ],
+        "status": "unsupported",
+        "justification": "Nonexecuting carrier using the nominal stud envelope, not additional material. Retain .750-10 THD. as an external cosmetic annotation; exact thread runout depends on the unresolved end chamfer and relief.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D004 / 2"
+          },
+          {
+            "z": "D001 - D002",
+            "r": "D004 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F006",
+        "rationale": "What are the size and angle of the depicted left stud-end chamfer?",
+        "source_callouts": [
+          "Undimensioned left-end chamfer depicted in elevation"
+        ],
+        "status": "unresolved",
+        "justification": "Zero size and angle are nonexecuting placeholders, not specified chamfer dimensions.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "0",
+        "angle": "0",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D003 / 2))"
+        ]
+      },
+      {
+        "id": "F007",
+        "rationale": "What are the size and angle of the depicted right body-end chamfer?",
+        "source_callouts": [
+          "Undimensioned right-end chamfer depicted in elevation and end view"
+        ],
+        "status": "unresolved",
+        "justification": "Zero size and angle are nonexecuting placeholders. Do not infer equality to the stud-end chamfer.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "0",
+        "angle": "0",
+        "edges": [
+          "edge_between(face(F001,+Z),wall(F001,D007 / 2))"
+        ]
+      },
+      {
+        "id": "F008",
+        "rationale": "Stamped text is outside the available profile types; character size, depth, and exact placement also require specification.",
+        "source_callouts": [
+          "STAMP SB-12055"
+        ],
+        "status": "unsupported",
+        "justification": "Nonexecuting zero-size carrier only; no marking geometry or placement is inferred.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "0",
+          "h": "0",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "0",
+        "op": "cut"
+      }
+    ],
+    "notes": [
+      "Material: MAT'L. ~1018; model 220-B, tool SB-12055.",
+      "Nominal geometry is solid. The end-view inner circle depicts the end chamfer, not a bore.",
+      "Dimensions are inches. General tolerances: two-place \u00b1.020; three-place \u00b1.010; angular \u00b11 degree.",
+      "D009\u2013D013 are derived extraction values, not independent manufacturing dimensions; primary printed dimensions drive the planned geometry.",
+      "Execute only planned features. Unresolved and unsupported carriers are intentionally nonexecuting and do not define manufacturing geometry.",
+      "Preserve the .750-10 THD. external cosmetic callout. Thread standard/class and any additional manufacturing requirements should be confirmed rather than inferred."
+    ]
+  }
+}

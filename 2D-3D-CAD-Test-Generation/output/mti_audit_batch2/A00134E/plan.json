@@ -1,0 +1,352 @@
+{
+  "dims": {
+    "D001": 6.75,
+    "D002": 5.12,
+    "D003": 0.25,
+    "D004": 1.75,
+    "D005": 4.25,
+    "D006": 2.0,
+    "D007": 1.0,
+    "D008": 3.12,
+    "D009": 4.12,
+    "D010": 2.37,
+    "D011": 2.125,
+    "D012": 2.5,
+    "D013": 0.406,
+    "D014": 0.156,
+    "D015": 0.19,
+    "D016": 0.297,
+    "D017": 1.156,
+    "D018": 2.563,
+    "D019": 2.344,
+    "D020": 2.797,
+    "D021": 1.156,
+    "D022": 1.563,
+    "D023": 2.344,
+    "D024": 5.297,
+    "D025": 1.156,
+    "D026": 0.563,
+    "D027": 2.344,
+    "D028": 1.453,
+    "D029": 4.907,
+    "D030": 3.953,
+    "D031": 3.907,
+    "D032": 6.453,
+    "D033": 2.907,
+    "D034": 4.625,
+    "D035": 2.5,
+    "D036": 2.5,
+    "D037": 1.0,
+    "D038": 1.0,
+    "D039": 0.297
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "134 B",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Extrude the sharp-cornered stepped plate outline to the side-view thickness.",
+        "source_callouts": [
+          "6.75",
+          "5.12",
+          ".25",
+          "1.75",
+          "4.25",
+          "2.00",
+          "1.00",
+          "3.12",
+          "4.12"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "0",
+              "D006"
+            ],
+            [
+              "D004",
+              "D006"
+            ],
+            [
+              "D004",
+              "D007"
+            ],
+            [
+              "D005",
+              "D007"
+            ],
+            [
+              "D005",
+              "0"
+            ],
+            [
+              "D001",
+              "0"
+            ],
+            [
+              "D001",
+              "D008"
+            ],
+            [
+              "D005",
+              "D008"
+            ],
+            [
+              "D005",
+              "D009"
+            ],
+            [
+              "D004",
+              "D009"
+            ],
+            [
+              "D004",
+              "D002"
+            ],
+            [
+              "0",
+              "D002"
+            ]
+          ]
+        },
+        "depth": "D003",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Left pair, lower tapped through hole; cutting depth overshoots the plate thickness.",
+        "source_callouts": [
+          ".156 \u2300",
+          "#10-24 TAP THRU",
+          "(2) HL'S. (3) PLC'S.",
+          ".297",
+          "2.563"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D016",
+        "v": "D018",
+        "spec": {
+          "type": "tapped",
+          "d": "D014",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24"
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Left pair, upper tapped through hole located by both center spacings; depth overshoots the plate.",
+        "source_callouts": [
+          ".156 \u2300",
+          "#10-24 TAP THRU",
+          "(2) HL'S. (3) PLC'S.",
+          "1.156 \u00b1.005",
+          "2.344 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D016 + D017",
+        "v": "D018 + D019",
+        "spec": {
+          "type": "tapped",
+          "d": "D014",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24"
+        }
+      },
+      {
+        "id": "F004",
+        "rationale": "Middle pair, lower tapped through hole; depth overshoots the plate.",
+        "source_callouts": [
+          ".156 \u2300",
+          "#10-24 TAP THRU",
+          "(2) HL'S. (3) PLC'S.",
+          "2.797",
+          "1.563"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D020",
+        "v": "D022",
+        "spec": {
+          "type": "tapped",
+          "d": "D014",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24"
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Middle pair, upper tapped through hole located by both center spacings; depth overshoots the plate.",
+        "source_callouts": [
+          ".156 \u2300",
+          "#10-24 TAP THRU",
+          "(2) HL'S. (3) PLC'S.",
+          "1.156 \u00b1.005",
+          "2.344 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D020 + D021",
+        "v": "D022 + D023",
+        "spec": {
+          "type": "tapped",
+          "d": "D014",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24"
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Right pair, lower tapped through hole; depth overshoots the plate.",
+        "source_callouts": [
+          ".156 \u2300",
+          "#10-24 TAP THRU",
+          "(2) HL'S. (3) PLC'S.",
+          "5.297",
+          ".563"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D024",
+        "v": "D026",
+        "spec": {
+          "type": "tapped",
+          "d": "D014",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24"
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Right pair, upper tapped through hole located by both center spacings; depth overshoots the plate.",
+        "source_callouts": [
+          ".156 \u2300",
+          "#10-24 TAP THRU",
+          "(2) HL'S. (3) PLC'S.",
+          "1.156 \u00b1.005",
+          "2.344 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D024 + D025",
+        "v": "D026 + D027",
+        "spec": {
+          "type": "tapped",
+          "d": "D014",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-24"
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Left large through hole; the full-sheet diameter callout reads .406.",
+        "source_callouts": [
+          ".406 \u2300 THRU",
+          "(2) HL'S.",
+          "2.125",
+          "2.37"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D011",
+        "v": "D010",
+        "spec": {
+          "type": "thru",
+          "d": "D013",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Repeat the large through hole horizontally at the dimensioned spacing.",
+        "source_callouts": [
+          ".406 \u2300 THRU",
+          "(2) HL'S.",
+          "2.500 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F008",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D012",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      }
+    ],
+    "notes": [
+      "Material: 1018 STEEL. Part: PLATE, 134 B; model number 250B.",
+      "Origin is the intersection of the extended leftmost and bottommost edges, outside the material.",
+      "Six tapped holes total. Drill and tap notes describe the same holes. Threads are cosmetic; no thread class is specified. Overshooting tapped-hole depth implements the printed through condition.",
+      "No edge breaks, fillets, or chamfers are specified.",
+      "Printed dimension chains govern positions. General tolerances: two-place \u00b1.02 inch; three-place \u00b1.010 inch, except explicit \u00b1.005 dimensions."
+    ]
+  }
+}

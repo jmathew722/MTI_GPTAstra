@@ -1,0 +1,33 @@
+{
+  "model": "A001291E.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 36917.373,
+  "bbox_mm": [
+    -63.5,
+    -63.5,
+    -3.175,
+    63.5,
+    63.5,
+    3.175
+  ],
+  "size_mm": [
+    6.35,
+    127.0,
+    127.0
+  ],
+  "center_mm": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Revolve1",
+    "CBORE for 1/4 Socket Head Cap Screw1"
+  ],
+  "feature_types": [
+    "Revolution",
+    "HoleWzd"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00129E\\ground_truth.step",
+  "part": "A00129E"
+}

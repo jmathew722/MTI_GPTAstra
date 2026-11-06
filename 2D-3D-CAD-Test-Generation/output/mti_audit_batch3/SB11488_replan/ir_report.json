@@ -1,0 +1,79 @@
+{
+  "part": "SB11488",
+  "extraction": "reused C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\sb11488_replan\\SB11488\\SB11488_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 15,
+  "questions": [
+    "F004: Confirm mouth-flank starting station and axial extent, including apparent alignment with the right mounting-hole column.",
+    "F005: Confirm exact internal section and attachments of .83, .250, 30 degrees and 10 degrees.",
+    "F006: Confirm the section junction receiving .50 R before selecting the actual edge.",
+    "F018: Verify upper blind-hole location and attachment of 1.625 and 5.000 extension lines.",
+    "F019: Locate the second blind tapped hole and establish whether the 6.000 ordinate applies to this pair."
+  ],
+  "flagged": [
+    "F002: Front view shows the radius leader from the plate center and the semicircular end tangent to the 3.00-wide throat; radius is D016/2.",
+    "F003: Views show an open through throat. Rectangular cutter overlaps the circular end; flared mouth is separately unresolved.",
+    "F014: Standard No. 7 tap drill, 0.201 inch, for D001 nominal 1/4-20 UNC. Null depth denotes through; rear-face entry avoids selecting a face within the unresolved recess.",
+    "F016: Standard 17/32-inch tap drill for D009 nominal 5/8-11 UNC; null depth denotes through.",
+    "F017: Standard 17/32-inch tap drill for D009 nominal 5/8-11 UNC; null depth denotes through.",
+    "F020: Side-view leader identifies the rear OD/end-face intersection. Apply only to surviving circular OD edge, not front rim or slot edges."
+  ],
+  "defaults": [],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\sb11488_replan\\SB11488\\reference.step",
+  "volume": 151.477518,
+  "cq_skipped": {
+    "F004": "unresolved: Confirm mouth-flank starting station and axial extent, including apparent alignment with the right mounting-hole column.",
+    "F005": "unresolved: Confirm exact internal section and attachments of .83, .250, 30 degrees and 10 degrees.",
+    "F006": "unresolved: Confirm the section junction receiving .50 R before selecting the actual edge.",
+    "F018": "unresolved: Verify upper blind-hole location and attachment of 1.625 and 5.000 extension lines.",
+    "F019": "unresolved: Locate the second blind tapped hole and establish whether the 6.000 ordinate applies to this pair."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\sb11488_replan\\SB11488\\SB11488detail4_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (Up To Next)",
+    "F003": "built (Up To Next)",
+    "F004": "skipped (unresolved: Confirm mouth-flank starting station and axial extent, including apparent alignment with the right mounting-hole column.)",
+    "F005": "skipped (unresolved: Confirm exact internal section and attachments of .83, .250, 30 degrees and 10 degrees.)",
+    "F006": "skipped (unresolved: Confirm the section junction receiving .50 R before selecting the actual edge.)",
+    "F007": "built (Hole Wizard 5/8 SHCS counterbore, Up To Next, 7 hole(s); one feature for F007, F008, F009, F010, F011, F012, F013)",
+    "F008": "built (in F007 (one feature))",
+    "F009": "built (in F007 (one feature))",
+    "F010": "built (in F007 (one feature))",
+    "F011": "built (in F007 (one feature))",
+    "F012": "built (in F007 (one feature))",
+    "F013": "built (in F007 (one feature))",
+    "F014": "built (Hole Wizard 1/4-20 tapped, cosmetic thread, Up To Next, 4 hole(s) on a construction rectangle; one feature for F014, F015)",
+    "F015": "built (in F014 (one feature))",
+    "F016": "built (Hole Wizard 5/8-11 tapped, cosmetic thread, Up To Next, 2 hole(s); one feature for F016, F017)",
+    "F017": "built (in F016 (one feature))",
+    "F018": "skipped (unresolved: Verify upper blind-hole location and attachment of 1.625 and 5.000 extension lines.)",
+    "F019": "skipped (unresolved: Locate the second blind tapped hole and establish whether the 6.000 ordinate applies to this pair.)",
+    "F020": "built (1 edges selected by nearest point)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F013: Hole Wizard 5/8 SHCS counterbore, Up To Next, 7 hole(s)",
+    "F015: Hole Wizard 1/4-20 tapped, cosmetic thread, Up To Next, 4 hole(s) on a construction rectangle",
+    "F017: Hole Wizard 5/8-11 tapped, cosmetic thread, Up To Next, 2 hole(s)",
+    "sketches fully defined: 6/6"
+  ],
+  "mti_review": [
+    "[mti_hole_wizard] F007: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F008: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F009: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F010: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F011: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F012: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F013: \u00d80.656 = STANDARD-DERIVED: clearance (normal) for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size); counterbore \u00d81 matches the standard counterbore; also matches 3/4 tap_drill",
+    "[mti_hole_wizard] F014 (+ pattern F015): \u00d80.201 matches no MTI Std 202.02.0003 size -> plain cut-extrude unless it is a bolt hole (close to 1/4 tap_drill: engineer check)",
+    "[mti_hole_wizard] F016: \u00d80.53125 = STANDARD-DERIVED: tap drill for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+    "[mti_hole_wizard] F017: \u00d80.53125 = STANDARD-DERIVED: tap drill for 5/8 (inch), MTI Std 202.02.0003 -> Hole Wizard (preferred size)",
+    "[mti_hole_grouping] F007, F008, F009, F010, F011, F012, F013: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+    "[mti_hole_grouping] F016, F017: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points"
+  ],
+  "cost_usd": 0.8882,
+  "error": ""
+}

@@ -1,0 +1,149 @@
+{
+  "dims": {
+    "D001": 3.5,
+    "D002": 1.62,
+    "D003": 0.875,
+    "D004": 0.5,
+    "D005": 0.094,
+    "D006": 1.75,
+    "D007": 1.0,
+    "D008": 0.656,
+    "D009": 0.746,
+    "D010": 30.0,
+    "D011": 30.0,
+    "D012": 0.062,
+    "D013": 0.12,
+    "D014": 0.03,
+    "D015": 45.0,
+    "D016": 1.005,
+    "D017": 2.625,
+    "D018": 0.045,
+    "D019": 0.637458149,
+    "D020": 3.406,
+    "D021": 0.375
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB-12051",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "drawing left end Z=0; shaft extends toward +Z",
+        "Right": "+Z"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the solid stepped shaft, flange, circumferential groove and end bevel in one profile.",
+        "source_callouts": [
+          "3.50",
+          "1.62",
+          ".875",
+          ".500",
+          ".094",
+          "1.75 DIA.",
+          "1.000 DIA.",
+          ".656 DIA.",
+          ".746 DIA. \u00b1.001",
+          "30\u00b0",
+          "30\u00b0 TYP.",
+          ".062 CENT"
+        ],
+        "status": "planned",
+        "justification": "The .500 extension locates the groove center; '.062 CENT' and symmetric flanks establish the .062 root width centered at that station. The numerical factor 1.7320508075688772 is sqrt(3), derived from the printed 30\u00b0 angles D010 and D011: flank axial run equals radial depth divided by tan(30\u00b0), and bevel radial reduction equals axial length times tan(30\u00b0). Zero denotes the end datum. End-view circles represent exterior surfaces, not a bore.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D001 - D003",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D001 - D003",
+            "r": "D009 / 2"
+          },
+          {
+            "z": "D001 - D003 + D004 - D012 / 2 - (D009 - D008) / 2 * 1.7320508075688772",
+            "r": "D009 / 2"
+          },
+          {
+            "z": "D001 - D003 + D004 - D012 / 2",
+            "r": "D008 / 2"
+          },
+          {
+            "z": "D001 - D003 + D004 + D012 / 2",
+            "r": "D008 / 2"
+          },
+          {
+            "z": "D001 - D003 + D004 + D012 / 2 + (D009 - D008) / 2 * 1.7320508075688772",
+            "r": "D009 / 2"
+          },
+          {
+            "z": "D001 - D005",
+            "r": "D009 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D009 / 2 - D005 / 1.7320508075688772"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Round the circumferential left shank-to-flange root.",
+        "source_callouts": [
+          ".12 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D013",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D002),wall(F001,D007 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Chamfer only the left outside flange corner indicated by the leader.",
+        "source_callouts": [
+          ".03 x 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D014",
+        "angle": "D015",
+        "edges": [
+          "edge_between(face(F001,-Z,D002),wall(F001,D006 / 2))"
+        ]
+      }
+    ],
+    "notes": [
+      "Material 4150; hardness R/C 40\u201345.",
+      "STAMP \"SB 12051\" on flange outside surface is retained as a manufacturing annotation. Text geometry is outside this IR; character size and impression depth are unspecified.",
+      "The .656 diameter controls the groove root, not the end-face diameter. End diameter follows .094 axial bevel length and 30\u00b0.",
+      "Review the grounded groove-centering interpretation with the '.062 CENT' qualifier and .500 extension line.",
+      "General tolerances: two-place \u00b1.020, three-place \u00b1.010, angular \u00b11\u00b0. Right shank diameter has explicit \u00b1.001. Derived dimensions have no independent tolerance."
+    ]
+  }
+}

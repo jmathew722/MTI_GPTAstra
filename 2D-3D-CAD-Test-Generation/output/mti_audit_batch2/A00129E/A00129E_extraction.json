@@ -1,0 +1,515 @@
+{
+  "part_name": "RETAINER",
+  "part_number": "129-B",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "IE 357 STL. (handwritten designation uncertain)",
+  "finish": "",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1.03; 3 PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b11\u00b0.",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Circular face of stepped-bore retaining ring with four cardinal mounting holes. Dashed larger mounting-hole circles indicate rear-face counterbores.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004"
+      ],
+      "hidden_features": [
+        "F005"
+      ],
+      "centerline_notes": "Horizontal and vertical diametral centerlines intersect the main axis and the four mounting-hole centers; bolt circle is concentric with the central opening."
+    },
+    {
+      "view_type": "Right",
+      "description": "Unsectioned edge view in stated third-angle projection. Shows overall thickness and hidden stepped central opening and mounting holes.",
+      "dimensions_shown": [
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008"
+      ],
+      "visible_features": [
+        "F001"
+      ],
+      "hidden_features": [
+        "F002",
+        "F003",
+        "F004",
+        "F005"
+      ],
+      "centerline_notes": "Horizontal main-axis centerline and upper/lower mounting-hole axis marks. Hidden shoulder marks the transition between the two central bore diameters."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "diameter",
+      "value": 4.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "mounting_hole_bolt_circle_diameter",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": true,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '4.375 B.C. REF'; non-controlling."
+    },
+    {
+      "id": "D002",
+      "type": "diameter",
+      "value": 3.5,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "central_through_bore_diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '3.500 DIA.'; three-place general tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 2.188,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "typical_mounting_hole_center_radial_offset",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '2.188 \u00b1.005 TYP.' from left hole center to vertical part centerline; interpreted typically for all four cardinal positions."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_axial_thickness",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '.250'; three-place general tolerance."
+    },
+    {
+      "id": "D005",
+      "type": "diameter",
+      "value": 3.765,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "central_recess_diameter",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '3.765 DIA.'; three-place general tolerance."
+    },
+    {
+      "id": "D006",
+      "type": "diameter",
+      "value": 5.0,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "outside_diameter",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '5.00 DIA.'; two-place general tolerance."
+    },
+    {
+      "id": "D007",
+      "type": "depth",
+      "value": 0.094,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "central_recess_depth",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '.094' from left face in right view to internal shoulder; three-place general tolerance."
+    },
+    {
+      "id": "D008",
+      "type": "diameter",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_screw_size_NOT_drilled_hole_diameter",
+      "feature_ref": "F004",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Full callout: 'DR. & C'BORE FOR 1/4 (LOW HEAD) SOC. HD. SCR. (4) HLS.' Fraction is screw nominal size only. Drill diameter, counterbore diameter, and counterbore depth are NOT specified. No tapping or thread pitch is specified."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 0.156,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "remaining_axial_thickness_at_central_step",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value .250 - .094 = .156; not independently toleranced."
+    },
+    {
+      "id": "D010",
+      "type": "diameter",
+      "value": 4.376,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "derived_mounting_hole_bolt_circle_diameter",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived 2 \u00d7 2.188 = 4.376; .001 difference from reference 4.375 is attributable to rounding."
+    },
+    {
+      "id": "D011",
+      "type": "radial",
+      "value": 2.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "outside_radius",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived 5.00 / 2 = 2.500; not independently toleranced."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 0.312,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "cardinal_hole_center_to_outer_envelope_edge",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived 2.500 - 2.188 = .312. Center-to-envelope margin, not remaining ligament to hole edge."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "counterbore",
+      "diameter": 3.5,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 3.765,
+      "cbore_depth": 0.094,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 0.0,
+      "y_position": 0.0,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          2.5,
+          2.5
+        ]
+      ],
+      "feature_ref": "F003",
+      "view": "Front / Right"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Circular base disk: diameter 5.00, thickness .250.",
+      "related_dimensions": [
+        "D006",
+        "D004"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D004",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_cut",
+      "description": "Concentric diameter 3.500 through bore.",
+      "related_dimensions": [
+        "D002"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Concentric diameter 3.765 recess .094 deep from front face, which is the left face in the right view. Nominal remaining thickness .156.",
+      "related_dimensions": [
+        "D005",
+        "D007",
+        "D009"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D007",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "hole",
+      "description": "Four drilled through mounting holes for 1/4-inch low-head socket-head screws. Actual drill diameter is unspecified: do not use .250 as the drill diameter. Center-relative positions in inches: [[0,2.188],[2.188,0],[0,-2.188],[-2.188,0]]. Edge-referenced positions from lower-left bounding-envelope corner: [[2.5,4.688],[4.688,2.5],[2.5,0.312],[0.312,2.5]]. Four cardinal positions at nominal 90-degree intervals.",
+      "related_dimensions": [
+        "D001",
+        "D003",
+        "D008",
+        "D010",
+        "D012"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 2.188,
+      "position_known": true,
+      "quantity": 4
+    },
+    {
+      "id": "F005",
+      "type": "extrude_cut",
+      "description": "Four counterbores for the low-head socket-head screws, individually concentric with F004. Rear-face access inferred from dashed larger circles in front view. Diameter and depth unspecified; must be resolved before modeling.",
+      "related_dimensions": [
+        "D008"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "",
+      "parent_feature": "F004",
+      "offset_x": 0.0,
+      "offset_y": 2.188,
+      "position_known": true,
+      "quantity": 4
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Horizontal diametral plane through main axis",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005"
+        ],
+        "description": "Upper and lower holes mirror across the horizontal centerline."
+      },
+      {
+        "plane": "Vertical diametral plane through main axis",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005"
+        ],
+        "description": "Left and right holes mirror across the vertical centerline. Pattern has nominal 90-degree rotational spacing; no explicit angular dimension is printed."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003"
+        ],
+        "description": "Outer diameter, central through bore, and central recess share the main axis."
+      },
+      {
+        "feature_ids": [
+          "F004",
+          "F005"
+        ],
+        "description": "Each mounting counterbore is coaxial with its corresponding through hole."
+      }
+    ],
+    "equal_spacing": [],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D007",
+          "D009"
+        ],
+        "description": ".250 overall thickness = .094 recess depth + .156 remaining thickness."
+      },
+      {
+        "total_dimension_id": "D010",
+        "component_dimension_ids": [
+          "D003",
+          "D003"
+        ],
+        "description": "Derived bolt circle 4.376 = 2.188 + 2.188; printed 4.375 is reference only."
+      },
+      {
+        "total_dimension_id": "D006",
+        "component_dimension_ids": [
+          "D011",
+          "D011"
+        ],
+        "description": "Outside diameter 5.00 = 2.500 + 2.500."
+      },
+      {
+        "total_dimension_id": "D011",
+        "component_dimension_ids": [
+          "D003",
+          "D012"
+        ],
+        "description": "Outside radius 2.500 = 2.188 hole-center offset + .312 envelope margin."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D009",
+      "D010",
+      "D011",
+      "D012"
+    ],
+    "reference_dimension_ids": [
+      "D001"
+    ]
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F004",
+    "F003",
+    "F005"
+  ],
+  "warnings": [
+    "The four-hole hardware-based callout is fully recorded in D008 and F004/F005, but cannot be represented faithfully in hole_callouts: that structure requires a positive known hole diameter, while the drawing supplies none. No clearance diameter has been invented. The four positions are recorded explicitly in F004.",
+    "Mounting drill diameter, counterbore diameter, and counterbore depth require human resolution from the intended hardware and applicable shop standard before manufacturing-ready modeling. The 1/4-inch screw size is not a specified drill diameter.",
+    "Mounting-hole counterbores are interpreted as rear-face features from hidden larger circles and side-view hidden geometry.",
+    "Handwritten material appears to read 'IE 357 STL.'; exact designation requires confirmation. No material equivalence is inferred.",
+    "No explicit ASME/ISO/DIN standard is stated; inch units and third-angle projection are explicit.",
+    "Identifier '129-B' is retained in full as part/drawing number. No distinct revision is readable.",
+    "Reference bolt circle 4.375 differs by .001 from twice 2.188. Nominal hole positions use the explicitly toleranced typical 2.188 offset.",
+    "Edge-referenced hole coordinates use the lower-left corner of the circular part's 5.00-inch square bounding envelope.",
+    "No GD&T, datum identifiers, finish requirement, heat-treatment instruction, fillet, or chamfer callout is present.",
+    "Other title-block entries: MODEL No. DUAL 60; date 6-15-76; drafter D. LING."
+  ],
+  "confidence": 0.85
+}

@@ -236,3 +236,114 @@ def test_failed_sketch_definition_is_recorded_not_raised(fake_sw):
     sw, _ = fake_sw({}, ref=9.0)
     sw.define_sketch("F001")   # COM unavailable on the fake: recorded as 0, never fails the build
     assert sw.sketch_status == {"F001": 0}
+
+
+# --------------------------------------------------------------------------- #
+# Circular patterns of prisms (E028)
+# --------------------------------------------------------------------------- #
+def _pattern_plan(axis="axis(part)", skip=()):
+    return BuildPlan.model_validate({
+        "part": "P", "frame": {"origin_kind": "axis_end", "units": "inch"},
+        "features": [
+            {"id": "F001", "kind": "revolve", "outer": [{"z": "0", "r": "D001"}, {"z": "D002", "r": "D001"}]},
+            {"id": "F002", "kind": "prism", "on": "plane(top)", "op": "cut", "depth": "thru",
+             "profile": {"shape": "slot", "length": "D003", "width": "D004", "angle": "90", "u": "0", "v": "D002 / 2"}},
+            {"id": "F003", "kind": "pattern", "seed": "F002", "mode": "circular", "count": "4", "step": "equal",
+             "axis": axis, "skip": list(skip)}]})
+
+
+def test_circular_prism_pattern_routes_to_the_native_pattern(fake_sw):
+    sw, _ = fake_sw({}, ref=9.0)
+    plan = _pattern_plan()
+    sw.plan = plan
+    res = sw.pattern(plan.feature("F003"))
+    # the fake never built the seed, so the native pattern refuses cleanly (no exception)
+    assert res.status == "failed" and "seed F002 was not built" in res.note
+
+
+@pytest.mark.parametrize("axis, skip", [("axis(F001)", ()), ("axis(part)", (2,))])
+def test_circular_prism_pattern_limits_are_reported(fake_sw, axis, skip):
+    sw, _ = fake_sw({}, ref=9.0)
+    plan = _pattern_plan(axis, skip)
+    sw.plan = plan
+    res = sw.pattern(plan.feature("F003"))
+    assert res.status == "failed" and "axis(part)" in res.note
+
+
+# --- E030: GetBodyBox is loose on curved faces; the final bbox check uses extreme points --- #
+class _Body:
+    """SB14306 after the nose fillet: GetBodyBox overshoots, GetExtremePoint is exact."""
+    R = 10.721764 * 0.0254
+
+    def GetBodyBox(self):
+        return (-10.728124 * 0.0254, -0.2, -10.728124 * 0.0254, 10.728516 * 0.0254, 0.2, 10.728516 * 0.0254)
+
+    def GetExtremePoint(self, x, y, z):
+        lim = (self.R, 0.2, self.R)
+        return (True, *[d * l for d, l in zip((x, y, z), lim)])
+
+
+def test_body_box_uses_extreme_points(monkeypatch):
+    import pipeline.solidworks_builder as sb
+    from pipeline.ir.compile_solidworks import body_box
+    monkeypatch.setattr(sb, "typed", lambda obj, iface: obj)
+    box = body_box(_Body())
+    assert box == pytest.approx([-_Body.R, -0.2, -_Body.R, _Body.R, 0.2, _Body.R])
+
+
+def test_body_box_falls_back_to_get_body_box(monkeypatch):
+    import pipeline.solidworks_builder as sb
+    from pipeline.ir.compile_solidworks import body_box
+
+    def boom(obj, iface):
+        raise RuntimeError("no typelib")
+    monkeypatch.setattr(sb, "typed", boom)
+    assert body_box(_Body()) == list(_Body().GetBodyBox())
+
+
+def test_parts_box_spans_every_body(monkeypatch):
+    """E031: SB12059 is four collet pads (sawcut through); the box must cover all of them."""
+    import pipeline.solidworks_builder as sb
+    from pipeline.ir.compile_solidworks import parts_box
+
+    class Pad:
+        def __init__(self, box):
+            self.box = box
+
+        def GetBodyBox(self):
+            return self.box
+
+    monkeypatch.setattr(sb, "typed", lambda obj, iface: (_ for _ in ()).throw(RuntimeError()))  # use GetBodyBox
+    pads = [Pad((-2, -2, 0, -0.03, -0.03, 1.7)), Pad((0.03, 0.03, 0, 2, 2, 1.7)),
+            Pad((-2, 0.03, 0, -0.03, 2, 1.7)), Pad((0.03, -2, 0, 2, -0.03, 1.7))]
+    assert parts_box(pads) == [-2, -2, 0, 2, 2, 1.7]
+
+
+# --- Radial holes (spec 2026-10-28-radial-holes-design.md) --- #
+def _radial_plan():
+    return BuildPlan.model_validate({
+        "part": "P", "frame": {"origin_kind": "axis_end", "units": "inch"},
+        "features": [
+            {"id": "F001", "kind": "revolve", "outer": [{"z": "0", "r": "D001"}, {"z": "D002", "r": "D001"}]},
+            {"id": "F002", "kind": "hole", "on": "wall(F001,D001)", "u": "45", "v": "D002 / 2",
+             "spec": {"type": "blind", "d": "D004", "depth": "D004"}},
+            {"id": "F003", "kind": "pattern", "seed": "F002", "mode": "circular", "count": "4", "step": "equal",
+             "axis": "axis(part)"},
+            {"id": "F004", "kind": "hole", "on": "wall(F001,D001)", "u": "0", "v": "D002 / 4",
+             "spec": {"type": "blind", "d": "D004", "depth": "D004"}}]})
+
+
+def test_radial_holes_are_recognised_and_never_grouped():
+    from pipeline.ir.compile_solidworks import is_radial
+    plan = _radial_plan()
+    assert is_radial(plan.feature("F002")) and not is_radial(plan.feature("F001"))
+    # two identical radial holes on one wall are still separate features (not one sketch)
+    assert [f.id for f in plan.features if is_radial(f)] == ["F002", "F004"]
+
+
+def test_radial_pattern_routes_to_the_native_circular_pattern(fake_sw):
+    sw, _ = fake_sw({}, ref=9.0)
+    plan = _radial_plan()
+    sw.plan = plan
+    res = sw.pattern(plan.feature("F003"))
+    assert res.status == "failed" and "seed F002 was not built" in res.note   # routed, not the hole-sketch path

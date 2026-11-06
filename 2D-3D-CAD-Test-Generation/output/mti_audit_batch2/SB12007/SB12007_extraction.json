@@ -1,0 +1,621 @@
+{
+  "part_name": "WORK BACKUP",
+  "part_number": "SB-12007",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "4150 steel; Rockwell C 40\u201345",
+  "finish": "",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2-PLACE DIM. \u00b1.020; 3-PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b11\u00b0.",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Longitudinal exterior view of the cylindrical body, reduced left-hand spigot, annular groove, end chamfer and shoulder radius. The centered blind tapped hole entering the right end is shown hidden.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F006",
+        "F007",
+        "F008"
+      ],
+      "hidden_features": [
+        "F004",
+        "F005"
+      ],
+      "centerline_notes": "Horizontal centerline establishes the common longitudinal axis of the body, spigot, annular groove and right-end tapped hole."
+    },
+    {
+      "view_type": "Right",
+      "description": "Right end view, positioned according to the stated third-angle projection. Shows the circular body and centered tapped hole.",
+      "dimensions_shown": [
+        "D011",
+        "D012",
+        "D013"
+      ],
+      "visible_features": [
+        "F001",
+        "F004",
+        "F005"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Horizontal and vertical centerlines intersect at the body and tapped-hole centers. Reduced features on the far end are obscured and are not drawn as hidden circles."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 4.718,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall axial length",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Leftmost spigot end face to rightmost body end face. General three-place tolerance applies."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 0.562,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "spigot projection from main-body shoulder",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance applies."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 0.062,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "centered annular groove root width",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '.062 CENT.'; interpreted as the flat groove-root width centered at the station located by D004. This is not the full width across the sloped groove flanks. General three-place tolerance applies."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "groove center distance from main-body shoulder",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": true,
+      "notes": "Printed '.250'. Interpreted as shoulder to groove center, consistent with '.062 CENT.'. The closely spaced extension lines at the groove are faint; confirm center-versus-edge attachment on the source drawing before machining. Numeric value is clear. General three-place tolerance applies."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 0.094,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "left-end chamfer axial length",
+      "feature_ref": "F006",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "From the left end face to the start of the full-diameter spigot land. General three-place tolerance applies."
+    },
+    {
+      "id": "D006",
+      "type": "diameter",
+      "value": 1.247,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.002,
+      "tolerance_type": "unilateral",
+      "applies_to": "spigot outside diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit +.000/-.002 tolerance; limits 1.245\u20131.247. Overrides general tolerance."
+    },
+    {
+      "id": "D007",
+      "type": "diameter",
+      "value": 1.188,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "annular groove root diameter",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance applies."
+    },
+    {
+      "id": "D008",
+      "type": "angular",
+      "value": 30.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "left-end chamfer angle to the longitudinal direction",
+      "feature_ref": "F006",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "30\u00b0. Value and tolerances are in degrees; the schema's unit field only permits length units. General angular tolerance applies."
+    },
+    {
+      "id": "D009",
+      "type": "angular",
+      "value": 30.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "annular groove flank angles to the longitudinal direction",
+      "feature_ref": "F007",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '30\u00b0 TYP.'; applies to the sloping groove flanks. Value and tolerances are in degrees despite the schema's length-unit field. General angular tolerance applies."
+    },
+    {
+      "id": "D010",
+      "type": "radial",
+      "value": 0.03,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "limit",
+      "applies_to": "spigot-to-body shoulder root radius",
+      "feature_ref": "F008",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '.030 R. MAX.' Maximum radius, not an exact nominal radius with \u00b1.010 tolerance. No specific lower radius limit is stated."
+    },
+    {
+      "id": "D011",
+      "type": "diameter",
+      "value": 2.0,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "main cylindrical body outside diameter",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '2.000 DIA.' General three-place tolerance applies."
+    },
+    {
+      "id": "D012",
+      "type": "thread",
+      "value": 0.19,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal major diameter of number 10 internal thread",
+      "feature_ref": "F005",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed '#10-32 TAP .38 DEEP'. Numeric value .190 is the standard nominal major-diameter conversion for a #10 screw, not a printed hole diameter or tap-drill diameter. 32 threads per inch. Thread class, series designation and handedness are not explicitly printed; #10-32 normally corresponds to UNF."
+    },
+    {
+      "id": "D013",
+      "type": "depth",
+      "value": 0.38,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "tapped thread depth from right end face",
+      "feature_ref": "F005",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Depth in '#10-32 TAP .38 DEEP'. General two-place tolerance applies. Does not specify total drilled depth or drill-point allowance."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 4.156,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "main-body axial length",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived, not printed: D001 \u2212 D002 = 4.718 \u2212 .562 = 4.156. Reported \u00b1.020 is the worst-case accumulation of the two controlling \u00b1.010 tolerances, not an independent drawing tolerance."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 0.312,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "groove center axial distance from left end face",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": true,
+      "notes": "Derived, not printed: D002 \u2212 D004 = .562 \u2212 .250 = .312. Conditional on the groove-center interpretation of D004. \u00b1.020 is worst-case accumulated tolerance, not an independent drawing tolerance."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "tapped",
+      "diameter": 0.19,
+      "thru": false,
+      "depth": 0.38,
+      "thread_spec": "#10-32 TAP .38 DEEP",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 0.0,
+      "y_position": 0.0,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [],
+      "feature_ref": "F005",
+      "view": "Right"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Main cylindrical body, diameter 2.000 and derived length 4.156. Use the longitudinal axis as the common axis; the main body's left shoulder is .562 from the leftmost part end.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D011",
+        "D014"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D014",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_boss",
+      "description": "Coaxial reduced spigot projecting .562 leftward from the main-body shoulder, diameter 1.247 +.000/-.002, prior to groove and chamfer removal.",
+      "related_dimensions": [
+        "D002",
+        "D006"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D002",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Annular groove-root cut to diameter 1.188 over an axial width of .062. Interpreted center is .250 left of the shoulder, or .312 from the left end. An annular sketch normal to the axis can produce the root cut; sloping flanks are added by F007. Confirm D004 attachment before final placement.",
+      "related_dimensions": [
+        "D003",
+        "D004",
+        "D007",
+        "D015"
+      ],
+      "sketch_plane": "custom: normal to axis at left groove-root boundary",
+      "depth_dimension_id": "D003",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "hole",
+      "description": "Centered blind pilot hole entering the right end for the #10-32 tap. Pilot diameter, total drilled depth and drill-point angle are not specified; these require manufacturing definition. Do not use .190 as the tap-drill diameter.",
+      "related_dimensions": [
+        "D012",
+        "D013"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F005",
+      "type": "thread",
+      "description": "Internal #10-32 thread to .38 depth from the right end face. Thread class is unspecified; retain the literal callout rather than inventing a class.",
+      "related_dimensions": [
+        "D012",
+        "D013"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D013",
+      "parent_feature": "F004",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F006",
+      "type": "chamfer",
+      "description": "Circumferential left-end spigot chamfer, .094 axial length and 30 degrees to the longitudinal direction.",
+      "related_dimensions": [
+        "D005",
+        "D006",
+        "D008"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F007",
+      "type": "chamfer",
+      "description": "Two annular groove flanks at 30 degrees to the axis, joining the 1.247 spigot diameter to the 1.188 groove-root diameter. Preserve the .062 flat root width. Specify the CAD chamfer angle with respect to the axial surface, not its complementary face angle.",
+      "related_dimensions": [
+        "D003",
+        "D006",
+        "D007",
+        "D009"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F008",
+      "type": "fillet",
+      "description": "Circumferential shoulder-root fillet joining the spigot to the main body; radius no greater than .030. Exact production radius is not prescribed.",
+      "related_dimensions": [
+        "D010"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Front: longitudinal plane containing the cylinder axis",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F006",
+          "F007",
+          "F008"
+        ],
+        "description": "Nominal turned geometry and pilot hole are rotationally symmetric about the longitudinal axis. Actual helical thread and stamped identification are excluded from exact mirror symmetry."
+      },
+      {
+        "plane": "Top: longitudinal plane containing the cylinder axis",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F006",
+          "F007",
+          "F008"
+        ],
+        "description": "Second longitudinal symmetry plane of the nominal turned geometry."
+      },
+      {
+        "plane": "Transverse plane through the annular groove center",
+        "feature_ids": [
+          "F003",
+          "F007"
+        ],
+        "description": "The .062 CENT. groove root and typical equal-angle flanks are locally symmetric about the groove-center station."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007",
+          "F008"
+        ],
+        "description": "Main body, spigot, circumferential groove, axial tapped hole and circumferential edge treatments share the axis established by the longitudinal and end-view centerlines. No GD&T concentricity tolerance is specified."
+      }
+    ],
+    "equal_spacing": [],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D002",
+          "D014"
+        ],
+        "description": "Overall axial length = spigot projection + main-body length: 4.718 = .562 + 4.156."
+      },
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D015",
+          "D004"
+        ],
+        "description": "Spigot projection = tip-to-groove-center + groove-center-to-shoulder: .562 = .312 + .250, conditional on D004's center-station interpretation."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D012",
+      "D014",
+      "D015"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F008"
+  ],
+  "warnings": [
+    "No ASME, ISO or DIN standard designation is printed. Drawing standard is left empty; third-angle projection and inch units are explicit.",
+    "The .250 dimension is interpreted as locating the center of the .062 CENT. groove from the shoulder. Its extension-line attachment is crowded and faint; verify this interpretation on the source drawing before machining.",
+    "The tapped-hole diameter .190 is the nominal major diameter associated with #10, not a specified pilot-hole diameter. The .38 depth is tapped depth; drill diameter, total drilled depth and drill-point angle are not given.",
+    "Thread class is not stated. #10-32 conventionally corresponds to UNF, but the literal drawing does not print UNF or a class.",
+    "The shoulder radius is .030 maximum, not a uniquely prescribed modeling radius.",
+    "Angular values and angular tolerances are degrees. The structured schema only accepts length units in dimension.unit, so angular entries retain the drawing's inch label with explanatory notes.",
+    "Manufacturing note: STAMP \"SB-12007\" on the main body's cylindrical surface as indicated. Character size, exact position, orientation and stamp depth are not specified; no invented engraving geometry has been added.",
+    "Material note requires 4150 and Rockwell C 40\u201345. No surface-finish requirement or heat-treatment process is separately specified.",
+    "Title-block supplementary information: model number 220-B; date March 27, 1979; sheet size B; sheet 1 of 1; manufacturer Manufacturing Technology Inc. No revision is entered.",
+    "No datum labels, GD&T feature-control frames, reference dimensions, additional views or section views are present."
+  ],
+  "confidence": 0.9
+}

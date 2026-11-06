@@ -1,0 +1,207 @@
+{
+  "dims": {
+    "D001": 55.5,
+    "D002": 8.25,
+    "D003": 39.0,
+    "D004": 1.88,
+    "D005": 0.06,
+    "D006": 45.0,
+    "D007": 1.868,
+    "D008": 1.875,
+    "D009": 3.0,
+    "D010": 1.998,
+    "D011": 2.4981,
+    "D012": 0.03,
+    "D013": 0.03,
+    "D014": 0.001,
+    "D015": 0.001,
+    "D016": 0.0005,
+    "D017": 8.25,
+    "D018": 6.37
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "147-D",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "shaft axis horizontal; drawing left end is Z=0, drawing right end is +Z",
+        "Left end": "-Z"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Revolve the solid stepped shaft, including both journals and external-thread blanks. The drawing break is not a material interruption.",
+        "source_callouts": [
+          "55.50",
+          "8.250",
+          "39.000",
+          "1.88 2 PLACES",
+          "1.868 \u2300 \u00b1.005",
+          "1.9980 \u2300 \u00b1.0005 2 PLACES",
+          "2.4981 \u2300 \u00b1.0004"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D002 - D004",
+            "r": "D010 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D010 / 2"
+          },
+          {
+            "z": "D002",
+            "r": "D011 / 2"
+          },
+          {
+            "z": "D002 + D003",
+            "r": "D011 / 2"
+          },
+          {
+            "z": "D002 + D003",
+            "r": "D010 / 2"
+          },
+          {
+            "z": "D002 + D003 + D004",
+            "r": "D010 / 2"
+          },
+          {
+            "z": "D002 + D003 + D004",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D007 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Blend the two concave main-shaft-to-journal shoulder roots.",
+        "source_callouts": [
+          ".030 R 2 PLACES"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D013",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D002),wall(F001,D010 / 2))",
+          "edge_between(face(F001,+Z,D002 + D003),wall(F001,D010 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Blend the two concave journal-to-end-extension shoulder roots.",
+        "source_callouts": [
+          ".030 R 2 PLACES"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D012",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D002 - D004),wall(F001,D007 / 2))",
+          "edge_between(face(F001,+Z,D002 + D003 + D004),wall(F001,D007 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Chamfer the outside circular edge at each free end.",
+        "source_callouts": [
+          ".06 X 45\u00b0 2 PLACES"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D005",
+        "angle": "D006",
+        "edges": [
+          "edge_between(face(F001,-Z,0),wall(F001,D007 / 2))",
+          "edge_between(face(F001,+Z,D001),wall(F001,D007 / 2))"
+        ]
+      },
+      {
+        "id": "F005",
+        "rationale": "Left external cosmetic thread annotation: IR v2 has no external cosmetic-thread feature. Do not execute this annotation carrier as a solid operation.",
+        "source_callouts": [
+          "1.875-12-2A THD",
+          "3.00 MIN. THD LENGTH",
+          "2 PLACES"
+        ],
+        "status": "unsupported",
+        "justification": "D008 is the nominal thread diameter; D007 is the explicitly specified blank diameter. D009 describes minimum engagement extent only, not an exact termination. Preserve 1.875-12-2A cosmetically without creating helical geometry, relief, or a runout.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D009",
+            "r": "D007 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F006",
+        "rationale": "Right external cosmetic thread annotation: IR v2 has no external cosmetic-thread feature. Do not execute this annotation carrier as a solid operation.",
+        "source_callouts": [
+          "1.875-12-2A THD",
+          "3.00 MIN. THD LENGTH",
+          "2 PLACES"
+        ],
+        "status": "unsupported",
+        "justification": "D008 is the nominal thread diameter; D007 is the explicitly specified blank diameter. D009 describes minimum engagement extent only, not an exact termination. Preserve 1.875-12-2A cosmetically without creating helical geometry, relief, or a runout.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "D001 - D009",
+            "r": "D007 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D007 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      }
+    ],
+    "notes": [
+      "The shaft is solid. End-view concentric circles and end thread depiction do not indicate bores.",
+      "Use nominal dimensions for geometry. D017 and D018 are derived values, not additional independent constraints.",
+      "Datum A is the main cylindrical surface. Preserve shoulder perpendicularity D014 and D015 and journal runout D016 as inspection requirements, not geometry.",
+      "External thread callout is 1.875-12-2A, two places, with D009 minimum length at each end. Do not assign an unprinted thread series or exact termination.",
+      "Preserve surface texture marks 63, stacked 16/32, and K pending interpretation under the referenced company surface-texture specification.",
+      "Preserve supplier, material, heat-treatment, and H-length notes. Referenced company specifications and the meaning of '60 CASE' and 'H' require manufacturing review; no case depth is inferred."
+    ]
+  }
+}

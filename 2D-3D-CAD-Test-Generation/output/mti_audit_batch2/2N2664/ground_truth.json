@@ -1,0 +1,69 @@
+{
+  "model": "2N2664.SLDPRT",
+  "bodies": 1,
+  "volume_mm3": 1055768.569,
+  "bbox_mm": [
+    -79.375,
+    -98.3996,
+    -98.3996,
+    79.375,
+    98.3996,
+    98.3996
+  ],
+  "size_mm": [
+    158.75,
+    196.7992,
+    196.7992
+  ],
+  "center_mm": [
+    -0.0,
+    0.0,
+    0.0
+  ],
+  "features": [
+    "Revolve2",
+    "Machining",
+    "Cut-Extrude2",
+    "Fillet1",
+    "Fillet2",
+    "Fillet3",
+    "Fillet4",
+    "Chamfer1",
+    "Chamfer2",
+    "1/4-20 Tapped Hole1",
+    "CirPattern1",
+    "CBORE for 1/4 Socket Head Cap Screw1",
+    "CirPattern2",
+    "Cut-Extrude3",
+    "#8-32 Tapped Hole3",
+    "CBORE for 3/8 Socket Head Cap Screw2",
+    "1/4-20 Tapped Hole2",
+    "Cut-Extrude5",
+    "1/2 (0.5) Diameter Hole1",
+    "Folder1___EndTag___"
+  ],
+  "feature_types": [
+    "Revolution",
+    "FtrFolder",
+    "ICE",
+    "Fillet",
+    "Fillet",
+    "Fillet",
+    "Fillet",
+    "Chamfer",
+    "Chamfer",
+    "HoleWzd",
+    "CirPattern",
+    "HoleWzd",
+    "CirPattern",
+    "ICE",
+    "HoleWzd",
+    "HoleWzd",
+    "HoleWzd",
+    "ICE",
+    "HoleWzd",
+    "FtrFolder"
+  ],
+  "step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\2N2664\\ground_truth.step",
+  "part": "2N2664"
+}

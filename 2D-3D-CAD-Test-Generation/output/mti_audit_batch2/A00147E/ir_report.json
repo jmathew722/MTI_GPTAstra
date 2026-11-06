@@ -1,0 +1,32 @@
+{
+  "part": "A00147E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00147E\\A00147E_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 4,
+  "questions": [],
+  "flagged": [],
+  "reference_step": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00147E\\reference.step",
+  "volume": 237.837829,
+  "cq_skipped": {
+    "F005": "unsupported: Left external cosmetic thread annotation: IR v2 has no external cosmetic-thread feature. Do not execute this annotation carrier as a solid operation.",
+    "F006": "unsupported: Right external cosmetic thread annotation: IR v2 has no external cosmetic-thread feature. Do not execute this annotation carrier as a solid operation."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\A00147E\\147-D_ir.sldprt",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (2 edges selected by nearest point)",
+    "F003": "built (2 edges selected by nearest point)",
+    "F004": "built (2 edges selected by nearest point)",
+    "F005": "skipped (unsupported: Left external cosmetic thread annotation: IR v2 has no external cosmetic-thread feature. Do not execute this annotation carrier as a solid operation.)",
+    "F006": "skipped (unsupported: Right external cosmetic thread annotation: IR v2 has no external cosmetic-thread feature. Do not execute this annotation carrier as a solid operation.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "sketches fully defined: 1/1"
+  ],
+  "mti_review": [],
+  "cost_usd": 0.5634,
+  "error": ""
+}
