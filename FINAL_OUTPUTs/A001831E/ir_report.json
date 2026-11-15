@@ -1,0 +1,31 @@
+{
+  "part": "A001831E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001831E\\A001831E_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 4,
+  "questions": [
+    "F001: Does the prominent 4.055 overall length control, or does the faint apparent 4.042 annotation supersede it?",
+    "F002: Does the prominent 1.181 wiping-edge web width control, or does the faint apparent 1.221 annotation supersede it?",
+    "F003: What are the complete wiping-lip rake, transition angles, and land widths needed to connect the .374 lip to the .256 mounting region?"
+  ],
+  "flagged": [
+    "F004: The top view shows one straight 45-degree end plane spanning the thickness, and the front view locates its intersection with the .256 main face at x=D004-D005. With z increasing toward the projecting lip, the plane is x+z=D004-D005+D003. The polygon encodes the printed D001=45-degree angle without trigonometric approximation. It overshoots both thickness faces and the left envelope; cutting through Y reaches both arms. Execution remains dependent on resolution of F001 and the wiping profile.",
+    "F005: Orthographic hidden lines establish through holes even though THRU is not written. Starting on the flat rear face avoids reliance on the unresolved relieved front face. X location remains conditional on the controlling overall length in F001.",
+    "F006: The front view shows aligned, matching top and bottom rows. D015 equals twice D014, establishing three equally spaced columns; this grid includes only the two outer rows, not the middle row.",
+    "F007: Through condition is established by the orthographic representations. The middle hole is present only in the right column; no additional middle-row holes are inferred."
+  ],
+  "defaults": [],
+  "reference_step": "",
+  "volume": null,
+  "cq_skipped": {},
+  "sw_ok": null,
+  "sldprt": "",
+  "sw_features": {},
+  "conventions": [],
+  "mti_review": [
+    "[mti_hole_grouping] F005, F007: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points"
+  ],
+  "cost_usd": 0.6729,
+  "error": "RuntimeError: CadQuery script failed:\nTraceback (most recent call last):\n  File \"C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001831E\\reference_script.py\", line 16, in <module>\n    fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\pipeline\\"
+}

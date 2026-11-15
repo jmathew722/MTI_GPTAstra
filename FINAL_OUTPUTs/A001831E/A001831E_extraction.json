@@ -1,0 +1,976 @@
+{
+  "part_name": "WIPER",
+  "part_number": "183-B",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "NOTE A: Polyurethane plus 10% moly disulphide; Shore durometer A80-90. Approved supplier: GRINDEX INC.",
+  "finish": "",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 3 PLACE DIM. \u00b1.010; 2 PLACE DIM. \u00b1.02; ANGULAR DIM. \u00b11\u00b0.",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Principal C-shaped face view, opening to the left; shows seven mounting holes, the raised/tapered U-shaped wiping edge, and mitered left ends.",
+      "dimensions_shown": [
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010",
+        "D011",
+        "D012",
+        "D013",
+        "D014",
+        "D015",
+        "D016"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005"
+      ],
+      "hidden_features": [
+        "F005"
+      ],
+      "centerline_notes": "Hole center marks and common horizontal/vertical centerlines locate three holes in each horizontal arm and a seventh at mid-height in the right web. Dashed lines near the left ends indicate the rear edges of the end bevels, not additional holes."
+    },
+    {
+      "view_type": "Top",
+      "description": "View above the principal view, showing plate thickness, projecting wiping edge, hidden hole walls and the 45-degree left-end bevel.",
+      "dimensions_shown": [
+        "D001"
+      ],
+      "visible_features": [
+        "F001",
+        "F003",
+        "F005"
+      ],
+      "hidden_features": [
+        "F004"
+      ],
+      "centerline_notes": "Three hole axes are shown; upper and lower arm holes coincide in this projection. Overall horizontal dimensions D004-D006 are placed between the top and front views, with extension lines principally associated with the front geometry."
+    },
+    {
+      "view_type": "Left",
+      "description": "Left-side view, positioned left of the front view under third-angle projection; shows the thin mounting plate, thicker wiping-edge envelope and tapered transitions at the opening.",
+      "dimensions_shown": [
+        "D002",
+        "D003"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F005"
+      ],
+      "hidden_features": [
+        "F004"
+      ],
+      "centerline_notes": "Horizontal axes and hidden hole walls are shown at the upper and lower mounting-hole rows."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_end_bevel_angle",
+      "feature_ref": "F005",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 45\u00b0. Angular value and tolerance are in degrees; unit field is inch only because the schema has no angular-unit choice. General angular tolerance applies. The callout is at the left end, not an explicit callout for every wiping-edge taper."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 0.374,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "maximum_thickness_at_wiping_edge",
+      "feature_ref": "F001",
+      "view": "Left",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance applies."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 0.256,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "mounting_plate_thickness",
+      "feature_ref": "F003",
+      "view": "Left",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance applies."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 4.055,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "maximum_overall_horizontal_length",
+      "feature_ref": "F001",
+      "view": "Front / Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": true,
+      "ambiguity_reason": "The prominent dimension reads 4.055. A faint smaller annotation above/right appears to read 4.042; its status as a correction, inspection measurement or other annotation is not stated.",
+      "possible_values": [
+        4.055,
+        4.042
+      ],
+      "resolution_required": true,
+      "notes": "Use 4.055 only provisionally. General three-place tolerance applies to the prominent dimension. Extends from the extreme left lip/end to the right outer edge."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 3.937,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "horizontal_length_at_main_face",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Dimension starts at the main-face left edge, inset from the extreme left lip/end. General three-place tolerance applies."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 1.181,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_web_width_from_opening_lip_to_outer_edge",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": true,
+      "ambiguity_reason": "The prominent dimension reads 1.181. A smaller faint annotation immediately above appears to read 1.221; it is not identified as a revision or inspection measurement.",
+      "possible_values": [
+        1.181,
+        1.221
+      ],
+      "resolution_required": true,
+      "notes": "Use 1.181 provisionally. General three-place tolerance applies. The dimension is to the inner wiping-edge line, not the adjacent recessed-face transition."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 3.718,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_height",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance applies."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 1.718,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "opening_height_at_wiping_edge",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance applies."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "bottom_edge_to_lower_opening_edge",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.000; general three-place tolerance applies."
+    },
+    {
+      "id": "D010",
+      "type": "diameter",
+      "value": 0.281,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "mounting_hole_diameter",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Callout: .281 DIA. / 7 HOLES. General three-place tolerance applies. Through condition is inferred from the orthographic hole representations; THRU is not printed."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 2.93,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "top_to_bottom_hole_row_spacing",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.930 \u00b1.005."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 1.465,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "bottom_row_to_middle_right_hole_spacing",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit \u00b1.005."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 0.394,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "bottom_edge_to_bottom_hole_row",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit \u00b1.005."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 1.375,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "middle_to_right_hole_column_spacing",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit \u00b1.005."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 2.75,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_to_right_hole_column_spacing",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.750 \u00b1.005."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 0.335,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_hole_column_to_right_outer_edge",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .335 \u00b1.005."
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "top_arm_height_at_wiping_edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D007-D008-D009 = 3.718-1.718-1.000 = 1.000. Not independently dimensioned or toleranced."
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 0.118,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "wiping_edge_projection_beyond_mounting_face",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D002-D003 = .374-.256 = .118. Also equals provisional D004-D005 = 4.055-3.937, consistent with the 45-degree left-end geometry. Not independently toleranced."
+    },
+    {
+      "id": "D019",
+      "type": "linear",
+      "value": 0.394,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "top_hole_row_to_top_outer_edge",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D007-D011-D013 = 3.718-2.930-.394 = .394. Not independently toleranced."
+    },
+    {
+      "id": "D020",
+      "type": "linear",
+      "value": 0.97,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_hole_column_x_from_extreme_left_envelope",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived provisionally from D004-D016-D015 = 4.055-.335-2.750 = .970. Depends on resolution of D004. Not independently toleranced."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 3.72,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_hole_column_x_from_extreme_left_envelope",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived provisionally: D004-D016 = 4.055-.335 = 3.720. Depends on resolution of D004. Not independently toleranced."
+    },
+    {
+      "id": "D022",
+      "type": "linear",
+      "value": 2.345,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "middle_hole_column_x_from_extreme_left_envelope",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived provisionally: D021-D014 = 3.720-1.375 = 2.345. Depends on resolution of D004. Not independently toleranced."
+    },
+    {
+      "id": "D023",
+      "type": "linear",
+      "value": 3.324,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "top_hole_row_y_from_bottom_edge",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D013+D011 = .394+2.930 = 3.324. Not independently toleranced."
+    },
+    {
+      "id": "D024",
+      "type": "linear",
+      "value": 1.859,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "middle_right_hole_y_from_bottom_edge",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D013+D012 = .394+1.465 = 1.859; equals half of D007 nominally. Not independently toleranced."
+    },
+    {
+      "id": "D025",
+      "type": "linear",
+      "value": 2.874,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "opening_right_edge_x_from_extreme_left_envelope",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived provisionally: D004-D006 = 4.055-1.181 = 2.874. Depends on resolution of both faint annotations. Not independently toleranced."
+    },
+    {
+      "id": "D026",
+      "type": "linear",
+      "value": 2.718,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper_opening_edge_y_from_bottom_edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D009+D008 = 1.000+1.718 = 2.718. Not independently toleranced."
+    },
+    {
+      "id": "D027",
+      "type": "linear",
+      "value": 1.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_to_middle_hole_column_spacing",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D015-D014 = 2.750-1.375 = 1.375. Not independently toleranced."
+    },
+    {
+      "id": "D028",
+      "type": "linear",
+      "value": 1.465,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "middle_to_top_right_hole_spacing",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D011-D012 = 2.930-1.465 = 1.465. Not independently toleranced."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 0.281,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 7,
+      "x_position": 0.97,
+      "y_position": 0.394,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          0.97,
+          0.394
+        ],
+        [
+          2.345,
+          0.394
+        ],
+        [
+          3.72,
+          0.394
+        ],
+        [
+          3.72,
+          1.859
+        ],
+        [
+          0.97,
+          3.324
+        ],
+        [
+          2.345,
+          3.324
+        ],
+        [
+          3.72,
+          3.324
+        ]
+      ],
+      "feature_ref": "F004",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Provisional rectangular stock envelope, 4.055 horizontally by 3.718 vertically, extruded to maximum thickness .374. Front coordinates use the extreme left wiping-edge envelope as x=0 and the bottom outer edge as y=0. Subsequent cuts produce the C profile and the thinner .256 mounting region.",
+      "related_dimensions": [
+        "D002",
+        "D004",
+        "D007"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D002",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_cut",
+      "description": "Open-left C-shaped aperture. At the wiping edge it extends from y=1.000 to y=2.718 and terminates at x=2.874, leaving a 1.181 right web. Cut out through the left boundary and through the body. Values are provisional pending D004/D006 clarification; taper/relief of the edge is handled separately.",
+      "related_dimensions": [
+        "D006",
+        "D008",
+        "D009",
+        "D017",
+        "D025",
+        "D026"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Relieve the broad mounting-face region from .374 maximum thickness to .256, retaining the projecting U-shaped wiping edge around the aperture. Orthographic views show tapered transitions/relief at this edge. The exact transition contour and any slight working-edge rake are not fully dimensioned; this operation is a feature-plan placeholder, not an approved simple rectangular pocket.",
+      "related_dimensions": [
+        "D002",
+        "D003",
+        "D018"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D018",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "hole",
+      "description": "Seven .281-diameter mounting holes through the mounting region: three in the lower arm, three in the upper arm and one at the middle of the right web. Use the explicit H001 positions, not a filled 3-by-3 rectangular pattern. Hole coordinates are dimension-derived and provisional with respect to D004.",
+      "related_dimensions": [
+        "D010",
+        "D011",
+        "D012",
+        "D013",
+        "D014",
+        "D015",
+        "D016",
+        "D019",
+        "D020",
+        "D021",
+        "D022",
+        "D023",
+        "D024",
+        "D027",
+        "D028"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 7
+    },
+    {
+      "id": "F005",
+      "type": "chamfer",
+      "description": "45-degree left-end bevel/miter through the thickness at the two arm ends, as shown in the top view and corresponding front-view solid/hidden edges. Locate the main-face left edge using 3.937 to the right edge, versus the provisional overall length 4.055. Do not automatically apply the 45-degree callout to the entire inner wiping-edge transition.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D018"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Horizontal mid-height plane y=1.859, perpendicular to the front view",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005"
+        ],
+        "description": "Nominal upper/lower symmetry: 3.718-1.718-1.000=1.000 for the upper arm; top and bottom hole margins are each .394; the middle right hole is at y=1.859. This is inferred from dimension arithmetic and the views, not a datum or explicit symmetry tolerance."
+      }
+    ],
+    "concentric_groups": [],
+    "equal_spacing": [
+      {
+        "feature_ref": "H001",
+        "qty": 3,
+        "spacing_value": 1.375,
+        "computed_from": "Each horizontal row has three holes: total column span 2.750; 2.750/2=1.375, agreeing with the explicit middle-to-right spacing."
+      },
+      {
+        "feature_ref": "H001",
+        "qty": 3,
+        "spacing_value": 1.465,
+        "computed_from": "The right column has three holes: total vertical span 2.930; 2.930/2=1.465, agreeing with the explicit bottom-to-middle spacing."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D003",
+          "D018"
+        ],
+        "description": "Maximum thickness .374 = mounting thickness .256 + derived wiping-edge projection .118."
+      },
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D005",
+          "D018"
+        ],
+        "description": "Provisional overall length 4.055 = main-face length 3.937 + .118 end offset; consistent with the 45-degree end miter and thickness step."
+      },
+      {
+        "total_dimension_id": "D007",
+        "component_dimension_ids": [
+          "D009",
+          "D008",
+          "D017"
+        ],
+        "description": "Overall height 3.718 = lower arm 1.000 + aperture 1.718 + derived upper arm 1.000."
+      },
+      {
+        "total_dimension_id": "D007",
+        "component_dimension_ids": [
+          "D013",
+          "D011",
+          "D019"
+        ],
+        "description": "Overall height 3.718 = lower hole margin .394 + row span 2.930 + derived upper margin .394."
+      },
+      {
+        "total_dimension_id": "D011",
+        "component_dimension_ids": [
+          "D012",
+          "D028"
+        ],
+        "description": "Vertical hole span 2.930 = 1.465 + derived 1.465."
+      },
+      {
+        "total_dimension_id": "D015",
+        "component_dimension_ids": [
+          "D027",
+          "D014"
+        ],
+        "description": "Horizontal hole span 2.750 = derived 1.375 + 1.375."
+      },
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D020",
+          "D015",
+          "D016"
+        ],
+        "description": "Provisional overall length 4.055 = derived left hole margin .970 + hole span 2.750 + right margin .335."
+      },
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D025",
+          "D006"
+        ],
+        "description": "Provisional overall length 4.055 = derived aperture extent 2.874 + right web 1.181."
+      },
+      {
+        "total_dimension_id": "D021",
+        "component_dimension_ids": [
+          "D022",
+          "D014"
+        ],
+        "description": "Right-column x=3.720 = middle-column x=2.345 + 1.375."
+      },
+      {
+        "total_dimension_id": "D022",
+        "component_dimension_ids": [
+          "D020",
+          "D027"
+        ],
+        "description": "Middle-column x=2.345 = left-column x=.970 + derived 1.375."
+      },
+      {
+        "total_dimension_id": "D023",
+        "component_dimension_ids": [
+          "D013",
+          "D011"
+        ],
+        "description": "Top hole row y=3.324 = .394 + 2.930."
+      },
+      {
+        "total_dimension_id": "D024",
+        "component_dimension_ids": [
+          "D013",
+          "D012"
+        ],
+        "description": "Middle right hole y=1.859 = .394 + 1.465."
+      },
+      {
+        "total_dimension_id": "D026",
+        "component_dimension_ids": [
+          "D009",
+          "D008"
+        ],
+        "description": "Upper opening edge y=2.718 = 1.000 + 1.718."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D017",
+      "D018",
+      "D019",
+      "D020",
+      "D021",
+      "D022",
+      "D023",
+      "D024",
+      "D025",
+      "D026",
+      "D027",
+      "D028"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005"
+  ],
+  "warnings": [
+    "Resolve the faint annotations that appear to read 4.042 above 4.055 and 1.221 above 1.181 before releasing a manufacturing model. The extraction and derived geometry use the larger, prominent readings 4.055 and 1.181 provisionally.",
+    "The wiping-edge profile is shown with taper/relief, but its complete cross-section is not explicitly dimensioned. The .374 and .256 thicknesses establish a .118 projection; they do not by themselves establish every taper angle, land width or working-edge rake. F003 requires engineering clarification for an exact model.",
+    "The only explicit 45-degree callout is at the left end in the top view. Do not assume all inner-edge transitions are 45 degrees.",
+    "H001 coordinates are calculated from the dimension chains, not individually printed ordinate dimensions. They are edge-referenced to the maximum front-view envelope, whose leftmost lip point is x=0. The main-face left edge is provisionally x=.118; using that edge as origin would reduce every listed x coordinate by .118.",
+    "The seven holes are interpreted as through holes from the orthographic views; the written callout does not explicitly say THRU.",
+    "No ASME/ISO/DIN standard is explicitly named. The title block specifies third-angle projection and inches; drawing_standard is therefore left empty rather than inferred.",
+    "No explicit GD&T feature-control frames, datum identifiers, reference dimensions, threads, counterbores, countersinks, surface-finish values or heat-treatment requirements are visible.",
+    "The title block gives drawing/part identifier 183-B and model number 320 BX. The B in 183-B has not been assumed to be a separate revision; the change table appears blank.",
+    "Derived dimensions are nominal arithmetic results, not new controlling dimensions; their tolerances must be evaluated from the source dimension chains rather than assigned the title-block tolerance independently."
+  ],
+  "confidence": 0.82
+}

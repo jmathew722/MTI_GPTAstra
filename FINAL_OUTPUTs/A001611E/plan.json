@@ -1,0 +1,297 @@
+{
+  "dims": {
+    "D001": 32.25,
+    "D002": 14.0,
+    "D003": 3.0,
+    "D004": 7.0,
+    "D005": 15.0,
+    "D006": 0.06,
+    "D007": 4.0,
+    "D008": 0.5,
+    "D009": 0.218,
+    "D010": 85.68,
+    "D011": 7.0,
+    "D012": 38.25,
+    "D013": 3.5,
+    "D014": 3.183509,
+    "D015": 15.849771
+  },
+  "reference_ids": [
+    "D006"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "161-B",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "Top": "+Z",
+        "Front": "-Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Left rounded portion of the outside envelope.",
+        "source_callouts": [
+          "3.00 R. TYP.",
+          "16 GA. (.060)",
+          "4.00",
+          "7.00"
+        ],
+        "status": "planned",
+        "justification": "The radius leader is interpreted as controlling the inside contour; the outside radius includes the sheet thickness.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "2 * (D003 + D006)",
+          "u": "D003 + D006",
+          "v": "D004 + D006"
+        },
+        "depth": "D007",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Middle outside envelope with four tangent inclined sides and two short flats, overlapping both round end bosses.",
+        "source_callouts": [
+          "32.25",
+          "14.00 (INSIDE)",
+          "7.00",
+          "15\u00b0 TYP.",
+          "3.00 R. TYP.",
+          "16 GA. (.060)",
+          "4.00"
+        ],
+        "status": "planned",
+        "justification": "Symmetry and tangency are shown in the top view. Decimal coefficients are evaluated directly from the printed D005 = 15\u00b0 TYP.: 0.25881904510252074 = sin(15\u00b0), 0.9659258262890683 = cos(15\u00b0), 0.2679491924311227 = tan(15\u00b0), at double precision. They are calculated angle coefficients, not guessed dimensions. The restricted expression evaluator cannot accept trigonometric functions or radicals. Adjacent outward-offset straight lines intersect at the flat transitions.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "D003 + D006 - (D003 + D006) * 0.25881904510252074",
+              "D004 + D006 - (D003 + D006) * 0.9659258262890683"
+            ],
+            [
+              "D003 + D006 + (D004 + D006 - (D003 + D006) / 0.9659258262890683) / 0.2679491924311227",
+              "0"
+            ],
+            [
+              "D003 + D006 + D001 - (D004 + D006 - (D003 + D006) / 0.9659258262890683) / 0.2679491924311227",
+              "0"
+            ],
+            [
+              "D003 + D006 + D001 + (D003 + D006) * 0.25881904510252074",
+              "D004 + D006 - (D003 + D006) * 0.9659258262890683"
+            ],
+            [
+              "D003 + D006 + D001 + (D003 + D006) * 0.25881904510252074",
+              "D004 + D006 + (D003 + D006) * 0.9659258262890683"
+            ],
+            [
+              "D003 + D006 + D001 - (D002 - D004 + D006 - (D003 + D006) / 0.9659258262890683) / 0.2679491924311227",
+              "D002 + 2 * D006"
+            ],
+            [
+              "D003 + D006 + (D002 - D004 + D006 - (D003 + D006) / 0.9659258262890683) / 0.2679491924311227",
+              "D002 + 2 * D006"
+            ],
+            [
+              "D003 + D006 - (D003 + D006) * 0.25881904510252074",
+              "D004 + D006 + (D003 + D006) * 0.9659258262890683"
+            ]
+          ]
+        },
+        "depth": "D007",
+        "op": "add"
+      },
+      {
+        "id": "F003",
+        "rationale": "Matching right rounded portion of the outside envelope.",
+        "source_callouts": [
+          "32.25",
+          "3.00 R. TYP.",
+          "16 GA. (.060)",
+          "4.00"
+        ],
+        "status": "planned",
+        "justification": "Typical radius and depicted mirror symmetry establish the matching right end.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "2 * (D003 + D006)",
+          "u": "D003 + D006 + D001",
+          "v": "D004 + D006"
+        },
+        "depth": "D007",
+        "op": "add"
+      },
+      {
+        "id": "F004",
+        "rationale": "Through-cut the middle of the inside opening, retaining the dimensioned flats and inclined sides.",
+        "source_callouts": [
+          "32.25",
+          "14.00 (INSIDE)",
+          "7.00",
+          "15\u00b0 TYP.",
+          "3.00 R. TYP."
+        ],
+        "status": "planned",
+        "justification": "Use the depicted symmetric tangent profile. Decimal coefficients are evaluated directly from printed D005 = 15\u00b0 TYP.: 0.25881904510252074 = sin(15\u00b0), 0.9659258262890683 = cos(15\u00b0), 0.2679491924311227 = tan(15\u00b0), at double precision. They replace unavailable trigonometric expression operations, not unspecified dimensions. Rounded derived lengths D014 and D015 are not used as exact constraints.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "D003 + D006 - D003 * 0.25881904510252074",
+              "D004 + D006 - D003 * 0.9659258262890683"
+            ],
+            [
+              "D003 + D006 + (D004 - D003 / 0.9659258262890683) / 0.2679491924311227",
+              "D006"
+            ],
+            [
+              "D003 + D006 + D001 - (D004 - D003 / 0.9659258262890683) / 0.2679491924311227",
+              "D006"
+            ],
+            [
+              "D003 + D006 + D001 + D003 * 0.25881904510252074",
+              "D004 + D006 - D003 * 0.9659258262890683"
+            ],
+            [
+              "D003 + D006 + D001 + D003 * 0.25881904510252074",
+              "D004 + D006 + D003 * 0.9659258262890683"
+            ],
+            [
+              "D003 + D006 + D001 - (D002 - D004 - D003 / 0.9659258262890683) / 0.2679491924311227",
+              "D002 + D006"
+            ],
+            [
+              "D003 + D006 + (D002 - D004 - D003 / 0.9659258262890683) / 0.2679491924311227",
+              "D002 + D006"
+            ],
+            [
+              "D003 + D006 - D003 * 0.25881904510252074",
+              "D004 + D006 + D003 * 0.9659258262890683"
+            ]
+          ]
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F005",
+        "rationale": "Complete the left inside opening with a through circular cut overlapping the polygon opening.",
+        "source_callouts": [
+          "3.00 R. TYP.",
+          "7.00"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "2 * D003",
+          "u": "D003 + D006",
+          "v": "D004 + D006"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F006",
+        "rationale": "Complete the right inside opening, leaving the nominal .060 perimeter wall.",
+        "source_callouts": [
+          "32.25",
+          "3.00 R. TYP.",
+          "16 GA. (.060)"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "2 * D003",
+          "u": "D003 + D006 + D001",
+          "v": "D004 + D006"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F007",
+        "rationale": "What final hole quantity, horizontal positions, and drilling directions are required by the 'TO SUIT' note?",
+        "source_callouts": [
+          ".218 DR. THRU",
+          "SPACING & QUANTITY OF HOLES TO SUIT",
+          ".50"
+        ],
+        "status": "unresolved",
+        "justification": "Only diameter and elevation above the lower edge are specified. The on reference and u=0 are nonexecuting schema placeholders, not inferred drilling locations. Two illustrated circles do not establish the production count; do not automatically drill opposite walls.",
+        "kind": "hole",
+        "on": "face(F002,-Y)",
+        "u": "0",
+        "v": "D008",
+        "spec": {
+          "type": "thru",
+          "d": "D009",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Is a bottom included, and if so what are its contour, thickness, elevation, and attachment details?",
+        "source_callouts": [
+          "DRIP PAN",
+          "16 GA. (.060)"
+        ],
+        "status": "unresolved",
+        "justification": "Only the formed perimeter strip is established by these views. The rectangular envelope and depth here are nonexecuting schema placeholders, not an inferred rectangular bottom or assigned bottom thickness.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001 + 2 * (D003 + D006)",
+          "h": "D002 + 2 * D006",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D006",
+        "op": "add"
+      }
+    ],
+    "notes": [
+      "Material: 1020 SHEET STL.; title DRIP PAN; model VERT. 90.",
+      "Executable geometry represents the clearly depicted formed perimeter wall, not an assumed complete pan with a bottom.",
+      "Final envelope: X = D001 + 2*(D003 + D006), Y = D002 + 2*D006, Z = D007. Its minimum corner is the origin.",
+      "Top view lies in global XY; wall height is global Z. Front-view hole elevation maps to global z.",
+      "Overlapping polygon/circle bosses and through cuts form one continuous annular wall. Refine internal boss faces after union and preserve analytic circular arcs.",
+      "The evaluated angle coefficients are tied to D005 = 15\u00b0 and must be regenerated if D005 changes.",
+      "D010, APX. DEVELOPED LGTH. = 85.68, is approximate fabrication information, not an exact profile closure constraint.",
+      "Derived extraction dimensions D011 through D015 are not used to override printed controlling dimensions.",
+      "No extra flat-transition fillets, seam overlap, welds, drain, or bottom construction have been invented.",
+      "General tolerances: two-place \u00b1.02 inch; three-place \u00b1.010 inch; angular \u00b11\u00b0."
+    ]
+  }
+}

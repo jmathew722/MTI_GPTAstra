@@ -1,0 +1,243 @@
+{
+ "dims": {
+  "D001": 45.0,
+  "D002": 0.374,
+  "D003": 0.256,
+  "D004": 4.055,
+  "D005": 3.937,
+  "D006": 1.181,
+  "D007": 3.718,
+  "D008": 1.718,
+  "D009": 1.0,
+  "D010": 0.281,
+  "D011": 2.93,
+  "D012": 1.465,
+  "D013": 0.394,
+  "D014": 1.375,
+  "D015": 2.75,
+  "D016": 0.335,
+  "D017": 1.0,
+  "D018": 0.118,
+  "D019": 0.394,
+  "D020": 0.97,
+  "D021": 3.72,
+  "D022": 2.345,
+  "D023": 3.324,
+  "D024": 1.859,
+  "D025": 2.874,
+  "D026": 2.718,
+  "D027": 1.375,
+  "D028": 1.465
+ },
+ "reference_ids": [],
+ "plan": {
+  "ir_version": "2.0",
+  "part": "183-B",
+  "frame": {
+   "origin_kind": "corner",
+   "units": "inch",
+   "view_map": {
+    "front": "+Z",
+    "top": "+Y",
+    "left": "-X"
+   }
+  },
+  "features": [
+   {
+    "id": "F001",
+    "rationale": "Does the prominent 4.055 overall length control, or does the faint apparent 4.042 annotation supersede it?",
+    "source_callouts": [
+     "4.055",
+     "3.718",
+     ".374"
+    ],
+    "status": "planned",
+    "justification": "D004 is the clearly printed nominal used in this provisional stock definition; the faint adjacent annotation has unclear authority. Do not execute this feature until the controlling length is confirmed. Origin is the minimum envelope corner, with z=0 on the flat rear face. RESOLVED 2026-11-15 by user: the inked dimensions govern (D004=4.055 overall, D006=1.181 web); the faint penciled 4.042/1.221 are treated as an unissued markup.",
+    "kind": "prism",
+    "on": "plane(front)",
+    "offset": "0",
+    "profile": {
+     "shape": "rect",
+     "w": "D004",
+     "h": "D007",
+     "anchor": "corner",
+     "u": "0",
+     "v": "0"
+    },
+    "depth": "D002",
+    "op": "add"
+   },
+   {
+    "id": "F002",
+    "rationale": "Does the prominent 1.181 wiping-edge web width control, or does the faint apparent 1.221 annotation supersede it?",
+    "source_callouts": [
+     "1.181",
+     "1.718",
+     "1.000"
+    ],
+    "status": "planned",
+    "justification": "The provisional rectangular opening describes only the dimensioned wiping-edge aperture, not its undimensioned cross-sectional rake. Its left boundary overshoots the stock. D006 requires confirmation before execution. RESOLVED 2026-11-15 by user: the inked dimensions govern (D004=4.055 overall, D006=1.181 web); the faint penciled 4.042/1.221 are treated as an unissued markup.",
+    "kind": "prism",
+    "on": "face(F001,+Z)",
+    "offset": "0",
+    "profile": {
+     "shape": "rect",
+     "w": "2 * D004 - D006",
+     "h": "D008",
+     "anchor": "corner",
+     "u": "-D004",
+     "v": "D009"
+    },
+    "depth": "thru",
+    "op": "cut"
+   },
+   {
+    "id": "F003",
+    "rationale": "What are the complete wiping-lip rake, transition angles, and land widths needed to connect the .374 lip to the .256 mounting region?",
+    "source_callouts": [
+     ".374",
+     ".256"
+    ],
+    "status": "unresolved",
+    "justification": "The left and front views show a projecting U-shaped wiping lip, sloping aperture walls, and tapered transitions. Thickness difference alone does not determine these surfaces. The rectangular profile below is only a non-executable placeholder identifying the affected face and nominal relief depth; it must not be used to remove the entire lip.",
+    "kind": "prism",
+    "on": "face(F001,+Z)",
+    "offset": "0",
+    "profile": {
+     "shape": "rect",
+     "w": "D004",
+     "h": "D007",
+     "anchor": "corner",
+     "u": "0",
+     "v": "0"
+    },
+    "depth": "D002 - D003",
+    "op": "cut"
+   },
+   {
+    "id": "F004",
+    "rationale": "Cut the common 45-degree left-end plane across both arms; do not propagate this angle to the wiping-edge transitions.",
+    "source_callouts": [
+     "45\u00b0",
+     "3.937",
+     "4.055",
+     ".256",
+     ".374"
+    ],
+    "status": "planned",
+    "justification": "The top view shows one straight 45-degree end plane spanning the thickness, and the front view locates its intersection with the .256 main face at x=D004-D005. With z increasing toward the projecting lip, the plane is x+z=D004-D005+D003. The polygon encodes the printed D001=45-degree angle without trigonometric approximation. It overshoots both thickness faces and the left envelope; cutting through Y reaches both arms. Execution remains dependent on resolution of F001 and the wiping profile.",
+    "kind": "prism",
+    "on": "face(F001,-Y)",
+    "offset": "0",
+    "profile": {
+     "shape": "polygon",
+     "points": [
+      [
+       "-D004",
+       "-D002"
+      ],
+      [
+       "D004 - D005 + D003 + D002",
+       "-D002"
+      ],
+      [
+       "D004 - D005 + D003 - 2 * D002",
+       "2 * D002"
+      ],
+      [
+       "-D004",
+       "2 * D002"
+      ]
+     ]
+    },
+    "depth": "thru",
+    "op": "cut"
+   },
+   {
+    "id": "F005",
+    "rationale": "Lower-left mounting-hole seed, located from the right and bottom outside edges.",
+    "source_callouts": [
+     ".281 DIA.\n7 HOLES",
+     "2.750 \u00b1.005",
+     ".335 \u00b1.005",
+     ".394 \u00b1.005"
+    ],
+    "status": "planned",
+    "justification": "Orthographic hidden lines establish through holes even though THRU is not written. Starting on the flat rear face avoids reliance on the unresolved relieved front face. X location remains conditional on the controlling overall length in F001.",
+    "kind": "hole",
+    "on": "face(F001,-Z)",
+    "u": "D004 - D016 - D015",
+    "v": "D013",
+    "spec": {
+     "type": "thru",
+     "d": "D010",
+     "depth": null,
+     "cbore_d": null,
+     "cbore_depth": null,
+     "csink_d": null,
+     "csink_angle": null,
+     "thread": ""
+    }
+   },
+   {
+    "id": "F006",
+    "rationale": "Complete the three-hole lower row and matching three-hole upper row, six holes including the seed.",
+    "source_callouts": [
+     ".281 DIA.\n7 HOLES",
+     "1.375 \u00b1.005",
+     "2.750 \u00b1.005",
+     "2.930 \u00b1.005"
+    ],
+    "status": "planned",
+    "justification": "The front view shows aligned, matching top and bottom rows. D015 equals twice D014, establishing three equally spaced columns; this grid includes only the two outer rows, not the middle row.",
+    "kind": "pattern",
+    "seed": "F005",
+    "mode": "grid",
+    "dir": "+X",
+    "count": "3",
+    "pitch": "D015 / 2",
+    "dir2": "+Y",
+    "count2": "2",
+    "pitch2": "D011",
+    "axis": "axis(part)",
+    "start_angle": "0",
+    "step": "equal",
+    "skip": []
+   },
+   {
+    "id": "F007",
+    "rationale": "Seventh mounting hole, midway up the right web.",
+    "source_callouts": [
+     ".281 DIA.\n7 HOLES",
+     "1.465 \u00b1.005",
+     ".335 \u00b1.005",
+     ".394 \u00b1.005"
+    ],
+    "status": "planned",
+    "justification": "Through condition is established by the orthographic representations. The middle hole is present only in the right column; no additional middle-row holes are inferred.",
+    "kind": "hole",
+    "on": "face(F001,-Z)",
+    "u": "D004 - D016",
+    "v": "D013 + D012",
+    "spec": {
+     "type": "thru",
+     "d": "D010",
+     "depth": null,
+     "cbore_d": null,
+     "cbore_depth": null,
+     "csink_d": null,
+     "csink_angle": null,
+     "thread": ""
+    }
+   }
+  ],
+  "notes": [
+   "Not a release-ready solid: F001 and F002 require confirmation of faint competing annotations, and F003 requires a fully defined wiping-edge cross-section. Planned downstream operations are contingent on those resolutions.",
+   "Use the prominent D004=4.055 and D006=1.181 only as the explicitly identified provisional parameters; do not silently substitute the faint annotations or treat derived dimensions as independent controls.",
+   "The constant-section opening and stock are construction stages, not a claim that the finished wiping aperture has square walls. F003 must replace that provisional section with the clarified geometry.",
+   "D001 supplies the left-end 45-degree angle only. No unspecified inner-edge chamfers, radii, or taper angles have been assumed.",
+   "Material per NOTE A: polyurethane plus 10% moly disulphide, Shore durometer A80-90; approved supplier GRINDEX INC. Drawing title WIPER, model 320 BX.",
+   "Dimensions are inches. Apply the title-block general tolerances and the explicit \u00b1.005 hole-location tolerances; derived arithmetic does not create new independent tolerances."
+  ]
+ }
+}

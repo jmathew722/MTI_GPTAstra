@@ -1,0 +1,44 @@
+{
+  "part": "A001611E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001611E\\A001611E_extraction.json",
+  "plan_attempts": 3,
+  "gate1": "OK",
+  "planned": 6,
+  "questions": [
+    "F007: What final hole quantity, horizontal positions, and drilling directions are required by the 'TO SUIT' note?",
+    "F008: Is a bottom included, and if so what are its contour, thickness, elevation, and attachment details?"
+  ],
+  "flagged": [
+    "F001: The radius leader is interpreted as controlling the inside contour; the outside radius includes the sheet thickness.",
+    "F002: Symmetry and tangency are shown in the top view. Decimal coefficients are evaluated directly from the printed D005 = 15\u00b0 TYP.: 0.25881904510252074 = sin(15\u00b0), 0.9659258262890683 = cos(15\u00b0), 0.2679491924311227 = tan(15\u00b0), at double precision. They are calculated angle coefficients, not guessed dimensions. The restricted expression evaluator cannot accept trigonometric functions or radicals. Adjacent outward-offset straight lines intersect at the flat transitions.",
+    "F003: Typical radius and depicted mirror symmetry establish the matching right end.",
+    "F004: Use the depicted symmetric tangent profile. Decimal coefficients are evaluated directly from printed D005 = 15\u00b0 TYP.: 0.25881904510252074 = sin(15\u00b0), 0.9659258262890683 = cos(15\u00b0), 0.2679491924311227 = tan(15\u00b0), at double precision. They replace unavailable trigonometric expression operations, not unspecified dimensions. Rounded derived lengths D014 and D015 are not used as exact constraints."
+  ],
+  "defaults": [],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001611E\\reference.step",
+  "volume": 20.559057,
+  "cq_skipped": {
+    "F007": "unresolved: What final hole quantity, horizontal positions, and drilling directions are required by the 'TO SUIT' note?",
+    "F008": "unresolved: Is a bottom included, and if so what are its contour, thickness, elevation, and attachment details?"
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001611E\\161-B_ir.sldprt",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built",
+    "F003": "built",
+    "F004": "built (Up To Next)",
+    "F005": "built (Up To Next)",
+    "F006": "built (Up To Next)",
+    "F007": "skipped (unresolved: What final hole quantity, horizontal positions, and drilling directions are required by the 'TO SUIT' note?)",
+    "F008": "skipped (unresolved: Is a bottom included, and if so what are its contour, thickness, elevation, and attachment details?)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 6/6"
+  ],
+  "mti_review": [],
+  "cost_usd": 1.2699,
+  "error": ""
+}

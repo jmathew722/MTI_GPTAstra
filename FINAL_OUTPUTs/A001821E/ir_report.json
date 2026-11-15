@@ -1,0 +1,48 @@
+{
+  "part": "A001821E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001821E\\A001821E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 11,
+  "questions": [],
+  "flagged": [
+    "F003: Through extent and aligned upper/lower columns are shown in the plate views.",
+    "F005: Through extent and aligned upper/lower columns are shown in the plate views; clearance-column spacings are not rounded to equal values.",
+    "F007: Through extent and aligned upper/lower columns are shown in the plate views.",
+    "F009: Through drilling and tapping follow the thin-plate edge view. Cutting depth D004 exceeds plate thickness D006 to ensure breakthrough. UNC is the standard series for 1/4-20; threads are cosmetic within the plate.",
+    "F010: The views show aligned columns in both rows. The printed outer-column spacing D016 equals twice D017, establishing equal column pitch.",
+    "F011: Hole alignment with the right tapped column is shown. Through drilling and tapping follow the edge view; D004 overshoots plate thickness D006. Cosmetic thread is limited to the material."
+  ],
+  "defaults": [],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001821E\\reference.step",
+  "volume": 7.691711,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001821E\\182-C_ir.sldprt",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Up To Next)",
+    "F003": "built (Up To Next; one feature for F003, F004)",
+    "F004": "built (in F003 (one feature))",
+    "F005": "built (Up To Next; one feature for F005, F006)",
+    "F006": "built (in F005 (one feature))",
+    "F007": "built (Up To Next; one feature for F007, F008)",
+    "F008": "built (in F007 (one feature))",
+    "F009": "built (one feature for F009, F010)",
+    "F010": "built (in F009 (one feature))",
+    "F011": "built"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "F010: Hole Wizard 1/4-20 tapped, cosmetic thread did not match the reference (HoleWizard5 refused Blind + drill point); plain cut",
+    "F011: Hole Wizard 1/4-20 tapped, cosmetic thread did not match the reference (HoleWizard5 refused Blind + drill point); plain cut",
+    "sketches fully defined: 7/7"
+  ],
+  "mti_review": [
+    "[mti_hole_grouping] F003, F005, F007: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
+    "[mti_hole_grouping] F009, F011: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points"
+  ],
+  "cost_usd": 0.9412,
+  "error": ""
+}

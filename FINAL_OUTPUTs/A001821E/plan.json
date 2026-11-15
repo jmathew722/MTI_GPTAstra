@@ -1,0 +1,338 @@
+{
+  "dims": {
+    "D001": 7.0,
+    "D002": 2.75,
+    "D003": 2.125,
+    "D004": 4.5,
+    "D005": 2.75,
+    "D006": 0.312,
+    "D007": 0.75,
+    "D008": 2.312,
+    "D009": 3.875,
+    "D010": 0.375,
+    "D011": 6.25,
+    "D012": 0.406,
+    "D013": 0.203,
+    "D014": 0.25,
+    "D015": 3.347,
+    "D016": 2.75,
+    "D017": 1.375,
+    "D018": 1.988,
+    "D019": 2.93,
+    "D020": 1.465,
+    "D021": 2.125,
+    "D022": 4.25,
+    "D023": 0.375,
+    "D024": 6.625,
+    "D025": 0.597,
+    "D026": 1.972,
+    "D027": 4.637,
+    "D028": 1.707,
+    "D029": 3.172,
+    "D030": 1.375,
+    "D031": 1.465,
+    "D032": 1.75,
+    "D033": 1.332
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "182-C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Plate blank at the printed envelope dimensions and thickness.",
+        "source_callouts": [
+          "4.500",
+          "7.000",
+          ".312"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D004",
+          "h": "D001",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D006",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Through notch open to the left; cutting profile overshoots the left edge.",
+        "source_callouts": [
+          "2.750",
+          "2.125"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "face(F001,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D004 + D005",
+          "h": "D003",
+          "anchor": "corner",
+          "u": "-D004",
+          "v": "D001 - D002 - D003"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F003",
+        "rationale": "Lower-left clearance hole.",
+        "source_callouts": [
+          ".406 \u2300",
+          "6-HOLES",
+          ".750",
+          ".375",
+          "6.250"
+        ],
+        "status": "planned",
+        "justification": "Through extent and aligned upper/lower columns are shown in the plate views.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D007",
+        "v": "D001 - D010 - D011",
+        "spec": {
+          "type": "thru",
+          "d": "D012",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F004",
+        "rationale": "Upper-left clearance hole at printed row spacing.",
+        "source_callouts": [
+          "6-HOLES",
+          "6.250"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F003",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "D011",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F005",
+        "rationale": "Lower middle clearance hole, preserving the separately printed X coordinate.",
+        "source_callouts": [
+          ".406 \u2300",
+          "6-HOLES",
+          "2.312",
+          ".375",
+          "6.250"
+        ],
+        "status": "planned",
+        "justification": "Through extent and aligned upper/lower columns are shown in the plate views; clearance-column spacings are not rounded to equal values.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D008",
+        "v": "D001 - D010 - D011",
+        "spec": {
+          "type": "thru",
+          "d": "D012",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Upper middle clearance hole.",
+        "source_callouts": [
+          "6-HOLES",
+          "6.250"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F005",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "D011",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F007",
+        "rationale": "Lower-right clearance hole.",
+        "source_callouts": [
+          ".406 \u2300",
+          "6-HOLES",
+          "3.875",
+          ".375",
+          "6.250"
+        ],
+        "status": "planned",
+        "justification": "Through extent and aligned upper/lower columns are shown in the plate views.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D009",
+        "v": "D001 - D010 - D011",
+        "spec": {
+          "type": "thru",
+          "d": "D012",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Upper-right clearance hole.",
+        "source_callouts": [
+          "6-HOLES",
+          "6.250"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F007",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "D011",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F009",
+        "rationale": "Lower-left tapped hole at the printed tap-drill diameter with cosmetic thread.",
+        "source_callouts": [
+          ".203 \u2300",
+          "1/4-20 2B THD.",
+          "7-HOLES",
+          "3.347",
+          "2.750",
+          "1.988",
+          "2.930"
+        ],
+        "status": "planned",
+        "justification": "Through drilling and tapping follow the thin-plate edge view. Cutting depth D004 exceeds plate thickness D006 to ensure breakthrough. UNC is the standard series for 1/4-20; threads are cosmetic within the plate.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D015 - D016",
+        "v": "D001 - D010 - D018 - D019",
+        "spec": {
+          "type": "tapped",
+          "d": "D013",
+          "depth": "D004",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/4-20 UNC-2B"
+        }
+      },
+      {
+        "id": "F010",
+        "rationale": "Two rows of three tapped holes at the dimensioned spacings.",
+        "source_callouts": [
+          "7-HOLES",
+          "2.750",
+          "1.375",
+          "2.930"
+        ],
+        "status": "planned",
+        "justification": "The views show aligned columns in both rows. The printed outer-column spacing D016 equals twice D017, establishing equal column pitch.",
+        "kind": "pattern",
+        "seed": "F009",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "3",
+        "pitch": "D017",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D019",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F011",
+        "rationale": "Seventh tapped hole in the right-hand web at the intermediate axial-in-view station.",
+        "source_callouts": [
+          ".203 \u2300",
+          "1/4-20 2B THD.",
+          "7-HOLES",
+          "3.347",
+          "1.465"
+        ],
+        "status": "planned",
+        "justification": "Hole alignment with the right tapped column is shown. Through drilling and tapping follow the edge view; D004 overshoots plate thickness D006. Cosmetic thread is limited to the material.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D015",
+        "v": "D001 - D010 - D018 - D020",
+        "spec": {
+          "type": "tapped",
+          "d": "D013",
+          "depth": "D004",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/4-20 UNC-2B"
+        }
+      }
+    ],
+    "notes": [
+      "Origin is the lower-left envelope corner at z=0. X runs rightward and Y upward in the front view; thickness builds toward +Z.",
+      "Printed source dimensions govern geometry; extracted derived dimensions are not independent toleranced dimensions.",
+      "General tolerances: three-place dimensions \u00b1.010 inch, two-place dimensions \u00b1.020 inch, angles \u00b11 degree.",
+      "CFS points to both broad faces. Confirm its manufacturing meaning; no numerical roughness or geometric modification is inferred.",
+      "Material appears to read '1E357 STL.'; verify the handwritten designation before procurement. The heat-treatment block is blank.",
+      "No fillets, chamfers, or edge breaks are specified. All seven threads are cosmetic, using the explicitly printed .203-inch tap-drill diameter."
+    ]
+  }
+}
