@@ -1,6 +1,7 @@
 # STATE.md — where mti-2d-3d stands
 
-**Last updated:** 2026-10-28 · **Repo:** [INDL-AILOT/mti-2d-3d](https://github.com/INDL-AILOT/mti-2d-3d)
+**Last updated:** 2026-10-28 · **Repo:** [jmathew722/MTI_GPTAstra](https://github.com/jmathew722/MTI_GPTAstra)
+(independent copy, forked from the original `INDL-AILOT/mti-2d-3d` at `eea7e45` on 2026-11-15)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
 > **2026-11-05: every sketch is fully defined, Hole Wizard placement sketches included** (E035).

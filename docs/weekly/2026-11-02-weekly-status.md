@@ -1,7 +1,7 @@
 # Weekly status: Monday 2026-11-02
 
 **Project:** mti-2d-3d (2D drawing → SolidWorks part for MTI) · **Covers:** sessions of 2026-10-26 → 2026-10-28
-**Branch:** `feat/openai-extractor-sw2025` → [PR #6](https://github.com/INDL-AILOT/mti-2d-3d/pull/6) (open, review requested from smcanuff-sudo)
+**Branch:** `feat/openai-extractor-sw2025` → PR #6 (merged upstream before this copy was taken; the upstream repo is no longer referenced by this one)
 **API budget:** $46.68 of $50 spent (ledger `~/.mti-2d-3d/budget_ledger.jsonl`), **$3.32 left**
 
 ## Where we are

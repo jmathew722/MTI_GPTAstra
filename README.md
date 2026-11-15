@@ -49,7 +49,16 @@ Windows + SolidWorks. Every paid model call goes through a hard **$20 budget gua
 ## Quick start
 
 Requires Python 3.10+ (developed on 3.13). For native builds you also need Windows with
-SolidWorks (2024 or 2025).
+SolidWorks (2024, 2025 or 2026).
+
+> **On a fresh clone, one thing is missing on purpose: your API key.** `.env` is gitignored,
+> so it is in no commit and no clone. Copy `.env.template` to `.env` and set `OPENAI_API_KEY`.
+> Everything that costs nothing — the 1018 tests, `--from-json`, `ir_build.py`, and
+> `ir_run.py --reuse-plans` — runs without it.
+>
+> Set `SOLIDWORKS_TEMPLATE_PATH` to the template matching **your installed SolidWorks year**.
+> A newer template silently fails with `NewDocument returned None`; check the version with
+> `RevisionNumber` (33.x = 2025, 34.x = 2026) rather than the folder name.
 
 ```bash
 cd 2D-3D-CAD-Test-Generation
@@ -68,6 +77,12 @@ python main.py --drawing path/to/drawing.pdf --output ./output          # full r
 python main.py --from-json output/<Part>/<Part>_extraction.json          # regenerate macros, no API cost
 python main.py --views-folder ./ViewDefinedDrawings --output ./output   # multi-view parts
 python -m pytest tests/ -v                                               # tests
+
+# Build into FINAL_OUTPUTs/ with per-part cost tracking (see FINAL_OUTPUTs/costs.txt).
+# Refreshes costs after every part and stops the run if one part exceeds $5.
+python make_part.py "../Simple Parts/A001151E.PDF"
+python make_part.py "../Simple Parts/A001151E.PDF" "../Simple Parts/A001821E.PDF"
+python final_costs.py                                                    # rewrite costs.txt only
 ```
 
 Copy `output/<Part>/` to any SolidWorks machine and follow `macros/README.md`.
