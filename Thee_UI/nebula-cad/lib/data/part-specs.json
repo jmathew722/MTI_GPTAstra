@@ -1,0 +1,44 @@
+{
+  "flange": {
+    "partNumber": "FL-2210",
+    "name": "Flange_Adapter",
+    "title": "FLANGE ADAPTER",
+    "revision": "A",
+    "materialNote": "AISI 1018 STEEL",
+    "outline": { "kind": "circle", "diameter": 160 },
+    "thickness": 14,
+    "bore": 60,
+    "boreNote": "+0.05/0",
+    "drawingHoles": { "pattern": "circle", "count": 10, "diameter": 9, "bc": 130 },
+    "modelHoles": { "pattern": "circle", "count": 8, "diameter": 9, "bc": 130 },
+    "scale": 2.0
+  },
+  "plate": {
+    "partNumber": "BP-1042",
+    "name": "Bearing_Plate",
+    "title": "BEARING PLATE",
+    "revision": "B",
+    "materialNote": "6061-T6 ALUMINUM",
+    "outline": { "kind": "rect", "width": 120, "height": 80 },
+    "thickness": 10,
+    "bore": 32,
+    "boreNote": "H7",
+    "drawingHoles": { "pattern": "rect", "count": 4, "diameter": 6.6, "px": 96, "py": 56 },
+    "modelHoles": { "pattern": "rect", "count": 4, "diameter": 6.6, "px": 96, "py": 56 },
+    "scale": 2.6
+  },
+  "ring": {
+    "partNumber": "SR-0077",
+    "name": "Spacer_Ring",
+    "title": "SPACER RING",
+    "revision": "C",
+    "materialNote": "304 STAINLESS",
+    "outline": { "kind": "circle", "diameter": 72 },
+    "thickness": 8,
+    "bore": 40,
+    "boreNote": "+0.1/0",
+    "drawingHoles": { "pattern": "circle", "count": 6, "diameter": 5.5, "bc": 56 },
+    "modelHoles": { "pattern": "circle", "count": 6, "diameter": 5.5, "bc": 56 },
+    "scale": 3.6
+  }
+}
