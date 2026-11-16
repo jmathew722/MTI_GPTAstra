@@ -13,18 +13,18 @@ Task list for the Nebula CAD build. Updated at every milestone. The last task is
 | 1.2 | `docs/DESIGN_SPEC.md` | done |
 | 1.3 | `docs/API_CONTRACT.md` | done |
 | 1.4 | `docs/QA_CHECKLIST.md` | done |
-| 2.1 | Scaffold, tokens, fonts, nebula background, glass system | pending |
-| 2.2 | App shell: TopNav, Sidebar, ContextRail, routing | pending |
-| 2.3 | Command palette, toasts, shortcuts dialog | pending |
-| 2.4 | Schemas, adapter (mock + http), seeded sample data, generated sample drawing PDFs and STLs | pending |
-| 3.1 | Dashboard (hero, KPIs, viewer, pipeline, workspace tabs, quick actions, rail) | pending |
-| 3.2 | Workstation: drawing/model compare, viewer tools, extraction review, build plan | pending |
-| 3.3 | Tabs: Parameters, Features, Validation, Cost, Logs, Rubric | pending |
-| 3.4 | Automation wizard, Pipelines, Models, Projects, Library, Docs, Settings, Viewer | pending |
-| 3.5 | Extras: notifications, audit trail, revisions, comments, export center, onboarding | pending |
-| 4.1 | Motion system | pending |
-| 4.2 | Polish passes 1–6 | pending |
-| 5.1 | Unit tests (cost, rubric), e2e smoke, axe, screenshots at 3 viewports | pending |
+| 2.1 | Scaffold, tokens, fonts, nebula background, glass system | done |
+| 2.2 | App shell: TopNav, Sidebar, ContextRail, routing | done |
+| 2.3 | Command palette, toasts, shortcuts dialog | done |
+| 2.4 | Schemas, adapter (mock + http), seeded sample data, generated sample drawing PDFs and STLs | done |
+| 3.1 | Dashboard (hero, KPIs, viewer, pipeline, workspace tabs, quick actions, rail) | done |
+| 3.2 | Workstation: drawing/model compare, viewer tools, extraction review, build plan | done |
+| 3.3 | Tabs: Parameters, Features, Validation, Cost, Logs, Rubric | done |
+| 3.4 | Automation wizard, Pipelines, Models, Projects, Library, Docs, Settings, Viewer | done |
+| 3.5 | Extras: notifications, audit trail, revisions, comments, export center, onboarding | done |
+| 4.1 | Motion system | done |
+| 4.2 | Polish passes 1–6 | done |
+| 5.1 | Unit tests (cost, rubric), e2e smoke, axe, screenshots at 3 viewports | done |
 | 5.2 | Reviewer subagent audit, fixes | pending |
 | 5.3 | Final verification: build, typecheck, lint, tests; docs final | pending |
 
@@ -35,3 +35,16 @@ Task list for the Nebula CAD build. Updated at every milestone. The last task is
 - The earlier pipeline-UI guidance that lived at `Thee_UI/CLAUDE.md` is kept as `PIPELINE_UI_CONTRACT.md`.
 - Work happens on branch `feat/nebula-cad-ui` of the existing repo (see ARCHITECTURE decision D2).
 - Pipeline: `export_stl()` added to `pipeline/solidworks_builder.py`, called after both COM save sites. 3 new tests pass. Not run against SolidWorks (this machine is macOS).
+
+### M1 — Foundation, features, tests (commits 1619515, f727ba9)
+- Built: tokens, nebula background (gradients + 12 CSS stars + GSAP-drawn corner arcs), glass tiers, shell (top nav, sidebar, rail, command palette, shortcuts, notifications, onboarding tour), schemas, mock + http adapters, seeded projects (flange 10-vs-8 failing, bearing plate clean, spacer ring with a not-run check), all routes, six workspace tabs (Rubric last), export center, failure banner, PDF/STEP/STL viewers.
+- Tests: 32 Vitest (cost, rubric incl. hard-fail cap, gating, seed schema), 32 Playwright (smoke per route, axe per route, navigation, tabs, parameters, palette, loud-failure end to end).
+- Lint (React Compiler rules) clean; production build passes.
+
+### Polish passes (screenshots in docs/screenshots at 1440x900, 1024x768, 390x844)
+1. **Layout and hierarchy.** Found: horizontal page overflow at 1024 and 390 (grid children not shrinking, card header not wrapping); sidebar status block cramped; KPI cards had badges colliding with values; dashboard bottom row left an empty area beside Quick Actions. Fixed: global min-width:0 on grid/flex children, wrapping CardHeader, one SAMPLE badge for the KPI row, Quick Actions moved under the pipeline.
+2. **Glass and lighting.** Found: viewer labels drew as huge DOM text; custom CSS sat outside a cascade layer and overrode utilities. Fixed: canvas-texture sprite labels, `@layer components`.
+3. **Motion.** Found: viewer did not re-frame on pane resize; axe sampled mid fade-in. Fixed: resize refit, longer settle wait in the audit. Reduced motion verified via emulated media and the Settings switch.
+4. **Accessibility and responsive.** Found by axe: 3 accessible-name mismatches, 3 unfocusable scroll regions, one contrast flake. Fixed all; muted text lightened to #B9B0CC. Mobile failure banner reflowed (text was one word wide).
+5. **Content and trust.** Diff mode opens by default when a count mismatch exists; override never changes a check's status (tested); a user's own upload gets no fabricated extraction (tested).
+6. **Ideas pass.** Added: count-check strip, modeled-outline overlay, Diff mode with red/orange rings, reviewer queue ordering, link zoom, section plane, measure tool, parameter presets, revision compare, export center with gate reasons, reset sample data. Recorded in ARCHITECTURE section 11.

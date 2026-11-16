@@ -119,7 +119,7 @@ export function FailureBanner({ projectId }: { projectId: string }) {
   return (
     <div role="alert" className={cn("shake-once flex flex-wrap items-center gap-3 rounded-2xl border-2 px-4 py-3", overridden ? "border-warn/70 bg-[#2a1a0c]" : "border-danger bg-[#2d0d17] shadow-[0_0_28px_rgba(255,102,128,.22)]")}>
       <AlertOctagon className={cn("size-7 shrink-0", overridden ? "text-warn" : "text-danger")} aria-hidden />
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1 basis-[15rem]">
         <p className={cn("text-base font-semibold leading-6", overridden ? "text-warn" : "text-[#ff8fa3]")}>
           {bad.length ? "The model does not match the drawing." : `${failed.length} validation check${failed.length > 1 ? "s" : ""} failed.`}
           {overridden && " A reviewer has overridden the block."}
@@ -131,7 +131,7 @@ export function FailureBanner({ projectId }: { projectId: string }) {
           {gate.blocked ? "Export is blocked and the rubric is capped at Needs rework until this is resolved or overridden with a reason." : "Export is allowed because every blocking check carries a recorded override."}
         </p>
       </div>
-      <div className="flex shrink-0 gap-2">
+      <div className="flex flex-wrap gap-2">
         <button type="button" className="btn btn-sm btn-ghost" onClick={() => set({ reviewTab: "extraction", compareMode: "diff" })}>
           Show the difference
         </button>

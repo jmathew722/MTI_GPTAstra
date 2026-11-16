@@ -47,7 +47,7 @@ function ParamRow({ p, projectId }: { p: Parameter; projectId: string }) {
   return (
     <tr data-selected={sel}>
       <td>
-        <button type="button" className="rounded text-left font-medium hover:text-gold-hi" onClick={() => select({ featureId: p.featureId ?? null, itemId: p.sourceItemId ?? null })}>
+        <button type="button" className="whitespace-nowrap rounded text-left font-medium hover:text-gold-hi" onClick={() => select({ featureId: p.featureId ?? null, itemId: p.sourceItemId ?? null })}>
           {p.name} {p.symbol && <span className="num text-muted-foreground">({p.symbol})</span>}
         </button>
       </td>
@@ -77,7 +77,7 @@ function ParamRow({ p, projectId }: { p: Parameter; projectId: string }) {
       <td className="num text-muted-foreground">{p.unit}</td>
       <td className="num text-muted-foreground">{p.tolerance ? (p.tolerance.plus === p.tolerance.minus ? `±${p.tolerance.plus}` : `+${p.tolerance.plus}/-${p.tolerance.minus}`) : "–"}</td>
       <td className="num whitespace-nowrap text-muted-foreground">{p.range ? `[${p.range.min.toFixed(digits)}, ${p.range.max.toFixed(digits)}]` : "–"}</td>
-      <td>
+      <td className="whitespace-nowrap">
         {p.sourceItemId ? (
           <button type="button" className="num inline-flex items-center gap-1 rounded text-xs text-gold hover:underline" onClick={() => select({ itemId: p.sourceItemId, featureId: p.featureId ?? null })} title="Show the source on the drawing">
             <Link2 className="size-3" aria-hidden /> {p.sourceItemId}

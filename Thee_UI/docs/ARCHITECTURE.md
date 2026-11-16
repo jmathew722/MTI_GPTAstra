@@ -169,4 +169,4 @@ user action → hook (mutation) → adapter → (mock db | fetch) → Zod parse 
 | Reviewer identity in Settings (name used for sign-off and audit) | Sign-off needs a name; mock mode has no auth. |
 | "Reset sample data" in Settings | Lets a demo be re-run from a known state. |
 
-Later additions made during the ideas pass are recorded in `PROGRESS.md` and appended here.
+Added during the ideas pass: link-zoom between drawing and model; section plane and measure tool in the viewer; parameter presets (Library) that apply to the focused project; revision compare dialog; confidence heatmap; Diff mode that opens automatically when a count mismatch exists; Export center rows disabled with the gate reason; `/welcome` landing page; D14: `cacheComponents` is off in next.config because every screen is client-rendered against the adapter.

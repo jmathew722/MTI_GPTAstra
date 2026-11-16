@@ -40,10 +40,12 @@ for (const [route, heading] of ROUTES) {
   });
 
   test(`axe ${route}: no serious or critical violations`, async ({ page }) => {
+    // audit the settled page: entrance animations fade text in, which axe would read as low contrast
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(route);
     await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible();
     await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(3500); // let the staggered entrance (opacity) finish before measuring contrast
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
     const bad = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
     expect(bad.map((v) => `${v.id}: ${v.help} (${v.nodes.length}) e.g. ${v.nodes[0]?.target.join(" ")} ${v.nodes[0]?.failureSummary ?? ""}`)).toEqual([]);
