@@ -80,11 +80,11 @@ export function TopNav() {
         <Menu className="size-5" aria-hidden />
       </button>
       <Link href="/dashboard" className="flex shrink-0 items-center gap-3 rounded-lg pr-2">
-        <span className="sr-only">Nebula CAD, go to dashboard.</span>
+        <span className="sr-only">2D to 3D CAD, go to dashboard.</span>
         <Logo />
         <span className="hidden flex-col leading-none sm:flex lg:hidden xl:flex">
-          <span className="text-[19px] font-semibold tracking-[0.22em] text-text">
-            NEBULA <span className="text-gold">CAD</span>
+          <span className="text-[18px] font-semibold tracking-[0.16em] text-text">
+            2D TO 3D <span className="text-gold">CAD</span>
           </span>
           <span className="mt-1 text-[9px] font-semibold tracking-[0.32em] text-muted-foreground">DESIGN AUTOMATION PLATFORM</span>
         </span>

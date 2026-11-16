@@ -1,6 +1,6 @@
 # PROGRESS
 
-Task list for the Nebula CAD build. Updated at every milestone. The last task is always verification.
+Task list for the 2D to 3D CAD build. Updated at every milestone. The last task is always verification.
 
 ## Task list
 
@@ -58,3 +58,8 @@ Result: no checklist item failed on structure; defects found and handled:
 - **Mobile title wrap:** fixed with a minimum title width.
 - **Not defects, noted:** bp-1042 ships pre-signed as sample data (labeled SAMPLE); a not-run check appears only on sr-0077 (Spacer_Ring).
 - The reviewer could not run build, e2e or axe (they would disturb the live dev server). I ran them: build, lint, typecheck, 32 unit and 33 e2e tests (axe on all 12 routes) pass.
+
+### Change request (post-audit)
+- Product renamed to **2D to 3D CAD** (wordmark, page titles, welcome page, PDF footers, README, docs).
+- Cost tab: **Part manufacturing estimate (B)** and **Automation ROI (C)** commented out (marked `DEFERRED`); also removed from the PDF report, Settings (rates section commented out) and the Library rate card. `lib/cost` math and its unit tests are kept for later.
+- Docs page rewritten in formal technical style (numbered sections, defined terms, no marketing language).

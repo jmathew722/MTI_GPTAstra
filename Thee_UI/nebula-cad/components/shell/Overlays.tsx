@@ -243,7 +243,7 @@ export function NavDrawer() {
       <SheetContent side="left" className="w-[min(86vw,300px)] gap-0 border-line bg-[#171128] p-3 text-text sm:max-w-[300px]">
         <SheetHeader className="p-1 pb-3">
           <SheetTitle className="text-sm font-semibold tracking-[0.2em] text-text">
-            NEBULA <span className="text-gold">CAD</span>
+            2D TO 3D <span className="text-gold">CAD</span>
           </SheetTitle>
           <SheetDescription className="sr-only">Navigation</SheetDescription>
         </SheetHeader>

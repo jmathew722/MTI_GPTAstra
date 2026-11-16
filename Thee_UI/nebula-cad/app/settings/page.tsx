@@ -112,6 +112,7 @@ export default function SettingsPage() {
           </div>
         </Section>
 
+        {/* DEFERRED (no manufacturing scope yet): manufacturing estimate rates. Values remain in the store and are unit-tested.
         <Section id="mfg" title="Manufacturing estimate rates" tag={<Stamp tone="warn">Estimate</Stamp>}>
           <div className="overflow-x-auto">
             <table className="dtable min-w-[520px]">
@@ -143,6 +144,7 @@ export default function SettingsPage() {
             <Num label="Margin (fraction)" {...register("mfg.margin", num)} />
           </div>
         </Section>
+        */}
         <div className="flex flex-wrap items-center justify-end gap-2">
           {formState.isDirty && <span className="text-xs text-warn">Unsaved changes</span>}
           <button

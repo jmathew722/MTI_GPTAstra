@@ -2,25 +2,16 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { AlertTriangle, ChevronRight, Cpu, Factory, TrendingUp } from "lucide-react";
+// DEFERRED chart imports: Bar, BarChart, CartesianGrid, Line, LineChart, XAxis, YAxis
+import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
+// DEFERRED icons: ChevronRight, Factory, TrendingUp
+import { AlertTriangle, Cpu } from "lucide-react";
 import { EmptyState, ErrorState, SampleBadge, Stamp, TableSkeleton } from "@/components/shared";
 import { useCost, useMonthlyCost, useProject } from "@/lib/api/hooks";
-import {
-  DENSITY_G_CM3,
-  MATERIAL_LABEL,
-  budgetState,
-  formatUsd,
-  machiningMinutes,
-  partMassKg,
-  quantityBreaks,
-  roi,
-  runCost,
-  usageCost,
-  type MfgInputs,
-} from "@/lib/cost";
+// DEFERRED cost imports: DENSITY_G_CM3, MATERIAL_LABEL, machiningMinutes, partMassKg, quantityBreaks, roi, type MfgInputs
+import { budgetState, formatUsd, runCost, usageCost } from "@/lib/cost";
 import { fmtInt } from "@/lib/format";
-import type { MaterialKey } from "@/lib/schemas";
+// DEFERRED: import type { MaterialKey } from "@/lib/schemas";
 import { useSettings } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +21,7 @@ const tip = {
   itemStyle: { color: "#f7f3fa" },
   cursor: { stroke: "rgba(214,175,107,.4)" },
 };
-const axis = { stroke: "#7f7694", fontSize: 11, fontFamily: "var(--font-jetbrains)" };
+// DEFERRED (used by the manufacturing and ROI charts): const axis = { stroke: "#7f7694", fontSize: 11, fontFamily: "var(--font-jetbrains)" };
 
 function Panel({ icon, letter, title, tag, children }: { icon: React.ReactNode; letter: string; title: string; tag?: React.ReactNode; children: React.ReactNode }) {
   return (
@@ -61,35 +52,35 @@ export default function CostTab({ projectId }: { projectId: string }) {
   const { data: project } = useProject(projectId);
   const { data: monthly } = useMonthlyCost();
   const rates = useSettings((s) => s.pipelineRates);
-  const mfg = useSettings((s) => s.mfgRates);
-  const roiA = useSettings((s) => s.roi);
+  // DEFERRED: const mfg = useSettings((s) => s.mfgRates);
+  // DEFERRED: const roiA = useSettings((s) => s.roi);
   const budget = useSettings((s) => s.monthlyBudget);
   const setSettings = useSettings((s) => s.set);
-  const [material, setMaterial] = React.useState<MaterialKey | null>(null);
-  const [formulas, setFormulas] = React.useState(false);
+  // DEFERRED: const [material, setMaterial] = React.useState<MaterialKey | null>(null);
+  // DEFERRED: const [formulas, setFormulas] = React.useState(false);
 
   if (q.isError) return <ErrorState error={q.error} onRetry={() => q.refetch()} />;
   if (q.isLoading || !project) return <TableSkeleton />;
   if (!q.data) return <EmptyState title="No cost data" body="Run cost comes from a pipeline run, and the manufacturing estimate needs the model's volume. This project has neither yet." />;
   const c = q.data;
-  const mat = material ?? project.material;
   const rc = runCost(c.stages, rates, c.batchSize);
   const monthTotal = monthly ? usageCost(monthly.usage, rates).total : 0;
   const bState = budgetState(monthTotal, budget);
   const trend = c.history.map((h, i) => ({ i: i + 1, date: h.date.slice(5, 10), cost: Number(usageCost(h.usage, rates).total.toFixed(4)) }));
 
-  const inputs: MfgInputs = { material: mat, partVolumeCm3: c.partVolumeCm3, stockVolumeCm3: c.stockVolumeCm3, holes: c.holeCount, features: c.featureCount };
-  const breaks = quantityBreaks(inputs, mfg);
-  const one = breaks[0];
-  const stack = breaks.map((b) => ({
-    qty: `qty ${b.qty}`,
-    Material: Number(b.material.toFixed(2)),
-    Machining: Number(b.machining.toFixed(2)),
-    Setup: Number(b.setupPerUnit.toFixed(2)),
-    "Finish + inspect": Number((b.finishing + b.inspection).toFixed(2)),
-    "Overhead + margin": Number((b.overhead + b.margin).toFixed(2)),
-  }));
-  const r = roi(rc.perPart, roiA);
+  // DEFERRED (manufacturing estimate and ROI):
+  // const inputs: MfgInputs = { material: mat, partVolumeCm3: c.partVolumeCm3, stockVolumeCm3: c.stockVolumeCm3, holes: c.holeCount, features: c.featureCount };
+  // const breaks = quantityBreaks(inputs, mfg);
+  // const one = breaks[0];
+  // const stack = breaks.map((b) => ({
+  //   qty: `qty ${b.qty}`,
+  //   Material: Number(b.material.toFixed(2)),
+  //   Machining: Number(b.machining.toFixed(2)),
+  //   Setup: Number(b.setupPerUnit.toFixed(2)),
+  //   "Finish + inspect": Number((b.finishing + b.inspection).toFixed(2)),
+  //   "Overhead + margin": Number((b.overhead + b.margin).toFixed(2)),
+  // }));
+  // const r = roi(rc.perPart, roiA);
 
   return (
     <div className="flex flex-col gap-4 p-3">
@@ -182,7 +173,9 @@ export default function CostTab({ projectId }: { projectId: string }) {
         </div>
       </Panel>
 
-      {/* ---------------- B */}
+      {/* DEFERRED (no manufacturing scope yet): Part manufacturing estimate (B) and Automation ROI (C).
+         The math stays in lib/cost and is unit-tested. To restore, uncomment this block and the lines marked DEFERRED above.
+      
       <Panel icon={<Factory />} letter="B" title="Part manufacturing estimate" tag={<><Stamp tone="warn">Estimate</Stamp>{c.isSample && <SampleBadge />}</>}>
         <div className="grid gap-4 xl:grid-cols-[1fr_340px]">
           <div>
@@ -284,7 +277,7 @@ unit_cost     = (material_cost + machining_min / 60 * machine_rate + setup_cost 
         </div>
       </Panel>
 
-      {/* ---------------- C */}
+      
       <Panel icon={<TrendingUp />} letter="C" title="Automation ROI" tag={<Stamp tone="warn">Estimate</Stamp>}>
         <div className="grid gap-4 xl:grid-cols-[1fr_1fr]">
           <div>
@@ -334,6 +327,7 @@ unit_cost     = (material_cost + machining_min / 60 * machine_rate + setup_cost 
           </div>
         </div>
       </Panel>
+      */}
     </div>
   );
 }

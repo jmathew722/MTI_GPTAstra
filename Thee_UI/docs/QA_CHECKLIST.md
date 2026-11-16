@@ -1,4 +1,4 @@
-# QA CHECKLIST — Nebula CAD
+# QA CHECKLIST — 2D to 3D CAD
 
 Run the app (`cd Thee_UI/nebula-cad && npm run dev`, open http://localhost:3000). Mark each line PASS, FAIL (with what you saw) or N/A. A reviewer should check the running app and the code, not trust the docs.
 
@@ -26,8 +26,8 @@ Run the app (`cd Thee_UI/nebula-cad && npm run dev`, open http://localhost:3000)
 - [ ] C3 Validation: seven required checks; Passed/Failed/Warning/Not run; nothing is Passed without having run.
 - [ ] C4 A failed critical check blocks export until overridden with a recorded reason.
 - [ ] C5 Cost A: per-stage tokens, vision calls, retries, compute seconds, per part, per batch, trend, monthly, budget guardrail; ASSUMPTION notice until rates are confirmed.
-- [ ] C6 Cost B: material, machining, setup, finishing, inspection, overhead, margin; quantity breaks 1/10/100; ESTIMATE labels; formulas shown; densities 7.85 / 8.0 / 2.70 / 4.43.
-- [ ] C7 Cost C: ROI with visible assumptions, per part and cumulative.
+- [ ] C6 (DEFERRED, commented out in CostTab; no manufacturing scope) Cost B: material, machining, setup, finishing, inspection, overhead, margin; quantity breaks 1/10/100; ESTIMATE labels; formulas shown; densities 7.85 / 8.0 / 2.70 / 4.43.
+- [ ] C7 (DEFERRED, commented out in CostTab) Cost C: ROI with visible assumptions, per part and cumulative.
 - [ ] C8 Logs: virtualized, level filter, search, copy, follow-tail; sample logs labeled.
 - [ ] C9 Rubric: seven criteria, weights editable and must sum to 100, four level descriptors + 0, evidence links, comments, total, band, release status.
 - [ ] C10 Rubric hard-fail cap shows with its reason; override needs a reason; sign-off records name and time; templates save/load/duplicate; history; PDF and JSON export.

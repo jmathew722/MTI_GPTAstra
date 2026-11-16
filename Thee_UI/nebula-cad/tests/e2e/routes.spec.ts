@@ -69,8 +69,8 @@ test("workspace tabs: all six switch and are keyboard operable", async ({ page }
   await expect(panel.getByText("Export is allowed.")).toBeVisible();
   await tabs.getByRole("tab", { name: /Cost/ }).click();
   await expect(panel.getByText("Pipeline run cost (AI and compute)")).toBeVisible();
-  await expect(panel.getByText("Part manufacturing estimate")).toBeVisible();
-  await expect(panel.getByText("Automation ROI")).toBeVisible();
+  await expect(panel.getByText("Part manufacturing estimate")).toHaveCount(0); // deferred
+  await expect(panel.getByText("Automation ROI")).toHaveCount(0); // deferred
   await tabs.getByRole("tab", { name: /Logs/ }).click();
   await expect(panel.getByRole("log")).toBeVisible();
   await tabs.getByRole("tab", { name: /Rubric/ }).click();

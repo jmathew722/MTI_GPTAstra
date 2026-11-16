@@ -1,4 +1,4 @@
-# DESIGN SPEC — Nebula CAD
+# DESIGN SPEC — 2D to 3D CAD
 
 Visual identity comes from `CLAUDE_NEBULA_PRIME.md`. Semantics for pipeline state, stamps and numerals come from `DESIGN.md` (see ARCHITECTURE D3). Tokens live in `nebula-cad/app/globals.css`; motion tokens in `nebula-cad/lib/motion/index.ts`.
 

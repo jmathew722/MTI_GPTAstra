@@ -1,4 +1,4 @@
-# Nebula CAD
+# 2D to 3D CAD
 
 Front end for the MTI 2D drawing to SolidWorks part pipeline. See `../docs/` for architecture, design spec, API contract and QA checklist.
 

@@ -1,4 +1,4 @@
-# ARCHITECTURE — Nebula CAD
+# ARCHITECTURE — 2D to 3D CAD
 
 Front end for the MTI 2D drawing → SolidWorks part pipeline. The app lives in `Thee_UI/nebula-cad/`. This document is enough to rebuild the UI together with `DESIGN_SPEC.md` and `API_CONTRACT.md`.
 

@@ -44,7 +44,7 @@ export default function WelcomePage() {
     <div className="mx-auto flex max-w-6xl flex-col gap-24 px-4 pb-24 sm:px-6">
       <header className="flex items-center gap-3 py-5">
         <Logo />
-        <span className="text-lg font-semibold tracking-[0.22em]">NEBULA <span className="text-gold">CAD</span></span>
+        <span className="text-lg font-semibold tracking-[0.22em]">2D TO 3D <span className="text-gold">CAD</span></span>
         <Link href="/dashboard" className="btn btn-outline ml-auto">Open the app <ArrowRight className="size-4" aria-hidden /></Link>
       </header>
 
@@ -58,7 +58,7 @@ export default function WelcomePage() {
               From drawings to <span className="bg-gradient-to-b from-[#F5E6CB] to-[#D6AF6B] bg-clip-text text-transparent">CAD</span>, with the mistakes in plain sight.
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-7 text-text/85">
-              An AI pipeline turns a scanned 2D drawing into a SolidWorks part. Nebula CAD is where an engineer checks that the part is right before anyone trusts it.
+              An AI pipeline turns a scanned 2D drawing into a SolidWorks part. 2D to 3D CAD is where an engineer checks that the part is right before anyone trusts it.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/automation" className="btn btn-lg btn-primary"><Play className="size-4 fill-current" aria-hidden /> Generate CAD</Link>

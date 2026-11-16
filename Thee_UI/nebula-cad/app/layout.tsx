@@ -8,7 +8,7 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "sw
 const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
-  title: { default: "Nebula CAD", template: "%s · Nebula CAD" },
+  title: { default: "2D to 3D CAD", template: "%s · 2D to 3D CAD" },
   description: "From 2D drawings to verified SolidWorks parts: extraction review, validation, cost and grading.",
 };
 

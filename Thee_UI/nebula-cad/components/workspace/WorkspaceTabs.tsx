@@ -11,7 +11,7 @@ import { FeaturesTab, LogsTab, ParametersTab, ValidationTab } from "./tabs";
 import { useRubricResult } from "@/components/rubric/RubricTab";
 import { CardHeader, EmptyState, Glass, Modal, Stamp, TableSkeleton } from "@/components/shared";
 import { useBuildPlan, useCloneProject, useCost, useExports, useExtraction, useProject, useRecordExport, useRubricScore, useValidation } from "@/lib/api/hooks";
-import { formatUsd, quantityBreaks, runCost } from "@/lib/cost";
+import { formatUsd, runCost } from "@/lib/cost";
 import { downloadBlob, downloadJson, downloadUrl } from "@/lib/format";
 import { spring, tabContent } from "@/lib/motion";
 import type { ExportArtifact } from "@/lib/schemas";
@@ -166,7 +166,7 @@ export function ExportCenter({ projectId }: { projectId: string }) {
   const { data: score } = useRubricScore(projectId);
   const { result, template } = useRubricResult(projectId);
   const rates = useSettings((s) => s.pipelineRates);
-  const mfg = useSettings((s) => s.mfgRates);
+  // DEFERRED (manufacturing estimate): const mfg = useSettings((s) => s.mfgRates);
   const rec = useRecordExport(projectId);
   const [busy, setBusy] = React.useState<string | null>(null);
   const gate = exportGate(checks ?? []);
@@ -202,13 +202,13 @@ export function ExportCenter({ projectId }: { projectId: string }) {
         if (!rub || !project) throw new Error("The report is still loading. Try again in a moment.");
         const { renderReportPdf } = await import("@/lib/report/pdf");
         const rc = cost ? runCost(cost.stages, rates, cost.batchSize) : null;
-        const breaks = cost ? quantityBreaks({ material: project.material, partVolumeCm3: cost.partVolumeCm3, stockVolumeCm3: cost.stockVolumeCm3, holes: cost.holeCount, features: cost.featureCount }, mfg) : [];
+        // DEFERRED (manufacturing estimate): unit-cost quantity breaks are not part of the report yet.
         downloadBlob(
           await renderReportPdf({
             rubric: rub,
             checks: checks ?? [],
             plan: plan ?? null,
-            cost: rc ? { perPart: formatUsd(rc.perPart, 4), perBatch: formatUsd(rc.perBatch, 2), unitCosts: breaks.map((b) => ({ qty: b.qty, unit: formatUsd(b.unitCost, 2) })), ratesConfirmed: rates.confirmed } : null,
+            cost: rc ? { perPart: formatUsd(rc.perPart, 4), perBatch: formatUsd(rc.perBatch, 2), ratesConfirmed: rates.confirmed } : null,
             sample: project.isSample,
           }),
           a.fileName,

@@ -100,7 +100,7 @@ export async function renderRubricPdf(d: RubricExport, sample = true): Promise<B
       <Page size="A4" style={s.page}>
         <Header d={d} title="Part grading rubric" sample={sample} />
         <RubricSection d={d} />
-        <Text style={s.note}>Generated in the browser by Nebula CAD. Automatic criteria are computed from validation checks; a check that did not run scores 0.</Text>
+        <Text style={s.note}>Generated in the browser by 2D to 3D CAD. Automatic criteria are computed from validation checks; a check that did not run scores 0.</Text>
       </Page>
     </Document>,
   ).toBlob();
@@ -110,7 +110,7 @@ export interface ReportExport {
   rubric: RubricExport;
   checks: ValidationCheck[];
   plan: BuildPlan | null;
-  cost: { perPart: string; perBatch: string; unitCosts: { qty: number; unit: string }[]; ratesConfirmed: boolean } | null;
+  cost: { perPart: string; perBatch: string; ratesConfirmed: boolean } | null;
   sample: boolean;
 }
 
@@ -168,14 +168,13 @@ export async function renderReportPdf(r: ReportExport): Promise<Blob> {
         <Text style={s.h2}>Cost</Text>
         {r.cost ? (
           <Text>
-            Pipeline run: {r.cost.perPart} per part, {r.cost.perBatch} per batch{r.cost.ratesConfirmed ? "" : " (ASSUMPTION: rates not verified against provider pricing)"}. Manufacturing ESTIMATE per unit:{" "}
-            {r.cost.unitCosts.map((u) => `qty ${u.qty} ${u.unit}`).join(", ")}.
+            Pipeline run: {r.cost.perPart} per part, {r.cost.perBatch} per batch{r.cost.ratesConfirmed ? "" : " (ASSUMPTION: rates not verified against provider pricing)"}.
           </Text>
         ) : (
           <Text>No cost data.</Text>
         )}
         <RubricSection d={r.rubric} />
-        <Text style={s.note}>Generated in the browser by Nebula CAD.</Text>
+        <Text style={s.note}>Generated in the browser by 2D to 3D CAD.</Text>
       </Page>
     </Document>,
   ).toBlob();

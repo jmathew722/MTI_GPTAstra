@@ -158,23 +158,19 @@ function Materials() {
           ))}
         </tbody>
       </table>
-      <p className="mt-3 text-xs leading-5 text-muted-foreground">Densities are physical constants. Prices and removal rates are ESTIMATE assumptions; edit them in <Link href="/settings#mfg" className="text-gold underline">Settings</Link>.</p>
+      <p className="mt-3 text-xs leading-5 text-muted-foreground">Densities are physical constants. Prices and removal rates are reference values for a future manufacturing estimate and are not used by any calculation in this version.</p>
     </div>
   );
 }
 
 function Rates() {
   const r = useSettings((s) => s.pipelineRates);
-  const m = useSettings((s) => s.mfgRates);
   const rows: [string, string][] = [
     ["Input tokens", `${formatUsd(r.inputPerMTok, 2)} per 1M`],
     ["Output tokens", `${formatUsd(r.outputPerMTok, 2)} per 1M`],
     ["Vision call", formatUsd(r.perVisionCall, 4)],
     ["Compute", `${formatUsd(r.computePerHour, 2)} per hour`],
-    ["Machine rate", `${formatUsd(m.machineRatePerHour, 2)} per hour`],
-    ["Setup", formatUsd(m.setupCost, 2)],
-    ["Finishing / inspection", `${formatUsd(m.finishing, 2)} / ${formatUsd(m.inspection, 2)} per unit`],
-    ["Overhead / margin", `${(m.overhead * 100).toFixed(0)}% / ${(m.margin * 100).toFixed(0)}%`],
+    // DEFERRED (manufacturing estimate): machine rate, setup, finishing, inspection, overhead, margin.
   ];
   return (
     <div>
@@ -206,7 +202,7 @@ export default function LibraryPage() {
           { value: "presets", label: "Parameter presets" },
           { value: "templates", label: "Rubric templates" },
           { value: "materials", label: "Materials" },
-          { value: "rates", label: "Rate cards" },
+          { value: "rates", label: "Rate card" },
         ]}
       />
       <Glass flat className="p-5">
