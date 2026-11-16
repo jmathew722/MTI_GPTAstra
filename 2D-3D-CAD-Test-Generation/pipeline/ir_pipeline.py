@@ -124,6 +124,7 @@ class IRResult:
     cq_skipped: dict = field(default_factory=dict)
     sw_ok: Optional[bool] = None
     sldprt: str = ""
+    stl: str = ""                                           # STL copy of the .sldprt ("" = not exported)
     sw_features: dict = field(default_factory=dict)
     conventions: list[str] = field(default_factory=list)
     mti_review: list[str] = field(default_factory=list)     # advisory MTI modeling-practice findings    # MTI modeling conventions applied / fallen back
@@ -188,6 +189,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
             from pipeline.ir.compile_solidworks import compile_solidworks
             rep = compile_solidworks(sw_app, plan, dims, cq.feature_map, out, template, pmap)
             res.sw_ok, res.sldprt = rep.ok, rep.sldprt or ""
+            res.stl = rep.stl or ""
             res.conventions = [f"origin centered: {rep.origin_ok}"] + rep.conventions
             res.sw_features = {f.fid: f.status + (f" ({f.note})" if f.note else "") for f in rep.features}
     except Exception as e:

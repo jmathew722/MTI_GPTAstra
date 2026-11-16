@@ -337,6 +337,8 @@ def _run_ir(args) -> int:
     console.print(f"Reference STEP: {r.reference_step}")
     if r.sldprt:
         console.print(f"SolidWorks part: {r.sldprt}")
+    if r.stl:
+        console.print(f"STL copy: {r.stl}")
     return 0 if (r.gate1 == "OK" and r.sw_ok is not False and not r.error) else 7
 
 

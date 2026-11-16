@@ -1,0 +1,10 @@
+# The repo root ignores lib/, parts/, build/ (Python). The UI needs them.
+!lib/
+!**/lib/
+!parts/
+!build/
+nebula-cad/node_modules/
+nebula-cad/.next/
+nebula-cad/test-results/
+nebula-cad/playwright-report/
+.env*

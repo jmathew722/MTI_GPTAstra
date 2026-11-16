@@ -1049,6 +1049,31 @@ def save_model(sw_doc, name: str, output_dir: Optional[Path] = None) -> str:
     return str(path)
 
 
+def export_stl(sw_doc, sldprt_path) -> Optional[str]:
+    """Export the saved part as an STL next to its .sldprt; return the path, or None.
+
+    Call it right after ``save_model``. The STL is a viewing copy (web viewer, mesh
+    checks), so a failed export is logged and never fails the build: the .sldprt is
+    the deliverable. ``SaveAs3`` with a foreign extension exports a copy and leaves
+    the open document pointing at the .sldprt (the same pattern as the STEP export
+    in ``rebuild_from_json.py``). A stale STL from an earlier run is removed first,
+    so a file on disk afterwards always belongs to this build.
+    """
+    stl = Path(sldprt_path).with_suffix(".stl").resolve()
+    try:
+        if stl.exists():
+            stl.unlink()
+        sw_doc.SaveAs3(str(stl), 0, 1)
+    except Exception as e:
+        log.warning("STL export failed for %s: %s", stl, e)
+        return None
+    if not stl.exists() or stl.stat().st_size == 0:
+        log.warning("STL export wrote no file: %s", stl)
+        return None
+    log.info("Saved STL: %s", stl)
+    return str(stl)
+
+
 def build_model(
     sw_app,
     drawing_data: Union[DrawingData, dict[str, Any]],
@@ -1168,4 +1193,5 @@ def build_model(
         raise SolidWorksError("Build produced no solid body (all body-creating features were skipped).")
 
     output_path = save_model(sw_doc, model.part_name or "output_part", output_dir)
+    export_stl(sw_doc, output_path)   # <part>.stl beside the .sldprt (best effort)
     return output_path, sw_doc

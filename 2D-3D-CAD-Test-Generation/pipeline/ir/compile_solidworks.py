@@ -175,6 +175,7 @@ class SwBuildReport:
     part: str
     sldprt: Optional[str]
     features: list[SwFeatureResult] = field(default_factory=list)
+    stl: Optional[str] = None          # <part>_ir.stl beside the .sldprt (None = export failed)
     bbox_ok: Optional[bool] = None
     volume_ok: Optional[bool] = None
     convention: str = "drawing"
@@ -1373,7 +1374,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
     called after each feature (live demos). The part is closed after it is saved unless
     ``keep_open``: a batch that leaves every part open stops SolidWorks creating new ones
     (86 open parts: NewDocument returned None; error log E024)."""
-    from pipeline.solidworks_builder import _close_open_sketch, save_model
+    from pipeline.solidworks_builder import _close_open_sketch, export_stl, save_model
 
     if convention not in CONVENTIONS:
         raise ValueError(f"convention must be one of {CONVENTIONS}")
@@ -1446,6 +1447,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         sw.report.bbox_ok = all(abs(a - b) <= 1e-4 * max(1.0, b) for a, b in zip(ext, ref))
     sw.doc.SketchManager.AddToDB = False   # hand the part back with normal sketch behaviour
     sw.report.sldprt = save_model(sw.doc, f"{plan.part}_ir", out_dir)
+    sw.report.stl = export_stl(sw.doc, sw.report.sldprt)   # viewing copy beside the .sldprt
     try:  # an isometric picture for review (best effort)
         sw.doc.ShowNamedView2("*Isometric", 7)
         sw.doc.ViewZoomtofit2()
