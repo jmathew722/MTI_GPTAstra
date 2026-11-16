@@ -65,7 +65,7 @@ export default function DocsPage() {
             ))}
           </ul>
         </nav>
-        <Glass flat as="section" className="flex max-w-[86ch] flex-col gap-4 p-6 text-sm leading-6 text-text/90">
+        <Glass flat as="section" className="flex w-full flex-col gap-4 p-6 text-sm leading-6 text-text/90 xl:p-8">
           <H id="scope">1. Scope</H>
           <p>
             This application is the operator interface for a pipeline that converts a two-dimensional engineering drawing into a SolidWorks part. It presents the extracted data, the generated model and the verification results, and it records the review decisions of the operator. It does not perform extraction or modeling itself; those operations are performed by the pipeline service.
