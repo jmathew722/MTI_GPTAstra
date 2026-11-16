@@ -454,5 +454,7 @@ export const StartRunInput = z.object({
   units: Units,
   preset: z.string(),
   sampleKey: z.string().optional(),
+  /** number of files (views) that make up this part; a part is one drawing sheet or one folder of per-view images */
+  viewCount: z.number().int().optional(),
 });
 export type StartRunInput = z.infer<typeof StartRunInput>;

@@ -6,6 +6,7 @@ import { Check, ChevronRight, ClipboardList, Download, GitCompare, History, Mess
 import { ConfidenceBar, EmptyState, ErrorState, Glass, Modal, RelTime, SampleBadge, Segmented, Stamp, StatusStamp, TableSkeleton } from "@/components/shared";
 import { useAddComment, useAudit, useBuildPlan, useComments, useExtraction, useRecordExport, useResolveComment, useReviewItem, useRevisions } from "@/lib/api/hooks";
 import { downloadJson, fmtNum } from "@/lib/format";
+import { Collapse } from "@/components/shared/motion";
 import { rowVariants } from "@/lib/motion";
 import type { BuildOperation, ExtractionItem, Revision } from "@/lib/schemas";
 import { useSelection, useUi, type ReviewTab } from "@/lib/store";
@@ -192,7 +193,7 @@ export function OperationRow({ op, child }: { op: BuildOperation; child?: boolea
         <span className="hidden text-[10px] uppercase tracking-wider text-faint sm:inline">{op.type}</span>
         <StatusStamp status={op.status} />
       </div>
-      {open && (
+      <Collapse open={open}>
         <div className="border-t border-line/40 px-3 py-2">
           <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-xs">
             {Object.entries(op.params).map(([k, v]) => (
@@ -206,7 +207,7 @@ export function OperationRow({ op, child }: { op: BuildOperation; child?: boolea
           </dl>
           {op.note && <p className="mt-2 rounded-md bg-warn/10 px-2 py-1.5 text-xs leading-5 text-[#ffd4ab]">{op.note}</p>}
         </div>
-      )}
+      </Collapse>
     </li>
   );
 }

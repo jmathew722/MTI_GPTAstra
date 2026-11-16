@@ -8,6 +8,7 @@ import { ContextRailContent } from "./ContextRail";
 import { Sidebar, TopNav } from "./Navigation";
 import { CommandPalette, NavDrawer, NotificationCenter, OnboardingTour, RailSheet, ShortcutsDialog } from "./Overlays";
 import { useIntro } from "./Providers";
+import { PointerGlow } from "@/components/shared/motion";
 import { fade } from "@/lib/motion";
 import { WORKSPACE_TABS, useSelection, useUi } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -28,7 +29,8 @@ function useGlobalShortcuts() {
         return;
       }
       if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
-      if (document.querySelector('[role="dialog"]')) return;
+      // ignore while a dialog is open (closing dialogs may linger in the DOM during their exit animation)
+      if (document.querySelector('[role="dialog"][data-open]')) return;
       const key = e.key.toLowerCase();
       if (Date.now() - g < 900 && GO[key]) {
         g = 0;
@@ -97,6 +99,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </motion.aside>
         </div>
       </div>
+      <PointerGlow />
       <CommandPalette />
       <ShortcutsDialog />
       <NotificationCenter />

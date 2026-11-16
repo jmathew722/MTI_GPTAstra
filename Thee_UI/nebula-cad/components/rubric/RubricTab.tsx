@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Award, Copy, Download, FileText, Link2, Lock, PenLine, Save, ShieldAlert, Trash2 } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { EmptyState, ErrorState, Modal, RelTime, Stamp, StatusStamp, TableSkeleton } from "@/components/shared";
 import {
@@ -18,6 +19,7 @@ import {
   useTemplates,
   useValidation,
 } from "@/lib/api/hooks";
+import { AnimatedNumber } from "@/components/shared/motion";
 import { downloadBlob, downloadJson } from "@/lib/format";
 import { DEFAULT_TEMPLATE, LEVEL_NAMES, RELEASE_LABEL, scoreRubric, weightSum, type RubricResult, type ScoredCriterion } from "@/lib/rubric";
 import type { RubricEntry, RubricTemplate } from "@/lib/schemas";
@@ -213,6 +215,7 @@ export default function RubricTab({ projectId }: { projectId: string }) {
   const signOff = useSignOff(projectId);
   const del = useDeleteTemplate();
   const rec = useRecordExport(projectId);
+  const qc = useQueryClient();
   const reviewer = useSettings((s) => s.reviewerName);
   const [editing, setEditing] = React.useState(false);
   const [overriding, setOverriding] = React.useState(false);
@@ -226,10 +229,15 @@ export default function RubricTab({ projectId }: { projectId: string }) {
     return <EmptyState icon={<Award />} title="Nothing to grade yet" body="The rubric grades a generated part against its drawing. This project has no validation results, so every automatic criterion would be Missing." />;
 
   const setEntry = (key: string, patch: Partial<RubricEntry>) => {
+    // Read the newest entries from the cache at call time, and write the result back at once, so two quick
+    // edits cannot overwrite each other with a stale copy.
+    const cacheKey = ["project", projectId, "rubric"] as const;
+    const current = qc.getQueryData<typeof score>(cacheKey) ?? score;
     const entries = template.criteria.map((c) => {
-      const e = score.entries.find((x) => x.criterionKey === c.key) ?? { criterionKey: c.key, level: null, comment: "" };
+      const e = current.entries.find((x) => x.criterionKey === c.key) ?? { criterionKey: c.key, level: null, comment: "" };
       return c.key === key ? { ...e, ...patch } : e;
     });
+    qc.setQueryData(cacheKey, { ...current, entries });
     save.mutate({ entries });
   };
   const exportData = () => ({
@@ -296,7 +304,7 @@ export default function RubricTab({ projectId }: { projectId: string }) {
             <div>
               <div className="eyebrow">Total score</div>
               <div className="num text-[40px] font-semibold leading-[44px] text-text">
-                {result.total.toFixed(1)}
+                <AnimatedNumber value={result.total} format={(n) => n.toFixed(1)} />
                 <span className="text-base font-normal text-muted-foreground"> / 100</span>
               </div>
             </div>
@@ -305,7 +313,7 @@ export default function RubricTab({ projectId }: { projectId: string }) {
             </Stamp>
           </div>
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-surface-raised" aria-hidden>
-            <div className={cn("h-full rounded-full", result.total >= 80 ? "bg-success" : result.total >= 70 ? "bg-warn" : "bg-danger")} style={{ width: `${result.total}%` }} />
+            <div className={cn("h-full rounded-full transition-[width,background-color] duration-500", result.total >= 80 ? "bg-success" : result.total >= 70 ? "bg-warn" : "bg-danger")} style={{ width: `${result.total}%` }} />
           </div>
           <div className="mt-3 flex items-center justify-between">
             <span className="text-[13px] text-muted-foreground">Release status</span>

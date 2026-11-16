@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FolderOpen, Play } from "lucide-react";
 import { FilterBar, ProjectCard, ProjectRow } from "./index";
 import { EmptyState, ErrorState, Glass, PageHeader, Skel } from "@/components/shared";
+import { StaggerItem, StaggerList } from "@/components/shared/motion";
 import { IS_MOCK } from "@/lib/api";
 import { useProjects } from "@/lib/api/hooks";
 import type { ProjectStatus } from "@/lib/schemas";
@@ -56,9 +57,13 @@ export function ProjectsView({ mode }: { mode: "projects" | "models" }) {
           />
         </Glass>
       ) : view === "grid" ? (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {rows.map((p) => <ProjectCard key={p.id} p={p} detail={models} />)}
-        </div>
+        <StaggerList key={`${filter}-${query}`} className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {rows.map((p) => (
+            <StaggerItem key={p.id}>
+              <ProjectCard p={p} detail={models} />
+            </StaggerItem>
+          ))}
+        </StaggerList>
       ) : (
         <Glass flat className="overflow-x-auto p-1">
           <table className="dtable min-w-[820px]">

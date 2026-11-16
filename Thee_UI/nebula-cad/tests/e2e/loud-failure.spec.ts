@@ -11,8 +11,8 @@ test("loud failure: 10 holes on the drawing, 8 extracted", async ({ page }) => {
   await page.getByRole("button", { name: "Next" }).click();
   await page.getByLabel("Project name").fill("E2E_Flange");
   await page.getByRole("button", { name: "Next" }).click();
-  await expect(page.getByText("Estimate, built on assumptions")).toBeVisible();
-  await page.getByRole("button", { name: /Run 1 drawing/ }).click();
+  await expect(page.getByText("Estimate based on assumptions")).toBeVisible();
+  await page.getByRole("button", { name: /Run 1 part/ }).click();
   await expect(page.getByText("Simulated run").first()).toBeVisible();
   await expect(page.getByRole("button", { name: "Re-run" })).toBeVisible({ timeout: 30_000 }); // shown once the run is no longer live
   await page.getByRole("link", { name: /Open project/ }).click();
@@ -78,8 +78,8 @@ test("a user's own upload is never given a fabricated extraction", async ({ page
   await page.getByLabel("Drawing files").setInputFiles({ name: "my_part.pdf", mimeType: "application/pdf", buffer: Buffer.from("%PDF-1.4\n%%EOF\n") });
   await page.getByRole("button", { name: "Next" }).click();
   await page.getByRole("button", { name: "Next" }).click();
-  await expect(page.getByText(/will not be processed/)).toBeVisible();
-  await page.getByRole("button", { name: /Run 1 drawing/ }).click();
+  await expect(page.getByText(/they are not processed/)).toBeVisible();
+  await page.getByRole("button", { name: /Run 1 part/ }).click();
   await page.getByRole("link", { name: /Open project/ }).click();
   await expect(page.getByText("No extraction for this project")).toBeVisible();
   await page.getByRole("tablist", { name: "Workspace tabs" }).getByRole("tab", { name: /Validation/ }).click();
@@ -108,7 +108,7 @@ test("approving an item raises no console error, and a project with no model say
   await page.getByLabel("Drawing files").setInputFiles({ name: "nomodel.pdf", mimeType: "application/pdf", buffer: Buffer.from("%PDF-1.4\n%%EOF\n") });
   await page.getByRole("button", { name: "Next" }).click();
   await page.getByRole("button", { name: "Next" }).click();
-  await page.getByRole("button", { name: /Run 1 drawing/ }).click();
+  await page.getByRole("button", { name: /Run 1 part/ }).click();
   await page.getByRole("link", { name: /Open project/ }).click();
   await expect(page.getByText("Static preview")).toBeVisible();
 });

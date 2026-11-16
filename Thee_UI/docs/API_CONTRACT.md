@@ -146,8 +146,9 @@ Kpis           { modelsGenerated, validationRate /* 0..1, checks that ran and pa
 4. **Every reviewer action writes an `AuditEvent`.**
 5. **Regions and registration.** Each `ExtractionItem.region` is the item's source box on the drawing page. `Drawing.registration` (optional) lets the UI draw the modeled outline on the front view; omit it when unknown.
 6. **Model files.** `modelUrl` serves the STL. The pipeline now writes `<Part>.stl` beside every `.sldprt` (`pipeline/solidworks_builder.py::export_stl`), so this is always available after a successful COM build. `stepUrl` is optional.
-7. **Uploads.** `POST /runs` accepts PDF, PNG, JPG, DXF, DWG; reject anything else and anything over 50 MB with a `4xx`.
-8. **Costs are raw usage, not dollars.** The backend returns tokens, vision calls and compute seconds. The UI prices them with rates from Settings so the assumption stays visible and editable. If the backend has authoritative billed cost, add `billedUsd` per stage; the UI will show it instead and label it "billed".
+7. **Parts and batches.** One `POST /runs` request processes exactly one part. A part is either a single drawing file or the files of one folder of per-view images (the pipeline's `--views-folder` layout: front, side, top, and an optional `full` / `overview` sheet), sent as repeated `files` fields with `options.viewCount` set. For a folder of parts the UI sends one request per part, in order, and tracks each run. The service processes runs one at a time and reports a waiting run as `queued` with `etaSeconds`.
+8. **Uploads.** `POST /runs` accepts PDF, PNG, JPG, DXF, DWG; reject anything else and anything over 50 MB with a `4xx`.
+9. **Costs are raw usage, not dollars.** The backend returns tokens, vision calls and compute seconds. The UI prices them with rates from Settings so the assumption stays visible and editable. If the backend has authoritative billed cost, add `billedUsd` per stage; the UI will show it instead and label it "billed".
 
 ## Mapping to the current pipeline artifacts (`2D-3D-CAD-Test-Generation/`)
 

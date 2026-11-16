@@ -161,10 +161,10 @@ export function KpiRow() {
   const k = q.data;
   const cards = k
     ? [
-        { icon: <Box />, label: "Models Generated", value: k.modelsGenerated, format: fInt, trend: k.trends.modelsGenerated, tone: "" },
-        { icon: <ShieldCheck />, label: "Validation Rate", value: k.validationRate, format: fPct, trend: k.trends.validationRate, tone: k.validationRate < 0.95 ? "text-warn" : "", hint: "checks that ran and passed" },
-        { icon: <Zap />, label: "Avg. Build Time", value: k.avgBuildSeconds, format: fmtSeconds, trend: k.trends.avgBuildSeconds, tone: "" },
-        { icon: <Layers />, label: "Pipeline Errors", value: k.pipelineErrors, format: fInt, trend: k.trends.pipelineErrors, tone: k.pipelineErrors > 0 ? "text-danger" : "" },
+        { icon: <Box />, label: "Models Generated", href: "/models", value: k.modelsGenerated, format: fInt, trend: k.trends.modelsGenerated, tone: "" },
+        { icon: <ShieldCheck />, label: "Validation Rate", href: "/projects", value: k.validationRate, format: fPct, trend: k.trends.validationRate, tone: k.validationRate < 0.95 ? "text-warn" : "", hint: "checks that ran and passed" },
+        { icon: <Zap />, label: "Avg. Build Time", href: "/pipelines", value: k.avgBuildSeconds, format: fmtSeconds, trend: k.trends.avgBuildSeconds, tone: "" },
+        { icon: <Layers />, label: "Pipeline Errors", href: "/pipelines", value: k.pipelineErrors, format: fInt, trend: k.trends.pipelineErrors, tone: k.pipelineErrors > 0 ? "text-danger" : "" },
       ]
     : [];
   return (
@@ -180,7 +180,8 @@ export function KpiRow() {
       {!k
         ? [0, 1, 2, 3].map((i) => <Skel key={i} className="h-[92px] rounded-2xl" />)
         : cards.map((c) => (
-            <motion.div key={c.label} variants={fadeUp} className="glass-flat lift relative overflow-hidden p-4" title={c.hint}>
+            <motion.div key={c.label} variants={fadeUp} className="glass-flat lift relative overflow-hidden" title={c.hint}>
+              <Link href={c.href} className="block p-4">
               <Sparkline data={c.trend} className="absolute bottom-0 right-0 h-9 w-[38%] opacity-80" />
               <div className="relative flex items-center gap-3">
                 <span className="text-gold [&_svg]:size-7 [&_svg]:stroke-[1.6]">{c.icon}</span>
@@ -189,6 +190,7 @@ export function KpiRow() {
                   <div className="truncate text-xs text-muted-foreground">{c.label}</div>
                 </div>
               </div>
+              </Link>
             </motion.div>
           ))}
     </motion.div>

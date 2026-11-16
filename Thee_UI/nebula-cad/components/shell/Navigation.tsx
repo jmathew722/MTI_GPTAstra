@@ -130,7 +130,7 @@ export function TopNav() {
           aria-label={unread ? `Notifications, ${unread} unread` : "Notifications"}
           onClick={() => set({ notificationsOpen: true })}
         >
-          <Bell className="size-5" aria-hidden />
+          <Bell key={unread} className={cn("size-5", unread > 0 && "bell-ring")} aria-hidden />
           {unread > 0 && <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-gold shadow-[0_0_8px_rgba(214,175,107,.9)]" aria-hidden />}
         </button>
         <button

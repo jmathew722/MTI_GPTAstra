@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { RotateCcw, Save } from "lucide-react";
 import { DemoTag, Field, Glass, PageHeader, SampleBadge, Segmented, Stamp } from "@/components/shared";
+import { Reveal } from "@/components/shared/motion";
 import { API_BASE_URL, API_MODE, IS_MOCK } from "@/lib/api";
 import { useResetSampleData } from "@/lib/api/hooks";
 import { DENSITY_G_CM3, MATERIAL_LABEL, type MfgRates, type PipelineRates } from "@/lib/cost";
@@ -22,13 +23,15 @@ interface RatesForm {
 
 function Section({ id, title, children, tag }: { id: string; title: string; children: React.ReactNode; tag?: React.ReactNode }) {
   return (
-    <Glass flat as="section" id={id} className="scroll-mt-24 p-5" aria-label={title}>
-      <div className="mb-4 flex items-center gap-2">
-        <h2 className="text-base font-semibold">{title}</h2>
-        {tag}
-      </div>
-      {children}
-    </Glass>
+    <Reveal>
+      <Glass flat as="section" id={id} className="scroll-mt-24 p-5" aria-label={title}>
+        <div className="mb-4 flex items-center gap-2">
+          <h2 className="text-base font-semibold">{title}</h2>
+          {tag}
+        </div>
+        {children}
+      </Glass>
+    </Reveal>
   );
 }
 

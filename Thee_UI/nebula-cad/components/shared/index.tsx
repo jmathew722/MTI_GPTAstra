@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { AlertTriangle, Check, Circle, CircleDashed, FlaskConical, Loader2, RefreshCw, WifiOff, X } from "lucide-react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { absTime, relTime } from "@/lib/format";
 import { confidenceBand } from "@/lib/validation";
@@ -113,9 +114,11 @@ const STATUS: Record<string, { tone: StampTone; label: string; icon: React.React
 export function StatusStamp({ status, className, label }: { status: string; className?: string; label?: string }) {
   const s = STATUS[status] ?? { tone: "muted" as StampTone, label: status, icon: null };
   return (
-    <Stamp tone={s.tone} icon={s.icon} className={className}>
-      {label ?? s.label}
-    </Stamp>
+    <motion.span key={status} initial={{ scale: 0.82, opacity: 0.4 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 500, damping: 22 }} className="inline-flex">
+      <Stamp tone={s.tone} icon={s.icon} className={className}>
+        {label ?? s.label}
+      </Stamp>
+    </motion.span>
   );
 }
 
@@ -296,6 +299,7 @@ export function Segmented<T extends string>({
   size?: "sm" | "md";
   className?: string;
 }) {
+  const pill = React.useId();
   return (
     <div role="radiogroup" aria-label={label} className={cn("inline-flex rounded-[10px] border border-line bg-bg/60 p-0.5", className)}>
       {options.map((o) => (
@@ -308,12 +312,13 @@ export function Segmented<T extends string>({
           title={o.title}
           onClick={() => onChange(o.value)}
           className={cn(
-            "rounded-lg px-2.5 font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-45",
+            "relative rounded-lg px-2.5 font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-45",
             size === "sm" ? "h-6 text-xs" : "h-7 text-[13px]",
-            value === o.value ? "bg-gold/15 text-gold-hi shadow-[inset_0_0_0_1px_rgba(214,175,107,.45)]" : "text-muted-foreground hover:text-text",
+            value === o.value ? "text-gold-hi" : "text-muted-foreground hover:text-text",
           )}
         >
-          {o.label}
+          {value === o.value && <motion.span layoutId={pill} className="absolute inset-0 rounded-lg bg-gold/15 shadow-[inset_0_0_0_1px_rgba(214,175,107,.45)]" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
+          <span className="relative">{o.label}</span>
         </button>
       ))}
     </div>

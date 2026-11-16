@@ -6,7 +6,9 @@ import { ChevronRight, Layers, Play, RefreshCw, X } from "lucide-react";
 import { FilterBar } from "@/components/lists";
 import { StageList } from "@/components/pipeline/PipelineTimeline";
 import { DemoTag, EmptyState, ErrorState, Glass, PageHeader, RelTime, StatusStamp, TableSkeleton } from "@/components/shared";
+import { motion } from "motion/react";
 import { IS_MOCK } from "@/lib/api";
+import { rowVariants } from "@/lib/motion";
 import { useCancelRun, useRetryRun, useRuns } from "@/lib/api/hooks";
 import { formatUsd, runCost } from "@/lib/cost";
 import { fmtDuration, fmtSeconds } from "@/lib/format";
@@ -33,7 +35,7 @@ function RunRow({ run }: { run: PipelineRun }) {
   const retries = run.stages.reduce((a, s) => a + s.attempts - 1, 0);
   return (
     <>
-      <tr className={cn(run.status === "failed" && "bg-danger/[0.06]")}>
+      <motion.tr variants={rowVariants} initial="hidden" animate="show" className={cn(run.status === "failed" && "bg-danger/[0.06]")}>
         <td>
           <button type="button" className="btn btn-icon btn-sm btn-quiet size-6" aria-expanded={open} aria-label={`${open ? "Hide" : "Show"} stages for ${run.id}`} onClick={() => setOpen((o) => !o)}>
             <ChevronRight className={cn("size-4 transition-transform", open && "rotate-90")} aria-hidden />
@@ -61,7 +63,7 @@ function RunRow({ run }: { run: PipelineRun }) {
             </button>
           )}
         </td>
-      </tr>
+      </motion.tr>
       {open && (
         <tr>
           <td colSpan={11} className="!h-auto bg-bg/40 !p-4">

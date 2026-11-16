@@ -254,6 +254,7 @@ html[data-density="compact"] {
 
 /* Interactive lift for cards */
 .lift {
+  position: relative;
   transition:
     transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.2s ease,
@@ -269,6 +270,32 @@ html[data-density="compact"] {
 }
 .lift:active {
   transform: translateY(0) scale(0.99);
+}
+/* pointer-following spotlight; --mx/--my are set by <PointerGlow/> */
+.lift::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(214, 175, 107, 0.11), transparent 70%);
+}
+.lift:hover::after {
+  opacity: 1;
+}
+@keyframes bell-ring {
+  0%, 100% { transform: rotate(0); }
+  15% { transform: rotate(14deg); }
+  30% { transform: rotate(-12deg); }
+  45% { transform: rotate(8deg); }
+  60% { transform: rotate(-5deg); }
+  75% { transform: rotate(2deg); }
+}
+.bell-ring {
+  transform-origin: 50% 10%;
+  animation: bell-ring 1.1s ease-in-out 1;
 }
 
 /* Typography helpers */

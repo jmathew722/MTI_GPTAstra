@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { OperationRow } from "@/components/extraction/ReviewPanel";
 import { DemoTag, EmptyState, ErrorState, Modal, RelTime, SampleBadge, Stamp, StatusStamp, TableSkeleton } from "@/components/shared";
 import { useBuildPlan, useExtraction, useLogs, useOverrideCheck, useParameters, useProject, useRun, useUpdateParameter, useValidation } from "@/lib/api/hooks";
+import { Collapse } from "@/components/shared/motion";
 import { clockTime } from "@/lib/format";
 import type { LogLevel, Parameter, ValidationCheck } from "@/lib/schemas";
 import { useSelection } from "@/lib/store";
@@ -283,7 +284,7 @@ function CheckRow({ c, projectId, onOverride }: { c: ValidationCheck; projectId:
         <StatusStamp status={c.status} />
         {c.override && <Stamp tone="warn" icon={<ShieldAlert className="size-3" aria-hidden />}>Overridden</Stamp>}
       </div>
-      {open && (
+      <Collapse open={open}>
         <div className="border-t border-line/40 px-3 py-2.5 text-[13px] leading-5">
           <p className="text-muted-foreground">{c.description}</p>
           {c.detail && <p className={cn("mt-1.5 font-medium", c.status === "failed" ? "text-[#ffc2cd]" : c.status === "warning" ? "text-[#ffd4ab]" : "text-text/90")}>{c.detail}</p>}
@@ -344,7 +345,7 @@ function CheckRow({ c, projectId, onOverride }: { c: ValidationCheck; projectId:
             </p>
           )}
         </div>
-      )}
+      </Collapse>
     </li>
   );
 }

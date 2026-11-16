@@ -18,6 +18,8 @@ let db: Db | null = null;
 /** Object URLs for files uploaded this session (never persisted). */
 const sessionFiles = new Map<string, { url: string; name: string; size: number; kind: "pdf" | "image" }>();
 /** Simulated runs in flight: runId -> start time + what to produce at the end. */
+/** When the last queued simulated run finishes: runs are processed one at a time, like the real pipeline. */
+let queueEnd = 0;
 const sims = new Map<string, { t0: number; sampleKey?: SampleKey; projectId: string; cancelled?: boolean; finalized?: boolean }>();
 
 function load(): Db {
@@ -82,6 +84,11 @@ function advance(run: PipelineRun): PipelineRun {
   if (!sim || sim.finalized || sim.cancelled) return run;
   const d = load();
   const elapsed = Date.now() - sim.t0;
+  if (elapsed < 0) {
+    run.status = "queued";
+    run.etaSeconds = Math.round((SIM_MS.reduce((a, b) => a + b, 0) - elapsed) / 1000);
+    return run;
+  }
   let acc = 0;
   let allDone = true;
   run.status = "running";
@@ -414,15 +421,17 @@ export const mockAdapter: ApiAdapter = {
     const n = d.runs.length + 1;
     const runId = `RUN-${String(n + 12).padStart(4, "0")}`;
     const sampleKey = input.sampleKey as SampleKey | undefined;
-    const projectId = `p-${Date.now().toString(36)}`;
+    d.seq += 1;
+    const projectId = `p-${Date.now().toString(36)}-${d.seq}`;
     const at = nowIso();
     const spec = sampleKey ? SPECS[sampleKey] : undefined;
-    const file = files[0];
+    // for a folder of per-view images, show the overview sheet (full / overview) or else the first file
+    const file = files.find((f) => /(^|[\W_])(full|overview)([\W_]|$)/i.test(f.name)) ?? files[0];
     const project: Project = {
       id: projectId, name: input.name || spec?.name || file?.name.replace(/\.[^.]+$/, "") || "Untitled_Part",
       partNumber: spec?.partNumber ?? "UNASSIGNED", revision: "A", material: input.material, units: input.units,
       status: "running", createdAt: at, updatedAt: at, lastRunId: runId, isSample: true,
-      description: sampleKey ? "Created from a bundled sample drawing." : "Created from an uploaded drawing (stored for this session only).",
+      description: sampleKey ? "Created from a bundled sample drawing." : `Created from an uploaded drawing${files.length > 1 ? ` (${files.length} views)` : ""}, stored for this session only.`,
     };
     if (file) {
       const kind = /\.pdf$/i.test(file.name) ? "pdf" : "image";
@@ -446,7 +455,10 @@ export const mockAdapter: ApiAdapter = {
         stages: makeStages(Date.now(), 0, 1).map((s) => ({ ...s, status: "pending", durationMs: undefined, startedAt: undefined })),
         simulated: true, isSample: true,
       };
-      sims.set(runId, { t0: Date.now(), sampleKey, projectId });
+      const t0 = Math.max(Date.now(), queueEnd);
+      queueEnd = t0 + SIM_MS.reduce((a, b) => a + b, 0);
+      sims.set(runId, { t0, sampleKey, projectId });
+      if (t0 > Date.now()) run.status = "queued";
     } else {
       // No backend: nothing can process a user's drawing, and nothing is fabricated for it.
       run = {
@@ -496,7 +508,9 @@ export const mockAdapter: ApiAdapter = {
       stages: makeStages(Date.now(), 0, 1).map((s) => ({ ...s, status: "pending", durationMs: undefined, startedAt: undefined })),
       simulated: true, isSample: true,
     };
-    sims.set(id, { t0: Date.now(), sampleKey, projectId: r.projectId });
+    const t0 = Math.max(Date.now(), queueEnd);
+    queueEnd = t0 + SIM_MS.reduce((a, b) => a + b, 0);
+    sims.set(id, { t0, sampleKey, projectId: r.projectId });
     d.runs.unshift(run);
     save();
     return clone(run);

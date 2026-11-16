@@ -10,6 +10,7 @@ import { EmptyState, ErrorState, SampleBadge, Stamp, TableSkeleton } from "@/com
 import { useCost, useMonthlyCost, useProject } from "@/lib/api/hooks";
 // DEFERRED cost imports: DENSITY_G_CM3, MATERIAL_LABEL, machiningMinutes, partMassKg, quantityBreaks, roi, type MfgInputs
 import { budgetState, formatUsd, runCost, usageCost } from "@/lib/cost";
+import { AnimatedNumber } from "@/components/shared/motion";
 import { fmtInt } from "@/lib/format";
 // DEFERRED: import type { MaterialKey } from "@/lib/schemas";
 import { useSettings } from "@/lib/store";
@@ -37,7 +38,7 @@ function Panel({ icon, letter, title, tag, children }: { icon: React.ReactNode; 
   );
 }
 
-function Num({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: "warn" | "danger" | "success" }) {
+function Num({ label, value, sub, tone }: { label: string; value: React.ReactNode; sub?: string; tone?: "warn" | "danger" | "success" }) {
   return (
     <div className="rounded-lg border border-line/50 bg-bg/40 px-3 py-2">
       <div className="text-[11px] text-muted-foreground">{label}</div>
@@ -139,9 +140,9 @@ export default function CostTab({ projectId }: { projectId: string }) {
           </div>
           <div className="flex flex-col gap-2">
             <div className="grid grid-cols-2 gap-2">
-              <Num label="Cost per part" value={formatUsd(rc.perPart, 4)} />
-              <Num label={`Per batch (${c.batchSize})`} value={formatUsd(rc.perBatch, 2)} />
-              <Num label="Month to date" value={formatUsd(monthTotal, 2)} sub={monthly ? `${monthly.runs} runs` : undefined} tone={bState === "exceeded" ? "danger" : bState === "warning" ? "warn" : undefined} />
+              <Num label="Cost per part" value={<AnimatedNumber value={rc.perPart} format={(n) => formatUsd(n, 4)} />} />
+              <Num label={`Per batch (${c.batchSize})`} value={<AnimatedNumber value={rc.perBatch} format={(n) => formatUsd(n, 2)} />} />
+              <Num label="Month to date" value={<AnimatedNumber value={monthTotal} format={(n) => formatUsd(n, 2)} />} sub={monthly ? `${monthly.runs} runs` : undefined} tone={bState === "exceeded" ? "danger" : bState === "warning" ? "warn" : undefined} />
               <Num label="Monthly budget" value={budget > 0 ? formatUsd(budget, 2) : "not set"} sub={budget > 0 ? `${Math.round((monthTotal / budget) * 100)}% used` : "set one in Settings"} />
             </div>
             {bState !== "none" && (

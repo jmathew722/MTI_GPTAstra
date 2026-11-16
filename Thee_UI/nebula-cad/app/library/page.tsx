@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { BookMarked, Copy, Plus, Trash2 } from "lucide-react";
+import { StaggerItem, StaggerList } from "@/components/shared/motion";
 import { useFocusedProjectId } from "@/components/shell/Navigation";
 import { EmptyState, Glass, PageHeader, RelTime, SampleBadge, Segmented, Stamp } from "@/components/shared";
 import { api } from "@/lib/api";
@@ -64,9 +65,9 @@ function Presets() {
       {presets.length === 0 ? (
         <EmptyState icon={<BookMarked />} title="No presets" body="Save the parameters of a project you have corrected to reuse them on the next part in the family." />
       ) : (
-        <ul className="grid gap-3 md:grid-cols-2">
+        <StaggerList as="ul" className="grid gap-3 md:grid-cols-2">
           {presets.map((p) => (
-            <li key={p.id} className="glass-raised p-4">
+            <StaggerItem as="li" key={p.id} className="glass-raised lift p-4">
               <div className="flex items-center gap-2">
                 <h3 className="min-w-0 flex-1 truncate text-sm font-semibold">{p.name}</h3>
                 {p.sample && <SampleBadge label="Sample" />}
@@ -88,9 +89,9 @@ function Presets() {
                   <Trash2 className="size-3.5" aria-hidden />
                 </button>
               </div>
-            </li>
+            </StaggerItem>
           ))}
-        </ul>
+        </StaggerList>
       )}
     </div>
   );
@@ -103,9 +104,9 @@ function Templates() {
   return (
     <div className="flex flex-col gap-3">
       <p className="text-[13px] text-muted-foreground">Rubric templates set the criteria and their weights. Edit weights from a project&apos;s Rubric tab; duplicate or delete them here.</p>
-      <ul className="grid gap-3 md:grid-cols-2">
+      <StaggerList as="ul" className="grid gap-3 md:grid-cols-2">
         {data?.map((t) => (
-          <li key={t.id} className="glass-raised p-4">
+          <StaggerItem as="li" key={t.id} className="glass-raised lift p-4">
             <div className="flex items-center gap-2">
               <h3 className="min-w-0 flex-1 truncate text-sm font-semibold">{t.name}</h3>
               {t.builtIn ? <Stamp tone="muted">Built-in</Stamp> : <RelTime iso={t.updatedAt} />}
@@ -132,9 +133,9 @@ function Templates() {
                 </button>
               )}
             </div>
-          </li>
+          </StaggerItem>
         ))}
-      </ul>
+      </StaggerList>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import * as React from "react";
 import { SHORTCUTS } from "@/components/shell/Overlays";
 import { Glass, PageHeader } from "@/components/shared";
+import { ScrollProgress } from "@/components/shared/motion";
 import { DEFAULT_CRITERIA } from "@/lib/rubric";
 
 const TOC = [
@@ -50,9 +51,30 @@ function Scroll({ children, label }: { children: React.ReactNode; label: string 
   );
 }
 
+function useScrollSpy(ids: readonly string[]) {
+  const [active, setActive] = React.useState<string>(ids[0]);
+  React.useEffect(() => {
+    const els = ids.map((id) => document.getElementById(id)).filter((e): e is HTMLElement => Boolean(e));
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: "-90px 0px -65% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [ids]);
+  return active;
+}
+
+const TOC_IDS = TOC.map(([id]) => id);
+
 export default function DocsPage() {
+  const active = useScrollSpy(TOC_IDS);
   return (
     <div className="flex flex-col gap-4">
+      <ScrollProgress />
       <PageHeader title="Docs" description="Technical reference for the 2D to 3D CAD pipeline interface: processing stages, verification, grading and cost." />
       <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[220px_minmax(0,1fr)]">
         <nav aria-label="On this page" className="glass-flat top-[92px] self-start p-3 lg:sticky">
@@ -60,7 +82,13 @@ export default function DocsPage() {
           <ul className="flex flex-col">
             {TOC.map(([id, label]) => (
               <li key={id}>
-                <a href={`#${id}`} className="block rounded-lg px-2 py-1.5 text-[13px] text-muted-foreground hover:bg-surface-raised/40 hover:text-text">{label}</a>
+                <a
+                  href={`#${id}`}
+                  aria-current={active === id ? "true" : undefined}
+                  className={`block rounded-lg border-l-2 px-2 py-1.5 text-[13px] transition-all duration-200 hover:bg-surface-raised/40 hover:text-text ${active === id ? "border-gold bg-gold/[0.07] pl-3 text-gold-hi" : "border-transparent text-muted-foreground"}`}
+                >
+                  {label}
+                </a>
               </li>
             ))}
           </ul>
@@ -138,6 +166,9 @@ export default function DocsPage() {
           </p>
           <p>
             To use the pipeline service, set <span className="num">NEXT_PUBLIC_API_MODE=http</span> and <span className="num">NEXT_PUBLIC_API_BASE_URL</span> in <span className="num">.env.local</span>. The service shall implement the endpoints defined in <span className="num">docs/API_CONTRACT.md</span>. Each response is validated against its schema before it is displayed; a response that does not conform is reported as an error.
+          </p>
+          <p>
+            A part is one drawing file or one folder of per-view images (front, side, top and an optional overview sheet). When a folder is selected for upload, each sub-folder is treated as one part and each loose file as a separate part. The parts are submitted in order and processed one at a time through all four pipeline stages; the batch view reports the state of each run.
           </p>
           <p>A drawing uploaded while the mock adapter is active is stored for the browser session only. It is not processed, and no extracted data is generated for it.</p>
 

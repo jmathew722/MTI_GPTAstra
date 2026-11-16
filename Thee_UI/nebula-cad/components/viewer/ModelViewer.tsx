@@ -590,7 +590,7 @@ export default function ModelViewer({ modelUrl, fileName, plan, expected, showDi
       )}
 
       {state === "ready" && section.on && model && (
-        <label className="glass-raised absolute left-1/2 top-2 z-10 flex -translate-x-1/2 items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground">
+        <label className="glass-raised absolute bottom-10 left-2 z-10 flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground">
           Section X
           <input
             type="range"
@@ -606,7 +606,7 @@ export default function ModelViewer({ modelUrl, fileName, plan, expected, showDi
         </label>
       )}
       {state === "ready" && measuring && (
-        <div className="glass-raised absolute bottom-12 left-1/2 z-10 -translate-x-1/2 px-3 py-1.5 text-xs text-text" role="status">
+        <div className="glass-raised absolute bottom-[5.25rem] left-2 z-10 px-3 py-1.5 text-xs text-text" role="status">
           {measure.length === 0 ? "Click the first point on the model." : measure.length === 1 ? "Click the second point." : "Distance shown. Click again to start over."}
         </div>
       )}

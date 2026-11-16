@@ -89,7 +89,7 @@ export function GradeStamp({ id }: { id: string }) {
 export function ProjectCard({ p, detail = false }: { p: Project; detail?: boolean }) {
   const m = useProjectMetrics(p.id);
   return (
-    <Link href={`/projects/${p.id}`} className={cn("glass-flat lift flex flex-col gap-3 p-4", p.status === "needs_rework" && "border-danger/50")}>
+    <Link href={`/projects/${p.id}`} className={cn("glass-flat lift flex h-full flex-col gap-3 p-4", p.status === "needs_rework" && "border-danger/50")}>
       <div className="flex items-start gap-3">
         <PartGlyph specKey={p.partSpecKey} className="size-14 shrink-0" />
         <div className="min-w-0 flex-1">
