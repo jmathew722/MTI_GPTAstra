@@ -11,6 +11,8 @@ import { markIntroPlayed, shouldPlayIntro } from "@/lib/motion";
 const IntroContext = React.createContext(false);
 export const useIntro = () => React.useContext(IntroContext);
 
+const subscribeNever = () => () => {};
+
 export function Providers({ children }: { children: React.ReactNode }) {
   const [client] = React.useState(
     () =>
@@ -20,12 +22,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
   );
   const motion = useSettings((s) => s.motion);
   const density = useSettings((s) => s.density);
-  const [mounted, setMounted] = React.useState(false);
-  const [intro, setIntro] = React.useState(false);
+  // false on the server and during hydration, true afterwards
+  const mounted = React.useSyncExternalStore(subscribeNever, () => true, () => false);
+  const [intro] = React.useState(() => shouldPlayIntro());
 
   React.useEffect(() => {
-    setIntro(shouldPlayIntro());
-    setMounted(true);
     const t = setTimeout(markIntroPlayed, 2500);
     return () => clearTimeout(t);
   }, []);

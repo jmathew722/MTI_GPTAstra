@@ -43,22 +43,23 @@ export default function DrawingViewer({ drawing, items = [], comments = [], plan
   const wrap = React.useRef<HTMLDivElement>(null);
   const canvas = React.useRef<HTMLCanvasElement>(null);
   const [aspect, setAspect] = React.useState<number | null>(drawing.registration?.aspect ?? null);
-  const [state, setState] = React.useState<"loading" | "ready" | "error">("loading");
-  const [error, setError] = React.useState("");
+  const [loaded, setLoaded] = React.useState<string | null>(null);
+  const [failure, setFailure] = React.useState<{ url: string; message: string } | null>(null);
+  const state: "loading" | "ready" | "error" = failure?.url === drawing.url ? "error" : loaded === drawing.url ? "ready" : "loading";
+  const error = failure?.message ?? "";
   const [view, setView] = React.useState<View>({ s: 1, x: 0, y: 0 });
   const [size, setSize] = React.useState({ w: 0, h: 0 });
   const [pinning, setPinning] = React.useState(false);
   const [animate, setAnimate] = React.useState(false);
   const drag = React.useRef<{ x: number; y: number; vx: number; vy: number; moved: boolean } | null>(null);
   const itemId = useSelection((s) => s.itemId);
-  const tick = useSelection((s) => s.tick);
   const select = useSelection((s) => s.select);
 
   // ---- render the page with pdf.js (loaded on demand), or show the image
   React.useEffect(() => {
     let cancelled = false;
     let task: { cancel: () => void } | null = null;
-    setState("loading");
+    const url = drawing.url;
     if (drawing.kind === "image") {
       const img = new Image();
       img.onload = () => {
@@ -68,12 +69,11 @@ export default function DrawingViewer({ drawing, items = [], comments = [], plan
         c.height = img.naturalHeight;
         c.getContext("2d")?.drawImage(img, 0, 0);
         setAspect(img.naturalWidth / img.naturalHeight);
-        setState("ready");
+        setLoaded(url);
       };
       img.onerror = () => {
         if (cancelled) return;
-        setError("The image could not be decoded.");
-        setState("error");
+        setFailure({ url, message: "The image could not be decoded." });
       };
       img.src = drawing.url;
       return () => {
@@ -97,13 +97,12 @@ export default function DrawingViewer({ drawing, items = [], comments = [], plan
         await rt.promise;
         if (cancelled) return;
         setAspect(vp.width / vp.height);
-        setState("ready");
+        setLoaded(url);
       } catch (e) {
         if (cancelled) return;
         const msg = e instanceof Error ? e.message : String(e);
         if (/cancel/i.test(msg)) return;
-        setError(msg);
-        setState("error");
+        setFailure({ url, message: msg });
       }
     })();
     return () => {
@@ -171,18 +170,26 @@ export default function DrawingViewer({ drawing, items = [], comments = [], plan
     return () => el.removeEventListener("wheel", onWheel);
   }, [apply]);
 
-  // pan to the selected item's region when it is selected elsewhere
+  // pan to an item's region whenever a selection is made anywhere in the app
+  const itemsRef = React.useRef(items);
   React.useEffect(() => {
-    const it = items.find((i) => i.id === itemId);
-    if (!it?.region || !fit.w) return;
-    const cx = (it.region.x + it.region.w / 2 - 0.5) * fit.w;
-    const cy = (it.region.y + it.region.h / 2 - 0.5) * fit.h;
-    apply((v) => {
-      const s = Math.max(v.s, 1.6);
-      return { s, x: -cx * s, y: -cy * s };
-    }, true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only when a selection is made
-  }, [tick, itemId]);
+    itemsRef.current = items;
+  }, [items]);
+  React.useEffect(
+    () =>
+      useSelection.subscribe((sel, prev) => {
+        if (sel.tick === prev.tick || !sel.itemId || !fit.w) return;
+        const it = itemsRef.current.find((i) => i.id === sel.itemId);
+        if (!it?.region) return;
+        const cx = (it.region.x + it.region.w / 2 - 0.5) * fit.w;
+        const cy = (it.region.y + it.region.h / 2 - 0.5) * fit.h;
+        apply((v) => {
+          const z = Math.max(v.s, 1.6);
+          return { s: z, x: -cx * z, y: -cy * z };
+        }, true);
+      }),
+    [apply, fit.w, fit.h],
+  );
 
   const onPointerDown = (e: React.PointerEvent) => {
     if (e.button !== 0) return;

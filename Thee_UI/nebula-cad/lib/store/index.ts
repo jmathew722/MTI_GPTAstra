@@ -17,7 +17,21 @@ export type WorkspaceTab = (typeof WORKSPACE_TABS)[number];
 export type CompareMode = "split" | "overlay" | "diff";
 export type ReviewTab = "extraction" | "plan" | "comments" | "revisions" | "audit";
 
+export interface ParamPreset {
+  id: string;
+  name: string;
+  description: string;
+  values: { name: string; value: number; unit: string }[];
+  sample?: boolean;
+}
+
+const SAMPLE_PRESETS: ParamPreset[] = [
+  { id: "preset-flange-dn100", name: "Flange, 10-hole pattern", description: "Corrected bolt pattern for the FL-2210 flange family.", sample: true, values: [{ name: "Hole count", value: 10, unit: "ea" }, { name: "Bolt circle", value: 130, unit: "mm" }, { name: "Hole diameter", value: 9, unit: "mm" }] },
+  { id: "preset-thin-plate", name: "Thin plate", description: "Thickness and clearance holes for 6 mm stock.", sample: true, values: [{ name: "Thickness", value: 6, unit: "mm" }, { name: "Hole diameter", value: 5.5, unit: "mm" }] },
+];
+
 interface SettingsState {
+  paramPresets: ParamPreset[];
   reviewerName: string;
   units: Units;
   defaultMaterial: MaterialKey;
@@ -36,6 +50,7 @@ interface SettingsState {
 export const useSettings = create<SettingsState>()(
   persist(
     (set) => ({
+      paramPresets: SAMPLE_PRESETS,
       reviewerName: "Sample Reviewer",
       units: "mm",
       defaultMaterial: "steel",

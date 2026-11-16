@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 
 /* ------------------------------------------------------------------ badges */
 
-export function SampleBadge({ className, label = "Sample data" }: { className?: string; label?: string }) {
+export function SampleBadge({ className, label = "Sample data" }: { className?: string; label?: React.ReactNode }) {
   return (
     <span
       title="This card is fed by the mock adapter. Values are synthetic."
@@ -160,16 +160,20 @@ export function CardHeader({
   as?: "h2" | "h3";
 }) {
   return (
-    <div className={cn("flex min-w-0 items-center gap-3", className)}>
+    <div className={cn("flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2", className)}>
       {icon && <span className="grid size-8 shrink-0 place-items-center text-gold [&_svg]:size-5">{icon}</span>}
-      <div className="min-w-0 flex-1">
+      <div className="min-w-fit flex-1">
         <div className="flex min-w-0 items-center gap-2">
-          <H className="min-w-0 truncate text-base font-semibold leading-6 text-text">{title}</H>
-          {sample && <SampleBadge className="ml-auto" />}
+          <H className="whitespace-nowrap text-base font-semibold leading-6 text-text">{title}</H>
         </div>
         {subtitle && <div className="truncate text-xs text-muted-foreground">{subtitle}</div>}
       </div>
-      {right && <div className="flex shrink-0 items-center gap-2">{right}</div>}
+      {(right || sample) && (
+        <div className="ml-auto flex flex-wrap items-center justify-end gap-2">
+          {sample && <SampleBadge />}
+          {right}
+        </div>
+      )}
     </div>
   );
 }
@@ -264,9 +268,9 @@ export function TableSkeleton({ rows = 5, className }: { rows?: number; classNam
 /* ------------------------------------------------------------------ small parts */
 
 export function RelTime({ iso, className }: { iso: string; className?: string }) {
-  const [now, setNow] = React.useState<number | null>(null);
+  // the app renders on the client only (see Providers), so reading the clock here cannot mismatch
+  const [now, setNow] = React.useState<number | null>(() => Date.now());
   React.useEffect(() => {
-    setNow(Date.now());
     const t = setInterval(() => setNow(Date.now()), 30_000);
     return () => clearInterval(t);
   }, []);

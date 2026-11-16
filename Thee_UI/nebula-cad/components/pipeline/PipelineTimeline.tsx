@@ -68,7 +68,7 @@ export function StageList({ run, horizontal = false }: { run: PipelineRun; horiz
         <motion.li key={s.key} variants={fadeUp} className="relative flex items-start gap-3">
           <Node status={s.status} />
           <div className="min-w-0 flex-1">
-            <div className="truncate text-sm font-semibold text-text">{s.label}</div>
+            <div className="text-sm font-semibold leading-5 text-text">{s.label}</div>
             <div className={cn("num text-xs", s.status === "failed" ? "text-danger" : "text-muted-foreground")}>
               {STATUS_TEXT[s.status]}
               {s.durationMs !== undefined && s.status !== "pending" ? ` · ${fmtDuration(s.durationMs)}` : ""}

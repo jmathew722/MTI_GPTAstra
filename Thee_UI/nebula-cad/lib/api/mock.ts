@@ -147,6 +147,8 @@ export const mockAdapter: ApiAdapter = {
   async getSystemStatus() {
     await delay(60);
     const d = load();
+    // The status poll also advances simulated runs, so one finishes even if no page is watching it.
+    for (const r of d.runs) advance(r);
     const active = d.runs.filter((r) => r.status === "running").length;
     return { online: true, gpuUtilization: active ? 0.98 : 0.12, queueDepth: d.runs.filter((r) => r.status === "queued").length, activeRuns: active, version: "mock", isSample: true };
   },

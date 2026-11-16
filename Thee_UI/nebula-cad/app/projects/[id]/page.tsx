@@ -7,7 +7,7 @@ import { ComparePanel } from "@/components/compare/ComparePanel";
 import { ReviewPanel } from "@/components/extraction/ReviewPanel";
 import { PipelineCard } from "@/components/pipeline/PipelineTimeline";
 import { PartGlyph } from "@/components/shell/Atmosphere";
-import { EmptyState, ErrorState, Glass, RelTime, SampleBadge, Skel, StatusStamp } from "@/components/shared";
+import { EmptyState, Glass, RelTime, SampleBadge, Skel, StatusStamp } from "@/components/shared";
 import { FailureBanner, QuickActions, WorkspaceTabs } from "@/components/workspace/WorkspaceTabs";
 import { useProject, useValidation } from "@/lib/api/hooks";
 import { MATERIAL_LABEL } from "@/lib/cost";

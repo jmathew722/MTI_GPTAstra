@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // vendored third-party builds (occt-import-js, pdf.js worker) and test output
+    "public/**",
+    "test-results/**",
+    "playwright-report/**",
   ]),
 ]);
 

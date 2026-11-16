@@ -51,12 +51,12 @@ export default function DashboardPage() {
             className="min-h-[300px] flex-1"
           />
         </Glass>
-        <PipelineCard runId={project?.lastRunId} />
+        <div className="flex flex-col gap-4">
+          <PipelineCard runId={project?.lastRunId} />
+          <QuickActions projectId={id} />
+        </div>
       </div>
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.75fr)_minmax(0,1fr)]">
-        <WorkspaceTabs projectId={id} />
-        <QuickActions projectId={id} className="self-start" />
-      </div>
+      <WorkspaceTabs projectId={id} />
     </div>
   );
 }

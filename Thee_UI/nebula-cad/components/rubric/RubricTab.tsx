@@ -54,7 +54,11 @@ function CriterionCard({ c, onLevel, onComment }: { c: ScoredCriterion; onLevel:
   const select = useSelection((s) => s.select);
   const setUi = useUi((s) => s.set);
   const [comment, setComment] = React.useState(c.comment);
-  React.useEffect(() => setComment(c.comment), [c.comment]);
+  const [seen, setSeen] = React.useState(c.comment);
+  if (seen !== c.comment) {
+    setSeen(c.comment);
+    setComment(c.comment);
+  }
   const auto = c.criterion.scoredBy === "auto";
   const lvl = c.level;
   return (
@@ -130,29 +134,32 @@ function CriterionCard({ c, onLevel, onComment }: { c: ScoredCriterion; onLevel:
   );
 }
 
-function TemplateEditor({ open, onClose, base }: { open: boolean; onClose: () => void; base: RubricTemplate }) {
+const newTemplateId = () => `tpl-${Date.now().toString(36)}`;
+const stamp = () => new Date().toISOString();
+const withWeights = (t: RubricTemplate, w: Record<string, number>) => t.criteria.map((c) => ({ ...c, weight: w[c.key] ?? c.weight }));
+
+/** Mounted only while open, so its state starts from the template each time. */
+function TemplateEditor({ onClose, base }: { onClose: () => void; base: RubricTemplate }) {
   const save = useSaveTemplate();
-  const [name, setName] = React.useState("");
-  const [weights, setWeights] = React.useState<Record<string, number>>({});
-  React.useEffect(() => {
-    if (!open) return;
-    setName(base.builtIn ? `${base.name} (copy)` : base.name);
-    setWeights(Object.fromEntries(base.criteria.map((c) => [c.key, c.weight])));
-  }, [open, base]);
-  const criteria = base.criteria.map((c) => ({ ...c, weight: weights[c.key] ?? c.weight }));
+  const [name, setName] = React.useState(base.builtIn ? `${base.name} (copy)` : base.name);
+  const [weights, setWeights] = React.useState<Record<string, number>>(() => Object.fromEntries(base.criteria.map((c) => [c.key, c.weight])));
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    save.mutate(
+      { id: base.builtIn ? newTemplateId() : base.id, name: name.trim() || "Untitled rubric", criteria: withWeights(base, weights), builtIn: false, updatedAt: stamp() },
+      {
+        onSuccess: () => {
+          toast.success("Template saved.");
+          onClose();
+        },
+      },
+    );
+  };
+  const criteria = withWeights(base, weights);
   const sum = weightSum(criteria);
   return (
-    <Modal open={open} onOpenChange={(o) => !o && onClose()} title={base.builtIn ? "Duplicate and edit weights" : "Edit template weights"} description="Weights must sum to 100. The built-in template cannot be changed, so editing it creates a copy.">
-      <form
-        className="flex flex-col gap-3"
-        onSubmit={(e) => {
-          e.preventDefault();
-          save.mutate(
-            { id: base.builtIn ? `tpl-${Date.now().toString(36)}` : base.id, name: name.trim() || "Untitled rubric", criteria, builtIn: false, updatedAt: new Date().toISOString() },
-            { onSuccess: () => { toast.success("Template saved."); onClose(); } },
-          );
-        }}
-      >
+    <Modal open onOpenChange={(o) => !o && onClose()} title={base.builtIn ? "Duplicate and edit weights" : "Edit template weights"} description="Weights must sum to 100. The built-in template cannot be changed, so editing it creates a copy.">
+      <form className="flex flex-col gap-3" onSubmit={submit}>
         <label className="flex flex-col gap-1">
           <span className="text-xs text-muted-foreground">Template name</span>
           <input className="field" value={name} onChange={(e) => setName(e.target.value)} />
@@ -399,7 +406,7 @@ export default function RubricTab({ projectId }: { projectId: string }) {
         </div>
       </aside>
 
-      <TemplateEditor open={editing} onClose={() => setEditing(false)} base={template} />
+      {editing && <TemplateEditor onClose={() => setEditing(false)} base={template} />}
       <Modal open={overriding} onOpenChange={setOverriding} title="Override the hard-fail cap" description="This lets the release status follow the score even though a critical mismatch exists. Your name and reason go into the audit trail and the exported rubric.">
         <form
           className="flex flex-col gap-3"

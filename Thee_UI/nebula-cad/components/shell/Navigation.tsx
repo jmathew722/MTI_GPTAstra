@@ -79,9 +79,10 @@ export function TopNav() {
       <button type="button" className="btn btn-icon btn-quiet lg:hidden" aria-label="Open navigation" onClick={() => set({ navDrawerOpen: true })}>
         <Menu className="size-5" aria-hidden />
       </button>
-      <Link href="/dashboard" className="flex shrink-0 items-center gap-3 rounded-lg pr-2" aria-label="Nebula CAD, go to dashboard">
+      <Link href="/dashboard" className="flex shrink-0 items-center gap-3 rounded-lg pr-2">
+        <span className="sr-only">Nebula CAD, go to dashboard.</span>
         <Logo />
-        <span className="hidden flex-col leading-none sm:flex">
+        <span className="hidden flex-col leading-none sm:flex lg:hidden xl:flex">
           <span className="text-[19px] font-semibold tracking-[0.22em] text-text">
             NEBULA <span className="text-gold">CAD</span>
           </span>
@@ -98,7 +99,7 @@ export function TopNav() {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "relative rounded-[10px] px-3.5 py-2 text-sm font-medium transition-colors xl:px-5",
+                "relative rounded-[10px] px-3 py-2 text-sm font-medium transition-colors min-[1360px]:px-5",
                 active ? "text-gold-hi" : "text-muted-foreground hover:text-text",
               )}
             >
@@ -110,15 +111,14 @@ export function TopNav() {
       </nav>
 
       <div className="ml-auto flex items-center gap-1.5 lg:ml-0">
-        {IS_MOCK && <SampleBadge className="hidden md:inline-flex" label="Sample data mode" />}
+        {IS_MOCK && <SampleBadge className="hidden sm:inline-flex" label={<>Sample<span className="hidden min-[1360px]:inline">&nbsp;data mode</span></>} />}
         <button
           type="button"
           className="btn btn-ghost btn-sm hidden gap-2 pr-1.5 md:inline-flex"
           onClick={() => set({ paletteOpen: true })}
-          aria-label="Search and commands"
         >
           <Search className="size-4" aria-hidden />
-          <span className="hidden text-muted-foreground xl:inline">Search</span>
+          <span className="sr-only xl:not-sr-only xl:text-muted-foreground">Search</span>
           <kbd>⌘K</kbd>
         </button>
         <button type="button" className="btn btn-icon btn-quiet md:hidden" aria-label="Search and commands" onClick={() => set({ paletteOpen: true })}>
@@ -147,11 +147,11 @@ export function TopNav() {
         </button>
         <Link
           href="/settings"
-          aria-label={`Signed in as ${name}. Open settings`}
           title={name}
           className="ml-1 grid size-10 place-items-center rounded-full border border-gold/60 bg-gold/10 text-sm font-semibold text-gold-hi shadow-[0_0_14px_rgba(214,175,107,.18)] transition-colors hover:bg-gold/20"
         >
           {initials(name)}
+          <span className="sr-only">: settings for {name}</span>
         </Link>
       </div>
     </motion.header>

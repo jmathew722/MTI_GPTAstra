@@ -42,7 +42,7 @@ function ItemRow({ item, projectId }: { item: ExtractionItem; projectId: string 
           type="button"
           onClick={() => select({ itemId: item.id, featureId: item.featureId ?? null })}
           aria-pressed={sel}
-          aria-label={`Show ${item.id} ${item.label} on the drawing${item.featureId ? " and the model" : ""}`}
+          title="Show on the drawing and the model"
           className="min-w-0 flex-1 rounded-md text-left"
         >
           <span className="flex flex-wrap items-center gap-x-2 gap-y-1">

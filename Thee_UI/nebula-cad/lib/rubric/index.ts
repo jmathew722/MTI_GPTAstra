@@ -136,7 +136,7 @@ const find = (checks: ValidationCheck[], key: string) => checks.find((c) => c.ke
 /** Automatic level for a criterion, or null when the criterion is reviewer-only. Not-run evidence scores 0. */
 export function autoLevel(key: string, ctx: RubricContext): AutoResult | null {
   const ev: Evidence = { checkIds: [], itemIds: [], notes: [] };
-  const use = (c?: ValidationCheck) => {
+  const cite = (c?: ValidationCheck) => {
     if (c) {
       ev.checkIds.push(c.id);
       ev.itemIds.push(...c.evidence.itemIds);
@@ -145,8 +145,8 @@ export function autoLevel(key: string, ctx: RubricContext): AutoResult | null {
   };
   switch (key) {
     case "dimensional_accuracy": {
-      const deltas = use(find(ctx.checks, "dimension_deltas"));
-      const bbox = use(find(ctx.checks, "bounding_box"));
+      const deltas = cite(find(ctx.checks, "dimension_deltas"));
+      const bbox = cite(find(ctx.checks, "bounding_box"));
       if (!deltas || deltas.status === "not_run") {
         ev.notes.push("Dimension deltas have not run.");
         return { level: 0, evidence: ev };
@@ -167,7 +167,7 @@ export function autoLevel(key: string, ctx: RubricContext): AutoResult | null {
       return { level, evidence: ev };
     }
     case "feature_completeness": {
-      const counts = use(find(ctx.checks, "feature_counts"));
+      const counts = cite(find(ctx.checks, "feature_counts"));
       const mismatches = countMismatches(ctx.extraction);
       for (const m of mismatches) {
         ev.notes.push(mismatchSentence(m));
@@ -188,7 +188,7 @@ export function autoLevel(key: string, ctx: RubricContext): AutoResult | null {
       return { level: 4, evidence: ev };
     }
     case "tolerance_units": {
-      const units = use(find(ctx.checks, "unit_consistency"));
+      const units = cite(find(ctx.checks, "unit_consistency"));
       if (!units || units.status === "not_run") {
         ev.notes.push("Unit consistency has not run.");
         return { level: 0, evidence: ev };
@@ -210,7 +210,7 @@ export function autoLevel(key: string, ctx: RubricContext): AutoResult | null {
       return { level: 4, evidence: ev };
     }
     case "geometry_validity": {
-      const trio = ["rebuild_errors", "watertight", "sketch_defined"].map((k) => use(find(ctx.checks, k)));
+      const trio = ["rebuild_errors", "watertight", "sketch_defined"].map((k) => cite(find(ctx.checks, k)));
       const ran = trio.filter((c) => c && c.status !== "not_run");
       if (!ran.length) {
         ev.notes.push("No geometry check has run.");

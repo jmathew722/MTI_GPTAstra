@@ -22,7 +22,12 @@ function ParamRow({ p, projectId }: { p: Parameter; projectId: string }) {
   const [text, setText] = React.useState(String(p.value));
   const [history, setHistory] = React.useState<number[]>([]);
   const [flash, setFlash] = React.useState(0);
-  React.useEffect(() => setText(String(p.value)), [p.value]);
+  // adjust the text when the saved value changes underneath (undo, reset, preset applied)
+  const [seen, setSeen] = React.useState(p.value);
+  if (seen !== p.value) {
+    setSeen(p.value);
+    setText(String(p.value));
+  }
   const n = Number(text);
   const invalid = text.trim() === "" || !Number.isFinite(n);
   const out = !invalid && p.range ? n < p.range.min || n > p.range.max : false;
@@ -217,11 +222,14 @@ export function FeaturesTab({ projectId }: { projectId: string }) {
 function OverrideDialog({ check, projectId, onClose }: { check: ValidationCheck | null; projectId: string; onClose: () => void }) {
   const override = useOverrideCheck(projectId);
   const [reason, setReason] = React.useState("");
-  React.useEffect(() => setReason(""), [check?.id]);
+  const close = () => {
+    setReason("");
+    onClose();
+  };
   return (
     <Modal
       open={Boolean(check)}
-      onOpenChange={(o) => !o && onClose()}
+      onOpenChange={(o) => !o && close()}
       title="Override a critical check"
       description="An override does not change the check's result. It records that a named reviewer accepted the risk, and why."
     >
@@ -230,7 +238,7 @@ function OverrideDialog({ check, projectId, onClose }: { check: ValidationCheck 
           className="flex flex-col gap-3"
           onSubmit={(e) => {
             e.preventDefault();
-            override.mutate({ checkId: check.id, reason }, { onSuccess: onClose });
+            override.mutate({ checkId: check.id, reason }, { onSuccess: close });
           }}
         >
           <div className="rounded-lg border border-danger/40 bg-danger/10 p-3 text-[13px] leading-5">
@@ -242,7 +250,7 @@ function OverrideDialog({ check, projectId, onClose }: { check: ValidationCheck 
             <textarea className="field" rows={3} value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Why is it acceptable to release this part despite the failure?" autoFocus />
           </label>
           <div className="flex justify-end gap-2">
-            <button type="button" className="btn btn-sm btn-quiet" onClick={onClose}>Cancel</button>
+            <button type="button" className="btn btn-sm btn-quiet" onClick={close}>Cancel</button>
             <button type="submit" className="btn btn-sm btn-danger" disabled={reason.trim().length < 10 || override.isPending}>
               <ShieldAlert className="size-3.5" aria-hidden /> Record override
             </button>
@@ -415,6 +423,7 @@ export function LogsTab({ projectId }: { projectId: string }) {
     const ql = query.trim().toLowerCase();
     return (q.data ?? []).filter((l) => levels.has(l.level) && (!ql || l.message.toLowerCase().includes(ql) || (l.stage ?? "").includes(ql)));
   }, [q.data, levels, query]);
+  // eslint-disable-next-line react-hooks/incompatible-library -- TanStack Virtual is not compiler-memoizable; this component is small and re-renders cheaply
   const virt = useVirtualizer({ count: rows.length, getScrollElement: () => parent.current, estimateSize: () => 22, overscan: 20 });
   React.useEffect(() => {
     if (follow && rows.length) virt.scrollToIndex(rows.length - 1, { align: "end" });

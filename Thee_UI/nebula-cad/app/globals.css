@@ -141,6 +141,11 @@ html[data-density="compact"] {
     background: rgba(46, 34, 80, 0.6);
     color: var(--text-muted);
   }
+  /* grid and flex children may shrink below their content: no page-level horizontal overflow */
+  .grid > *,
+  main .flex > * {
+    min-width: 0;
+  }
   * {
     scrollbar-width: thin;
     scrollbar-color: rgba(166, 124, 255, 0.35) transparent;

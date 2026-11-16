@@ -43,6 +43,13 @@ export function ComparePanel({ projectId, className }: { projectId: string; clas
     return pos?.length ? pos.map(([x, y, r]) => ({ x, y, r })) : undefined;
   }, [extraction]);
   const mismatches = countMismatches(extraction);
+  // A count mismatch is the thing to look at: open in Diff the first time a project with one is shown.
+  const auto = React.useRef<string | null>(null);
+  React.useEffect(() => {
+    if (!extraction || auto.current === projectId) return;
+    auto.current = projectId;
+    setUi({ compareMode: mismatches.length ? "diff" : "split" });
+  }, [extraction, projectId, mismatches.length, setUi]);
   const effective: CompareMode = mode === "overlay" && !canOverlay ? "split" : mode;
   const showOutline = effective !== "split" && canOverlay;
 

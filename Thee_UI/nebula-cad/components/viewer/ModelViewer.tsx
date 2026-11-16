@@ -1,10 +1,12 @@
 "use client";
 
+/* eslint-disable react-hooks/immutability -- three.js cameras, planes and the renderer are mutable by design; R3F code updates them in place */
+
 import * as React from "react";
 import Link from "next/link";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
-import { Environment, GizmoHelper, GizmoViewport, Grid, Html, Lightformer, Line, OrbitControls } from "@react-three/drei";
+import { Environment, GizmoHelper, GizmoViewport, Grid, Lightformer, Line, OrbitControls } from "@react-three/drei";
 import { Bloom, EffectComposer, Vignette } from "@react-three/postprocessing";
 import { Box, Expand, FileUp, Maximize2, RotateCcw, Ruler, Scan, Slice } from "lucide-react";
 import { useIntro } from "@/components/shell/Providers";
@@ -14,6 +16,7 @@ import { MODEL_EXTENSIONS, loadModelFromFile, loadModelFromUrl, validateUpload, 
 import { prefersReducedMotion } from "@/lib/motion";
 import type { BuildPlan, Locator } from "@/lib/schemas";
 import { useSelection } from "@/lib/store";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 export interface ExpectedHole {
@@ -30,21 +33,24 @@ interface RigApi {
 }
 
 const ISO = new THREE.Vector3(0.9, -1.15, 0.85).normalize();
+const EMPTY_POINTS: THREE.Vector3[] = [];
 const GOLD = new THREE.Color("#D6AF6B");
 
 function Rig({ model, intro, apiRef, linkZoom }: { model: LoadedModel; intro: boolean; apiRef: React.RefObject<RigApi | null>; linkZoom?: number }) {
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
   const invalidate = useThree((s) => s.invalidate);
   const controls = useThree((s) => s.controls) as unknown as { target: THREE.Vector3; update: () => void } | null;
+  const size = useThree((s) => s.size);
   const anim = React.useRef<{ fromP: THREE.Vector3; toP: THREE.Vector3; fromT: THREE.Vector3; toT: THREE.Vector3; t: number; dur: number } | null>(null);
   const dist = React.useCallback(
     (r: number) => {
       // fit the bounding sphere in the narrower of the two fields of view
       const v = (camera.fov * Math.PI) / 360;
-      const h = Math.atan(Math.tan(v) * Math.min(1, camera.aspect));
-      return (r / Math.sin(Math.min(v, h))) * 1.08;
+      const aspect = size.height > 0 ? size.width / size.height : camera.aspect;
+      const h = Math.atan(Math.tan(v) * Math.min(1, aspect));
+      return (r / Math.sin(Math.min(v, h))) * 1.1;
     },
-    [camera],
+    [camera, size.width, size.height],
   );
 
   const go = React.useCallback(
@@ -103,6 +109,23 @@ function Rig({ model, intro, apiRef, linkZoom }: { model: LoadedModel; intro: bo
     }
   }, [camera, controls, dist, go, intro, invalidate, model]);
 
+  // Keep the model framed when the pane is resized (split slider, breakpoint change).
+  const lastSize = React.useRef("");
+  React.useEffect(() => {
+    const key = `${size.width}x${size.height}`;
+    if (!controls || placed.current !== model || anim.current) {
+      lastSize.current = key;
+      return;
+    }
+    if (lastSize.current && lastSize.current !== key) {
+      const dir = camera.position.clone().sub(controls.target).normalize();
+      camera.position.copy(controls.target.clone().add(dir.multiplyScalar(dist(model.radius))));
+      controls.update();
+      invalidate();
+    }
+    lastSize.current = key;
+  }, [size.width, size.height, camera, controls, dist, invalidate, model]);
+
   // Linked zoom: the drawing's zoom factor sets the camera distance along the current view direction.
   React.useEffect(() => {
     if (linkZoom === undefined || !controls || anim.current) return;
@@ -128,6 +151,40 @@ function Rig({ model, intro, apiRef, linkZoom }: { model: LoadedModel; intro: bo
   return null;
 }
 
+/** Screen-constant text label drawn to a canvas texture (no DOM inside the WebGL tree). */
+function TextSprite({ text, position, color = "#F5E6CB" }: { text: string; position: THREE.Vector3 | [number, number, number]; color?: string }) {
+  const { texture, aspect } = React.useMemo(() => {
+    const pad = 14;
+    const font = '600 30px "JetBrains Mono", ui-monospace, monospace';
+    const c = document.createElement("canvas");
+    const g = c.getContext("2d") as CanvasRenderingContext2D;
+    g.font = font;
+    c.width = Math.ceil(g.measureText(text).width) + pad * 2;
+    c.height = 52;
+    g.font = font;
+    g.fillStyle = "rgba(18,13,32,.94)";
+    g.strokeStyle = color;
+    g.lineWidth = 2;
+    g.beginPath();
+    g.roundRect(1, 1, c.width - 2, c.height - 2, 10);
+    g.fill();
+    g.stroke();
+    g.fillStyle = color;
+    g.textBaseline = "middle";
+    g.fillText(text, pad, c.height / 2 + 1);
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return { texture: t, aspect: c.width / c.height };
+  }, [text, color]);
+  React.useEffect(() => () => texture.dispose(), [texture]);
+  const h = 0.024;
+  return (
+    <sprite position={position} scale={[h * aspect, h, 1]} renderOrder={10}>
+      <spriteMaterial map={texture} sizeAttenuation={false} depthTest={false} transparent toneMapped={false} />
+    </sprite>
+  );
+}
+
 function HoleMarker({ l, color, opacity = 1, label }: { l: Locator; color: string; opacity?: number; label?: string }) {
   const r = (l.radius ?? 2) + 0.9;
   const z = (l.depth ?? 0) / 2 + 0.15;
@@ -139,11 +196,7 @@ function HoleMarker({ l, color, opacity = 1, label }: { l: Locator; color: strin
           <meshStandardMaterial color={color} emissive={color} emissiveIntensity={2.4} toneMapped={false} transparent opacity={opacity} />
         </mesh>
       ))}
-      {label && (
-        <Html position={[r + 2, r + 2, z]} zIndexRange={[20, 0]} style={{ pointerEvents: "none" }}>
-          <div className="num whitespace-nowrap rounded-md border border-gold/60 bg-[#120d20]/95 px-1.5 py-0.5 text-[11px] font-medium text-gold-hi shadow-lg">{label}</div>
-        </Html>
-      )}
+      {label && <TextSprite text={label} position={[r + 3, r + 3, z + 2]} color={color === "#D6AF6B" ? "#F5E6CB" : color} />}
     </group>
   );
 }
@@ -272,10 +325,10 @@ function Scene({
         />
       ))}
       {diff.missing.map((e, i) => (
-        <HoleMarker key={`m${i}`} l={{ kind: "hole", position: [e.x, e.y, model.center.z], radius: e.r, depth: thickness }} color="#FF6680" label={i === 0 ? `on drawing, not modeled × ${diff.missing.length}` : undefined} />
+        <HoleMarker key={`m${i}`} l={{ kind: "hole", position: [e.x, e.y, model.center.z], radius: e.r, depth: thickness }} color="#FF6680" />
       ))}
       {diff.extra.map((l, i) => (
-        <HoleMarker key={`x${i}`} l={l} color="#FF9A3D" opacity={0.9} label={i === 0 ? `modeled, not at a drawing position × ${diff.extra.length}` : undefined} />
+        <HoleMarker key={`x${i}`} l={l} color="#FF9A3D" opacity={0.9} />
       ))}
 
       {measure.map((p, i) => (
@@ -287,11 +340,7 @@ function Scene({
       {measure.length === 2 && (
         <>
           <Line points={[measure[0], measure[1]]} color="#F5E6CB" lineWidth={1.5} dashed={false} />
-          <Html position={measure[0].clone().lerp(measure[1], 0.5)} zIndexRange={[20, 0]} style={{ pointerEvents: "none" }}>
-            <div className="num -translate-x-1/2 whitespace-nowrap rounded-md border border-gold/70 bg-[#120d20]/95 px-2 py-0.5 text-xs font-semibold text-gold-hi">
-              {measure[0].distanceTo(measure[1]).toFixed(3)} {plan?.units ?? "units"}
-            </div>
-          </Html>
+          <TextSprite text={`${measure[0].distanceTo(measure[1]).toFixed(3)} ${plan?.units ?? "units"}`} position={measure[0].clone().lerp(measure[1], 0.5)} />
         </>
       )}
 
@@ -359,34 +408,30 @@ export default function ModelViewer({ modelUrl, fileName, plan, expected, showDi
   const wrap = React.useRef<HTMLDivElement>(null);
   const input = React.useRef<HTMLInputElement>(null);
   const rig = React.useRef<RigApi | null>(null);
-  const [model, setModel] = React.useState<LoadedModel | null>(null);
-  const [local, setLocal] = React.useState<{ name: string } | null>(null);
-  const [state, setState] = React.useState<"idle" | "loading" | "ready" | "error">("idle");
-  const [error, setError] = React.useState<string | null>(null);
+  // Loading state is derived from what has been loaded, so nothing is set synchronously in an effect.
+  const [remote, setRemote] = React.useState<{ url: string; model: LoadedModel } | null>(null);
+  const [failure, setFailure] = React.useState<{ url: string; message: string } | null>(null);
+  const [localFile, setLocalFile] = React.useState<{ forUrl: string | null | undefined; name: string; model: LoadedModel } | null>(null);
+  const [busy, setBusy] = React.useState(false);
   const [section, setSection] = React.useState({ on: false, offset: 0 });
   const [measuring, setMeasuring] = React.useState(false);
-  const [measure, setMeasure] = React.useState<THREE.Vector3[]>([]);
+  const [measured, setMeasured] = React.useState<{ model: LoadedModel | null; points: THREE.Vector3[] }>({ model: null, points: [] });
+
+  const local = localFile && localFile.forUrl === modelUrl ? localFile : null;
+  const model = local?.model ?? (remote && remote.url === modelUrl ? remote.model : null);
+  const error = !model && failure && failure.url === (modelUrl ?? "") ? failure.message : null;
+  const state: "idle" | "loading" | "ready" | "error" = busy ? "loading" : model ? "ready" : error ? "error" : modelUrl ? "loading" : "idle";
+  const measure = measured.model === model ? measured.points : EMPTY_POINTS;
 
   React.useEffect(() => {
+    if (!modelUrl) return;
     let alive = true;
-    setLocal(null);
-    setMeasure([]);
-    if (!modelUrl) {
-      setModel(null);
-      setState("idle");
-      return;
-    }
-    setState("loading");
     loadModelFromUrl(modelUrl)
       .then((m) => {
-        if (!alive) return;
-        setModel(m);
-        setState("ready");
+        if (alive) setRemote({ url: modelUrl, model: m });
       })
       .catch((e: unknown) => {
-        if (!alive) return;
-        setError(e instanceof Error ? e.message : String(e));
-        setState("error");
+        if (alive) setFailure({ url: modelUrl, message: e instanceof Error ? e.message : String(e) });
       });
     return () => {
       alive = false;
@@ -395,23 +440,22 @@ export default function ModelViewer({ modelUrl, fileName, plan, expected, showDi
 
   const onFile = async (file?: File) => {
     if (!file) return;
+    const report = (message: string) => {
+      // with a model already on screen, keep it and say what went wrong; otherwise show the error state
+      if (model) toast.error(message);
+      else setFailure({ url: modelUrl ?? "", message });
+    };
     const bad = validateUpload(file, MODEL_EXTENSIONS);
-    if (bad) {
-      setError(bad);
-      setState("error");
-      return;
-    }
-    setState("loading");
+    if (bad) return report(bad);
+    setBusy(true);
     try {
       const m = await loadModelFromFile(file);
-      setModel(m);
-      setLocal({ name: file.name });
-      setMeasure([]);
+      setLocalFile({ forUrl: modelUrl, name: file.name, model: m });
       setSection({ on: false, offset: 0 });
-      setState("ready");
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
-      setState("error");
+      report(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -454,7 +498,7 @@ export default function ModelViewer({ modelUrl, fileName, plan, expected, showDi
             section={section}
             measuring={measuring}
             measure={measure}
-            onMeasure={(p) => setMeasure((prev) => (prev.length >= 2 ? [p] : [...prev, p]))}
+            onMeasure={(p) => setMeasured({ model, points: measure.length >= 2 ? [p] : [...measure, p] })}
             rigRef={rig}
             intro={intro}
             linkZoom={linkZoom}
@@ -524,7 +568,7 @@ export default function ModelViewer({ modelUrl, fileName, plan, expected, showDi
             pressed={measuring}
             onClick={() => {
               setMeasuring((m) => !m);
-              setMeasure([]);
+              setMeasured({ model, points: [] });
             }}
           >
             <Ruler className="size-4" aria-hidden />
@@ -570,7 +614,12 @@ export default function ModelViewer({ modelUrl, fileName, plan, expected, showDi
       {/* info strip */}
       {state === "ready" && model && (
         <div className="pointer-events-none absolute inset-x-2 bottom-2 z-10 flex flex-wrap items-center justify-end gap-1.5">
-          {showDiff && expected && <Stamp tone="danger">Diff: red = on drawing, not modeled</Stamp>}
+          {showDiff && expected && (
+            <>
+              <Stamp tone="danger">Red ring: on the drawing, not modeled</Stamp>
+              <Stamp tone="warn">Orange ring: modeled, not at a drawing position</Stamp>
+            </>
+          )}
           <span className="num rounded-md border border-line bg-[#0d0919]/85 px-1.5 py-0.5 text-[11px] text-muted-foreground">
             <span className="hidden @md:inline">{name ? `${name} · ` : ""}</span>
             {model.format.toUpperCase()} · {Math.round(model.triangles).toLocaleString("en-US")} tris · {model.size.x.toFixed(1)} × {model.size.y.toFixed(1)} × {model.size.z.toFixed(1)}

@@ -181,7 +181,7 @@ export function KpiRow() {
         ? [0, 1, 2, 3].map((i) => <Skel key={i} className="h-[92px] rounded-2xl" />)
         : cards.map((c) => (
             <motion.div key={c.label} variants={fadeUp} className="glass-flat lift relative overflow-hidden p-4" title={c.hint}>
-              <Sparkline data={c.trend} className="absolute bottom-0 right-0 h-10 w-[55%]" />
+              <Sparkline data={c.trend} className="absolute bottom-0 right-0 h-9 w-[38%] opacity-80" />
               <div className="relative flex items-center gap-3">
                 <span className="text-gold [&_svg]:size-7 [&_svg]:stroke-[1.6]">{c.icon}</span>
                 <div className="min-w-0">
