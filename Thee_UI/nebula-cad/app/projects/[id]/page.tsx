@@ -49,7 +49,7 @@ export default function WorkstationPage() {
         ) : (
           <>
             <PartGlyph specKey={p.partSpecKey} className="size-10 shrink-0" />
-            <div className="min-w-0 flex-1">
+            <div className="min-w-[11rem] flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="break-words text-xl font-semibold leading-7">{p.name}</h1>
                 <StatusStamp status={p.status} />

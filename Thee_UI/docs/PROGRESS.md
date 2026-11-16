@@ -25,8 +25,8 @@ Task list for the Nebula CAD build. Updated at every milestone. The last task is
 | 4.1 | Motion system | done |
 | 4.2 | Polish passes 1–6 | done |
 | 5.1 | Unit tests (cost, rubric), e2e smoke, axe, screenshots at 3 viewports | done |
-| 5.2 | Reviewer subagent audit, fixes | pending |
-| 5.3 | Final verification: build, typecheck, lint, tests; docs final | pending |
+| 5.2 | Reviewer subagent audit, fixes | done |
+| 5.3 | Final verification: build, typecheck, lint, tests; docs final | done |
 
 ## Milestone log
 
@@ -48,3 +48,13 @@ Task list for the Nebula CAD build. Updated at every milestone. The last task is
 4. **Accessibility and responsive.** Found by axe: 3 accessible-name mismatches, 3 unfocusable scroll regions, one contrast flake. Fixed all; muted text lightened to #B9B0CC. Mobile failure banner reflowed (text was one word wide).
 5. **Content and trust.** Diff mode opens by default when a count mismatch exists; override never changes a check's status (tested); a user's own upload gets no fabricated extraction (tested).
 6. **Ideas pass.** Added: count-check strip, modeled-outline overlay, Diff mode with red/orange rings, reviewer queue ordering, link zoom, section plane, measure tool, parameter presets, revision compare, export center with gate reasons, reset sample data. Recorded in ARCHITECTURE section 11.
+
+### Reviewer audit (independent subagent, against QA_CHECKLIST.md)
+Result: no checklist item failed on structure; defects found and handled:
+- **HIGH, fixed:** React error "Cannot update ComparePanel while rendering DrawingViewer" (parent `onZoom` called inside a state updater). Zoom is now reported from an effect. Regression test added (approve + zoom raises no console error).
+- **Pipeline diff noise, fixed:** my edit rewrote CRLF to LF in `main.py` and `solidworks_builder.py` (thousands of changed lines). CRLF restored; the diff is 69 lines across 5 files.
+- **Static preview label:** present in code for projects with no model; the reviewer only tried projects that have one. Now covered by an e2e test.
+- **Upload limit:** a 40 MB file was accepted, which is correct (limit is 50 MB). Not a defect.
+- **Mobile title wrap:** fixed with a minimum title width.
+- **Not defects, noted:** bp-1042 ships pre-signed as sample data (labeled SAMPLE); a not-run check appears only on sr-0077 (Spacer_Ring).
+- The reviewer could not run build, e2e or axe (they would disturb the live dev server). I ran them: build, lint, typecheck, 32 unit and 33 e2e tests (axe on all 12 routes) pass.

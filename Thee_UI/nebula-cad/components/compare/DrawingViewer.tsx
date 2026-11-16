@@ -139,14 +139,14 @@ export default function DrawingViewer({ drawing, items = [], comments = [], plan
   const apply = React.useCallback(
     (fn: (v: View) => View, anim = false) => {
       setAnimate(anim);
-      setView((v) => {
-        const n = clamp(fn(v));
-        if (n.s !== v.s) onZoom?.(n.s);
-        return n;
-      });
+      setView((v) => clamp(fn(v)));
     },
-    [clamp, onZoom],
+    [clamp],
   );
+  // report zoom to the parent from an effect, never from inside a state updater
+  React.useEffect(() => {
+    onZoom?.(view.s);
+  }, [view.s, onZoom]);
   const zoomBy = (k: number) => apply((v) => ({ s: v.s * k, x: v.x * k, y: v.y * k }), true);
   const reset = () => apply(() => ({ s: 1, x: 0, y: 0 }), true);
 

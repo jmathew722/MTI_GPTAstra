@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nebula CAD
 
-## Getting Started
+Front end for the MTI 2D drawing to SolidWorks part pipeline. See `../docs/` for architecture, design spec, API contract and QA checklist.
 
-First, run the development server:
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd Thee_UI/nebula-cad
+npm install
+npm run dev            # http://localhost:3000  (sample-data mode)
+npm run build && npm run start
+npm run typecheck && npm run lint
+npm test               # Vitest: cost, rubric (hard-fail cap), gating, seed schema
+npm run e2e            # Playwright + axe on every route, loud-failure flow (builds and starts the app)
+npm run shots          # screenshots at 1440x900, 1024x768, 390x844 into ../docs/screenshots (app must be running)
+npm run gen:samples    # regenerate the synthetic sample drawings (PDF) and models (STL)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+First time only: `npx playwright install chromium`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Connect the real pipeline
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create `.env.local` (never committed):
 
-## Learn More
+```
+NEXT_PUBLIC_API_MODE=http
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8092/api
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The service must implement `../docs/API_CONTRACT.md`. Every response is validated against the Zod schemas in `lib/schemas`.

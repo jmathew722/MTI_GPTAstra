@@ -91,3 +91,24 @@ test("upload validation rejects unsupported files", async ({ page }) => {
   await page.getByLabel("Drawing files").setInputFiles({ name: "malware.exe", mimeType: "application/octet-stream", buffer: Buffer.from("x") });
   await expect(page.getByRole("alert").filter({ hasText: "unsupported type" })).toBeVisible();
 });
+
+test("approving an item raises no console error, and a project with no model says Static preview", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("console", (m) => {
+    if (m.type() === "error" && !/GL Driver|THREE\.Clock|WebGL/.test(m.text())) errors.push(m.text());
+  });
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.goto("/projects/fl-2210");
+  await page.getByRole("button", { name: "Approve" }).first().click();
+  await page.getByRole("button", { name: /Zoom in/ }).click();
+  await page.waitForTimeout(800);
+  expect(errors).toEqual([]);
+
+  await page.goto("/automation");
+  await page.getByLabel("Drawing files").setInputFiles({ name: "nomodel.pdf", mimeType: "application/pdf", buffer: Buffer.from("%PDF-1.4\n%%EOF\n") });
+  await page.getByRole("button", { name: "Next" }).click();
+  await page.getByRole("button", { name: "Next" }).click();
+  await page.getByRole("button", { name: /Run 1 drawing/ }).click();
+  await page.getByRole("link", { name: /Open project/ }).click();
+  await expect(page.getByText("Static preview")).toBeVisible();
+});
