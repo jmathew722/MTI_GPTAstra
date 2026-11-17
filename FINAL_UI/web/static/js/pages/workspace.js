@@ -39,7 +39,7 @@
     var sel = McA.store.get().parts.selected;
     var h = $('ws-part');
     h.textContent = sel ? sel.part : 'No part selected';
-    document.title = (sel ? sel.part + ' · ' : '') + 'Workspace · McAgent';
+    document.title = (sel ? sel.part + ' · ' : '') + 'Workspace · Solid Flow';
   }
 
   /* Part switcher: listbox with "This session" and "Other runs". */

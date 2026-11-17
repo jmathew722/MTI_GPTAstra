@@ -35,7 +35,7 @@
     document.querySelectorAll('.sb-item').forEach(function (a) {
       if (a.getAttribute('data-page') === r.page) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
-    document.title = TITLES[r.page] + ' · McAgent';
+    document.title = TITLES[r.page] + ' · Solid Flow';
     if (McA.store) McA.store.dispatch('route/set', { page: r.page, params: r.params });
     if (McA.pages && McA.pages[r.page] && McA.pages[r.page].enter) McA.pages[r.page].enter(r.params);
     var main = document.getElementById('main');

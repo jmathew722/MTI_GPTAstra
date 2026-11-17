@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>McAgent</title>
+<title>Solid Flow</title>
 <meta name="color-scheme" content="dark">
 <link rel="stylesheet" href="/static/design-tokens.css">
 <link rel="stylesheet" href="/static/css/base.css">
@@ -19,7 +19,7 @@
 <nav id="sidebar" class="sidebar" aria-label="Primary">
   <div class="sb-brand">
     <span class="sb-logo" data-icon="logo" data-size="26"></span>
-    <div class="sb-names"><span class="sb-title">McAgent</span><span class="sb-sub">2D&rarr;3D <span class="sb-gold">SolidWorks Pipeline</span></span></div>
+    <div class="sb-names"><span class="sb-title">Solid Flow</span><span class="sb-sub">2D&rarr;3D <span class="sb-gold">SolidWorks Pipeline</span></span></div>
     <button id="sb-toggle" class="ibtn sb-toggle" type="button" aria-expanded="true" aria-controls="sidebar" aria-label="Collapse sidebar"><span data-icon="chevrons-left" data-size="18"></span></button>
   </div>
   <button id="sb-new" class="btn sb-new" type="button" data-tip="New Project"><span data-icon="plus"></span><span class="sb-label">New Project</span></button>
@@ -40,15 +40,20 @@
 <main id="main" class="main" tabindex="-1">
   <div class="mobile-bar">
     <button id="sb-menu" class="ibtn" type="button" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation"><span data-icon="menu" data-size="20"></span></button>
-    <span class="mobile-title">McAgent</span>
+    <span class="mobile-title">Solid Flow</span>
   </div>
 
   <!-- ============ HOME ============ -->
   <section id="page-home" class="page page-home" data-page="home" hidden>
     <div class="home-wrap">
+      <span class="home-brand">
+        <img class="home-logo" src="/static/img/solidflow-logo.png" alt="Solid Flow"
+             onerror="this.hidden=true;document.getElementById('home-logo-fallback').hidden=false;">
+        <span id="home-logo-fallback" class="home-logo-fallback" hidden>Solid<b>Flow</b></span>
+      </span>
       <span class="home-tile" aria-hidden="true"><span data-icon="file-up" data-size="26"></span></span>
-      <h1 class="home-h1" tabindex="-1">What would you like to create?</h1>
-      <p class="home-sub">Turn your engineering drawings into 3D models.</p>
+      <h1 class="home-h1" tabindex="-1">Your vision, Our blueprint</h1>
+      <p class="home-sub">Turn your engineering drawings into 3D Models.</p>
       <label id="home-drop" class="dropzone" for="home-file">
         <span class="dz-ic" data-icon="cloud-upload" data-size="28"></span>
         <span class="dz-main">Upload a drawing</span>
@@ -191,11 +196,8 @@
             <p id="req-warn" class="req-warn" role="status"></p>
             <button id="save-part-btn" class="btn" type="button" disabled aria-describedby="save-why">Save part</button>
             <p id="save-why" class="reason">Nothing to save yet.</p>
-            <details class="more" id="setup-more"><summary>Must-meet specs</summary>
-            <textarea id="part-notes" class="input-c" rows="3" aria-label="Must-meet specifications" disabled></textarea>
-            <button id="save-notes-btn" class="btn secondary sm" type="button" disabled aria-describedby="notes-why">Update specs</button>
-            <p id="notes-why" class="reason">Select a saved part first.</p>
-            </details>
+            <!-- Must-Meet Specs moved to Pipeline Results -> Build & Verification, right after
+                 Model Check (Solid Flow brand spec); see ui/results.js R.must_meet. -->
           </div>
         </section>
 
@@ -208,10 +210,10 @@
             <span id="run-reason" class="reason trk-reason">Select or create a part.</span>
             <div class="row2 row-actions">
               <button id="run-all-btn" class="btn secondary" type="button" disabled aria-describedby="runall-why"><span data-icon="play-all" data-size="16"></span>Run All Parts</button>
-              <button id="demo-btn" class="btn secondary" type="button" disabled aria-describedby="runall-why"><span data-icon="play" data-size="16"></span>Run Demo <span class="badge-c">Demo</span></button>
             </div>
+            <!-- Run Demo lives only on Home (see pages/home.js demoDialog); it is removed from
+                 every other screen per the Solid Flow brand spec. -->
             <details class="more" id="run-options"><summary>Run options</summary>
-              <div class="fld"><label for="demo-sample">Demo sample</label><select id="demo-sample" class="input-c" disabled></select></div>
               <label class="chk"><input id="no-cache" type="checkbox" disabled><span>Force fresh extraction</span></label>
               <p class="hint">Ignores the extraction cache; makes new API calls.</p>
             </details>
@@ -220,18 +222,8 @@
           </div>
         </section>
 
-        <section class="acc" data-acc="corrections">
-          <h2 class="acc-h"><button type="button" class="acc-btn" id="acc-btn-corrections" aria-expanded="true" aria-controls="acc-corrections"><span data-icon="refresh"></span><span class="acc-t">Corrections</span><span class="acc-chev" data-icon="chevron-down" data-size="16"></span></button></h2>
-          <div id="acc-corrections" class="acc-body" role="region" aria-labelledby="acc-btn-corrections">
-            <!-- OWNER: run (corrections) -->
-            <textarea id="feedback-text" class="input-c" rows="2" placeholder="e.g., update diameter to 3.880 mm" aria-label="Correction" disabled></textarea>
-            <div class="row2">
-              <button id="open-editor-btn" class="btn ghost sm" type="button" disabled aria-describedby="corr-why">Open editor</button>
-            </div>
-            <button id="rerun-feedback-btn" class="btn" type="button" disabled aria-describedby="corr-why"><span data-icon="refresh" data-size="16"></span>Re-run with correction</button>
-            <p id="corr-why" class="reason">Select a part that has output first.</p>
-          </div>
-        </section>
+        <!-- Corrections moved to Pipeline Results -> Build & Verification, right after
+             Must-Meet Specs (Solid Flow brand spec); see ui/results.js R.corrections. -->
 
         <section class="acc" data-acc="export">
           <h2 class="acc-h"><button type="button" class="acc-btn" id="acc-btn-export" aria-expanded="true" aria-controls="acc-export"><span data-icon="download"></span><span class="acc-t">Export</span><span class="acc-chev" data-icon="chevron-down" data-size="16"></span></button></h2>

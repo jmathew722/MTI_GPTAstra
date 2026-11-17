@@ -79,6 +79,7 @@
     return post('/api/parts/' + enc(s) + '/' + enc(p) + '/marked-view', form({ file: blob }));
   }
   function partOutputs(s, p) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/outputs'); }
+  function partScoring(s, p) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/scoring'); }
   /** {session, part, feedback?, no_cache?}. no_cache is sent only when true. */
   function runPart(o) {
     var f = { session: o.session, part: o.part, feedback: o.feedback || '' };
@@ -154,7 +155,7 @@
 
   var api = { ApiError: ApiError, status: status, newSession: newSession, listParts: listParts,
     savePart: savePart, uploadBatch: uploadBatch, saveNotes: saveNotes, getRegions: getRegions,
-    saveRegions: saveRegions, saveMarkedView: saveMarkedView, partOutputs: partOutputs, runPart: runPart,
+    saveRegions: saveRegions, saveMarkedView: saveMarkedView, partOutputs: partOutputs, partScoring: partScoring, runPart: runPart,
     demo: demo, runOutputs: runOutputs, runFiles: runFiles, cancel: cancel, openLog: openLog,
     runHistory: runHistory, clearHistory: clearHistory, convertCad: convertCad };
   Object.keys(urls).forEach(function (k) { api[k] = urls[k]; });

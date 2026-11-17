@@ -294,6 +294,10 @@
     });
   }
 
+  /** Draft edit from the Must-Meet Specs tab: same effect as typing in the old inspector
+      field (marks the draft dirty so a background parts-list refresh never clobbers it). */
+  function setNotesDraft(text) { notesDirty = true; patchIntake({ notesDraft: text }); }
+
   function saveNotes() {
     var s = S(), sel = s.parts.selected;
     if (!sel || s.intake.items.length) return Promise.resolve();
@@ -505,8 +509,9 @@
   }
 
   function renderNotes() {
-    var s = S(), it = s.intake, has = it.items.length > 0, sel = s.parts.selected;
     var ta = $('part-notes'), btn = $('save-notes-btn'), why = $('notes-why');
+    if (!ta) return;   // Must-Meet Specs tab (Pipeline Results) is not the one currently shown
+    var s = S(), it = s.intake, has = it.items.length > 0, sel = s.parts.selected;
     var enabled = has || !!sel;
     ta.disabled = !enabled;
     if (ta.value !== (it.notesDraft || '') && document.activeElement !== ta) ta.value = it.notesDraft || '';
@@ -532,6 +537,9 @@
   McA.intake = {
     handleFiles: handleFiles, handleFolder: handleFolder, createParts: createParts, uploadStagedParts: uploadStagedParts, pullCrops: pullCrops, loadCad: loadCad,
     guessOrientation: guessOrientation, rotateDataURL: rotateDataURL, savePart: savePart, FORMATS_TEXT: FORMATS_TEXT,
+    /* Must-Meet Specs now renders inside Pipeline Results, not Part Setup. Same saveNotes()/
+       renderNotes() the old inspector field used, exported for results.js's R.must_meet. */
+    saveNotes: saveNotes, renderNotes: renderNotes, setNotesDraft: setNotesDraft,
     init: function () {
       if (typeof pdfjsLib !== 'undefined' && pdfjsLib.GlobalWorkerOptions) pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 

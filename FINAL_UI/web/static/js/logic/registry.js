@@ -22,7 +22,8 @@
     { id: 'extraction', label: 'Extraction' },
     { id: 'build', label: 'Build & Verification' },
     { id: 'files', label: 'Automation & Files' },
-    { id: 'diagnostics', label: 'Diagnostics' }
+    { id: 'diagnostics', label: 'Diagnostics' },
+    { id: 'scoring', label: 'Scoring Rubric' }
   ];
 
   function cats(payload) { return (payload && payload.categories) || {}; }
@@ -67,10 +68,10 @@
       emptyText: 'No build plan. The part was blocked before planning or has not run.',
       tools: ['search', 'listRaw', 'copy', 'download'],
       source: srcKey('build_plan'), status: function (p) { return present('build_plan')(p) ? 'present' : 'absent'; } },
-    { id: 'verification', group: 'build', label: 'Verification', keys: ['verification', 'must_meet'],
+    { id: 'verification', group: 'build', label: 'Verification', keys: ['verification'],
       emptyText: 'No verification report yet.', tools: ['copy', 'download'],
-      source: function (p) { return { report: cat(p, 'verification'), mustMeet: cat(p, 'must_meet') }; },
-      status: function (p) { return present('verification')(p) || present('must_meet')(p) ? 'present' : 'absent'; } },
+      source: function (p) { return { report: cat(p, 'verification') }; },
+      status: function (p) { return present('verification')(p) ? 'present' : 'absent'; } },
     { id: 'flags', group: 'build', label: 'Engineering flags', keys: ['review'],
       emptyText: 'No engineering review yet.',
       emptyTextFor: function (p) {
@@ -84,6 +85,14 @@
       emptyText: 'Model check requires Windows and SolidWorks; it was not produced for this run.',
       tools: ['copy', 'download'],
       source: srcKey('model_check'), status: function (p) { return present('model_check')(p) ? 'present' : 'absent'; } },
+    { id: 'must_meet', group: 'build', label: 'Must-Meet Specs', keys: ['must_meet'],
+      emptyText: 'No must-meet specification saved for this part yet.',
+      tools: [],
+      source: srcKey('must_meet'), status: function (p) { return present('must_meet')(p) ? 'present' : 'absent'; } },
+    { id: 'corrections', group: 'build', label: 'Corrections', keys: [],
+      emptyText: 'Select a part to describe a correction.',
+      tools: [],
+      source: function () { return {}; }, status: function () { return 'present'; } },
     { id: 'macros', group: 'files', label: 'Macros', keys: ['macros'],
       emptyText: 'No macros generated yet.', tools: ['copy', 'download'],
       source: srcKey('macros'), status: function (p) { return present('macros')(p) ? 'present' : 'absent'; } },
@@ -125,7 +134,14 @@
       status: function (p, extra) {
         var s = SECTIONS_BY_ID.events.source(p, extra);
         return s.events.length ? 'present' : 'absent';
-      } }
+      } },
+    /* Fetched separately (GET .../scoring), not part of the outputs payload: a geometry score
+       needs a signed answer key (bench.score; only exists for official benchmark parts) and
+       the MTI practices checklist is derived from ir_report.json's real mti_review findings.
+       keys:[] because no payload.categories key backs it -- see server/app.py part_scoring. */
+    { id: 'scoring_rubric', group: 'scoring', label: 'Scoring Rubric', keys: [],
+      emptyText: 'Not scored.', tools: [],
+      source: function () { return {}; }, status: function () { return 'present'; } }
   ];
   var SECTIONS_BY_ID = {};
   SECTIONS.forEach(function (s) { SECTIONS_BY_ID[s.id] = s; });

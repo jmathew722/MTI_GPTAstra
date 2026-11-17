@@ -49,7 +49,7 @@
   SCHEMA[KEYS.sidebar] = function (v) { return v === 'expanded' || v === 'collapsed'; };
   SCHEMA[KEYS.inspector] = function (v) {
     return isObj(v) && isBool(v.collapsed) && isObj(v.open) &&
-      ['setup', 'actions', 'corrections', 'export'].every(function (k) { return isBool(v.open[k]); });
+      ['setup', 'actions', 'export'].every(function (k) { return isBool(v.open[k]); });
   };
   SCHEMA[KEYS.drawer] = function (v) {
     return isObj(v) && isBool(v.open) && isNum(v.height) && v.height >= 120 && v.height <= 4000 && typeof v.section === 'string';
@@ -102,7 +102,7 @@
     return {
       sidebarCollapsed: false,
       inspectorCollapsed: false,
-      inspectorOpen: { setup: true, actions: true, corrections: true, export: true },
+      inspectorOpen: { setup: true, actions: true, export: true },
       drawerOpen: false,
       drawerHeight: 320,
       drawerSection: 'overview',

@@ -209,14 +209,27 @@
   };
 
   R.verification = function (body, tools, d) {
-    var c = cats(d), rep = c.verification || {}, mm = c.must_meet || {};
+    var c = cats(d), rep = c.verification || {};
     var rel = McA.registry.downloadRel(d.payload, 'verification');
     var vd = d.extra.verdict;
     if (vd) body.append(h('p', { class: 'verdict' }, h('span', { class: 'cap-c', text: 'Verdict ' }), chip(McA.runstate.VERDICT_LABELS[vd] || vd, vd === 'passed' ? 'ok' : vd === 'failed' ? 'err' : vd === 'flags' ? 'warn' : 'steel')));
     else body.append(note('No live run is tied to this view, so no verdict is derived here. Read the checks and the report below.', 'hint'));
+    if (rep.present) {
+      body.append(h('h3', { class: 'sub-h', text: 'Report' }));
+      if (rep.text === null) body.append(tooLarge(d, rel)); else { body.append(rawPre(rep.text, '')); tools.append(copyBtn(function () { return rep.text; }), downloadBtn(d, rel, rep.name || 'verification_report.txt', function () { return rep.text; })); }
+    }
+    body.append(note('Must-meet check results moved to the Must-Meet Specs tab, immediately after Model Check.', 'hint'));
+  };
+
+  /* Must-Meet Specs: the graded check results (read-only, from the run) plus the editable
+     spec text (McA.intake.renderNotes/saveNotes -- the same functions Part Setup used before
+     this moved into Results). Fresh elements every render; no stale listeners to worry about,
+     since the whole section is replaced on every tab switch (see showSection below). */
+  R.must_meet = function (body, tools, d) {
+    var mm = cats(d).must_meet || {};
     if (mm.present && (mm.results || []).length) {
       var stage = mm.stage === 'post_build' ? 'Verified against the SolidWorks build' : 'Pre-validated (CadQuery); SolidWorks build pending';
-      body.append(h('h3', { class: 'sub-h', text: 'Must-meet checks' }), note(stage + '.', 'hint'));
+      body.append(h('h3', { class: 'sub-h', text: 'Graded results' }), note(stage + '.', 'hint'));
       var rows = mm.results.map(function (r) {
         var st = String(r.status || '');
         return h('tr', null, h('td', { class: 'mono', text: String(r.id) }), h('td', null, chip(st || '-', st === 'PASS' ? 'ok' : st === 'FAIL' ? 'err' : 'warn')),
@@ -225,10 +238,37 @@
       });
       body.append(table(['Check', 'Status', 'Required', 'Measured', 'Detail'], rows, 'Must-meet checks'));
       if ((mm.failed || []).length) body.append(h('ul', { class: 'failed-list' }, mm.failed.map(function (f) { return h('li', null, McA.icons.get('x', 14), h('span', { text: String(f) })); })));
+    } else {
+      body.append(note('No graded results yet: run the pipeline after saving a spec below.', 'hint'));
     }
-    if (rep.present) {
-      body.append(h('h3', { class: 'sub-h', text: 'Report' }));
-      if (rep.text === null) body.append(tooLarge(d, rel)); else { body.append(rawPre(rep.text, '')); tools.append(copyBtn(function () { return rep.text; }), downloadBtn(d, rel, rep.name || 'verification_report.txt', function () { return rep.text; })); }
+    body.append(h('h3', { class: 'sub-h', text: 'Specification' }));
+    var ta = h('textarea', { id: 'part-notes', class: 'input-c', rows: '4', 'aria-label': 'Must-meet specifications', disabled: true });
+    var btn = h('button', { id: 'save-notes-btn', class: 'btn secondary sm', type: 'button', disabled: true, 'aria-describedby': 'notes-why', text: 'Update specs' });
+    var why = h('p', { id: 'notes-why', class: 'reason' });
+    body.append(ta, h('div', { class: 'row2' }, btn), why);
+    if (McA.intake && McA.intake.renderNotes) {
+      ta.addEventListener('input', function (e) { McA.intake.setNotesDraft(e.target.value); });
+      btn.addEventListener('click', McA.intake.saveNotes);
+      McA.intake.renderNotes();
+    }
+  };
+
+  /* Corrections: same rerunWithCorrection()/openEditor()/renderCorr() the old inspector card
+     used (McA.run), now attached to fresh DOM each time this tab is shown. */
+  R.corrections = function (body) {
+    var ta = h('textarea', { id: 'feedback-text', class: 'input-c', rows: '2',
+      placeholder: 'e.g., update diameter to 3.880 mm', 'aria-label': 'Correction', disabled: true });
+    var ed = h('button', { id: 'open-editor-btn', class: 'btn ghost sm', type: 'button', disabled: true, 'aria-describedby': 'corr-why', text: 'Open editor' });
+    var run = h('button', { id: 'rerun-feedback-btn', class: 'btn', type: 'button', disabled: true, 'aria-describedby': 'corr-why' },
+      McA.icons.get('refresh', 16), ' Re-run with correction');
+    var why = h('p', { id: 'corr-why', class: 'reason' });
+    body.append(h('p', { class: 'hint', text: 'Describe what the model got wrong; it becomes a must-meet correction line on the next run.' }),
+      ta, h('div', { class: 'row2' }, ed, run), why);
+    if (McA.run && McA.run.renderCorr) {
+      ta.addEventListener('focus', function () { ta.rows = 6; });
+      ed.addEventListener('click', McA.run.openEditor);
+      run.addEventListener('click', function () { if (this.getAttribute('aria-disabled') !== 'true') McA.run.rerunWithCorrection(); });
+      McA.run.renderCorr();
     }
   };
 
@@ -286,7 +326,32 @@
       body.append(rawPre(c.text, ''));
     };
   }
-  R.model_check = textSection('model_check', 'model_check', 'model_check.txt');
+  /* Two distinct, honestly-labeled checks (never merged into one "Verified" badge):
+     STL EXPORT  -- did a real mesh file get written for this run (cats.stl, from the actual
+                    file on disk -- see server/app.py _active_stl). "prevalidation" means the
+                    CadQuery reference meshed but SolidWorks did not (or was not used).
+     STL VIEWER  -- is the mesh the 3D viewer is currently showing the SAME one just checked
+                    (same run, not a stale/previous-run artifact -- payload.stl_mtime vs this
+                    run's start time, the same freshness check the tracker uses).
+     Neither line is a native-geometry comparison engine (bbox/volume against the SLDPRT); that
+     already exists as sw_bbox_ok/sw_volume_ok inside the Report text below, from the real
+     SolidWorks build, not fabricated here. */
+  R.model_check = function (body, tools, d) {
+    var c = cats(d), stl = c.stl || {};
+    var startedSec = (d.payload && typeof d.payload.started === 'number') ? d.payload.started
+      : (d.run && d.run.startedAt ? d.run.startedAt / 1000 : null);
+    var fresh = McA.runstate.stlFresh(d.payload, startedSec);
+    body.append(h('h3', { class: 'sub-h', text: 'STL export' }),
+      stl.present
+        ? h('p', null, chip(stl.source === 'solidworks' ? 'Exported by SolidWorks' : 'CadQuery reference only', stl.source === 'solidworks' ? 'ok' : 'warn'),
+            ' ', h('span', { class: 'mono', text: stl.name || '' }))
+        : note('No STL exists for this run.', 'hint'));
+    body.append(h('h3', { class: 'sub-h', text: 'STL viewer' }),
+      stl.present
+        ? h('p', null, chip(fresh ? 'Showing this run’s STL' : 'May be showing a previous run', fresh ? 'ok' : 'warn'))
+        : note('Nothing loaded.', 'hint'));
+    textSection('model_check', 'model_check', 'model_check.txt')(body, tools, d);
+  };
 
   R.overview_analysis = function (body, tools, d) {
     var oa = cats(d).overview_analysis || {}, data = oa.data || {}, raw = !!d.s.ui.raw.overview_analysis;
@@ -474,6 +539,57 @@
       .then(function () { McA.results.refresh(); });
     return summaryCache[k];
   }
+  var scoringCache = {};
+  function getScoring(d) {
+    if (!d.ctx || d.ctx.kind !== 'part') return { state: 'none', data: null };
+    var k = ctxKey(d.ctx), c = scoringCache[k];
+    if (c && c.stamp === (d.payload && d.payload.stl_mtime)) return c;
+    var stamp = d.payload && d.payload.stl_mtime;
+    scoringCache[k] = { state: 'loading', data: null, stamp: stamp };
+    McA.api.partScoring(d.ctx.session, d.ctx.part).then(function (data) {
+      scoringCache[k] = { state: 'ok', data: data, stamp: stamp };
+    }, function () { scoringCache[k] = { state: 'error', data: null, stamp: stamp }; })
+      .then(function () { McA.results.refresh(); });
+    return scoringCache[k];
+  }
+  /* Two measures, never blended (matches pipeline/bench/scoring.py's own PartScore.practices:
+     "weight 0 for now"). Geometry needs a signed answer key and only exists for official
+     benchmark parts; practices is real data for any IR-built part. Neither is invented when
+     absent -- shown as "Not scored", never a fabricated number. */
+  R.scoring_rubric = function (body, tools, d) {
+    if (!d.ctx || d.ctx.kind !== 'part') { body.append(note('Select a part to see its scoring rubric.')); return; }
+    var sc = getScoring(d);
+    if (sc.state === 'loading') { body.append(note('Loading…', 'hint')); return; }
+    if (sc.state === 'error' || !sc.data) { body.append(note('Scoring data could not be loaded for this part.', 'hint')); return; }
+    var geo = sc.data.geometry || {}, pr = sc.data.practices || {};
+    body.append(h('h3', { class: 'sub-h', text: 'Geometry score' }));
+    if (geo.present) {
+      body.append(h('p', { class: 'verdict' }, h('span', { class: 'cap-c', text: 'Score ' }),
+        chip(String(geo.score) + (geo.exact ? ' · exact' : ''), geo.score >= 90 ? 'ok' : geo.score >= 70 ? 'warn' : 'err')),
+        note('From ' + geo.source + '.', 'hint'));
+      if ((geo.rows || []).length) {
+        body.append(table(['Feature', 'Score', 'Notes'], geo.rows.map(function (r) {
+          return h('tr', null, h('td', { class: 'mono', text: String(r.feature_id || '') }),
+            h('td', { class: 'mono', text: r.score === undefined ? '' : String(r.score) }),
+            h('td', { text: r.note || '' }));
+        }), 'Per-feature geometry score'));
+      }
+    } else {
+      body.append(note('Not scored: this part has no signed reference key (bench.score only scores official ' +
+        'benchmark parts with a ground-truth answer key, not ordinary uploads).', 'hint'));
+    }
+    body.append(h('h3', { class: 'sub-h', text: 'MTI modeling practices' }),
+      note('Advisory, never blended into the geometry score above (same separation as the pipeline’s own scorer).', 'hint'));
+    if (!pr.present) { body.append(note('No build plan for this part yet.')); return; }
+    if (pr.clean) { body.append(note('No practice flags raised.', 'hint')); }
+    pr.checks.forEach(function (c) {
+      body.append(h('div', { class: 'flag-item ' + (c.flagged ? 'sev-MEDIUM' : '') },
+        h('div', { class: 'flag-head' }, chip(c.flagged ? 'Flagged' : 'Clear', c.flagged ? 'warn' : 'ok'), h('span', { class: 'fid', text: c.label })),
+        c.items.map(function (m) { return h('div', { class: 'row', text: m }); })));
+    });
+    if ((pr.other || []).length) body.append(h('h3', { class: 'sub-h', text: 'Other notes' }), pr.other.map(function (m) { return h('div', { class: 'row', text: m }); }));
+  };
+
   R.overview = function (body, tools, d, sec) {
     var c = cats(d), src = sec.source(d.payload, d.extra), sm = getSummary(d), row = sm.row;
     var run = d.extra.runState;

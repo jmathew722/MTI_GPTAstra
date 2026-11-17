@@ -1,5 +1,11 @@
 /* pages.css: home, projects, recent, help, settings. */
 .home-wrap { max-width: 640px; margin: 0 auto; padding-top: clamp(16px, 8vh, 88px); display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--sp-4); }
+/* Brand lockup: real logo file when present (see README — drop solidflow-logo.png into
+   web/static/img/), else a plain text wordmark. Never recreates the approved artwork. */
+.home-brand { display: block; margin-bottom: calc(-1 * var(--sp-2)); }
+.home-logo { max-height: 56px; max-width: 220px; object-fit: contain; display: block; margin: 0 auto; }
+.home-logo-fallback { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.home-logo-fallback b { color: var(--gold); font-weight: 700; }
 .home-tile { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); color: var(--accent); margin-bottom: var(--sp-1); }
 .home-h1 { font-size: clamp(20px, 3.4vw, 24px); line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
 .home-sub { color: var(--ink-3); font-size: var(--fs-body); margin-top: calc(var(--sp-3) * -1); }

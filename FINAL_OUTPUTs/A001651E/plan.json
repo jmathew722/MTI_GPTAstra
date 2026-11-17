@@ -1,0 +1,280 @@
+{
+  "dims": {
+    "D001": 19.993,
+    "D002": 17.001,
+    "D003": 18.44,
+    "D004": 15.5,
+    "D005": 1.406,
+    "D006": 0.6,
+    "D007": 0.03,
+    "D008": 0.03,
+    "D009": 19.25,
+    "D010": 16.25,
+    "D011": 0.375,
+    "D012": 0.375,
+    "D013": 0.312,
+    "D014": 0.38,
+    "D015": 0.38,
+    "D016": 0.06,
+    "D017": 45.0,
+    "D018": 0.12,
+    "D019": 0.25,
+    "D020": 0.01,
+    "D021": 0.01,
+    "D022": 0.001,
+    "D023": 0.001,
+    "D024": 0.001,
+    "D025": 0.806,
+    "D026": 9.625,
+    "D027": 8.125,
+    "D028": 45.0
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "165-C",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "section": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Turn the annular section with its outside shoulder and front bore recess; front face at z=0.",
+        "source_callouts": [
+          "19.993 \u00b1.001 DIA.",
+          "17.001 \u00b1.001 DIA.",
+          "18.44 DIA.",
+          "15.50 DIA.",
+          "1.406",
+          ".600"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D006",
+            "r": "D001 / 2"
+          },
+          {
+            "z": "D006",
+            "r": "D003 / 2"
+          },
+          {
+            "z": "D005",
+            "r": "D003 / 2"
+          }
+        ],
+        "inner": [
+          {
+            "z": "0",
+            "r": "D002 / 2"
+          },
+          {
+            "z": "D006",
+            "r": "D002 / 2"
+          },
+          {
+            "z": "D006",
+            "r": "D004 / 2"
+          },
+          {
+            "z": "D005",
+            "r": "D004 / 2"
+          }
+        ],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Round the concave outside shoulder root.",
+        "source_callouts": [
+          ".030 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D007",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D006),wall(F001,D003 / 2))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "Round the concave bore recess root.",
+        "source_callouts": [
+          ".030 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D008",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,D006),wall(F001,D002 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Seed tapped through hole on the outer basic bolt circle.",
+        "source_callouts": [
+          ".375-16 TAP THRU",
+          "8-HOLES EQUALLY SPACED",
+          "19.250 DIA. BSC"
+        ],
+        "status": "planned",
+        "justification": "Standard 5/16 inch (0.3125) tap drill for 3/8-16 UNC; cosmetic thread with no assumed fit class. The end view shows a hole on +X. D005 drilling depth exceeds the D006 flange thickness, ensuring breakthrough.",
+        "kind": "hole",
+        "on": "face(F001,-Z,0)",
+        "u": "D009 / 2",
+        "v": "0",
+        "spec": {
+          "type": "tapped",
+          "d": "0.3125",
+          "depth": "D005",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ".375-16 UNC; class unspecified"
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Complete eight equally spaced outer tapped holes.",
+        "source_callouts": [
+          "8-HOLES EQUALLY SPACED",
+          "19.250 DIA. BSC"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F004",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "8",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "D028",
+        "skip": []
+      },
+      {
+        "id": "F006",
+        "rationale": "Drill through the inner flange and counterbore from the opposite +Z end.",
+        "source_callouts": [
+          "DRILL & C'BORE FROM OPPOSITE SIDE FOR .375 SOC. HD. CAP SCR.",
+          "8-HOLES EQUALLY SPACED",
+          "16.250 DIA. BSC"
+        ],
+        "status": "planned",
+        "justification": "Supplied ASME B18.3 SHCS normal-fit chart: 0.406 drill, 0.625 counterbore diameter, 0.375 counterbore depth for D012 nominal screw. Depth therefore equals D012. Verify against MTI shop standard. End view shows inner and outer patterns radially aligned. D005 drill depth exceeds the inner flange thickness D005-D006 and breaks into the front recess.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D005)",
+        "u": "D010 / 2",
+        "v": "0",
+        "spec": {
+          "type": "cbore",
+          "d": "0.406",
+          "depth": "D005",
+          "cbore_d": "0.625",
+          "cbore_depth": "D012",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Complete eight equally spaced clearance holes with opposite-side counterbores.",
+        "source_callouts": [
+          "8-HOLES EQUALLY SPACED",
+          "16.250 DIA. BSC"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F006",
+        "mode": "circular",
+        "dir": "+X",
+        "count": "8",
+        "pitch": "0",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "D028",
+        "skip": []
+      },
+      {
+        "id": "F008",
+        "rationale": "What balance-hole quantity and clocking are required, and which axial edge defines the local .38 offset? The balance acceptance limit is missing.",
+        "source_callouts": [
+          "BALANCE TO WITHIN . [illegible/unfilled] OZ-IN",
+          ".312 \u2300 B HOLES .38 DEEP",
+          ".38"
+        ],
+        "status": "unresolved",
+        "justification": "The hidden radial hole appears to enter the reduced OD rather than the maximum-OD flange assumed in the extraction. Surface and axial placement below are provisional only; u=0 is not specified clocking. Do not execute. Once located, use the printed full-diameter depth with a flat bottom under standard drafting convention.",
+        "kind": "hole",
+        "on": "wall(F001,D003 / 2)",
+        "u": "0",
+        "v": "D005 - D015",
+        "spec": {
+          "type": "blind",
+          "d": "D013",
+          "depth": "D014",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Which complete set of circular edges is selected by the branched chamfer leaders? Confirm on a clearer original.",
+        "source_callouts": [
+          ".06 x 45\u00b0"
+        ],
+        "status": "unresolved",
+        "justification": "Listed front bore lip is a candidate only, not an approved or exhaustive edge set. Do not apply the callout to all edges.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D016",
+        "angle": "D017",
+        "edges": [
+          "edge_between(face(F001,-Z,0),wall(F001,D002 / 2))"
+        ]
+      }
+    ],
+    "notes": [
+      "Use the ring axis origin, not the extraction's corner-offset hole instance coordinates.",
+      "Material USS-T1; title WEIGHT - FLYWHEEL; model 180 B.",
+      "Preserve both .010 DIA. position controls D020/D021 as inspection annotations.",
+      "Datum A is the \u00d817.001 bore axis. Preserve D022-D024 runout/perpendicularity requirements; confirm faint leader attachments before release.",
+      "Surface finish 63 and H/K symbols are manufacturing annotations. Obtain governing H/K definitions.",
+      "STAMP .12 HIGH (D018): 165-C; 17.85 WK\u00b2; [unfilled/unclear speed] MAX. R.P.M. Text stamping is outside this solid-feature IR and has no defined depth; do not invent lettering cuts. Resolve the speed inscription.",
+      "LEAVE .25 MIN. STOCK FOR MACHINING ON ALL FLAME CUT DIAMETERS (D019) governs the blank, not finished geometry.",
+      "WK\u00b2 = 17.85 LBS.FT\u00b2; WEIGHT = 33 LBS. are annotations, not driving dimensions.",
+      "Keep unresolved balancing and chamfer features suppressed. Standard-derived hole dimensions are planned review items."
+    ]
+  }
+}

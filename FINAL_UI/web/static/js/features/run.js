@@ -302,26 +302,12 @@
   }
   function renderActions() {
     var s = store.get(), running = sel.isRunning(s) || s.batch.active;
-    var runAll = $('run-all-btn'), demo = $('demo-btn'), pick = $('demo-sample'), nc = $('no-cache'), why = $('runall-why'), mirror = $('cancel-mirror-btn');
+    var runAll = $('run-all-btn'), nc = $('no-cache'), why = $('runall-why'), mirror = $('cancel-mirror-btn');
     if (!runAll) return;
     var ra = batchReason(s);
-    var samples = s.server.samples || [];
-    var da = !s.server.reachable ? 'Server unreachable.' : running ? 'A run is in progress.' : !samples.length ? 'The server reports no sample extractions.' : null;
-    setAria(runAll, ra); setAria(demo, da);
-    pick.disabled = !samples.length || running;
-    var cursel = pick.value;
-    if (pick.getAttribute('data-n') !== samples.join('|')) {
-      pick.replaceChildren();
-      samples.forEach(function (n) { var o = document.createElement('option'); o.value = n; o.textContent = n; pick.appendChild(o); });
-      pick.setAttribute('data-n', samples.join('|'));
-      if (cursel && samples.indexOf(cursel) !== -1) pick.value = cursel;
-    }
+    setAria(runAll, ra);
     nc.disabled = !s.server.reachable || running;
-    var msgs = [];
-    if (ra) msgs.push('Run All Parts: ' + ra);
-    if (da) msgs.push('Run Demo: ' + da);
-    if (!ra && !da) msgs.push('Run All Parts makes paid API calls, one part at a time. Run Demo uses a saved extraction and makes no API call.');
-    why.textContent = msgs.join(' ');
+    why.textContent = ra || 'Run All Parts makes paid API calls, one part at a time.';
     if (mirror) mirror.hidden = !sel.isRunning(s);
     if (mirror) { mirror.disabled = !!s.run.cancelPending; mirror.textContent = s.run.cancelPending ? 'Cancelling…' : 'Cancel run'; }
   }
@@ -483,10 +469,6 @@
     var cb = $('cancel-btn'); if (cb) cb.addEventListener('click', cancelRun);
     var mirror = $('cancel-mirror-btn'); if (mirror) mirror.addEventListener('click', cancelRun);
     $('run-all-btn').addEventListener('click', function () { if (this.getAttribute('aria-disabled') !== 'true') requestBatch(); else toast(batchReason(store.get()) || '', 'warn'); });
-    $('demo-btn').addEventListener('click', function () {
-      if (this.getAttribute('aria-disabled') === 'true') return;
-      launch({ kind: 'demo', sample: $('demo-sample').value || undefined });
-    });
     ['server', 'parts', 'run', 'batch'].forEach(function (k) { store.subscribe(function (s) { return s[k]; }, renderActions); });
     renderActions();
 
@@ -523,5 +505,10 @@
 
   McA.run = { init: init, launch: launch, runSelected: runSelected, cancel: cancelRun, loadOutputs: loadOutputs,
     requestBatch: requestBatch, resumeBatch: resumeBatch, dismissBatch: dismissBatch, batchRemaining: batchRemaining,
-    exportItems: exportItems, zipAvailable: zipAvailable, fileURL: fileURL };
+    exportItems: exportItems, zipAvailable: zipAvailable, fileURL: fileURL,
+    /* Corrections now renders inside Pipeline Results (Build & Verification), not the right
+       inspector. These are the same functions the old inspector card used -- same launch()
+       call, same draft persistence, same confirm dialog -- exported so results.js can attach
+       them to the fresh DOM it creates each time the Corrections section is shown. */
+    renderCorr: renderCorr, rerunWithCorrection: rerunWithCorrection, openEditor: openEditor, corrReason: corrReason };
 })();

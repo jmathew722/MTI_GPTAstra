@@ -1,0 +1,326 @@
+{
+  "part": "165-C",
+  "units": "inch",
+  "origin_kind": "axis_end",
+  "bbox": [
+    -9.9965,
+    -9.9965,
+    0.0,
+    9.9965,
+    9.9965,
+    1.406
+  ],
+  "volume": 113.612252,
+  "volume_mm3": 1861771.237,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007"
+  ],
+  "skipped": {
+    "F008": "unresolved: What balance-hole quantity and clocking are required, and which axial edge defines the local .38 offset? The balance acceptance limit is missing.",
+    "F009": "unresolved: Which complete set of circular edges is selected by the branched chamfer leaders? Confirm on a clearer original."
+  },
+  "holes": {
+    "F004": [
+      {
+        "planned_center": [
+          9.625,
+          0.0
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          9.625,
+          0.0
+        ],
+        "d": 0.3125,
+        "depth": 0.6,
+        "axis": "Z"
+      }
+    ],
+    "F005": [
+      {
+        "planned_center": [
+          6.805903,
+          6.805903
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          6.805903,
+          6.805903
+        ],
+        "d": 0.3125,
+        "depth": 0.6,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          0.0,
+          9.625
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          0.0,
+          9.625
+        ],
+        "d": 0.3125,
+        "depth": 0.6,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -6.805903,
+          6.805903
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          -6.805903,
+          6.805903
+        ],
+        "d": 0.3125,
+        "depth": 0.6,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -9.625,
+          0.0
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          -9.625,
+          0.0
+        ],
+        "d": 0.3125,
+        "depth": 0.6,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -6.805903,
+          -6.805903
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          -6.805903,
+          -6.805903
+        ],
+        "d": 0.3125,
+        "depth": 0.6,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -0.0,
+          -9.625
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          -0.0,
+          -9.625
+        ],
+        "d": 0.3125,
+        "depth": 0.6,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          6.805903,
+          -6.805903
+        ],
+        "planned_d": 0.3125,
+        "measured": true,
+        "center": [
+          6.805903,
+          -6.805903
+        ],
+        "d": 0.3125,
+        "depth": 0.6,
+        "axis": "Z"
+      }
+    ],
+    "F006": [
+      {
+        "planned_center": [
+          8.125,
+          0.0
+        ],
+        "planned_d": 0.406,
+        "measured": true,
+        "center": [
+          8.125,
+          0.0
+        ],
+        "d": 0.406,
+        "depth": 0.431,
+        "axis": "Z"
+      }
+    ],
+    "F007": [
+      {
+        "planned_center": [
+          5.745243,
+          5.745243
+        ],
+        "planned_d": 0.406,
+        "measured": true,
+        "center": [
+          5.745243,
+          5.745243
+        ],
+        "d": 0.406,
+        "depth": 0.431,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          0.0,
+          8.125
+        ],
+        "planned_d": 0.406,
+        "measured": true,
+        "center": [
+          0.0,
+          8.125
+        ],
+        "d": 0.406,
+        "depth": 0.431,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -5.745243,
+          5.745243
+        ],
+        "planned_d": 0.406,
+        "measured": true,
+        "center": [
+          -5.745243,
+          5.745243
+        ],
+        "d": 0.406,
+        "depth": 0.431,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -8.125,
+          0.0
+        ],
+        "planned_d": 0.406,
+        "measured": true,
+        "center": [
+          -8.125,
+          0.0
+        ],
+        "d": 0.406,
+        "depth": 0.431,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -5.745243,
+          -5.745243
+        ],
+        "planned_d": 0.406,
+        "measured": true,
+        "center": [
+          -5.745243,
+          -5.745243
+        ],
+        "d": 0.406,
+        "depth": 0.431,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          -0.0,
+          -8.125
+        ],
+        "planned_d": 0.406,
+        "measured": true,
+        "center": [
+          -0.0,
+          -8.125
+        ],
+        "d": 0.406,
+        "depth": 0.431,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          5.745243,
+          -5.745243
+        ],
+        "planned_d": 0.406,
+        "measured": true,
+        "center": [
+          5.745243,
+          -5.745243
+        ],
+        "d": 0.406,
+        "depth": 0.431,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {
+    "F002": [
+      [
+        -9.22,
+        0.0,
+        0.6
+      ]
+    ],
+    "F003": [
+      [
+        -8.5005,
+        0.0,
+        0.6
+      ]
+    ]
+  },
+  "starts": {
+    "F004": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F006": {
+      "axis": "Z",
+      "coord": 1.406,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 115.325675367,
+    "F002": 115.336872382,
+    "F003": 115.347179987,
+    "F004": 115.301160563,
+    "F005": 114.979024598,
+    "F006": 114.808177964,
+    "F007": 113.612251523
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -9.9965,
+      -9.9965,
+      0.0,
+      9.9965,
+      9.9965,
+      1.406
+    ]
+  }
+}

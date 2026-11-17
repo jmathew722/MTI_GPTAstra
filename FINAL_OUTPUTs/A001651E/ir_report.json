@@ -1,0 +1,47 @@
+{
+  "part": "A001651E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001651E\\A001651E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 7,
+  "questions": [
+    "F008: What balance-hole quantity and clocking are required, and which axial edge defines the local .38 offset? The balance acceptance limit is missing.",
+    "F009: Which complete set of circular edges is selected by the branched chamfer leaders? Confirm on a clearer original."
+  ],
+  "flagged": [
+    "F004: Standard 5/16 inch (0.3125) tap drill for 3/8-16 UNC; cosmetic thread with no assumed fit class. The end view shows a hole on +X. D005 drilling depth exceeds the D006 flange thickness, ensuring breakthrough.",
+    "F006: Supplied ASME B18.3 SHCS normal-fit chart: 0.406 drill, 0.625 counterbore diameter, 0.375 counterbore depth for D012 nominal screw. Depth therefore equals D012. Verify against MTI shop standard. End view shows inner and outer patterns radially aligned. D005 drill depth exceeds the inner flange thickness D005-D006 and breaks into the front recess."
+  ],
+  "defaults": [],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001651E\\reference.step",
+  "volume": 113.612252,
+  "cq_skipped": {
+    "F008": "unresolved: What balance-hole quantity and clocking are required, and which axial edge defines the local .38 offset? The balance acceptance limit is missing.",
+    "F009": "unresolved: Which complete set of circular edges is selected by the branched chamfer leaders? Confirm on a clearer original."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001651E\\165-C_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001651E\\165-C_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001651E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (1 edges selected by nearest point)",
+    "F003": "built (1 edges selected by nearest point)",
+    "F004": "built (one feature for F004, F005)",
+    "F005": "built (in F004 (one feature))",
+    "F006": "built (drill + counterbore; one feature for F006, F007)",
+    "F007": "built (in F006 (one feature))",
+    "F008": "skipped (unresolved: What balance-hole quantity and clocking are required, and which axial edge defines the local .38 offset? The balance acceptance limit is missing.)",
+    "F009": "skipped (unresolved: Which complete set of circular edges is selected by the branched chamfer leaders? Confirm on a clearer original.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F005: Hole Wizard 3/8-16 tapped, cosmetic thread did not match the reference (HoleWizard5 refused Blind + drill point); plain cut",
+    "sketches fully defined: 4/4"
+  ],
+  "mti_review": [
+    "[mti_edge_ops_last] F004 (hole) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 1.5405,
+  "error": ""
+}

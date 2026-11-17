@@ -20,6 +20,7 @@ from __future__ import annotations
 import io
 import json
 import os
+import re
 import sys
 import time
 import uuid
@@ -1718,6 +1719,62 @@ def part_outputs(session: str, part: str):
         "delivered_downloads": str(downloads) if downloads.is_dir() else None,
     })
     return payload
+
+
+# ── Scoring Rubric ──────────────────────────────────────────────────────────
+# Two genuinely different, never-blended measures (bench/scoring.py PartScore: "practices:
+# weight 0 for now" is the same separation already encoded in the pipeline's own scoring
+# dataclass). Neither is invented here:
+#   geometry  -- from <part>/scores.json, written by `python -m bench.score` (needs a signed
+#                answer key; only exists for official benchmark parts, not ordinary uploads).
+#   practices -- the real MTI modeling-practice findings already in ir_report.json's
+#                mti_review (pipeline/ir/mti_review.py), the same data Engineering Flags
+#                shows as LOW-severity items, regrouped under its real check codes.
+_MTI_CHECK_LABELS = {
+    "mti_hole_wizard":   "Hole Wizard sizing matched to MTI's hole standard",
+    "mti_hole_grouping": "Identical holes grouped into one Hole Wizard feature",
+    "mti_edge_ops_last":  "Fillets/chamfers modeled last in the feature tree",
+    "mti_avoid":         "No features on MTI's 'generally avoid' list",
+}
+
+
+def _practices_rubric(ir_report: dict | None) -> dict:
+    if ir_report is None:
+        return {"present": False}
+    findings = []
+    for line in ir_report.get("mti_review") or []:
+        m = re.match(r"^\[([a-z_0-9]+)\]\s*(.*)$", str(line))
+        findings.append({"code": m.group(1), "message": m.group(2)} if m else {"code": "other", "message": str(line)})
+    checks = []
+    for code, label in _MTI_CHECK_LABELS.items():
+        items = [f["message"] for f in findings if f["code"] == code]
+        checks.append({"code": code, "label": label, "flagged": bool(items), "items": items})
+    other = [f["message"] for f in findings if f["code"] not in _MTI_CHECK_LABELS]
+    return {"present": True, "checks": checks, "other": other,
+            "clean": not any(c["flagged"] for c in checks) and not other}
+
+
+@app.get("/api/parts/{session}/{part}/scoring")
+def part_scoring(session: str, part: str):
+    out_dir = _part_output_dir(session, part)
+    scores_path = out_dir / "scores.json"
+    geometry: dict = {"present": False}
+    if scores_path.is_file():
+        try:
+            data = json.loads(scores_path.read_text(encoding="utf-8"))
+            # bench.score writes {"parts": [{"part": ..., "score": ..., "exact": ..., "rows": [...]}]}
+            # or a single-part shape depending on how it was invoked; handle both honestly.
+            rows = data.get("parts") if isinstance(data, dict) and "parts" in data else (data if isinstance(data, list) else [data])
+            mine = next((r for r in rows if r.get("part") == _sanitize(part)), rows[0] if len(rows) == 1 else None)
+            if mine:
+                geometry = {"present": True, "part": mine.get("part"), "score": mine.get("score"),
+                            "exact": mine.get("exact"), "rows": mine.get("rows") or [],
+                            "extras": mine.get("extras") or [], "drawing_only": mine.get("drawing_only") or [],
+                            "source": str(scores_path)}
+        except Exception as e:
+            geometry = {"present": False, "error": f"scores.json could not be read: {e}"}
+    ir_report = _load_json(_first(out_dir, ["ir_report.json"]))
+    return {"part": _sanitize(part), "geometry": geometry, "practices": _practices_rubric(ir_report)}
 
 
 @app.get("/api/parts/{session}/{part}/file/{name:path}")

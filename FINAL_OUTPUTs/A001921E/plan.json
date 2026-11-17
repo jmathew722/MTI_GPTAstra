@@ -36,7 +36,7 @@
     "features": [
       {
         "id": "F001",
-        "rationale": "Rectangular plate with the drawing front face at z=0 and thickness along +Z.",
+        "rationale": "Rectangular plate envelope extruded along +Z.",
         "source_callouts": [
           "13.375",
           "4.00",
@@ -60,7 +60,7 @@
       },
       {
         "id": "F002",
-        "rationale": "Left lower counterbored through hole, entering the drawing front face.",
+        "rationale": "Left lower counterbored hole; drill depth overshoots the plate thickness.",
         "source_callouts": [
           ".781 DIA. THRU & 1.188 CBORE .12 DP. -(3) HL'S.",
           "1.187",
@@ -75,7 +75,7 @@
         "spec": {
           "type": "cbore",
           "d": "D013",
-          "depth": null,
+          "depth": "2 * D003",
           "cbore_d": "D014",
           "cbore_depth": "D015",
           "csink_d": null,
@@ -85,7 +85,7 @@
       },
       {
         "id": "F003",
-        "rationale": "Middle lower counterbored through hole located by its independent baseline dimension.",
+        "rationale": "Middle lower counterbored hole at the printed baseline offset; drill extends beyond the back face.",
         "source_callouts": [
           ".781 DIA. THRU & 1.188 CBORE .12 DP. -(3) HL'S.",
           "5.500 \u00b1.005",
@@ -100,7 +100,7 @@
         "spec": {
           "type": "cbore",
           "d": "D013",
-          "depth": null,
+          "depth": "2 * D003",
           "cbore_d": "D014",
           "cbore_depth": "D015",
           "csink_d": null,
@@ -110,7 +110,7 @@
       },
       {
         "id": "F004",
-        "rationale": "Right lower counterbored through hole located directly from the 11.000 baseline.",
+        "rationale": "Right lower counterbored hole using the independent baseline dimension; drill extends beyond the back face.",
         "source_callouts": [
           ".781 DIA. THRU & 1.188 CBORE .12 DP. -(3) HL'S.",
           "11.000 \u00b1.005",
@@ -125,7 +125,7 @@
         "spec": {
           "type": "cbore",
           "d": "D013",
-          "depth": null,
+          "depth": "2 * D003",
           "cbore_d": "D014",
           "cbore_depth": "D015",
           "csink_d": null,
@@ -135,7 +135,7 @@
       },
       {
         "id": "F005",
-        "rationale": "Left upper tapped through hole with printed tap drill and cosmetic thread.",
+        "rationale": "Left upper tapped through hole, modeled at tap-drill diameter with cosmetic thread and overshooting drill depth.",
         "source_callouts": [
           ".656 DIA. THRU & 3/4-10 2B TAP THRU-(2) HL'S.",
           "2.000",
@@ -150,7 +150,7 @@
         "spec": {
           "type": "tapped",
           "d": "D011",
-          "depth": null,
+          "depth": "2 * D003",
           "cbore_d": null,
           "cbore_depth": null,
           "csink_d": null,
@@ -160,7 +160,7 @@
       },
       {
         "id": "F006",
-        "rationale": "Right upper tapped through hole located from the left lower hole baseline; cosmetic thread.",
+        "rationale": "Right upper tapped through hole using the printed baseline location, with cosmetic thread and overshooting drill depth.",
         "source_callouts": [
           ".656 DIA. THRU & 3/4-10 2B TAP THRU-(2) HL'S.",
           "9.000",
@@ -175,7 +175,7 @@
         "spec": {
           "type": "tapped",
           "d": "D011",
-          "depth": null,
+          "depth": "2 * D003",
           "cbore_d": null,
           "cbore_depth": null,
           "csink_d": null,
@@ -185,12 +185,12 @@
       }
     ],
     "notes": [
-      "Material: 1018. Drawing title: PLATE.",
-      "All five bores are through holes; omitted hole depth denotes through-all. Counterbores stop at D015 from the front face at z=0, as confirmed by the right-side view.",
-      "Printed .12 counterbore depth governs, not an SHCS standard depth.",
-      "D012 identifies nominal thread major diameter; threads are cosmetic, with physical holes at D011 tap-drill diameter.",
-      "Preserve independent \u00b1.005 baseline tolerances on D005 and D006 and the printed 1.187 left margin; do not silently center the hole layout.",
-      "General tolerances: two-place \u00b1.020 inch, three-place \u00b1.010 inch, angular \u00b11 degree. No edge breaks, chamfers, or fillets are specified."
+      "Material: 1018. Front face is z=0; counterbores enter this face as confirmed by the right-side view.",
+      "Counterbore depth is the printed D015 (.12 inch), not a standard SHCS head depth.",
+      "D012 specifies the cosmetic thread nominal major diameter; D011 specifies the modeled tap-drill diameter.",
+      "The 1.875 dimension is the row spacing; lower holes are 1.500 above the bottom.",
+      "Preserve the printed 1.187 left margin rather than centering the hole layout. The 5.500 and 11.000 baseline dimensions each retain their independent \u00b1.005 tolerances.",
+      "General tolerances: two-place \u00b1.020 inch, three-place \u00b1.010 inch, angular \u00b11 degree. No edge breaks or fillets are specified."
     ]
   }
 }

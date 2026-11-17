@@ -34,7 +34,7 @@
   }
 
   function boot() {
-    if (!McA.store || !McA.api || !McA.persist || !McA.util) { console.error('McAgent: core modules failed to load.'); }
+    if (!McA.store || !McA.api || !McA.persist || !McA.util) { console.error('Solid Flow: core modules failed to load.'); }
     McA.icons.hydrate(document);
     ['sidebar', 'split', 'inspector', 'drawer'].forEach(function (k) { McA[k].init(); });
     Object.keys(McA.pages).forEach(function (k) { if (McA.pages[k].init) McA.pages[k].init(); });

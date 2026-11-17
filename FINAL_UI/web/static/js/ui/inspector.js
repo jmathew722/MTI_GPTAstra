@@ -2,7 +2,8 @@
 (function () {
   'use strict';
   var McA = (window.McA = window.McA || {});
-  var KEYS = ['setup', 'actions', 'corrections', 'export'];
+  /* 'corrections' removed: that accordion moved into Pipeline Results (Solid Flow brand spec). */
+  var KEYS = ['setup', 'actions', 'export'];
 
   function render() {
     var ui = McA.store.get().ui || {};
@@ -50,7 +51,7 @@
     },
     openSection: function (id) { McA.dom.dispatch('ui/inspectorSection', { id: id, open: true }); },
     reset: function () {
-      McA.dom.setUi({ inspectorCollapsed: false, inspectorOpen: { setup: true, actions: true, corrections: true, export: true } });
+      McA.dom.setUi({ inspectorCollapsed: false, inspectorOpen: { setup: true, actions: true, export: true } });
     },
   };
 })();

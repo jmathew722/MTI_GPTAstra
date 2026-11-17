@@ -6,10 +6,10 @@ from pipeline.ir.cq_runtime import Model
 
 m = Model('192 B', origin_kind='corner', units='inch', strict=False)
 m.prism('F001', on='plane(front)', offset=0, profile={'shape': 'rect', 'w': 13.375, 'h': 4, 'anchor': 'corner', 'u': 0, 'v': 0}, depth=1.25, op='add')  # w=D001, h=D002, u=0, v=0; depth=D003; offset=0
-m.hole('F002', on='face(F001,-Z)', u=1.187, v=1.5, spec={'type': 'cbore', 'd': 0.781, 'cbore_d': 1.188, 'cbore_depth': 0.125})  # u=D004, v=D009, d=D013, cbore=D014xD015
-m.hole('F003', on='face(F001,-Z)', u=6.687, v=1.5, spec={'type': 'cbore', 'd': 0.781, 'cbore_d': 1.188, 'cbore_depth': 0.125})  # u=D004 + D005, v=D009, d=D013, cbore=D014xD015
-m.hole('F004', on='face(F001,-Z)', u=12.187, v=1.5, spec={'type': 'cbore', 'd': 0.781, 'cbore_d': 1.188, 'cbore_depth': 0.125})  # u=D004 + D006, v=D009, d=D013, cbore=D014xD015
-m.hole('F005', on='face(F001,-Z)', u=3.187, v=3.375, spec={'type': 'tapped', 'd': 0.656})  # u=D004 + D007, v=D009 + D010, d=D011
-m.hole('F006', on='face(F001,-Z)', u=10.187, v=3.375, spec={'type': 'tapped', 'd': 0.656})  # u=D004 + D008, v=D009 + D010, d=D011
+m.hole('F002', on='face(F001,-Z)', u=1.187, v=1.5, spec={'type': 'cbore', 'd': 0.781, 'depth': 2.5, 'cbore_d': 1.188, 'cbore_depth': 0.125})  # u=D004, v=D009, d=D013, cbore=D014xD015
+m.hole('F003', on='face(F001,-Z)', u=6.687, v=1.5, spec={'type': 'cbore', 'd': 0.781, 'depth': 2.5, 'cbore_d': 1.188, 'cbore_depth': 0.125})  # u=D004 + D005, v=D009, d=D013, cbore=D014xD015
+m.hole('F004', on='face(F001,-Z)', u=12.187, v=1.5, spec={'type': 'cbore', 'd': 0.781, 'depth': 2.5, 'cbore_d': 1.188, 'cbore_depth': 0.125})  # u=D004 + D006, v=D009, d=D013, cbore=D014xD015
+m.hole('F005', on='face(F001,-Z)', u=3.187, v=3.375, spec={'type': 'tapped', 'd': 0.656, 'depth': 2.5})  # u=D004 + D007, v=D009 + D010, d=D011
+m.hole('F006', on='face(F001,-Z)', u=10.187, v=3.375, spec={'type': 'tapped', 'd': 0.656, 'depth': 2.5})  # u=D004 + D008, v=D009 + D010, d=D011
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

@@ -43,7 +43,7 @@ test('ui defaults, save and load, reset clears only mca.ui.* keys', () => {
   const d = P.loadUi();
   assert.deepEqual(d, P.uiDefaults());
   const ui = Object.assign(P.uiDefaults(), { sidebarCollapsed: true, splitRatio: 0.35, drawerOpen: true, drawerHeight: 410, drawerSection: 'flags',
-    inspectorCollapsed: true, inspectorOpen: { setup: false, actions: true, corrections: true, export: false }, resultsSection: 'cost' });
+    inspectorCollapsed: true, inspectorOpen: { setup: false, actions: true, export: false }, resultsSection: 'cost' });
   P.saveUi(ui);
   P.set(P.KEYS.session, 'keepme');
   const back = P.loadUi();

@@ -16,11 +16,14 @@ test('every categories key maps to exactly one section', () => {
   assert.deepEqual(real.slice().sort(), G.CATEGORY_KEYS.slice().sort());
 });
 
-test('five groups in the required order, thirteen sections with required fields', () => {
-  assert.deepEqual(G.GROUPS.map((g) => g.label), ['Overview', 'Extraction', 'Build & Verification', 'Automation & Files', 'Diagnostics']);
-  assert.equal(G.sections.length, 13);
+test('six groups in the required order, sixteen sections with required fields', () => {
+  assert.deepEqual(G.GROUPS.map((g) => g.label), ['Overview', 'Extraction', 'Build & Verification', 'Automation & Files', 'Diagnostics', 'Scoring Rubric']);
+  assert.equal(G.sections.length, 16);
+  // Must-Meet Specs and Corrections sit in Build & Verification, immediately after Model Check;
+  // Scoring Rubric is its own group, adjacent to the rest (Solid Flow brand spec: moved out of
+  // the right inspector / fed by the real bench scorer + ir_report.json practices findings).
   assert.deepEqual(G.sections.map((s) => s.id), ['overview', 'extraction', 'resolved', 'overview_analysis', 'build_plan',
-    'verification', 'flags', 'model_check', 'macros', 'files', 'cost', 'console', 'events']);
+    'verification', 'flags', 'model_check', 'must_meet', 'corrections', 'macros', 'files', 'cost', 'console', 'events', 'scoring_rubric']);
   const order = G.GROUPS.map((g) => g.id);
   let last = -1;
   for (const s of G.sections) {
@@ -30,8 +33,18 @@ test('five groups in the required order, thirteen sections with required fields'
     assert.equal(typeof s.source, 'function'); assert.equal(typeof s.status, 'function');
     assert.equal(s.render, undefined, 'render is added by the UI, not the registry');
   }
-  assert.equal(new Set(G.sections.map((s) => s.id)).size, 13);
+  assert.equal(new Set(G.sections.map((s) => s.id)).size, 16);
   for (const g of G.GROUPS) assert.ok(G.inGroup(g.id).length >= 1);
+});
+
+test('corrections has no categories key (an action panel, not a report) but is always present', () => {
+  assert.deepEqual(G.get('corrections').keys, []);
+  assert.equal(G.get('corrections').status(null), 'present');
+});
+
+test('must_meet moved out of verification: verification no longer claims the must_meet key', () => {
+  assert.deepEqual(G.get('verification').keys, ['verification']);
+  assert.deepEqual(G.get('must_meet').keys, ['must_meet']);
 });
 
 test('status and source over a full payload and over nothing', () => {

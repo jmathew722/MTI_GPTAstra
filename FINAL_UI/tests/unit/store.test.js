@@ -13,7 +13,7 @@ test('initial state has the ARCH 4.2 shape and persisted ui defaults', () => {
   for (const k of ['route', 'server', 'session', 'parts', 'intake', 'markup', 'run', 'batch', 'history', 'outputs', 'viewer3d', 'ui']) assert.ok(k in s, k);
   assert.equal(s.run.state, 'idle');
   assert.equal(s.server.model, null);
-  assert.deepEqual(s.ui.inspectorOpen, { setup: true, actions: true, corrections: true, export: true });
+  assert.deepEqual(s.ui.inspectorOpen, { setup: true, actions: true, export: true });
   assert.equal(s.ui.splitRatio, 0.5);
   assert.equal(s.ui.drawerMode, 'results'); assert.equal(s.ui.maximized, null); assert.equal(s.ui.narrowTab, '2d');
   assert.notEqual(Store.initialState().ui.inspectorOpen, s.ui.inspectorOpen);   // fresh objects
