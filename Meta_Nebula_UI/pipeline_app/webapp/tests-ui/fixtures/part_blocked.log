@@ -1,0 +1,12 @@
+$ python main.py --views-folder /srv/parts/s1/Flange --output /srv/parts/s1/Flange/output --no-export
+Multi-view build: 1 part(s); views processed in order front, top, right, left, back, bottom.
+[STAGE] Extracting Flange
+[1/2] Flange: extracting views (top)...
+  warning: No FRONT view found; the base profile cannot be built without it.
+[2.5/2] resolving ambiguities + verifying + per-plane macros + .sldprt...
+[STAGE] Resolving
+[STAGE] Verifying
+  Summary CSV: /srv/parts/s1/Flange/output/multiview_summary.csv  (0/1 READY)
+[STAGE] Exporting
+[STAGE] Done
+[delivered outputs to] /srv/UI_Output/Flange

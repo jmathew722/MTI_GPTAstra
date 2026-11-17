@@ -1,0 +1,17 @@
+node_modules/
+test-results/
+playwright-report/
+__pycache__/
+*.pyc
+.venv/
+.env
+.env.*
+!.env.template
+*.local.json
+# runtime data created by the app, never committed
+pipeline_app/webapp/parts/
+pipeline_app/webapp/runs/
+pipeline_app/webapp/.venv/
+pipeline_app/UI_Output/
+pipeline_app/output/
+.DS_Store

@@ -1,0 +1,2 @@
+source,part,status,macro_readiness,geometry_completeness,dimension_completeness,consistency,feature_confidence,n_macros,n_needs_review,n_skipped,detail
+117C,117C,READY,1.0,1.0,0.95,1.0,0.9,6,0,0,

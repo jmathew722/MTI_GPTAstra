@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>McAgent</title>
+<meta name="color-scheme" content="dark">
+<link rel="stylesheet" href="/static/design-tokens.css">
+<link rel="stylesheet" href="/static/css/base.css">
+<link rel="stylesheet" href="/static/css/shell.css">
+<link rel="stylesheet" href="/static/css/workspace.css">
+<link rel="stylesheet" href="/static/css/results.css">
+<link rel="stylesheet" href="/static/css/pages.css">
+<link rel="stylesheet" href="/static/css/features.css">
+</head>
+<body class="app" data-sb="expanded">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav id="sidebar" class="sidebar" aria-label="Primary">
+  <div class="sb-brand">
+    <span class="sb-logo" data-icon="logo" data-size="26"></span>
+    <div class="sb-names"><span class="sb-title">McAgent</span><span class="sb-sub">2D&rarr;3D <span class="sb-gold">SolidWorks Pipeline</span></span></div>
+    <button id="sb-toggle" class="ibtn sb-toggle" type="button" aria-expanded="true" aria-controls="sidebar" aria-label="Collapse sidebar"><span data-icon="chevrons-left" data-size="18"></span></button>
+  </div>
+  <button id="sb-new" class="btn sb-new" type="button" data-tip="New Project"><span data-icon="plus"></span><span class="sb-label">New Project</span></button>
+  <ul class="sb-nav">
+    <li><a class="sb-item" href="#/home" data-page="home" data-tip="Home"><span data-icon="home"></span><span class="sb-label">Home</span></a></li>
+    <li><a class="sb-item" href="#/workspace" data-page="workspace" data-tip="Workspace"><span data-icon="workspace"></span><span class="sb-label">Workspace</span><span class="sb-run" hidden aria-hidden="true"></span></a></li>
+    <li><a class="sb-item" href="#/projects" data-page="projects" data-tip="Projects"><span data-icon="projects"></span><span class="sb-label">Projects</span></a></li>
+    <li><a class="sb-item" href="#/results" data-page="results" data-tip="Pipeline Results"><span data-icon="results"></span><span class="sb-label">Pipeline Results</span></a></li>
+    <li><a class="sb-item" href="#/recent" data-page="recent" data-tip="Recent Files"><span data-icon="recent"></span><span class="sb-label">Recent Files</span></a></li>
+  </ul>
+  <ul class="sb-nav sb-bottom">
+    <li><a class="sb-item" href="#/help" data-page="help" data-tip="Help"><span data-icon="help"></span><span class="sb-label">Help</span></a></li>
+    <li><a class="sb-item" href="#/settings" data-page="settings" data-tip="Settings"><span data-icon="settings"></span><span class="sb-label">Settings</span></a></li>
+  </ul>
+</nav>
+<div id="sb-scrim" class="sb-scrim" hidden></div>
+
+<main id="main" class="main" tabindex="-1">
+  <div class="mobile-bar">
+    <button id="sb-menu" class="ibtn" type="button" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation"><span data-icon="menu" data-size="20"></span></button>
+    <span class="mobile-title">McAgent</span>
+  </div>
+
+  <!-- ============ HOME ============ -->
+  <section id="page-home" class="page page-home" data-page="home" hidden>
+    <div class="home-wrap">
+      <h1 class="home-h1" tabindex="-1">What would you like to create?</h1>
+      <p class="home-sub">Drop a 2D engineering drawing. The pipeline extracts the geometry, plans the build and generates the SolidWorks part. Nothing runs until you press Run Pipeline.</p>
+      <label id="home-drop" class="dropzone" for="home-file">
+        <span class="dz-ic" data-icon="upload" data-size="30"></span>
+        <span class="dz-main">Drop a drawing here, or <span class="dz-link">browse files</span></span>
+        <span class="dz-formats">PDF, JPG, PNG, WEBP, BMP, TIFF, DWG, DXF, eDrawings (EDRW, EPRT, EASM)</span>
+        <span id="home-picked" class="dz-picked" hidden></span>
+        <input id="home-file" class="dz-input" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,.bmp,.tif,.tiff,.dwg,.dxf,.edrw,.eprt,.easm" aria-describedby="home-formats-note">
+      </label>
+      <span id="home-formats-note" class="sr-only">Accepted formats: PDF, JPG, PNG, WEBP, BMP, TIFF, DWG, DXF, eDrawings.</span>
+      <div class="home-actions">
+        <button id="home-create" class="btn xl" type="button" aria-disabled="true" aria-describedby="home-create-reason"><span data-icon="cube"></span>Create 3D Model</button>
+        <span id="home-create-reason" class="reason">Add a drawing first.</span>
+      </div>
+      <ul class="home-links" aria-label="More ways to start">
+        <li><button id="home-demo" class="linkbtn" type="button">Open sample / Run demo <span class="badge-c">Demo</span></button></li>
+        <li><label class="linkbtn" for="home-folder" tabindex="0" id="home-folder-lbl">Upload parts folder</label><input id="home-folder" class="dz-input" type="file" webkitdirectory multiple tabindex="-1"></li>
+        <li><a class="linkbtn" href="#/recent">Recent projects</a></li>
+      </ul>
+      <section class="home-recent" aria-labelledby="home-recent-h">
+        <h2 id="home-recent-h" class="cap-c">Recent runs</h2>
+        <ul id="home-recent-list" class="recent-mini"></ul>
+      </section>
+    </div>
+  </section>
+
+  <!-- ============ WORKSPACE ============ -->
+  <section id="page-workspace" class="page page-ws" data-page="workspace" hidden>
+    <header class="ws-head">
+      <button id="part-switch" class="ibtn ws-switch" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="part-list" aria-label="Switch part"><span data-icon="folder" data-size="20"></span></button>
+      <div class="ws-title">
+        <div class="ws-line"><h1 id="ws-part" tabindex="-1">No part selected</h1><span class="ws-dot" aria-hidden="true">&middot;</span><span class="ws-crumb">Workspace</span></div>
+        <span class="ws-sub">2D&rarr;3D SolidWorks Pipeline</span>
+      </div>
+      <ul id="part-list" class="part-list" role="listbox" aria-label="Parts" hidden></ul>
+      <div class="ws-chips">
+        <div class="chip" id="hdr-engine"><span class="chip-ic" data-icon="settings" data-size="20"></span><span class="chip-body"><span class="chip-k">Engine</span><span class="chip-v">Checking&hellip;</span></span></div>
+        <div class="chip" id="hdr-deliv"><span class="chip-ic" data-icon="layers" data-size="20"></span><span class="chip-body"><span class="chip-k">Deliverables</span><span class="chip-v"><span class="dv" data-k="sldprt" title="Not produced yet">SLDPRT</span><span class="dv" data-k="stl" title="Not produced yet">STL</span><span class="dv" data-k="vba" title="Not produced yet">VBA</span></span></span></div>
+        <div class="chip" id="hdr-api"><span class="dot" aria-hidden="true"></span><span class="chip-body"><span class="chip-k">API Status</span><span class="chip-v">Checking&hellip;</span></span></div>
+      </div>
+    </header>
+
+    <section class="tracker" aria-label="Pipeline progress">
+      <h2 class="trk-title">Run Pipeline</h2>
+      <ol class="trk-steps" role="list">
+        <li class="trk-step" data-stage="extraction" data-state="pending"><span class="trk-node" aria-hidden="true"></span><span class="trk-label">Extraction</span><span class="sr-only trk-state">Pending</span></li>
+        <li class="trk-step" data-stage="resolution" data-state="pending"><span class="trk-node" aria-hidden="true"></span><span class="trk-label">Resolution</span><span class="sr-only trk-state">Pending</span></li>
+        <li class="trk-step" data-stage="build_plan" data-state="pending"><span class="trk-node" aria-hidden="true"></span><span class="trk-label">Build Plan</span><span class="sr-only trk-state">Pending</span></li>
+        <li class="trk-step" data-stage="generation" data-state="pending"><span class="trk-node" aria-hidden="true"></span><span class="trk-label">Generation</span><span class="sr-only trk-state">Pending</span></li>
+        <li class="trk-step" data-stage="verification" data-state="pending"><span class="trk-node" aria-hidden="true"></span><span class="trk-label">Verification</span><span class="sr-only trk-state">Pending</span></li>
+      </ol>
+      <button id="trk-tools" class="btn secondary sm trk-tools" type="button" hidden aria-label="Open tools: run, corrections, export">Tools</button>
+      <div class="trk-meta"><span id="trk-stage" class="trk-stage">Not started</span><span id="trk-caption" class="trk-caption"></span><span id="trk-batch" class="trk-batch" hidden></span></div>
+      <div class="trk-pct" id="trk-pct" role="progressbar" aria-label="Pipeline progress" aria-valuemin="0" aria-valuemax="100" aria-valuetext="Not started" hidden><svg class="ring" viewBox="0 0 36 36" aria-hidden="true"></svg><span class="trk-pct-n"></span></div>
+    </section>
+
+    <div class="ws-main" id="ws-main" data-insp="open">
+      <div class="canvas" id="canvas" data-max="" data-tab="2d">
+        <div class="canvas-tabs" role="tablist" aria-label="Viewer" hidden>
+          <button type="button" role="tab" id="tab-2d" aria-selected="true" aria-controls="vp-2d" tabindex="0">Drawing</button>
+          <button type="button" role="tab" id="tab-3d" aria-selected="false" aria-controls="vp-3d" tabindex="-1">3D Model</button>
+        </div>
+        <section class="vpanel" id="vp-2d" aria-labelledby="vp-2d-title">
+          <header class="vp-head">
+            <span class="vp-ic" data-icon="file" data-size="20"></span>
+            <h2 id="vp-2d-title">2D Drawing</h2>
+            <div class="vp-meta"><span class="vp-file mono" id="vp-2d-file"></span><span class="badge-c" id="vp-2d-state"></span><span class="badge-c" id="vp-2d-fmt"></span></div>
+            <div class="vp-tools" role="toolbar" aria-label="Drawing tools">
+              <button type="button" class="ibtn" data-act="crop" disabled title="No drawing loaded" aria-label="Crop views"><span data-icon="crop" data-size="18"></span></button>
+              <button type="button" class="ibtn" data-act="mark" disabled title="No drawing loaded" aria-label="Mark regions"><span data-icon="mark" data-size="18"></span></button>
+              <button type="button" class="ibtn" data-act="zoom-out" disabled title="No drawing loaded" aria-label="Zoom out"><span data-icon="zoom-out" data-size="18"></span></button>
+              <button type="button" class="ibtn" data-act="zoom-in" disabled title="No drawing loaded" aria-label="Zoom in"><span data-icon="zoom-in" data-size="18"></span></button>
+              <button type="button" class="ibtn" data-act="fit" disabled title="No drawing loaded" aria-label="Fit to view"><span data-icon="fit" data-size="18"></span></button>
+              <button type="button" class="ibtn vp-max" data-act="max" aria-pressed="false" title="Maximize panel" aria-label="Maximize drawing panel"><span data-icon="maximize" data-size="18"></span></button>
+              <button type="button" class="ibtn vp-fs" data-act="fullscreen" aria-pressed="false" title="Fullscreen" aria-label="Fullscreen drawing"><span data-icon="fullscreen" data-size="18"></span></button>
+            </div>
+          </header>
+          <div class="vp-body" id="ov-box" tabindex="0" aria-label="Drawing viewport">
+            <img id="ov-img" alt="" hidden>
+            <div class="vp-empty" id="ov-empty">
+              <span class="empty-ic" data-icon="file" data-size="30"></span>
+              <p class="empty-t">No drawing loaded</p>
+              <p class="empty-d">Upload a PDF, image or CAD drawing to start.</p>
+              <label class="btn secondary sm" for="ws-file">Upload drawing</label>
+              <input id="ws-file" class="dz-input" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,.bmp,.tif,.tiff,.dwg,.dxf,.edrw,.eprt,.easm">
+            </div>
+          </div>
+          <footer class="vp-foot" id="vp-2d-pages" hidden></footer>
+        </section>
+        <div class="splitter" id="splitter" role="separator" aria-orientation="vertical" aria-label="Resize drawing and model panels" aria-controls="vp-2d vp-3d" aria-valuemin="20" aria-valuemax="80" aria-valuenow="50" tabindex="0"><span class="split-grip" aria-hidden="true"></span></div>
+        <section class="vpanel" id="vp-3d" aria-labelledby="vp-3d-title">
+          <header class="vp-head">
+            <span class="vp-ic" data-icon="cube" data-size="20"></span>
+            <h2 id="vp-3d-title">3D Model (STL)</h2>
+            <span class="badge-c" id="vp-3d-state"></span>
+            <div class="vp-tools" role="toolbar" aria-label="Model tools">
+              <select id="vp-3d-view" class="input-c vp-sel" aria-label="Camera view" disabled title="No model generated yet"><option>Isometric</option><option>Front</option><option>Top</option><option>Right</option></select>
+              <button type="button" class="ibtn vp-max" data-act="max" aria-pressed="false" title="Maximize panel" aria-label="Maximize model panel"><span data-icon="maximize" data-size="18"></span></button>
+              <button type="button" class="ibtn vp-fs" data-act="fullscreen" aria-pressed="false" title="Fullscreen" aria-label="Fullscreen model"><span data-icon="fullscreen" data-size="18"></span></button>
+            </div>
+          </header>
+          <div class="vp-body">
+            <div id="stl-canvas-wrap" role="img" aria-label="3D model viewport. No model generated yet."></div>
+            <canvas id="stl-triad" class="stl-triad" width="72" height="72" aria-hidden="true" hidden></canvas>
+            <div class="stl-bar" id="stl-bar" role="toolbar" aria-label="Model view controls">
+              <button type="button" class="ibtn" data-act="reset" disabled title="Reset view" aria-label="Reset view"><span data-icon="reset" data-size="18"></span></button>
+              <button type="button" class="ibtn" data-act="pan" disabled aria-pressed="false" title="Pan (drag to move the model; off: drag orbits)" aria-label="Pan mode"><span data-icon="pan" data-size="18"></span></button>
+              <button type="button" class="ibtn" data-act="zoom-in" disabled title="Zoom in" aria-label="Zoom in"><span data-icon="zoom-in" data-size="18"></span></button>
+              <button type="button" class="ibtn" data-act="zoom-out" disabled title="Zoom out" aria-label="Zoom out"><span data-icon="zoom-out" data-size="18"></span></button>
+              <button type="button" class="ibtn" data-act="fit" disabled title="Fit model" aria-label="Fit model"><span data-icon="fit" data-size="18"></span></button>
+              <span class="stl-sep" aria-hidden="true"></span>
+              <button type="button" class="ibtn" data-act="wire" disabled aria-pressed="false" title="Display mode: shaded or wireframe" aria-label="Wireframe display"><span data-icon="cube" data-size="18"></span></button>
+            </div>
+            <div class="vp-empty" id="stl-empty">
+              <span class="empty-ic" data-icon="cube" data-size="30"></span>
+              <p class="empty-t">No model generated yet</p>
+              <p class="empty-d">The STL appears here after a successful SolidWorks build.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <button id="insp-open" class="insp-tab" type="button" aria-expanded="false" aria-controls="inspector" hidden><span data-icon="chevron-left" data-size="16"></span><span>Tools</span></button>
+
+      <aside id="inspector" class="inspector" aria-label="Tools">
+        <div class="insp-bar"><span class="cap-c">Tools</span><button id="insp-collapse" class="ibtn" type="button" aria-expanded="true" aria-controls="inspector" aria-label="Collapse tools panel"><span data-icon="chevron-right" data-size="16"></span></button></div>
+
+        <section class="acc" data-acc="setup">
+          <h2 class="acc-h"><button type="button" class="acc-btn" id="acc-btn-setup" aria-expanded="true" aria-controls="acc-setup"><span data-icon="cube"></span><span class="acc-t">Part Setup</span><span class="acc-chev" data-icon="chevron-down" data-size="16"></span></button></h2>
+          <div id="acc-setup" class="acc-body" role="region" aria-labelledby="acc-btn-setup">
+            <!-- OWNER: intake (Part Setup fields; handlers attach to these ids and remove disabled) -->
+            <div class="fld inline"><label for="part-name">Part Name</label><input id="part-name" class="input-c" type="text" autocomplete="off" disabled aria-describedby="part-name-why"></div>
+            <p id="part-name-why" class="reason">Add a drawing first.</p>
+            <div class="row2">
+              <label class="btn secondary sm" for="intake-file" id="intake-file-lbl"><span data-icon="upload" data-size="16"></span>Upload drawing</label>
+              <input id="intake-file" class="dz-input" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,.bmp,.tif,.tiff,.dwg,.dxf,.edrw,.eprt,.easm">
+              <label class="btn secondary sm" for="batch-folder" id="batch-folder-lbl" title="Upload a parts folder (one subfolder per part)"><span data-icon="folder" data-size="16"></span>Upload folder</label>
+              <input id="batch-folder" class="dz-input" type="file" webkitdirectory multiple>
+            </div>
+            <details class="more" id="setup-more"><summary>Views and must-meet specs</summary>
+            <h3 class="sub-h">Views</h3>
+            <div class="row2">
+              <button id="open-cropper-btn" class="btn secondary sm" type="button" disabled aria-describedby="views-why">Open cropper</button>
+              <button id="mark-regions-btn" class="btn secondary sm" type="button" disabled aria-describedby="views-why">Mark regions</button>
+              <button id="pull-crops-inline-btn" class="btn secondary sm" type="button" disabled aria-describedby="views-why">Pull queued crops</button>
+            </div>
+            <p id="views-why" class="reason">Load a drawing to assign views.</p>
+            <div id="orient-gallery" class="orient-gallery" aria-label="Views"></div>
+            <p id="req-warn" class="req-warn" role="status"></p>
+            <button id="save-part-btn" class="btn" type="button" disabled aria-describedby="save-why">Save part</button>
+            <p id="save-why" class="reason">Nothing to save yet.</p>
+            <h3 class="sub-h">Must-meet specs</h3>
+            <textarea id="part-notes" class="input-c" rows="3" aria-label="Must-meet specifications" disabled></textarea>
+            <button id="save-notes-btn" class="btn secondary sm" type="button" disabled aria-describedby="notes-why">Update specs</button>
+            <p id="notes-why" class="reason">Select a saved part first.</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="acc" data-acc="actions">
+          <h2 class="acc-h"><button type="button" class="acc-btn" id="acc-btn-actions" aria-expanded="true" aria-controls="acc-actions"><span data-icon="bolt"></span><span class="acc-t">Pipeline Actions</span><span class="acc-chev" data-icon="chevron-down" data-size="16"></span></button></h2>
+          <div id="acc-actions" class="acc-body" role="region" aria-labelledby="acc-btn-actions">
+            <!-- OWNER: run -->
+            <button id="run-btn" class="btn gold run-main" type="button" aria-disabled="true" aria-describedby="run-reason"><span data-icon="play" data-size="16"></span><span class="run-lbl">Run Pipeline</span></button>
+            <button id="cancel-btn" class="btn danger sm" type="button" hidden>Cancel</button>
+            <span id="run-reason" class="reason trk-reason">Select or create a part.</span>
+            <div class="row2 row-actions">
+              <button id="run-all-btn" class="btn secondary" type="button" disabled aria-describedby="runall-why"><span data-icon="play-all" data-size="16"></span>Run All Parts</button>
+              <button id="demo-btn" class="btn secondary" type="button" disabled aria-describedby="runall-why"><span data-icon="play" data-size="16"></span>Run Demo <span class="badge-c">Demo</span></button>
+            </div>
+            <details class="more" id="run-options"><summary>Run options</summary>
+              <div class="fld"><label for="demo-sample">Demo sample</label><select id="demo-sample" class="input-c" disabled></select></div>
+              <label class="chk"><input id="no-cache" type="checkbox" disabled><span>Force fresh extraction</span></label>
+              <p class="hint">Ignores the extraction cache; makes new API calls.</p>
+            </details>
+            <button id="cancel-mirror-btn" class="btn danger sm" type="button" hidden>Cancel run</button>
+            <p id="runall-why" class="reason">No saved parts yet.</p>
+          </div>
+        </section>
+
+        <section class="acc" data-acc="corrections">
+          <h2 class="acc-h"><button type="button" class="acc-btn" id="acc-btn-corrections" aria-expanded="true" aria-controls="acc-corrections"><span data-icon="refresh"></span><span class="acc-t">Corrections</span><span class="acc-chev" data-icon="chevron-down" data-size="16"></span></button></h2>
+          <div id="acc-corrections" class="acc-body" role="region" aria-labelledby="acc-btn-corrections">
+            <!-- OWNER: run (corrections) -->
+            <textarea id="feedback-text" class="input-c" rows="2" placeholder="e.g., update diameter to 3.880 mm" aria-label="Correction" disabled></textarea>
+            <div class="row2">
+              <button id="open-editor-btn" class="btn ghost sm" type="button" disabled aria-describedby="corr-why">Open editor</button>
+            </div>
+            <button id="rerun-feedback-btn" class="btn" type="button" disabled aria-describedby="corr-why"><span data-icon="refresh" data-size="16"></span>Re-run with correction</button>
+            <p id="corr-why" class="reason">Select a part that has output first.</p>
+          </div>
+        </section>
+
+        <section class="acc" data-acc="export">
+          <h2 class="acc-h"><button type="button" class="acc-btn" id="acc-btn-export" aria-expanded="true" aria-controls="acc-export"><span data-icon="download"></span><span class="acc-t">Export</span><span class="acc-chev" data-icon="chevron-down" data-size="16"></span></button></h2>
+          <div id="acc-export" class="acc-body" role="region" aria-labelledby="acc-btn-export">
+            <!-- OWNER: results (Export) -->
+            <fieldset class="exp-set"><legend class="cap-c">Deliverables</legend>
+              <label class="chk"><input id="exp-sldprt" type="checkbox" disabled><span>SLDPRT</span></label>
+              <label class="chk"><input id="exp-stl" type="checkbox" disabled><span>STL</span></label>
+              <label class="chk"><input id="exp-vba" type="checkbox" disabled><span>VBA</span></label>
+            </fieldset>
+            <button id="export-btn" class="btn secondary" type="button" disabled aria-describedby="exp-why"><span data-icon="download" data-size="16"></span>Export Selected</button>
+            <button id="zip-btn" class="btn ghost sm" type="button" disabled aria-describedby="exp-why">Download all (.zip)</button>
+            <p id="exp-why" class="reason">Nothing to export yet.</p>
+            <div id="delivered" class="delivered"></div>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <section id="drawer" class="drawer" data-open="false" aria-label="Pipeline Results">
+      <div class="dr-resize" id="dr-resize" role="separator" aria-orientation="horizontal" aria-label="Resize results drawer" aria-controls="dr-body" aria-valuemin="160" aria-valuemax="800" aria-valuenow="320" tabindex="0"></div>
+      <header class="dr-head">
+        <button id="dr-toggle" class="dr-toggle" type="button" aria-expanded="false" aria-controls="dr-body"><span class="dr-chev" data-icon="chevron-up" data-size="18"></span><span class="dr-name">Pipeline Results</span></button>
+        <span class="dr-chip" id="dr-state" data-state="idle">No run yet</span>
+        <span class="dr-sep" aria-hidden="true"></span>
+        <span class="dr-kv" id="dr-verdict"><span class="k">Verification</span><span class="v">Not available</span></span>
+        <span class="dr-kv" id="dr-flags"><span class="k">Engineering Flags</span><span class="v">None recorded</span></span>
+        <span class="dr-kv" id="dr-runtime"><span class="k">Runtime</span><span class="v mono">Not recorded</span></span>
+        <div class="dr-modes" role="tablist" aria-label="Drawer content">
+          <button type="button" role="tab" id="dr-mode-results" aria-selected="true" aria-controls="dr-results" class="tab-c sm">Results</button>
+          <button type="button" role="tab" id="dr-mode-tools" aria-selected="false" aria-controls="dr-tools" tabindex="-1" class="tab-c sm" hidden>Tools</button>
+        </div>
+        <button id="dr-toggle2" class="dr-end" type="button" tabindex="-1" aria-hidden="true"><span class="dr-chev" data-icon="chevron-down" data-size="18"></span></button>
+        <a class="btn ghost sm dr-open" id="dr-open-page" href="#/results">Open full page</a>
+      </header>
+      <div id="dr-body" class="dr-body" hidden>
+        <div class="dr-results" id="dr-results" role="tabpanel" aria-labelledby="dr-mode-results">
+          <!-- OWNER: results (drawer Results mode) -->
+          <nav class="dr-secs" role="tablist" aria-label="Result sections"></nav>
+          <div class="dr-pane" role="tabpanel"><p class="dr-empty">Run the pipeline to see results here.</p></div>
+        </div>
+        <div class="dr-tools" id="dr-tools" role="tabpanel" aria-labelledby="dr-mode-tools" hidden></div>
+      </div>
+    </section>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="page-projects" class="page page-list" data-page="projects" hidden>
+    <header class="pg-head"><h1 tabindex="-1">Projects</h1>
+      <div class="pg-actions">
+        <label class="btn secondary" for="proj-folder"><span data-icon="folder" data-size="16"></span>Upload parts folder</label>
+        <input id="proj-folder" class="dz-input" type="file" webkitdirectory multiple>
+        <button id="proj-runall" class="btn secondary" type="button" aria-describedby="proj-runall-why"><span data-icon="play-all" data-size="16"></span>Run All Parts</button>
+        <button id="proj-more" class="ibtn big" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="More actions"><span data-icon="more" data-size="18"></span></button>
+        <div id="proj-menu" class="menu" role="menu" hidden><button type="button" role="menuitem" id="proj-clear" class="menu-item danger"><span data-icon="trash" data-size="16"></span>Clear all models</button></div>
+      </div>
+    </header>
+    <p id="proj-runall-why" class="reason pg-reason"></p>
+    <div id="proj-body"></div>
+  </section>
+
+  <!-- ============ RESULTS (owner: results) ============ -->
+  <section id="page-results" class="page page-results" data-page="results" hidden>
+    <header class="pg-head"><h1 tabindex="-1">Pipeline Results</h1></header>
+    <!-- OWNER: results (res-head, res-body per ARCH 8.7 mount into #res-root) -->
+    <div id="res-root"></div>
+  </section>
+
+  <!-- ============ RECENT ============ -->
+  <section id="page-recent" class="page page-list" data-page="recent" hidden>
+    <header class="pg-head"><h1 tabindex="-1">Recent Files</h1></header>
+    <div id="recent-body"></div>
+  </section>
+
+  <!-- ============ HELP ============ -->
+  <section id="page-help" class="page page-doc" data-page="help" hidden>
+    <header class="pg-head"><h1 tabindex="-1">Help</h1></header>
+    <div id="help-body" class="doc"></div>
+  </section>
+
+  <!-- ============ SETTINGS ============ -->
+  <section id="page-settings" class="page page-doc" data-page="settings" hidden>
+    <header class="pg-head"><h1 tabindex="-1">Settings</h1></header>
+    <div id="settings-body" class="doc"></div>
+  </section>
+</main>
+
+<div id="focus" class="focus" role="dialog" aria-modal="true" aria-labelledby="focus-title" hidden>
+  <header class="focus-head">
+    <h2 id="focus-title">Crop views</h2><span class="focus-file mono" id="focus-file"></span>
+    <div class="seg-c" role="tablist" aria-label="Mode"><button type="button" id="crop-mode-crop" role="tab" aria-selected="true">Crop views</button><button type="button" id="crop-mode-mark" role="tab" aria-selected="false">Mark regions</button></div>
+    <span class="focus-hint" id="crop-mode-hint"></span><span class="focus-save" id="mark-save-state"></span>
+    <button id="pull-crops-btn" class="btn" type="button">Pull queued crops</button>
+    <button id="focus-close" class="btn secondary" type="button">Done</button>
+  </header>
+  <div id="crop-view" class="focus-body"><iframe id="photoapp" src="/photoapp/" title="Drawing cropper"></iframe></div>
+  <div id="mark-view" class="focus-body" hidden><!-- OWNER: markup (.mark-bar, .mark-split, #mk-box, #mk-img, #ov-mark-layer, .mark-side) --></div>
+</div>
+<div id="dialog-root"></div>
+<div id="toast-root" class="toasts" aria-live="polite"></div>
+<div id="status-live" class="sr-only" role="status" aria-live="polite"></div>
+<div id="alert-live" class="sr-only" role="alert"></div>
+
+<script defer src="/pdf.min.js"></script>
+<script defer src="/bridge.js"></script>
+<script defer src="/vendor/three.min.js"></script>
+<script defer src="/vendor/STLLoader.js"></script>
+<script defer src="/vendor/OrbitControls.js"></script>
+<script defer src="/static/js/ui/icons.js"></script>
+<script defer src="/static/js/core/util.js"></script>
+<script defer src="/static/js/core/persist.js"></script>
+<script defer src="/static/js/core/store.js"></script>
+<script defer src="/static/js/core/api.js"></script>
+<script defer src="/static/js/core/router.js"></script>
+<script defer src="/static/js/logic/stages.js"></script>
+<script defer src="/static/js/logic/runstate.js"></script>
+<script defer src="/static/js/logic/selectors.js"></script>
+<script defer src="/static/js/logic/logparse.js"></script>
+<script defer src="/static/js/logic/jsontree.js"></script>
+<script defer src="/static/js/logic/csv.js"></script>
+<script defer src="/static/js/logic/registry.js"></script>
+<script defer src="/static/js/features/run.js"></script>
+<script defer src="/static/js/features/intake.js"></script>
+<script defer src="/static/js/features/markup.js"></script>
+<script defer src="/static/js/features/cropper.js"></script>
+<script defer src="/static/js/features/viewer2d.js"></script>
+<script defer src="/static/js/features/viewer3d.js"></script>
+<script defer src="/static/js/ui/toast.js"></script>
+<script defer src="/static/js/ui/dialog.js"></script>
+<script defer src="/static/js/ui/sidebar.js"></script>
+<script defer src="/static/js/ui/tracker.js"></script>
+<script defer src="/static/js/ui/split.js"></script>
+<script defer src="/static/js/ui/inspector.js"></script>
+<script defer src="/static/js/ui/drawer.js"></script>
+<script defer src="/static/js/ui/results.js"></script>
+<script defer src="/static/js/pages/home.js"></script>
+<script defer src="/static/js/pages/workspace.js"></script>
+<script defer src="/static/js/pages/projects.js"></script>
+<script defer src="/static/js/pages/resultsPage.js"></script>
+<script defer src="/static/js/pages/recent.js"></script>
+<script defer src="/static/js/pages/help.js"></script>
+<script defer src="/static/js/pages/settings.js"></script>
+<script defer src="/static/js/main.js"></script>
+</body>
+</html>

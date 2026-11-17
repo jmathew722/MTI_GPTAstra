@@ -1,0 +1,2 @@
+source,part,status,macro_readiness,geometry_completeness,dimension_completeness,consistency,feature_confidence,n_macros,n_needs_review,n_skipped,detail
+Gear,Gear,ERROR,0,0,0,0,0,0,0,0,"MacroGenerationError: cannot place feature F004"

@@ -1,0 +1,15 @@
+$ python main.py --views-folder /srv/parts/s1/Bracket --output /srv/parts/s1/Bracket/output --no-export
+Multi-view build: 1 part(s); views processed in order front, top, right, left, back, bottom.
+[STAGE] Extracting Bracket
+[1/2] Bracket: extracting views (front, right)...
+[2.5/2] resolving ambiguities + verifying + per-plane macros + .sldprt...
+[STAGE] Resolving
+[STAGE] Verifying
+[STAGE] Building macros
+[STAGE] Pre-validating (CadQuery)
+[PREVAL] PASS — watertight pre-validated solid (prevalidation.stl written).
+[STAGE] Final checks
+  Summary CSV: /srv/parts/s1/Bracket/output/multiview_summary.csv  (0/1 READY)
+[STAGE] Exporting
+[STAGE] Done
+[delivered outputs to] /srv/UI_Output/Bracket

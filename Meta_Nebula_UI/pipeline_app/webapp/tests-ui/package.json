@@ -1,0 +1,6 @@
+{
+  "name": "mcagent-ui-tests",
+  "private": true,
+  "description": "Unit tests for the pure logic and core modules. Run from pipeline_app/webapp: node --test \"tests-ui/unit/*.test.js\"",
+  "scripts": { "test": "node --test \"unit/*.test.js\"" }
+}

@@ -1,0 +1,32 @@
+$ python main.py --views-folder /srv/parts/s1/117C --output /srv/parts/s1/117C/output --no-export --source-file /srv/parts/s1/_originals/117C.pdf
+Multi-view build: 1 part(s); views processed in order front, top, right, left, back, bottom.
+[STAGE] Overview analysis 117C
+[1.5/2] 117C: holistic overview analysis (full sheet)...
+  Overview: 3 view(s) detected, 1 cross-view conflict(s); shape: Rectangular plate with four counterbored holes
+[STAGE] Extracting 117C
+[1/2] 117C: extracting views (front, top, right, marked)...
+  Specs-first: 2 must-meet specification(s) injected into extraction + resolution.
+[2.5/2] resolving ambiguities + verifying + per-plane macros + .sldprt...
+[SPEC] Enforcing 2 must-meet specification(s) (specs-first).
+[STAGE] Spec reconciliation
+[SPEC] Stage 2.6: 2 constraint(s) parsed, 0 conflict(s)
+[SPEC] HIGH: Callout "1/4 DIA THRU" is ambiguous on the top view
+[STAGE] Resolving
+[OVERVIEW] Stage 1.5 contributed 1 cross-view correction(s) to resolution.
+[OVERVIEW] HIGH: Hole pitch differs between the front and top views
+[SPEC] 1 ambiguous dimension(s) resolved spec-driven.
+[STAGE] Verifying
+[STAGE] Building macros
+[STAGE] Pre-validating (CadQuery)
+[PREVAL] PASS — watertight pre-validated solid, all must-meet constraints hold (prevalidation.stl written).
+[STAGE] Building .sldprt
+[STAGE] Verifying must-meet constraints
+[MM] MM1 PASS: required 4 holes, measured 4 holes
+[MM] MM2 PASS: required 0.250 in, measured 0.250 in
+[STAGE] Final checks
+ Multi-view summary (1 part(s))
+  Summary CSV: /srv/parts/s1/117C/output/multiview_summary.csv  (1/1 READY)
+[STAGE] Exporting
+[STAGE] Done
+[delivered outputs to] /srv/UI_Output/117C
+[delivered outputs to] /home/user/Downloads/SolidWorksModel_Parts/117C

@@ -1,0 +1,277 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   McAgent — Design tokens & shared components
+   Single source of truth for BOTH documents (index.html and photoapp/).
+
+   Direction: near-black graphite surfaces, violet accent (navigation,
+   selection, focus, primary non-run actions), ONE gold (the Run Pipeline
+   button and the current stage only), semantic green / amber / red for status.
+   Legacy token names (--blueprint*, --copper*, --teal*, --steel*) stay defined
+   as aliases so photoapp/index.html restyles without edits.
+
+   Depth strategy: borders only. Spacing grid: 4px. Radius: 4 / 8 / 12 px.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* TOKEN-ROOT-START */
+:root {
+  /* Surfaces (graphite, darkest to lightest) */
+  --well:      #0D0E11;  /* canvas wells, console */
+  --bg:        #101114;  /* page background */
+  --bg-raised: #191B20;  /* sidebar, toolbars, panel headers */
+  --surface:   #191B20;  /* cards, chips, secondary buttons */
+  --surface-2: #24262D;  /* hover */
+  --input-bg:  #0D0E11;  /* inputs sit below their surroundings */
+
+  /* Ink */
+  --ink:       #F2F2F4;  /* primary */
+  --ink-2:     #C5C6CE;  /* secondary */
+  --ink-3:     #92949E;  /* muted */
+  --ink-4:     #6C6E79;  /* disabled and decorative only (below AA for body text) */
+
+  /* Rules */
+  --line:        #30323A;
+  --line-soft:   #25272E;
+  --line-strong: #444752;
+  --ring:        #9B8AFB;  /* focus ring: 2px, offset 2px */
+
+  /* Accent (violet): navigation, selection, focus, primary non-run actions */
+  --accent:        #9B8AFB;
+  --accent-bright: #B1A3FF;  /* hover */
+  --accent-text:   #B9AEFF;  /* accent as text */
+  --accent-dim:    rgba(155,138,251,0.16);  /* selected fills */
+  --on-accent:     #14121F;  /* text on violet fills */
+
+  /* Gold: Run Pipeline button and the current tracker stage ONLY */
+  --gold:        #D6AF6B;
+  --gold-bright: #E2C083;
+  --gold-dim:    rgba(214,175,107,0.16);
+  --on-gold:     #1A1408;
+
+  --accent-deep:   #35294E;  /* New Project fill, primary non-run buttons on dark */
+
+  /* 3D stage (dark navy, subtle) and the white drawing sheet */
+  --stage-top:    #1B2133;
+  --stage-bottom: #0C0F16;
+  --stage-env:    #3C3F4A;  /* reflection room walls for the metallic model */
+  --paper:        #F7F7F5;
+
+  /* Legacy blueprint names: aliases of the accent family */
+  --blueprint:        var(--accent);
+  --blueprint-bright: var(--accent-bright);
+  --blueprint-text:   var(--accent-text);
+  --blueprint-dim:    var(--accent-dim);
+  --on-blueprint:     var(--on-accent);
+
+  /* Steel: neutral informational */
+  --steel:      #6E7385;
+  --steel-text: #A9AEBF;
+  --steel-dim:  rgba(146,148,158,0.14);
+
+  /* Status */
+  --ok:        #3EAF7C;
+  --ok-text:   #6FD0A2;
+  --err:       #E5484D;
+  --err-text:  #F3797E;
+  --err-wash:  rgba(229,72,77,0.12);   /* hover and badge wash */
+  --err-line:  rgba(229,72,77,0.45);   /* outline on error bars */
+  --warn:      #E3A93C;
+
+  /* Datum: the locked (0,0) origin marker. Functional color, not an accent. */
+  --datum:     #00C2FF;
+  --datum-dim: rgba(0,194,255,0.12);
+
+  /* Severity ladder (functional, never decoration) */
+  --sev-critical: #F0545C;  --on-sev-critical: #2A0507;
+  --sev-high:     #E3A13C;  --on-sev-high:     #2A1703;
+  --sev-medium:   #D2C355;  --on-sev-medium:   #242006;
+  --sev-low:      #8DA4BE;  --on-sev-low:      #0F151D;
+
+  /* Scrollbars */
+  --scroll-thumb:       #3A3D47;
+  --scroll-thumb-hover: #4A4E5A;
+
+  /* three.js scene (read with getComputedStyle) */
+  --model-mesh:   #B4B7C2;
+  --model-grid:   #30323A;
+  --model-grid-2: #1E2026;
+
+  /* Legacy aliases (photoapp + older recipes bind to these) */
+  --copper:        var(--accent);
+  --copper-bright: var(--accent-bright);
+  --copper-text:   var(--accent-text);
+  --copper-dim:    var(--accent-dim);
+  --on-copper:     var(--on-accent);
+  --teal:          var(--steel);
+  --teal-text:     var(--steel-text);
+  --teal-dim:      var(--steel-dim);
+
+  /* Typography */
+  --sans: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont,
+          Roboto, "Helvetica Neue", sans-serif;
+  --mono: "Cascadia Mono", "Cascadia Code", ui-monospace, Consolas, "SF Mono",
+          Menlo, monospace;
+  --fs-caption: 11px;   /* uppercase labels, chips */
+  --fs-small:   12px;   /* secondary text, dense tables */
+  --fs-body:    14px;   /* body */
+  --fs-control: 14px;   /* buttons, inputs, tab labels */
+  --fs-h2:      16px;   /* panel titles */
+  --fs-h1:      20px;   /* page titles */
+  --fs-stat:    20px;   /* stat values */
+  --fs-display: 30px;   /* hero numbers */
+
+  /* Control height */
+  --ctl-h: 38px;
+
+  /* Spacing (4px grid) */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px;
+
+  /* Radius scale */
+  --r-sm: 4px;   /* chips, stamps */
+  --r-md: 8px;   /* buttons, inputs */
+  --r-lg: 12px;  /* cards, panels */
+}
+
+/* Base */
+html { -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent-dim); }
+
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 5px;
+                             border: 2px solid transparent; background-clip: content-box; }
+*::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover);
+                                   border: 2px solid transparent; background-clip: content-box; }
+* { scrollbar-width: thin; scrollbar-color: var(--scroll-thumb) transparent; }
+
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important;
+                           animation-duration: 0.01ms !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Shared components — one visual language for both documents.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Button ────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2);
+  height: var(--ctl-h); padding: 0 var(--sp-4); border-radius: var(--r-md);
+  font: 600 var(--fs-control)/1 var(--sans); letter-spacing: 0.01em;
+  border: 1px solid transparent; cursor: pointer; white-space: nowrap;
+  background: var(--accent); color: var(--on-accent);
+  transition: background .12s, border-color .12s, color .12s, transform .1s;
+}
+.btn:hover:not(:disabled) { background: var(--accent-bright); }
+.btn:active:not(:disabled) { transform: scale(0.97); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.secondary {
+  background: var(--surface); color: var(--ink); border-color: var(--line-strong); font-weight: 500;
+}
+.btn.secondary:hover:not(:disabled) { background: var(--surface-2); border-color: var(--line-strong); }
+.btn.ghost { background: transparent; color: var(--ink-2); border-color: transparent; }
+.btn.ghost:hover:not(:disabled) { background: var(--surface); color: var(--ink); }
+.btn.danger { background: transparent; color: var(--err-text); border-color: var(--err-line); }
+.btn.danger:hover:not(:disabled) { background: rgba(229,72,77,0.12); }
+.btn.running { background: var(--surface); color: var(--accent-text); border-color: var(--line-strong); }
+/* Active state for a secondary/ghost button used as a tool toggle (draw,
+   set-origin, mode switches) — reads clearly "pressed" without a new pattern. */
+.btn.secondary.on, .btn.ghost.on { background: var(--accent-dim);
+    color: var(--accent-text); border-color: var(--accent); }
+.btn.gold { background: var(--gold); color: var(--on-gold); }
+.btn.gold:hover:not(:disabled) { background: var(--gold-bright); }
+.btn.sm { height: 30px; padding: 0 var(--sp-3); font-size: var(--fs-small); }
+.btn.xl { height: 46px; padding: 0 var(--sp-5); font-size: 15px; font-weight: 700; letter-spacing: .02em; }
+
+/* ── Icon button (square, quiet) ───────────────────────────────────────── */
+.ibtn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; padding: 0; border-radius: var(--r-sm);
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink-3);
+  cursor: pointer; font: 500 var(--fs-small)/1 var(--sans);
+  transition: color .12s, border-color .12s, background .12s;
+}
+.ibtn:hover { color: var(--ink); border-color: var(--line-strong); background: var(--surface-2); }
+
+/* ── Badge (quiet bordered tag) ────────────────────────────────────────── */
+.badge-c {
+  display: inline-flex; align-items: center; gap: var(--sp-1); width: fit-content;
+  padding: 2px var(--sp-2); border-radius: var(--r-sm);
+  font: 600 var(--fs-caption)/16px var(--sans); letter-spacing: 0.02em;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink-2);
+  white-space: nowrap;
+}
+.badge-c.copper, .badge-c.blueprint { background: var(--blueprint-dim); color: var(--blueprint-text); border-color: var(--accent); }
+.badge-c.teal, .badge-c.steel { background: var(--steel-dim); color: var(--steel-text); border-color: var(--steel); }
+.badge-c.ok     { background: rgba(62,175,124,0.13); color: var(--ok-text); border-color: rgba(62,175,124,0.35); }
+.badge-c.err    { background: var(--err-wash); color: var(--err-text); border-color: var(--err-line); }
+.badge-c.warn   { background: rgba(227,169,60,0.12); color: var(--warn); border-color: rgba(227,169,60,0.35); }
+.badge-c.mono   { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* Severity stamps — bordered like an inspection stamp, identical everywhere */
+.badge-sev {
+  display: inline-flex; align-items: center; width: fit-content;
+  padding: 1px var(--sp-2); border-radius: var(--r-sm);
+  font: 700 10px/16px var(--sans); letter-spacing: 0.09em; text-transform: uppercase;
+  background: transparent; border: 1px solid; white-space: nowrap;
+}
+.badge-sev.critical { color: var(--sev-critical); border-color: var(--sev-critical); background: rgba(240,84,92,0.10); }
+.badge-sev.high     { color: var(--sev-high);     border-color: var(--sev-high);     background: rgba(227,161,60,0.10); }
+.badge-sev.medium   { color: var(--sev-medium);   border-color: var(--sev-medium);   background: rgba(210,195,85,0.08); }
+.badge-sev.low      { color: var(--sev-low);      border-color: var(--sev-low);      background: rgba(141,164,190,0.08); }
+
+/* ── Inputs (inset: darker than surroundings) ──────────────────────────── */
+.input-c, textarea.input-c, select.input-c {
+  font: 400 var(--fs-body)/1.45 var(--sans); color: var(--ink);
+  background: var(--input-bg); border: 1px solid var(--line);
+  border-radius: var(--r-md); padding: 7px var(--sp-3);
+  transition: border-color .12s;
+}
+.input-c::placeholder { color: var(--ink-4); }
+.input-c:focus { outline: none; border-color: var(--accent); }
+.input-c.mono { font-family: var(--mono); }
+
+/* ── Tabs — underline rail (one pattern for top tabs and sub-tabs) ─────── */
+.tab-c {
+  appearance: none; background: none; border: none; cursor: pointer;
+  padding: var(--sp-3) var(--sp-4); margin-bottom: -1px; white-space: nowrap;
+  font: 500 var(--fs-control)/1 var(--sans); color: var(--ink-3);
+  border-bottom: 2px solid transparent;
+  transition: color .12s, border-color .12s;
+}
+.tab-c:hover { color: var(--ink-2); }
+.tab-c.active { color: var(--ink); border-bottom-color: var(--accent); }
+.tab-c.sm { padding: 10px var(--sp-3); font-size: var(--fs-small); }
+
+/* ── Panel caption (uppercase micro-label used on every panel) ─────────── */
+.cap-c {
+  font: 600 var(--fs-caption)/1.4 var(--sans); letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+
+/* ── Progress (slim track + accent fill) ───────────────────────────────── */
+.progress-c { height: 6px; border-radius: 3px; background: var(--well);
+              border: 1px solid var(--line-soft); overflow: hidden; }
+.progress-c > .fill { height: 100%; width: 0%; background: var(--accent);
+                      transition: width .35s ease; }
+
+/* ── Console / build log ───────────────────────────────────────────────── */
+.console-c {
+  background: var(--well); color: var(--ink-2);
+  font: 12px/1.6 var(--mono); white-space: pre-wrap;
+}
+
+/* ── Card ──────────────────────────────────────────────────────────────── */
+.card-c { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); }
+
+/* ── Segmented control (orientation picker etc.) ───────────────────────── */
+.seg-c { display: inline-flex; border: 1px solid var(--line); border-radius: var(--r-md);
+         background: var(--input-bg); padding: 2px; gap: 2px; }
+.seg-c > button {
+  appearance: none; border: none; background: transparent; cursor: pointer;
+  border-radius: var(--r-sm); padding: 3px 7px;
+  font: 600 10px/1.4 var(--sans); letter-spacing: 0.02em; color: var(--ink-3);
+  transition: background .12s, color .12s;
+}
+.seg-c > button:hover { color: var(--ink); }
+.seg-c > button.on { background: var(--accent); color: var(--on-accent); }

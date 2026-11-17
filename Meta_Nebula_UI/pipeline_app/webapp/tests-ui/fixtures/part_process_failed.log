@@ -1,0 +1,11 @@
+$ python main.py --views-folder /srv/parts/s1/Gear --output /srv/parts/s1/Gear/output --no-export
+[STAGE] Extracting Gear
+[1/2] Gear: extracting views (front, top)...
+[2.5/2] resolving ambiguities + verifying + per-plane macros + .sldprt...
+[STAGE] Resolving
+[STAGE] Verifying
+[STAGE] Building macros
+  Processing failed: MacroGenerationError: cannot place feature F004
+  Summary CSV: /srv/parts/s1/Gear/output/multiview_summary.csv  (0/1 READY)
+[STAGE] Exporting
+[STAGE] Done

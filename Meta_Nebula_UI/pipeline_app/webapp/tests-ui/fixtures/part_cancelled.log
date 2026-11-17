@@ -1,0 +1,4 @@
+$ python main.py --views-folder /srv/parts/s1/Cover --output /srv/parts/s1/Cover/output --no-export
+[STAGE] Extracting Cover
+[1/2] Cover: extracting views (front, top)...
+[cancel requested by user]

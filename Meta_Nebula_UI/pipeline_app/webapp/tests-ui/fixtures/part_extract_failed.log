@@ -1,0 +1,10 @@
+$ python main.py --views-folder /srv/parts/s1/Shaft --output /srv/parts/s1/Shaft/output --no-export
+Multi-view build: 1 part(s); views processed in order front, top, right, left, back, bottom.
+  Overview analysis unavailable — proceeding with per-view extraction only.
+[STAGE] Extracting Shaft
+[1/2] Shaft: extracting views (front, top)...
+  Extraction failed: APIConnectionError: Connection error.
+  Summary CSV: /srv/parts/s1/Shaft/output/multiview_summary.csv  (0/1 READY)
+[STAGE] Exporting
+[STAGE] Done
+[delivered outputs to] /srv/UI_Output/Shaft
