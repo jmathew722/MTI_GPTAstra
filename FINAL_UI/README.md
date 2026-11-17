@@ -1,0 +1,47 @@
+# McAgent UI (FINAL_UI)
+
+Vanilla HTML/CSS/JS front end plus a FastAPI server for the MTI 2D to 3D SolidWorks pipeline. It runs any pipeline repo unchanged: a folder that has `main.py` and a `pipeline/` package.
+
+## Run (one command)
+
+```bash
+./run.sh --repo /path/to/2D-3D-CAD-Test-Generation      # http://127.0.0.1:8200
+PORT=8210 ./run.sh --repo /path/to/repo
+```
+Windows: `.\run.ps1 -Repo C:\path\repo` or double-click `run.bat`. Needs Python 3.10-3.12 (a `.venv` is created here and the repo's `requirements.txt` plus `server/requirements-ui.txt` are installed). `MCAGENT_PYTHON=<python>` reuses an existing interpreter and skips installs.
+
+## Pointing at a repo
+
+`--repo <path>` or env `MCAGENT_REPO`. With neither, the launcher walks up from this folder looking for a directory (or its direct child) with `main.py` and `pipeline/`. None found, several found, or an invalid path: it prints what to do and exits. It never guesses. The repo's CLI must accept `--drawing | --from-json | --views-folder`, `--output` and `--no-export` (a warning is printed if `--no-export` is missing).
+
+`MCAGENT_DATA` (default `FINAL_UI/data/`, gitignored) holds `parts/`, `runs/`, `UI_Output/` and the conversion cache. The repo is not written to by the UI itself.
+
+The single change vs the original `webapp/app.py`: the project directory comes from `MCAGENT_REPO` (plus the data and static paths above). Routes and payloads are identical. See the header of `server/app.py`.
+
+## Layout
+
+`server/` FastAPI app. `web/` the whole frontend (`index.html`, `static/`, `photoapp/`, `vendor/`, `bridge.js`, `pdf.min.js`, `pdf.worker.min.js`). `tests/unit`, `tests/e2e`. `docs/` (ARCHITECTURE, FEATURE_INVENTORY, DESIGN_SPEC, PROGRESS, QA_RESULTS, screenshots, reference).
+
+## Tests
+
+```bash
+node --test "tests/unit/*.test.js"                                  # 116 unit tests
+cd tests/e2e && npm install && npx playwright install chromium
+PORT=8210 ../../run.sh --repo <repo> &                              # server under test
+npx playwright test                                                 # 26 tests incl. axe; BASE_URL overrides http://127.0.0.1:8210
+E2E_REPO=<repo> MCAGENT_PYTHON=<python> npx playwright test 20-home   # also runs the launcher test
+SHOTS=1 npx playwright test screenshots                              # docs/screenshots/final-*.png
+```
+The suite never starts a live run; teardown removes every session and demo run it created.
+
+## Honesty rules
+
+No inert buttons, fake percentages, fake "Connected", fake success or fabricated STL. A missing capability is disabled with a short reason. Demo runs replay a saved extraction, carry a Demo badge and stay out of Projects and Recent. Gold is only for Run Pipeline and the current stage; warnings are amber. Engine name comes from the backend. Nothing starts a paid run without Run Pipeline.
+
+## Mock vs real
+
+Nothing is mocked in the UI. Demo runs are real backend calls (no API). 3D shows only a real `model.stl`. Live extraction and SolidWorks builds were not exercised (no API key, no SolidWorks here).
+
+## Gaps
+
+G1-G17 from `docs/ARCHITECTURE.md` section 17 (no model name in `/api/status`, no learning-loop endpoint, no active-run listing, no structured progress API, no part delete/rename, batch is a client loop, and so on). Also: Upload parts uses page 1 / the first image as Front; a repo whose `main.py` lacks `--no-export` cannot run demos or live runs.

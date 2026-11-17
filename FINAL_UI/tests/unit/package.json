@@ -1,0 +1,6 @@
+{
+  "name": "mcagent-ui-unit",
+  "private": true,
+  "description": "Unit tests for pure logic and core modules. Run from FINAL_UI: node --test \"tests/unit/*.test.js\"",
+  "scripts": { "test": "node --test *.test.js" }
+}

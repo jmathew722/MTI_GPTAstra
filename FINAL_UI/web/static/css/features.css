@@ -1,0 +1,122 @@
+/* features.css: intake gallery, 2D viewer extras, 3D viewer overlays, focus overlay, region markup.
+   Every color binds to design-tokens.css. Region group colors are user data set inline from JS. */
+
+/* ── Intake gallery (Part Setup > Views) ─────────────────────────────────── */
+.orient-gallery { display: grid; grid-template-columns: 1fr; gap: var(--sp-2); }
+.ocard { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: var(--sp-2); padding: var(--sp-2); background: var(--well); border: 1px solid var(--line); border-radius: var(--r-md); position: relative; }
+.ocard.assigned { border-color: var(--line-strong); }
+.ocard.dup { border-color: var(--warn); }
+.ocard-th { width: 76px; height: 76px; display: grid; place-items: center; background: var(--bg); border-radius: var(--r-sm); overflow: hidden; border: 1px solid var(--line-soft); padding: 0; }
+.ocard-th img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.ocard-b { min-width: 0; display: flex; flex-direction: column; gap: var(--sp-1); }
+.ocard-l { font-size: var(--fs-small); color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ocard-c { display: flex; gap: var(--sp-1); align-items: center; }
+.ocard-c select { flex: 1 1 auto; min-width: 0; height: 32px; }
+.dupbadge { align-self: flex-start; font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: .05em; color: var(--warn); }
+.req-warn.is-ok { color: var(--ok-text); }
+.req-warn.is-info { color: var(--ink-3); }
+.hint.is-warn, .reason.is-warn { color: var(--warn); }
+.draft-note { font-size: var(--fs-small); color: var(--ink-3); }
+.dlg-body .sheet-sel { margin-top: var(--sp-3); }
+.dlg-body ul.plain { margin: var(--sp-2) 0 0 var(--sp-4); }
+
+/* ── 2D viewer ───────────────────────────────────────────────────────────── */
+#ov-box { cursor: grab; touch-action: none; }
+#ov-box.is-pan { cursor: grabbing; }
+#ov-box.is-empty { cursor: default; }
+#ov-img { transform-origin: 50% 50%; user-select: none; -webkit-user-drag: none; will-change: transform; }
+.vp-src-sw { position: absolute; top: var(--sp-2); left: var(--sp-2); z-index: 2; background: var(--bg-raised); }
+.vp-src-sw button { height: 26px; font-size: var(--fs-small); padding: 0 var(--sp-3); }
+.vp-pg { flex: 0 0 auto; display: grid; grid-template-columns: 44px auto; align-items: center; gap: var(--sp-2); padding: 4px var(--sp-2) 4px 4px; background: var(--well); border: 1px solid var(--line); border-radius: var(--r-sm); color: var(--ink-2); font-size: var(--fs-small); }
+.vp-pg[aria-current="true"] { border-color: var(--accent); background: var(--accent-dim); color: var(--ink); }
+.vp-pg img { width: 44px; height: 32px; object-fit: contain; background: var(--bg); display: block; }
+.vp-empty .row2 { justify-content: center; }
+.vp-empty .reason { max-width: 44ch; }
+
+/* ── 3D viewer ───────────────────────────────────────────────────────────── */
+#stl-canvas-wrap canvas { display: block; width: 100%; height: 100%; }
+#stl-canvas-wrap { background: transparent; }
+.stl-triad { position: absolute; top: 12px; right: 14px; width: 72px; height: 72px; pointer-events: none; z-index: 2; }
+.stl-bar { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 3; display: flex; align-items: center; gap: 2px; padding: 5px 8px; background: color-mix(in srgb, var(--bg-raised) 88%, transparent); border: 1px solid var(--line); border-radius: 10px; }
+.stl-bar .ibtn { width: 34px; height: 34px; border-color: transparent; background: transparent; color: var(--ink-2); }
+.stl-bar .ibtn:hover:not(:disabled) { background: var(--surface-2); color: var(--ink); }
+.stl-bar .ibtn[aria-pressed="true"] { color: var(--accent-text); background: var(--accent-dim); }
+.stl-bar .ibtn:disabled { opacity: .4; }
+.stl-bar .ibtn svg { stroke-width: 1.8; }
+.stl-sep { width: 1px; height: 22px; background: var(--line-strong); margin: 0 4px; }
+.vp-load { position: absolute; left: var(--sp-3); bottom: var(--sp-3); display: inline-flex; align-items: center; gap: var(--sp-2); padding: 4px var(--sp-3); background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--r-md); color: var(--ink-2); font-size: var(--fs-small); pointer-events: none; }
+.vp-err-bar { position: absolute; left: var(--sp-3); right: var(--sp-3); top: var(--sp-3); display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-2) var(--sp-3); background: var(--bg-raised); border: 1px solid var(--err-line); border-radius: var(--r-md); color: var(--err-text); font-size: var(--fs-small); }
+.vp-err-bar span { flex: 1 1 auto; min-width: 0; }
+.vp-foot-note { position: absolute; right: var(--sp-3); bottom: var(--sp-3); font-size: var(--fs-caption); color: var(--ink-3); pointer-events: none; }
+
+/* ── Focus overlay ───────────────────────────────────────────────────────── */
+.focus-head { flex-wrap: wrap; }
+.focus-head .focus-hint { flex: 1 1 200px; min-width: 0; }
+.focus-head .seg-c { margin-left: 0; }
+#crop-view > .focus-note { position: absolute; }
+.focus-body { position: relative; }
+.focus-load { display: flex; align-items: center; gap: var(--sp-3); }
+
+/* ── Mark regions ────────────────────────────────────────────────────────── */
+#mark-view { flex-direction: column; }
+#mark-view:not([hidden]) { display: flex; }
+.mark-bar { flex: 0 0 auto; display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2); padding: var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--line); background: var(--bg-raised); font-size: var(--fs-small); color: var(--ink-3); }
+.mark-bar select { height: 30px; width: auto; font-size: var(--fs-small); padding: 0 var(--sp-2); }
+.mark-bar .mb-sep { width: 1px; height: 20px; background: var(--line); }
+.mark-bar .grow { flex: 1 1 auto; }
+.mark-swatch { width: 18px; height: 18px; border-radius: var(--r-sm); flex: 0 0 auto; border: 1px solid var(--ink-3); }
+.mark-split { flex: 1 1 auto; min-height: 0; display: flex; }
+#mk-box { flex: 1 1 auto; min-width: 0; position: relative; overflow: hidden; background: var(--well); touch-action: none; display: grid; place-items: center; }
+#mk-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transform-origin: 50% 50%; user-select: none; -webkit-user-drag: none; }
+#ov-mark-layer { position: absolute; pointer-events: none; transform-origin: 50% 50%; touch-action: none; }
+#ov-mark-layer.marking { pointer-events: auto; cursor: crosshair; }
+.mk-empty { max-width: 46ch; text-align: center; color: var(--ink-3); padding: var(--sp-5); }
+.mark-box { position: absolute; box-sizing: border-box; border: 2px solid; border-radius: var(--r-sm); pointer-events: none; }
+.mark-box .mb-del { position: absolute; top: -9px; right: -9px; width: 18px; height: 18px; display: grid; place-items: center; padding: 0; color: var(--ink); background: var(--bg-raised); border: 1px solid var(--line-strong); border-radius: 50%; cursor: pointer; pointer-events: auto; font: 700 12px/1 var(--sans); }
+.mark-box .mb-del:hover { background: var(--err); border-color: var(--err); }
+.mark-box .mb-resize { position: absolute; right: -6px; bottom: -6px; width: 12px; height: 12px; border-radius: 2px; border: 1px solid var(--bg); cursor: nwse-resize; pointer-events: auto; }
+.origin-mark, .datum-mark { position: absolute; width: 0; height: 0; z-index: 5; pointer-events: none; }
+.origin-mark .oh { position: absolute; left: -15px; top: -1.5px; width: 30px; height: 3px; background: var(--datum); }
+.origin-mark .ov { position: absolute; left: -1.5px; top: -15px; width: 3px; height: 30px; background: var(--datum); }
+.origin-mark .odot { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--datum); border: 1px solid var(--well); }
+.origin-mark .olabel, .datum-mark .dm-lab { position: absolute; font: 700 10px/15px var(--mono); color: var(--datum); white-space: nowrap; }
+.origin-mark .olabel { left: 9px; top: -22px; padding: 0 4px; background: var(--well); border-radius: var(--r-sm); }
+.origin-mark .odel, .datum-mark .dm-del { position: absolute; left: 10px; top: 4px; width: 16px; height: 16px; display: grid; place-items: center; padding: 0; background: var(--bg-raised); color: var(--ink); border: 1px solid var(--line-strong); border-radius: 50%; cursor: pointer; pointer-events: auto; font: 700 11px/1 var(--sans); }
+.datum-mark .dm-dot { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: var(--datum); border: 1px solid var(--well); }
+.datum-mark .dm-lab { left: -7px; top: -7px; width: 14px; height: 14px; display: grid; place-items: center; color: var(--well); font-size: 9px; }
+.mark-side { flex: 0 0 360px; min-width: 0; display: flex; flex-direction: column; border-left: 1px solid var(--line); background: var(--bg-raised); }
+.ms-head { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--line); font-weight: 600; }
+.ms-head .grow { flex: 1; }
+.ms-scroll { flex: 1 1 auto; min-height: 0; overflow: auto; padding: var(--sp-3); }
+.ms-foot { padding: var(--sp-3) var(--sp-4); border-top: 1px solid var(--line); font-size: var(--fs-small); color: var(--ink-3); line-height: 1.5; }
+.ms-empty { color: var(--ink-3); font-size: var(--fs-small); line-height: 1.5; }
+.rg-origin { font-size: var(--fs-small); line-height: 1.5; color: var(--ink-3); padding: var(--sp-2) var(--sp-3); border: 1px dashed var(--line-strong); border-radius: var(--r-md); margin-bottom: var(--sp-3); }
+.rg-origin.set { color: var(--datum); border-style: solid; border-color: var(--datum); background: var(--datum-dim); }
+.rg-datums { margin-bottom: var(--sp-3); }
+.rg-datums-t { font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); margin-bottom: var(--sp-1); }
+.rg-drow { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; padding: var(--sp-1) 0; font-size: var(--fs-small); }
+.dm-chip { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 4px; border-radius: var(--r-sm); background: var(--datum-dim); color: var(--datum); font: 700 10px var(--mono); }
+.rg-drow .dm-val { flex: 1 1 100px; min-width: 0; height: 28px; font-family: var(--mono); font-size: var(--fs-small); }
+.rg-group { margin: 0 0 var(--sp-3); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.rg-head { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--line); font-size: var(--fs-small); font-weight: 600; }
+.rg-head .grow { flex: 1; }
+.rg-row { display: grid; grid-template-columns: auto 1fr auto; gap: var(--sp-1) var(--sp-2); align-items: center; padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--line-soft); }
+.rg-row:last-child { border-bottom: 0; }
+.rg-row select, .rg-row input { height: 28px; font-size: var(--fs-small); }
+.rg-row input.rg-val { min-width: 0; font-family: var(--mono); }
+.rg-coords { grid-column: 1 / -1; color: var(--ink-3); font: 400 11px var(--mono); }
+.rg-del { cursor: pointer; color: var(--err-text); background: none; border: 0; border-radius: var(--r-sm); width: 28px; height: 28px; font-size: 16px; }
+.rg-del:hover { background: var(--err-wash); }
+.focus-save.is-err { color: var(--err-text); }
+.focus-save.is-ok { color: var(--ok-text); }
+
+@media (max-width: 900px) {
+  .mark-split { flex-direction: column; }
+  .mark-side { flex: 0 0 40%; border-left: 0; border-top: 1px solid var(--line); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #ov-img, #mk-img, #ov-mark-layer { transition: none !important; }
+}
+
+/* The overlay must sit above the sidebar (z-index 60) and below dialogs (100). */
+.focus { z-index: 70; }
