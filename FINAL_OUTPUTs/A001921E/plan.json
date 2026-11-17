@@ -1,0 +1,196 @@
+{
+  "dims": {
+    "D001": 13.375,
+    "D002": 4.0,
+    "D003": 1.25,
+    "D004": 1.187,
+    "D005": 5.5,
+    "D006": 11.0,
+    "D007": 2.0,
+    "D008": 9.0,
+    "D009": 1.5,
+    "D010": 1.875,
+    "D011": 0.656,
+    "D012": 0.75,
+    "D013": 0.781,
+    "D014": 1.188,
+    "D015": 0.12,
+    "D016": 5.5,
+    "D017": 1.188,
+    "D018": 7.0,
+    "D019": 0.625,
+    "D020": 3.375
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "192 B",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular plate with the drawing front face at z=0 and thickness along +Z.",
+        "source_callouts": [
+          "13.375",
+          "4.00",
+          "1.25"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D002",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D003",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Left lower counterbored through hole, entering the drawing front face.",
+        "source_callouts": [
+          ".781 DIA. THRU & 1.188 CBORE .12 DP. -(3) HL'S.",
+          "1.187",
+          "1.500"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004",
+        "v": "D009",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": null,
+          "cbore_d": "D014",
+          "cbore_depth": "D015",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Middle lower counterbored through hole located by its independent baseline dimension.",
+        "source_callouts": [
+          ".781 DIA. THRU & 1.188 CBORE .12 DP. -(3) HL'S.",
+          "5.500 \u00b1.005",
+          "1.500"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004 + D005",
+        "v": "D009",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": null,
+          "cbore_d": "D014",
+          "cbore_depth": "D015",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F004",
+        "rationale": "Right lower counterbored through hole located directly from the 11.000 baseline.",
+        "source_callouts": [
+          ".781 DIA. THRU & 1.188 CBORE .12 DP. -(3) HL'S.",
+          "11.000 \u00b1.005",
+          "1.500"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004 + D006",
+        "v": "D009",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": null,
+          "cbore_d": "D014",
+          "cbore_depth": "D015",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Left upper tapped through hole with printed tap drill and cosmetic thread.",
+        "source_callouts": [
+          ".656 DIA. THRU & 3/4-10 2B TAP THRU-(2) HL'S.",
+          "2.000",
+          "1.875"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004 + D007",
+        "v": "D009 + D010",
+        "spec": {
+          "type": "tapped",
+          "d": "D011",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "3/4-10 2B TAP THRU"
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Right upper tapped through hole located from the left lower hole baseline; cosmetic thread.",
+        "source_callouts": [
+          ".656 DIA. THRU & 3/4-10 2B TAP THRU-(2) HL'S.",
+          "9.000",
+          "1.875"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D004 + D008",
+        "v": "D009 + D010",
+        "spec": {
+          "type": "tapped",
+          "d": "D011",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "3/4-10 2B TAP THRU"
+        }
+      }
+    ],
+    "notes": [
+      "Material: 1018. Drawing title: PLATE.",
+      "All five bores are through holes; omitted hole depth denotes through-all. Counterbores stop at D015 from the front face at z=0, as confirmed by the right-side view.",
+      "Printed .12 counterbore depth governs, not an SHCS standard depth.",
+      "D012 identifies nominal thread major diameter; threads are cosmetic, with physical holes at D011 tap-drill diameter.",
+      "Preserve independent \u00b1.005 baseline tolerances on D005 and D006 and the printed 1.187 left margin; do not silently center the hole layout.",
+      "General tolerances: two-place \u00b1.020 inch, three-place \u00b1.010 inch, angular \u00b11 degree. No edge breaks, chamfers, or fillets are specified."
+    ]
+  }
+}

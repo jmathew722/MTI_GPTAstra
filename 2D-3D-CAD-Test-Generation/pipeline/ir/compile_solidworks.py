@@ -174,6 +174,7 @@ class SwFeatureResult:
 class SwBuildReport:
     part: str
     sldprt: Optional[str]
+    stl: Optional[str] = None          # mesh of the saved part; None when the export failed
     features: list[SwFeatureResult] = field(default_factory=list)
     bbox_ok: Optional[bool] = None
     volume_ok: Optional[bool] = None
@@ -1446,6 +1447,16 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         sw.report.bbox_ok = all(abs(a - b) <= 1e-4 * max(1.0, b) for a, b in zip(ext, ref))
     sw.doc.SketchManager.AddToDB = False   # hand the part back with normal sketch behaviour
     sw.report.sldprt = save_model(sw.doc, f"{plan.part}_ir", out_dir)
+    try:  # a mesh of the real part, for 3D viewers (best effort; SaveAs3 picks the
+        # translator from the extension, exactly as the PNG export below does)
+        stl_path = (Path(out_dir) / f"{plan.part}_ir.stl").resolve()
+        sw.doc.SaveAs3(str(stl_path), 0, 1)
+        if stl_path.is_file() and stl_path.stat().st_size > 0:
+            sw.report.stl = str(stl_path)
+        else:
+            log.warning("SaveAs3 reported no error but %s is missing or empty", stl_path.name)
+    except Exception as e:
+        log.warning("Could not export an STL: %s", e)
     try:  # an isometric picture for review (best effort)
         sw.doc.ShowNamedView2("*Isometric", 7)
         sw.doc.ViewZoomtofit2()

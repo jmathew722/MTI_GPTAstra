@@ -1,0 +1,39 @@
+{
+  "part": "A001921E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001921E\\A001921E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 6,
+  "questions": [],
+  "flagged": [],
+  "defaults": [
+    "D015: D9 0.12 -> 0.125 (two-place print of a 1/16 fraction)"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001921E\\reference.step",
+  "volume": 63.997527,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001921E\\192B_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001921E\\192 B_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001921E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (drill + counterbore; one feature for F002, F003, F004)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (in F002 (one feature))",
+    "F005": "built (Up To Next; one feature for F005, F006)",
+    "F006": "built (in F005 (one feature))"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "F006: Hole Wizard 3/4-102 tapped, cosmetic thread did not match the reference (HoleWizard5 refused Up To Next); plain cut",
+    "sketches fully defined: 4/4"
+  ],
+  "mti_review": [
+    "[mti_hole_grouping] F002, F003, F004: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+    "[mti_hole_grouping] F005, F006: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points"
+  ],
+  "cost_usd": 0.6925,
+  "error": ""
+}

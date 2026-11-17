@@ -124,6 +124,8 @@ class IRResult:
     cq_skipped: dict = field(default_factory=dict)
     sw_ok: Optional[bool] = None
     sldprt: str = ""
+    stl: str = ""                          # SolidWorks mesh of the built part ("" when not exported)
+    prevalidation_stl: str = ""            # CadQuery mesh of the reference solid
     sw_features: dict = field(default_factory=dict)
     conventions: list[str] = field(default_factory=list)
     mti_review: list[str] = field(default_factory=list)     # advisory MTI modeling-practice findings    # MTI modeling conventions applied / fallen back
@@ -147,12 +149,16 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
     spent0 = budget.spent_usd()
     try:
         images = images_for(spec)
+        log.info("[stage] extraction: reading %d image(s) for %s", len(images), spec.part)
         with scope(part=spec.part):
             raw, res.extraction = get_extraction(spec, images, out, reuse)
+            log.info("[stage] resolution: resolving ambiguous references for %s", spec.part)
             resolve_unknowns(raw, spec.part)
             m = DrawingData.model_validate(raw)
             dims, refs = dims_of(m), reference_ids(m)
             saved = out / "plan.json"
+            log.info("[stage] build_plan_start: planning %s%s", spec.part,
+                     " (reusing saved plan, no API call)" if (reuse_plan and saved.exists()) else "")
             if reuse_plan and saved.exists():   # rebuild after a compiler change: no API call
                 from pipeline.ir.model import BuildPlan
                 from pipeline.planner import PlanResult
@@ -177,19 +183,27 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
         res.questions = [f"{f.id}: {f.rationale}" for f in plan.features if f.status == "unresolved"]
         res.flagged = [f"{f.id}: {f.justification}" for f in plan.features
                        if f.status == "planned" and f.justification]
+        log.info("[stage] build_plan_gate1: gate1=%s planned=%d questions=%d",
+                 res.gate1, res.planned, len(res.questions))
         if hard:
             res.error = "; ".join(f"{f.code}:{f.feature}" for f in hard)
             return res
         from pipeline.ir.mti_review import review
         res.mti_review = [f"[{f.code}] {f.message}" for f in review(plan, dims)]
+        log.info("[stage] generation_start: building the CadQuery reference for %s", spec.part)
         cq = run_script(emit_script(plan, dims, strict=False), out)
         res.reference_step, res.volume, res.cq_skipped = str(cq.step_path), cq.feature_map["volume"], cq.feature_map["skipped"]
+        log.info("[stage] generation_reference: reference built, volume=%s", res.volume)
+        preval = out / "prevalidation.stl"
+        res.prevalidation_stl = str(preval) if preval.is_file() else ""
         if sw_app is not None:
             from pipeline.ir.compile_solidworks import compile_solidworks
             rep = compile_solidworks(sw_app, plan, dims, cq.feature_map, out, template, pmap)
-            res.sw_ok, res.sldprt = rep.ok, rep.sldprt or ""
+            res.sw_ok, res.sldprt, res.stl = rep.ok, rep.sldprt or "", rep.stl or ""
             res.conventions = [f"origin centered: {rep.origin_ok}"] + rep.conventions
             res.sw_features = {f.fid: f.status + (f" ({f.note})" if f.note else "") for f in rep.features}
+            log.info("[stage] verification: sw_ok=%s bbox_ok=%s volume_ok=%s",
+                     res.sw_ok, rep.bbox_ok, rep.volume_ok)
     except Exception as e:
         from pipeline.budget import BudgetExceeded
         if isinstance(e, BudgetExceeded):

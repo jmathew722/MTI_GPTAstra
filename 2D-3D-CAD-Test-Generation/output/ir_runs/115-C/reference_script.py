@@ -6,11 +6,10 @@ from pipeline.ir.cq_runtime import Model
 
 m = Model('115 C', origin_kind='corner', units='inch', strict=False)
 m.prism('F001', on='plane(front)', offset=0, profile={'shape': 'rect', 'w': 3.25, 'h': 2.75, 'anchor': 'corner', 'u': 0, 'v': 0}, depth=1.5, op='add')  # w=D001, h=D002, u=0, v=0; depth=D003; offset=0
-m.hole('F002', on='face(F001,-Z)', u=0.435, v=0.435, spec={'type': 'thru', 'd': 0.40625})  # u=D001 - D004 - D005, v=D002 - D006 - D007, d=D013
+m.hole('F002', on='face(F001,-Z)', u=0.4375, v=0.4375, spec={'type': 'thru', 'd': 0.40625})  # u=D001 - D004 - D005, v=D002 - D006 - D007, d=D013
 m.pattern('F003', seed='F002', mode='grid', count=2, pitch=2.375, dir='+X', count2=2, pitch2=1.875, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D005
-m.hole('F004', on='face(F001,-Z)', u=0.93, v=1.37, spec={'type': 'cbore', 'd': 0.578125, 'depth': 1.12, 'cbore_d': 1.002, 'cbore_depth': 0.111})  # u=D001 - D004 - D009, v=D002 - D006 - D008, d=D014, cbore=D016xD017
-m.pattern('F005', seed='F004', mode='linear', count=2, pitch=1.38, dir='+X', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D009 - D010
-m.hole('F006', on='face(F001,+X)', u=1.37, v=0.75, spec={'type': 'tapped', 'd': 0.578125, 'depth': 2.38})  # u=D002 - D012, v=D011, d=D018
-m.skip('F007', 'unresolved: What radius is required for the four exterior corners rounded in the broad-face view? No radius is dimensioned.')
+m.hole('F004', on='face(F001,-Z)', u=0.9375, v=1.375, spec={'type': 'cbore', 'd': 0.578125, 'depth': 1.125, 'cbore_d': 1.002, 'cbore_depth': 0.111})  # u=D001 - D004 - D009, v=D002 - D006 - D008, d=D014, cbore=D016xD017
+m.pattern('F005', seed='F004', mode='linear', count=2, pitch=1.375, dir='+X', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D009 - D010
+m.hole('F006', on='face(F001,+X)', u=1.375, v=0.75, spec={'type': 'tapped', 'd': 0.578125, 'depth': 2.375})  # u=D002 - D012, v=D011, d=D018
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

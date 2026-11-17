@@ -6,12 +6,12 @@
     0.0,
     0.0,
     0.0,
-    4.44,
-    3.81,
+    4.4375,
+    3.8125,
     1.0
   ],
-  "volume": 14.047924,
-  "volume_mm3": 230204.228,
+  "volume": 14.048937,
+  "volume_mm3": 230220.823,
   "features": [
     "F001",
     "F002",
@@ -28,7 +28,6 @@
     "F013"
   ],
   "skipped": {
-    "F014": "unresolved: What radius is required on the four visibly rounded plate-outline corners? No radius is dimensioned.",
     "F015": "unsupported: Left rear installed dowel is a separate supplied component; IR v2 has no separate-body/component operation and must not fuse it into the plate.",
     "F016": "unsupported: Upper rear installed dowel is a second separate component, not an integral plate boss."
   },
@@ -37,13 +36,13 @@
       {
         "planned_center": [
           0.625,
-          0.625
+          0.6275
         ],
         "planned_d": 0.65625,
         "measured": true,
         "center": [
           0.625,
-          0.625
+          0.6275
         ],
         "d": 0.65625,
         "depth": 1.0,
@@ -54,13 +53,13 @@
       {
         "planned_center": [
           3.815,
-          0.625
+          0.6275
         ],
         "planned_d": 0.65625,
         "measured": true,
         "center": [
           3.815,
-          0.625
+          0.6275
         ],
         "d": 0.65625,
         "depth": 1.0,
@@ -69,13 +68,13 @@
       {
         "planned_center": [
           0.625,
-          3.185
+          3.1875
         ],
         "planned_d": 0.65625,
         "measured": true,
         "center": [
           0.625,
-          3.185
+          3.1875
         ],
         "d": 0.65625,
         "depth": 1.0,
@@ -84,13 +83,13 @@
       {
         "planned_center": [
           3.815,
-          3.185
+          3.1875
         ],
         "planned_d": 0.65625,
         "measured": true,
         "center": [
           3.815,
-          3.185
+          3.1875
         ],
         "d": 0.65625,
         "depth": 1.0,
@@ -101,13 +100,13 @@
       {
         "planned_center": [
           1.125,
-          1.905
+          1.9075
         ],
         "planned_d": 0.90625,
         "measured": true,
         "center": [
           1.125,
-          1.905
+          1.9075
         ],
         "d": 0.90625,
         "depth": 0.5,
@@ -118,13 +117,13 @@
       {
         "planned_center": [
           2.935,
-          1.905
+          1.9075
         ],
         "planned_d": 0.90625,
         "measured": true,
         "center": [
           2.935,
-          1.905
+          1.9075
         ],
         "d": 0.90625,
         "depth": 0.5,
@@ -135,13 +134,13 @@
       {
         "planned_center": [
           1.505,
-          1.905
+          1.9075
         ],
         "planned_d": 0.90625,
         "measured": true,
         "center": [
           1.505,
-          1.905
+          1.9075
         ],
         "d": 0.90625,
         "depth": 0.389,
@@ -152,13 +151,13 @@
       {
         "planned_center": [
           3.315,
-          1.905
+          1.9075
         ],
         "planned_d": 0.90625,
         "measured": true,
         "center": [
           3.315,
-          1.905
+          1.9075
         ],
         "d": 0.90625,
         "depth": 0.389,
@@ -169,13 +168,13 @@
       {
         "planned_center": [
           1.505,
-          1.905
+          1.9075
         ],
         "planned_d": 1.311,
         "measured": true,
         "center": [
           1.505,
-          1.905
+          1.9075
         ],
         "d": 1.311,
         "depth": 0.111,
@@ -186,13 +185,13 @@
       {
         "planned_center": [
           3.315,
-          1.905
+          1.9075
         ],
         "planned_d": 1.311,
         "measured": true,
         "center": [
           3.315,
-          1.905
+          1.9075
         ],
         "d": 1.311,
         "depth": 0.111,
@@ -203,16 +202,16 @@
       {
         "planned_center": [
           4.155,
-          1.905
+          1.9075
         ],
         "planned_d": 0.28125,
         "measured": true,
         "center": [
           4.155,
-          1.905
+          1.9075
         ],
         "d": 0.28125,
-        "depth": 0.31,
+        "depth": 0.3125,
         "axis": "Z"
       }
     ],
@@ -220,16 +219,16 @@
       {
         "planned_center": [
           2.225,
-          0.625
+          0.6275
         ],
         "planned_d": 0.28125,
         "measured": true,
         "center": [
           2.225,
-          0.625
+          0.6275
         ],
         "d": 0.28125,
-        "depth": 0.31,
+        "depth": 0.3125,
         "axis": "Z"
       }
     ],
@@ -237,16 +236,16 @@
       {
         "planned_center": [
           0.285,
-          1.905
+          1.9075
         ],
         "planned_d": 0.25,
         "measured": true,
         "center": [
           0.285,
-          1.905
+          1.9075
         ],
         "d": 0.25,
-        "depth": 0.31,
+        "depth": 0.3125,
         "axis": "Z"
       }
     ],
@@ -254,16 +253,16 @@
       {
         "planned_center": [
           2.215,
-          3.185
+          3.1875
         ],
         "planned_d": 0.25,
         "measured": true,
         "center": [
           2.215,
-          3.185
+          3.1875
         ],
         "d": 0.25,
-        "depth": 0.31,
+        "depth": 0.3125,
         "axis": "Z"
       }
     ]
@@ -318,18 +317,29 @@
     }
   },
   "volume_after": {
-    "F001": 16.9164,
-    "F002": 16.578157236,
-    "F003": 15.563428945,
-    "F004": 15.240909484,
-    "F005": 14.918390024,
-    "F006": 14.595870563,
-    "F007": 14.273351102,
-    "F008": 14.195113708,
-    "F009": 14.116876313,
-    "F010": 14.097617184,
-    "F011": 14.078358055,
-    "F012": 14.063140966,
-    "F013": 14.047923876
+    "F001": 16.91796875,
+    "F002": 16.579725986,
+    "F003": 15.564997695,
+    "F004": 15.242478234,
+    "F005": 14.919958774,
+    "F006": 14.597439313,
+    "F007": 14.274919852,
+    "F008": 14.196682458,
+    "F009": 14.118445063,
+    "F010": 14.099030618,
+    "F011": 14.079616174,
+    "F012": 14.064276366,
+    "F013": 14.048936558
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      0.0,
+      0.0,
+      0.0,
+      4.4375,
+      3.8125,
+      1.0
+    ]
   }
 }

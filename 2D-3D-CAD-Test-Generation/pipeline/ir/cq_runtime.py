@@ -20,6 +20,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import sys
 from pathlib import Path
 from typing import Any, Optional
 
@@ -541,6 +542,16 @@ class Model:
         if out_dir:
             out = Path(out_dir)
             out.mkdir(parents=True, exist_ok=True)
-            cq.exporters.export(cq.Workplane().add(self.solid), str(out / "reference.step"))
+            wp = cq.Workplane().add(self.solid)
+            cq.exporters.export(wp, str(out / "reference.step"))
+            # A tessellated copy of the same reference solid, for viewers that cannot read
+            # STEP. Named "prevalidation" because it is the CadQuery reference, not the
+            # SolidWorks part: it exists even when SolidWorks never ran, and a later native
+            # build writes its own .stl alongside. Best effort — a mesher failure must never
+            # lose the STEP we just wrote.
+            try:
+                cq.exporters.export(wp, str(out / "prevalidation.stl"))
+            except Exception as e:  # pragma: no cover - mesher-specific
+                print(f"warning: could not export prevalidation.stl: {e}", file=sys.stderr)
             (out / "feature_map.json").write_text(json.dumps(fmap, indent=2), encoding="utf-8")
         return fmap

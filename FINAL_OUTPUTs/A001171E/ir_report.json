@@ -1,0 +1,59 @@
+{
+  "part": "A001171E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001171E\\A001171E_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 11,
+  "questions": [],
+  "flagged": [
+    "F004: ASME Y14.5 blind-drill depth convention: .50 is full-diameter depth. Model a flat bottom at that depth; depicted drill points are cosmetic.",
+    "F006: ASME Y14.5 blind-drill depth convention: .50 is full-diameter depth measured from the rear broad face, not from the counterbore floor. Drill points are cosmetic.",
+    "F008: Blind drill depth is full-diameter depth per ASME Y14.5; omit the cosmetic drill point.",
+    "F009: Blind drill depth is full-diameter depth per ASME Y14.5; omit the cosmetic drill point. The view aligns this hole with the lower mounting row.",
+    "F010: Model the printed nominal reamed diameter and full-diameter depth. Numerical press-fit limits are not specified and require manufacturing review.",
+    "F011: The view aligns this hole with the upper mounting row. Model nominal reamed diameter and full-diameter depth; numerical press-fit limits require manufacturing review."
+  ],
+  "defaults": [
+    "F014: D4 not modelled: edge break with no printed size",
+    "D001: D9 4.44 -> 4.4375 (two-place print of a 1/16 fraction)",
+    "D008: D9 3.81 -> 3.8125 (two-place print of a 1/16 fraction)",
+    "D018: D9 0.31 -> 0.3125 (two-place print of a 1/16 fraction)",
+    "D024: D9 0.31 -> 0.3125 (two-place print of a 1/16 fraction)"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001171E\\reference.step",
+  "volume": 14.048937,
+  "cq_skipped": {
+    "F012": "unsupported: Left rear installed dowel is a separate component; this IR has no separate-body or assembly operation and must not fuse it to the plate.",
+    "F013": "unsupported: Upper rear installed dowel is a separate component; retain its location and length for assembly implementation rather than merging it into the plate."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001171E\\117-C_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001171E\\117-C_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001171E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Up To Next; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (one feature for F004, F005)",
+    "F005": "built (in F004 (one feature))",
+    "F006": "built (drill + counterbore; one feature for F006, F007)",
+    "F007": "built (in F006 (one feature))",
+    "F008": "built (one feature for F008, F009)",
+    "F009": "built (in F008 (one feature))",
+    "F010": "built (one feature for F010, F011)",
+    "F011": "built (in F010 (one feature))",
+    "F012": "skipped (unsupported: Left rear installed dowel is a separate component; this IR has no separate-body or assembly operation and must not fuse it to the plate.)",
+    "F013": "skipped (unsupported: Upper rear installed dowel is a separate component; retain its location and length for assembly implementation rather than merging it into the plate.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 7/7"
+  ],
+  "mti_review": [
+    "[mti_hole_grouping] F008, F009: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+    "[mti_hole_grouping] F010, F011: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points"
+  ],
+  "cost_usd": 0.8224,
+  "error": ""
+}

@@ -1,0 +1,188 @@
+{
+  "dims": {
+    "D001": 3.25,
+    "D002": 2.75,
+    "D003": 1.5,
+    "D004": 2.38,
+    "D005": 1.88,
+    "D006": 0.94,
+    "D007": 0.5,
+    "D008": 1.88,
+    "D009": 0.4,
+    "D010": 0.58,
+    "D011": 0.5,
+    "D012": 1.002,
+    "D013": 0.111,
+    "D014": 1.38,
+    "D015": 0.94,
+    "D016": 0.5
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "116-C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "Top": "+Z",
+        "Front": "-Y",
+        "Section A-A": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular block envelope; undimensioned plan corner rounds are deferred to F006.",
+        "source_callouts": [
+          "3.25",
+          "2.75",
+          "1.5"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D002",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D003",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Lower-left mounting hole of the four-hole rectangular pattern.",
+        "source_callouts": [
+          ".40 DIA. THRU 4 PLACES",
+          "2.38",
+          "1.88"
+        ],
+        "status": "planned",
+        "justification": "The plan view depicts the mounting-hole rectangle symmetrically positioned within the outside rectangle. Use equal opposing edge offsets (D001-D004)/2 and (D002-D005)/2.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "(D001 - D004) / 2",
+        "v": "(D002 - D005) / 2",
+        "spec": {
+          "type": "thru",
+          "d": "D009",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Complete the four through mounting holes at the printed column and row spacings.",
+        "source_callouts": [
+          ".40 DIA. THRU 4 PLACES",
+          "2.38",
+          "1.88"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D004",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D005",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Left blind drilled hole with its shallow counterbore, opening on the plan face.",
+        "source_callouts": [
+          "DRILL .58 DIA. X .50 DP.",
+          "C'BORE 1.012 / 1.002 DIA.",
+          "X .111 / .113 DEEP",
+          "2 PLACES",
+          "1.88",
+          ".94"
+        ],
+        "status": "planned",
+        "justification": "Section A-A confirms a blind hole. Per standard drafting convention (ASME Y14.5), D011 is the full-diameter depth from the entry face; model a flat bottom and omit the cosmetic drill point. Use the lower permissible counterbore diameter D012 and depth D013. The depth figures are legible as .111 and .113 despite their reversed stacking; treat these as limits .111-.113, not as a subtraction or two separate depths.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "(D001 + D004) / 2 - D008",
+        "v": "(D002 + D005) / 2 - D006",
+        "spec": {
+          "type": "cbore",
+          "d": "D010",
+          "depth": "D011",
+          "cbore_d": "D012",
+          "cbore_depth": "D013",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Duplicate the blind counterbored hole at the right-hand location; spacing is the difference of the two offsets from the right mounting column.",
+        "source_callouts": [
+          "2 PLACES",
+          "1.88",
+          ".50"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F004",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D008 - D007",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F006",
+        "rationale": "What radius is required on the four rounded external plan corners? No radius is dimensioned.",
+        "source_callouts": [],
+        "status": "unresolved",
+        "justification": "The plan view shows four rounded corners but supplies no numerical radius. Size 0 is an inactive placeholder only, not a proposed manufactured radius.",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "0",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-X),face(F001,-Y))",
+          "edge_between(face(F001,+X),face(F001,-Y))",
+          "edge_between(face(F001,+X),face(F001,+Y))",
+          "edge_between(face(F001,-X),face(F001,+Y))"
+        ]
+      }
+    ],
+    "notes": [
+      "Material: CRS 1018. Heat treatment: NONE. Drawing title: CHK. VALVE ELIM.; model 90 B.",
+      "The drawing's plan view is mapped to XY, with block thickness along +Z; all hole coordinates are global XY coordinates.",
+      "Printed counterbore diameter limits 1.002-1.012 govern despite the smaller counterbore rings illustrated. Model uses the lower limit.",
+      "Counterbore depth limits read .111 and .113 in reversed vertical order. This interpretation is flagged for review before manufacture; the modeled depth is .111.",
+      "Four mounting holes are through; both central holes are blind. Conflicting extracted hole quantities and the extracted central through-hole classification are discarded.",
+      "The 63 surface-finish indication and G notation on the entry face are manufacturing requirements, not additional solid geometry.",
+      "General tolerance fields are blank or unreadable; extracted zero tolerance defaults do not establish zero manufacturing tolerance.",
+      "External corner radii remain unresolved; the envelope remains square-cornered until a radius is supplied."
+    ]
+  }
+}

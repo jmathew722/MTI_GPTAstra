@@ -1,7 +1,7 @@
 {
   "part": "SB11842",
   "extraction": "reused output\\astra_2026-10-04\\SB11842\\SB11842_extraction.json",
-  "plan_attempts": 2,
+  "plan_attempts": 0,
   "gate1": "OK",
   "planned": 5,
   "questions": [
@@ -11,6 +11,7 @@
     "F003: D002 identifies a nominal 5/16 SHCS. The supplied ASME B18.3 SHCS normal-fit chart gives .344 drill and .531 counterbore diameters. The drawing sets counterbore depth to D003-D008, overriding the chart default.",
     "F004: The front view shows four symmetric holes on the horizontal and vertical centerlines at the typical radius D001."
   ],
+  "defaults": [],
   "reference_step": "output\\ir_runs\\SB11842\\reference.step",
   "volume": 15.201183,
   "cq_skipped": {
@@ -18,15 +19,22 @@
     "F006": "unresolved: What size and angle apply to the two depicted bore entrance edge breaks; does the outside chamfer callout also cover them?"
   },
   "sw_ok": true,
-  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\SB11842\\SB11842_ir.sldprt",
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\SB11842\\SB11842_ir.SLDPRT",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\SB11842\\SB11842_ir.STL",
+  "prevalidation_stl": "output\\ir_runs\\SB11842\\prevalidation.stl",
   "sw_features": {
     "F001": "built",
-    "F002": "built",
-    "F003": "built (drill + counterbore)",
-    "F004": "built (drill + counterbore)",
+    "F002": "built (Up To Next)",
+    "F003": "built (drill + counterbore; one feature for F003, F004)",
+    "F004": "built (in F003 (one feature))",
     "F005": "skipped (failed: StdFail_NotDone: BRep_API: command not done)",
     "F006": "skipped (unresolved: What size and angle apply to the two depicted bore entrance edge breaks; does the outside chamfer callout also cover them?)"
   },
-  "cost_usd": 0.4331,
+  "conventions": [
+    "origin centered: True",
+    "sketches fully defined: 4/4"
+  ],
+  "mti_review": [],
+  "cost_usd": 0.0,
   "error": ""
 }

@@ -1,7 +1,7 @@
 {
   "part": "SB11033",
   "extraction": "reused output\\astra_2026-10-04\\SB11033\\SB11033_extraction.json",
-  "plan_attempts": 1,
+  "plan_attempts": 0,
   "gate1": "OK",
   "planned": 6,
   "questions": [
@@ -10,22 +10,32 @@
   "flagged": [
     "F006: The front view explicitly shows four cardinal holes equally spaced about the axis. D002 and D003 are equal controlling radial offsets; D004 is reference only."
   ],
+  "defaults": [],
   "reference_step": "output\\ir_runs\\SB11033\\reference.step",
   "volume": 2.219108,
   "cq_skipped": {
     "F007": "unresolved: What nominal pilot-root radius should be modeled? The drawing specifies only a maximum."
   },
   "sw_ok": true,
-  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\SB11033\\SB11033_ir.sldprt",
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\SB11033\\SB11033_ir.SLDPRT",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\SB11033\\SB11033_ir.STL",
+  "prevalidation_stl": "output\\ir_runs\\SB11033\\prevalidation.stl",
   "sw_features": {
     "F001": "built",
     "F002": "built (1 edges selected by nearest point)",
     "F003": "built (3 edges selected by nearest point)",
     "F004": "built (1 edges selected by nearest point)",
-    "F005": "built",
-    "F006": "built",
+    "F005": "built (Up To Next; one feature for F005, F006)",
+    "F006": "built (in F005 (one feature))",
     "F007": "skipped (unresolved: What nominal pilot-root radius should be modeled? The drawing specifies only a maximum.)"
   },
-  "cost_usd": 0.2048,
+  "conventions": [
+    "origin centered: True",
+    "sketches fully defined: 2/2"
+  ],
+  "mti_review": [
+    "[mti_edge_ops_last] F005 (hole) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 0.0,
   "error": ""
 }

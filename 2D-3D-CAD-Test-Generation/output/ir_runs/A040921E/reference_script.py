@@ -8,6 +8,5 @@ m = Model('A040921E', origin_kind='axis_end', units='inch', strict=False)
 m.revolve('F001', outer=[(0, 5.25), (3, 5.25)], inner=[(0, 4.501), (3, 4.501)], op='add')  # outer (0,D001 / 2) (D004,D001 / 2); inner (0,D002 / 2) (D004,D002 / 2)
 m.edge_op('F002', operation='chamfer', size=0.09, angle=45, edges=['edge_between(face(F001,-Z),wall(F001,4.501))', 'edge_between(face(F001,+Z),wall(F001,4.501))'])  # size=D006; edges=['edge_between(face(F001,-Z),wall(F001,D002 / 2))', 'edge_between(face(F001,+Z),wall(F001,D002 / 2))']
 m.prism('F003', on='face(F001,-Z)', offset=0, profile={'shape': 'rect', 'w': 1.062, 'h': 10.5, 'anchor': 'corner', 'u': -0.531, 'v': 0}, depth=0.75, op='cut')  # w=D003, h=D001, u=-D003 / 2, v=0; depth=D005; offset=0
-m.skip('F004', 'unresolved: What size and form of edge break should be applied to the remaining sharp outside and slot edges?')
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

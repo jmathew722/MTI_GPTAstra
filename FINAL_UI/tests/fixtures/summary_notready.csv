@@ -1,0 +1,2 @@
+source,part,status,macro_readiness,geometry_completeness,dimension_completeness,consistency,feature_confidence,n_macros,n_needs_review,n_skipped,detail
+Bracket,Bracket,NOT READY,0.9,1.0,0.9,1.0,0.8,5,2,1,"overview check: 1 CRITICAL gap, ""hole pitch"" unmet"

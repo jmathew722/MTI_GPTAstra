@@ -1,0 +1,23 @@
+{
+  "has_any": true,
+  "stl_mtime": 1700000100,
+  "stl_source": "solidworks",
+  "categories": {
+    "extraction": {"present": true, "name": "117C_extraction.json", "text": "{\"part_number\": \"117C\", \"thickness\": 0.250, \"scale\": 1e-7, \"big\": 12345678901234567890}"},
+    "resolved": {"present": true, "name": "117C_resolved_extraction.json", "text": "{}"},
+    "build_plan": {"present": true, "name": "117C_build_plan.json", "text": "{\"steps\": []}"},
+    "verification": {"present": true, "name": "117C_verification_report.txt", "text": "RESULT: READY"},
+    "model_check": {"present": false},
+    "review": {"present": true, "items": [{"severity": "HIGH", "id": "R1", "source": "overview", "what": "Hole pitch", "decision": "Used front view", "why": "", "affects": "F003"}, {"severity": "LOW", "id": "R2", "source": "requirement", "what": "x", "decision": "y", "why": "", "affects": ""}], "text": "review"},
+    "usage": {"present": true, "rows": [{"timestamp": "t", "stage": "extraction", "model": "m", "input_tokens": 10, "output_tokens": 5, "cost_usd": 0.01}], "last_run": null, "total_cost_usd": 0.01, "text": "ledger"},
+    "macros": {"present": true, "files": [{"name": "macros/01_base.vba", "text": "Sub main()"}, {"name": "macros/02_hole.vba", "text": "Sub main()"}]},
+    "sldprt": {"present": true},
+    "stl": {"present": true, "name": "117C.stl", "source": "solidworks"},
+    "must_meet": {"present": true, "stage": "post_build", "ok": true, "results": [], "constraints": [], "failed": [], "macro_results": []},
+    "overview_analysis": {"present": true, "name": "overview_analysis.json", "data": {"cross_view_conflicts": [{"what": "pitch"}]}},
+    "console": {"present": true, "name": "ui_console.log", "text": "line"},
+    "files": {"present": true, "list": [{"name": "117C/117C_extraction.json", "size": 2048}, {"name": "117C/117C_build_plan.json", "size": 4096}, {"name": "117C/117C.SLDPRT", "size": 90000}, {"name": "117C/macros/01_base.vba", "size": 300}, {"name": "extraction_cache/117C_extraction.json", "size": 1}]}
+  },
+  "done": true, "exit": 0, "source": false, "started": 1700000000.5, "finished": 1700000200.1, "cancelled": false,
+  "delivered": "/srv/UI_Output/117C", "delivered_downloads": null
+}

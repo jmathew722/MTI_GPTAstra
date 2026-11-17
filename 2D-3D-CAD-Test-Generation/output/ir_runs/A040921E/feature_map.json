@@ -17,9 +17,7 @@
     "F002",
     "F003"
   ],
-  "skipped": {
-    "F004": "unresolved: What size and form of edge break should be applied to the remaining sharp outside and slot edges?"
-  },
+  "skipped": {},
   "holes": {},
   "edge_points": {
     "F002": [
@@ -47,5 +45,16 @@
     "F001": 68.833856412,
     "F002": 68.603256599,
     "F003": 68.009796223
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      -5.25,
+      -5.25,
+      0.0,
+      5.25,
+      5.25,
+      3.0
+    ]
   }
 }

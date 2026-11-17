@@ -1,32 +1,45 @@
 {
   "part": "115-C",
   "extraction": "reused output\\ir_runs\\115-C\\115-C_extraction.json",
-  "plan_attempts": 1,
+  "plan_attempts": 0,
   "gate1": "OK",
   "planned": 6,
-  "questions": [
-    "F007: What radius is required for the four exterior corners rounded in the broad-face view? No radius is dimensioned."
-  ],
+  "questions": [],
   "flagged": [
     "F004: Per ASME Y14.5 drafting convention, the printed blind drilling depth is to full diameter. Model a flat bottom at D015 from the ground face; the drawn drill point is cosmetic.",
     "F006: ASME Y14.5 blind-drill depth convention: D019 is the full-diameter drilling depth, modeled flat-bottomed. The 3/8-18 NPTF thread is cosmetic only; D019 does not specify thread engagement. Right-face global sketch coordinates are (y,z)."
   ],
+  "defaults": [
+    "F007: D4 not modelled: edge break with no printed size",
+    "D004: D9 0.44 -> 0.4375 (two-place print of a 1/16 fraction)",
+    "D006: D9 0.44 -> 0.4375 (two-place print of a 1/16 fraction)",
+    "D008: D9 0.94 -> 0.9375 (two-place print of a 1/16 fraction)",
+    "D009: D9 1.88 -> 1.875 (two-place print of a 1/16 fraction)",
+    "D012: D9 1.38 -> 1.375 (two-place print of a 1/16 fraction)",
+    "D015: D9 1.12 -> 1.125 (two-place print of a 1/16 fraction)",
+    "D019: D9 2.38 -> 2.375 (two-place print of a 1/16 fraction)"
+  ],
   "reference_step": "output\\ir_runs\\115-C\\reference.step",
-  "volume": 11.50794,
-  "cq_skipped": {
-    "F007": "unresolved: What radius is required for the four exterior corners rounded in the broad-face view? No radius is dimensioned."
-  },
+  "volume": 11.507281,
+  "cq_skipped": {},
   "sw_ok": true,
-  "sldprt": "C:\\Users\\gingw\\Desktop\\AILOTFALL\\mti-2d-3d\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\115-C\\115C_ir.SLDPRT",
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\115-C\\115C_ir.SLDPRT",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\output\\ir_runs\\115-C\\115 C_ir.STL",
+  "prevalidation_stl": "output\\ir_runs\\115-C\\prevalidation.stl",
   "sw_features": {
-    "F001": "built",
-    "F002": "built",
-    "F003": "built",
-    "F004": "built (drill + counterbore)",
-    "F005": "built (drill + counterbore)",
-    "F006": "built",
-    "F007": "skipped (unresolved: What radius is required for the four exterior corners rounded in the broad-face view? No radius is dimensioned.)"
+    "F001": "built (Mid Plane)",
+    "F002": "built (Up To Next; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (drill + counterbore; one feature for F004, F005)",
+    "F005": "built (in F004 (one feature))",
+    "F006": "built"
   },
-  "cost_usd": 0.204,
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 5/5"
+  ],
+  "mti_review": [],
+  "cost_usd": 0.0,
   "error": ""
 }
