@@ -1,0 +1,1100 @@
+{
+  "part_name": "PLATE",
+  "part_number": "121-B",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:2",
+  "material": "1018 STEEL",
+  "finish": "",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 3 PLACE DIM. \u00b1.010; 2 PLACE DIM. \u00b1.02; ANGULAR DIM. \u00b1 [no value entered]. SCALE 1\" = 2\".",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Face of a constant-thickness plate with a three-level stepped upper boundary, two clearance holes, and three pairs of tapped holes. Coordinates in this extraction are measured from the lower-left corner, with X right and Y up.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010",
+        "D011",
+        "D012",
+        "D013",
+        "D014",
+        "D015",
+        "D016",
+        "D017",
+        "D018",
+        "D019",
+        "D020"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Center marks and extension centerlines identify all eight hole axes, normal to the plate face. The two clearance holes share the Y=2.750 centerline. No overall symmetry is indicated."
+    },
+    {
+      "view_type": "Right",
+      "description": "Third-angle right-side edge view showing 0.25 thickness and 5.50 overall height. Horizontal edges indicate the two intermediate step elevations. Hole hidden lines are omitted.",
+      "dimensions_shown": [
+        "D003",
+        "D004"
+      ],
+      "visible_features": [
+        "F001"
+      ],
+      "hidden_features": [],
+      "centerline_notes": ""
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 4.38,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "second_step_x_coordinate",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "From left edge to the vertical transition between 4.50 and 3.50 heights. General two-place tolerance."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 1.88,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "first_step_x_coordinate",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "From left edge to the vertical transition between 5.50 and 4.50 heights. General two-place tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "plate_thickness",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-place tolerance."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 5.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_height",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 5.50. General two-place tolerance."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 4.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "middle_step_height",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 4.50, measured from bottom edge. General two-place tolerance."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 2.938,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_pair_lower_tapped_hole_y",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "From bottom edge. General three-place tolerance."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 2.75,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "clearance_hole_common_y",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.750, from bottom edge to both clearance-hole centers. General three-place tolerance."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 1.938,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "middle_pair_lower_tapped_hole_y",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "From bottom edge. General three-place tolerance."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_pair_lower_tapped_hole_x",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "From left edge. General three-place tolerance."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 2.25,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_clearance_hole_x",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.250, from left edge. General three-place tolerance."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 2.5,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "clearance_hole_center_spacing_x",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.500 \u00b1.005; explicit tolerance overrides general tolerance."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 2.875,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "middle_pair_lower_tapped_hole_x",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "From left edge. General three-place tolerance."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 5.375,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_pair_lower_tapped_hole_x",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "From left edge. General three-place tolerance."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 6.88,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_width",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-place tolerance."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 0.938,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_pair_lower_tapped_hole_y",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "From bottom edge. General three-place tolerance."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 3.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_step_height",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 3.50, measured from bottom edge. General two-place tolerance."
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 2.344,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "tapped_pair_vertical_center_offset",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "2.344 TYP. \u00b1.005. Upper hole is this distance above the lower hole in each of three pairs."
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 1.156,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "tapped_pair_horizontal_center_offset",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.156 TYP. \u00b1.005. Upper hole is this distance to the right of the lower hole in each of three pairs."
+    },
+    {
+      "id": "D019",
+      "type": "diameter",
+      "value": 0.406,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "clearance_hole_diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".406 DIA. THRU. (2) HL'S. General three-place tolerance. Parenthesized 2 is quantity, not a reference dimension."
+    },
+    {
+      "id": "D020",
+      "type": "thread",
+      "value": 0.19,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "internal_thread_nominal_major_diameter",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed callout: 10-24 TAP THRU. (2) HL'S. (3) PL'S. Six tapped holes total. Numeric value is the standard nominal major diameter of a No.10 thread, not a printed decimal diameter and not a tap-drill diameter. 24 threads/inch. Thread fit class is not stated; do not apply general decimal tolerance to the nominal thread diameter."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 4.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_clearance_hole_x",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: D010 + D011 = 2.250 + 2.500 = 4.750. Not an independently toleranced drawing dimension."
+    },
+    {
+      "id": "D022",
+      "type": "linear",
+      "value": 1.531,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_pair_upper_tapped_hole_x",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: D009 + D018 = .375 + 1.156 = 1.531. Tolerance follows source dimensions."
+    },
+    {
+      "id": "D023",
+      "type": "linear",
+      "value": 5.282,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_pair_upper_tapped_hole_y",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: D006 + D017 = 2.938 + 2.344 = 5.282. Tolerance follows source dimensions."
+    },
+    {
+      "id": "D024",
+      "type": "linear",
+      "value": 4.031,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "middle_pair_upper_tapped_hole_x",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: D012 + D018 = 2.875 + 1.156 = 4.031. Tolerance follows source dimensions."
+    },
+    {
+      "id": "D025",
+      "type": "linear",
+      "value": 4.282,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "middle_pair_upper_tapped_hole_y",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: D008 + D017 = 1.938 + 2.344 = 4.282. Tolerance follows source dimensions."
+    },
+    {
+      "id": "D026",
+      "type": "linear",
+      "value": 6.531,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_pair_upper_tapped_hole_x",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: D013 + D018 = 5.375 + 1.156 = 6.531. Tolerance follows source dimensions."
+    },
+    {
+      "id": "D027",
+      "type": "linear",
+      "value": 3.282,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_pair_upper_tapped_hole_y",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: D015 + D017 = .938 + 2.344 = 3.282. Tolerance follows source dimensions."
+    },
+    {
+      "id": "D028",
+      "type": "linear",
+      "value": 2.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "middle_step_width",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D001 - D002 = 4.38 - 1.88 = 2.50. Not separately dimensioned."
+    },
+    {
+      "id": "D029",
+      "type": "linear",
+      "value": 2.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_step_width",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D014 - D001 = 6.88 - 4.38 = 2.50. Not separately dimensioned."
+    },
+    {
+      "id": "D030",
+      "type": "linear",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_to_middle_step_height_difference",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D004 - D005 = 5.50 - 4.50 = 1.00. Not separately dimensioned."
+    },
+    {
+      "id": "D031",
+      "type": "linear",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "middle_to_right_step_height_difference",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: D005 - D016 = 4.50 - 3.50 = 1.00. Not separately dimensioned."
+    },
+    {
+      "id": "D032",
+      "type": "linear",
+      "value": 2.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "tapped_pair_group_x_increment",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived equal nominal group X increment: 2.875 - .375 = 5.375 - 2.875 = 2.500. Not the explicitly toleranced clearance-hole spacing."
+    },
+    {
+      "id": "D033",
+      "type": "linear",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "tapped_pair_group_y_decrement",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived equal nominal group Y decrement: 2.938 - 1.938 = 1.938 - .938 = 1.000."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 0.406,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 2,
+      "x_position": 2.25,
+      "y_position": 2.75,
+      "position_known": true,
+      "pattern": "linear",
+      "pattern_spacing": 2.5,
+      "instance_positions": [
+        [
+          2.25,
+          2.75
+        ],
+        [
+          4.75,
+          2.75
+        ]
+      ],
+      "feature_ref": "F002",
+      "view": "Front"
+    },
+    {
+      "id": "H002",
+      "type": "tapped",
+      "diameter": 0.19,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "10-24 TAP THRU; (2) holes, (3) places; class unspecified",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 6,
+      "x_position": 0.375,
+      "y_position": 2.938,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          0.375,
+          2.938
+        ],
+        [
+          1.531,
+          5.282
+        ],
+        [
+          2.875,
+          1.938
+        ],
+        [
+          4.031,
+          4.282
+        ],
+        [
+          5.375,
+          0.938
+        ],
+        [
+          6.531,
+          3.282
+        ]
+      ],
+      "feature_ref": "F004",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Extrude the stepped plate outline 0.25 inch normal to Front. With origin at the lower-left face corner, polygon vertices in inches are (0,0), (6.88,0), (6.88,3.50), (4.38,3.50), (4.38,4.50), (1.88,4.50), (1.88,5.50), (0,5.50). No fillets or chamfers are specified.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D014",
+        "D016",
+        "D028",
+        "D029",
+        "D030",
+        "D031"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D003",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Two diameter .406 through clearance holes at the H001 instance positions, drilled normal to the plate face.",
+      "related_dimensions": [
+        "D007",
+        "D010",
+        "D011",
+        "D019",
+        "D021"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 2.25,
+      "offset_y": 2.75,
+      "position_known": true,
+      "quantity": 2
+    },
+    {
+      "id": "F003",
+      "type": "hole",
+      "description": "Six through tap-preparation holes at the H002 positions. Three pairs, each with the upper center displaced (+1.156,+2.344) from its lower center. Select appropriate preparation diameter for 10-24 tapping; the drawing does not give a tap-drill diameter. Do not drill these holes to the .190 nominal major diameter.",
+      "related_dimensions": [
+        "D006",
+        "D008",
+        "D009",
+        "D012",
+        "D013",
+        "D015",
+        "D017",
+        "D018",
+        "D020",
+        "D022",
+        "D023",
+        "D024",
+        "D025",
+        "D026",
+        "D027",
+        "D032",
+        "D033"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.375,
+      "offset_y": 2.938,
+      "position_known": true,
+      "quantity": 6
+    },
+    {
+      "id": "F004",
+      "type": "thread",
+      "description": "Tap all six F003 holes 10-24 through the plate. No thread class, entry chamfer, or separate thread depth is specified.",
+      "related_dimensions": [
+        "D020"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 6
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Plane parallel to Front at the plate mid-thickness",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003"
+        ],
+        "description": "Constant-thickness plate and unstepped through bores are geometrically symmetric through thickness. No in-plane symmetry is indicated; this is an inferred geometric relationship, not a datum or GD&T requirement."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F003",
+          "F004"
+        ],
+        "description": "Each internal thread is coaxial with its corresponding tap-preparation hole; the six separate hole axes are not mutually concentric."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "H001",
+        "qty": 2,
+        "spacing_value": 2.5,
+        "computed_from": "Explicit horizontal center spacing D011 = 2.500 \u00b1.005; right center X = 2.250 + 2.500 = 4.750."
+      },
+      {
+        "feature_ref": "F003",
+        "qty": 3,
+        "spacing_value": 2.6925824036,
+        "computed_from": "Three repeated two-hole groups have translation (+2.500,-1.000): X increments 2.875-.375 = 5.375-2.875 = 2.500; Y decrements 2.938-1.938 = 1.938-.938 = 1.000. Nominal translation length sqrt(2.500^2+1.000^2) = 2.6925824036. This distance is derived, not a printed controlling dimension."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D002",
+          "D028"
+        ],
+        "description": "Second step X = first step X + derived middle step width."
+      },
+      {
+        "total_dimension_id": "D014",
+        "component_dimension_ids": [
+          "D001",
+          "D029"
+        ],
+        "description": "Overall width = second step X + derived right step width."
+      },
+      {
+        "total_dimension_id": "D014",
+        "component_dimension_ids": [
+          "D002",
+          "D028",
+          "D029"
+        ],
+        "description": "Overall width = 1.88 + 2.50 + 2.50 = 6.88."
+      },
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D005",
+          "D030"
+        ],
+        "description": "Overall height = middle height + first rise."
+      },
+      {
+        "total_dimension_id": "D005",
+        "component_dimension_ids": [
+          "D016",
+          "D031"
+        ],
+        "description": "Middle height = right height + second rise."
+      },
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D016",
+          "D031",
+          "D030"
+        ],
+        "description": "Overall height = 3.50 + 1.00 + 1.00 = 5.50."
+      },
+      {
+        "total_dimension_id": "D021",
+        "component_dimension_ids": [
+          "D010",
+          "D011"
+        ],
+        "description": "Right clearance-hole X coordinate."
+      },
+      {
+        "total_dimension_id": "D022",
+        "component_dimension_ids": [
+          "D009",
+          "D018"
+        ],
+        "description": "Left pair upper-hole X coordinate."
+      },
+      {
+        "total_dimension_id": "D023",
+        "component_dimension_ids": [
+          "D006",
+          "D017"
+        ],
+        "description": "Left pair upper-hole Y coordinate."
+      },
+      {
+        "total_dimension_id": "D024",
+        "component_dimension_ids": [
+          "D012",
+          "D018"
+        ],
+        "description": "Middle pair upper-hole X coordinate."
+      },
+      {
+        "total_dimension_id": "D025",
+        "component_dimension_ids": [
+          "D008",
+          "D017"
+        ],
+        "description": "Middle pair upper-hole Y coordinate."
+      },
+      {
+        "total_dimension_id": "D026",
+        "component_dimension_ids": [
+          "D013",
+          "D018"
+        ],
+        "description": "Right pair upper-hole X coordinate."
+      },
+      {
+        "total_dimension_id": "D027",
+        "component_dimension_ids": [
+          "D015",
+          "D017"
+        ],
+        "description": "Right pair upper-hole Y coordinate."
+      },
+      {
+        "total_dimension_id": "D012",
+        "component_dimension_ids": [
+          "D009",
+          "D032"
+        ],
+        "description": "Middle lower-hole X = left lower-hole X + derived group X increment."
+      },
+      {
+        "total_dimension_id": "D013",
+        "component_dimension_ids": [
+          "D012",
+          "D032"
+        ],
+        "description": "Right lower-hole X = middle lower-hole X + derived group X increment."
+      },
+      {
+        "total_dimension_id": "D006",
+        "component_dimension_ids": [
+          "D008",
+          "D033"
+        ],
+        "description": "Left lower-hole Y = middle lower-hole Y + derived group Y increment."
+      },
+      {
+        "total_dimension_id": "D008",
+        "component_dimension_ids": [
+          "D015",
+          "D033"
+        ],
+        "description": "Middle lower-hole Y = right lower-hole Y + derived group Y increment."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D020",
+      "D021",
+      "D022",
+      "D023",
+      "D024",
+      "D025",
+      "D026",
+      "D027",
+      "D028",
+      "D029",
+      "D030",
+      "D031",
+      "D032",
+      "D033"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004"
+  ],
+  "warnings": [
+    "The drawing explicitly specifies inches and third-angle projection, but does not name an ASME, ISO, or DIN standard; drawing_standard is therefore blank.",
+    "No explicit revision is entered. The B in 121-B is retained as part of the drawing/part number, not assumed to be a revision. Title block also lists MODEL No. 250 BX.",
+    "No finish or heat treatment is entered. The angular tolerance field contains a \u00b1 sign without a numerical value.",
+    "The 10-24 callout does not specify thread class or tap-drill diameter. H002 diameter .190 and D020 value .190 represent the conventional No.10 nominal major diameter only. Select/confirm thread fit and tap preparation before manufacturing.",
+    "Upper tapped-hole coordinates are derived from the three lower-hole locations and the two TYP offsets; they are not six additional independently dimensioned positions.",
+    "Derived dimensions have no independently assigned tolerances. Their source dimensions control; a zero default tolerance on a derived field does not imply exact manufacture.",
+    "No GD&T frames, datums, surface-finish symbols, radii, chamfers, or reference dimensions are shown."
+  ],
+  "confidence": 0.97
+}

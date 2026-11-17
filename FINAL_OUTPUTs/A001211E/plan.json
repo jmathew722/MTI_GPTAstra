@@ -1,0 +1,313 @@
+{
+  "dims": {
+    "D001": 4.38,
+    "D002": 1.88,
+    "D003": 0.25,
+    "D004": 5.5,
+    "D005": 4.5,
+    "D006": 2.938,
+    "D007": 2.75,
+    "D008": 1.938,
+    "D009": 0.375,
+    "D010": 2.25,
+    "D011": 2.5,
+    "D012": 2.875,
+    "D013": 5.375,
+    "D014": 6.88,
+    "D015": 0.938,
+    "D016": 3.5,
+    "D017": 2.344,
+    "D018": 1.156,
+    "D019": 0.406,
+    "D020": 0.19,
+    "D021": 4.75,
+    "D022": 1.531,
+    "D023": 5.282,
+    "D024": 4.031,
+    "D025": 4.282,
+    "D026": 6.531,
+    "D027": 3.282,
+    "D028": 2.5,
+    "D029": 2.5,
+    "D030": 1.0,
+    "D031": 1.0,
+    "D032": 2.5,
+    "D033": 1.0
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "121-B",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Extrude the three-level plate outline to its uniform thickness.",
+        "source_callouts": [
+          "6.88",
+          "5.50",
+          "4.50",
+          "3.50",
+          "1.88",
+          "4.38",
+          ".25"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "0",
+              "0"
+            ],
+            [
+              "D014",
+              "0"
+            ],
+            [
+              "D014",
+              "D016"
+            ],
+            [
+              "D001",
+              "D016"
+            ],
+            [
+              "D001",
+              "D005"
+            ],
+            [
+              "D002",
+              "D005"
+            ],
+            [
+              "D002",
+              "D004"
+            ],
+            [
+              "0",
+              "D004"
+            ]
+          ]
+        },
+        "depth": "D003",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Left clearance hole at the dimensioned center.",
+        "source_callouts": [
+          ".406 DIA. THRU. (2) HL'S.",
+          "2.250",
+          "2.750"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D010",
+        "v": "D007",
+        "spec": {
+          "type": "thru",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Second clearance hole at the specified horizontal spacing.",
+        "source_callouts": [
+          ".406 DIA. THRU. (2) HL'S.",
+          "2.500 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D011",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Lower tapped hole in the left pair; drilling overshoots the plate thickness.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          ".375",
+          "2.938"
+        ],
+        "status": "planned",
+        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; D020 is the nominal major diameter, not the drill. Cosmetic thread, class unspecified.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D009",
+        "v": "D006",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "10-24 UNC"
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Upper tapped hole in the left pair using the typical offsets; depth overshoots thickness.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          "1.156 TYP. \u00b1.005",
+          "2.344 TYP. \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D009 + D018",
+        "v": "D006 + D017",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "10-24 UNC"
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Lower tapped hole in the middle pair at its dimensioned position; depth overshoots thickness.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          "2.875",
+          "1.938"
+        ],
+        "status": "planned",
+        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D012",
+        "v": "D008",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "10-24 UNC"
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Upper tapped hole in the middle pair using the typical offsets; depth overshoots thickness.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          "1.156 TYP. \u00b1.005",
+          "2.344 TYP. \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D012 + D018",
+        "v": "D008 + D017",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "10-24 UNC"
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Lower tapped hole in the right pair at its dimensioned position; depth overshoots thickness.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          "5.375",
+          ".938"
+        ],
+        "status": "planned",
+        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D013",
+        "v": "D015",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "10-24 UNC"
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Upper tapped hole in the right pair using the typical offsets; depth overshoots thickness.",
+        "source_callouts": [
+          "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
+          "1.156 TYP. \u00b1.005",
+          "2.344 TYP. \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D013 + D018",
+        "v": "D015 + D017",
+        "spec": {
+          "type": "tapped",
+          "d": "0.1495",
+          "depth": "2 * D003",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "10-24 UNC"
+        }
+      }
+    ],
+    "notes": [
+      "Material: 1018 STEEL. Drawing title: PLATE; model 250 BX.",
+      "Origin is the lower-left front outline corner at z=0; thickness extends toward +Z.",
+      "All eight holes pass through the plate. Tapped-hole cutting depth deliberately extends beyond the back face; threads are cosmetic.",
+      "No edge breaks, radii, finish, heat treatment, or thread fit class are specified."
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "part": "A001211E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\A001211E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 9,
+  "questions": [],
+  "flagged": [
+    "F004: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; D020 is the nominal major diameter, not the drill. Cosmetic thread, class unspecified.",
+    "F005: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs.",
+    "F006: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC.",
+    "F007: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs.",
+    "F008: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC.",
+    "F009: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs."
+  ],
+  "defaults": [
+    "D001: D9 4.38 -> 4.375 (two-place print of a 1/16 fraction)",
+    "D002: D9 1.88 -> 1.875 (two-place print of a 1/16 fraction)",
+    "D014: D9 6.88 -> 6.875 (two-place print of a 1/16 fraction)"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\reference.step",
+  "volume": 7.487063,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\121-B_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\121-B_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Up To Next; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (one feature for F004, F005, F006, F007, F008, F009)",
+    "F005": "built (in F004 (one feature))",
+    "F006": "built (in F004 (one feature))",
+    "F007": "built (in F004 (one feature))",
+    "F008": "built (in F004 (one feature))",
+    "F009": "built (in F004 (one feature))"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 3/3"
+  ],
+  "mti_review": [
+    "[mti_hole_grouping] F004, F005, F006, F007, F008, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points"
+  ],
+  "cost_usd": 0.8599,
+  "error": ""
+}
