@@ -1,0 +1,36 @@
+{
+  "part": "A001571E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001571E\\A001571E_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 4,
+  "questions": [],
+  "flagged": [],
+  "defaults": [],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001571E\\reference.step",
+  "volume": 5.661475,
+  "cq_skipped": {
+    "F005": "unsupported: Left adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation.",
+    "F006": "unsupported: Right adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001571E\\157-C_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001571E\\157-C_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001571E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Up To Next)",
+    "F003": "built (Up To Next; one feature for F003, F004)",
+    "F004": "built (in F003 (one feature))",
+    "F005": "skipped (unsupported: Left adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation.)",
+    "F006": "skipped (unsupported: Right adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 3/3"
+  ],
+  "mti_review": [],
+  "cost_usd": 0.5308,
+  "error": ""
+}

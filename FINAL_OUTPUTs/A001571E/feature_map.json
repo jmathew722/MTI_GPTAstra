@@ -1,0 +1,128 @@
+{
+  "part": "157-C",
+  "units": "inch",
+  "origin_kind": "corner",
+  "bbox": [
+    0.0,
+    0.0,
+    0.0,
+    11.0,
+    5.25,
+    0.105
+  ],
+  "volume": 5.661475,
+  "volume_mm3": 92774.96,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004"
+  ],
+  "skipped": {
+    "F005": "unsupported: Left adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation.",
+    "F006": "unsupported: Right adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation."
+  },
+  "holes": {
+    "F003": [
+      {
+        "planned_center": [
+          0.25,
+          0.375
+        ],
+        "planned_d": 0.218,
+        "measured": true,
+        "center": [
+          0.25,
+          0.375
+        ],
+        "d": 0.218,
+        "depth": 0.105,
+        "axis": "Z"
+      }
+    ],
+    "F004": [
+      {
+        "planned_center": [
+          10.75,
+          0.375
+        ],
+        "planned_d": 0.218,
+        "measured": true,
+        "center": [
+          10.75,
+          0.375
+        ],
+        "d": 0.218,
+        "depth": 0.105,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          0.25,
+          4.875
+        ],
+        "planned_d": 0.218,
+        "measured": true,
+        "center": [
+          0.25,
+          4.875
+        ],
+        "d": 0.218,
+        "depth": 0.105,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          10.75,
+          4.875
+        ],
+        "planned_d": 0.218,
+        "measured": true,
+        "center": [
+          10.75,
+          4.875
+        ],
+        "d": 0.218,
+        "depth": 0.105,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {},
+  "starts": {
+    "F001": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 0.105,
+      "dir": -1,
+      "thru": true
+    },
+    "F003": {
+      "axis": "Z",
+      "coord": 0.105,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 6.06375,
+    "F002": 5.67715204,
+    "F003": 5.673232888,
+    "F004": 5.66147543
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      0.0,
+      0.0,
+      0.0,
+      11.0,
+      5.25,
+      0.105
+    ]
+  }
+}

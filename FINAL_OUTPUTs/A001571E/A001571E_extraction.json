@@ -1,0 +1,743 @@
+{
+  "part_name": "COVER",
+  "part_number": "157-C",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "Item 1: 1018 steel, 12 gauge. Item 2: sponge rubber weather stripping with adhesive back.",
+  "finish": "",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1.02; 3 PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b1 [value blank].",
+  "views": [
+    {
+      "view_type": "Top",
+      "description": "Main broad-face view: rectangular steel cover, semicircular notch opening at the upper edge, four corner mounting holes, and two hidden weather-stripping strips along the side edges. View designation inferred from third-angle placement above the edge view.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D011"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003"
+      ],
+      "hidden_features": [
+        "F004",
+        "F005"
+      ],
+      "centerline_notes": "Crosshairs identify four hole centers. Centerlines identify the semicircular notch center on the upper plate edge. Dashed vertical lines near the side edges represent the hidden inner edges of weather stripping, not additional plate cuts."
+    },
+    {
+      "view_type": "Front",
+      "description": "Thin edge view below the main view: steel plate thickness and two weather-stripping cross sections projecting below the plate at its ends.",
+      "dimensions_shown": [
+        "D010"
+      ],
+      "visible_features": [
+        "F001",
+        "F004",
+        "F005"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Projected center indications align with the mounting-hole columns and central notch. This view does not independently dimension hole depth or rubber placement."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 11.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "plate overall width",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 11.00; general two-place tolerance. Repeated in the BOM stock size."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "left plate edge to left hole column",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .25; general two-place tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 10.5,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "horizontal hole center spacing",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 10.500 \u00b1.005; explicit tolerance overrides general tolerance."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 5.25,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "left hole column to notch center",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 5.250; general three-place tolerance."
+    },
+    {
+      "id": "D005",
+      "type": "diameter",
+      "value": 3.062,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "semicircular edge notch diameter",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 3.062 DIA. This is an open semicircular notch, not a complete circular hole. General three-place tolerance."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 5.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "plate overall height in broad-face view",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 5.25; general two-place tolerance. Repeated in BOM stock size."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 4.5,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "vertical hole center spacing",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 4.500 \u00b1.005; explicit tolerance."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "lower plate edge to lower hole row",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .375; general three-place tolerance."
+    },
+    {
+      "id": "D009",
+      "type": "diameter",
+      "value": 0.218,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "four mounting hole diameters",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .218 DR. THRU / 4-HOLES. General three-place tolerance."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 0.105,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "plate thickness equivalent for 12 gauge",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": true,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 12 GA. (.105). Parenthesized gauge equivalent recorded as reference; BOM also explicitly lists .105 stock thickness."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 5.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "length of each weather-stripping piece",
+      "feature_ref": "F004",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Item 2 balloon indicates quantity 2 and 5.25 IN. Each strip spans the plate height. General two-place tolerance; also applies to F005."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "weather-stripping width",
+      "feature_ref": "F004",
+      "view": "BOM",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1/2 WIDE. Applies to both strips. No fractional tolerance is specified."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 0.15625,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "weather-stripping thickness",
+      "feature_ref": "F004",
+      "view": "BOM",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 5/32 THK. Applies to both strips. No fractional tolerance is specified."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 10.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "total purchased weather-stripping length",
+      "feature_ref": "F004",
+      "view": "BOM",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "BOM item 2 quantity reads 10.5 IN. This is total material quantity, not a separate finished-part size; two 5.25-inch pieces."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right hole column to right plate edge",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value: 11.00 - .25 - 10.500 = .250. Not independently toleranced."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper hole row to upper plate edge",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal value: 5.25 - .375 - 4.500 = .375. Not independently toleranced."
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 10.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right hole column coordinate from left plate edge",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: .25 + 10.500 = 10.750."
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 4.875,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper hole row coordinate from lower plate edge",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: .375 + 4.500 = 4.875."
+    },
+    {
+      "id": "D019",
+      "type": "linear",
+      "value": 5.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "notch center coordinate from left plate edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal coordinate: .25 + 5.250 = 5.500. Notch center lies on the upper edge at y = 5.25."
+    },
+    {
+      "id": "D020",
+      "type": "radial",
+      "value": 1.531,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "notch radius",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived from diameter: 3.062 / 2 = 1.531. Use the diameter tolerance, not an independent radius tolerance."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 0.105,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal steel stock thickness",
+      "feature_ref": "F001",
+      "view": "BOM",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "BOM item 1 stock size: .105 x 5.25 x 11.00, 1018 STL. (12 GA.). Nominal gauge stock; verify whether commercial sheet tolerance or general three-place \u00b1.010 governs thickness."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 0.218,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 4,
+      "x_position": 0.25,
+      "y_position": 0.375,
+      "position_known": true,
+      "pattern": "linear",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          0.25,
+          0.375
+        ],
+        [
+          10.75,
+          0.375
+        ],
+        [
+          0.25,
+          4.875
+        ],
+        [
+          10.75,
+          4.875
+        ]
+      ],
+      "feature_ref": "F003",
+      "view": "Top"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Base steel plate, 11.00 x 5.25 x nominal .105 thick. BOM item 1, quantity 1, 1018 steel, 12 gauge. Use lower-left corner of the broad face as the in-plane coordinate origin.",
+      "related_dimensions": [
+        "D001",
+        "D006",
+        "D010",
+        "D021"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D021",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_cut",
+      "description": "Through-thickness semicircular notch opening at the upper edge, diameter 3.062. Nominal center (5.500, 5.250) in the broad-face coordinate system.",
+      "related_dimensions": [
+        "D004",
+        "D005",
+        "D006",
+        "D019",
+        "D020"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 5.5,
+      "offset_y": 5.25,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "hole",
+      "description": "Four .218 drilled through holes in a rectangular 10.500 x 4.500 center pattern. Construct using the four explicit centers in H001; cut through the steel plate.",
+      "related_dimensions": [
+        "D002",
+        "D003",
+        "D007",
+        "D008",
+        "D009",
+        "D015",
+        "D016",
+        "D017",
+        "D018"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.25,
+      "offset_y": 0.375,
+      "position_known": true,
+      "quantity": 4
+    },
+    {
+      "id": "F004",
+      "type": "extrude_boss",
+      "description": "Separate sponge-rubber strip body on the underside along the left side: 5.25 long x 1/2 wide x 5/32 thick, adhesive backed. Edge-flush placement is depicted but not separately dimensioned. BOM item 2, McMaster-Carr #1117A11 or equivalent.",
+      "related_dimensions": [
+        "D011",
+        "D012",
+        "D013",
+        "D014"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "D013",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F005",
+      "type": "extrude_boss",
+      "description": "Second separate sponge-rubber strip body on the underside along the right side, same dimensions and material as F004. Edge-flush placement is depicted but not separately dimensioned. Do not merge the rubber bodies into the steel body.",
+      "related_dimensions": [
+        "D011",
+        "D012",
+        "D013",
+        "D014"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "D013",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Plane normal to the broad face through x = 5.500",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005"
+        ],
+        "description": "Nominal left/right symmetry. Notch centered on plate width; hole columns and rubber strips mirror across this plane. No symmetry GD&T is specified."
+      },
+      {
+        "plane": "Plane normal to the broad face through y = 2.625",
+        "feature_ids": [
+          "F003",
+          "F004",
+          "F005"
+        ],
+        "description": "Hole rows and full-height strips are nominally symmetric about mid-height. The complete plate is not symmetric here because of the upper-edge notch."
+      }
+    ],
+    "concentric_groups": [],
+    "equal_spacing": [
+      {
+        "feature_ref": "H001",
+        "qty": 2,
+        "spacing_value": 10.5,
+        "computed_from": "Two hole columns; horizontal pitch directly dimensioned 10.500."
+      },
+      {
+        "feature_ref": "H001",
+        "qty": 2,
+        "spacing_value": 4.5,
+        "computed_from": "Two hole rows; vertical pitch directly dimensioned 4.500."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D002",
+          "D003",
+          "D015"
+        ],
+        "description": "Plate width = left hole margin + column spacing + derived right margin: 11 = .25 + 10.5 + .25."
+      },
+      {
+        "total_dimension_id": "D006",
+        "component_dimension_ids": [
+          "D008",
+          "D007",
+          "D016"
+        ],
+        "description": "Plate height = bottom hole margin + row spacing + derived top margin: 5.25 = .375 + 4.5 + .375."
+      },
+      {
+        "total_dimension_id": "D017",
+        "component_dimension_ids": [
+          "D002",
+          "D003"
+        ],
+        "description": "Right hole column coordinate = left column coordinate + horizontal pitch."
+      },
+      {
+        "total_dimension_id": "D018",
+        "component_dimension_ids": [
+          "D008",
+          "D007"
+        ],
+        "description": "Upper hole row coordinate = lower row coordinate + vertical pitch."
+      },
+      {
+        "total_dimension_id": "D019",
+        "component_dimension_ids": [
+          "D002",
+          "D004"
+        ],
+        "description": "Notch center x = left hole-column offset + notch-center offset."
+      },
+      {
+        "total_dimension_id": "D014",
+        "component_dimension_ids": [
+          "D011",
+          "D011"
+        ],
+        "description": "Total weather-strip material = two equal pieces: 10.5 = 5.25 + 5.25."
+      },
+      {
+        "total_dimension_id": "D005",
+        "component_dimension_ids": [
+          "D020",
+          "D020"
+        ],
+        "description": "Notch diameter = twice derived radius: 3.062 = 1.531 + 1.531."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D015",
+      "D016",
+      "D017",
+      "D018",
+      "D019",
+      "D020"
+    ],
+    "reference_dimension_ids": [
+      "D010"
+    ]
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005"
+  ],
+  "warnings": [
+    "No ASME/ISO/DIN standard is explicitly named. The title block specifies third-angle projection and inches.",
+    "No separate revision is entered. The C in 157-C is retained as part of the drawing number, not assumed to be a revision.",
+    "Main and edge views are unlabeled; Top and Front are inferred from their third-angle arrangement.",
+    "This drawing includes a steel plate and two adhesive-backed rubber strips, not a single homogeneous part.",
+    "The strips appear flush with the plate side edges and extend the full height, but their attachment offsets are not explicitly dimensioned.",
+    "The .218 DR. THRU callout clearly defines four plate holes. Whether the rubber is to be drilled or pierced at those same centers is not explicitly stated; confirm before producing the assembled cover.",
+    "No fractional or angular tolerance value is supplied. The 1/2-inch width and 5/32-inch rubber thickness are supplier stock sizes.",
+    "The edge-view .105 thickness is a parenthesized 12-gauge equivalent; the BOM independently lists .105. Confirm applicable sheet-stock thickness tolerance.",
+    "No finish, heat treatment, or GD&T is specified. Title-block model number reads VERT. 90; date reads NOV. 8, 76; drawn by JWZ."
+  ],
+  "confidence": 0.93
+}

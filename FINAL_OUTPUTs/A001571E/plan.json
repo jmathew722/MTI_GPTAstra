@@ -1,0 +1,198 @@
+{
+  "dims": {
+    "D001": 11.0,
+    "D002": 0.25,
+    "D003": 10.5,
+    "D004": 5.25,
+    "D005": 3.062,
+    "D006": 5.25,
+    "D007": 4.5,
+    "D008": 0.375,
+    "D009": 0.218,
+    "D010": 0.105,
+    "D011": 5.25,
+    "D012": 0.5,
+    "D013": 0.15625,
+    "D014": 10.5,
+    "D015": 0.25,
+    "D016": 0.375,
+    "D017": 10.75,
+    "D018": 4.875,
+    "D019": 5.5,
+    "D020": 1.531,
+    "D021": 0.105
+  },
+  "reference_ids": [
+    "D010"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "157-C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "main broad-face view": "-Z",
+        "lower edge view": "-Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Nominal 12-gauge steel plate; the visible broad face is z=0 and the underside is z=D010.",
+        "source_callouts": [
+          "11.00",
+          "5.25",
+          "12 GA. (.105)",
+          "1018 STL. (12 GA.)",
+          ".105 x 5.25 x 11.00"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D006",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D010",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "A full circular through-cut centered on the upper edge produces the open semicircular notch; the profile extends outside the plate.",
+        "source_callouts": [
+          "3.062 DIA.",
+          "5.250",
+          ".25"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "face(F001,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "circle",
+          "d": "D005",
+          "u": "D002 + D004",
+          "v": "D006"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F003",
+        "rationale": "Lower-left mounting hole drilled through the steel plate.",
+        "source_callouts": [
+          ".218 DR. THRU",
+          "4-HOLES",
+          ".25",
+          ".375"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002",
+        "v": "D008",
+        "spec": {
+          "type": "thru",
+          "d": "D009",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F004",
+        "rationale": "Complete the four-hole rectangular mounting pattern using the explicitly dimensioned center spacings.",
+        "source_callouts": [
+          "4-HOLES",
+          "10.500 \u00b1.005",
+          "4.500 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F003",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D003",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D007",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F005",
+        "rationale": "Left adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation.",
+        "source_callouts": [
+          "WEATHER STRIPPING",
+          "SPONGE RUBBER WITH ADHESIVE BACK",
+          "5/32 THK. x 1/2 WIDE",
+          "5.25 IN.",
+          "McMASTER CARR - #1117A11 OR EQUIV."
+        ],
+        "status": "unsupported",
+        "justification": "The broad-face hidden line and lower edge view show a full-height strip flush with the left plate edge on the underside. Dimensions and placement are grounded; only the separate-body representation is unsupported. Do not execute as a fused steel boss.",
+        "kind": "prism",
+        "on": "face(F001,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D012",
+          "h": "D011",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D013",
+        "op": "add"
+      },
+      {
+        "id": "F006",
+        "rationale": "Right adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation.",
+        "source_callouts": [
+          "WEATHER STRIPPING",
+          "SPONGE RUBBER WITH ADHESIVE BACK",
+          "5/32 THK. x 1/2 WIDE",
+          "5.25 IN.",
+          "McMASTER CARR - #1117A11 OR EQUIV."
+        ],
+        "status": "unsupported",
+        "justification": "The broad-face hidden line and lower edge view show a full-height strip flush with the right plate edge on the underside. Dimensions and placement are grounded; only the separate-body representation is unsupported. Do not execute as a fused steel boss.",
+        "kind": "prism",
+        "on": "face(F001,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D012",
+          "h": "D011",
+          "anchor": "corner",
+          "u": "D001 - D012",
+          "v": "0"
+        },
+        "depth": "D013",
+        "op": "add"
+      }
+    ],
+    "notes": [
+      "The drawing depicts an assembly: one steel plate and two separate sponge-rubber strips. Planned executable features produce the steel plate; unsupported strip features document exact nominal assembly geometry without merging dissimilar materials.",
+      "X runs left to right and Y bottom to top in the broad-face view. Positive Z runs from the visible steel face toward the underside and rubber strips; the complete assembly envelope minimum is the origin.",
+      "The four-hole callout is applied to the steel plate only. No piercing of the rubber is specified clearly enough to model; confirm rubber preparation before assembly manufacture.",
+      "D014 is purchased total strip length, equal to two D011 lengths, not an additional geometric extent. Nominal stock thickness D010 agrees with BOM D021."
+    ]
+  }
+}
