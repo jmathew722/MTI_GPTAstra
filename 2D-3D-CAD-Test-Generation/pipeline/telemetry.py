@@ -16,6 +16,20 @@ from pipeline.progress import Op, Phase, ProgressEngine
 from pipeline.run_events import EVENTS_NAME, RunEventEmitter
 
 
+def attach_cost_events(tel, tracker, part_id: str):
+    """Emit a ``cost.updated`` snapshot after every durable ledger append of ``tracker``.
+    Returns a function that detaches the listener."""
+    if not getattr(tel, "run_id", ""):
+        return lambda: None
+    from pipeline.token_tracker import cost_snapshot
+
+    def _on_row(_rec) -> None:
+        tel.cost(cost_snapshot(tracker.ledger_path, run_id=tel.run_id, part=part_id))
+
+    tracker.add_listener(_on_row)
+    return lambda: tracker.remove_listener(_on_row)
+
+
 class NullTelemetry:
     run_id = ""
     attempt = 0

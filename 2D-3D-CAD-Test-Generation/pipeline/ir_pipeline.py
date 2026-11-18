@@ -149,6 +149,11 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
     out.mkdir(parents=True, exist_ok=True)
     tel = telemetry if telemetry is not None else RunTelemetry.from_env(spec.part, out)
     tel.start()
+    from pipeline.telemetry import attach_cost_events
+    from pipeline.token_tracker import current_tracker
+    _tracker = current_tracker()
+    detach_cost = attach_cost_events(tel, _tracker, spec.part) if _tracker else (lambda: None)
+    run_tags = {"run_id": tel.run_id, "run_attempt": tel.attempt} if tel.run_id else {}
     res = IRResult(spec.part)
     spent0 = budget.spent_usd()
     try:
@@ -161,7 +166,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
         tel.plan(Phase.ARTIFACT_FINALIZATION, 1, 1, "artifacts")
         tel.complete(Phase.INGEST, Op.INGEST_DRAWING, label=f"Prepared {len(images)} drawing image(s)")
         log.info("[stage] extraction: reading %d image(s) for %s", len(images), spec.part)
-        with scope(part=spec.part):
+        with scope(part=spec.part, **run_tags):
             tel.begin(Phase.EXTRACTION, Op.EXTRACT_VIEW, "Reading the drawing")
             raw, res.extraction = get_extraction(spec, images, out, reuse)
             for i in range(len(images)):   # the extraction call returned: every view is read
@@ -248,6 +253,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
         else:
             tel.complete(Phase.ARTIFACT_FINALIZATION, Op.FINALIZE_ARTIFACT, label="Report written")
             tel.finish()
+        detach_cost()
         tel.close()
     return res
 

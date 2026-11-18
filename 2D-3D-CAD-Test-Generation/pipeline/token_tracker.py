@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import json
 import uuid
+from decimal import Decimal
 from contextlib import contextmanager
 from contextvars import ContextVar
 from dataclasses import asdict, dataclass, field
@@ -51,7 +52,7 @@ _RATE_KEYS = {
 }
 
 # Fields a record carries besides the token counts; anything else goes in ``extra``.
-_CONTEXT_FIELDS = ("run_id", "part", "arm", "role", "gate", "attempt")
+_CONTEXT_FIELDS = ("run_id", "run_attempt", "part", "arm", "role", "gate", "attempt")
 
 
 # --------------------------------------------------------------------------- #
@@ -161,6 +162,8 @@ class UsageRecord:
     role: str
     provider: str
     model: str
+    row_id: str = ""
+    run_attempt: Optional[int] = None   # which run attempt of the part (NOT ``attempt``: the planner retry)
     part: str = ""
     arm: str = ""
     gate: Optional[int] = None
@@ -198,6 +201,15 @@ class TokenTracker:
         self.run_id = run_id or _new_run_id()
         self.running_cost = 0.0   # priced rows only, this tracker's lifetime
         self.running_unpriced = 0
+        self._listeners: list = []
+
+    def add_listener(self, fn) -> None:
+        """Call ``fn(record)`` after each row is durably appended (never raises into the build)."""
+        self._listeners.append(fn)
+
+    def remove_listener(self, fn) -> None:
+        if fn in self._listeners:
+            self._listeners.remove(fn)
 
     @contextmanager
     def activate(self, **fields: Any) -> Iterator["TokenTracker"]:
@@ -223,6 +235,8 @@ class TokenTracker:
             role=role or "other",
             provider=provider or "",
             model=model or "",
+            row_id="row_" + uuid.uuid4().hex,
+            run_attempt=merged.pop("run_attempt", None),
             part=str(merged.pop("part", "") or ""),
             arm=str(merged.pop("arm", "") or ""),
             gate=merged.pop("gate", None),
@@ -238,6 +252,11 @@ class TokenTracker:
         )
         self._append(rec)
         self._announce(rec)
+        for fn in list(self._listeners):
+            try:
+                fn(rec)
+            except Exception as e:  # a listener must never break a build
+                log.warning("Token listener failed: %s", e)
         return rec
 
     def _announce(self, rec: UsageRecord) -> None:
@@ -309,3 +328,83 @@ def record_cache_hit(*, model: str, provider: str, role: Optional[str] = None,
         return None
     return tracker.record({}, role=role or ctx.get("role") or "other", model=model,
                           provider=provider, cache_hit=True, note=note, **fields)
+
+
+# --------------------------------------------------------------------------- #
+# Cost scopes (run / part / session) for live telemetry
+# --------------------------------------------------------------------------- #
+def read_ledger_rows(paths: Union[str, Path, list]) -> list[dict]:
+    """Ledger rows from one or more files, de-duplicated by ``row_id`` (legacy rows have none
+    and are kept as they are)."""
+    if isinstance(paths, (str, Path)):
+        paths = [paths]
+    rows: list[dict] = []
+    seen: set[str] = set()
+    for p in paths:
+        try:
+            lines = Path(p).read_text(encoding="utf-8").splitlines()
+        except OSError:
+            continue
+        for line in lines:
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue
+            if not isinstance(r, dict):
+                continue
+            rid = r.get("row_id")
+            if rid:
+                if rid in seen:
+                    continue
+                seen.add(rid)
+            rows.append(r)
+    return rows
+
+
+def _scope_totals(rows: list[dict]) -> dict:
+    priced = [r for r in rows if r.get("priced")]
+    unpriced = len(rows) - len(priced)
+    cost = sum((Decimal(repr(r["cost_usd"])) for r in priced if r.get("cost_usd") is not None), Decimal(0))
+    if not rows or not unpriced:
+        status = "priced"
+    else:
+        status = "partial" if priced else "unpriced"
+    return {
+        "cost_usd": None if status == "unpriced" else format(cost, "f"),
+        "pricing_status": status,
+        "api_calls": sum(1 for r in rows if not r.get("cache_hit")),
+        "unpriced_calls": unpriced,
+        "input_tokens": sum(int(r.get("input_tokens") or 0) for r in rows),
+        "cached_input_tokens": sum(int(r.get("cache_read_tokens") or 0) for r in rows),
+        "cache_write_tokens": sum(int(r.get("cache_write_tokens") or 0) for r in rows),
+        "output_tokens": sum(int(r.get("output_tokens") or 0) for r in rows),
+    }
+
+
+def cost_snapshot(ledger_paths: Union[str, Path, list], *, run_id: str, part: str) -> dict:
+    """Run, part and session cost scopes, summed (Decimal) from normalized ledger rows.
+
+    run = rows of ``run_id``; part = every attempt of ``part``; session = every row in the
+    given ledger(s). Money is a full-precision decimal string, ``None`` when nothing is priced.
+    """
+    rows = read_ledger_rows(ledger_paths)
+    run_rows = [r for r in rows if r.get("run_id") == run_id]
+    part_rows = [r for r in rows if r.get("part") == part]
+    run, part_s, sess = _scope_totals(run_rows), _scope_totals(part_rows), _scope_totals(rows)
+    return {
+        "currency": "USD",
+        "run_cost_usd": run["cost_usd"],
+        "part_total_cost_usd": part_s["cost_usd"],
+        "session_total_cost_usd": sess["cost_usd"],
+        "input_tokens": run["input_tokens"],
+        "cached_input_tokens": run["cached_input_tokens"],
+        "output_tokens": run["output_tokens"],
+        "api_calls": run["api_calls"],
+        "unpriced_calls": run["unpriced_calls"],
+        "pricing_status": run["pricing_status"],
+        "part_pricing_status": part_s["pricing_status"],
+        "session_pricing_status": sess["pricing_status"],
+        "pricing_source": "backend_price_table",
+        "legacy_rows": sum(1 for r in rows if not r.get("row_id")),
+        "as_of": datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"),
+    }
