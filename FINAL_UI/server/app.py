@@ -37,6 +37,9 @@ from fastapi.responses import FileResponse, StreamingResponse, Response, JSONRes
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import telemetry as _telemetry  # noqa: E402  structured run events (Stage 1)
+
 # FINAL_UI/server/app.py. The pipeline repo (main.py + pipeline/ + samples) is
 # external and chosen by the launcher through MCAGENT_REPO.
 SERVER_DIR = Path(__file__).resolve().parent
@@ -238,6 +241,7 @@ def _start_run(cmd: list[str], output_dir: Path, run_id: str | None = None,
         "proc": None, "started": time.time(), "finished": None, "cancelled": False,
         "deliver_name": deliver_name, "delivered": None, "delivered_downloads": None,
         "extra_files": extra_files or [],
+        "telemetry": _telemetry.new_state(),
     }
     RUNS[run_id] = state
 
@@ -248,6 +252,7 @@ def _start_run(cmd: list[str], output_dir: Path, run_id: str | None = None,
     # Keep rich output plain & wide so the log panel reads cleanly.
     env.setdefault("PYTHONIOENCODING", "utf-8")
     env.setdefault("COLUMNS", "120")
+    env.setdefault("GPTASTRA_STRUCTURED_EVENTS", "1")   # structured progress + cost events
 
     def _worker():
         try:
@@ -276,7 +281,9 @@ def _start_run(cmd: list[str], output_dir: Path, run_id: str | None = None,
         state["proc"] = proc
         try:
             for line in proc.stdout:  # type: ignore[union-attr]
-                state["lines"].append(line.rstrip("\n"))
+                text = line.rstrip("\n")
+                state["lines"].append(text)
+                _telemetry.apply_line(state["telemetry"], text)   # idempotent; ignores ordinary lines
         except Exception as e:
             # A reader failure must never leave the child undrained (that would
             # fill the pipe buffer and hang it). Record it, then kill + reap below.
@@ -456,6 +463,14 @@ def log(run_id: str):
             time.sleep(0.2)
 
     return StreamingResponse(gen(), media_type="text/event-stream")
+
+
+@app.get("/api/runs/{run_id}/telemetry")
+def run_telemetry(run_id: str):
+    """Bounded progress/cost snapshot for a live run (the full stream is the run_events.jsonl artifact)."""
+    if run_id not in RUNS:
+        raise HTTPException(404, "Unknown run id")
+    return _telemetry_for(RUNS[run_id]["output"])
 
 
 @app.post("/api/runs/{run_id}/cancel")
@@ -905,6 +920,23 @@ def _ir_review(rep: dict) -> list[dict]:
     return items
 
 
+def _telemetry_for(out: Path) -> dict:
+    """Structured telemetry for an output dir: the live run writing to it, else a replay of its
+    saved run_events.jsonl, else an explicitly labeled legacy placeholder."""
+    out_r = Path(out).resolve()
+    live = [s for s in RUNS.values() if Path(s["output"]).resolve() == out_r
+            and s.get("telemetry", {}).get("run_id")]
+    if live:
+        newest = max(live, key=lambda s: s.get("started") or 0)
+        snap = dict(newest["telemetry"])
+    else:
+        events = _telemetry.find_events_file(out_r)
+        snap = (_telemetry.replay_file(events) if events else None) or _telemetry.legacy_state()
+    if snap.get("source") == "structured":
+        snap["events_artifact"] = _telemetry.EVENTS_NAME
+    return snap
+
+
 def _categorize_output(out: Path) -> dict:
     """Categorise a pipeline output dir into the shape the output tabs consume.
     Shared by run-id-scoped and per-part outputs so both render identically —
@@ -965,6 +997,7 @@ def _categorize_output(out: Path) -> dict:
             "review": review_cat,
             "ir_report": ir_report_cat,
             "usage": _usage_summary(out),
+            "telemetry": _telemetry_for(out),
             "macros": {"present": bool(macros_files), "files": macros_files},
             "sldprt": {"present": bool(_first(out, ["*.sldprt"]))},
             "stl": {"present": stl is not None, "name": stl.name if stl else None,
