@@ -1,0 +1,378 @@
+{
+  "dims": {
+    "D001": 3.75,
+    "D002": 0.38,
+    "D003": 3.0,
+    "D004": 2.12,
+    "D005": 0.26,
+    "D006": 1.06,
+    "D007": 0.84,
+    "D008": 0.88,
+    "D009": 0.38,
+    "D010": 4.0,
+    "D011": 3.25,
+    "D012": 2.12,
+    "D013": 1.25,
+    "D014": 1.19,
+    "D015": 0.47,
+    "D016": 0.38,
+    "D017": 2.81,
+    "D018": 0.5,
+    "D019": 0.25,
+    "D020": 0.344,
+    "D021": 0.5,
+    "D022": 1.0,
+    "D023": 0.5,
+    "D024": 0.8,
+    "D025": 0.5,
+    "D026": 1.8,
+    "D027": 0.28,
+    "D028": 0.31,
+    "D029": 2.38,
+    "D030": 0.75,
+    "D031": 0.44,
+    "D032": 2.1,
+    "D033": 0.25,
+    "D034": 0.5,
+    "D035": 1.1,
+    "D036": 1.001,
+    "D037": 0.123,
+    "D038": 3.38,
+    "D039": 3.62,
+    "D040": 0.37,
+    "D041": 1.0,
+    "D042": 3.12,
+    "D043": 0.87,
+    "D044": 2.99,
+    "D045": 2.06,
+    "D046": 2.12,
+    "D047": 1.12,
+    "D048": 0.76,
+    "D049": 1.56,
+    "D050": 2.5,
+    "D051": 3.18,
+    "D052": 2.28,
+    "D053": 1.34,
+    "D054": 0.37,
+    "D055": 1.0
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB 10024 \u2014 ADAPTER, RELIEF VALVE",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "Top": "+Z",
+        "Front": "-Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular CRS body, with the origin at the bottom-face corner corresponding to the lower-left of the top view.",
+        "source_callouts": [
+          "3.75",
+          "4.0",
+          "2.38",
+          "CRS"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D010",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D029",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Lower-left through mounting hole with an upper-face counterbore.",
+        "source_callouts": [
+          ".344 DIA THRU\n.50 C'BORE - 1.0 DP.\n4-PLACES",
+          ".38",
+          "3.25"
+        ],
+        "status": "planned",
+        "justification": "D010 exceeds the body thickness D029, so the pilot drill overshoots the opposite face and produces the specified through hole.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002",
+        "v": "D010 - D009 - D011",
+        "spec": {
+          "type": "cbore",
+          "d": "D020",
+          "depth": "D010",
+          "cbore_d": "D021",
+          "cbore_depth": "D022",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Complete the four mounting holes using printed spacings without equalizing edge margins.",
+        "source_callouts": [
+          "4-PLACES",
+          "3.00",
+          "3.25"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D003",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D011",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Lower-left blind tapped mounting hole with a standard tap drill and cosmetic thread.",
+        "source_callouts": [
+          "DR. & TAP .50-13 THD.\n.8 DEEP\n4 PLACES",
+          "2.12",
+          ".26",
+          ".50"
+        ],
+        "status": "planned",
+        "justification": "The .50-13 designation identifies 1/2-13 UNC; its standard 27/64-inch tap drill is 0.421875 inch. Model the nominal blind tapped extent D024 with a flat bottom; no additional unspecified pilot overdepth or thread class is invented.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002 + D003 - D005 - D004",
+        "v": "D010 - D009 - D011 + D018",
+        "spec": {
+          "type": "tapped",
+          "d": "0.421875",
+          "depth": "D024",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/2-13 UNC; .8 DEEP; cosmetic; class unspecified"
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Complete the four tapped mounting holes on the dimensioned rectangular array.",
+        "source_callouts": [
+          "DR. & TAP .50-13 THD.\n.8 DEEP\n4 PLACES",
+          "2.12"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F004",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D004",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D012",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F006",
+        "rationale": "Lower deep upper-face hydraulic port, intersecting the transverse passage.",
+        "source_callouts": [
+          ".50 DIA.- 1.8 DEEP\n2 PLACES",
+          "1.06",
+          ".25"
+        ],
+        "status": "planned",
+        "justification": "Blind drill depth is modeled to full diameter with a flat bottom under standard drafting convention (ASME Y14.5); the depicted drill point is cosmetic.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002 + D003 - D005 - D006",
+        "v": "D010 - D009 - D011 + D018 + D019",
+        "spec": {
+          "type": "blind",
+          "d": "D025",
+          "depth": "D026",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Second deep port shares the same column and lies on the row dimensioned 1.25 above the lower tapped row.",
+        "source_callouts": [
+          ".50 DIA.- 1.8 DEEP\n2 PLACES",
+          "1.25",
+          ".25"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F006",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "D013 - D019",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F008",
+        "rationale": "Shallow locating hole on the left tapped-hole column and upper deep-port row.",
+        "source_callouts": [
+          ".28 DIA.-.31 DP.",
+          "1.25"
+        ],
+        "status": "planned",
+        "justification": "The view shows shared centerlines with the left tapped column and upper deep port. Model the printed blind depth to full diameter and omit the cosmetic drill point.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002 + D003 - D005 - D004",
+        "v": "D010 - D009 - D011 + D018 + D013",
+        "spec": {
+          "type": "blind",
+          "d": "D027",
+          "depth": "D028",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F009",
+        "rationale": "Left-entry hydraulic passage drilled toward +X with a cosmetic NPT entry thread.",
+        "source_callouts": [
+          "DRILL .44 - 2.1 DP.\nTAP .25 NPT\n2-PLACES",
+          ".47",
+          ".75"
+        ],
+        "status": "planned",
+        "justification": "The side view establishes the common elevation; top-view hidden lines establish entry from the left. D032 is full-diameter drilled depth, not thread engagement. No unprinted tapping depth is assigned.",
+        "kind": "hole",
+        "on": "face(F001,-X)",
+        "u": "D010 - D009 - D011 + D018 + D015",
+        "v": "D030",
+        "spec": {
+          "type": "tapped",
+          "d": "D031",
+          "depth": "D032",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/4 NPT; cosmetic entry thread; tapping depth unspecified"
+        }
+      },
+      {
+        "id": "F010",
+        "rationale": "Rear-entry hydraulic passage drilled toward -Y with a cosmetic NPT entry thread.",
+        "source_callouts": [
+          "DRILL .44 - 2.1 DP.\nTAP .25 NPT\n2-PLACES",
+          ".84",
+          ".75"
+        ],
+        "status": "planned",
+        "justification": "Top-view hidden lines show rear-edge entry at the dimensioned X station. The side view gives the common elevation. D032 is full-diameter drilled depth; no unprinted thread engagement is assigned.",
+        "kind": "hole",
+        "on": "face(F001,+Y)",
+        "u": "D002 + D003 - D005 - D007",
+        "v": "D030",
+        "spec": {
+          "type": "tapped",
+          "d": "D031",
+          "depth": "D032",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/4 NPT; cosmetic entry thread; tapping depth unspecified"
+        }
+      },
+      {
+        "id": "F011",
+        "rationale": "Lower-left bottom-entry port with its shallow precision counterbore, drilled toward +Z.",
+        "source_callouts": [
+          "DRILL .50 DIA.- 1.1 DEEP\nC'BORE 1.001 DIA. \u00b1.001 X .123 +.000/-.003 DEEP\n2-PLACES",
+          ".38",
+          "1.19"
+        ],
+        "status": "planned",
+        "justification": "Hidden circles in the top view and lower entry in the side view establish the bottom face. Global X/Y coordinates are not mirrored. The 1.1 depth is measured from the bottom face and includes the counterbore; the drill point is cosmetic.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D002 + D016",
+        "v": "D010 - D009 - D011 + D014",
+        "spec": {
+          "type": "cbore",
+          "d": "D034",
+          "depth": "D035",
+          "cbore_d": "D036",
+          "cbore_depth": "D037",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F012",
+        "rationale": "Upper-right bottom-entry port with its shallow precision counterbore.",
+        "source_callouts": [
+          "DRILL .50 DIA.- 1.1 DEEP\nC'BORE 1.001 DIA. \u00b1.001 X .123 +.000/-.003 DEEP\n2-PLACES",
+          ".88",
+          "2.81"
+        ],
+        "status": "planned",
+        "justification": "Use the top-view hidden-circle center in global X/Y coordinates. Drilled depth is measured from the bottom face, not from the counterbore floor; omit the cosmetic drill point.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D002 + D003 - D008",
+        "v": "D010 - D009 - D011 + D017",
+        "spec": {
+          "type": "cbore",
+          "d": "D034",
+          "depth": "D035",
+          "cbore_d": "D036",
+          "cbore_depth": "D037",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      }
+    ],
+    "notes": [
+      "Material: CRS. Drawing units are interpreted as inches.",
+      "Printed dimension chains give .37 right and lower corner-hole margins; do not replace these with an assumed .38.",
+      "Blind drills have flat full-diameter bottoms with cosmetic points omitted. Intersecting blind passages retain their exact printed depths.",
+      "Threads are cosmetic. Additional pilot overdepth and thread class for the .50-13 holes are unspecified. NPT tapping engagement must be established for manufacture; the 2.1 drilled depth is not a thread-depth specification.",
+      "Bottom counterbores retain nominal D036 and D037, with explicit tolerances \u00b1.001 and +.000/-.003 respectively.",
+      "G markings provide no numerical surface-finish requirement. No unspecified chamfers, fillets, or edge breaks are added."
+    ]
+  }
+}

@@ -1,0 +1,530 @@
+{
+  "dims": {
+    "D001": 1.75,
+    "D002": 1.625,
+    "D003": 3.25,
+    "D004": 2.25,
+    "D005": 1.5,
+    "D006": 2.25,
+    "D007": 0.88,
+    "D008": 0.03,
+    "D009": 0.06,
+    "D010": 4.0,
+    "D011": 5.0,
+    "D012": 2.0,
+    "D013": 0.75,
+    "D014": 0.25,
+    "D015": 0.5,
+    "D016": 0.65,
+    "D017": 0.75,
+    "D018": 0.375,
+    "D019": 1.0,
+    "D020": 45.0,
+    "D021": 3.0,
+    "D022": 4.38,
+    "D023": 1.75,
+    "D024": 0.12,
+    "D025": 1.0,
+    "D026": 0.625,
+    "D027": 0.375,
+    "D028": 0.749,
+    "D029": 1.125,
+    "D030": 2.25,
+    "D031": 2.625,
+    "D032": 1.0,
+    "D033": 0.375,
+    "D034": 0.75,
+    "D035": 1.25,
+    "D036": 0.375,
+    "D037": 0.75,
+    "D038": 0.375,
+    "D039": 0.001,
+    "D040": 1.26,
+    "D041": 4.26,
+    "D042": 3.0,
+    "D043": 1.0,
+    "D044": 0.75,
+    "D045": 1.37,
+    "D046": 2.51,
+    "D047": 0.374,
+    "D048": 0.75,
+    "D049": 1.625,
+    "D050": 1.125,
+    "D051": 0.375
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "4069-C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "sheet Right": "+Z",
+        "sheet Front": "-X",
+        "sheet Bottom": "-Y"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Thin web with both dimensioned 45-degree corner chamfers incorporated into its profile.",
+        "source_callouts": [
+          ".88",
+          "4.00",
+          "5.00",
+          "1.00 x 45\u00b0 2 PL'CS.",
+          "4.38",
+          ".12",
+          "1.75"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "0",
+              "D011 - D010 + D019"
+            ],
+            [
+              "D019",
+              "D011 - D010"
+            ],
+            [
+              "D022 - D024 - D023",
+              "D011 - D010"
+            ],
+            [
+              "D022 - D024 - D023",
+              "D011"
+            ],
+            [
+              "D019",
+              "D011"
+            ],
+            [
+              "0",
+              "D011 - D019"
+            ]
+          ]
+        },
+        "depth": "D007",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Full-height flange core extending to the lower stepped face.",
+        "source_callouts": [
+          "1.50",
+          "1.75",
+          "5.00",
+          "4.38",
+          ".12"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D023",
+          "h": "D011",
+          "anchor": "corner",
+          "u": "D022 - D024 - D023",
+          "v": "0"
+        },
+        "depth": "D005",
+        "op": "add"
+      },
+      {
+        "id": "F003",
+        "rationale": "Remaining flange thickness above the lower step; additive construction avoids a coincident breakthrough cut.",
+        "source_callouts": [
+          "2.25",
+          "1.50",
+          "2.250 \u00b1.005",
+          "2.00",
+          "5.00"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "D005",
+        "profile": {
+          "shape": "rect",
+          "w": "D023",
+          "h": "D012 + D004",
+          "anchor": "corner",
+          "u": "D022 - D024 - D023",
+          "v": "D011 - D012 - D004"
+        },
+        "depth": "D006 - D005",
+        "op": "add"
+      },
+      {
+        "id": "F004",
+        "rationale": "Datum-A tongue: upper surface is .375 above the main axis and total thickness is .749.",
+        "source_callouts": [
+          ".12",
+          ".375 \u00b1.002",
+          ".749 +.000/-.001",
+          "2.25"
+        ],
+        "status": "planned",
+        "justification": "Full-sheet extension lines attach .375 to the upper tongue face and .749 to the two tongue faces. The orthographic views show the tongue spanning the full thickness direction.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D024",
+          "h": "D028",
+          "anchor": "corner",
+          "u": "D022 - D024",
+          "v": "D011 - D012 + D027 - D028"
+        },
+        "depth": "D006",
+        "op": "add"
+      },
+      {
+        "id": "F005",
+        "rationale": "Precision through bore normal to the web.",
+        "source_callouts": [
+          ".750 DIA. THRU +.001/-.000",
+          "3.000 \u00b1.001",
+          "2.00"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D022 - D024 - D021",
+        "v": "D011 - D012",
+        "spec": {
+          "type": "thru",
+          "d": "D013",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Left small tapped hole, located by the rectangular dimensions rather than an approximate bolt circle.",
+        "source_callouts": [
+          ".250-20 TAP .50 DP. 3 HLS.",
+          ".750 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Use the standard #7 (.201 inch) tap drill for 1/4-20 UNC. Cosmetic thread and flat-bottom preparation represent the specified tapped extent; no additional undimensioned drilling allowance is added.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D022 - D024 - D021 - D017",
+        "v": "D011 - D012",
+        "spec": {
+          "type": "tapped",
+          "d": "0.201",
+          "depth": "D015",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/4-20 UNC; class unspecified"
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Lower right small tapped hole.",
+        "source_callouts": [
+          ".250-20 TAP .50 DP. 3 HLS.",
+          ".375 \u00b1.005",
+          ".650 TYP. \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard #7 (.201 inch) tap drill for 1/4-20 UNC; model the specified tapped extent without inventing extra drilling depth.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D022 - D024 - D021 + D018",
+        "v": "D011 - D012 - D016",
+        "spec": {
+          "type": "tapped",
+          "d": "0.201",
+          "depth": "D015",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "1/4-20 UNC; class unspecified"
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Mirror-positioned upper right small tapped hole using the printed .650 TYP offsets.",
+        "source_callouts": [
+          ".650 TYP. \u00b1.005",
+          ".250-20 TAP .50 DP. 3 HLS."
+        ],
+        "status": "planned",
+        "justification": "The drawing shows the right-hand pair symmetrically above and below the main centerline; rectangular coordinates control.",
+        "kind": "pattern",
+        "seed": "F007",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "2 * D016",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F009",
+        "rationale": "Large blind tapped hole in the thick flange, preserving the explicitly specified 16 TPI.",
+        "source_callouts": [
+          ".750-16 TAP 1.25 DP.",
+          "1.000 \u00b1.005",
+          "2.00"
+        ],
+        "status": "planned",
+        "justification": "Use the standard 11/16 (.6875 inch) tap drill for 3/4-16 UNF. Model the printed tapped extent with a cosmetic thread; additional drill allowance is not specified.",
+        "kind": "hole",
+        "on": "face(F003,+Z)",
+        "u": "D022 - D024 - D025",
+        "v": "D011 - D012",
+        "spec": {
+          "type": "tapped",
+          "d": "0.6875",
+          "depth": "D035",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "3/4-16 UNF; class unspecified"
+        }
+      },
+      {
+        "id": "F010",
+        "rationale": "Left lower tapped hole entering the recessed thickness face.",
+        "source_callouts": [
+          ".375-16 TAP .75 DP. 2 HL'S.",
+          "2.625 \u00b1.005",
+          "1.000 \u00b1.005",
+          ".375"
+        ],
+        "status": "planned",
+        "justification": "Use the standard 5/16 (.3125 inch) tap drill for 3/8-16 UNC. The printed tap depth is represented without adding an unspecified drill allowance.",
+        "kind": "hole",
+        "on": "face(F002,+Z)",
+        "u": "D022 - D024 - D033 - D032",
+        "v": "D011 - D012 - D031",
+        "spec": {
+          "type": "tapped",
+          "d": "0.3125",
+          "depth": "D037",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "3/8-16 UNC; class unspecified"
+        }
+      },
+      {
+        "id": "F011",
+        "rationale": "Second lower tapped hole at the printed horizontal spacing.",
+        "source_callouts": [
+          ".375-16 TAP .75 DP. 2 HL'S.",
+          "1.000 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F010",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D032",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F012",
+        "rationale": "Lower right-view mounting counterbore entering the thick flange face.",
+        "source_callouts": [
+          "DR. & C'BORE FOR .375 SOC. HD. CAP SCR. - 4 HL'S.",
+          ".625 \u00b1.005",
+          "1.125 \u00b1.005",
+          "2.250 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Supplied ASME B18.3 SHCS normal-fit chart for a .375 screw specifies .406 clearance drill, .625 counterbore diameter and .375 counterbore depth. Projected geometry establishes through clearance.",
+        "kind": "hole",
+        "on": "face(F003,+Z)",
+        "u": "D022 - D024 - D026",
+        "v": "D011 - D012 + D029 - D030",
+        "spec": {
+          "type": "cbore",
+          "d": "0.406",
+          "depth": null,
+          "cbore_d": "0.625",
+          "cbore_depth": "0.375",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F013",
+        "rationale": "Upper right-view mounting counterbore.",
+        "source_callouts": [
+          "DR. & C'BORE FOR .375 SOC. HD. CAP SCR. - 4 HL'S.",
+          "2.250 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F012",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "D030",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F014",
+        "rationale": "Lower front-view mounting counterbore starts at the flange shoulder and drills toward datum A.",
+        "source_callouts": [
+          "DR. & C'BORE FOR .375 SOC. HD. CAP SCR. - 4 HL'S.",
+          "1.750 \u00b1.005",
+          "1.625 \u00b1.005",
+          "3.250 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Supplied ASME B18.3 SHCS normal-fit chart specifies .406 clearance drill, .625 counterbore diameter and .375 depth for the .375 screw. Hidden lines establish the shoulder-side counterbore and through clearance. On the -X face, global sketch coordinates are (y,z).",
+        "kind": "hole",
+        "on": "face(F003,-X)",
+        "u": "D011 - D012 + D002 - D003",
+        "v": "D001",
+        "spec": {
+          "type": "cbore",
+          "d": "0.406",
+          "depth": null,
+          "cbore_d": "0.625",
+          "cbore_depth": "0.375",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F015",
+        "rationale": "Upper front-view mounting counterbore at the printed vertical spacing.",
+        "source_callouts": [
+          "DR. & C'BORE FOR .375 SOC. HD. CAP SCR. - 4 HL'S.",
+          "3.250 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F014",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "D003",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F016",
+        "rationale": "What nominal internal radius is required at the lower width step? Only a maximum is specified.",
+        "source_callouts": [
+          ".03 MAX. R."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D008",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F002,+Z),face(F003,-Y))"
+        ]
+      },
+      {
+        "id": "F017",
+        "rationale": "What nominal internal radius is required at the web/flange junction? Only a maximum is specified.",
+        "source_callouts": [
+          ".06 MAX. R."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D009",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z),face(F002,-X))"
+        ]
+      },
+      {
+        "id": "F018",
+        "rationale": "What are the section, width, depth and radius of the two tongue-root reliefs?",
+        "source_callouts": [
+          "RELIEF"
+        ],
+        "status": "unresolved",
+        "justification": "The profile records only the dimensioned tongue envelope as a location marker, not a proposed relief shape. This unresolved feature must not execute; actual relief dimensions are absent.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D024",
+          "h": "D028",
+          "anchor": "corner",
+          "u": "D022 - D024",
+          "v": "D011 - D012 + D027 - D028"
+        },
+        "depth": "thru",
+        "op": "cut"
+      }
+    ],
+    "notes": [
+      "Material: 1020. Drawing 4069-C, model 180. All geometry is nominal in inches.",
+      "Global X is the sheet Right-view horizontal direction, Y is height, and Z is the sheet Front-view horizontal thickness direction. Datum A is X = D022 - D024.",
+      "The envelope minimum corner defines the origin; the corner itself need not contain material.",
+      "The .375/.749 tongue dimension attachment is readable on the full sheet and is planned, not deferred.",
+      "Tapped holes use standard tap-drill diameters and cosmetic threads over the specified depths. Extra manufacturing drill depth and drill-point geometry are not invented.",
+      "Counterbores use the supplied SHCS table; verify those grounded standard sizes against the MTI shop standard.",
+      "Unresolved features are excluded from the executable solid. MAX-radius values are limits, not selected nominal fillets.",
+      "Retain drawing tolerances, datum A, perpendicularity .001, and surface finishes 125/250 as manufacturing annotations, not additional solid features."
+    ]
+  }
+}

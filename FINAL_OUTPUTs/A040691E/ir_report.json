@@ -1,0 +1,72 @@
+{
+  "part": "A040691E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040691E\\A040691E_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 15,
+  "questions": [
+    "F016: What nominal internal radius is required at the lower width step? Only a maximum is specified.",
+    "F017: What nominal internal radius is required at the web/flange junction? Only a maximum is specified.",
+    "F018: What are the section, width, depth and radius of the two tongue-root reliefs?"
+  ],
+  "flagged": [
+    "F004: Full-sheet extension lines attach .375 to the upper tongue face and .749 to the two tongue faces. The orthographic views show the tongue spanning the full thickness direction.",
+    "F006: Use the standard #7 (.201 inch) tap drill for 1/4-20 UNC. Cosmetic thread and flat-bottom preparation represent the specified tapped extent; no additional undimensioned drilling allowance is added.",
+    "F007: Standard #7 (.201 inch) tap drill for 1/4-20 UNC; model the specified tapped extent without inventing extra drilling depth.",
+    "F008: The drawing shows the right-hand pair symmetrically above and below the main centerline; rectangular coordinates control.",
+    "F009: Use the standard 11/16 (.6875 inch) tap drill for 3/4-16 UNF. Model the printed tapped extent with a cosmetic thread; additional drill allowance is not specified.",
+    "F010: Use the standard 5/16 (.3125 inch) tap drill for 3/8-16 UNC. The printed tap depth is represented without adding an unspecified drill allowance.",
+    "F012: Supplied ASME B18.3 SHCS normal-fit chart for a .375 screw specifies .406 clearance drill, .625 counterbore diameter and .375 counterbore depth. Projected geometry establishes through clearance.",
+    "F014: Supplied ASME B18.3 SHCS normal-fit chart specifies .406 clearance drill, .625 counterbore diameter and .375 depth for the .375 screw. Hidden lines establish the shoulder-side counterbore and through clearance. On the -X face, global sketch coordinates are (y,z)."
+  ],
+  "defaults": [
+    "D007: D9 0.88 -> 0.875 (two-place print of a 1/16 fraction)",
+    "D022: D9 4.38 -> 4.375 (two-place print of a 1/16 fraction)",
+    "D024: D9 0.12 -> 0.125 (two-place print of a 1/16 fraction)"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040691E\\reference.step",
+  "volume": 24.473848,
+  "cq_skipped": {
+    "F016": "unresolved: What nominal internal radius is required at the lower width step? Only a maximum is specified.",
+    "F017": "unresolved: What nominal internal radius is required at the web/flange junction? Only a maximum is specified.",
+    "F018": "unresolved: What are the section, width, depth and radius of the two tongue-root reliefs?"
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040691E\\4069-C_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040691E\\4069-C_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040691E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built",
+    "F003": "built",
+    "F004": "built",
+    "F005": "built (Up To Next)",
+    "F006": "built (one feature for F006, F007)",
+    "F007": "built (in F006 (one feature))",
+    "F008": "built",
+    "F009": "built",
+    "F010": "built (one feature for F010, F011)",
+    "F011": "built (in F010 (one feature))",
+    "F012": "built (drill + counterbore; one feature for F012, F013)",
+    "F013": "built (in F012 (one feature))",
+    "F014": "built (drill + counterbore; one feature for F014, F015)",
+    "F015": "built (in F014 (one feature))",
+    "F016": "skipped (unresolved: What nominal internal radius is required at the lower width step? Only a maximum is specified.)",
+    "F017": "skipped (unresolved: What nominal internal radius is required at the web/flange junction? Only a maximum is specified.)",
+    "F018": "skipped (unresolved: What are the section, width, depth and radius of the two tongue-root reliefs?)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "F007: Hole Wizard 1/4-20 tapped, cosmetic thread did not match the reference (HoleWizard5 refused Blind + drill point); plain cut",
+    "F008: Hole Wizard 1/4-20 tapped, cosmetic thread did not match the reference (HoleWizard5 refused Blind + drill point); plain cut",
+    "F009: Hole Wizard 3/4-16 tapped, cosmetic thread did not match the reference (HoleWizard5 refused Blind + drill point); plain cut",
+    "F011: Hole Wizard 3/8-16 tapped, cosmetic thread did not match the reference (HoleWizard5 refused Blind + drill point); plain cut",
+    "sketches fully defined: 13/13"
+  ],
+  "mti_review": [
+    "[mti_hole_grouping] F006, F007: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points"
+  ],
+  "cost_usd": 1.6711,
+  "error": ""
+}
