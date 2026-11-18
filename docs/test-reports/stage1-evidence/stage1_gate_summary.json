@@ -1,0 +1,41 @@
+{
+  "runs": [
+    [
+      "run_bf4c79e34ed34d4fbbba",
+      1,
+      "OK",
+      ""
+    ],
+    [
+      "run_2590cf34002f44acbfca",
+      2,
+      "OK",
+      ""
+    ]
+  ],
+  "attempts_in_stream": [
+    1,
+    2
+  ],
+  "kinds": [
+    "cost.updated",
+    "progress.updated",
+    "run.completed",
+    "run.started"
+  ],
+  "n_events": 38,
+  "seq_strictly_increasing_per_run": true,
+  "last_event_per_run": {
+    "run_bf4c79e34ed34d4fbbba": "run.completed",
+    "run_2590cf34002f44acbfca": "run.completed"
+  },
+  "max_percent_per_run": {
+    "run_bf4c79e34ed34d4fbbba": 100.0,
+    "run_2590cf34002f44acbfca": 100.0
+  },
+  "cost_checks": {
+    "run2_equals_its_row": true,
+    "part_equals_sum_of_rows": true,
+    "session_equals_sum_of_rows": true
+  }
+}

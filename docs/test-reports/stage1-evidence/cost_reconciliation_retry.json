@@ -1,0 +1,67 @@
+{
+  "note": "FIXTURE pricing and synthetic ledger rows; events/progress come from a real run_part run.",
+  "ledger_rows": [
+    {
+      "row_id": "row_3cace82370bc48389bc7303bb76de1a3",
+      "run_id": "run_bf4c79e34ed34d4fbbba",
+      "run_attempt": 1,
+      "part": "SB11033",
+      "input_tokens": 100000,
+      "output_tokens": 10000,
+      "cache_read_tokens": 50000,
+      "cost_usd": 0.145,
+      "priced": true
+    },
+    {
+      "row_id": "row_be32e65dea184b3593762b5bf23a6720",
+      "run_id": "run_2590cf34002f44acbfca",
+      "run_attempt": 2,
+      "part": "SB11033",
+      "input_tokens": 200000,
+      "output_tokens": 10000,
+      "cache_read_tokens": 50000,
+      "cost_usd": 0.245,
+      "priced": true
+    }
+  ],
+  "run1": {
+    "currency": "USD",
+    "run_cost_usd": "0.145",
+    "part_total_cost_usd": "0.390",
+    "session_total_cost_usd": "0.390",
+    "input_tokens": 100000,
+    "cached_input_tokens": 50000,
+    "output_tokens": 10000,
+    "api_calls": 1,
+    "unpriced_calls": 0,
+    "pricing_status": "priced",
+    "part_pricing_status": "priced",
+    "session_pricing_status": "priced",
+    "pricing_source": "backend_price_table",
+    "legacy_rows": 0,
+    "as_of": "2026-11-18T07:46:16.013Z"
+  },
+  "run2": {
+    "currency": "USD",
+    "run_cost_usd": "0.245",
+    "part_total_cost_usd": "0.390",
+    "session_total_cost_usd": "0.390",
+    "input_tokens": 200000,
+    "cached_input_tokens": 50000,
+    "output_tokens": 10000,
+    "api_calls": 1,
+    "unpriced_calls": 0,
+    "pricing_status": "priced",
+    "part_pricing_status": "priced",
+    "session_pricing_status": "priced",
+    "pricing_source": "backend_price_table",
+    "legacy_rows": 0,
+    "as_of": "2026-11-18T07:46:16.013Z"
+  },
+  "sum_of_call_rows": "0.390",
+  "checks": {
+    "run2_equals_its_row": true,
+    "part_equals_sum_of_rows": true,
+    "session_equals_sum_of_rows": true
+  }
+}
