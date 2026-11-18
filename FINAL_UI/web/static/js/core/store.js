@@ -43,6 +43,8 @@
     ui.focusMode = null;
     ui.raw = {};
     ui.flagsFilter = [];
+    ui.flagSelected = null;       // the engineering flag selected on the drawing or in Results
+    ui.dflFilter = null;          // filters of the drawing-flag list (severity, category, feature, state, location)
     ui.consoleFilter = 'all';
     ui.corrDraft = {};
     return {

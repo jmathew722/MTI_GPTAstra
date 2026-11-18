@@ -15,7 +15,7 @@
 
   /* Every key of payload.categories as produced by app.py _categorize_output (14 keys). */
   var CATEGORY_KEYS = ['extraction', 'resolved', 'build_plan', 'verification', 'model_check', 'review', 'usage',
-                       'macros', 'sldprt', 'stl', 'must_meet', 'overview_analysis', 'console', 'files', 'telemetry'];
+                       'macros', 'sldprt', 'stl', 'must_meet', 'overview_analysis', 'console', 'files', 'telemetry', 'flags'];
 
   var GROUPS = [
     { id: 'overview', label: 'Overview' },
@@ -72,7 +72,7 @@
       emptyText: 'No verification report yet.', tools: ['copy', 'download'],
       source: function (p) { return { report: cat(p, 'verification') }; },
       status: function (p) { return present('verification')(p) ? 'present' : 'absent'; } },
-    { id: 'flags', group: 'build', label: 'Engineering flags', keys: ['review'],
+    { id: 'flags', group: 'build', label: 'Engineering flags', keys: ['review', 'flags'],
       emptyText: 'No engineering review yet.',
       emptyTextFor: function (p) {
         var r = cat(p, 'review');
@@ -80,7 +80,7 @@
       },
       tools: ['filter', 'raw', 'copy'],
       source: srcKey('review'),
-      status: function (p) { var r = cat(p, 'review'); return r.items && r.items.length ? 'present' : 'absent'; } },
+      status: function (p) { var r = cat(p, 'review'), f = cat(p, 'flags'); return (r.items && r.items.length) || (f.present && f.findings && f.findings.length) ? 'present' : 'absent'; } },
     { id: 'model_check', group: 'build', label: 'Model check', keys: ['model_check'],
       emptyText: 'Model check requires Windows and SolidWorks; it was not produced for this run.',
       tools: ['copy', 'download'],

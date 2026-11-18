@@ -279,6 +279,7 @@
   };
 
   R.flags = function (body, tools, d) {
+    if (McA.engFlags) McA.engFlags.renderPanel(body, d);          // automatic drawing flags, linked to the drawing
     var rev = cats(d).review || {}, items = rev.items || [], raw = !!d.s.ui.raw.flags, filt = d.s.ui.flagsFilter || [];
     var counts = {}; SEV.forEach(function (x) { counts[x] = 0; });
     items.forEach(function (i) { if (counts[i.severity] !== undefined) counts[i.severity]++; });
@@ -287,7 +288,7 @@
     var save = h('button', { type: 'button', class: 'btn secondary sm', 'aria-disabled': 'true', 'aria-describedby': 'flags-save-why', text: 'Save all to Learning Loop' });
     save.addEventListener('click', function (e) { e.preventDefault(); });
     body.append(h('div', { class: 'flags-bar' }, save, saveWhy));
-    if (!items.length) { body.append(note('No assumptions or manual steps were recorded.')); return; }
+    if (!items.length) { if (!(cats(d).flags && cats(d).flags.present)) body.append(note('No assumptions or manual steps were recorded.')); return; }
     body.append(h('p', { class: 'rsec-note', text: items.length + ' item' + (items.length === 1 ? '' : 's') + ': ' + SEV.map(function (x) { return counts[x] + ' ' + x.toLowerCase(); }).join(' · ') + '. Most urgent first.' }));
     var chips = h('div', { class: 'flags-filter', role: 'group', 'aria-label': 'Filter by severity' });
     SEV.forEach(function (sv) {
@@ -824,6 +825,7 @@
       St.subscribe(function (s) { return s.outputs; }, function () { sched(); }),
       St.subscribe(function (s) { return s.ui.raw; }, function () { m.render(); }),
       St.subscribe(function (s) { return s.ui.flagsFilter; }, function () { m.render(); }),
+      St.subscribe(function (s) { return s.ui.dflFilter; }, function () { m.render(); }),      // drawing-flag filters (Stage 3)
       St.subscribe(function (s) { return s.ui.consoleFilter; }, function () { m.render(); }),
       St.subscribe(function (s) { return s.run.state + '|' + s.run.verdict + '|' + (s.run.summary ? 1 : 0); }, function () { sched(); }),
       St.subscribe(function (s) { return s.run.lines; }, function () { var id = o.getSection(); if (id === 'console' || id === 'events') sched(); })

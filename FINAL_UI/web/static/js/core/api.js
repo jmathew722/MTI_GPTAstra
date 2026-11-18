@@ -148,6 +148,10 @@
     partStlURL: function (s, p, mtime) { return partBase(s, p) + '/model.stl' + t(mtime); },
     partFileURL: function (s, p, rel) { return partBase(s, p) + '/file/' + encPath(rel); },
     partLedgerURL: function (s, p) { return partBase(s, p) + '/ledger.jsonl'; },
+    reviewFlag: function (s, p, id, state, reason) {
+      return json(partBase(s, p) + '/flags/' + enc(id) + '/review', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ state: state, reason: reason || '' }) });
+    },
     runStlURL: function (id, bust) { return '/api/runs/' + enc(id) + '/model.stl' + t(bust); },
     runDownloadURL: function (id, rel) { return '/api/runs/' + enc(id) + '/download/' + encPath(rel); },
     runZipURL: function (id) { return '/api/runs/' + enc(id) + '/zip'; },

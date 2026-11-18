@@ -15,6 +15,7 @@
     "stl": {"present": true, "name": "117C.stl", "source": "solidworks"},
     "must_meet": {"present": true, "stage": "post_build", "ok": true, "results": [], "constraints": [], "failed": [], "macro_results": []},
     "overview_analysis": {"present": true, "name": "overview_analysis.json", "data": {"cross_view_conflicts": [{"what": "pitch"}]}},
+    "flags": {"present": false, "reason": "none"},
     "telemetry": {"schema_version": 1, "source": "structured", "run_id": "run_fixture", "attempt": 1, "progress": {"phase": "artifact_finalization", "operation": "finalize_artifact", "label": "Report written", "completed_units": 1, "total_units": 1, "unit": "artifacts", "percent": 100, "indeterminate": false, "terminal": "completed"}, "cost": {"currency": "USD", "run_cost_usd": "1.274381", "part_total_cost_usd": "2.992104", "session_total_cost_usd": "11.742988", "input_tokens": 142381, "cached_input_tokens": 88122, "output_tokens": 18342, "api_calls": 9, "unpriced_calls": 0, "pricing_status": "priced", "pricing_source": "backend_price_table"}, "last_seq": 184, "terminal": "completed", "events_artifact": "run_events.jsonl"},
     "console": {"present": true, "name": "ui_console.log", "text": "line"},
     "files": {"present": true, "list": [{"name": "117C/117C_extraction.json", "size": 2048}, {"name": "117C/117C_build_plan.json", "size": 4096}, {"name": "117C/117C.SLDPRT", "size": 90000}, {"name": "117C/macros/01_base.vba", "size": 300}, {"name": "extraction_cache/117C_extraction.json", "size": 1}]}

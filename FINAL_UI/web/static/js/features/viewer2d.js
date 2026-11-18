@@ -12,11 +12,14 @@
   var view = 'overview';              // 'overview' | 'marked'
   var pageId = null;                  // selected page of a multi-page draft
   var bust = Date.now();
-  var loadedKey = null, imgOk = false, imgErr = false;
+  var loadedKey = null, imgOk = false, imgErr = false, lastKind = 'empty';
   var z = { s: 1, tx: 0, ty: 0 };
   var drag = null;
 
-  function apply() { img.style.transform = 'translate(' + z.tx + 'px,' + z.ty + 'px) scale(' + z.s + ')'; }
+  function apply() {
+    img.style.transform = 'translate(' + z.tx + 'px,' + z.ty + 'px) scale(' + z.s + ')';
+    if (McA.engFlags) McA.engFlags.syncTransform(z);     // the flag layer pans and zooms with the drawing
+  }
   function fit() { z.s = 1; z.tx = 0; z.ty = 0; apply(); }
   function zoomAt(factor, cx, cy) {
     var s2 = Math.min(MAX, Math.max(MIN, z.s * factor));
@@ -74,6 +77,7 @@
       img.src = url; img.hidden = false; imgOk = true; imgErr = false;
       emptyEl.hidden = true; box.classList.remove('is-empty');
       fit(); renderTools();
+      if (McA.engFlags) McA.engFlags.relayout();
     };
     probe.onerror = function () {
       if (img.getAttribute('data-want') !== url) return;
@@ -122,6 +126,7 @@
 
   function render() {
     var info = sourceInfo();
+    lastKind = info.kind;
     var s = McA.store.get();
     var items = s.intake.items;
     var multi = info.kind === 'draft' && items.length > 1;
@@ -146,12 +151,16 @@
     }
     var key = info.kind + '|' + info.url;
     if (key !== loadedKey) { loadedKey = key; loadImage(info.url); }
+    if (McA.engFlags) McA.engFlags.relayout();
   }
 
   function retry() { bust = Date.now(); loadedKey = null; render(); }
 
   McA.viewer2d = {
     fit: fit, retry: retry,
+    /* What the flag layer needs: the pan/zoom, whether a real drawing is shown, and its natural size. */
+    getView: function () { return { z: { s: z.s, tx: z.tx, ty: z.ty }, imgOk: imgOk, kind: lastKind, view: view, nw: img ? img.naturalWidth : 0, nh: img ? img.naturalHeight : 0 }; },
+    setView: function (s, tx, ty) { z.s = Math.min(MAX, Math.max(MIN, s)); z.tx = tx; z.ty = ty; apply(); },
     init: function () {
       img = $('ov-img'); box = $('ov-box'); emptyEl = $('ov-empty'); strip = $('vp-2d-pages');
       retryBtn = h('button', { class: 'btn secondary sm', type: 'button', text: 'Retry', hidden: true });

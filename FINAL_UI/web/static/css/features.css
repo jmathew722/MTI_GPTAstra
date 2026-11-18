@@ -120,3 +120,61 @@
 
 /* The overlay must sit above the sidebar (z-index 60) and below dialogs (100). */
 .focus { z-index: 70; }
+
+
+/* ── Engineering flags drawn over the drawing (Stage 3). Pipeline evidence, not user markup. ───────────── */
+.flag-layer { position: absolute; inset: 0; pointer-events: none; z-index: 4; --zs: 1; transform-origin: 50% 50%; }
+.flag-layer[hidden] { display: none; }
+.flag-box { position: absolute; pointer-events: auto; padding: 0; background: color-mix(in srgb, var(--flag-c, #E5484D) 14%, transparent);
+  border: calc(2px / var(--zs)) solid var(--flag-c, #E5484D); border-radius: calc(2px / var(--zs)); cursor: pointer; }
+.flag-box[data-sev="error"] { --flag-c: #C8333A; }              /* white text on this is 5.8:1 */
+.flag-box[data-sev="warning"] { --flag-c: #E3B24A; border-style: dashed; }
+.flag-box[data-sev="info"] { --flag-c: #7C93B3; border-style: dotted; }
+.flag-box:hover { background: color-mix(in srgb, var(--flag-c) 26%, transparent); }
+.flag-box:focus-visible { outline: calc(3px / var(--zs)) solid var(--accent, #9B8AFB); outline-offset: calc(2px / var(--zs)); }
+.flag-box[aria-current="true"] { background: color-mix(in srgb, var(--flag-c) 30%, transparent); box-shadow: 0 0 0 calc(3px / var(--zs)) color-mix(in srgb, var(--flag-c) 55%, transparent); }
+.flag-badge { position: absolute; left: 0; bottom: 100%; transform-origin: 0 100%; transform: scale(calc(1 / var(--zs))); white-space: nowrap;
+  font: 700 11px/1 var(--mono, monospace); padding: 3px 7px 3px 6px; background: var(--flag-c); color: #14110d; border-radius: 3px 3px 3px 0; }
+.flag-box[data-sev="error"] .flag-badge { color: #fff; }
+.flag-box[data-sev="info"] { --flag-c: #8FA6C6; }
+.flag-badge[data-shape="octagon"] { clip-path: polygon(8% 0, 92% 0, 100% 30%, 100% 100%, 0 100%, 0 30%); }
+.flag-badge[data-shape="triangle"] { clip-path: polygon(0 0, 92% 0, 100% 100%, 0 100%); }
+@media (forced-colors: active) { .flag-box { border-color: CanvasText; background: transparent; } .flag-badge { background: Canvas; color: CanvasText; border: 1px solid CanvasText; } }
+@media (prefers-reduced-motion: reduce) { .flag-box { transition: none; } }
+
+/* Results: the drawing-flag list */
+.dfl { display: grid; gap: var(--sp-3); margin-bottom: var(--sp-4); }
+.dfl-filter { align-items: center; }
+.dfl-filter .select-c { max-width: 220px; }
+.flagcards { display: grid; gap: var(--sp-3); }
+.flagcard { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--ink-4); border-radius: var(--r-md); padding: var(--sp-3); display: grid; gap: var(--sp-2); }
+.flagcard[data-sev="error"] { border-left-color: #E5484D; }
+.flagcard[data-sev="warning"] { border-left-color: #E3B24A; border-left-style: dashed; }
+.flagcard[data-sev="info"] { border-left-color: #7C93B3; border-left-style: dotted; }
+.flagcard[aria-current="true"] { outline: 2px solid var(--accent); outline-offset: 1px; background: var(--surface-2); }
+.flagcard:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.flag-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.flag-sev { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-small); letter-spacing: .04em; }
+.flag-shape { width: 12px; height: 12px; background: currentColor; display: inline-block; }
+.flag-sev[data-shape="octagon"] { color: #F2777A; } .flag-sev[data-shape="octagon"] .flag-shape { clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%); }
+.flag-sev[data-shape="triangle"] { color: var(--warn); } .flag-sev[data-shape="triangle"] .flag-shape { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.flag-sev[data-shape="circle"] { color: #9DB2CF; } .flag-sev[data-shape="circle"] .flag-shape { border-radius: 50%; }
+.flag-n { color: var(--ink-3); }
+.flag-title { margin: 0; font-size: var(--fs-body); font-weight: 600; flex: 1 1 14ch; min-width: 0; overflow-wrap: anywhere; }
+.flag-loc { margin: 0; font-size: var(--fs-small); color: var(--ink-2); }
+.flag-loc.is-unloc { color: var(--warn); }
+.flag-dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 2px var(--sp-3); margin: 0; font-size: var(--fs-small); }
+.flag-dl dt { color: var(--ink-3); } .flag-dl dd { margin: 0; overflow-wrap: anywhere; }
+.flag-src { margin: 0; font-size: var(--fs-small); color: var(--ink-2); overflow-wrap: anywhere; }
+.flag-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.flag-review { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.flag-hist { margin: 0; padding-left: var(--sp-4); font-size: var(--fs-small); color: var(--ink-2); }
+@media (max-width: 640px) { .flag-dl { grid-template-columns: 1fr; } .flag-dl dt { margin-top: 4px; } }
+
+/* Filter chips of the drawing-flag list: explicit colours so contrast holds on the dark surface (WCAG AA). */
+.dfl-filter .fchip { color: var(--ink); background: var(--surface-2); border: 1px solid var(--line-strong); font-weight: 600; font-size: 12px; padding: 4px 10px; border-radius: 999px; }
+.dfl-filter .fchip.on { background: var(--accent-dim); border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.dfl-filter .fchip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dfl-filter .fchip.high { border-left: 4px solid #E5484D; }
+.dfl-filter .fchip.medium { border-left: 4px dashed #E3B24A; }
+.dfl-filter .fchip.low { border-left: 4px dotted #8FA6C6; }
