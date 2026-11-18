@@ -1,0 +1,164 @@
+{
+  "dims": {
+    "D001": 76.88,
+    "D002": 75.125,
+    "D003": 0.88,
+    "D004": 1.016,
+    "D005": 1.734,
+    "D006": 2.4985,
+    "D007": 0.06,
+    "D008": 0.5,
+    "D009": 2.218,
+    "D010": 0.125,
+    "D011": 0.002,
+    "D012": 0.002,
+    "D013": 0.002,
+    "D014": 73.093,
+    "D015": 0.2805,
+    "D016": 0.875,
+    "D017": 1.016
+  },
+  "reference_ids": [
+    "D006"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "SB11780",
+    "frame": {
+      "origin_kind": "axis_end",
+      "units": "inch",
+      "view_map": {
+        "Front": "+Y",
+        "Left": "-Z"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Solid tie rod with two annular necks; preserve the printed axial dimension chain rather than imposing equal collar lengths.",
+        "source_callouts": [
+          "76.88",
+          "75.125",
+          ".88",
+          "1.016 TYP",
+          "1.734 \u2300",
+          "2.4985 \u2300 REF \u00b1.0015"
+        ],
+        "status": "planned",
+        "justification": "The matching necks shown at opposite ends ground use of the same D005 diameter at both ends. D004 explicitly applies typically. Use D006 as the nominal reference stock diameter for CAD, not as a controlling manufacturing dimension. The right collar length is D001-D003-D002.",
+        "kind": "revolve",
+        "axis": "axis(part)",
+        "outer": [
+          {
+            "z": "0",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D003",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D003",
+            "r": "D005 / 2"
+          },
+          {
+            "z": "D003 + D004",
+            "r": "D005 / 2"
+          },
+          {
+            "z": "D003 + D004",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D003 + D002 - D004",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D003 + D002 - D004",
+            "r": "D005 / 2"
+          },
+          {
+            "z": "D003 + D002",
+            "r": "D005 / 2"
+          },
+          {
+            "z": "D003 + D002",
+            "r": "D006 / 2"
+          },
+          {
+            "z": "D001",
+            "r": "D006 / 2"
+          }
+        ],
+        "inner": [],
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Centered longitudinal keyway on the +X side of the central full-diameter body, open at both neck shoulders.",
+        "source_callouts": [
+          ".500 +.002 -.000 CNT.",
+          "2.218"
+        ],
+        "status": "planned",
+        "justification": "The end view locates the slot at the right-hand cylindrical surface and dimensions its floor from the opposite OD extreme. The side view shows straight slot edges extending between the central-body shoulders, not across the end collars. Extend the cutter into half of each adjacent neck to break through both shoulders; the floor lies outside the neck radius, so this overshoot removes no additional neck material. Radial cutter depth D006 extends past the OD.",
+        "kind": "prism",
+        "on": "plane(right)",
+        "offset": "D009 - D006 / 2",
+        "profile": {
+          "shape": "rect",
+          "w": "D008",
+          "h": "D002 - D004",
+          "anchor": "corner",
+          "u": "-D008 / 2",
+          "v": "D003 + D004 / 2"
+        },
+        "depth": "D006",
+        "op": "cut"
+      },
+      {
+        "id": "F003",
+        "rationale": "What nominal radius should be modeled at the four neck roots? The drawing specifies only a maximum.",
+        "source_callouts": [
+          ".125 R MAX TYP"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D010",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z,D003),wall(F001,D005 / 2))",
+          "edge_between(face(F001,-Z,D003 + D004),wall(F001,D005 / 2))",
+          "edge_between(face(F001,+Z,D003 + D002 - D004),wall(F001,D005 / 2))",
+          "edge_between(face(F001,-Z,D003 + D002),wall(F001,D005 / 2))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Should the .06 C/R at both outer end edges be a chamfer or a radius, and if chamfered, what angle applies?",
+        "source_callouts": [
+          ".06 C/R BOTH ENDS"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D007",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001,D006 / 2))",
+          "edge_between(face(F001,+Z,D001),wall(F001,D006 / 2))"
+        ]
+      }
+    ],
+    "notes": [
+      "Origin is the center of the left end face; +Z runs toward the right end. End-view right is +X; the keyway width is along Y.",
+      "Material note: MAT'L ~ 1018; CFS marking retained as stock information.",
+      "MACHINE CENTERS PERMITTED is optional and supplies no center-hole geometry; no center holes are modeled.",
+      "D011 and D012 describe shoulder perpendicularity to datum A; D013 describes right-shoulder parallelism to datum B. Datum B is the left collar inboard shoulder. These inspection requirements do not add solid geometry; datum A attachment should be verified before inspection planning.",
+      "Unresolved edge features must not be executed using their placeholder operation or maximum size until reviewed."
+    ]
+  }
+}

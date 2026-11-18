@@ -1,0 +1,605 @@
+{
+  "part_name": "TIE ROD",
+  "part_number": "SB11780",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:2 (HALF)",
+  "material": "1018 steel; handwritten note MAT'L ~ 1018",
+  "finish": "CFS indicated at surface-texture symbol; adjacent marking appears to be H. No reliably readable numerical roughness requirement.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1.02; 3 PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b11\u00b0.",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Longitudinal elevation of cylindrical tie rod, shortened by a conventional central break. Shows a reduced annular neck near each end, full-diameter end collars, and two longitudinal edges consistent with a longitudinal keyway. The two portions separated by the break are one view, not two parts.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D010",
+        "D011",
+        "D012",
+        "D013"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005",
+        "F006"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Longitudinal centerline identifies the common shaft and neck axis. MACHINE CENTERS PERMITTED is an allowance, not a dimensioned hole requirement."
+    },
+    {
+      "view_type": "Left",
+      "description": "End elevation placed to the left of the main elevation in third-angle projection. Shows outer circular outline, end corner treatment, hidden reduced-neck circle, and a small rectangular keyway-like profile at the right side. Keyway visibility/extent and datum attachment require confirmation.",
+      "dimensions_shown": [
+        "D008",
+        "D009"
+      ],
+      "visible_features": [
+        "F001",
+        "F006"
+      ],
+      "hidden_features": [
+        "F002",
+        "F004"
+      ],
+      "centerline_notes": "Horizontal and vertical centerlines intersect at the shaft axis. The .500 CNT. notation appears to center the keyway width on the horizontal diametral plane. Datum A is marked beside this detail, but its exact attachment is not sufficiently clear."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 76.88,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_length",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Overall end-to-end length; general two-place tolerance."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 75.125,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "distance_between_inboard_faces_of_end_collars",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "From left collar's inboard shoulder to right collar's inboard shoulder. General three-place tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 0.88,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_end_collar_axial_length",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "From left end to first neck shoulder. Not explicitly marked TYP."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 1.016,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "neck_axial_width",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "TYP; applies to both annular necks. General three-place tolerance."
+    },
+    {
+      "id": "D005",
+      "type": "diameter",
+      "value": 1.734,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "reduced_neck_diameter",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Leader/dimension spans the reduced neck at the left end. Matching right neck is interpreted as the same diameter; diameter itself is not explicitly marked TYP."
+    },
+    {
+      "id": "D006",
+      "type": "diameter",
+      "value": 2.4985,
+      "unit": "inch",
+      "tolerance_plus": 0.0015,
+      "tolerance_minus": 0.0015,
+      "tolerance_type": "reference",
+      "applies_to": "stock_and_full_shaft_diameter",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": true,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.4985 \u00b1.0015 diameter REF. Reference limits 2.4970\u20132.5000; do not convert into a controlling manufacturing requirement."
+    },
+    {
+      "id": "D007",
+      "type": "radial",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "outer_end_corner_radius",
+      "feature_ref": "F006",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .06 C/R BOTH ENDS, interpreted as corner radius. General two-place tolerance."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.002,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "unilateral",
+      "applies_to": "longitudinal_keyway_width",
+      "feature_ref": "F004",
+      "view": "Left",
+      "datum_ref": "A",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": true,
+      "notes": "Printed .500 +.002/-.000 CNT. Numeric reading is clear; interpreted as centered keyway width. Datum A is adjacent, but whether it identifies the slot median plane or a specific surface needs verification."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 2.218,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "distance_from_opposite_outer_surface_to_keyway_floor",
+      "feature_ref": "F004",
+      "view": "Left",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": true,
+      "notes": "Horizontal dimension from leftmost outer surface to the vertical line at the right-side keyway floor. General three-place tolerance. Feature interpretation should be verified against original drawing."
+    },
+    {
+      "id": "D010",
+      "type": "radial",
+      "value": 0.125,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "neck_root_radius_maximum",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".125 R MAX TYP. This is an upper bound, not a nominal radius with \u00b1.010 tolerance; applies to indicated neck-root transitions."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 0.002,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_collar_inboard_shoulder_perpendicularity",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "A",
+      "gdt_symbol": "perpendicularity",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Frame reads perpendicularity | A | .002 in the older notation used on this drawing. The left shoulder is also identified as datum B. No diameter symbol or material modifier is shown."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 0.002,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_collar_inboard_shoulder_perpendicularity",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "A",
+      "gdt_symbol": "perpendicularity",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Upper row of right shoulder frame: perpendicularity | A | .002."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 0.002,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_collar_inboard_shoulder_parallelism",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "B",
+      "gdt_symbol": "parallelism",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Lower row of right shoulder frame: parallelism | B | .002."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 73.093,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "central_full_diameter_body_length",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 75.125 - 1.016 - 1.016 = 73.093. This is the shoulder-to-shoulder central body length, not an independently printed keyway length. Use as keyway length only after confirming its termination."
+    },
+    {
+      "id": "D015",
+      "type": "depth",
+      "value": 0.2805,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_radial_keyway_depth",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": true,
+      "notes": "DERIVED: reference diameter 2.4985 - floor distance 2.218 = .2805. Conditional on keyway interpretation and actual stock diameter; not an independent controlling dimension."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 0.875,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_end_collar_axial_length",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 76.88 - 75.125 - .88 = .875. Do not silently enforce exact axial mirror symmetry."
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 1.016,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_neck_axial_width",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED instance of D004's explicitly printed TYP requirement; included to close the axial dimension chain."
+    }
+  ],
+  "hole_callouts": [],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Base cylindrical stock, nominal reference diameter 2.4985 and length 76.88. Use a circular sketch on a plane normal to the longitudinal shaft axis.",
+      "related_dimensions": [
+        "D001",
+        "D006"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D001",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_cut",
+      "description": "Left annular neck: remove material down to diameter 1.734 over axial width 1.016 beginning .88 from the left end. Its collar-side shoulder is datum B and has .002 perpendicularity to A.",
+      "related_dimensions": [
+        "D003",
+        "D004",
+        "D005",
+        "D011"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "D004",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Right annular neck, interpreted as matching the left neck diameter and TYP width. Its collar-side shoulder is 75.125 from datum-B shoulder, with .002 perpendicularity to A and .002 parallelism to B. Derived right collar length .875.",
+      "related_dimensions": [
+        "D002",
+        "D005",
+        "D012",
+        "D013",
+        "D016",
+        "D017"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "D017",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "extrude_cut",
+      "description": "Interpreted longitudinal centered keyway, width .500 +.002/-.000 and floor 2.218 from the opposite cylindrical extreme. Long edges are shown over the central body. Confirm exact axial extent, termination shape, and datum A attachment before building this feature.",
+      "related_dimensions": [
+        "D008",
+        "D009",
+        "D014",
+        "D015"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F005",
+      "type": "fillet",
+      "description": "Typical annular neck root rounds, radius no greater than .125. Exact modeling radius is not specified.",
+      "related_dimensions": [
+        "D010"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F006",
+      "type": "fillet",
+      "description": ".06 corner radius at both outer circular end edges, interpreting the C/R callout as corner radius.",
+      "related_dimensions": [
+        "D007"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [
+    {
+      "symbol": "perpendicularity",
+      "value": 0.002,
+      "datum": "A"
+    },
+    {
+      "symbol": "perpendicularity",
+      "value": 0.002,
+      "datum": "A"
+    },
+    {
+      "symbol": "parallelism",
+      "value": 0.002,
+      "datum": "B"
+    }
+  ],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Longitudinal plane through shaft axis and keyway center",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004"
+        ],
+        "description": "Circular shaft and necks are rotationally symmetric; interpreted centered keyway retains this longitudinal mirror plane. End-to-end exact symmetry is not assumed."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003"
+        ],
+        "description": "Full-diameter stock and both reduced necks share the longitudinal centerline."
+      }
+    ],
+    "equal_spacing": [],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D003",
+          "D002",
+          "D016"
+        ],
+        "description": "Overall length = left end collar + spacing between collar inboard shoulders + right end collar: .88 + 75.125 + .875 = 76.88."
+      },
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D004",
+          "D014",
+          "D017"
+        ],
+        "description": "Collar shoulder spacing = left neck + central body + right neck: 1.016 + 73.093 + 1.016 = 75.125."
+      },
+      {
+        "total_dimension_id": "D006",
+        "component_dimension_ids": [
+          "D009",
+          "D015"
+        ],
+        "description": "Conditional keyway radial chain: 2.218 + .2805 = reference diameter 2.4985. Depends on stock reference diameter and keyway interpretation."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D014",
+      "D015",
+      "D016",
+      "D017"
+    ],
+    "reference_dimension_ids": [
+      "D006"
+    ]
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006"
+  ],
+  "warnings": [
+    "No explicit ASME/ISO/DIN standard designation is visible. Inch units and third-angle projection are explicitly stated; older US-style GD&T frames are present.",
+    "The end detail strongly suggests a longitudinal keyway, but exact visibility, axial termination, and datum A attachment should be checked against the original drawing before modeling or inspection. Do not assume datum A is the shaft axis.",
+    "Datum B is the left collar's inboard shoulder. The two perpendicularity frames control different shoulders; they are not duplicate requirements on one surface.",
+    "The .500 dimension and its +.002/-.000 tolerance are readable. CNT. is interpreted as centered; confirm this abbreviation.",
+    "The main diameter is explicitly REF despite having \u00b1.0015 printed. A controlling stock specification should be confirmed before manufacturing.",
+    "The right reduced-neck diameter is inferred to match the left; only the neck width and root-radius callouts explicitly say TYP.",
+    "Exact axial mirror symmetry would give two .8775 collars; using two nominal .88 collars gives 76.885 overall, .005 above the printed 76.88 but within its general tolerance. Extraction instead preserves the printed chain and derives right collar .875.",
+    "The .125 R MAX callout permits a range of root radii and does not determine a unique fillet for an exact CAD model.",
+    "MACHINE CENTERS PERMITTED does not specify mandatory center holes, diameters, angles, or depths. No holes have been invented.",
+    "CFS likely denotes cold-finished steel; the adjacent H-like surface-symbol marking does not supply a reliably interpretable numerical roughness value.",
+    "Title block also lists MODEL No. 120ME, date 10-23-78, sheet size C, sheet 1 of 1, Manufacturing Technology Inc. Tool number is used as the part number. No revision is entered."
+  ],
+  "confidence": 0.77
+}

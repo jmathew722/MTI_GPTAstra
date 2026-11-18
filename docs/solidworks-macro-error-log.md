@@ -782,6 +782,45 @@ The full entry was kept local; add it here.
 - **Tests:** 1018 passed. This is live-only behaviour (it needs SolidWorks); the full rebuild is
   the regression check.
 
+## E036 — Exported STL meshed a stale, pre-rebuild state (and `EditRebuild3()` crashed niladic-call style)
+
+- **Symptom:** the UI's 3D viewer showed garbled/blocky models. Several unrelated parts
+  (`116-C`, `157-C`, `135-A`, `SB11033`) exported `*_ir.STL` files with the exact same byte
+  size and triangle count (296 triangles, 14,884 bytes) despite having different geometry —
+  the exported mesh was not the finished part.
+- **Root cause:** the STL export (`compile_solidworks.py`, added when 3D-viewer support was
+  built) called `sw.doc.SaveAs3(stl_path, 0, 1)` directly after the feature loop, with no
+  forced rebuild first and no check of `SaveAs3`'s return value. SolidWorks only regenerates
+  the displayed tessellation on an explicit rebuild; without one, `SaveAs3` for a mesh format
+  exports whatever tessellation is currently cached — in these builds, a tessellation from an
+  early, low-feature-count state of the part (hence the same low, coincidentally-matching
+  triangle count across unrelated parts). A silently-failed `SaveAs3` was also invisible: the
+  success check only looked at file existence/size, so a stale `.stl` left over from a
+  previous run of the same part (same output folder, reused across reruns) could masquerade
+  as a fresh, successful export.
+- **Second bug found while fixing the first:** the fix added `sw.doc.EditRebuild3()` before
+  export. Late-bound COM (`win32com.client.Dispatch`, not `gencache.EnsureDispatch`) performs
+  the call on attribute *access* for some niladic (zero-argument) SolidWorks methods — the
+  same quirk `_g()` (`solidworks_builder.py`) already exists to work around for
+  `GetTitle`/`GetFaces`/etc. Calling it with explicit parens, `sw.doc.EditRebuild3()`, triggers
+  the method via attribute access (returning a `bool`) and then tries to *call* that `bool`:
+  `TypeError: 'bool' object is not callable`.
+- **Fix** (`compile_solidworks.py`, right before the STL export):
+  1. `_close_open_sketch(sw.doc)` — never export mid-sketch-edit.
+  2. `_g(sw.doc, "EditRebuild3")` (not `sw.doc.EditRebuild3()`) — force a full rebuild so the
+     tessellation reflects the finished, fully-resolved, drawing-checked part.
+  3. Delete any pre-existing file at the target `.stl`/`.png` path before calling `SaveAs3`, so
+     a silent failure can never be mistaken for a fresh export of a rerun.
+  4. Check `SaveAs3`'s own return value (`is False`) in addition to the file-existence check.
+- **Verified:** full rebuild from saved plans ($0), `116-C` and `135-A` — both `sw_ok: true`;
+  triangle counts are now part-specific and far higher (1278 and 616, vs. the previous
+  coincidental 296) and file size matches `80 + 4 + 50*triangles` exactly (valid binary STL).
+- **Generator rule:** any niladic COM method goes through `_g()`, never called directly with
+  `()`. Any export written to a path that a rerun of the same part can reuse must delete the
+  old file first — never let file-existence alone signal success.
+- **Tests:** 1018 passed. This is live-only behaviour (it needs SolidWorks); the full rebuild
+  above is the regression check.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

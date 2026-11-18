@@ -347,3 +347,18 @@ def test_radial_pattern_routes_to_the_native_circular_pattern(fake_sw):
     sw.plan = plan
     res = sw.pattern(plan.feature("F003"))
     assert res.status == "failed" and "seed F002 was not built" in res.note   # routed, not the hole-sketch path
+
+
+def test_niladic_com_calls_never_use_explicit_parens():
+    """E036: late-bound COM (win32com.client.Dispatch) performs some zero-argument
+    SolidWorks methods on attribute *access*, before any '()' is applied -- so
+    'sw.doc.EditRebuild3()' calls the already-returned bool, raising
+    "'bool' object is not callable". Every zero-arg call must go through _g(),
+    exactly like the existing GetTitle/GetFaces call sites."""
+    import re
+    from pathlib import Path
+
+    src = Path(__file__).parent.parent.joinpath("pipeline", "ir", "compile_solidworks.py").read_text()
+    for niladic in ("EditRebuild3", "GetTitle", "ForceRebuild3"):
+        assert f".{niladic}()" not in src, f"{niladic} must be called via _g(doc, \"{niladic}\"), not doc.{niladic}()"
+    assert re.search(r'_g\(sw\.doc,\s*"EditRebuild3"\)', src), "the export must force a rebuild via _g() first"

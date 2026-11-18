@@ -1,0 +1,38 @@
+{
+  "part": "SB11780",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\SB11780\\SB11780_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 4,
+  "questions": [],
+  "flagged": [
+    "F001: The matching necks shown at opposite ends ground use of the same D005 diameter at both ends. D004 explicitly applies typically. Use D006 as the nominal reference stock diameter for CAD, not as a controlling manufacturing dimension. The right collar length is D001-D003-D002.",
+    "F002: The end view locates the slot at the right-hand cylindrical surface and dimensions its floor from the opposite OD extreme. The side view shows straight slot edges extending between the central-body shoulders, not across the end collars. Extend the cutter into half of each adjacent neck to break through both shoulders; the floor lies outside the neck radius, so this overshoot removes no additional neck material. Radial cutter depth D006 extends past the OD.",
+    "F003: DEFAULT D1: max-only radius built at the max value",
+    "F004: DEFAULT D3: chamfer-or-radius built as a 45 deg chamfer"
+  ],
+  "defaults": [
+    "F003: D1 fillet at the max value 0.125",
+    "F004: D3 chamfer 0.06 x 45 (C/R)"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\SB11780\\reference.step",
+  "volume": 361.869881,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\SB11780\\SB11780_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\SB11780\\SB11780_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\SB11780\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built",
+    "F003": "built (4 edges selected by nearest point)",
+    "F004": "built (2 edges selected by nearest point)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "sketches fully defined: 2/2"
+  ],
+  "mti_review": [],
+  "cost_usd": 0.5381,
+  "error": ""
+}

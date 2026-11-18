@@ -1374,7 +1374,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
     called after each feature (live demos). The part is closed after it is saved unless
     ``keep_open``: a batch that leaves every part open stops SolidWorks creating new ones
     (86 open parts: NewDocument returned None; error log E024)."""
-    from pipeline.solidworks_builder import _close_open_sketch, save_model
+    from pipeline.solidworks_builder import _close_open_sketch, _g, save_model
 
     if convention not in CONVENTIONS:
         raise ValueError(f"convention must be one of {CONVENTIONS}")
@@ -1446,24 +1446,31 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         ref = sorted(fmap["bbox"][i + 3] - fmap["bbox"][i] for i in range(3))
         sw.report.bbox_ok = all(abs(a - b) <= 1e-4 * max(1.0, b) for a, b in zip(ext, ref))
     sw.doc.SketchManager.AddToDB = False   # hand the part back with normal sketch behaviour
+    _close_open_sketch(sw.doc)             # never export mid-sketch-edit (would mesh the sketch plane, not the solid)
+    _g(sw.doc, "EditRebuild3")             # the exported mesh must reflect the finished, fully-resolved part
     sw.report.sldprt = save_model(sw.doc, f"{plan.part}_ir", out_dir)
-    try:  # a mesh of the real part, for 3D viewers (best effort; SaveAs3 picks the
+    try:  # a mesh of the real, finished part, for 3D viewers (best effort; SaveAs3 picks the
         # translator from the extension, exactly as the PNG export below does)
         stl_path = (Path(out_dir) / f"{plan.part}_ir.stl").resolve()
-        sw.doc.SaveAs3(str(stl_path), 0, 1)
-        if stl_path.is_file() and stl_path.stat().st_size > 0:
+        stl_path.unlink(missing_ok=True)   # a stale STL from a prior run of this part must never
+                                            # masquerade as this run's export if SaveAs3 fails silently
+        ok = sw.doc.SaveAs3(str(stl_path), 0, 1)
+        if ok is False:
+            log.warning("SaveAs3 returned failure for %s", stl_path.name)
+        elif stl_path.is_file() and stl_path.stat().st_size > 0:
             sw.report.stl = str(stl_path)
         else:
             log.warning("SaveAs3 reported no error but %s is missing or empty", stl_path.name)
     except Exception as e:
         log.warning("Could not export an STL: %s", e)
     try:  # an isometric picture for review (best effort)
+        png_path = (Path(out_dir) / f"{plan.part}_ir.png").resolve()
+        png_path.unlink(missing_ok=True)
         sw.doc.ShowNamedView2("*Isometric", 7)
         sw.doc.ViewZoomtofit2()
-        sw.doc.SaveAs3(str((Path(out_dir) / f"{plan.part}_ir.png").resolve()), 0, 1)
+        sw.doc.SaveAs3(str(png_path), 0, 1)
     except Exception as e:
         log.warning("Could not export a PNG view: %s", e)
     if not keep_open:
-        from pipeline.solidworks_builder import _g
         sw_app.CloseDoc(_g(sw.doc, "GetTitle"))
     return sw.report
