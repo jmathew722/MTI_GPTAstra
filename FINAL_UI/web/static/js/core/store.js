@@ -36,7 +36,7 @@
     var p = persistMod();
     var ui = p ? p.loadUi() : { sidebarCollapsed: false, inspectorCollapsed: false,
       inspectorOpen: { setup: true, actions: true, export: true },
-      drawerOpen: false, drawerHeight: 320, drawerSection: 'overview', splitRatio: 0.5, resultsSection: 'overview' };
+      drawerOpen: false, drawerHeight: 320, drawerSize: 'remembered', drawerHeights: {}, drawerSection: 'overview', splitRatio: 0.5, resultsSection: 'overview' };
     ui.drawerMode = 'results';
     ui.maximized = null;
     ui.narrowTab = '2d';

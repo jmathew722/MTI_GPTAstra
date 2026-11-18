@@ -72,3 +72,17 @@ test('storage failures never throw', () => {
   assert.equal(P.set('mca.session', 'a'), false);
   assert.equal(P.get('mca.session', 'fb'), 'fb');
 });
+
+test('drawer size state round-trips; invalid size or heights fall back to the defaults', () => {
+  const ui = Object.assign(P.uiDefaults(), { drawerOpen: true, drawerSize: 'max', drawerHeights: { wide: 480, narrow: 300 } });
+  P.saveUi(ui);
+  const back = P.loadUi();
+  assert.equal(back.drawerSize, 'max');
+  assert.deepEqual(back.drawerHeights, { wide: 480, narrow: 300 });
+  // junk in storage never reaches the UI
+  P.set('mca.ui.drawer', { open: true, height: 320, section: 'a', size: 'huge', heights: { wide: 'x', bogus: 400, medium: 10, narrow: 250 } });
+  const bad = P.loadUi();
+  assert.equal(bad.drawerSize, 'remembered');
+  assert.deepEqual(bad.drawerHeights, { narrow: 250 });
+  P.resetUi();
+});

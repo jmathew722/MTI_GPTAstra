@@ -147,6 +147,7 @@
     markedViewURL: function (s, p, bust) { return partBase(s, p) + '/marked-view.jpg' + t(bust); },
     partStlURL: function (s, p, mtime) { return partBase(s, p) + '/model.stl' + t(mtime); },
     partFileURL: function (s, p, rel) { return partBase(s, p) + '/file/' + encPath(rel); },
+    partLedgerURL: function (s, p) { return partBase(s, p) + '/ledger.jsonl'; },
     runStlURL: function (id, bust) { return '/api/runs/' + enc(id) + '/model.stl' + t(bust); },
     runDownloadURL: function (id, rel) { return '/api/runs/' + enc(id) + '/download/' + encPath(rel); },
     runZipURL: function (id) { return '/api/runs/' + enc(id) + '/zip'; },

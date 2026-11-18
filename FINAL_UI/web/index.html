@@ -92,6 +92,7 @@
       <div class="ws-chips">
         <div class="chip" id="hdr-engine"><span class="chip-ic" data-icon="settings" data-size="20"></span><span class="chip-body"><span class="chip-k">Engine</span><span class="chip-v">Checking&hellip;</span></span></div>
         <div class="chip" id="hdr-deliv"><span class="chip-ic" data-icon="layers" data-size="20"></span><span class="chip-body"><span class="chip-k">Deliverables</span><span class="chip-v"><span class="dv" data-k="sldprt" title="Not produced yet">SLDPRT</span><span class="dv" data-k="stl" title="Not produced yet">STL</span><span class="dv" data-k="vba" title="Not produced yet">VBA</span></span></span></div>
+        <div class="chip" id="hdr-cost" data-state="empty" data-status="unpriced"><span class="chip-ic" data-icon="info" data-size="20"></span><span class="chip-body"><span class="chip-k">Part cost</span><span class="chip-v" id="hdr-cost-v" role="status" aria-live="off">&mdash;</span></span></div>
         <div class="chip" id="hdr-api"><span class="dot" aria-hidden="true"></span><span class="chip-body"><span class="chip-k">API Status</span><span class="chip-v">Checking&hellip;</span></span></div>
       </div>
     </header>
@@ -252,6 +253,7 @@
         <span class="dr-kv" id="dr-verdict"><span class="k">Verification</span><span class="v">Not available</span></span>
         <span class="dr-kv" id="dr-flags"><span class="k">Engineering Flags</span><span class="v">None recorded</span></span>
         <span class="dr-kv" id="dr-runtime"><span class="k">Runtime</span><span class="v mono">Not recorded</span></span>
+        <span class="dr-size" id="dr-size" role="group" aria-label="Drawer size" hidden><button type="button" id="dr-fit" class="btn ghost sm" aria-pressed="false" aria-controls="dr-body"><span>Fit</span></button><button type="button" id="dr-max" class="btn ghost sm" aria-pressed="false" aria-controls="dr-body"><span>Maximize</span></button></span>
         <div class="dr-modes" role="tablist" aria-label="Drawer content">
           <button type="button" role="tab" id="dr-mode-results" aria-selected="true" aria-controls="dr-results" class="tab-c sm">Results</button>
           <button type="button" role="tab" id="dr-mode-tools" aria-selected="false" aria-controls="dr-tools" tabindex="-1" class="tab-c sm" hidden>Tools</button>
@@ -341,6 +343,7 @@
 <script defer src="/static/js/logic/stages.js"></script>
 <script defer src="/static/js/logic/runstate.js"></script>
 <script defer src="/static/js/logic/selectors.js"></script>
+<script defer src="/static/js/logic/drawersize.js"></script>
 <script defer src="/static/js/logic/logparse.js"></script>
 <script defer src="/static/js/logic/jsontree.js"></script>
 <script defer src="/static/js/logic/csv.js"></script>
@@ -356,6 +359,7 @@
 <script defer src="/static/js/ui/dialog.js"></script>
 <script defer src="/static/js/ui/sidebar.js"></script>
 <script defer src="/static/js/ui/tracker.js"></script>
+<script defer src="/static/js/ui/cost-key.js"></script>
 <script defer src="/static/js/ui/split.js"></script>
 <script defer src="/static/js/ui/inspector.js"></script>
 <script defer src="/static/js/ui/drawer.js"></script>

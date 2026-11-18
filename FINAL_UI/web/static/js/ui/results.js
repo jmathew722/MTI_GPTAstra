@@ -451,7 +451,64 @@
     } else if (p.done) body.append(note('No delivery folder was reported for this run.', 'hint'));
   };
 
-  R.cost = function (body, tools, d) {
+  /* ── Cost: the pipeline ledger (scopes, attempts, every row) ─────────────── */
+  var PRICE = { priced: ['Priced', 'ok'], partial: ['Partial estimate', 'warn'], unpriced: ['Unpriced', 'mono'] };
+  function money(v) {   // exact backend decimal string, shown with 2-6 places; null is "Unpriced", never zero
+    if (v === null || v === undefined || isNaN(Number(v))) return null;
+    var t = Number(v).toFixed(6).replace(/0+$/, '');
+    return '$' + (/\.\d$/.test(t) ? t + '0' : t.replace(/\.$/, '.00'));
+  }
+  function costCell(v, status) { var m = money(v); return m ? (status === 'partial' ? 'Est. ' + m : m) : 'Unpriced'; }
+  function priceBadge(status) { var p = PRICE[status] || PRICE.unpriced; return chip(p[0], p[1]); }
+  function nfmt(n) { return n === null || n === undefined ? '-' : Number(n).toLocaleString(); }
+
+  function ledgerCost(body, tools, d, u, led) {
+    var sel = d.ctx && d.ctx.kind === 'part' ? d.ctx : null;
+    var run = led.scopes.run, part = led.scopes.part, sess = u.session || null;
+    if (sel) tools.append(h('a', { class: 'btn ghost sm', href: McA.api.partLedgerURL(sel.session, sel.part), download: sel.part + '_usage_ledger.jsonl', text: 'Raw ledger (.jsonl)' }));
+    function scopeCard(title, s, sub) {
+      return h('div', { class: 'cost-card', 'data-status': s.pricing_status },
+        h('div', { class: 'k', text: title }),
+        h('div', { class: 'v mono', text: costCell(s.cost_usd, s.pricing_status) }),
+        h('div', { class: 'cost-sub' }, priceBadge(s.pricing_status), h('span', { text: ' ' + s.api_calls + ' call' + (s.api_calls === 1 ? '' : 's') + (s.unpriced_calls ? ', ' + s.unpriced_calls + ' unpriced' : '') })),
+        sub ? h('div', { class: 'k', text: sub }) : null);
+    }
+    var lastAtt = led.attempts.length ? led.attempts[led.attempts.length - 1] : null;
+    var cards = [scopeCard('This run', run, lastAtt ? lastAtt.label : null), scopeCard('Selected part, all attempts', part, led.attempts.length + ' attempt' + (led.attempts.length === 1 ? '' : 's'))];
+    if (sess) cards.push(scopeCard('Session, all parts', sess, null));
+    body.append(h('div', { class: 'cost-cards', role: 'group', 'aria-label': 'Cost by scope' }, cards));
+    body.append(h('div', { class: 'cost-cards cost-tokens', role: 'group', 'aria-label': 'Token totals for this part' },
+      [['Input tokens (uncached)', part.input_tokens], ['Cached input tokens', part.cached_input_tokens], ['Output tokens', part.output_tokens], ['Cache-write tokens', part.cache_write_tokens]].map(function (x) {
+        return h('div', { class: 'cost-card' }, h('div', { class: 'k', text: x[0] }), h('div', { class: 'v mono', text: nfmt(x[1]) }), h('span', { class: 'badge-c', text: 'Measured' }));
+      })));
+    body.append(h('h3', { class: 'sub-h', text: 'Calls by attempt' }));
+    led.attempts.forEach(function (a, i) {
+      var open = i === led.attempts.length - 1;
+      var rows = a.rows.map(function (r) {
+        return h('tr', { 'data-pricing': r.pricing_status },
+          h('td', { class: 'mono', text: r.ts.slice(5, 19).replace('T', ' '), title: r.ts }), h('td', { text: r.stage + (r.role !== r.stage ? ' / ' + r.role : '') + (r.plan_attempt ? ' (try ' + r.plan_attempt + ')' : '') }),
+          h('td', { class: 'mono cost-model', text: r.model, title: r.provider + ' / ' + r.model }), h('td', { class: 'num', text: nfmt(r.calls) }),
+          h('td', { class: 'num', text: nfmt(r.input_tokens) }), h('td', { class: 'num', text: nfmt(r.cache_read_tokens) }),
+          h('td', { class: 'num', text: nfmt(r.cache_write_tokens) }), h('td', { class: 'num', text: nfmt(r.output_tokens) }),
+          h('td', { class: 'num', text: r.cost_usd === null ? 'Unpriced' : costCell(r.cost_usd, 'priced') }),
+          h('td', null, priceBadge(r.pricing_status), r.cache_hit ? h('span', { class: 'badge-c', text: 'cache hit' }) : null, r.ok ? null : h('span', { class: 'badge-c err', text: 'failed' })));
+      });
+      var det = h('details', { class: 'cost-attempt', open: open ? '' : null },
+        h('summary', null, h('strong', { text: a.label }), h('span', { class: 'mono cost-run', text: ' ' + a.run_id }),
+          h('span', { class: 'cost-att-sum', text: ' ' + costCell(a.cost_usd, a.pricing_status) + ' \u00b7 ' + a.api_calls + ' call' + (a.api_calls === 1 ? '' : 's') + ' ' }), priceBadge(a.pricing_status)),
+        h('div', { class: 'tbl-wrap', tabindex: '0', role: 'region', 'aria-label': 'Calls for ' + a.label }, h('table', { class: 'tbl' }, h('caption', { class: 'sr-only', text: 'Model calls for ' + a.label }),
+          h('thead', null, h('tr', null, ['Time', 'Stage / role', 'Model', 'Calls', 'Input', 'Cache read', 'Cache write', 'Output', 'Cost', 'Pricing'].map(function (c) { return h('th', { scope: 'col', text: c }); }))),
+          h('tbody', null, rows))));
+      if (!open) det.removeAttribute('open');
+      body.append(det);
+    });
+    if (led.truncated) body.append(note('Showing the most recent ' + led.attempts.reduce(function (n, a) { return n + a.rows.length; }, 0) + ' of ' + led.total_rows + ' rows. Totals above include every row; download the raw ledger for all of them.', 'hint'));
+    if (led.legacy_rows) body.append(note(led.legacy_rows + ' row' + (led.legacy_rows === 1 ? '' : 's') + ' predate run tracking and are grouped as "legacy".', 'hint'));
+    if (part.pricing_status !== 'priced') body.append(note('Unpriced calls used a model with no rate in the backend price table. They are counted as calls and tokens, never as $0.00.', 'hint'));
+    body.append(note('Tokens are measured by the provider response. Cost is computed by the backend from its own price table; this page holds no prices.', 'hint'));
+  }
+
+  function costLegacy(body, tools, d) {
     var u = cats(d).usage || {}, last = u.last_run || {}, raw = !!d.s.ui.raw.cost;
     tools.append(segToggle('cost', ['Summary', 'Ledger text'], raw), copyBtn(function () { return u.text || ''; }));
     if (raw) { body.append(u.text ? rawPre(u.text, '') : note('No ledger text.')); return; }
@@ -471,6 +528,18 @@
     });
     if (rows.length) body.append(h('h3', { class: 'sub-h', text: 'Calls' }), table(['Time', 'Stage', 'Model', 'Input', 'Output', 'Cache read', 'Cache write', 'Calls', 'Cache hit', 'Cost (est.)'], rows, 'Token usage by call'));
     body.append(note('Tokens are measured by the provider response. Cost is computed by the backend from its own price table; this page holds no prices.', 'hint'));
+  }
+  R.cost = function (body, tools, d) {
+    var u = cats(d).usage || {}, led = u.ledger && u.ledger.present ? u.ledger : null;
+    if (!led) return costLegacy(body, tools, d);        // runs from before the pipeline ledger
+    var raw = !!d.s.ui.raw.cost;
+    tools.append(segToggle('cost', ['Summary', 'Ledger rows'], raw), copyBtn(function () { return JSON.stringify(led.attempts.reduce(function (a, x) { return a.concat(x.rows); }, []), null, 2); }));
+    if (raw) {
+      var all = led.attempts.reduce(function (a, x) { return a.concat(x.rows); }, []);
+      body.append(rawPre(JSON.stringify(all, null, 2), ''));
+      return;
+    }
+    ledgerCost(body, tools, d, u, led);
   };
 
   /* console: stateful so new lines append without rebuilding */
@@ -654,7 +723,7 @@
       case 'flags': return 'engineering review in build_plan.json';
       case 'macros': return ((c.macros && c.macros.files) || []).length + ' .vba files';
       case 'files': return 'outputs listing';
-      case 'cost': return 'token_usage_log';
+      case 'cost': return c.usage && c.usage.ledger && c.usage.ledger.present ? c.usage.ledger.ledger_name + ' (pipeline ledger)' : 'token_usage_log';
       case 'console': return d.extra.lines.length ? 'live stream' : (pick('console') || 'ui_console.log');
       case 'events': return 'parsed from console lines';
       case 'overview': return 'computed from the sections';

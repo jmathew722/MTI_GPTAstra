@@ -101,3 +101,20 @@ def test_usage_payload_reads_the_shared_pipeline_ledger(tmp_path):
     assert usage["ledger"]["scopes"]["part"]["pricing_status"] == "unpriced"      # truthful: no price, not $0
     assert usage["ledger"]["scopes"]["part"]["cost_usd"] is None
     assert usage["ledger"]["total_rows"] == 1                                        # OTHER's row is not P9's
+
+
+def test_part_ledger_download_contains_only_that_part(tmp_path):
+    sess = "t" + "9" * 11
+    part = "ZZLEDGER1"
+    out = appmod._session_dir(sess) / part / "output"
+    (out / "usage").mkdir(parents=True)
+    mk = lambda p, rid: json.dumps({"ts": "t", "run_id": "r", "row_id": rid, "role": "planner", "provider": "p", "model": "m",
+                                    "part": p, "input_tokens": 1, "output_tokens": 1, "cost_usd": None, "priced": False})
+    (out / "usage" / "usage_ledger.jsonl").write_text(mk(part, "a") + "\n" + mk("OTHER", "b") + "\n", encoding="utf-8")
+    c = TestClient(appmod.app)
+    r = c.get(f"/api/parts/{sess}/{part}/ledger.jsonl")
+    assert r.status_code == 200 and "attachment" in r.headers["content-disposition"]
+    lines = [json.loads(l) for l in r.text.splitlines()]
+    assert [x["row_id"] for x in lines] == ["a"]
+    assert c.get(f"/api/parts/{sess}/NOPE/ledger.jsonl").status_code == 404
+    assert c.get(f"/api/parts/{sess}/..%2F..%2Fetc/ledger.jsonl").status_code in (404, 400, 422)

@@ -1764,6 +1764,20 @@ def part_outputs(session: str, part: str):
     return payload
 
 
+@app.get("/api/parts/{session}/{part}/ledger.jsonl")
+def part_ledger(session: str, part: str):
+    """The raw cost ledger rows of THIS part only (the shared ledger also holds other parts' rows)."""
+    pname = _sanitize(part)
+    if not (_session_dir(session) / pname).is_dir():
+        raise HTTPException(404, "Unknown part")
+    rows = [r for r in _costs.read_rows(_costs.ledger_paths(_part_output_dir(session, part))) if r.get("part") == pname]
+    if not rows:
+        raise HTTPException(404, "No cost ledger rows for this part")
+    body = "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows)
+    return Response(body, media_type="application/x-ndjson",
+                    headers={"Content-Disposition": f'attachment; filename="{pname}_usage_ledger.jsonl"'})
+
+
 # ── Scoring Rubric ──────────────────────────────────────────────────────────
 # Two genuinely different, never-blended measures (bench/scoring.py PartScore: "practices:
 # weight 0 for now" is the same separation already encoded in the pipeline's own scoring

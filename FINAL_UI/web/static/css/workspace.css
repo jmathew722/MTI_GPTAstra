@@ -1,5 +1,7 @@
 /* workspace.css: header, tracker, split canvas, viewer panels, inspector, drawer. */
-.page-ws { display: grid; grid-template-rows: auto auto minmax(280px, 1fr) auto; gap: 12px; height: 100%; min-width: 0; }
+.page-ws { display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; gap: 12px; height: 100%; min-width: 0; }
+/* Drawer at its maximum: the canvas gives way entirely (restore from the drawer header). */
+.page-ws[data-dr-max="true"] .ws-main { visibility: hidden; height: 0; min-height: 0; overflow: hidden; }
 .page-ws > * { min-width: 0; }
 
 /* ── Header ────────────────────────────────────────────────────────────── */
@@ -66,7 +68,7 @@
 .trk-meta { display: flex; flex-direction: column; line-height: 1.35; min-width: 120px; max-width: 280px; }
 .trk-stage { font-weight: 600; font-size: 15px; color: var(--ink-2); }
 .trk-stage.is-current, .tracker:has(.trk-step[data-state="running"]) .trk-stage { color: var(--gold); }
-.trk-caption { color: var(--ink-2); font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trk-caption { color: var(--ink-2); font-size: 15px; white-space: normal; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow-wrap: anywhere; }   /* two lines: operation + unit count; full text in the tooltip */
 .trk-batch { color: var(--ink-3); font-size: var(--fs-small); }
 .trk-pct { position: relative; width: 116px; height: 44px; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--well); font-family: var(--mono); font-weight: 600; font-size: 17px; }
 
@@ -167,7 +169,12 @@
 .trk-tools { white-space: nowrap; }
 
 /* ── Drawer ────────────────────────────────────────────────────────────── */
-.drawer { --dr-h: 320px; position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); display: flex; flex-direction: column; min-width: 0; }
+/* Header row sizes to its content; the body takes whatever is left. No magic header offset, no viewport cap. */
+.drawer { --dr-h: 320px; position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); display: grid; grid-template-rows: auto minmax(0, 1fr); height: var(--dr-h); min-width: 0; min-height: 0; }
+.drawer[data-open="false"] { height: auto; grid-template-rows: auto; }
+.dr-size { order: 89; display: inline-flex; gap: var(--sp-1); flex: none; }
+.dr-size[hidden] { display: none; }
+.dr-size .btn[aria-pressed="true"] { background: var(--accent-dim); border-color: color-mix(in srgb, var(--accent) 55%, transparent); color: var(--ink); }
 .dr-resize { position: absolute; left: 24px; right: 24px; top: -5px; height: 10px; cursor: row-resize; touch-action: none; z-index: 3; }
 .dr-resize::after { content: ""; position: absolute; left: 50%; top: 4px; width: 56px; height: 3px; margin-left: -28px; border-radius: 2px; background: var(--line-strong); }
 .dr-resize:hover::after, .dr-resize.is-drag::after, .dr-resize:focus-visible::after { background: var(--accent); }
@@ -198,7 +205,7 @@
 .dr-kv .v.is-ok { color: var(--ok-text); } .dr-kv .v.is-warn { color: var(--warn); } .dr-kv .v.is-err { color: var(--err-text); } .dr-kv .v.is-muted { color: var(--ink-3); }
 .dr-modes { display: flex; flex: none; }
 .dr-open { margin-left: var(--sp-2); flex: none; white-space: nowrap; }
-.dr-body { height: calc(var(--dr-h) - 62px); border-top: 1px solid var(--line); overflow: hidden; }
+.dr-body { min-height: 0; border-top: 1px solid var(--line); overflow: hidden; }
 .dr-results { display: flex; height: 100%; min-height: 0; }
 .dr-secs { flex: 0 0 200px; overflow: auto; border-right: 1px solid var(--line); padding: var(--sp-2); }
 .dr-pane { flex: 1; min-width: 0; overflow: auto; padding: var(--sp-4); }
@@ -234,8 +241,13 @@
   .page-ws { height: auto; grid-template-rows: auto auto auto auto; }
   .ws-main { grid-template-rows: auto; }
   .canvas { min-height: 420px; }
-  .drawer[data-open="true"] { --dr-h: 60vh; }
   .dr-results { flex-direction: column; } .dr-secs { flex: none; border-right: 0; border-bottom: 1px solid var(--line); }
+  /* Narrow: the section list becomes one scrolling row so the content gets the height, and the drawer header
+     stays reachable under the sticky mobile bar while the page scrolls. */
+  .dr-results > .dr-secs { flex-direction: row; overflow-x: auto; overflow-y: hidden; gap: var(--sp-1); }
+  .dr-results > .dr-secs .res-link { width: auto; flex: none; white-space: nowrap; }
+  .dr-head { position: sticky; top: 52px; z-index: 6; background: var(--surface); border-radius: var(--r-lg) var(--r-lg) 0 0; flex-wrap: wrap; overflow: visible; row-gap: 6px; }
+  #dr-fit { display: none; }
   .ws-line h1 { font-size: 20px; }
 }
 
@@ -261,3 +273,11 @@
 #vp-3d .vp-head h2 { flex: none; overflow: visible; }
 #vp-3d .vp-head .badge-c { min-width: 0; overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; }
 #vp-3d .vp-head .badge-c:not(:empty) { display: block; line-height: 20px; }
+
+/* ── Part cost key (Stage 2): fixed-width value so live updates never shift the header ── */
+#hdr-cost .chip-v { min-width: 11ch; font-variant-numeric: tabular-nums; white-space: nowrap; }
+#hdr-cost[data-state="empty"] .chip-v { color: var(--ink-3); }
+#hdr-cost[data-status="partial"] .chip-v { color: var(--warn); }
+#hdr-cost[data-status="unpriced"]:not([data-state="empty"]) .chip-v { color: var(--ink-3); font-style: italic; }
+#hdr-cost[data-state="running"] { border-color: color-mix(in srgb, var(--gold) 45%, transparent); }
+@media (max-width: 760px) { #hdr-cost .chip-v { min-width: 0; white-space: normal; } }

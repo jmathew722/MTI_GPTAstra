@@ -105,6 +105,8 @@
       inspectorOpen: { setup: true, actions: true, export: true },
       drawerOpen: false,
       drawerHeight: 320,
+      drawerSize: 'remembered',        // remembered | fit | max
+      drawerHeights: {},               // remembered height per viewport class
       drawerSection: 'overview',
       splitRatio: 0.5,
       resultsSection: 'overview'
@@ -116,7 +118,16 @@
     var ins = get(KEYS.inspector, null);
     if (ins) { d.inspectorCollapsed = ins.collapsed; d.inspectorOpen = ins.open; }
     var dr = get(KEYS.drawer, null);
-    if (dr) { d.drawerOpen = dr.open; d.drawerHeight = dr.height; d.drawerSection = dr.section; }
+    if (dr) {
+      d.drawerOpen = dr.open; d.drawerHeight = dr.height; d.drawerSection = dr.section;
+      if (dr.size === 'fit' || dr.size === 'max' || dr.size === 'remembered') d.drawerSize = dr.size;
+      if (dr.heights && typeof dr.heights === 'object') {
+        ['narrow', 'medium', 'wide'].forEach(function (c) {
+          var v = dr.heights[c];
+          if (typeof v === 'number' && isFinite(v) && v >= 160) d.drawerHeights[c] = v;
+        });
+      }
+    }
     d.splitRatio = get(KEYS.split, d.splitRatio);
     d.resultsSection = get(KEYS.results, d.resultsSection);
     return d;
@@ -126,7 +137,7 @@
     if (!ui) return;
     set(KEYS.sidebar, ui.sidebarCollapsed ? 'collapsed' : 'expanded');
     set(KEYS.inspector, { collapsed: !!ui.inspectorCollapsed, open: ui.inspectorOpen });
-    set(KEYS.drawer, { open: !!ui.drawerOpen, height: ui.drawerHeight, section: ui.drawerSection || '' });
+    set(KEYS.drawer, { open: !!ui.drawerOpen, height: ui.drawerHeight, section: ui.drawerSection || '', size: ui.drawerSize || 'remembered', heights: ui.drawerHeights || {} });
     set(KEYS.split, ui.splitRatio);
     set(KEYS.results, ui.resultsSection);
   }

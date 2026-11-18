@@ -46,7 +46,7 @@
 .res-pick label { color: var(--ink-3); font-size: var(--fs-small); }
 .res-run { width: min(420px, 60vw); }
 .res-body { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: var(--sp-4); min-height: 0; }
-.res-nav { display: grid; gap: var(--sp-3); align-content: start; position: sticky; top: 0; }
+.res-nav { display: grid; gap: var(--sp-3); align-content: start; align-self: start; position: sticky; top: 0; max-height: 100dvh; overflow-y: auto; }   /* align-self:start so sticky has room to follow long content */
 .res-group h3 { font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); padding: 0 var(--sp-2) var(--sp-1); }
 .res-link { appearance: none; width: 100%; display: flex; align-items: center; gap: var(--sp-2); text-align: left; background: transparent; border: 0; border-radius: var(--r-md); padding: 7px var(--sp-2); color: var(--ink-2); font-size: var(--fs-control); }
 .res-link:hover { background: var(--surface-2); color: var(--ink); }
@@ -167,3 +167,20 @@ mark { background: var(--gold-dim); color: var(--gold-bright); border-radius: 2p
 .dr-pane .rsec-search { width: 140px; }
 .dr-pane .ov-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 .dr-pane .jt, .dr-pane .rawtxt, .dr-pane .code, .dr-pane .con { max-height: none; }
+/* Standalone Results page: ordinary document flow, no artificial vertical cutoff (the page scrolls, not nested boxes). */
+.page-results .jt, .page-results .rawtxt, .page-results .code, .page-results .con { max-height: none; }
+
+/* Cost section (Stage 2) */
+.cost-sub { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: var(--fs-small); color: var(--ink-2); }
+.cost-card[data-status="unpriced"] .v { color: var(--ink-3); font-style: italic; }
+.cost-card[data-status="partial"] .v { color: var(--warn); }
+.cost-tokens { margin-top: var(--sp-2); }
+.cost-attempt { border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); margin-top: var(--sp-2); }
+.cost-attempt > summary { cursor: pointer; padding: var(--sp-2) var(--sp-3); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.cost-attempt > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cost-attempt .tbl-wrap { border-width: 1px 0 0; border-radius: 0 0 var(--r-md) var(--r-md); }
+.cost-run { color: var(--ink-3); font-size: var(--fs-small); overflow-wrap: anywhere; }
+.cost-attempt .tbl th, .cost-attempt .tbl td { padding: 6px 10px; white-space: nowrap; }
+.cost-attempt .tbl { font-size: var(--fs-small); }
+.cost-model { max-width: 22ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cost-attempt tr[data-pricing="unpriced"] td:nth-last-child(2) { color: var(--ink-3); font-style: italic; }

@@ -72,7 +72,9 @@
     el.stage.textContent = stageTxt;
     var cap = '';
     if (run) {
+      var pcap = McA.selectors.progressCaption(v.progress);   // backend operation + unit count (structured runs only)
       if (run.cancelPending && running) cap = 'Cancelling…';
+      else if (running && pcap) cap = pcap;
       else if (running) cap = v.currentIndex >= 0 ? (v.stages[v.currentIndex].label + (v.caption ? ' · ' + v.caption : '')) : v.caption;
       else {
         var bad = v.stages.filter(function (x) { return x.state === 'failed' && x.detail; })[0];
@@ -80,6 +82,7 @@
       }
     } else if (running && s.run.kind === 'part') cap = 'The batch or run is working on another part.';
     el.caption.textContent = cap === stageTxt ? '' : cap;
+    el.caption.title = el.caption.textContent;
     el.demo.hidden = !(run && run.kind === 'demo');
     /* clock */
     var ms = run ? McA.selectors.runtimeMs(s) : null;
@@ -88,15 +91,23 @@
     if (running && !clock) clock = setInterval(function () { var ss = McA.store.get(), r = effective(ss), m = r ? McA.selectors.runtimeMs(ss) : null; el.clock.textContent = m !== null ? McA.util.fmtElapsed(m) : ''; el.clock.hidden = m === null; }, 1000);
     if (!running && clock) { clearInterval(clock); clock = null; }
     /* ring */
-    var pct = run ? v.percent : null, active = !!run && (typeof pct === 'number' || !running);
+    var exact = run && v.progress && v.progress.source === 'structured' && typeof v.progress.percent === 'number' ? v.progress.percent : null;
+    var structuredRun = !!(run && v.progress && v.progress.source === 'structured');
+    var pct = run ? (exact !== null ? exact : v.percent) : null;
+    /* A structured run that is still indeterminate shows the ring without a number (honest "working, not yet measurable"). */
+    var active = !!run && (typeof pct === 'number' || !running || structuredRun);
     el.pct.hidden = !active;
     if (active) {
       ringSVG(pct, run.state);
       var n = el.pct.querySelector('.trk-pct-n'); n.replaceChildren();
-      if (typeof pct === 'number') { n.textContent = pct + '%'; el.pct.setAttribute('aria-valuenow', String(pct)); el.pct.setAttribute('aria-valuetext', pct + ' percent'); }
+      if (typeof pct === 'number') {
+        var ptxt = McA.selectors.fmtPercent(pct);
+        n.textContent = ptxt + '%'; el.pct.setAttribute('aria-valuenow', String(pct));
+        el.pct.setAttribute('aria-valuetext', ptxt + ' percent' + (running && v.progress.operation ? ', ' + McA.selectors.progressCaption(v.progress) : ''));
+      }
       else {
         el.pct.removeAttribute('aria-valuenow');
-        if (running) el.pct.setAttribute('aria-valuetext', 'Starting');
+        if (running) el.pct.setAttribute('aria-valuetext', v.progress.source === 'structured' ? (McA.selectors.progressCaption(v.progress) || 'Working') + ', progress not yet measurable' : 'Starting');
         else { var ico = run.state === 'cancelled' ? 'dash' : 'x'; n.appendChild(McA.icons.get(ico, 16)); el.pct.setAttribute('aria-valuetext', RUN_LABEL[run.state] || 'Ended'); }
       }
       el.pct.classList.toggle('is-end', !running);
@@ -113,10 +124,13 @@
     if (left) el.resume.firstChild.textContent = 'Resume batch (' + left + ' part' + (left === 1 ? '' : 's') + ' left)';
     /* announcements: one per stage change */
     if (run && running) {
-      var key = run.id + ':' + v.currentIndex;
-      if (key !== lastAnnounce && v.currentIndex >= 0) {
+      /* Restrained: one announcement per stage or backend phase change, never per percent. */
+      var structured = v.progress && v.progress.source === 'structured' && v.progress.phase;
+      var key = run.id + ':' + (structured ? v.progress.phase : v.currentIndex);
+      if (key !== lastAnnounce && (structured || v.currentIndex >= 0)) {
         lastAnnounce = key;
-        McA.toast.announce('Stage ' + v.stageNumber + ' of ' + v.stageCount + ', ' + v.stages[v.currentIndex].label + ', running', 'info');
+        McA.toast.announce(structured ? McA.selectors.phaseLabel(v.progress.phase) + ' started'
+          : 'Stage ' + v.stageNumber + ' of ' + v.stageCount + ', ' + v.stages[v.currentIndex].label + ', running', 'info');
       }
     }
     lastView = v;
