@@ -1,17 +1,17 @@
 {
   "part": "A001211E",
-  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\A001211E_extraction.json",
+  "extraction": "reused C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\A001211E_extraction.json",
   "plan_attempts": 2,
   "gate1": "OK",
   "planned": 9,
   "questions": [],
   "flagged": [
-    "F004: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; D020 is the nominal major diameter, not the drill. Cosmetic thread, class unspecified.",
-    "F005: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs.",
-    "F006: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC.",
-    "F007: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs.",
-    "F008: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC.",
-    "F009: Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs."
+    "F004: Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC. D020 is the nominal thread major diameter, not the drill diameter.",
+    "F005: Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC.",
+    "F006: Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC.",
+    "F007: Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC.",
+    "F008: Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC.",
+    "F009: Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC."
   ],
   "defaults": [
     "D001: D9 4.38 -> 4.375 (two-place print of a 1/16 fraction)",
@@ -22,8 +22,8 @@
   "volume": 7.487063,
   "cq_skipped": {},
   "sw_ok": true,
-  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\121-B_ir.sldprt",
-  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\121-B_ir.stl",
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\121-B_ir.SLDPRT",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\121-B_ir.STL",
   "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001211E\\prevalidation.stl",
   "sw_features": {
     "F001": "built (Mid Plane)",
@@ -44,6 +44,6 @@
   "mti_review": [
     "[mti_hole_grouping] F004, F005, F006, F007, F008, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points"
   ],
-  "cost_usd": 0.8599,
+  "cost_usd": 0.4002,
   "error": ""
 }

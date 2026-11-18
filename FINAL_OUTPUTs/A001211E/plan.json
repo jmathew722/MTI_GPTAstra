@@ -49,7 +49,7 @@
     "features": [
       {
         "id": "F001",
-        "rationale": "Extrude the three-level plate outline to its uniform thickness.",
+        "rationale": "Extrude the dimensioned stepped plate outline to uniform thickness.",
         "source_callouts": [
           "6.88",
           "5.50",
@@ -106,7 +106,7 @@
       },
       {
         "id": "F002",
-        "rationale": "Left clearance hole at the dimensioned center.",
+        "rationale": "Left clearance hole through the plate.",
         "source_callouts": [
           ".406 DIA. THRU. (2) HL'S.",
           "2.250",
@@ -154,14 +154,14 @@
       },
       {
         "id": "F004",
-        "rationale": "Lower tapped hole in the left pair; drilling overshoots the plate thickness.",
+        "rationale": "Left lower tapped hole; drill extends beyond the plate thickness.",
         "source_callouts": [
           "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
           ".375",
           "2.938"
         ],
         "status": "planned",
-        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; D020 is the nominal major diameter, not the drill. Cosmetic thread, class unspecified.",
+        "justification": "Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC. D020 is the nominal thread major diameter, not the drill diameter.",
         "kind": "hole",
         "on": "face(F001,+Z)",
         "u": "D009",
@@ -179,14 +179,14 @@
       },
       {
         "id": "F005",
-        "rationale": "Upper tapped hole in the left pair using the typical offsets; depth overshoots thickness.",
+        "rationale": "Left upper tapped hole at the typical offsets; drill overshoots the thickness.",
         "source_callouts": [
           "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
           "1.156 TYP. \u00b1.005",
           "2.344 TYP. \u00b1.005"
         ],
         "status": "planned",
-        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs.",
+        "justification": "Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC.",
         "kind": "hole",
         "on": "face(F001,+Z)",
         "u": "D009 + D018",
@@ -204,14 +204,14 @@
       },
       {
         "id": "F006",
-        "rationale": "Lower tapped hole in the middle pair at its dimensioned position; depth overshoots thickness.",
+        "rationale": "Middle lower tapped hole at dimensioned coordinates; drill overshoots the thickness.",
         "source_callouts": [
           "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
           "2.875",
           "1.938"
         ],
         "status": "planned",
-        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC.",
+        "justification": "Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC.",
         "kind": "hole",
         "on": "face(F001,+Z)",
         "u": "D012",
@@ -229,14 +229,14 @@
       },
       {
         "id": "F007",
-        "rationale": "Upper tapped hole in the middle pair using the typical offsets; depth overshoots thickness.",
+        "rationale": "Middle upper tapped hole at the typical offsets; drill overshoots the thickness.",
         "source_callouts": [
           "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
           "1.156 TYP. \u00b1.005",
           "2.344 TYP. \u00b1.005"
         ],
         "status": "planned",
-        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs.",
+        "justification": "Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC.",
         "kind": "hole",
         "on": "face(F001,+Z)",
         "u": "D012 + D018",
@@ -254,14 +254,14 @@
       },
       {
         "id": "F008",
-        "rationale": "Lower tapped hole in the right pair at its dimensioned position; depth overshoots thickness.",
+        "rationale": "Right lower tapped hole at dimensioned coordinates; drill overshoots the thickness.",
         "source_callouts": [
           "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
           "5.375",
           ".938"
         ],
         "status": "planned",
-        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC.",
+        "justification": "Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC.",
         "kind": "hole",
         "on": "face(F001,+Z)",
         "u": "D013",
@@ -279,14 +279,14 @@
       },
       {
         "id": "F009",
-        "rationale": "Upper tapped hole in the right pair using the typical offsets; depth overshoots thickness.",
+        "rationale": "Right upper tapped hole at the typical offsets; drill overshoots the thickness.",
         "source_callouts": [
           "10-24 TAP THRU. (2) HL'S. (3) PL'S.",
           "1.156 TYP. \u00b1.005",
           "2.344 TYP. \u00b1.005"
         ],
         "status": "planned",
-        "justification": "Standard No.25 tap drill diameter .1495 inch for No.10-24 UNC; typical offsets apply to all three drawn pairs.",
+        "justification": "Standard Unified-thread tap-drill chart specifies No.25 drill (0.1495 inch) for 10-24 UNC.",
         "kind": "hole",
         "on": "face(F001,+Z)",
         "u": "D013 + D018",
@@ -304,10 +304,11 @@
       }
     ],
     "notes": [
-      "Material: 1018 STEEL. Drawing title: PLATE; model 250 BX.",
-      "Origin is the lower-left front outline corner at z=0; thickness extends toward +Z.",
-      "All eight holes pass through the plate. Tapped-hole cutting depth deliberately extends beyond the back face; threads are cosmetic.",
-      "No edge breaks, radii, finish, heat treatment, or thread fit class are specified."
+      "Material: 1018 STEEL. Title: PLATE. Model: 250 BX.",
+      "Origin is the lower-left corner of the front outline; thickness extends in +Z.",
+      "All eight holes pass through the plate. The tapped-hole cutting depths deliberately exceed the thickness; the threads are cosmetic and through the material only. Thread class is unspecified.",
+      "No chamfers, fillets, finish, or heat treatment are specified.",
+      "Explicit \u00b1.005 tolerances apply to D011, D017 and D018; otherwise use printed decimal-place tolerances."
     ]
   }
 }
