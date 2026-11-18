@@ -821,6 +821,35 @@ The full entry was kept local; add it here.
 - **Tests:** 1018 passed. This is live-only behaviour (it needs SolidWorks); the full rebuild
   above is the regression check.
 
+## E037 — Hole Wizard creation is unavailable through the API in this session; the plain-cut fallback hid it
+
+- **Seen:** 2026-11-18, SOLIDWORKS 2025 SP5 (33.5.0), window title "SOLIDWORKS Student Edition - Academic Use Only",
+  a session that already had other releases installed beside it (2026 as well).
+- **Symptoms (three independent signs, all on the same session):**
+  1. `FeatureManager.HoleWizard5(...)` returns `None` for the repo's own known-good Hole Wizard taps (`A040911E` F005/F006): the
+     build log says `HoleWizard5 refused Blind + drill point; plain cut` and the part still verifies (`sw_ok: true`) because the
+     plain cut has the same volume. Without reading the convention notes this looks like success.
+  2. `FeatureManager.CreateDefinition(swFmHoleWzd=25)` works, but `IWizardHoleFeatureData2.InitializeHole(...)` **blocks** (no
+     return after 60 s; killed by a watchdog). SolidWorks stayed responsive afterwards and no dialog was left open.
+  3. `ISldWorks.GetHoleStandardsData(g)` returns an object for 8 of the 9 families (Legacy returns `None`), but
+     `GetHoleStandards`, `GetFastenerTypes`, ... return `False` with empty arrays for every standard, with a part open and after a
+     build, through early- and late-bound calls.
+- **Root cause: not confirmed.** Consistent with the Hole Wizard/Toolbox data layer not being set up or enabled for this install
+  (the Toolbox browser parts exist under `C:\SOLIDWORKS Datarowser`, but no Hole Wizard database file was found there, and
+  almost every add-in is disabled at startup). It was *not* tested by enabling Toolbox, because that changes the user's
+  SolidWorks configuration. Earlier entries (E021/E022) verified Hole Wizard on another machine on 2026-10-11.
+- **What the demo plate proved NOT to prove:** its holes (8 mm, 20 mm) match no clearance size, so they were never Hole Wizard
+  features; a green build there says nothing about Hole Wizard. `A040911E` (3/8-16 taps) is the real control.
+- **Latent risk found on the way:** `connect_to_solidworks` loaded the *2026* constants type library (34.0) for a 2025 (33.5)
+  session. The hole enums are identical in both; other enums may not be.
+- **Generator rule (open):** a Hole Wizard refusal must not be reported as success. Today `compile_solidworks` logs a convention
+  note and builds a plain cut, which conflicts with the Stage 4 rule "no silent substitution". Not changed here (it belongs to
+  Stage 4 task 4.7); the new capability registry and live matrix report the refusal as `HW_CREATE_NULL`.
+- **Tools added:** `tools/read_sw_typelib.py` (reads enums/interfaces from the RUNNING install's type library, read-only),
+  `tests/fixtures/sw_hole_enums_2025.json`, `tests/test_hole_capabilities.py` (pins the 9 families / 81 variants to it).
+- **To unblock live verification:** enable the SOLIDWORKS Toolbox / Hole Wizard data for this install (or run on a machine where
+  `HoleWizard5` returns a feature for the `A040911E` control), then run the live matrix.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator
