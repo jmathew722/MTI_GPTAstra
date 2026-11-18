@@ -620,3 +620,12 @@ by volume IoU and Chamfer distance, which barely penalize a misplaced hole.
 | Original design | [docs/superpowers/specs/2026-06-11-2d-to-3d-solidworks-pipeline-design.md](docs/superpowers/specs/2026-06-11-2d-to-3d-solidworks-pipeline-design.md) |
 | Repo structure / cross-file connections | [graphify-out/GRAPH_REPORT.md](graphify-out/GRAPH_REPORT.md), `graphify-out/graph.html` |
 | Schema (the contract) | `2D-3D-CAD-Test-Generation/pipeline/schema.py` |
+
+
+## Stage 4 update (2026-11-18)
+
+Offline chain built and tested (1208 passed): hole-intent IR + migration, catalog resolver, typed adapter with readback, placement policy,
+CadQuery reference, acceptance-matrix generator/runner, loud (not silent) plain-cut substitution. 47 of 81 variants are
+`implemented_not_live_verified`, 34 `not_implemented` (10 legacy, 24 slots). **No variant is `verified`**: the live matrix is blocked at preflight
+(`InitializeHole` never returns on this SolidWorks 2025 Student session; E037), and the Hole Callout round trip is not implemented.
+See `docs/hole-wizard/support-status.md` and `matrix-results.json`.

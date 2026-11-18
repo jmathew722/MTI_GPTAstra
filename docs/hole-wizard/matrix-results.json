@@ -1,0 +1,1804 @@
+{
+ "generated_by": "tools/run_hole_wizard_matrix.py --plan",
+ "live_preflight": {
+  "code": "HW_DIALOG_BLOCKED",
+  "detail": "no return after 60s; process killed",
+  "preflight_variant": "swCounterBoreBlind"
+ },
+ "ran_at_epoch": 1795010850,
+ "rows": [
+  {
+   "family": "legacy",
+   "legacy": true,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swSimple",
+   "note": "legacy hole types are chosen only by an explicit policy, never from drawing text",
+   "reference": "n/a",
+   "resolution": null,
+   "selection": "HW_LEGACY_POLICY",
+   "status": "not_implemented",
+   "value": 0
+  },
+  {
+   "family": "legacy",
+   "legacy": true,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swTapered",
+   "note": "legacy hole types are chosen only by an explicit policy, never from drawing text",
+   "reference": "n/a",
+   "resolution": null,
+   "selection": "HW_LEGACY_POLICY",
+   "status": "not_implemented",
+   "value": 1
+  },
+  {
+   "family": "legacy",
+   "legacy": true,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBored",
+   "note": "legacy hole types are chosen only by an explicit policy, never from drawing text",
+   "reference": "n/a",
+   "resolution": null,
+   "selection": "HW_LEGACY_POLICY",
+   "status": "not_implemented",
+   "value": 2
+  },
+  {
+   "family": "legacy",
+   "legacy": true,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterSunk",
+   "note": "legacy hole types are chosen only by an explicit policy, never from drawing text",
+   "reference": "n/a",
+   "resolution": null,
+   "selection": "HW_LEGACY_POLICY",
+   "status": "not_implemented",
+   "value": 3
+  },
+  {
+   "family": "legacy",
+   "legacy": true,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterDrilled",
+   "note": "legacy hole types are chosen only by an explicit policy, never from drawing text",
+   "reference": "n/a",
+   "resolution": null,
+   "selection": "HW_LEGACY_POLICY",
+   "status": "not_implemented",
+   "value": 4
+  },
+  {
+   "family": "legacy",
+   "legacy": true,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swSimpleDrilled",
+   "note": "legacy hole types are chosen only by an explicit policy, never from drawing text",
+   "reference": "n/a",
+   "resolution": null,
+   "selection": "HW_LEGACY_POLICY",
+   "status": "not_implemented",
+   "value": 5
+  },
+  {
+   "family": "legacy",
+   "legacy": true,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swTaperedDrilled",
+   "note": "legacy hole types are chosen only by an explicit policy, never from drawing text",
+   "reference": "n/a",
+   "resolution": null,
+   "selection": "HW_LEGACY_POLICY",
+   "status": "not_implemented",
+   "value": 6
+  },
+  {
+   "family": "legacy",
+   "legacy": true,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoredDrilled",
+   "note": "legacy hole types are chosen only by an explicit policy, never from drawing text",
+   "reference": "n/a",
+   "resolution": null,
+   "selection": "HW_LEGACY_POLICY",
+   "status": "not_implemented",
+   "value": 7
+  },
+  {
+   "family": "legacy",
+   "legacy": true,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterSunkDrilled",
+   "note": "legacy hole types are chosen only by an explicit policy, never from drawing text",
+   "reference": "n/a",
+   "resolution": null,
+   "selection": "HW_LEGACY_POLICY",
+   "status": "not_implemented",
+   "value": 8
+  },
+  {
+   "family": "legacy",
+   "legacy": true,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterDrilledDrilled",
+   "note": "legacy hole types are chosen only by an explicit policy, never from drawing text",
+   "reference": "n/a",
+   "resolution": null,
+   "selection": "HW_LEGACY_POLICY",
+   "status": "not_implemented",
+   "value": 9
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_run",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed"
+    },
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "live_passed": [],
+   "name": "swCounterBoreBlind",
+   "reference": "ok",
+   "reference_volume_mm3": 815.268427,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 10
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterBoreBlindCounterSinkMiddle",
+   "reference": "ok",
+   "reference_volume_mm3": 934.020629,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 11
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterBoreBlindCounterSinkTop",
+   "reference": "ok",
+   "reference_volume_mm3": 934.020629,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 12
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterBoreBlindCounterSinkTopmiddle",
+   "reference": "ok",
+   "reference_volume_mm3": 1052.772832,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 13
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterBoreThru",
+   "reference": "ok",
+   "reference_volume_mm3": 1052.009424,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 14
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterBoreThruCounterSinkBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 1170.761626,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 15
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterBoreThruCounterSinkMiddle",
+   "reference": "ok",
+   "reference_volume_mm3": 1170.761626,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 16
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterBoreThruCounterSinkMiddleBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 1289.513829,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 17
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterBoreThruCounterSinkTop",
+   "reference": "ok",
+   "reference_volume_mm3": 1170.761626,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 18
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterBoreThruCounterSinkTopBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 1289.513829,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 19
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterBoreThruCounterSinkTopMiddle",
+   "reference": "ok",
+   "reference_volume_mm3": 1289.513829,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 20
+  },
+  {
+   "family": "counterbore",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterBoreThruCounterSinkTopMiddleBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 1408.266031,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 21
+  },
+  {
+   "family": "hole",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swHoleBlind",
+   "reference": "ok",
+   "reference_volume_mm3": 406.657179,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 22
+  },
+  {
+   "family": "hole",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swHoleBlindCounterSinkTop",
+   "reference": "ok",
+   "reference_volume_mm3": 525.409381,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 23
+  },
+  {
+   "family": "countersink",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterSinkBlind",
+   "reference": "ok",
+   "reference_volume_mm3": 543.26596,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 24
+  },
+  {
+   "family": "hole",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swHoleThru",
+   "reference": "ok",
+   "reference_volume_mm3": 643.398175,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 25
+  },
+  {
+   "family": "hole",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swHoleThruCounterSinkBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 762.150378,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 26
+  },
+  {
+   "family": "hole",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swHoleThruCounterSinkTop",
+   "reference": "ok",
+   "reference_volume_mm3": 762.150378,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 27
+  },
+  {
+   "family": "hole",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swHoleThruCounterSinkTopBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 880.90258,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 28
+  },
+  {
+   "family": "countersink",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterSinkThru",
+   "reference": "ok",
+   "reference_volume_mm3": 780.006957,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 29
+  },
+  {
+   "family": "countersink",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterSinkThruCounterSinkBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 898.75916,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 30
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapBlind",
+   "reference": "ok",
+   "reference_volume_mm3": 245.451008,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 31
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapBlindCounterSinkTop",
+   "reference": "ok",
+   "reference_volume_mm3": 406.015714,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 32
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThru",
+   "reference": "ok",
+   "reference_volume_mm3": 392.699082,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 33
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThruCounterSinkBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 553.263788,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 34
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThruCounterSinkTop",
+   "reference": "ok",
+   "reference_volume_mm3": 553.263788,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 35
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThruCounterSinkTopBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 713.828494,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 36
+  },
+  {
+   "family": "pipe_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swPipeTapBlind",
+   "reference": "ok",
+   "reference_volume_mm3": 245.451008,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 37
+  },
+  {
+   "family": "pipe_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swPipeTapBlindCounterSinkTop",
+   "reference": "ok",
+   "reference_volume_mm3": 406.015714,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 38
+  },
+  {
+   "family": "pipe_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swPipeTapThru",
+   "reference": "ok",
+   "reference_volume_mm3": 392.699082,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 39
+  },
+  {
+   "family": "pipe_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swPipeTapThruCounterSinkBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 553.263788,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 40
+  },
+  {
+   "family": "pipe_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swPipeTapThruCounterSinkTop",
+   "reference": "ok",
+   "reference_volume_mm3": 553.263788,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 41
+  },
+  {
+   "family": "pipe_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swPipeTapThruCounterSinkTopBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 713.828494,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 42
+  },
+  {
+   "family": "countersink",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterSinkBlindWithoutHeadClearance",
+   "reference": "ok",
+   "reference_volume_mm3": 543.26596,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 43
+  },
+  {
+   "family": "countersink",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterSinkThruWithoutHeadClearance",
+   "reference": "ok",
+   "reference_volume_mm3": 780.006957,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 44
+  },
+  {
+   "family": "countersink",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swCounterSinkThruCounterSinkBottomWithoutHeadClearance",
+   "reference": "ok",
+   "reference_volume_mm3": 898.75916,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 45
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapBlindCosmeticThread",
+   "reference": "ok",
+   "reference_volume_mm3": 245.451008,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 46
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapBlindCosmeticThreadCounterSinkTop",
+   "reference": "ok",
+   "reference_volume_mm3": 406.015714,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 47
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThruCosmeticThread",
+   "reference": "ok",
+   "reference_volume_mm3": 392.699082,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 48
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThruCosmeticThreadCounterSinkTop",
+   "reference": "ok",
+   "reference_volume_mm3": 553.263788,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 49
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThruCosmeticThreadCounterSinkBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 553.263788,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 50
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThruCosmeticThreadCounterSinkTopBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 713.828494,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 51
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThruThreadThru",
+   "reference": "ok",
+   "reference_volume_mm3": 392.699082,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 52
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThruThreadThruCounterSinkTop",
+   "reference": "ok",
+   "reference_volume_mm3": 553.263788,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 53
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThruThreadThruCounterSinkBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 553.263788,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 54
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapThruThreadThruCountersinkTopBottom",
+   "reference": "ok",
+   "reference_volume_mm3": 713.828494,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 55
+  },
+  {
+   "family": "straight_tap",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "blocked_by_preflight",
+    "error": {
+     "code": "HW_DIALOG_BLOCKED",
+     "detail": "no return after 60s; process killed",
+     "preflight_variant": "swCounterBoreBlind"
+    },
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
+   },
+   "name": "swTapBlindRemoveThread",
+   "reference": "ok",
+   "reference_volume_mm3": 245.451008,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
+   "selection": "ok",
+   "status": "implemented_not_live_verified",
+   "value": 56
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotBlind",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 57
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotBlindCounterSinkMiddle",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 58
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotBlindCounterSinkTop",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 59
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotBlindCounterSinkTopMiddle",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 60
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotThru",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 61
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotThruCounterSinkBottom",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 62
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotThruCounterSinkMiddle",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 63
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotThruCounterSinkMiddleBottom",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 64
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotThruCounterSinkTop",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 65
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotThruCounterSinkTopBottom",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 66
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotThruCounterSinkTopMiddle",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 67
+  },
+  {
+   "family": "counterbore_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterBoreSlotThruCounterSinkTopMiddleBottom",
+   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 68
+  },
+  {
+   "family": "slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swSlotBlind",
+   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "ok",
+   "reference_volume_mm3": 1430.518905,
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 69
+  },
+  {
+   "family": "slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swSlotBlindCounterSinkTop",
+   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "ok",
+   "reference_volume_mm3": 1549.271108,
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 70
+  },
+  {
+   "family": "countersink_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterSinkSlotBlind",
+   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 71
+  },
+  {
+   "family": "slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swSlotThru",
+   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "ok",
+   "reference_volume_mm3": 2384.198175,
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 72
+  },
+  {
+   "family": "slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swSlotThruCounterSinkBottom",
+   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "ok",
+   "reference_volume_mm3": 2502.950378,
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 73
+  },
+  {
+   "family": "slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swSlotThruCounterSinkTop",
+   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "ok",
+   "reference_volume_mm3": 2502.950378,
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 74
+  },
+  {
+   "family": "slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swSlotThruCounterSinkTopBottom",
+   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "ok",
+   "reference_volume_mm3": 2621.70258,
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 75
+  },
+  {
+   "family": "countersink_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterSinkSlotThru",
+   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 76
+  },
+  {
+   "family": "countersink_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterSinkSlotThruCounterSinkBottom",
+   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 77
+  },
+  {
+   "family": "countersink_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterSinkSlotBlindWithoutHeadClearance",
+   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 78
+  },
+  {
+   "family": "countersink_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterSinkSlotThruWithoutHeadClearance",
+   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 79
+  },
+  {
+   "family": "countersink_slot",
+   "legacy": false,
+   "live": {
+    "callout_roundtrip": "not_implemented",
+    "created": "not_attempted",
+    "geometry": "not_run",
+    "readback": "not_run",
+    "reopen": "not_run"
+   },
+   "name": "swCounterSinkSlotThruCounterSinkBottomWithoutHeadClearance",
+   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "unsupported",
+   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
+   "resolution": "HW_FASTENER_UNMAPPED",
+   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "selection": "ok",
+   "status": "not_implemented",
+   "value": 90
+  }
+ ],
+ "status_counts": {
+  "implemented_not_live_verified": 47,
+  "not_implemented": 34
+ },
+ "total": 81
+}

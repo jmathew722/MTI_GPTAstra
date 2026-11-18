@@ -362,3 +362,48 @@ def test_niladic_com_calls_never_use_explicit_parens():
     for niladic in ("EditRebuild3", "GetTitle", "ForceRebuild3"):
         assert f".{niladic}()" not in src, f"{niladic} must be called via _g(doc, \"{niladic}\"), not doc.{niladic}()"
     assert re.search(r'_g\(sw\.doc,\s*"EditRebuild3"\)', src), "the export must force a rebuild via _g() first"
+
+
+# --------------------------------------------------------------------------- #
+# A refused Hole Wizard call is never reported as Hole Wizard (Stage 4; error log E037)
+# --------------------------------------------------------------------------- #
+def _hw_ready(fake_sw, monkeypatch, refuse_with=None):
+    from pipeline.ir import compile_solidworks as cs
+    sw, doc = fake_sw({}, ref=9.0)
+    choice = {"kind": "hole", "type": 2, "standard": 0, "fastener": 22, "size": "1/4", "values": [-1.0] * 12,
+              "unitless": set(), "label": "Hole Wizard 1/4 clearance"}
+    monkeypatch.setattr(cs, "hole_wizard_choice", lambda *a: choice)
+    plain = cs.SwFeatureResult("F002", "built", note="")
+    monkeypatch.setattr(sw, "_plain_holes", lambda *a, **k: plain)
+    doc.Extension = type("Ext", (), {"SelectByRay": lambda self, *a: True})()
+    doc.ClearSelection2 = lambda *a: None
+    doc.FeatureManager.HoleWizard5 = lambda *a: None          # SolidWorks refuses
+    monkeypatch.setattr(sw, "volume", lambda: 10.0)
+    spec = type("S", (), {"d": "D001", "depth": None, "type": "thru", "thread": ""})()
+    monkeypatch.setattr(cs, "evaluate", lambda e, d: type("V", (), {"value": 0.266})())
+    return sw, spec
+
+
+def test_refusal_is_recorded_with_a_code_and_the_note_says_plain_cut(fake_sw, monkeypatch):
+    sw, spec = _hw_ready(fake_sw, monkeypatch)
+    monkeypatch.delenv("MTI_HOLE_WIZARD_STRICT", raising=False)
+    res = sw.holes("F002", [[1.0, 1.0]], spec, "Z", 0.0, 1)
+    assert res.status == "built" and res.note.startswith("PLAIN CUT, NOT Hole Wizard (HW_CREATE_NULL)")
+    assert sw.report.hole_wizard_substitutions == [
+        {"fid": "F002", "code": "HW_CREATE_NULL", "detail": "Hole Wizard 1/4 clearance: HoleWizard5 refused Up To Next"}]
+
+
+def test_strict_mode_fails_the_feature_instead_of_cutting(fake_sw, monkeypatch):
+    sw, spec = _hw_ready(fake_sw, monkeypatch)
+    monkeypatch.setenv("MTI_HOLE_WIZARD_STRICT", "1")
+    res = sw.holes("F002", [[1.0, 1.0]], spec, "Z", 0.0, 1)
+    assert res.status == "failed" and "HW_CREATE_NULL" in res.note and "strict" in res.note
+
+
+def test_a_hole_that_never_wanted_hole_wizard_is_not_flagged(fake_sw, monkeypatch):
+    from pipeline.ir import compile_solidworks as cs
+    sw, doc = fake_sw({}, ref=9.0)
+    monkeypatch.setattr(cs, "hole_wizard_choice", lambda *a: None)
+    monkeypatch.setattr(sw, "_plain_holes", lambda *a, **k: cs.SwFeatureResult("F002", "built", note="plain"))
+    res = sw.holes("F002", [[1.0, 1.0]], None, "Z", 0.0, 1)
+    assert res.note == "plain" and sw.report.hole_wizard_substitutions == []

@@ -128,6 +128,7 @@ class IRResult:
     prevalidation_stl: str = ""            # CadQuery mesh of the reference solid
     sw_features: dict = field(default_factory=dict)
     conventions: list[str] = field(default_factory=list)
+    hole_wizard_substitutions: list[dict] = field(default_factory=list)   # Hole Wizard -> plain cut, with codes
     mti_review: list[str] = field(default_factory=list)     # advisory MTI modeling-practice findings    # MTI modeling conventions applied / fallen back
     cost_usd: float = 0.0
     error: str = ""
@@ -240,6 +241,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
                 tel.complete(Phase.VERIFICATION, Op.VERIFY_CHECK, unit_id=name, label=f"Verified {name}")
             res.sw_ok, res.sldprt, res.stl = rep.ok, rep.sldprt or "", rep.stl or ""
             res.conventions = [f"origin centered: {rep.origin_ok}"] + rep.conventions
+            res.hole_wizard_substitutions = list(rep.hole_wizard_substitutions)
             res.sw_features = {f.fid: f.status + (f" ({f.note})" if f.note else "") for f in rep.features}
             log.info("[stage] verification: sw_ok=%s bbox_ok=%s volume_ok=%s",
                      res.sw_ok, rep.bbox_ok, rep.volume_ok)

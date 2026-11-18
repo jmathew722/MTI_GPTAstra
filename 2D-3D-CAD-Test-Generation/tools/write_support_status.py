@@ -33,7 +33,14 @@ def main():
     rows = [("hole", "swWzdHole (2)"), ("countersink", "swWzdCounterSink (1)"), ("counterbore", "swWzdCounterBore (0)"),
             ("straight_tap", "swWzdTap (4)"), ("pipe_tap", "swWzdPipeTap (3)"), ("counterbore_slot", "swWzdCounterBoreSlot (6)"),
             ("countersink_slot", "swWzdCounterSinkSlot (7)"), ("slot", "swWzdHoleSlot (8)"), ("legacy", "swWzdLegacy (5)")]
-    creation = {"hole": "implemented_not_live_verified", "counterbore": "implemented_not_live_verified", "straight_tap": "implemented_not_live_verified"}
+    mx = json.loads((ROOT.parent / "docs/hole-wizard/matrix-results.json").read_text(encoding="utf-8"))
+    by_fam: dict = {}
+    for r in mx["rows"]:
+        by_fam.setdefault(r["family"], set()).add(r["status"])
+    creation = {k: ("implemented_not_live_verified" if v == {"implemented_not_live_verified"} else "not_implemented")
+                for k, v in by_fam.items()}
+    counts = mx["status_counts"]
+    pre = mx.get("live_preflight", {}) or {}
     total = sum(int(v) for v in status.values())
     parsed = int(status.get("parsed", 0)) + int(status.get("parsed_with_ambiguity", 0))
     L = ["# Hole Wizard support status (Stage 4, task 4.14)", "",
@@ -59,11 +66,12 @@ def main():
           "`HoleWizard5` (clearance holes, socket-head counterbores, tapped holes with a cosmetic thread; error log E021/E022, verified on another "
           "machine on 2026-10-11). It does **not** cover the family's specific variants, and in this session that path was refused.", "",
           "## The 81 specific variants", "",
-          "All 81 are classified by `pipeline/ir/solidworks/hole_capabilities.py` (family, end condition, near/middle/far treatments, thread mode, "
-          "head clearance, candidate properties) and pinned to the installed type library by test. **Status of every one of the 81: "
-          "`not_implemented`** as a *targeted* creation (no code selects a specific variant), including the niche ones: pipe/taper taps (6), "
-          "the three slot families (24), countersink-without-head-clearance (6), thread-through / cosmetic / remove-thread taps (11), "
-          "and the 10 legacy types.", "",
+          "All 81 are classified by `pipeline/ir/solidworks/hole_capabilities.py` and pinned to the installed type library by test. "
+          "Each non-legacy variant has an exemplar intent that round-trips through `select_variant` to exactly itself (test). "
+          "**47** (hole 6, countersink 6, counterbore 12, straight taps 17, pipe taps 6) have the full offline chain (intent, selection, "
+          "catalog resolution, adapter with readback, reference geometry) and are `implemented_not_live_verified`: tested only against "
+          "fake COM objects. **34 are `not_implemented`**: the 10 legacy types (chosen only by explicit policy) and the 24 slot variants "
+          "(no fastener type is documented for slots, so `HW_FASTENER_UNMAPPED`; counterbore/countersink slot reference geometry is not modeled).", "",
           "| Group | Count | Notes |", "|---|---|---|"]
     for g, n, nt in [("legacy (0-9)", 10, "preserved by an explicit policy only"), ("counterbore (10-21)", 12, "blind/through x top/middle/bottom countersinks"),
                      ("hole + countersink (22-30, 43-45)", 12, "incl. 3 without head clearance"),
@@ -84,19 +92,21 @@ def main():
           f"callouts ({status.get('parsed_with_ambiguity', '0')} with a flagged ambiguity); families found: {', '.join(f'{k}={v}' for k, v in fam.items())}. "
           "Real drawings in this corpus contain **pipe threads** (`pipe_tap`), which the existing compiler deliberately leaves as plain cuts. "
           "See `callout-inventory.md`.", "",
-          "## Not done in Stage 4 (be explicit)", "", "| Task | State |", "|---|---|",
-          "| 4.3 versioned hole-intent IR + migration from `HoleSpec` | **not done** (the registry and parser exist; no IR model or migration) |",
-          "| 4.5 installed-catalog discovery | **not done**: `IHoleStandardsData` returns nothing here; no fake-COM adapter or resolver written |",
-          "| 4.7 typed creation adapters (7 slices) | **not done** |",
-          "| 4.8 placement policy incl. radial holes | **not done** |",
-          "| 4.9 CadQuery reference for the expanded geometry | **not done** |",
-          "| 4.10 `IWizardHoleFeatureData2` readback verification | **not done** (blocked at creation) |",
-          "| 4.11 Hole Callout round trip, save/reopen/rebuild | **not done** (blocked at creation) |",
-          "| 4.12 Advanced Hole / Hole Series IR + compiler status | registry/parser status only |",
-          "| 4.13 generated acceptance matrix over catalog x registry | **not done**; cannot run until Hole Wizard works here |", "",
+          "## Stage 4 task status", "", "| Task | State |", "|---|---|",
+          "| 4.3 versioned hole-intent IR + `HoleSpec` migration | done, tested (`hole_intent.py`) |",
+          "| 4.5 installed-catalog discovery + resolver | done against fakes; the real catalog enumerates nothing here (`HW_CATALOG_ENUMERATION_UNAVAILABLE`) |",
+          "| 4.7 typed creation adapter, no silent plain-cut | done against fakes (`hole_adapter.py`); compiler substitution is now recorded with a code, flagged as a finding, and `MTI_HOLE_WIZARD_STRICT=1` fails instead of cutting |",
+          "| 4.8 placement policy incl. radial holes | done, tested (`hole_placement.py`); the compiler's own radial-hole path is unchanged |",
+          "| 4.9 CadQuery reference geometry | done for 47 variants incl. plain slots; counterbore/countersink slots raise `ReferenceUnsupported` |",
+          "| 4.10 definition readback verification | done against fakes; never run live |",
+          "| 4.11 Hole Callout round trip | **not implemented** (needs a drawing document and the Hole Callout API); save/reopen is in the live runner but never ran |",
+          "| 4.12 Advanced Hole / Hole Series | classified and refused with codes (`HW_ADVANCED_HOLE`, `HW_HOLE_SERIES_NO_API`); no creation |",
+          "| 4.13 acceptance matrix | generator and live runner done (`tools/run_hole_wizard_matrix.py`); live run blocked at preflight |",
+          "| Live verification of any variant | **not possible in this session**: `InitializeHole` never returns |", "",
           "## Conflict recorded with an older rule", "",
-          "The compiler still turns a refused Hole Wizard call into a logged plain cut (`compile_solidworks.hole_wizard`). The Stage 4 rule forbids "
-          "reporting such a result as Hole Wizard support. It is unchanged here (task 4.7) and is exactly why E037 went unnoticed."]
+          "The compiler still builds a plain cut when Hole Wizard is refused, to keep parts building, but it is no longer silent: the note says "
+          "\"PLAIN CUT, NOT Hole Wizard (code)\", `hole_wizard_substitutions` is in the build report, a `hole_wizard_substituted` finding is raised, "
+          "and `MTI_HOLE_WIZARD_STRICT=1` fails the feature instead."]
     out = ROOT.parent / "docs/hole-wizard/support-status.md"
     out.write_text("\n".join(L) + "\n", encoding="utf-8")
     print(whole, total, parsed)

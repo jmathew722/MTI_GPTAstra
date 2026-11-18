@@ -30,6 +30,7 @@ WINDOWS ONLY at call time; imports cleanly anywhere (COM is imported lazily).
 from __future__ import annotations
 
 import math
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
@@ -182,6 +183,8 @@ class SwBuildReport:
     origin_ok: Optional[bool] = None   # MTI: base body centered on the origin (None = not checked)
     conventions: list[str] = field(default_factory=list)   # applied / fell back, for review
     sketches: dict[str, int] = field(default_factory=dict)  # sketch -> swConstrainedStatus_e (3 = fully defined)
+    # Hole Wizard features that became a PLAIN CUT: each is {fid, code, detail}. Never reported as Hole Wizard support.
+    hole_wizard_substitutions: list[dict] = field(default_factory=list)
 
     @property
     def ok(self) -> bool:
@@ -535,12 +538,31 @@ class _SW:
 
     def holes(self, fid: str, centers: list[list[float]], spec: dict, axis: str, coord: float, d: int,
               layout: Optional[str] = None):
+        """Hole Wizard when the convention and the hole allow it. A refusal is NEVER silent: it is recorded in
+        ``report.hole_wizard_substitutions`` with a structured code, the feature note says it is a plain cut and not
+        Hole Wizard, and ``MTI_HOLE_WIZARD_STRICT=1`` fails the feature instead of cutting (error log E037)."""
+        self._hw_sub = None
         if self.convention == "mti":
             choice = hole_wizard_choice(spec, self.dims, self.plan.frame.units)
             if choice:
                 res = self.hole_wizard(fid, centers, spec, axis, coord, d, choice, layout)
                 if res is not None:
                     return res
+                if os.environ.get("MTI_HOLE_WIZARD_STRICT") == "1":
+                    code, why = self._hw_sub or ("HW_UNKNOWN", "")
+                    return SwFeatureResult(fid, "failed", note=f"Hole Wizard required (strict) but unavailable: {code} {why}".strip())
+        res = self._plain_holes(fid, centers, spec, axis, coord, d, layout)
+        if self._hw_sub and res is not None and res.status == "built":
+            code, why = self._hw_sub
+            res.note = f"PLAIN CUT, NOT Hole Wizard ({code})" + (f": {res.note}" if res.note else "")
+        return res
+
+    def _hw_substituted(self, fid: str, code: str, detail: str) -> None:
+        self._hw_sub = (code, detail)
+        self.report.hole_wizard_substitutions.append({"fid": fid, "code": code, "detail": detail})
+
+    def _plain_holes(self, fid: str, centers: list[list[float]], spec: dict, axis: str, coord: float, d: int,
+                     layout: Optional[str] = None):
         coord -= self.shift["XYZ".index(axis)]
         plane, sign = self.sketch_on(axis)
         sm = self.doc.SketchManager
@@ -618,6 +640,7 @@ class _SW:
             if not self.doc.Extension.SelectByRay(*(p0[i] - into[i] * eps for i in range(3)), *into,
                                                    1e-5, 2, False, 0, 0):   # swSelFACES
                 self.report.conventions.append(f"{fid}: no start face under the hole; plain cut")
+                self._hw_substituted(fid, "HW_NO_START_FACE", "no start face under the hole")
                 return None
             feat = self.doc.FeatureManager.HoleWizard5(
                 choice["type"], choice["standard"], choice["fastener"], choice["size"], end,
@@ -641,6 +664,8 @@ class _SW:
             why = "volume" if placed else "points"
             self.delete_feature(feat, before, fid)
         self.report.conventions.append(f"{fid}: {choice['label']} did not match the reference ({why}); plain cut")
+        code = {"volume": "HW_VOLUME_MISMATCH", "points": "HW_PLACEMENT_FAILED"}.get(why, "HW_CREATE_NULL")
+        self._hw_substituted(fid, code, f"{choice['label']}: {why}")
         return None
 
     def delete_feature(self, feat, volume_before: float, fid: str) -> None:

@@ -850,6 +850,12 @@ The full entry was kept local; add it here.
 - **To unblock live verification:** enable the SOLIDWORKS Toolbox / Hole Wizard data for this install (or run on a machine where
   `HoleWizard5` returns a feature for the `A040911E` control), then run the live matrix.
 
+- **Update 2026-11-18 (later):** the generator rule is now met. A refused Hole Wizard call is recorded in
+  `report.hole_wizard_substitutions` (codes `HW_CREATE_NULL`, `HW_VOLUME_MISMATCH`, `HW_PLACEMENT_FAILED`, `HW_NO_START_FACE`), the feature
+  note reads "PLAIN CUT, NOT Hole Wizard", a `hole_wizard_substituted` finding is raised, and `MTI_HOLE_WIZARD_STRICT=1` fails the feature.
+  Tests: `test_ir_compile_solidworks.py` (3), `test_findings.py`. The live matrix (`tools/run_hole_wizard_matrix.py --live`) reproduced the
+  blocker: the preflight variant hit `HW_DIALOG_BLOCKED` (no return after 60 s), so no variant was attempted live.
+
 ## Open watch-list (not yet seen at runtime)
 
 - `SketchManager.AddToDB` is not set by the v1 COM builder or the VBA generator

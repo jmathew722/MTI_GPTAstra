@@ -121,3 +121,11 @@ def test_legacy_discrepancy_json_migrates_without_touching_the_file(tmp_path):
     assert fs[0].source_callouts == ["ALL CHAMFERS"] or "ALL CHAMFERS" in " ".join(fs[0].source_callouts)
     assert all(f.evidence_ids for f in fs)
     assert any("F004" in f.feature_ids for f in fs)
+
+
+def test_a_hole_wizard_substitution_becomes_a_warning_finding_with_its_code(tmp_path):
+    out = _run_dir(tmp_path, hole_wizard_substitutions=[{"fid": "F004", "code": "HW_CREATE_NULL", "detail": "HoleWizard5 refused"}])
+    fs = [f for f in findings_from_run(out, "r") if f.category == "hole_wizard_substituted"]
+    assert len(fs) == 1 and fs[0].severity == "warning" and fs[0].feature_ids == ["F004"]
+    assert "HW_CREATE_NULL" in fs[0].actual and "E037" in fs[0].recommended_action
+    assert fs[0].source_callouts == ["Ø.250 THRU"]                # linked to the callout so it can be drawn on the sheet
