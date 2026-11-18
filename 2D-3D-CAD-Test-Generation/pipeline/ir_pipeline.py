@@ -133,6 +133,10 @@ class IRResult:
     error: str = ""
 
 
+def _tracker_run_id(tracker) -> str:
+    return getattr(tracker, "run_id", "") or "run_untracked"
+
+
 def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pmap=None,
              template: Optional[str] = None, reuse_plan: bool = False, telemetry=None) -> IRResult:
     from pipeline import budget
@@ -248,6 +252,8 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
     finally:
         res.cost_usd = round(budget.spent_usd() - spent0, 4)
         (out / "ir_report.json").write_text(json.dumps(res.__dict__, indent=2, default=str), encoding="utf-8")
+        from pipeline.flag_overlays import maybe_write_flags      # automatic engineering flags over the drawing
+        maybe_write_flags(out, spec.views, run_id=tel.run_id or _tracker_run_id(_tracker))
         if res.error or res.gate1 in ("REJECT", "NO PLAN"):
             tel.fail(res.error or res.gate1)
         else:

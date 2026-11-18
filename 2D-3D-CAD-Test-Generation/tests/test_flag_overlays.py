@@ -264,3 +264,33 @@ def test_labels_stay_fully_on_the_displayed_page_and_upright(tmp_path, rot):
         assert r.x0 >= -0.5 and r.y0 >= -0.5 and r.x1 <= page.rect.width + 0.5 and r.y1 <= page.rect.height + 0.5
     assert max(r.y0 for r in shown) - min(r.y0 for r in shown) < 3        # one horizontal line as displayed: upright, not stacked
     assert min(r.x0 for r in shown) < max(r.x0 for r in shown)           # and reading left to right
+
+
+# ---- pipeline hook: automatic, flag-gated, never breaks a build ----------------------------------
+def _run_dir(tmp_path):
+    out = tmp_path / "P1"
+    out.mkdir()
+    pdf = make_pdf(out / "d.pdf")
+    (out / "ir_report.json").write_text(json.dumps({"part": "P1", "cq_skipped": {"F003": "no depth"}}), encoding="utf-8")
+    (out / "plan.json").write_text(json.dumps({"plan": {"features": [{"id": "F003", "source_callouts": [CALLOUT]}]}}), encoding="utf-8")
+    return out, pdf
+
+
+def test_the_pipeline_hook_is_off_unless_the_feature_flag_is_set(tmp_path):
+    from pipeline.flag_overlays import maybe_write_flags
+    out, pdf = _run_dir(tmp_path)
+    assert maybe_write_flags(out, pdf, run_id="r", env={}) is None
+    assert not (out / "engineering_flag_overlays.json").exists()
+    res = maybe_write_flags(out, pdf, run_id="r", env={"GPTASTRA_AUTO_ENGINEERING_FLAGS": "1"})
+    assert res["overlays"] == 1 and (out / "engineering_flag_overlays.json").is_file()
+
+
+def test_the_pipeline_hook_never_raises_and_skips_unsupported_sources(tmp_path):
+    from pipeline.flag_overlays import maybe_write_flags
+    out, _ = _run_dir(tmp_path)
+    env = {"GPTASTRA_AUTO_ENGINEERING_FLAGS": "1"}
+    assert maybe_write_flags(out, tmp_path / "does_not_exist.pdf", run_id="r", env=env) is None        # no drawing file
+    assert maybe_write_flags(out, out, run_id="r", env=env) is None                                    # a folder of views
+    bad = out / "broken.pdf"
+    bad.write_bytes(b"not a pdf")
+    assert maybe_write_flags(out, bad, run_id="r", env=env) is None                                    # unreadable: logged, not raised

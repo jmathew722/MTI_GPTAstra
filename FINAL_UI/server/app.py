@@ -40,6 +40,7 @@ from pydantic import BaseModel
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import telemetry as _telemetry  # noqa: E402  structured run events (Stage 1)
 import costs as _costs  # noqa: E402  ledger cost scopes (Stage 2)
+import flags as _flags  # noqa: E402  engineering-flag artifacts (Stage 3)
 
 # FINAL_UI/server/app.py. The pipeline repo (main.py + pipeline/ + samples) is
 # external and chosen by the launcher through MCAGENT_REPO.
@@ -254,6 +255,7 @@ def _start_run(cmd: list[str], output_dir: Path, run_id: str | None = None,
     env.setdefault("PYTHONIOENCODING", "utf-8")
     env.setdefault("COLUMNS", "120")
     env.setdefault("GPTASTRA_STRUCTURED_EVENTS", "1")   # structured progress + cost events
+    env.setdefault("GPTASTRA_AUTO_ENGINEERING_FLAGS", "1")   # automatic red flags over the drawing
 
     def _worker():
         try:
@@ -943,7 +945,35 @@ def _telemetry_for(out: Path) -> dict:
     return snap
 
 
-def _categorize_output(out: Path) -> dict:
+def _current_source_sha(session: str | None, part: str) -> str | None:
+    """SHA-256 of the drawing the pipeline reads for this part NOW (the untouched original, else the full-sheet
+    image). Engineering-flag overlays are only drawn when this equals the hash they were computed for."""
+    if not session:
+        return None
+    try:
+        sdir = _session_dir(session)
+    except HTTPException:
+        return None
+    cands = sorted((sdir / ORIGINALS_DIRNAME).glob(f"{_sanitize(part)}.*")) if (sdir / ORIGINALS_DIRNAME).is_dir() else []
+    cands = [p for p in cands if p.is_file()] or sorted((sdir / _sanitize(part)).glob("00_full.*"))
+    if not cands:
+        return None
+    import hashlib
+    h = hashlib.sha256()
+    with open(cands[0], "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _flags_for(out: Path, session: str | None) -> dict:
+    pname = out.parent.name if out.name == "output" else out.name
+    tel = _telemetry_for(out)
+    return _flags.load_flags(out, current_sha=_current_source_sha(session, pname),
+                             latest_run_id=tel.get("run_id") if tel.get("source") == "structured" else None)
+
+
+def _categorize_output(out: Path, session: str | None = None) -> dict:
     """Categorise a pipeline output dir into the shape the output tabs consume.
     Shared by run-id-scoped and per-part outputs so both render identically —
     the UI reads the SAME files written to disk (one source of truth)."""
@@ -1004,6 +1034,7 @@ def _categorize_output(out: Path) -> dict:
             "ir_report": ir_report_cat,
             "usage": _usage_summary(out),
             "telemetry": _telemetry_for(out),
+            "flags": _flags_for(out, session),
             "macros": {"present": bool(macros_files), "files": macros_files},
             "sldprt": {"present": bool(_first(out, ["*.sldprt"]))},
             "stl": {"present": stl is not None, "name": stl.name if stl else None,
@@ -1742,7 +1773,7 @@ def part_outputs(session: str, part: str):
     if not pdir.is_dir():
         raise HTTPException(404, "Unknown part")
     out_dir = _part_output_dir(session, part)
-    payload = _categorize_output(out_dir)
+    payload = _categorize_output(out_dir, session=session)
     # Cumulative session cost: sum every part's ledger in this session.
     session_total = 0.0
     session_rows: list[dict] = []
@@ -1776,6 +1807,30 @@ def part_ledger(session: str, part: str):
     body = "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows)
     return Response(body, media_type="application/x-ndjson",
                     headers={"Content-Disposition": f'attachment; filename="{pname}_usage_ledger.jsonl"'})
+
+
+class ReviewReq(BaseModel):
+    state: str
+    reason: str = ""
+
+
+@app.get("/api/parts/{session}/{part}/flags")
+def part_flags(session: str, part: str):
+    """Validated engineering flags for one part (the same object the part outputs carry)."""
+    if not (_session_dir(session) / _sanitize(part)).is_dir():
+        raise HTTPException(404, "Unknown part")
+    return _flags_for(_part_output_dir(session, part), session)
+
+
+@app.post("/api/parts/{session}/{part}/flags/{finding_id}/review")
+def review_flag(session: str, part: str, finding_id: str, req: ReviewReq):
+    """A person's decision about a flag (acknowledge / corrected / dismissed). Never edits the pipeline's finding."""
+    if not (_session_dir(session) / _sanitize(part)).is_dir():
+        raise HTTPException(404, "Unknown part")
+    try:
+        return _flags.set_review(_part_output_dir(session, part), finding_id, req.state, req.reason)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
 
 
 # ── Scoring Rubric ──────────────────────────────────────────────────────────

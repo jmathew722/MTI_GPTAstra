@@ -15,12 +15,16 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 from pathlib import Path
 from typing import Any, Mapping, Optional
 
 from pipeline.findings import Finding, findings_from_run
 from pipeline.flag_locator import Box, PageData, locate_callout
+from utils.logger import get_logger
+
+log = get_logger()
 
 OVERLAY_SCHEMA_VERSION = 1
 OCR_DPI = 150
@@ -293,6 +297,27 @@ def render_annotated_pdf(artifact: Mapping[str, Any], findings: list, source: Pa
 # --------------------------------------------------------------------------- #
 # Orchestration
 # --------------------------------------------------------------------------- #
+_SOURCE_SUFFIXES = {".pdf", ".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp"}
+
+
+def maybe_write_flags(out: Path, source: Path, *, run_id: str, env: Optional[Mapping[str, str]] = None) -> Optional[dict]:
+    """The pipeline hook: write the flags automatically when ``GPTASTRA_AUTO_ENGINEERING_FLAGS=1``. Never raises
+    (a flags problem must not fail a build) and returns None when it did nothing."""
+    env = os.environ if env is None else env
+    if env.get("GPTASTRA_AUTO_ENGINEERING_FLAGS") != "1":
+        return None
+    try:
+        src = Path(source)
+        if src.is_dir():                                   # a views folder: the full sheet is the drawing
+            src = next((p for p in sorted(src.glob("00_full.*")) if p.suffix.lower() in _SOURCE_SUFFIXES), src)
+        if not src.is_file() or src.suffix.lower() not in _SOURCE_SUFFIXES:
+            return None
+        return write_flags(out, src, run_id=run_id)
+    except Exception as e:   # noqa: BLE001 - deliberate: engineering flags are advisory output
+        log.warning("Engineering flags were not written for %s: %s: %s", Path(out).name, type(e).__name__, e)
+        return None
+
+
 def write_flags(out: Path, source: Path, *, run_id: str, developer_positions: Optional[Mapping[str, Mapping[str, Any]]] = None) -> dict:
     """Findings -> automatic placement -> artifacts beside the run's other outputs. Returns a small summary.
     ``out/markup_positions*.json`` is never read."""
