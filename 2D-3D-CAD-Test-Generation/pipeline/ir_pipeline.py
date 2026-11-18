@@ -134,26 +134,41 @@ class IRResult:
 
 
 def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pmap=None,
-             template: Optional[str] = None, reuse_plan: bool = False) -> IRResult:
+             template: Optional[str] = None, reuse_plan: bool = False, telemetry=None) -> IRResult:
     from pipeline import budget
     from pipeline.ir.compile_cadquery import emit_script, run_script
     from pipeline.ir.from_v1 import dims_of, reference_ids
     from pipeline.planner import OpenAIPlanner
     from pipeline.schema import DrawingData
+    from pipeline.progress import Op, Phase
+    from pipeline.telemetry import RunTelemetry
     from pipeline.token_tracker import scope
     from run_models import resolve_unknowns
 
     out = out_root / spec.part
     out.mkdir(parents=True, exist_ok=True)
+    tel = telemetry if telemetry is not None else RunTelemetry.from_env(spec.part, out)
+    tel.start()
     res = IRResult(spec.part)
     spent0 = budget.spent_usd()
     try:
         images = images_for(spec)
+        tel.plan(Phase.INGEST, 1, 1, "drawings")
+        tel.plan(Phase.EXTRACTION, len(images), 1, "views")
+        tel.plan(Phase.RESOLUTION, 1, 1, "passes")
+        tel.plan(Phase.BUILD_PLAN, 1, 1, "plans")
+        tel.plan(Phase.REFERENCE_BUILD, 1, 1, "reference solids")
+        tel.plan(Phase.ARTIFACT_FINALIZATION, 1, 1, "artifacts")
+        tel.complete(Phase.INGEST, Op.INGEST_DRAWING, label=f"Prepared {len(images)} drawing image(s)")
         log.info("[stage] extraction: reading %d image(s) for %s", len(images), spec.part)
         with scope(part=spec.part):
+            tel.begin(Phase.EXTRACTION, Op.EXTRACT_VIEW, "Reading the drawing")
             raw, res.extraction = get_extraction(spec, images, out, reuse)
+            for i in range(len(images)):   # the extraction call returned: every view is read
+                tel.complete(Phase.EXTRACTION, Op.EXTRACT_VIEW, unit_id=f"view_{i}")
             log.info("[stage] resolution: resolving ambiguous references for %s", spec.part)
             resolve_unknowns(raw, spec.part)
+            tel.complete(Phase.RESOLUTION, Op.RESOLVE_AMBIGUITY, label="Resolved ambiguous references")
             m = DrawingData.model_validate(raw)
             dims, refs = dims_of(m), reference_ids(m)
             saved = out / "plan.json"
@@ -166,6 +181,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
             else:
                 pr = OpenAIPlanner().plan(m, [(label, b64) for label, _, b64 in images], dims, refs)
         res.plan_attempts = pr.attempts
+        tel.complete(Phase.BUILD_PLAN, Op.BUILD_PLAN, label="Build plan ready")
         if pr.plan is None:
             res.gate1, res.error = "NO PLAN", pr.error
             return res
@@ -193,12 +209,26 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
         log.info("[stage] generation_start: building the CadQuery reference for %s", spec.part)
         cq = run_script(emit_script(plan, dims, strict=False), out)
         res.reference_step, res.volume, res.cq_skipped = str(cq.step_path), cq.feature_map["volume"], cq.feature_map["skipped"]
+        tel.complete(Phase.REFERENCE_BUILD, Op.REFERENCE_FEATURE, label="Reference solid built")
         log.info("[stage] generation_reference: reference built, volume=%s", res.volume)
         preval = out / "prevalidation.stl"
         res.prevalidation_stl = str(preval) if preval.is_file() else ""
         if sw_app is not None:
             from pipeline.ir.compile_solidworks import compile_solidworks
-            rep = compile_solidworks(sw_app, plan, dims, cq.feature_map, out, template, pmap)
+            tel.plan(Phase.SOLIDWORKS_GENERATION, len(plan.features), 2, "features")   # creation + readback
+            tel.plan(Phase.VERIFICATION, 3, 1, "checks")
+
+            def _on_feature(f, r):
+                if r.status == "failed":
+                    tel.operation_failed(Phase.SOLIDWORKS_GENERATION, Op.CREATE_FEATURE, f.id, r.note)
+                tel.complete(Phase.SOLIDWORKS_GENERATION, Op.CREATE_FEATURE, unit_id=f.id,
+                             label=f"{f.id} {f.kind}: {r.status}")
+            rep = compile_solidworks(sw_app, plan, dims, cq.feature_map, out, template, pmap,
+                                     progress=_on_feature)
+            tel.complete_remaining(Phase.SOLIDWORKS_GENERATION, Op.CREATE_FEATURE,
+                                   "Merged and skipped features accounted")
+            for name in ("origin", "bbox", "volume"):
+                tel.complete(Phase.VERIFICATION, Op.VERIFY_CHECK, unit_id=name, label=f"Verified {name}")
             res.sw_ok, res.sldprt, res.stl = rep.ok, rep.sldprt or "", rep.stl or ""
             res.conventions = [f"origin centered: {rep.origin_ok}"] + rep.conventions
             res.sw_features = {f.fid: f.status + (f" ({f.note})" if f.note else "") for f in rep.features}
@@ -213,6 +243,12 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
     finally:
         res.cost_usd = round(budget.spent_usd() - spent0, 4)
         (out / "ir_report.json").write_text(json.dumps(res.__dict__, indent=2, default=str), encoding="utf-8")
+        if res.error or res.gate1 in ("REJECT", "NO PLAN"):
+            tel.fail(res.error or res.gate1)
+        else:
+            tel.complete(Phase.ARTIFACT_FINALIZATION, Op.FINALIZE_ARTIFACT, label="Report written")
+            tel.finish()
+        tel.close()
     return res
 
 

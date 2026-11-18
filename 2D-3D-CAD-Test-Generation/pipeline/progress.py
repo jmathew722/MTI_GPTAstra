@@ -84,6 +84,18 @@ class ProgressEngine:
         self._active, self._label = (phase, op), label
         self._publish()
 
+    def complete_remaining(self, phase: Phase, op: Op, label: str = "") -> int:
+        """Account for units that were merged or skipped (a hole + its pattern built as one
+        feature). Returns how many were closed out."""
+        st = self._phases.get(phase)
+        if st is None or st.done >= st.total:
+            return 0
+        n = st.total - st.done
+        st.done = st.total
+        self._active, self._label = (phase, op), label
+        self._publish()
+        return n
+
     def finish(self) -> None:
         if any(s.done < s.total for s in self._phases.values()):
             raise ValueError("cannot finish: planned work remains")
