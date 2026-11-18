@@ -552,9 +552,10 @@
       var folder = $('batch-folder');
       folder.addEventListener('change', function () { var a = Array.prototype.slice.call(folder.files); folder.value = ''; handleFolder(a); });
       $('part-name').addEventListener('input', function (e) { patchIntake({ nameDraft: e.target.value }); });
-      $('part-notes').addEventListener('input', function (e) { notesDirty = true; patchIntake({ notesDraft: e.target.value }); });
+      // #part-notes / #save-notes-btn no longer exist in static HTML -- Must-Meet Specs moved
+      // into Pipeline Results (ui/results.js R.must_meet), which creates fresh elements and
+      // wires them to setNotesDraft()/saveNotes() directly every time that tab renders.
       $('save-part-btn').addEventListener('click', savePart);
-      $('save-notes-btn').addEventListener('click', saveNotes);
       var pull = $('pull-crops-inline-btn');            // removed with the views controls
       if (pull) pull.addEventListener('click', pullCrops);
       ['intake-file-lbl', 'batch-folder-lbl'].forEach(function (id) {

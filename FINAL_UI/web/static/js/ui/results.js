@@ -266,6 +266,12 @@
       ta, h('div', { class: 'row2' }, ed, run), why);
     if (McA.run && McA.run.renderCorr) {
       ta.addEventListener('focus', function () { ta.rows = 6; });
+      ta.addEventListener('blur', function () { if (!ta.value.trim()) ta.rows = 2; });
+      ta.addEventListener('input', function () {
+        var sl = McA.store.get().parts.selected;
+        if (sl && McA.persist) McA.persist.corr.set(sl.session, sl.part, ta.value);
+        McA.run.renderCorr();
+      });
       ed.addEventListener('click', McA.run.openEditor);
       run.addEventListener('click', function () { if (this.getAttribute('aria-disabled') !== 'true') McA.run.rerunWithCorrection(); });
       McA.run.renderCorr();

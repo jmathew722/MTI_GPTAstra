@@ -472,17 +472,12 @@
     ['server', 'parts', 'run', 'batch'].forEach(function (k) { store.subscribe(function (s) { return s[k]; }, renderActions); });
     renderActions();
 
-    /* Corrections */
-    var ta = $('feedback-text');
-    ta.addEventListener('focus', function () { ta.rows = 6; });
-    ta.addEventListener('blur', function () { if (!ta.value.trim()) ta.rows = 2; });
-    ta.addEventListener('input', function () {
-      var sl = store.get().parts.selected;
-      if (sl) persist.corr.set(sl.session, sl.part, ta.value);
-      renderCorr();
-    });
-    $('open-editor-btn').addEventListener('click', openEditor);
-    $('rerun-feedback-btn').addEventListener('click', function () { if (this.getAttribute('aria-disabled') !== 'true') rerunWithCorrection(); });
+    /* Corrections: the fields themselves (#feedback-text etc.) no longer exist in static
+       HTML -- they moved into Pipeline Results (ui/results.js R.corrections), which creates
+       fresh elements and wires focus/click directly to McA.run.openEditor/rerunWithCorrection
+       every time that tab renders. Only the store subscriptions survive here, so renderCorr()
+       (guarded: it no-ops via "if (!ta) return" when the tab isn't mounted) still keeps the
+       section in sync with server/parts/run/outputs changes while it IS open. */
     ['server', 'parts', 'run'].forEach(function (k) { store.subscribe(function (s) { return s[k]; }, renderCorr); });
     store.subscribe(function (s) { return s.outputs.payload; }, renderCorr);
     renderCorr();
