@@ -83,3 +83,21 @@ def test_saved_events_are_replayed_and_old_runs_are_labeled_legacy(tmp_path):
 def test_outputs_payload_carries_telemetry(tmp_path):
     cats = appmod._categorize_output(tmp_path)
     assert cats["categories"]["telemetry"]["source"] == "legacy_log_parser"
+
+
+def test_usage_payload_reads_the_shared_pipeline_ledger(tmp_path):
+    part = tmp_path / "P9"
+    part.mkdir()
+    rows = [{"ts": "2026-11-18T00:00:00+00:00", "run_id": "r1", "run_attempt": 1, "row_id": "a", "role": "planner",
+             "provider": "p", "model": "m", "part": "P9", "input_tokens": 10, "output_tokens": 5, "cache_read_tokens": 0,
+             "cache_write_tokens": 0, "cost_usd": None, "priced": False},
+            {"ts": "2026-11-18T00:00:01+00:00", "run_id": "r1", "run_attempt": 1, "row_id": "b", "role": "planner",
+             "provider": "p", "model": "m", "part": "OTHER", "input_tokens": 10, "output_tokens": 5, "cache_read_tokens": 0,
+             "cache_write_tokens": 0, "cost_usd": 1.0, "priced": True}]
+    (tmp_path / "usage").mkdir()
+    (tmp_path / "usage" / "usage_ledger.jsonl").write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
+    usage = appmod._categorize_output(part)["categories"]["usage"]
+    assert usage["present"] is True
+    assert usage["ledger"]["scopes"]["part"]["pricing_status"] == "unpriced"      # truthful: no price, not $0
+    assert usage["ledger"]["scopes"]["part"]["cost_usd"] is None
+    assert usage["ledger"]["total_rows"] == 1                                        # OTHER's row is not P9's

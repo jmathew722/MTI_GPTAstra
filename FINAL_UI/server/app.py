@@ -39,6 +39,7 @@ from pydantic import BaseModel
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import telemetry as _telemetry  # noqa: E402  structured run events (Stage 1)
+import costs as _costs  # noqa: E402  ledger cost scopes (Stage 2)
 
 # FINAL_UI/server/app.py. The pipeline repo (main.py + pipeline/ + samples) is
 # external and chosen by the launcher through MCAGENT_REPO.
@@ -746,6 +747,10 @@ def _usage_summary(out: Path) -> dict:
                 except Exception:
                     continue
     total_cost = round(sum(r.get("cost_usd", 0.0) for r in rows), 4)
+    pname = out.parent.name if out.name == "output" else out.name
+    led = _costs.summarize(_costs.read_rows(_costs.ledger_paths(out)), part=pname)
+    if led["present"] and led["scopes"]["part"]["cost_usd"] is not None:
+        total_cost = float(led["scopes"]["part"]["cost_usd"])   # the pipeline ledger is the source of truth
     ledger_text = None
     if txt.is_file():
         try:
@@ -753,7 +758,8 @@ def _usage_summary(out: Path) -> dict:
         except Exception:
             pass
     return {
-        "present": bool(rows) or ledger_text is not None,
+        "present": bool(rows) or ledger_text is not None or led["present"],
+        "ledger": led,
         "rows": rows,
         "last_run": rows[-1] if rows else None,
         "total_cost_usd": total_cost,
@@ -1739,10 +1745,14 @@ def part_outputs(session: str, part: str):
     payload = _categorize_output(out_dir)
     # Cumulative session cost: sum every part's ledger in this session.
     session_total = 0.0
+    session_rows: list[dict] = []
     for other in _session_dir(session).iterdir():
         if other.is_dir() and not other.name.startswith("."):
-            session_total += _usage_summary(_part_output_dir(session, other.name)).get("total_cost_usd", 0.0)
+            odir = _part_output_dir(session, other.name)
+            session_total += _usage_summary(odir).get("total_cost_usd", 0.0)
+            session_rows += [r for r in _costs.read_rows(_costs.ledger_paths(odir)) if r.get("part") == _sanitize(other.name)]
     payload["categories"]["usage"]["session_total_cost_usd"] = round(session_total, 4)
+    payload["categories"]["usage"]["session"] = _costs._totals(_costs.dedupe(session_rows))
     delivered = DELIVER_DIR / _sanitize(part)
     downloads = DOWNLOADS_DIR / _sanitize(part)
     payload.update({
