@@ -15,7 +15,7 @@
 
   /* Every key of payload.categories as produced by app.py _categorize_output (14 keys). */
   var CATEGORY_KEYS = ['extraction', 'resolved', 'build_plan', 'verification', 'model_check', 'review', 'usage',
-                       'macros', 'sldprt', 'stl', 'must_meet', 'overview_analysis', 'console', 'files'];
+                       'macros', 'sldprt', 'stl', 'must_meet', 'overview_analysis', 'console', 'files', 'telemetry'];
 
   var GROUPS = [
     { id: 'overview', label: 'Overview' },
@@ -108,7 +108,7 @@
         var c = cats(p);
         return (c.files && c.files.list && c.files.list.length) || (c.sldprt && c.sldprt.present) || (c.stl && c.stl.present) ? 'present' : 'absent';
       } },
-    { id: 'cost', group: 'diagnostics', label: 'Cost', keys: ['usage'],
+    { id: 'cost', group: 'diagnostics', label: 'Cost', keys: ['usage', 'telemetry'],
       emptyText: 'No token usage recorded. Demo runs make no API calls.', tools: ['raw', 'copy'],
       source: srcKey('usage'), status: function (p) { return present('usage')(p) ? 'present' : 'absent'; } },
     { id: 'console', group: 'diagnostics', label: 'Console', keys: ['console'],

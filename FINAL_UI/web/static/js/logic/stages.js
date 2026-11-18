@@ -50,13 +50,85 @@
     { id: 'verification', label: 'Verification', ks: [],     work: [] }
   ];
 
+  /* ---- Structured telemetry (pipeline/run_events.py). The backend owns the percentage; this file
+     only folds events in (idempotent by seq, stale runs ignored, never backward) and reports what
+     it was told. Legacy runs (no events) keep the marker count and are labeled "legacy_markers". */
+  var EVENT_PREFIX = '[gptastra-event] ';
+  var MAX_TEXT = 300;
+  var PROGRESS_KEYS = ['phase', 'operation', 'label', 'completed_units', 'total_units', 'unit',
+    'phase_completed_units', 'phase_total_units', 'overall_completed_weight', 'overall_total_weight',
+    'percent', 'indeterminate', 'terminal'];
+  var COST_KEYS = ['currency', 'run_cost_usd', 'part_total_cost_usd', 'session_total_cost_usd', 'input_tokens',
+    'cached_input_tokens', 'output_tokens', 'api_calls', 'unpriced_calls', 'pricing_status',
+    'part_pricing_status', 'session_pricing_status', 'pricing_source', 'legacy_rows', 'as_of'];
+  var TERMINAL = { 'run.completed': 'completed', 'run.failed': 'failed', 'run.cancelled': 'cancelled' };
+
+  function pick(src, keys) {
+    var out = {};
+    if (!src || typeof src !== 'object') return out;
+    keys.forEach(function (k) {
+      if (!Object.prototype.hasOwnProperty.call(src, k)) return;
+      var v = src[k];
+      if (typeof v === 'string') out[k] = v.slice(0, MAX_TEXT);
+      else if (v === null || typeof v === 'number' || typeof v === 'boolean') out[k] = v;
+    });
+    return out;
+  }
+  function parseEvent(line) {
+    var s = String(line === null || line === undefined ? '' : line);
+    var i = s.indexOf(EVENT_PREFIX);
+    if (i < 0) return null;
+    var o;
+    try { o = JSON.parse(s.slice(i + EVENT_PREFIX.length)); } catch (e) { return null; }
+    if (!o || typeof o !== 'object' || Array.isArray(o)) return null;
+    if (typeof o.run_id !== 'string' || typeof o.seq !== 'number' || typeof o.attempt !== 'number' ||
+        typeof o.kind !== 'string' || !o.payload || typeof o.payload !== 'object') return null;
+    return o;
+  }
+  /** New tel (or the same object when the event changes nothing). */
+  function applyEvent(tel, ev) {
+    var kind = ev.kind;
+    if (!tel || tel.run_id !== ev.run_id) {
+      var takes = !tel || (kind === 'run.started' && ev.attempt > tel.attempt);
+      if (!takes) return tel;                               // stale run: never overwrites the active attempt
+      tel = { run_id: ev.run_id, attempt: ev.attempt, last_seq: 0, progress: null, cost: null, terminal: null };
+    }
+    if (ev.seq <= tel.last_seq) return tel;                 // duplicate or late
+    var next = Object.assign({}, tel, { last_seq: ev.seq });
+    if (kind === 'progress.updated') {
+      var snap = pick(ev.payload, PROGRESS_KEYS);
+      var oldP = tel.progress ? tel.progress.percent : null;
+      if (typeof snap.percent === 'number' && typeof oldP === 'number' && snap.percent < oldP) return tel;   // never backward
+      next.progress = snap;
+    } else if (kind === 'cost.updated') next.cost = pick(ev.payload, COST_KEYS);
+    else if (TERMINAL[kind]) next.terminal = TERMINAL[kind];
+    return next;
+  }
+  /** Adopt a server snapshot (reconnect after refresh). Legacy or older snapshots change nothing. */
+  function applyTelemetry(track, snap) {
+    if (!snap || snap.source !== 'structured' || typeof snap.run_id !== 'string') return track;
+    var cur = track.tel;
+    var newer = !cur || (snap.run_id !== cur.run_id ? snap.attempt > cur.attempt : snap.last_seq > cur.last_seq);
+    if (!newer) return track;
+    var tel = { run_id: snap.run_id, attempt: snap.attempt, last_seq: snap.last_seq || 0,
+                progress: snap.progress ? pick(snap.progress, PROGRESS_KEYS) : null,
+                cost: snap.cost ? pick(snap.cost, COST_KEYS) : null, terminal: snap.terminal || null };
+    return Object.assign({}, track, { tel: tel });
+  }
+  function telPercent(tel) {
+    var p = tel.progress ? tel.progress.percent : null;
+    if (tel.terminal === 'completed' || (tel.progress && tel.progress.terminal === 'completed')) return 100;
+    if (typeof p !== 'number') return null;
+    return Math.min(99, Math.floor(p));                    // 100 only from the backend's completed event
+  }
+
   function stagesFor(kind) { return kind === 'demo' ? DEMO_STAGES : PART_STAGES; }
   function unitsFor(kind) { return kind === 'demo' ? DEMO_STEPS.length : LAST_PART_UNIT; }
 
   function initial(kind) {
     return { kind: kind === 'demo' ? 'demo' : 'part', k: -1, seen: new Set(),
              signals: { extractFailed: false, processFailed: false, resolveWarn: false, extractWarn: false },
-             done: false, final: null };
+             done: false, final: null, tel: null };
   }
 
   /* "[stage] build_plan_gate1: gate1=OK planned=7 questions=0" -> {k:3, marker, rest}.
@@ -84,6 +156,12 @@
 
   function reduce(track, line) {
     var s = String(line === null || line === undefined ? '' : line);
+    if (s.indexOf(EVENT_PREFIX) >= 0) {                      // a structured event: never a log marker
+      var ev = parseEvent(s);
+      if (!ev) return track;
+      var tel2 = applyEvent(track.tel, ev);
+      return tel2 === track.tel ? track : Object.assign({}, track, { tel: tel2 });
+    }
     var k = track.k, seen = track.seen, sig = track.signals, changed = false;
     var idx = -1;
     if (track.kind === 'demo') {
@@ -104,7 +182,7 @@
     if (/^\[(launch|reader) error\]/.test(s)) flag('processFailed');
 
     if (!changed) return track;
-    return { kind: track.kind, k: k, seen: seen, signals: next, done: track.done, final: track.final };
+    return { kind: track.kind, k: k, seen: seen, signals: next, done: track.done, final: track.final, tel: track.tel };
   }
 
   function stageIndexOfK(kind, k) {
@@ -287,12 +365,13 @@
     }
     for (i = 0; i < states.length; i++) if (states[i].state === 'pending') states[i] = { state: 'skipped', detail: 'Not reached' };
 
-    return { kind: track.kind, k: track.k, seen: track.seen, signals: track.signals, done: true,
+    return { kind: track.kind, k: track.k, seen: track.seen, signals: track.signals, done: true, tel: track.tel,
              final: { exit: exit === undefined ? null : exit, cancelled: !!f.cancelled, stages: states } };
   }
 
   /** Integer 0-100, or null (indeterminate / removed on failure and cancel). */
   function percent(track) {
+    if (track.tel) return telPercent(track.tel);         // backend-owned; failed/cancelled keep the last truthful value
     if (track.final) {
       if (track.final.cancelled) return null;
       return track.final.exit === 0 || track.final.exit === 8 ? 100 : null;
@@ -334,10 +413,20 @@
       var cur = labels.filter(function (l) { return l.k === track.k; })[0];
       caption = cur ? cur.label + '…' : (track.k >= unitsFor(track.kind) ? 'Finishing…' : '');
     }
-    return { stages: stages, currentIndex: currentIndex, caption: caption,
-             stageNumber: currentIndex >= 0 ? currentIndex + 1 : 0, stageCount: st.length, percent: percent(track) };
+    var pct = percent(track), tel = track.tel, pp = tel && tel.progress ? tel.progress : null;
+    var progress = tel
+      ? { source: 'structured', percent: pp && typeof pp.percent === 'number' ? (pct === 100 ? 100 : pp.percent) : null,
+          indeterminate: !(pp && typeof pp.percent === 'number'), phase: pp ? pp.phase || null : null,
+          operation: pp ? pp.operation || null : null, label: pp ? pp.label || '' : '',
+          completed: pp && typeof pp.completed_units === 'number' ? pp.completed_units : null,
+          total: pp && typeof pp.total_units === 'number' ? pp.total_units : null,
+          unit: pp ? pp.unit || null : null, terminal: tel.terminal || null, run_id: tel.run_id, attempt: tel.attempt }
+      : { source: 'legacy_markers', percent: pct, indeterminate: pct === null && !track.final, phase: null,
+          operation: null, label: '', completed: null, total: null, unit: null, terminal: null, run_id: null, attempt: null };
+    return { stages: stages, currentIndex: currentIndex, caption: caption, progress: progress,
+             stageNumber: currentIndex >= 0 ? currentIndex + 1 : 0, stageCount: st.length, percent: pct };
   }
 
   return { MARKERS: MARKERS, PART_STAGES: PART_STAGES, DEMO_STAGES: DEMO_STAGES, parseMarker: parseMarker,
-           initial: initial, reduce: reduce, finalize: finalize, percent: percent, view: view };
+           initial: initial, reduce: reduce, finalize: finalize, applyTelemetry: applyTelemetry, parseEvent: parseEvent, percent: percent, view: view };
 });

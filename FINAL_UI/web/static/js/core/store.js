@@ -246,9 +246,11 @@
       var startedSec = payload && typeof payload.started === 'number' ? payload.started
         : (s.run.startedAt ? s.run.startedAt / 1000 : null);
       var summary = p.summary || null;
-      var track = st.finalize(s.run.track || st.initial(s.run.kind),
-        { exit: p.exit, cancelled: cancelled, summary: summary, payload: payload, startedAt: startedSec });
       var cats = (payload && payload.categories) || {};
+      var base = s.run.track || st.initial(s.run.kind);
+      if (st.applyTelemetry && cats.telemetry) base = st.applyTelemetry(base, cats.telemetry);   // server snapshot wins only if newer
+      var track = st.finalize(base,
+        { exit: p.exit, cancelled: cancelled, summary: summary, payload: payload, startedAt: startedSec });
       var runState = rs.deriveRunState({ hasId: true, done: true, exit: p.exit, cancelled: cancelled, summary: summary, irReport: cats.ir_report });
       var verdict = rs.deriveVerdict({ summary: summary, mustMeet: cats.must_meet || null, irReport: cats.ir_report,
         stlSource: payload ? payload.stl_source : null, stlFresh: rs.stlFresh(payload, startedSec),
