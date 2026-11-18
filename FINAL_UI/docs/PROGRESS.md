@@ -100,3 +100,12 @@ Verification: unit 116 pass (5 new, batchgroup). Playwright 26 pass, 4 opt-in sp
 Finding: that auto-detected newer repo's `main.py` has no `--no-export` flag, which `app.py` passes, so demos/runs fail on it; run.sh/run.ps1 now print a warning. Fixing it needs a one-flag change in the UI (drop the flag) or the repo; left as is ("pipeline unchanged").
 
 Remaining gaps: no live paid run or SolidWorks build exercised; Upload parts for multi-page PDFs keeps page 1 only; CAD files with several sheets prompt for a sheet; G1-G17 integration gaps unchanged (README).
+
+## 2026-11-18: four-stage program (Stages 1-3 in the UI)
+
+Details and evidence: `docs/test-reports/2026-11-18-stage{1,2,3}-gate-report.md` (repo root). New modules: `server/telemetry.py`,
+`server/costs.py`, `server/flags.py`; `web/static/js/ui/cost-key.js`, `logic/drawersize.js`, `logic/flagview.js`,
+`features/engineering-flags.js`. New tests: `tests/server/`, `tests/unit/{costkey,drawersize,flagview,telemetry_stages}.test.js`,
+`tests/e2e/tests/21-stage2.spec.ts`, `22-stage3-flags.spec.ts` (these two need `STAGE2_OUT` and a server started with
+`MCAGENT_FINAL_OUTPUTS=$STAGE2_OUT`). Pre-existing failures, unchanged: 3 unit tests (missing `tests/fixtures/part_full.log`) and 13
+Playwright tests (stale after the rebrand), identical on the pre-change commit.

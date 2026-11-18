@@ -1,9 +1,26 @@
 # STATE.md — where mti-2d-3d stands
 
-**Last updated:** 2026-10-28 · **Repo:** [jmathew722/MTI_GPTAstra](https://github.com/jmathew722/MTI_GPTAstra)
+**Last updated:** 2026-11-18 · **Repo:** [jmathew722/MTI_GPTAstra](https://github.com/jmathew722/MTI_GPTAstra)
 (independent copy, forked from the original `INDL-AILOT/mti-2d-3d` at `eea7e45` on 2026-11-15)
 **Contributors to date:** Joe Mathew (original pipeline), Brad Sandberg (repo setup), ggould / MalteseWarrior (research direction)
 
+> **2026-11-18: four-stage reliability program (branch `Improvements`)** — gate reports in `docs/test-reports/2026-11-18-stage{1,2,3}-gate-report.md`.
+> - **Stage 1, truthful telemetry (done, tested):** versioned `[gptastra-event]` stream + `run_events.jsonl`, progress from
+>   observable work units (never time, never backward), per-run/part/session cost scopes from the pipeline ledger, server and UI reducers.
+> - **Stage 2, UI (done, tested):** exact backend percent + operation/unit count, **Part cost** chip in the top bar, full cost Results
+>   (attempts, cache, pricing status), drawer sized from real measurements (no 70% cap), standalone Results without caps.
+>   Real parts are **unpriced** because `gpt-6-astra` has no rate in `config/pricing.json`; the UI says so instead of showing $0.00.
+> - **Stage 3, automatic flags (done, tested; one limit):** findings -> automatic locator (text layer / OCR, calibrated threshold, honest
+>   "not located") -> overlay artifact + annotated PDF -> linked viewer/Results with review state. No human positions anything. Limit: the
+>   viewer shows page 1 of the saved overview only.
+> - **Stage 4, Hole Wizard (partial, NOT verified):** provenance review, registry of all **9 families / 81 variants** pinned to the installed
+>   type library, callout parser (+ corpus inventory). **No variant is `verified`.** Hole Wizard creation does not work through the API in
+>   this SolidWorks session (E037: `HoleWizard5` refused, `InitializeHole` blocks, `IHoleStandardsData` empty; Student Edition, cause
+>   unconfirmed). Not done: IR + migration, catalog resolver, creation adapters, placement policy, readback, callout round trip, matrix.
+>   See `docs/hole-wizard/support-status.md`.
+> - Tests: Python 1162 passed / 66 skipped (baseline 1019); FINAL_UI server 48; UI unit 150/153 and Playwright 31 pass / 13 fail, both
+>   with the **same pre-existing failures as the pre-change commit** (missing `part_full.log` fixture; stale tests after the rebrand).
+>
 > **2026-11-05: every sketch is fully defined, Hole Wizard placement sketches included** (E035).
 > They are tied to the origin without adding a hole point, then dimensioned.
 > - All 37 audit builds rebuilt: every part verifies, 145/145 sketches fully defined. $0.
