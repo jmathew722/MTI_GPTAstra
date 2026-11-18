@@ -83,7 +83,7 @@ def auto_positions(d: Path, r: dict, pdf: Path) -> dict:
     return out
 
 
-def markup(d: Path, part: str, ocr: bool = True) -> Path:
+def markup(d: Path, part: str, ocr: bool = True, developer_override_positions: bool = False) -> Path:
     import pymupdf as fitz
     r = json.loads((d / "discrepancies.json").read_text(encoding="utf-8"))
     pdf = drawing_pdf(d)
@@ -100,9 +100,14 @@ def markup(d: Path, part: str, ocr: bool = True) -> Path:
     page.insert_textbox(fitz.Rect(W + 18, 18, W + PANEL_W - 18, H - 18),
                         wrap(panel_lines(r), int((PANEL_W - 36) / (fs * 0.52))),
                         fontsize=fs, fontname="helv", color=(0.15, 0.0, 0.0))
+    # A hand-authored positions file is a DEVELOPER diagnostic only. The production path places every
+    # box automatically (pipeline/flag_overlays.py); it never reads this file (Stage 3).
     pos = d / "markup_positions.json"
-    spec = (json.loads(pos.read_text(encoding="utf-8")) if pos.exists()
-            else auto_positions(d, r, pdf) if ocr else {"items": []})
+    if developer_override_positions and pos.exists():
+        spec = json.loads(pos.read_text(encoding="utf-8"))
+        spec["provenance"] = "developer_override"
+    else:
+        spec = auto_positions(d, r, pdf) if ocr else {"items": []}
     if spec.get("items"):
         for it in spec["items"]:
             rect, col = fitz.Rect(*it["rect"]), COLORS.get(it.get("color", "red"), COLORS["red"])
@@ -132,10 +137,14 @@ def main() -> int:
     ap.add_argument("parts", nargs="+")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--no-ocr", action="store_true", help="no automatic positions (panel and report only)")
+    ap.add_argument("--developer-override-positions", action="store_true",
+                    help="DEVELOPER ONLY: use a hand-authored markup_positions.json instead of automatic placement "
+                         "(labeled provenance 'developer_override'; never used by the pipeline)")
     args = ap.parse_args()
     for part in args.parts:
         try:
-            print(part, markup(args.out / part, part, ocr=not args.no_ocr), flush=True)
+            print(part, markup(args.out / part, part, ocr=not args.no_ocr,
+                               developer_override_positions=args.developer_override_positions), flush=True)
         except Exception as e:
             print(part, "FAILED", f"{type(e).__name__}: {e}"[:200], flush=True)
     return 0
