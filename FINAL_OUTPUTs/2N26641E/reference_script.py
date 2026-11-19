@@ -5,29 +5,29 @@ import sys
 from pipeline.ir.cq_runtime import Model
 
 m = Model('2N2664', origin_kind='axis_end', units='inch', strict=False)
-m.revolve('F001', outer=[(0, 3.874), (0.438, 3.874), (0.438, 3.219), (0.875, 3.219), (0.875, 2.875), (1.75, 2.875), (1.75, 1.6875), (4.19, 1.6875), (4.7525, 2.25), (6.25, 2.25)], inner=[(0, 2.754), (0.438, 2.754), (0.438, 2.08695), (0.876, 2.08695), (0.876, 1.37575), (1.5, 1.37575), (1.5, 1.21875), (2.13, 1.21875), (2.13, 1.242), (5.053854043, 1.242), (6.25, 1.562506343)], op='add')  # outer (0,D001 / 2) (D015,D001 / 2) (D015,D011 / 2) (D014,D011 / 2) (D014,D010 / 2) (D013,D010 / 2) (D013,D008 / 2) (D012 - D016,D008 / 2) (D012 - D016 + (D009 - D008) / 2,D009 / 2) (D012,D009 / 2); inner (0,D002 / 2) (D015,D002 / 2) (D015,D003 / 2) (D015 + D021,D003 / 2) (D015 + D021,D004 / 2) (D025,D004 / 2) (D025,D005 / 2) (D012 - D024,D005 / 2) (D012 - D024,D006 / 2) (D012 - (((D022 + D023) / 2 + D023 / 2 * 1.303225372841206) - D006 / 2) / 0.267949192431123,D006 / 2) (D012,(D022 + D023) / 2 + D023 / 2 * 1.303225372841206)
+m.revolve('F001', outer=[(0, 3.874), (0.438, 3.874), (0.438, 3.219), (0.875, 3.219), (0.875, 2.875), (1.75, 2.875), (1.75, 1.6875), (4.19, 1.6875), (4.7525, 2.25), (6.25, 2.25)], inner=[(0, 2.754), (0.438, 2.754), (0.438, 2.08695), (0.876, 2.08695), (0.876, 1.37575), (1.5, 1.37575), (1.5, 1.21875), (2.13, 1.21875), (2.13, 1.242), (5.053854043, 1.242), (6.25, 1.562506343)], op='add')  # outer (0,D001 / 2) (D015,D001 / 2) (D015,D011 / 2) (D014,D011 / 2) (D014,D010 / 2) (D013,D010 / 2) (D013,D008 / 2) (D012 - D016,D008 / 2) (D012 - D016 + (D009 - D008) / 2,D009 / 2) (D012,D009 / 2); inner (0,D002 / 2) (D015,D002 / 2) (D015,D003 / 2) (D015 + D021,D003 / 2) (D015 + D021,D004 / 2) (D025,D004 / 2) (D025,D005 / 2) (D012 - D024,D005 / 2) (D012 - D024,D006 / 2) (D012 - D023 / 2 - (D022 / 2 + D023 / 2 + D023 / 2 * 1.035276180410083 - D006 / 2) / 0.2679491924311227,D006 / 2) (D012,D022 / 2 + D023 / 2 + D023 / 2 * 1.035276180410083 + D023 / 2 * 0.2679491924311227)
 m.edge_op('F002', operation='fillet', size=0.5, angle=45, edges=['edge_between(face(F001,+Z,1.75),wall(F001,1.6875))'])  # size=D026; edges=['edge_between(face(F001,+Z,D013),wall(F001,D008 / 2))']
 m.edge_op('F003', operation='fillet', size=0.12, angle=45, edges=['edge_between(face(F001,+Z,0.875),wall(F001,2.875))'])  # size=D027; edges=['edge_between(face(F001,+Z,D014),wall(F001,D010 / 2))']
 m.edge_op('F004', operation='fillet', size=0.06, angle=45, edges=['edge_between(face(F001,+Z,6.25),wall(F001,2.25))'])  # size=D028; edges=['edge_between(face(F001,+Z,D012),wall(F001,D009 / 2))']
 m.edge_op('F005', operation='chamfer', size=0.12, angle=45, edges=['edge_between(face(F001,+Z,1.75),wall(F001,2.875))'])  # size=D018; edges=['edge_between(face(F001,+Z,D013),wall(F001,D010 / 2))']
-m.edge_op('F006', operation='chamfer', size=0.06, angle=45, edges=['edge_between(face(F001,-Z),wall(F001,3.874))', 'edge_between(face(F001,+Z,0.438),wall(F001,3.874))'])  # size=D062; edges=['edge_between(face(F001,-Z),wall(F001,D001 / 2))', 'edge_between(face(F001,+Z,D015),wall(F001,D001 / 2))']
-m.edge_op('F007', operation='fillet', size=0.047, angle=45, edges=['edge_between(face(F001,-Z),wall(F001,2.754))'])  # size=D064; edges=['edge_between(face(F001,-Z),wall(F001,D002 / 2))']
-m.prism('F008', on='face(F001,+Z,6.25)', offset=0, profile={'shape': 'circle', 'd': 0.376, 'u': 0, 'v': 1.812}, depth=0.5, op='cut')  # d=2 * D031, u=0, v=D032; depth=D017; offset=0
-m.prism('F009', on='face(F001,+Z,6.25)', offset=0, profile={'shape': 'rect', 'w': 0.377, 'h': 1.812, 'anchor': 'corner', 'u': -0.188, 'v': 0}, depth=0.5, op='cut')  # w=D029, h=D032, u=-D030, v=0; depth=D017; offset=0
-m.hole('F010', on='face(F009,+Z)', u=0, v=1.75, spec={'type': 'tapped', 'd': 0.136, 'depth': 0.69})  # u=0, v=D040, d=D033
-m.hole('F011', on='face(F001,+Z,0.438)', u=3.562, v=0, spec={'type': 'tapped', 'd': 0.203, 'depth': 6.25})  # u=D037, v=0, d=D048
-m.pattern('F012', seed='F011', mode='linear', count=2, pitch=7.124, dir='-X', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=2 * D037
-m.hole('F013', on='face(F001,+Z,0.438)', u=-1.781, v=-3.085, spec={'type': 'tapped', 'd': 0.203, 'depth': 6.25})  # u=-D038, v=-D039, d=D048
-m.pattern('F014', seed='F013', mode='grid', count=2, pitch=3.562, dir='+X', count2=2, pitch2=6.17, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=2 * D038
-m.hole('F015', on='face(F001,+Z,1.75)', u=0, v=2.438, spec={'type': 'cbore', 'd': 0.281, 'depth': 6.25, 'cbore_d': 0.406, 'cbore_depth': 0.75})  # u=0, v=D041, d=D055, cbore=D056xD057
-m.pattern('F016', seed='F015', mode='linear', count=2, pitch=4.876, dir='-Y', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=2 * D041
-m.hole('F017', on='face(F001,+Z,1.75)', u=-2.111, v=-1.218, spec={'type': 'cbore', 'd': 0.281, 'depth': 6.25, 'cbore_d': 0.406, 'cbore_depth': 0.75})  # u=-D046, v=-D042, d=D055, cbore=D056xD057
-m.pattern('F018', seed='F017', mode='grid', count=2, pitch=4.222, dir='+X', count2=2, pitch2=2.436, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=2 * D046
-m.hole('F019', on='face(F001,+Z,1.75)', u=2.406, v=0, spec={'type': 'thru', 'd': 0.25})  # u=D044, v=0, d=D050
-m.hole('F020', on='face(F001,-Z,0.438)', u=2.406, v=0, spec={'type': 'blind', 'd': 0.344, 'depth': 0.62})  # u=D044, v=0, d=D051
-m.hole('F021', on='face(F001,-Z,0.438)', u=2.406, v=0, spec={'type': 'blind', 'd': 0.3758, 'depth': 0.56})  # u=D044, v=0, d=D053
-m.hole('F022', on='face(F001,+Z,1.75)', u=-1.25, v=-2.165, spec={'type': 'thru', 'd': 0.188})  # u=-D045, v=-D043, d=D058
-m.hole('F023', on='wall(F001,2.875)', u=240, v=1.25, spec={'type': 'blind', 'd': 0.5003, 'depth': 1.99955})  # u=240, v=D059, d=D061
+m.hole('F006', on='face(F001,+Z,0.438)', u=-3.562, v=0, spec={'type': 'tapped', 'd': 0.203, 'depth': 7.748})  # u=-D037, v=0, d=D048
+m.pattern('F007', seed='F006', mode='linear', count=2, pitch=7.124, dir='+X', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=2 * D037
+m.hole('F008', on='face(F001,+Z,0.438)', u=-1.781, v=-3.085, spec={'type': 'tapped', 'd': 0.203, 'depth': 7.748})  # u=-D038, v=-D039, d=D048
+m.pattern('F009', seed='F008', mode='grid', count=2, pitch=3.562, dir='+X', count2=2, pitch2=6.17, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=2 * D038
+m.hole('F010', on='face(F001,+Z,1.75)', u=0, v=-2.438, spec={'type': 'cbore', 'd': 0.281, 'cbore_d': 0.406, 'cbore_depth': 0.75})  # u=0, v=-D041, d=D055, cbore=D056xD057
+m.pattern('F011', seed='F010', mode='linear', count=2, pitch=4.876, dir='+Y', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=2 * D041
+m.hole('F012', on='face(F001,+Z,1.75)', u=-2.111, v=-1.218, spec={'type': 'cbore', 'd': 0.281, 'cbore_d': 0.406, 'cbore_depth': 0.75})  # u=-D046, v=-D042, d=D055, cbore=D056xD057
+m.pattern('F013', seed='F012', mode='grid', count=2, pitch=4.222, dir='+X', count2=2, pitch2=2.436, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=2 * D046
+m.hole('F014', on='face(F001,-Z,0.438)', u=2.406, v=0, spec={'type': 'cbore', 'd': 0.25, 'cbore_d': 0.344, 'cbore_depth': 0.62})  # u=D044, v=0, d=D050, cbore=D051xD052
+m.hole('F015', on='face(F001,-Z,0.438)', u=2.406, v=0, spec={'type': 'blind', 'd': 0.3758, 'depth': 0.56})  # u=D044, v=0, d=D053
+m.skip('F016', 'unresolved: Does the .188 axial hole pass through the shoulder or stop at the radial cross-hole?')
+m.skip('F017', 'unresolved: Confirm whether .469 is preparation only and .5003 finishes through one wall, or a smaller retained step is required.')
+m.skip('F018', 'unresolved: Confirm the nominal round-end profile: .377 width, .188 left offset and .188 radius do not define one exact semicircular end.')
+m.hole('F019', on='face(F001,+Z,6.25)', u=0, v=1.75, spec={'type': 'tapped', 'd': 0.136, 'depth': 1.19})  # u=0, v=D040, d=D033
+m.hole('F020', on='face(F001,+Z,6.25)', u=0, v=1.75, spec={'type': 'tapped', 'd': 0.136, 'depth': 1.19})  # u=0, v=D040, d=D033
+m.edge_op('F021', operation='chamfer', size=0.06, angle=45, edges=['edge_between(face(F001,+Z,0.438),wall(F001,3.874))'])  # size=D062; edges=['edge_between(face(F001,+Z,D015),wall(F001,D001 / 2))']
+m.edge_op('F022', operation='fillet', size=0.047, angle=45, edges=['edge_between(face(F001,-Z,0.0),wall(F001,3.874))'])  # size=D064; edges=['edge_between(face(F001,-Z,0),wall(F001,D001 / 2))']
+m.edge_op('F023', operation='chamfer', size=0.06, angle=45, edges=['edge_between(face(F001,-Z,1.5),wall(F001,1.21875))'])  # size=D062; edges=['edge_between(face(F001,-Z,D025),wall(F001,D005 / 2))']
 m.edge_op('F024', operation='chamfer', size=0.06, angle=45, edges=['edges(convex)'])  # size=D062; edges=['edges(convex)']
 m.edge_op('F025', operation='fillet', size=0.047, angle=45, edges=['edges(concave)'])  # size=D064; edges=['edges(concave)']
 

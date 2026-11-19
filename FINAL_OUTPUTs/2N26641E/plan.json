@@ -88,16 +88,14 @@
       "origin_kind": "axis_end",
       "units": "inch",
       "view_map": {
-        "longitudinal section": "+Z runs left to right; large flange end is z=0",
-        "front end view": "+Z; right is +X and up is +Y",
-        "Detail C": "+Z",
-        "auxiliary A": "radial direction 240 degrees"
+        "longitudinal section": "axis +Z left to right; flange end z=0",
+        "end view": "view from +Z; +X right, +Y up"
       }
     },
     "features": [
       {
         "id": "F001",
-        "rationale": "Turn the stepped hollow body. The 3.375 diameter is the external neck. Locate the 15-degree seat from the ball inspection dimension.",
+        "rationale": "Turn the stepped exterior and bore, including the 45-degree exterior transition and ball-controlled 15-degree seat. The 3.375 diameter is the external neck.",
         "source_callouts": [
           "7.7480 \u00d8 \u00b1.0005",
           "6.438 \u00d8",
@@ -124,7 +122,7 @@
           "3.1250 \u00d8 REF"
         ],
         "status": "planned",
-        "justification": "The section establishes the shared z=.438 external and internal shoulder, followed by the separately toleranced .4380 internal land. For the printed 15-degree cone, 0.267949192431123 is tan(15 degrees), and 1.303225372841206 is sec(15 degrees)+tan(15 degrees). The inspection balls touch the end-face inspection plane: their centers are .500/2 behind that face. Thus end-seat radius=(inspection gap+ball diameter)/2 + ball diameter/2*(sec15+tan15). The 45-degree outer shoulder has equal axial and radial increments.",
+        "justification": "The section shows inspection balls tangent to the end plane, with their centers one ball radius behind it; D022 measures between inward ball extremities. Constants 0.2679491924311227 and 1.035276180410083 are respectively tan(15 degrees) and sec(15 degrees), calculated from the printed 15\u00b0 callout D020, not assumed dimensions. The 45\u00b0 transition has equal radial and axial changes. The short datum-A land ends at D012-D024, followed by the 2.484 bore relief.",
         "kind": "revolve",
         "axis": "axis(part)",
         "outer": [
@@ -207,19 +205,19 @@
             "r": "D006 / 2"
           },
           {
-            "z": "D012 - (((D022 + D023) / 2 + D023 / 2 * 1.303225372841206) - D006 / 2) / 0.267949192431123",
+            "z": "D012 - D023 / 2 - (D022 / 2 + D023 / 2 + D023 / 2 * 1.035276180410083 - D006 / 2) / 0.2679491924311227",
             "r": "D006 / 2"
           },
           {
             "z": "D012",
-            "r": "(D022 + D023) / 2 + D023 / 2 * 1.303225372841206"
+            "r": "D022 / 2 + D023 / 2 + D023 / 2 * 1.035276180410083 + D023 / 2 * 0.2679491924311227"
           }
         ],
         "op": "add"
       },
       {
         "id": "F002",
-        "rationale": "Blend the neck into the large hub.",
+        "rationale": "Blend the external neck into the flange-side hub shoulder.",
         "source_callouts": [
           ".50 R"
         ],
@@ -235,7 +233,7 @@
       },
       {
         "id": "F003",
-        "rationale": "Round the flange-step root.",
+        "rationale": "Round the root of the intermediate external step.",
         "source_callouts": [
           ".12 R"
         ],
@@ -251,7 +249,7 @@
       },
       {
         "id": "F004",
-        "rationale": "Round the outside corner at the small end.",
+        "rationale": "Round the small-end outer corner.",
         "source_callouts": [
           ".06 R"
         ],
@@ -267,7 +265,7 @@
       },
       {
         "id": "F005",
-        "rationale": "Does .12 C/R specify a chamfer or a radius at the large-hub shoulder?",
+        "rationale": "Should the .12 C/R at the hub shoulder be a chamfer or a radius?",
         "source_callouts": [
           ".12 C/R"
         ],
@@ -283,114 +281,7 @@
       },
       {
         "id": "F006",
-        "rationale": "Confirm which depicted edge breaks are chamfers before applying the general chamfer specification.",
-        "source_callouts": [
-          "UNLESS OTHERWISE SPECIFIED ALL CHAMFERS .06 x 45\u00b0"
-        ],
-        "status": "unresolved",
-        "justification": "",
-        "kind": "edge_op",
-        "operation": "chamfer",
-        "size": "D062",
-        "angle": "D063",
-        "edges": [
-          "edge_between(face(F001,-Z),wall(F001,D001 / 2))",
-          "edge_between(face(F001,+Z,D015),wall(F001,D001 / 2))"
-        ]
-      },
-      {
-        "id": "F007",
-        "rationale": "What nominal radius and affected edges are required for the unspecified radii given only as a maximum?",
-        "source_callouts": [
-          "ALL RADII .047 MAX"
-        ],
-        "status": "unresolved",
-        "justification": "",
-        "kind": "edge_op",
-        "operation": "fillet",
-        "size": "D064",
-        "angle": "45",
-        "edges": [
-          "edge_between(face(F001,-Z),wall(F001,D002 / 2))"
-        ]
-      },
-      {
-        "id": "F008",
-        "rationale": "Cut the circular cap of the end-face relief in Detail C.",
-        "source_callouts": [
-          "DETAIL C",
-          ".188 R",
-          "1.812",
-          ".500"
-        ],
-        "status": "planned",
-        "justification": "The .500 dimension in the longitudinal section locates the bottom of the local end-face relief, not an axisymmetric counterbore. The cap center lies on the vertical centerline at 1.812. Preserve the printed .188 radius independently of the .377 overall width.",
-        "kind": "prism",
-        "on": "face(F001,+Z,D012)",
-        "offset": "0",
-        "profile": {
-          "shape": "circle",
-          "d": "2 * D031",
-          "u": "0",
-          "v": "D032"
-        },
-        "depth": "D017",
-        "op": "cut"
-      },
-      {
-        "id": "F009",
-        "rationale": "Open the straight-sided portion of Detail C into the central bore.",
-        "source_callouts": [
-          ".377 \u00b1.001",
-          ".188 \u00b1.001",
-          "1.812",
-          ".500",
-          "DETAIL C"
-        ],
-        "status": "planned",
-        "justification": "The relief opens into the central bore as shown in Detail C and the section. Extend the rectangle to the axis, already inside the bore, rather than terminating tangentially on the cone. Combining the printed width .377, left offset .188, and cap radius .188 leaves a .001 nominal ledge on the right at the cap spring line; preserve these independent dimensions for review rather than silently substituting a .1885 radius or centered width.",
-        "kind": "prism",
-        "on": "face(F001,+Z,D012)",
-        "offset": "0",
-        "profile": {
-          "shape": "rect",
-          "w": "D029",
-          "h": "D032",
-          "anchor": "corner",
-          "u": "-D030",
-          "v": "0"
-        },
-        "depth": "D017",
-        "op": "cut"
-      },
-      {
-        "id": "F010",
-        "rationale": "Blind tap drill starts at the floor of the end-face relief.",
-        "source_callouts": [
-          ".136 \u00d8-A .69 DEEP",
-          "8-32-2A THD .50 DEEP",
-          "1.750 \u00b1.005"
-        ],
-        "status": "planned",
-        "justification": "The section shows the drilling beginning at the relief floor. Model .69 depth to full diameter with a flat bottom under standard blind-hole drafting convention. Preserve the anomalous printed thread class rather than silently changing it.",
-        "kind": "hole",
-        "on": "face(F009,+Z)",
-        "u": "0",
-        "v": "D040",
-        "spec": {
-          "type": "tapped",
-          "d": "D033",
-          "depth": "D034",
-          "cbore_d": null,
-          "cbore_depth": null,
-          "csink_d": null,
-          "csink_angle": null,
-          "thread": "8-32-2A THD; thread depth D036; class as printed, requires engineering confirmation"
-        }
-      },
-      {
-        "id": "F011",
-        "rationale": "Seed the horizontal-axis outer flange tapped holes.",
+        "rationale": "Left horizontal outer threaded-hole seed.",
         "source_callouts": [
           ".203 \u00d8-A",
           "1/4-20-2B THD",
@@ -398,35 +289,35 @@
           "3.562 BSC"
         ],
         "status": "planned",
-        "justification": "Section B-B establishes through flange holes. Use the overall length as drilling depth to overshoot the flange, and retain the printed Cartesian positions.",
+        "justification": "End view shows horizontal mirror symmetry; Section B-B shows through-flange holes. The cosmetic thread accompanies the printed tap-drill diameter; D001 cutting depth overshoots the flange.",
         "kind": "hole",
         "on": "face(F001,+Z,D015)",
-        "u": "D037",
+        "u": "-D037",
         "v": "0",
         "spec": {
           "type": "tapped",
           "d": "D048",
-          "depth": "D012",
+          "depth": "D001",
           "cbore_d": null,
           "cbore_depth": null,
           "csink_d": null,
           "csink_angle": null,
-          "thread": "1/4-20-2B; through flange"
+          "thread": "1/4-20-2B; THROUGH FLANGE"
         }
       },
       {
-        "id": "F012",
-        "rationale": "Mirror the outer axis hole across the centerline.",
+        "id": "F007",
+        "rationale": "Complete the horizontal outer pair using printed coordinates.",
         "source_callouts": [
           "6 HOLES",
           "3.562 BSC"
         ],
         "status": "planned",
-        "justification": "The end view shows mirror-image horizontal-axis holes.",
+        "justification": "The horizontal pair is mirrored about the vertical centerline.",
         "kind": "pattern",
-        "seed": "F011",
+        "seed": "F006",
         "mode": "linear",
-        "dir": "-X",
+        "dir": "+X",
         "count": "2",
         "pitch": "2 * D037",
         "dir2": "+Y",
@@ -438,8 +329,8 @@
         "skip": []
       },
       {
-        "id": "F013",
-        "rationale": "Seed the four oblique outer flange tapped holes.",
+        "id": "F008",
+        "rationale": "Seed the four oblique outer threaded holes at their basic coordinates.",
         "source_callouts": [
           ".203 \u00d8-A",
           "1/4-20-2B THD",
@@ -448,7 +339,7 @@
           "3.085 BSC"
         ],
         "status": "planned",
-        "justification": "The section establishes through flange holes; overall-length drilling overshoots the flange. End-view symmetry establishes the negative-coordinate seed.",
+        "justification": "End-view symmetry establishes the signed coordinates. Section B-B establishes through drilling; D001 overshoots the flange.",
         "kind": "hole",
         "on": "face(F001,+Z,D015)",
         "u": "-D038",
@@ -456,26 +347,26 @@
         "spec": {
           "type": "tapped",
           "d": "D048",
-          "depth": "D012",
+          "depth": "D001",
           "cbore_d": null,
           "cbore_depth": null,
           "csink_d": null,
           "csink_angle": null,
-          "thread": "1/4-20-2B; through flange"
+          "thread": "1/4-20-2B; THROUGH FLANGE"
         }
       },
       {
-        "id": "F014",
-        "rationale": "Complete the four oblique outer holes using exact row and column coordinates.",
+        "id": "F009",
+        "rationale": "Complete the four oblique outer holes without imposing an exact bolt circle.",
         "source_callouts": [
           "6 HOLES",
           "1.781 BSC",
           "3.085 BSC"
         ],
         "status": "planned",
-        "justification": "The end view shows symmetry about both centerlines. A Cartesian grid preserves the printed basic coordinates.",
+        "justification": "Four oblique positions are reflected about both centerlines.",
         "kind": "pattern",
-        "seed": "F013",
+        "seed": "F008",
         "mode": "grid",
         "dir": "+X",
         "count": "2",
@@ -489,8 +380,8 @@
         "skip": []
       },
       {
-        "id": "F015",
-        "rationale": "Seed the vertical pair of inner counterbored mounting holes.",
+        "id": "F010",
+        "rationale": "Lower vertical inner mounting hole, counterbored from the hub-side shoulder.",
         "source_callouts": [
           ".281 \u00d8-B",
           ".406 \u00d8 C'BORE .75 DEEP",
@@ -498,15 +389,15 @@
           "2.438 BSC"
         ],
         "status": "planned",
-        "justification": "The section shows the counterbore on the z=1.75 face and the smaller drill breaking into the large-end recess. Overall-length drilling overshoots all material on this line.",
+        "justification": "The longitudinal section shows counterbore entry at z=1.75 and the smaller bore breaking into the rear counterbore. Vertical locations are symmetric.",
         "kind": "hole",
         "on": "face(F001,+Z,D013)",
         "u": "0",
-        "v": "D041",
+        "v": "-D041",
         "spec": {
           "type": "cbore",
           "d": "D055",
-          "depth": "D012",
+          "depth": null,
           "cbore_d": "D056",
           "cbore_depth": "D057",
           "csink_d": null,
@@ -515,18 +406,18 @@
         }
       },
       {
-        "id": "F016",
-        "rationale": "Place the lower vertical counterbored hole at the mirrored radius.",
+        "id": "F011",
+        "rationale": "Complete the vertical inner pair.",
         "source_callouts": [
           "6 HOLES",
           "2.438 BSC"
         ],
         "status": "planned",
-        "justification": "Top and bottom holes are symmetric about the horizontal centerline.",
+        "justification": "The top and bottom locations are symmetric about the horizontal centerline.",
         "kind": "pattern",
-        "seed": "F015",
+        "seed": "F010",
         "mode": "linear",
-        "dir": "-Y",
+        "dir": "+Y",
         "count": "2",
         "pitch": "2 * D041",
         "dir2": "+Y",
@@ -538,8 +429,8 @@
         "skip": []
       },
       {
-        "id": "F017",
-        "rationale": "Seed the four oblique counterbored holes at their separately specified coordinates.",
+        "id": "F012",
+        "rationale": "Seed the four oblique inner mounting counterbores.",
         "source_callouts": [
           ".281 \u00d8-B",
           ".406 \u00d8 C'BORE .75 DEEP",
@@ -548,7 +439,7 @@
           "1.218 BSC"
         ],
         "status": "planned",
-        "justification": "The section establishes counterbore side and through drill; overall-length drilling overshoots all material. End-view symmetry supplies negative seed coordinates. Do not substitute an exact hexagon.",
+        "justification": "Retain the printed oblique coordinates rather than deriving them from the vertical-hole radius. Through condition and counterbore side follow the longitudinal section.",
         "kind": "hole",
         "on": "face(F001,+Z,D013)",
         "u": "-D046",
@@ -556,7 +447,7 @@
         "spec": {
           "type": "cbore",
           "d": "D055",
-          "depth": "D012",
+          "depth": null,
           "cbore_d": "D056",
           "cbore_depth": "D057",
           "csink_d": null,
@@ -565,17 +456,17 @@
         }
       },
       {
-        "id": "F018",
-        "rationale": "Complete the four oblique inner mounting holes.",
+        "id": "F013",
+        "rationale": "Complete the oblique inner holes by coordinate symmetry.",
         "source_callouts": [
           "6 HOLES",
           "2.111 BSC",
           "1.218 BSC"
         ],
         "status": "planned",
-        "justification": "The oblique holes mirror across both centerlines; retain their coordinates independently of the 2.438 vertical radius.",
+        "justification": "Both centerlines are symmetry axes. This preserves the printed difference between 2.438 and twice 1.218.",
         "kind": "pattern",
-        "seed": "F017",
+        "seed": "F012",
         "mode": "grid",
         "dir": "+X",
         "count": "2",
@@ -589,65 +480,40 @@
         "skip": []
       },
       {
-        "id": "F019",
-        "rationale": "Drill the special axial passage shown in Section B-B.",
+        "id": "F014",
+        "rationale": "Special axial passage with intermediate other-side counterbore.",
         "source_callouts": [
           ".250 \u00d8-B",
-          "2.406 \u00b1.001",
-          "SECTION B-B"
-        ],
-        "status": "planned",
-        "justification": "Section B-B shows the small passage through the hub wall between the hub shoulder and large-end recess.",
-        "kind": "hole",
-        "on": "face(F001,+Z,D013)",
-        "u": "D044",
-        "v": "0",
-        "spec": {
-          "type": "thru",
-          "d": "D050",
-          "depth": null,
-          "cbore_d": null,
-          "cbore_depth": null,
-          "csink_d": null,
-          "csink_angle": null,
-          "thread": ""
-        }
-      },
-      {
-        "id": "F020",
-        "rationale": "Machine the intermediate reverse-side counterbore.",
-        "source_callouts": [
           ".344 \u00d8-B .62 DEEP",
           "FROM OTHER SIDE",
-          "SECTION B-B"
+          "2.406 \u00b1.001"
         ],
         "status": "planned",
-        "justification": "At radius 2.406 the large-end face is recessed to z=.438 by the 5.508 bore. Section B-B confirms this is the entry surface for the reverse-side steps.",
+        "justification": "Section B-B places the other-side entry on the rear 5.508 counterbore floor at z=D015, rather than at z=0 where this radial position is empty. The small passage breaks through the hub-side shoulder.",
         "kind": "hole",
         "on": "face(F001,-Z,D015)",
         "u": "D044",
         "v": "0",
         "spec": {
-          "type": "blind",
-          "d": "D051",
-          "depth": "D052",
-          "cbore_d": null,
-          "cbore_depth": null,
+          "type": "cbore",
+          "d": "D050",
+          "depth": null,
+          "cbore_d": "D051",
+          "cbore_depth": "D052",
           "csink_d": null,
           "csink_angle": null,
           "thread": ""
         }
       },
       {
-        "id": "F021",
-        "rationale": "Finish the larger, shallower precision reverse-side step.",
+        "id": "F015",
+        "rationale": "Larger and shallower precision stage of the special other-side hole.",
         "source_callouts": [
           ".3758 \u00d8 \u00b1.0003 .56 DEEP",
-          "FROM OTHER SIDE",
-          "SECTION B-B"
+          "FROM OTHER SIDE"
         ],
         "status": "planned",
-        "justification": "Both reverse-side depths originate at the same recessed large-end face at z=.438.",
+        "justification": "",
         "kind": "hole",
         "on": "face(F001,-Z,D015)",
         "u": "D044",
@@ -664,15 +530,15 @@
         }
       },
       {
-        "id": "F022",
-        "rationale": "Drill the small off-axis passage into the large-end recess, intersecting the radial bore.",
+        "id": "F016",
+        "rationale": "Does the .188 axial hole pass through the shoulder or stop at the radial cross-hole?",
         "source_callouts": [
           ".188 \u00d8 +.004/-.001",
           "1.250 \u00b1.003",
           "2.165 \u00b1.003"
         ],
-        "status": "planned",
-        "justification": "The lower longitudinal section shows the axial passage communicating with the radial drilling and large-end recess; use a through hole rather than a coincident termination.",
+        "status": "unresolved",
+        "justification": "",
         "kind": "hole",
         "on": "face(F001,+Z,D013)",
         "u": "-D045",
@@ -689,41 +555,164 @@
         }
       },
       {
-        "id": "F023",
-        "rationale": "Finish the radial precision bore through the near wall only.",
+        "id": "F017",
+        "rationale": "Confirm whether .469 is preparation only and .5003 finishes through one wall, or a smaller retained step is required.",
         "source_callouts": [
           ".469 \u00d8-A",
           ".5003 \u00d8 \u00b1.0003",
           "1.250 BSC",
           "30\u00b0"
         ],
-        "status": "planned",
-        "justification": "Auxiliary A and the lower section show one radial drilling from the 5.750 outside diameter into the 2.7515 bore at axial station 1.250. The .469 callout is preparation followed by the .5003 finished bore; no retained smaller step is depicted. Entry is 30 degrees toward -X from downward vertical, or 240 degrees from +X. Add one finished-hole diameter to the radial wall thickness to clear the curved inner surface without reaching the opposite wall.",
+        "status": "unresolved",
+        "justification": "The A-view direction is 30 degrees left of downward vertical, represented by 270-D047 degrees. The provisional radial depth overshoots the near inner wall into the empty bore without cutting the opposite wall; execution is held pending clarification.",
         "kind": "hole",
         "on": "wall(F001,D010 / 2)",
-        "u": "240",
+        "u": "270 - D047",
         "v": "D059",
         "spec": {
           "type": "blind",
           "d": "D061",
-          "depth": "(D010 - D004) / 2 + D061",
+          "depth": "D010 / 2",
           "cbore_d": null,
           "cbore_depth": null,
           "csink_d": null,
           "csink_angle": null,
           "thread": ""
         }
+      },
+      {
+        "id": "F018",
+        "rationale": "Confirm the nominal round-end profile: .377 width, .188 left offset and .188 radius do not define one exact semicircular end.",
+        "source_callouts": [
+          "DETAIL C",
+          ".377 \u00b1.001",
+          ".188 \u00b1.001",
+          ".188 R",
+          "1.812",
+          ".500"
+        ],
+        "status": "unresolved",
+        "justification": "The longitudinal section locates the relief floor .500 behind the small end, and the relief opens into the conical bore. This held slot is a representation only: its semicircular radius would be D029/2, not D031. Do not execute or silently center the printed asymmetric width.",
+        "kind": "prism",
+        "on": "face(F001,+Z,D012)",
+        "offset": "0",
+        "profile": {
+          "shape": "slot",
+          "length": "D032 + D029",
+          "width": "D029",
+          "angle": "90",
+          "u": "D029 / 2 - D030",
+          "v": "D032 / 2"
+        },
+        "depth": "D017",
+        "op": "cut"
+      },
+      {
+        "id": "F019",
+        "rationale": "Drill Detail C's blind hole at the separately dimensioned center.",
+        "source_callouts": [
+          ".136 \u00d8-A .69 DEEP",
+          "8-32-2A THD .50 DEEP",
+          "1.750 \u00b1.005",
+          ".500"
+        ],
+        "status": "planned",
+        "justification": "The .500-deep end relief precedes the hole. Cutting D017+D034 from the original end removes the same final material after the relief is completed. D034 is the full-diameter drilling depth below the relief floor under standard drafting convention; the drill point is cosmetic. Thread begins at that floor and extends D036, not the cumulative drilling depth.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D012)",
+        "u": "0",
+        "v": "D040",
+        "spec": {
+          "type": "tapped",
+          "d": "D033",
+          "depth": "D017 + D034",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "8-32-2A AS PRINTED; .50 DEEP FROM RELIEF FLOOR; CLASS REQUIRES CONFIRMATION"
+        }
+      },
+      {
+        "id": "F020",
+        "rationale": "Confirm the apparent 2A class for the internal #8-32 thread; this is a metadata hold, not an additional drilling operation.",
+        "source_callouts": [
+          "8-32-2A THD .50 DEEP"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z,D012)",
+        "u": "0",
+        "v": "D040",
+        "spec": {
+          "type": "tapped",
+          "d": "D033",
+          "depth": "D017 + D034",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "8-32-2A THD .50 DEEP"
+        }
+      },
+      {
+        "id": "F021",
+        "rationale": "Finish the depicted flange-OD chamfer at its hub-side face.",
+        "source_callouts": [
+          "ALL CHAMFERS .06 x 45\u00b0"
+        ],
+        "status": "planned",
+        "justification": "A straight bevel is depicted at this flange corner in the longitudinal section; the general note supplies size and angle.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D062",
+        "angle": "D063",
+        "edges": [
+          "edge_between(face(F001,+Z,D015),wall(F001,D001 / 2))"
+        ]
+      },
+      {
+        "id": "F022",
+        "rationale": "Specify nominal radii and the complete edge set for remaining undimensioned rounds; .047 MAX does not prescribe an exact radius.",
+        "source_callouts": [
+          "ALL RADII .047 MAX"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D064",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z,0),wall(F001,D001 / 2))"
+        ]
+      },
+      {
+        "id": "F023",
+        "rationale": "Confirm the remaining small bore-edge chamfer locations from the original print before applying the general size to ambiguous transitions.",
+        "source_callouts": [
+          "ALL CHAMFERS .06 x 45\u00b0"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D062",
+        "angle": "D063",
+        "edges": [
+          "edge_between(face(F001,-Z,D025),wall(F001,D005 / 2))"
+        ]
       }
     ],
     "notes": [
-      "Coordinates are centered on the chuck axis; discard the extraction's bounding-square coordinate shift.",
-      "The section identifies 3.375 as the external neck and .500 as the local Detail C relief depth, not an annular recess length.",
-      "The conical seat uses the 15-degree angle and .500-ball/1.9734 inspection construction; 3.1250 is reference only.",
-      "Detail C preserves .377 width, .188 left offset and .188 cap radius independently. Review the .001 right-hand transition if a perfectly tangent semicircular outline is required.",
-      "The printed #8 thread class 2A requires confirmation. Drill depth .69 and thread depth .50 are distinct.",
-      "Preserve the independent inner-hole coordinates; do not force the 2.438 vertical radius and 1.218 oblique row offset into a regular hexagon.",
-      "Unresolved finishing features must not execute automatically. Maximum-radius wording does not establish nominal fillets.",
-      "IE 421 hole classes, legacy runout, surface texture, SAE 4340 material and Rockwell C 45-50 hardness are manufacturing requirements, not additional solid features."
+      "Coordinates are axis-centered global coordinates, not the corner-shifted positions from the extraction.",
+      "The small-end .500 dimension locates the Detail C relief floor. The 3.375 diameter is the external neck; neither is a circumferential bore recess.",
+      "The ball-controlled cone mouth is approximately 3.125016 inches, consistent with 3.1250 REF. Ball geometry is inspection tooling, not an added part feature.",
+      "Unresolved features are holds and must not execute. This is not a fully released manufacturing solid until the local relief, cross-hole, thread-class and edge questions are resolved.",
+      "Surface texture, grind requirements, runout and position tolerances remain inspection requirements. Material is SAE 4340; printed hardness is RKW C 45-50.",
+      "IE 421 hole tolerance categories A/B are not datum references. Their numerical limits and the referenced IE specifications are unavailable.",
+      "No automatic all-edge chamfer or fillet is authorized."
     ]
   }
 }
