@@ -1,0 +1,55 @@
+{
+  "status": "ready",
+  "run_id": "run_500d33d225d9490abd7e",
+  "part": "SB10009_SHT_3",
+  "source_sha256": "3036acca9a443dbea90a2afa7c197274648da9fa2c3a607f9494a12c65a7f8ad",
+  "video": "solidworks_recording.mp4",
+  "poster": "solidworks_recording_poster.jpg",
+  "backend": "wgc",
+  "fps": 10,
+  "width": 1520,
+  "height": 856,
+  "frames": 856,
+  "dropped_frames": 0,
+  "duration_s": 85.6,
+  "bytes": 1980363,
+  "paced": true,
+  "build_outcome": "completed",
+  "build_error": "",
+  "chapters": [
+    {
+      "id": "F001",
+      "label": "F001 prism: built",
+      "status": "built",
+      "t": 3.65
+    },
+    {
+      "id": "F002",
+      "label": "F002 hole: built",
+      "status": "built",
+      "t": 18.1
+    },
+    {
+      "id": "F005",
+      "label": "F005 hole: built",
+      "status": "built",
+      "t": 32.95
+    },
+    {
+      "id": "F007",
+      "label": "F007 hole: built",
+      "status": "built",
+      "t": 54.22
+    },
+    {
+      "id": "F009",
+      "label": "F009 hole: built",
+      "status": "built",
+      "t": 81.51
+    }
+  ],
+  "code": "",
+  "reason": "",
+  "schema_version": 1,
+  "generation_key": "dc42b078422f"
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source_pdf_sha256": "f3bfb06fd1380acf81d70756928b2053289ec11965f552fabc113299295d706d",
+  "source_name": "A001911E.pdf",
+  "run_id": "run_acec8597f2b345f6b747",
+  "pages": [
+    {
+      "page_index": 0,
+      "width": 1552.0,
+      "height": 1186.0,
+      "rotation": 0,
+      "text_source": "ocr"
+    }
+  ],
+  "overlays": [],
+  "unlocated_findings": [
+    {
+      "finding_id": "flag_58ebf989fc96",
+      "number": 1,
+      "severity": "info",
+      "label": "1: Modeling practice: mti_hole_grouping",
+      "reason": "no_source_callout",
+      "likely_page": null,
+      "likely_view": null,
+      "likely_region": null,
+      "candidates": 0,
+      "source_callouts": [],
+      "attempts": []
+    }
+  ]
+}

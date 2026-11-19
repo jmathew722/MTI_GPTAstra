@@ -1,0 +1,42 @@
+{
+  "part": "A001911E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001911E\\A001911E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 6,
+  "questions": [],
+  "flagged": [
+    "F002: End-view hidden lines establish the through bore and counterbore entry face. Bore depth exceeds plate thickness to ensure breakout; counterbore depth remains exact.",
+    "F004: End view establishes through-bore geometry. Bore depth overshoots the back face; counterbore depth remains exact.",
+    "F006: C/R does not uniquely specify a fillet rather than a chamfer. Operation and D020 size are placeholders only; do not execute until clarified. DEFAULT D3: chamfer-or-radius built as a 45 deg chamfer"
+  ],
+  "defaults": [
+    "F006: D3 chamfer 0.06 x 45 (C/R)"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001911E\\reference.step",
+  "volume": 1029.538264,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001911E\\191-C_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001911E\\191-C_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001911E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (drill + counterbore; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (drill + counterbore; one feature for F004, F005)",
+    "F005": "built (in F004 (one feature))",
+    "F006": "built (2 edges selected by nearest point)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 5/5"
+  ],
+  "hole_wizard_substitutions": [],
+  "mti_review": [
+    "[mti_hole_grouping] F002, F004: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points"
+  ],
+  "cost_usd": 0.8413,
+  "error": ""
+}

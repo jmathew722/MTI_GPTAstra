@@ -1,17 +1,121 @@
 {
   "schema_version": 1,
-  "run_id": "run_9f120c5295964a41be27",
+  "run_id": "run_fccf07f08f6047bf9764",
   "part": "A040501E",
   "findings": [
     {
-      "finding_id": "flag_e9744d398a3a",
+      "finding_id": "flag_24704bc5da46",
       "part": "A040501E",
-      "run_id": "run_9f120c5295964a41be27",
+      "run_id": "run_fccf07f08f6047bf9764",
+      "severity": "error",
+      "category": "feature_not_built",
+      "title": "Feature F009 was not built",
+      "expected": "1.88; 3.44; 1.75 CENT.; .500; .250 R TYP.",
+      "actual": "skipped: unresolved: Does .250 R TYP. also govern the four larger entrance-recess corners? The drawing shows rounded corners but the leader identifies the inner opening.",
+      "consequence": "The model is missing this feature.",
+      "recommended_action": "Review the callout for F009 against the drawing, then add the feature or correct the plan.",
+      "feature_ids": [
+        "F009"
+      ],
+      "source_callouts": [
+        "1.88",
+        "3.44",
+        "1.75 CENT.",
+        ".500",
+        ".250 R TYP."
+      ],
+      "evidence_ids": [
+        "ir_report:cq_skipped:F009",
+        "plan:F009"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_cb78bfe46c78",
+      "part": "A040501E",
+      "run_id": "run_fccf07f08f6047bf9764",
+      "severity": "error",
+      "category": "feature_not_built",
+      "title": "Feature F011 was not built",
+      "expected": "1.500-12 TAP; 2.50 DP.; SECTION A-A",
+      "actual": "skipped: unresolved: Confirm the left pilot-bore full-diameter extent: does it continue into the transverse opening beyond the 2.50 thread depth shown in section A-A?",
+      "consequence": "The model is missing this feature.",
+      "recommended_action": "Review the callout for F011 against the drawing, then add the feature or correct the plan.",
+      "feature_ids": [
+        "F011"
+      ],
+      "source_callouts": [
+        "1.500-12 TAP",
+        "2.50 DP.",
+        "SECTION A-A"
+      ],
+      "evidence_ids": [
+        "ir_report:cq_skipped:F011",
+        "plan:F011"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_d71d19241aec",
+      "part": "A040501E",
+      "run_id": "run_fccf07f08f6047bf9764",
+      "severity": "warning",
+      "category": "feature_unresolved",
+      "title": "Feature F009 needs an engineer's answer",
+      "expected": "1.88; 3.44; 1.75 CENT.; .500; .250 R TYP.",
+      "actual": "Does .250 R TYP. also govern the four larger entrance-recess corners? The drawing shows rounded corners but the leader identifies the inner opening.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "recommended_action": "Answer the open question on the drawing, then re-run.",
+      "feature_ids": [
+        "F009"
+      ],
+      "source_callouts": [
+        "1.88",
+        "3.44",
+        "1.75 CENT.",
+        ".500",
+        ".250 R TYP."
+      ],
+      "evidence_ids": [
+        "ir_report:questions:F009",
+        "plan:F009"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_36ebbb258477",
+      "part": "A040501E",
+      "run_id": "run_fccf07f08f6047bf9764",
+      "severity": "warning",
+      "category": "feature_unresolved",
+      "title": "Feature F011 needs an engineer's answer",
+      "expected": "1.500-12 TAP; 2.50 DP.; SECTION A-A",
+      "actual": "Confirm the left pilot-bore full-diameter extent: does it continue into the transverse opening beyond the 2.50 thread depth shown in section A-A?",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "recommended_action": "Answer the open question on the drawing, then re-run.",
+      "feature_ids": [
+        "F011"
+      ],
+      "source_callouts": [
+        "1.500-12 TAP",
+        "2.50 DP.",
+        "SECTION A-A"
+      ],
+      "evidence_ids": [
+        "ir_report:questions:F011",
+        "plan:F011"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_eb82c08d3c26",
+      "part": "A040501E",
+      "run_id": "run_fccf07f08f6047bf9764",
       "severity": "info",
       "category": "practice_advisory",
       "title": "Modeling practice: mti_edge_ops_last",
       "expected": "MTI modeling practice",
-      "actual": "F004 (prism) comes after F003 (fillet); MTI puts fillets and chamfers at the end of the tree",
+      "actual": "F003 (prism) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree",
       "consequence": "Advisory only: this never blocks a part.",
       "recommended_action": "Review the feature order and grouping if it matters for this part.",
       "feature_ids": [],

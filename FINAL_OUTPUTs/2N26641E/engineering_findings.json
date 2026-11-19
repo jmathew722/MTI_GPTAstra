@@ -1,17 +1,198 @@
 {
   "schema_version": 1,
-  "run_id": "run_9b95504cdb084251bd9a",
+  "run_id": "run_03b6bede37224f66af3a",
   "part": "2N26641E",
   "findings": [
     {
-      "finding_id": "flag_4759c82e6b1d",
+      "finding_id": "flag_3a0178bd1a99",
       "part": "2N26641E",
-      "run_id": "run_9b95504cdb084251bd9a",
+      "run_id": "run_03b6bede37224f66af3a",
+      "severity": "error",
+      "category": "feature_not_built",
+      "title": "Feature F016 was not built",
+      "expected": ".188 Ø +.004/-.001; 1.250 ±.003; 2.165 ±.003",
+      "actual": "skipped: unresolved: Does the .188 axial hole pass through the shoulder or stop at the radial cross-hole?",
+      "consequence": "The model is missing this feature.",
+      "recommended_action": "Review the callout for F016 against the drawing, then add the feature or correct the plan.",
+      "feature_ids": [
+        "F016"
+      ],
+      "source_callouts": [
+        ".188 Ø +.004/-.001",
+        "1.250 ±.003",
+        "2.165 ±.003"
+      ],
+      "evidence_ids": [
+        "ir_report:cq_skipped:F016",
+        "plan:F016"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_7c6d977dcb96",
+      "part": "2N26641E",
+      "run_id": "run_03b6bede37224f66af3a",
+      "severity": "error",
+      "category": "feature_not_built",
+      "title": "Feature F017 was not built",
+      "expected": ".469 Ø-A; .5003 Ø ±.0003; 1.250 BSC; 30°",
+      "actual": "skipped: unresolved: Confirm whether .469 is preparation only and .5003 finishes through one wall, or a smaller retained step is required.",
+      "consequence": "The model is missing this feature.",
+      "recommended_action": "Review the callout for F017 against the drawing, then add the feature or correct the plan.",
+      "feature_ids": [
+        "F017"
+      ],
+      "source_callouts": [
+        ".469 Ø-A",
+        ".5003 Ø ±.0003",
+        "1.250 BSC",
+        "30°"
+      ],
+      "evidence_ids": [
+        "ir_report:cq_skipped:F017",
+        "plan:F017"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_c47de6f77e57",
+      "part": "2N26641E",
+      "run_id": "run_03b6bede37224f66af3a",
+      "severity": "error",
+      "category": "feature_not_built",
+      "title": "Feature F018 was not built",
+      "expected": "DETAIL C; .377 ±.001; .188 ±.001; .188 R; 1.812; .500",
+      "actual": "skipped: unresolved: Confirm the nominal round-end profile: .377 width, .188 left offset and .188 radius do not define one exact semicircular end.",
+      "consequence": "The model is missing this feature.",
+      "recommended_action": "Review the callout for F018 against the drawing, then add the feature or correct the plan.",
+      "feature_ids": [
+        "F018"
+      ],
+      "source_callouts": [
+        "DETAIL C",
+        ".377 ±.001",
+        ".188 ±.001",
+        ".188 R",
+        "1.812",
+        ".500"
+      ],
+      "evidence_ids": [
+        "ir_report:cq_skipped:F018",
+        "plan:F018"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_1ab5adbc9a5d",
+      "part": "2N26641E",
+      "run_id": "run_03b6bede37224f66af3a",
+      "severity": "error",
+      "category": "feature_not_built",
+      "title": "Feature F020 was not built",
+      "expected": "8-32-2A THD .50 DEEP",
+      "actual": "skipped: failed: CompileError: F020: cut removed no material (check position/direction)",
+      "consequence": "The model is missing this feature.",
+      "recommended_action": "Review the callout for F020 against the drawing, then add the feature or correct the plan.",
+      "feature_ids": [
+        "F020"
+      ],
+      "source_callouts": [
+        "8-32-2A THD .50 DEEP"
+      ],
+      "evidence_ids": [
+        "ir_report:cq_skipped:F020",
+        "plan:F020"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_e27386096da0",
+      "part": "2N26641E",
+      "run_id": "run_03b6bede37224f66af3a",
+      "severity": "warning",
+      "category": "feature_unresolved",
+      "title": "Feature F016 needs an engineer's answer",
+      "expected": ".188 Ø +.004/-.001; 1.250 ±.003; 2.165 ±.003",
+      "actual": "Does the .188 axial hole pass through the shoulder or stop at the radial cross-hole?",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "recommended_action": "Answer the open question on the drawing, then re-run.",
+      "feature_ids": [
+        "F016"
+      ],
+      "source_callouts": [
+        ".188 Ø +.004/-.001",
+        "1.250 ±.003",
+        "2.165 ±.003"
+      ],
+      "evidence_ids": [
+        "ir_report:questions:F016",
+        "plan:F016"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_e4a1a5fa43ac",
+      "part": "2N26641E",
+      "run_id": "run_03b6bede37224f66af3a",
+      "severity": "warning",
+      "category": "feature_unresolved",
+      "title": "Feature F017 needs an engineer's answer",
+      "expected": ".469 Ø-A; .5003 Ø ±.0003; 1.250 BSC; 30°",
+      "actual": "Confirm whether .469 is preparation only and .5003 finishes through one wall, or a smaller retained step is required.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "recommended_action": "Answer the open question on the drawing, then re-run.",
+      "feature_ids": [
+        "F017"
+      ],
+      "source_callouts": [
+        ".469 Ø-A",
+        ".5003 Ø ±.0003",
+        "1.250 BSC",
+        "30°"
+      ],
+      "evidence_ids": [
+        "ir_report:questions:F017",
+        "plan:F017"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_3f56e7d8e3a7",
+      "part": "2N26641E",
+      "run_id": "run_03b6bede37224f66af3a",
+      "severity": "warning",
+      "category": "feature_unresolved",
+      "title": "Feature F018 needs an engineer's answer",
+      "expected": "DETAIL C; .377 ±.001; .188 ±.001; .188 R; 1.812; .500",
+      "actual": "Confirm the nominal round-end profile: .377 width, .188 left offset and .188 radius do not define one exact semicircular end.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "recommended_action": "Answer the open question on the drawing, then re-run.",
+      "feature_ids": [
+        "F018"
+      ],
+      "source_callouts": [
+        "DETAIL C",
+        ".377 ±.001",
+        ".188 ±.001",
+        ".188 R",
+        "1.812",
+        ".500"
+      ],
+      "evidence_ids": [
+        "ir_report:questions:F018",
+        "plan:F018"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_b8da450aeaf1",
+      "part": "2N26641E",
+      "run_id": "run_03b6bede37224f66af3a",
       "severity": "info",
       "category": "practice_advisory",
       "title": "Modeling practice: mti_hole_grouping",
       "expected": "MTI modeling practice",
-      "actual": "F011, F013: identical holes on face(F001,+Z,D015) -> one Hole Wizard feature with several sketch points",
+      "actual": "F006, F008: identical holes on face(F001,+Z,D015) -> one Hole Wizard feature with several sketch points",
       "consequence": "Advisory only: this never blocks a part.",
       "recommended_action": "Review the feature order and grouping if it matters for this part.",
       "feature_ids": [],
@@ -22,14 +203,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_8d6489ceddd1",
+      "finding_id": "flag_84df88dcd7ae",
       "part": "2N26641E",
-      "run_id": "run_9b95504cdb084251bd9a",
+      "run_id": "run_03b6bede37224f66af3a",
       "severity": "info",
       "category": "practice_advisory",
       "title": "Modeling practice: mti_hole_grouping",
       "expected": "MTI modeling practice",
-      "actual": "F015, F017: identical holes on face(F001,+Z,D013) -> one Hole Wizard feature with several sketch points",
+      "actual": "F010, F012: identical holes on face(F001,+Z,D013) -> one Hole Wizard feature with several sketch points",
       "consequence": "Advisory only: this never blocks a part.",
       "recommended_action": "Review the feature order and grouping if it matters for this part.",
       "feature_ids": [],
@@ -40,14 +221,32 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_d12be3318a51",
+      "finding_id": "flag_8ac6bf697151",
       "part": "2N26641E",
-      "run_id": "run_9b95504cdb084251bd9a",
+      "run_id": "run_03b6bede37224f66af3a",
+      "severity": "info",
+      "category": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "expected": "MTI modeling practice",
+      "actual": "F019, F020: identical holes on face(F001,+Z,D012) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "recommended_action": "Review the feature order and grouping if it matters for this part.",
+      "feature_ids": [],
+      "source_callouts": [],
+      "evidence_ids": [
+        "ir_report:mti_review:mti_hole_grouping"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_102937fc02b6",
+      "part": "2N26641E",
+      "run_id": "run_03b6bede37224f66af3a",
       "severity": "info",
       "category": "practice_advisory",
       "title": "Modeling practice: mti_edge_ops_last",
       "expected": "MTI modeling practice",
-      "actual": "F008 (prism) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree",
+      "actual": "F006 (hole) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree",
       "consequence": "Advisory only: this never blocks a part.",
       "recommended_action": "Review the feature order and grouping if it matters for this part.",
       "feature_ids": [],

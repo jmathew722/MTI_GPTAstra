@@ -6,14 +6,18 @@ from pipeline.ir.cq_runtime import Model
 
 m = Model('4050-D', origin_kind='axis_end', units='inch', strict=False)
 m.revolve('F001', outer=[(0, 1.7505), (8, 1.7505)], inner=[], op='add')  # outer (0,D010 / 2) (D001,D010 / 2)
-m.prism('F002', on='plane(top)', offset=-3.501, profile={'shape': 'rect', 'w': 1.5, 'h': 1.75, 'anchor': 'corner', 'u': -0.75, 'v': 2.75}, depth='thru', op='cut')  # w=D008, h=D006, u=-D008 / 2, v=D001 - D007 - D006; depth=thru; offset=-D010
-m.edge_op('F003', operation='fillet', size=0.25, angle=45, edges=['edge_between(face(F002,-X),face(F002,-Z))', 'edge_between(face(F002,-X),face(F002,+Z))', 'edge_between(face(F002,+X),face(F002,-Z))', 'edge_between(face(F002,+X),face(F002,+Z))'])  # size=D005; edges=['edge_between(face(F002,-X),face(F002,-Z))', 'edge_between(face(F002,-X),face(F002,+Z))', 'edge_between(face(F002,+X),face(F002,-Z))', 'edge_between(face(F002,+X),face(F002,+Z))']
-m.prism('F004', on='plane(top)', offset=1.2505, profile={'shape': 'rect', 'w': 1.75, 'h': 1.88, 'anchor': 'corner', 'u': -0.875, 'v': 2.68}, depth=3.501, op='cut')  # w=D004, h=D002, u=-D004 / 2, v=D001 - D003 - D002; depth=D010; offset=D010 / 2 - D009
-m.edge_op('F005', operation='fillet', size=0.25, angle=45, edges=['edge_between(face(F004,-X),face(F004,-Z))', 'edge_between(face(F004,-X),face(F004,+Z))', 'edge_between(face(F004,+X),face(F004,-Z))', 'edge_between(face(F004,+X),face(F004,+Z))'])  # size=D005; edges=['edge_between(face(F004,-X),face(F004,-Z))', 'edge_between(face(F004,-X),face(F004,+Z))', 'edge_between(face(F004,+X),face(F004,-Z))', 'edge_between(face(F004,+X),face(F004,+Z))']
-m.hole('F006', on='face(F001,-Z)', u=0, v=0, spec={'type': 'tapped', 'd': 1.421875, 'depth': 2.5})  # u=0, v=0, d=1.421875
-m.hole('F007', on='face(F001,+Z)', u=0, v=0, spec={'type': 'cbore', 'd': 0.531, 'depth': 4.375, 'cbore_d': 0.812, 'cbore_depth': 1.25})  # u=0, v=0, d=0.531, cbore=0.812xD017
-m.hole('F008', on='face(F001,+Z)', u=-0.884, v=-0.884, spec={'type': 'tapped', 'd': 0.3125, 'depth': 0.88})  # u=-D019, v=-D020, d=0.3125
-m.pattern('F009', seed='F008', mode='grid', count=2, pitch=1.768, dir='+X', count2=2, pitch2=1.768, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=2 * D019
-m.edge_op('F010', operation='chamfer', size=0.06, angle=45, edges=['edge_between(face(F001,-Z),wall(F001,1.7505))', 'edge_between(face(F001,+Z),wall(F001,1.7505))'])  # size=D013; edges=['edge_between(face(F001,-Z),wall(F001,D010 / 2))', 'edge_between(face(F001,+Z),wall(F001,D010 / 2))']
+m.edge_op('F002', operation='chamfer', size=0.06, angle=45, edges=['edge_between(face(F001,-Z),wall(F001))', 'edge_between(face(F001,+Z),wall(F001))'])  # size=D013; edges=['edge_between(face(F001,-Z),wall(F001))', 'edge_between(face(F001,+Z),wall(F001))']
+m.prism('F003', on='plane(top)', offset=-3.501, profile={'shape': 'rect', 'w': 1, 'h': 1.75, 'anchor': 'corner', 'u': -0.5, 'v': 2.75}, depth='thru', op='cut')  # w=D008 - 2 * D005, h=D006, u=-D008 / 2 + D005, v=D001 - D007 - D006; depth=thru; offset=-D010
+m.prism('F004', on='plane(top)', offset=-3.501, profile={'shape': 'rect', 'w': 1.5, 'h': 1.25, 'anchor': 'corner', 'u': -0.75, 'v': 3}, depth='thru', op='cut')  # w=D008, h=D006 - 2 * D005, u=-D008 / 2, v=D001 - D007 - D006 + D005; depth=thru; offset=-D010
+m.prism('F005', on='plane(top)', offset=-3.501, profile={'shape': 'circle', 'd': 0.5, 'u': -0.5, 'v': 3}, depth='thru', op='cut')  # d=2 * D005, u=-D008 / 2 + D005, v=D001 - D007 - D006 + D005; depth=thru; offset=-D010
+m.prism('F006', on='plane(top)', offset=-3.501, profile={'shape': 'circle', 'd': 0.5, 'u': 0.5, 'v': 3}, depth='thru', op='cut')  # d=2 * D005, u=D008 / 2 - D005, v=D001 - D007 - D006 + D005; depth=thru; offset=-D010
+m.prism('F007', on='plane(top)', offset=-3.501, profile={'shape': 'circle', 'd': 0.5, 'u': -0.5, 'v': 4.25}, depth='thru', op='cut')  # d=2 * D005, u=-D008 / 2 + D005, v=D001 - D007 - D005; depth=thru; offset=-D010
+m.prism('F008', on='plane(top)', offset=-3.501, profile={'shape': 'circle', 'd': 0.5, 'u': 0.5, 'v': 4.25}, depth='thru', op='cut')  # d=2 * D005, u=D008 / 2 - D005, v=D001 - D007 - D005; depth=thru; offset=-D010
+m.skip('F009', 'unresolved: Does .250 R TYP. also govern the four larger entrance-recess corners? The drawing shows rounded corners but the leader identifies the inner opening.')
+m.hole('F010', on='face(F001,-Z)', u=0, v=0, spec={'type': 'tapped', 'd': 1.421875, 'depth': 2.5})  # u=0, v=0, d=1.421875
+m.skip('F011', 'unresolved: Confirm the left pilot-bore full-diameter extent: does it continue into the transverse opening beyond the 2.50 thread depth shown in section A-A?')
+m.hole('F012', on='face(F001,+Z)', u=0, v=0, spec={'type': 'cbore', 'd': 0.531, 'depth': 4.375, 'cbore_d': 0.812, 'cbore_depth': 1.25})  # u=0, v=0, d=0.531, cbore=0.812xD017
+m.hole('F013', on='face(F001,+Z)', u=-0.884, v=-0.884, spec={'type': 'tapped', 'd': 0.3125, 'depth': 0.88})  # u=-D019, v=-D020, d=0.3125
+m.pattern('F014', seed='F013', mode='grid', count=2, pitch=1.768, dir='+X', count2=2, pitch2=1.768, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=2 * D019
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "run_id": "run_acec8597f2b345f6b747",
+  "part": "A001911E",
+  "findings": [
+    {
+      "finding_id": "flag_58ebf989fc96",
+      "part": "A001911E",
+      "run_id": "run_acec8597f2b345f6b747",
+      "severity": "info",
+      "category": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "expected": "MTI modeling practice",
+      "actual": "F002, F004: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "recommended_action": "Review the feature order and grouping if it matters for this part.",
+      "feature_ids": [],
+      "source_callouts": [],
+      "evidence_ids": [
+        "ir_report:mti_review:mti_hole_grouping"
+      ],
+      "schema_version": 1
+    }
+  ]
+}

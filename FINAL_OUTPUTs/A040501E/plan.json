@@ -38,18 +38,18 @@
       "origin_kind": "axis_end",
       "units": "inch",
       "view_map": {
+        "Top": "+Y; shaft length is global Z, transverse width is global X",
         "Right": "+Z",
-        "Top": "+Y",
-        "Section A-A": "XZ axial section; left end Z=0, right end Z=D001"
+        "Section A-A": "YZ section; left end is Z=0"
       }
     },
     "features": [
       {
         "id": "F001",
-        "rationale": "Turn the constant-diameter shaft blank with its axis along Z.",
+        "rationale": "Turn the cylindrical shaft blank with the left end at axial zero.",
         "source_callouts": [
           "8.000",
-          "3.501 DIA. +.000/-.001"
+          "3.501 +.000/-.001 DIA."
         ],
         "status": "planned",
         "justification": "",
@@ -70,58 +70,162 @@
       },
       {
         "id": "F002",
-        "rationale": "Cut the centered transverse opening completely through the shaft; corner radii follow in F003.",
+        "rationale": "Chamfer only the two outside circular end edges.",
         "source_callouts": [
-          "1.750 +.001/-.000",
-          "1.500 CENT. +.001/-.000",
-          "3.500 \u00b1.001"
+          ".060 X 45\u00b0 BOTH ENDS"
         ],
         "status": "planned",
-        "justification": "The top view and section A-A show a transverse through-opening. Start below the entire OD and cut through; axial placement follows the independently dimensioned right wall.",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D013",
+        "angle": "D014",
+        "edges": [
+          "edge_between(face(F001,-Z),wall(F001))",
+          "edge_between(face(F001,+Z),wall(F001))"
+        ]
+      },
+      {
+        "id": "F003",
+        "rationale": "First overlapping strip of the rounded rectangular transverse through-opening.",
+        "source_callouts": [
+          "1.750 +.001/-.000",
+          "1.500 +.001/-.000 CENT.",
+          "3.500 \u00b1.001",
+          ".250 R TYP."
+        ],
+        "status": "planned",
+        "justification": "The top view and section A-A show a transverse through-opening. Two overlapping rectangular strips and four circular cuts form its exact .250-radius profile. Cuts start outside the negative-Y envelope and pass through the shaft.",
         "kind": "prism",
         "on": "plane(top)",
         "offset": "-D010",
         "profile": {
           "shape": "rect",
-          "w": "D008",
+          "w": "D008 - 2 * D005",
           "h": "D006",
           "anchor": "corner",
-          "u": "-D008 / 2",
+          "u": "-D008 / 2 + D005",
           "v": "D001 - D007 - D006"
         },
         "depth": "thru",
         "op": "cut"
       },
       {
-        "id": "F003",
-        "rationale": "Round the four longitudinal corners of the transverse opening to the specified typical radius.",
+        "id": "F004",
+        "rationale": "Second overlapping strip establishes the full transverse width between rounded corners.",
+        "source_callouts": [
+          "1.750 +.001/-.000",
+          "1.500 +.001/-.000 CENT.",
+          ".250 R TYP."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "-D010",
+        "profile": {
+          "shape": "rect",
+          "w": "D008",
+          "h": "D006 - 2 * D005",
+          "anchor": "corner",
+          "u": "-D008 / 2",
+          "v": "D001 - D007 - D006 + D005"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F005",
+        "rationale": "Negative-X, left-axial rounded corner of the through-opening.",
         "source_callouts": [
           ".250 R TYP."
         ],
         "status": "planned",
         "justification": "",
-        "kind": "edge_op",
-        "operation": "fillet",
-        "size": "D005",
-        "angle": "45",
-        "edges": [
-          "edge_between(face(F002,-X),face(F002,-Z))",
-          "edge_between(face(F002,-X),face(F002,+Z))",
-          "edge_between(face(F002,+X),face(F002,-Z))",
-          "edge_between(face(F002,+X),face(F002,+Z))"
-        ]
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "-D010",
+        "profile": {
+          "shape": "circle",
+          "d": "2 * D005",
+          "u": "-D008 / 2 + D005",
+          "v": "D001 - D007 - D006 + D005"
+        },
+        "depth": "thru",
+        "op": "cut"
       },
       {
-        "id": "F004",
-        "rationale": "Remove the upper entrance recess to its dimensioned floor; its corner finishing remains unresolved in F005.",
+        "id": "F006",
+        "rationale": "Positive-X, left-axial rounded corner of the through-opening.",
+        "source_callouts": [
+          ".250 R TYP."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "-D010",
+        "profile": {
+          "shape": "circle",
+          "d": "2 * D005",
+          "u": "D008 / 2 - D005",
+          "v": "D001 - D007 - D006 + D005"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F007",
+        "rationale": "Negative-X, right-axial rounded corner of the through-opening.",
+        "source_callouts": [
+          ".250 R TYP."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "-D010",
+        "profile": {
+          "shape": "circle",
+          "d": "2 * D005",
+          "u": "-D008 / 2 + D005",
+          "v": "D001 - D007 - D005"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F008",
+        "rationale": "Positive-X, right-axial rounded corner of the through-opening.",
+        "source_callouts": [
+          ".250 R TYP."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "-D010",
+        "profile": {
+          "shape": "circle",
+          "d": "2 * D005",
+          "u": "D008 / 2 - D005",
+          "v": "D001 - D007 - D005"
+        },
+        "depth": "thru",
+        "op": "cut"
+      },
+      {
+        "id": "F009",
+        "rationale": "Does .250 R TYP. also govern the four larger entrance-recess corners? The drawing shows rounded corners but the leader identifies the inner opening.",
         "source_callouts": [
           "1.88",
           "3.44",
           "1.75 CENT.",
-          ".500"
+          ".500",
+          ".250 R TYP."
         ],
-        "status": "planned",
-        "justification": "Section A-A locates the recess floor .500 below the OD crown. Cutting outward from that floor with depth D010 overshoots the curved outside surface. The recess is centered transversely, but its axial position is independently dimensioned and is not forced concentric with the inner opening.",
+        "status": "unresolved",
+        "justification": "The rectangular profile records only the known recess envelope, not an authorized square-corner substitute. Hold this entire feature until its corner radius is confirmed. Its floor is .500 below the OD crown; the outward cut overshoots the cylindrical surface. Preserve its independently dimensioned axial position rather than centering it on the inner opening.",
         "kind": "prism",
         "on": "plane(top)",
         "offset": "D010 / 2 - D009",
@@ -137,33 +241,14 @@
         "op": "cut"
       },
       {
-        "id": "F005",
-        "rationale": "Does the .250 R TYP callout also specify all four outer recess corners, or is a different outer corner radius required?",
-        "source_callouts": [
-          ".250 R TYP."
-        ],
-        "status": "unresolved",
-        "justification": "The leader identifies the inner opening. The outer recess is drawn with rounded corners, but its radius is not independently specified. D005 is a candidate only; do not execute this feature until confirmed. F004 alone is an unfinished sharp-corner recess, not the final recess geometry.",
-        "kind": "edge_op",
-        "operation": "fillet",
-        "size": "D005",
-        "angle": "45",
-        "edges": [
-          "edge_between(face(F004,-X),face(F004,-Z))",
-          "edge_between(face(F004,-X),face(F004,+Z))",
-          "edge_between(face(F004,+X),face(F004,-Z))",
-          "edge_between(face(F004,+X),face(F004,+Z))"
-        ]
-      },
-      {
-        "id": "F006",
-        "rationale": "Create the left coaxial blind tapped bore with a standard tap-drill diameter and cosmetic thread.",
+        "id": "F010",
+        "rationale": "Model the left coaxial internal thread cosmetically on its standard tap-drill bore.",
         "source_callouts": [
           "1.500-12 TAP",
           "2.50 DP."
         ],
         "status": "planned",
-        "justification": "Use the standard 1-27/64 inch tap drill (1.421875) for a 1-1/2-12 UN thread. The flat-bottom nominal tapped-hole model uses the specified thread depth D012; no unprinted extra drilling allowance or drill-point geometry is added.",
+        "justification": "Use the standard 1-27/64 inch tap drill (1.421875) for a 1-1/2-12 thread. D012 is the specified threaded depth; this feature models that nominal depth without inventing an additional drilling allowance. Any continuation beyond the threaded length is held separately for review.",
         "kind": "hole",
         "on": "face(F001,-Z)",
         "u": "0",
@@ -176,17 +261,43 @@
           "cbore_depth": null,
           "csink_d": null,
           "csink_angle": null,
-          "thread": "1.500-12 UN; thread depth 2.50; class unspecified"
+          "thread": "1.500-12 TAP, 2.50 DP.; class unspecified"
         }
       },
       {
-        "id": "F007",
-        "rationale": "Drill the right axial clearance passage into the transverse opening and counterbore from the right end.",
+        "id": "F011",
+        "rationale": "Confirm the left pilot-bore full-diameter extent: does it continue into the transverse opening beyond the 2.50 thread depth shown in section A-A?",
         "source_callouts": [
-          "DR. & C'BORE 1.25 DP. FOR .500 S.H.C.S."
+          "1.500-12 TAP",
+          "2.50 DP.",
+          "SECTION A-A"
+        ],
+        "status": "unresolved",
+        "justification": "The callout specifies thread depth, not a separate pilot drilling depth. The section shows additional bore/thread-end lines near the opening but does not dimension their extent. The listed depth is only a held candidate terminating within the opening, not an approved drilling depth. Diameter 1.421875 is the standard 1-27/64 tap drill for 1-1/2-12.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "0",
+        "v": "0",
+        "spec": {
+          "type": "blind",
+          "d": "1.421875",
+          "depth": "D001 - D007 - D006 / 2",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F012",
+        "rationale": "Counterbore the right axial passage for a half-inch SHCS, with the clearance drill breaking into the transverse opening only.",
+        "source_callouts": [
+          "DR. & C'BORE 1.25 DP.",
+          "FOR .500 S.H.C.S."
         ],
         "status": "planned",
-        "justification": "For the D018 nominal .500 SHCS, the supplied ASME B18.3 normal-fit chart specifies .531 drill and .812 counterbore diameter. The printed D017 overrides the chart's usual counterbore depth. Passage depth D007 + D006/2 overshoots the right web into the transverse opening without drilling the left web.",
+        "justification": "For D018=.500 SHCS, the supplied ASME B18.3 normal-fit chart gives clearance drill .531 and counterbore diameter .812. The explicitly printed D017 overrides the chart's default counterbore depth. Section A-A shows the passage ending in the transverse opening; drilling to its axial midpoint overshoots the right web without drilling the left web.",
         "kind": "hole",
         "on": "face(F001,+Z)",
         "u": "0",
@@ -203,15 +314,15 @@
         }
       },
       {
-        "id": "F008",
-        "rationale": "Create the lower-left right-end tapped-hole seed.",
+        "id": "F013",
+        "rationale": "Seed tapped hole in the right end face at the negative-X, negative-Y location.",
         "source_callouts": [
           ".375-16 TAP .88 DP.",
           "4 HLS.",
           ".884 TYP. \u00b1.005"
         ],
         "status": "planned",
-        "justification": "A 3/8-16 UNC thread uses a standard 5/16 inch (.3125) tap drill. Model the printed tapped depth as a flat-bottom nominal threaded bore, with threads cosmetic and no invented drill-point allowance. End-view coordinates are measured from the shaft axis, not the bounding-box corner.",
+        "justification": "Use the standard 5/16 inch (.3125) tap drill for D015=.375, 16-TPI UNC. Model the specified threaded depth as a flat-bottom nominal bore with cosmetic threads; no unprinted drill-point or extra bottom allowance is added. The end view shows symmetric offsets about both axis centerlines.",
         "kind": "hole",
         "on": "face(F001,+Z)",
         "u": "-D019",
@@ -224,20 +335,20 @@
           "cbore_depth": null,
           "csink_d": null,
           "csink_angle": null,
-          "thread": ".375-16 UNC; thread depth .88; class unspecified"
+          "thread": ".375-16 UNC TAP, .88 DP.; class unspecified"
         }
       },
       {
-        "id": "F009",
-        "rationale": "Repeat the tapped seed in the four symmetric end-view positions.",
+        "id": "F014",
+        "rationale": "Complete the four right-end tapped holes on the symmetric two-by-two grid.",
         "source_callouts": [
           "4 HLS.",
           ".884 TYP. \u00b1.005"
         ],
         "status": "planned",
-        "justification": "The end view shows mirror-image rows and columns about both centerlines, each at the dimensioned .884 offset.",
+        "justification": "Both rows and both columns are mirror images about the end-view centerlines; pitches are twice the dimensioned offsets.",
         "kind": "pattern",
-        "seed": "F008",
+        "seed": "F013",
         "mode": "grid",
         "dir": "+X",
         "count": "2",
@@ -249,32 +360,16 @@
         "start_angle": "0",
         "step": "equal",
         "skip": []
-      },
-      {
-        "id": "F010",
-        "rationale": "Chamfer only the outside circular edge at each end.",
-        "source_callouts": [
-          ".060 \u00d7 45\u00b0 BOTH ENDS"
-        ],
-        "status": "planned",
-        "justification": "",
-        "kind": "edge_op",
-        "operation": "chamfer",
-        "size": "D013",
-        "angle": "D014",
-        "edges": [
-          "edge_between(face(F001,-Z),wall(F001,D010 / 2))",
-          "edge_between(face(F001,+Z),wall(F001,D010 / 2))"
-        ]
       }
     ],
     "notes": [
-      "Material: 4140. Heat treatment: direct harden R/C 28-32; ionitride outside diameter only, .008 minimum case depth, R/C 49 minimum. These are manufacturing requirements, not added geometry.",
-      "OD is datum A. Preserve D021 perpendicularity of the opening right wall and D022 perpendicularity of the right end face as inspection requirements.",
-      "Surface textures 16 on OD and 125 where indicated are non-geometric requirements.",
-      "Final recess geometry requires resolution of F005. Do not release the intermediate sharp-corner recess as a faithful finished model.",
-      "Tapped-hole solids represent standard tap-drill cylinders over the specified tapped depths with cosmetic threads. Extra pilot depth, drill points, thread runout, and thread class are not supplied by this drawing and are not invented.",
-      "The axial clearance passage ends inside the transverse opening; it is not a through-all hole along the complete shaft."
+      "The build is partial pending F009 recess-corner confirmation and F011 left pilot-bore extent confirmation; unresolved features must not execute as their placeholder geometry.",
+      "Use the printed controlling dimensions rather than extracted bounding-box hole coordinates. With an axis-end origin the four end holes are at (\u00b1D019, \u00b1D020).",
+      "D021 controls perpendicularity of the right inner opening wall to datum A; D022 controls perpendicularity of the right end face. Datum A is the OD. These are inspection requirements, not additional cuts.",
+      "Preserve nominal dimensional tolerances and indicated surface textures, including OD texture 16 and indicated machined surfaces 125.",
+      "Material: 4140. Heat treatment: DIRECT HDN. R/C 28-32; IONITRIDE OUTSIDE DIA. ONLY, .008 MIN. CASE DEPTH, R/C 49 MIN. D023 is a process requirement, not a geometric offset.",
+      "Threads are cosmetic. Thread fit classes and extra pilot-drilling allowances are not specified and have not been invented.",
+      "The entrance recess and through-opening have slightly different dimensioned axial centers; do not impose axial concentricity."
     ]
   }
 }

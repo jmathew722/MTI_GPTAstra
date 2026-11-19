@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "part": "A001911E",
+  "run_id": "run_acec8597f2b345f6b747",
+  "source_pdf": "A001911E.pdf",
+  "source_sha256": "f3bfb06fd1380acf81d70756928b2053289ec11965f552fabc113299295d706d",
+  "marked_pdf": "A001911E_engineering_markup.pdf",
+  "generated_at": "2026-11-19T19:25:24Z",
+  "generator_version": "engineering_markup/1",
+  "finding_count": 1,
+  "located_count": 0,
+  "unlocated_count": 1,
+  "status": "partial",
+  "warnings": [
+    {
+      "code": "MARKUP_LOCALIZATION_PARTIAL",
+      "detail": "1 of 1 flag(s) could not be placed precisely"
+    }
+  ],
+  "report_pages": 1,
+  "pages": [
+    {
+      "page": 1,
+      "width_pt": 2120.28,
+      "height_pt": 1186.0,
+      "drawing_width_pt": 1552.0,
+      "rail_width_pt": 568.28,
+      "source_rotation": 0,
+      "finding_ids": [
+        "EF-001"
+      ],
+      "preview": "engineering_markup_pages/page-0001.png",
+      "preview_dpi": 110
+    }
+  ],
+  "findings": [
+    {
+      "id": "EF-001",
+      "number": 1,
+      "finding_id": "flag_58ebf989fc96",
+      "severity": "INFO",
+      "code": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "explanation": "Expected: MTI modeling practice. Actual: F002, F004: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
+      "expected": "MTI modeling practice",
+      "actual": "F002, F004: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "manual_action": "Review the feature order and grouping if it matters for this part.",
+      "location_status": "unlocated",
+      "source_callout": "",
+      "feature_ids": [],
+      "page": 1,
+      "location_method": "no_source_callout",
+      "confidence": 0.0,
+      "rect_pdf_points": null,
+      "rect_normalized": null,
+      "regions": [],
+      "card": {
+        "page": 1,
+        "rect": [
+          1567.68,
+          15.68,
+          2104.61,
+          184.59
+        ]
+      }
+    }
+  ],
+  "generation_key": "ab3070149738"
+}

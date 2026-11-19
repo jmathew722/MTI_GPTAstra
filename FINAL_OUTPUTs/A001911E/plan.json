@@ -1,0 +1,202 @@
+{
+  "dims": {
+    "D001": 83.0,
+    "D002": 1.5,
+    "D003": 80.0,
+    "D004": 70.0,
+    "D005": 60.0,
+    "D006": 50.0,
+    "D007": 40.0,
+    "D008": 30.0,
+    "D009": 20.0,
+    "D010": 10.0,
+    "D011": 1.25,
+    "D012": 3.0,
+    "D013": 1.062,
+    "D014": 1.562,
+    "D015": 1.0,
+    "D016": 1.75,
+    "D017": 7.25,
+    "D018": 2.5,
+    "D019": 2.5,
+    "D020": 0.06,
+    "D021": 0.125,
+    "D022": 1.5,
+    "D023": 10.0,
+    "D024": 1.75,
+    "D025": 0.75,
+    "D026": 20.0
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "191-C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "end": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular plate; X is length, Y is height, and Z is thickness. Datum A is at Z=0.",
+        "source_callouts": [
+          "83.00",
+          "7.250",
+          "1.750 \u00b1.001"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D017",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D016",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "First lower-row counterbored through hole, opening on datum A.",
+        "source_callouts": [
+          "1.500",
+          "1.250 \u00b1.005",
+          "1.062 \u2300 - B",
+          "1.562 \u2300 C'BORE 1.00 DEEP",
+          "9 - HOLES"
+        ],
+        "status": "planned",
+        "justification": "End-view hidden lines establish the through bore and counterbore entry face. Bore depth exceeds plate thickness to ensure breakout; counterbore depth remains exact.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D002",
+        "v": "D011",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": "2 * D016",
+          "cbore_d": "D014",
+          "cbore_depth": "D015",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Five lower-row holes at baseline offsets 0, 20, 40, 60 and 80 inches.",
+        "source_callouts": [
+          "20.000",
+          "40.000",
+          "60.000",
+          "80.000",
+          "1.250 \u00b1.005",
+          "9 - HOLES"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "5",
+        "pitch": "D009",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "First upper-row counterbored through hole at the printed 10-inch baseline offset.",
+        "source_callouts": [
+          "10.000",
+          "3.000 \u00b1.005",
+          "1.062 \u2300 - B",
+          "1.562 \u2300 C'BORE 1.00 DEEP",
+          "9 - HOLES"
+        ],
+        "status": "planned",
+        "justification": "End view establishes through-bore geometry. Bore depth overshoots the back face; counterbore depth remains exact.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D002 + D010",
+        "v": "D012",
+        "spec": {
+          "type": "cbore",
+          "d": "D013",
+          "depth": "2 * D016",
+          "cbore_d": "D014",
+          "cbore_depth": "D015",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Four upper-row holes at baseline offsets 10, 30, 50 and 70 inches.",
+        "source_callouts": [
+          "10.000",
+          "30.000",
+          "50.000",
+          "70.000",
+          "3.000 \u00b1.005",
+          "9 - HOLES"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F004",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "4",
+        "pitch": "D008 - D010",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F006",
+        "rationale": "Confirm chamfer versus radius and select a size within .06/.09 for the two upper longitudinal edges.",
+        "source_callouts": [
+          ".06/.09 C/R"
+        ],
+        "status": "unresolved",
+        "justification": "C/R does not uniquely specify a fillet rather than a chamfer. Operation and D020 size are placeholders only; do not execute until clarified.",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D020",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Y),face(F001,-Z))",
+          "edge_between(face(F001,+Y),face(F001,+Z))"
+        ]
+      }
+    ],
+    "notes": [
+      "The nine holes form two staggered rows. Pattern geometry agrees with printed baseline dimensions D003 through D010; retain independent baseline tolerances rather than imposing chained pitch tolerances.",
+      "Datum A is the counterbore-side broad face at Z=0. The faint '- B' after the bore diameter is not treated as an established datum.",
+      "H-marked regions are heat-treatment extents, not steps: full top face and upper D018/D019 portions of both broad faces. Heat treatment specifies Rockwell C 58 minimum and D021 minimum hardened depth.",
+      "Material: MPR STD. STL.; exact grade requires the internal material specification.",
+      "Surface texture 16 and geometric tolerances are manufacturing/inspection requirements, not additional solid features.",
+      "The extraction's definite-radius interpretation of .06/.09 C/R requires clarification. Only the two indicated upper longitudinal edges are implicated."
+    ]
+  }
+}

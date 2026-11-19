@@ -1,0 +1,127 @@
+{
+  "status": "ready",
+  "run_id": "run_03b6bede37224f66af3a",
+  "part": "2N26641E",
+  "source_sha256": "60fb3354b19c57b35a2302b018ea103d3194b3c4087dbee77c8200b0d43babb4",
+  "video": "solidworks_recording.mp4",
+  "poster": "solidworks_recording_poster.jpg",
+  "backend": "wgc",
+  "fps": 10,
+  "width": 1520,
+  "height": 856,
+  "frames": 2982,
+  "dropped_frames": 0,
+  "duration_s": 298.2,
+  "bytes": 6378835,
+  "paced": true,
+  "build_outcome": "completed",
+  "build_error": "",
+  "chapters": [
+    {
+      "id": "F001",
+      "label": "F001 revolve: built",
+      "status": "built",
+      "t": 6.17
+    },
+    {
+      "id": "F002",
+      "label": "F002 edge_op: built",
+      "status": "built",
+      "t": 9.99
+    },
+    {
+      "id": "F003",
+      "label": "F003 edge_op: built",
+      "status": "built",
+      "t": 13.36
+    },
+    {
+      "id": "F004",
+      "label": "F004 edge_op: built",
+      "status": "built",
+      "t": 17.08
+    },
+    {
+      "id": "F005",
+      "label": "F005 edge_op: built",
+      "status": "built",
+      "t": 22.92
+    },
+    {
+      "id": "F006",
+      "label": "F006 hole: built",
+      "status": "built",
+      "t": 36.38
+    },
+    {
+      "id": "F008",
+      "label": "F008 hole: built",
+      "status": "built",
+      "t": 52.96
+    },
+    {
+      "id": "F010",
+      "label": "F010 hole: built",
+      "status": "built",
+      "t": 84.08
+    },
+    {
+      "id": "F012",
+      "label": "F012 hole: built",
+      "status": "built",
+      "t": 121.21
+    },
+    {
+      "id": "F014",
+      "label": "F014 hole: built",
+      "status": "built",
+      "t": 162.78
+    },
+    {
+      "id": "F015",
+      "label": "F015 hole: built",
+      "status": "built",
+      "t": 184.53
+    },
+    {
+      "id": "F019",
+      "label": "F019 hole: built",
+      "status": "built",
+      "t": 208.25
+    },
+    {
+      "id": "F021",
+      "label": "F021 edge_op: built",
+      "status": "built",
+      "t": 211.76
+    },
+    {
+      "id": "F022",
+      "label": "F022 edge_op: built",
+      "status": "built",
+      "t": 214.97
+    },
+    {
+      "id": "F023",
+      "label": "F023 edge_op: built",
+      "status": "built",
+      "t": 218.5
+    },
+    {
+      "id": "F024",
+      "label": "F024 edge_op: built",
+      "status": "built",
+      "t": 242.28
+    },
+    {
+      "id": "F025",
+      "label": "F025 edge_op: built",
+      "status": "built",
+      "t": 293.43
+    }
+  ],
+  "code": "",
+  "reason": "",
+  "schema_version": 1,
+  "generation_key": "146db2c1f438"
+}
