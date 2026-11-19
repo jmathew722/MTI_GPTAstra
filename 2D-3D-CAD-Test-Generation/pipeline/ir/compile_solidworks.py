@@ -185,6 +185,7 @@ class SwBuildReport:
     sketches: dict[str, int] = field(default_factory=dict)  # sketch -> swConstrainedStatus_e (3 = fully defined)
     # Hole Wizard features that became a PLAIN CUT: each is {fid, code, detail}. Never reported as Hole Wizard support.
     hole_wizard_substitutions: list[dict] = field(default_factory=list)
+    hole_wizard_preflight: Optional[dict] = None   # environment gate result (sw_preflight), path-free; None = not run
 
     @property
     def ok(self) -> bool:
@@ -544,6 +545,14 @@ class _SW:
         self._hw_sub = None
         if self.convention == "mti":
             choice = hole_wizard_choice(spec, self.dims, self.plan.frame.units)
+            if choice and self._hw_environment_failure():
+                # The environment is provably not SOLIDWORKS 2025 + a compatible Hole Wizard database: do not call
+                # HoleWizard5 (it can block forever behind a modal dialog, E037). Loud, never silent.
+                pre = self._hw_pre
+                self._hw_substituted(fid, pre["code"], pre["message"])
+                choice = None
+                if os.environ.get("MTI_HOLE_WIZARD_STRICT") == "1":
+                    return SwFeatureResult(fid, "failed", note=f"Hole Wizard required (strict) but unavailable: {pre['code']} {pre['message']}")
             if choice:
                 res = self.hole_wizard(fid, centers, spec, axis, coord, d, choice, layout)
                 if res is not None:
@@ -556,6 +565,25 @@ class _SW:
             code, why = self._hw_sub
             res.note = f"PLAIN CUT, NOT Hole Wizard ({code})" + (f": {res.note}" if res.note else "")
         return res
+
+    _HW_BLOCKING = ("SW_VERSION_UNSUPPORTED", "HW_DATABASE_VERSION_MISMATCH", "HW_DATABASE_MISSING", "SW_MODAL_DIALOG_BLOCKED")
+
+    def _hw_environment_failure(self) -> bool:
+        """Run the SOLIDWORKS 2025 environment gate once per build (real sessions only) and say whether Hole Wizard is blocked by
+        it. Only definitive environment failures block; an unreadable catalog does not (the recipe is read back instead)."""
+        if getattr(self, "_hw_pre", None) is None:
+            self._hw_pre = {}
+            if os.environ.get("MTI_HOLE_WIZARD_PREFLIGHT", "1") == "1" and isinstance(getattr(self.app, "RevisionNumber", None), str):
+                from pipeline.ir.solidworks import sw_preflight as pf
+                try:
+                    r = pf.run_preflight(pf.LiveProbe(self.app), require_catalog=False)
+                except Exception as e:      # noqa: BLE001 - a probe failure must not change behavior; it is recorded
+                    self.report.conventions.append(f"Hole Wizard preflight could not run: {type(e).__name__}")
+                else:
+                    self.report.hole_wizard_preflight = r.to_dict()
+                    if not r.ok and r.code in self._HW_BLOCKING:
+                        self._hw_pre = {"code": r.code, "message": r.message}
+        return bool(self._hw_pre)
 
     def _hw_substituted(self, fid: str, code: str, detail: str) -> None:
         self._hw_sub = (code, detail)
@@ -1496,6 +1524,11 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         sw.doc.SaveAs3(str(png_path), 0, 1)
     except Exception as e:
         log.warning("Could not export a PNG view: %s", e)
+    try:  # Stage 4: structured Hole Wizard findings for the automatic drawing markup (best effort, never fails a build)
+        from pipeline.hole_findings import records_for_build, write_sidecar
+        write_sidecar(out_dir, records_for_build(sw.report, plan))
+    except Exception as e:     # noqa: BLE001
+        log.warning("Could not write Hole Wizard findings: %s", e)
     if not keep_open:
         sw_app.CloseDoc(_g(sw.doc, "GetTitle"))
     return sw.report

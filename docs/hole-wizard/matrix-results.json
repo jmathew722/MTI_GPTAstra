@@ -1,11 +1,31 @@
 {
  "generated_by": "tools/run_hole_wizard_matrix.py --plan",
  "live_preflight": {
-  "code": "HW_DIALOG_BLOCKED",
-  "detail": "no return after 60s; process killed",
-  "preflight_variant": "swCounterBoreBlind"
+  "code": "HW_DATABASE_VERSION_MISMATCH",
+  "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+  "preflight_variant": null,
+  "source": "environment_preflight"
  },
- "ran_at_epoch": 1795010850,
+ "preflight": {
+  "application_revision": "33.5.0",
+  "application_service_pack": "33.5.0",
+  "code": "HW_DATABASE_VERSION_MISMATCH",
+  "configured_root_is": "SOLIDWORKS Data",
+  "database_expected_version": "28.00",
+  "database_version": "29.01",
+  "details": {},
+  "expected_version_source": "database of the SOLIDWORKS 2025 data root found beside the configured one",
+  "fingerprint": "",
+  "message": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+  "retryable": false,
+  "stage": "environment_preflight",
+  "standards_found": 0,
+  "status": "failed",
+  "toolbox_file_version": "34.3.2.0003",
+  "toolbox_index_version": "32.5.0.48",
+  "user_action": "Point SOLIDWORKS 2025 to the company-approved 2025 Hole Wizard/Toolbox data folder (Tools > Options > System Options > Hole Wizard/Toolbox), restart SOLIDWORKS, then rerun preflight."
+ },
+ "ran_at_epoch": 1795058693,
  "rows": [
   {
    "family": "legacy",
@@ -23,6 +43,8 @@
    "resolution": null,
    "selection": "HW_LEGACY_POLICY",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "legacy hole type: created only under an explicit compatibility policy, which has no adapter",
    "value": 0
   },
   {
@@ -41,6 +63,8 @@
    "resolution": null,
    "selection": "HW_LEGACY_POLICY",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "legacy hole type: created only under an explicit compatibility policy, which has no adapter",
    "value": 1
   },
   {
@@ -59,6 +83,8 @@
    "resolution": null,
    "selection": "HW_LEGACY_POLICY",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "legacy hole type: created only under an explicit compatibility policy, which has no adapter",
    "value": 2
   },
   {
@@ -77,6 +103,8 @@
    "resolution": null,
    "selection": "HW_LEGACY_POLICY",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "legacy hole type: created only under an explicit compatibility policy, which has no adapter",
    "value": 3
   },
   {
@@ -95,6 +123,8 @@
    "resolution": null,
    "selection": "HW_LEGACY_POLICY",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "legacy hole type: created only under an explicit compatibility policy, which has no adapter",
    "value": 4
   },
   {
@@ -113,6 +143,8 @@
    "resolution": null,
    "selection": "HW_LEGACY_POLICY",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "legacy hole type: created only under an explicit compatibility policy, which has no adapter",
    "value": 5
   },
   {
@@ -131,6 +163,8 @@
    "resolution": null,
    "selection": "HW_LEGACY_POLICY",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "legacy hole type: created only under an explicit compatibility policy, which has no adapter",
    "value": 6
   },
   {
@@ -149,6 +183,8 @@
    "resolution": null,
    "selection": "HW_LEGACY_POLICY",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "legacy hole type: created only under an explicit compatibility policy, which has no adapter",
    "value": 7
   },
   {
@@ -167,6 +203,8 @@
    "resolution": null,
    "selection": "HW_LEGACY_POLICY",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "legacy hole type: created only under an explicit compatibility policy, which has no adapter",
    "value": 8
   },
   {
@@ -185,23 +223,27 @@
    "resolution": null,
    "selection": "HW_LEGACY_POLICY",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "legacy hole type: created only under an explicit compatibility policy, which has no adapter",
    "value": 9
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
-    "created": "not_run",
+    "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
-    "geometry": "not_run",
-    "readback": "not_run",
-    "reopen": "not_run"
+    "geometry": "blocked_by_preflight",
+    "readback": "blocked_by_preflight",
+    "reopen": "blocked_by_preflight"
    },
-   "live_passed": [],
    "name": "swCounterBoreBlind",
    "reference": "ok",
    "reference_volume_mm3": 815.268427,
@@ -209,18 +251,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 10
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -233,18 +279,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 11
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -257,18 +307,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 12
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -281,18 +335,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 13
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -305,18 +363,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 14
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -329,18 +391,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 15
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -353,18 +419,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 16
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -377,18 +447,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 17
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -401,18 +475,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 18
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -425,18 +503,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 19
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -449,18 +531,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 20
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -473,18 +559,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 21
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -497,18 +587,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 22
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -521,18 +615,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 23
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -545,18 +643,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 24
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -569,18 +671,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 25
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -593,18 +699,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 26
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -617,18 +727,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 27
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -641,18 +755,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 28
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -665,18 +783,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 29
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -689,18 +811,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 30
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -713,18 +839,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 31
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -737,18 +867,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 32
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -761,18 +895,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 33
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -785,18 +923,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 34
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -809,18 +951,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 35
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -833,18 +979,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 36
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -857,18 +1007,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 37
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -881,18 +1035,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 38
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -905,18 +1063,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 39
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -929,18 +1091,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 40
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -953,18 +1119,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 41
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -977,18 +1147,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 42
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1001,18 +1175,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 43
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1025,18 +1203,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 44
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1049,18 +1231,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 45
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1073,18 +1259,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 46
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1097,18 +1287,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 47
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1121,18 +1315,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 48
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1145,18 +1343,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 49
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1169,18 +1371,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 50
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1193,18 +1399,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 51
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1217,18 +1427,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 52
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1241,18 +1455,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 53
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1265,18 +1483,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 54
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1289,18 +1511,22 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 55
   },
   {
+   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
     "callout_roundtrip": "not_implemented",
     "created": "blocked_by_preflight",
     "error": {
-     "code": "HW_DIALOG_BLOCKED",
-     "detail": "no return after 60s; process killed",
-     "preflight_variant": "swCounterBoreBlind"
+     "code": "HW_DATABASE_VERSION_MISMATCH",
+     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+     "preflight_variant": null,
+     "source": "environment_preflight"
     },
     "geometry": "blocked_by_preflight",
     "readback": "blocked_by_preflight",
@@ -1313,6 +1539,8 @@
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
+   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
    "value": 56
   },
   {
@@ -1333,6 +1561,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 57
   },
   {
@@ -1353,6 +1583,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 58
   },
   {
@@ -1373,6 +1605,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 59
   },
   {
@@ -1393,6 +1627,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 60
   },
   {
@@ -1413,6 +1649,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 61
   },
   {
@@ -1433,6 +1671,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 62
   },
   {
@@ -1453,6 +1693,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 63
   },
   {
@@ -1473,6 +1715,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 64
   },
   {
@@ -1493,6 +1737,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 65
   },
   {
@@ -1513,6 +1759,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 66
   },
   {
@@ -1533,6 +1781,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 67
   },
   {
@@ -1553,6 +1803,8 @@
    "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 68
   },
   {
@@ -1573,6 +1825,8 @@
    "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 69
   },
   {
@@ -1593,6 +1847,8 @@
    "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 70
   },
   {
@@ -1613,6 +1869,8 @@
    "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 71
   },
   {
@@ -1633,6 +1891,8 @@
    "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 72
   },
   {
@@ -1653,6 +1913,8 @@
    "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 73
   },
   {
@@ -1673,6 +1935,8 @@
    "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 74
   },
   {
@@ -1693,6 +1957,8 @@
    "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 75
   },
   {
@@ -1713,6 +1979,8 @@
    "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 76
   },
   {
@@ -1733,6 +2001,8 @@
    "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 77
   },
   {
@@ -1753,6 +2023,8 @@
    "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 78
   },
   {
@@ -1773,6 +2045,8 @@
    "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 79
   },
   {
@@ -1793,9 +2067,15 @@
    "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "selection": "ok",
    "status": "not_implemented",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
    "value": 90
   }
  ],
+ "status_2025_counts": {
+  "SUPPORTED_BY_ADAPTER_NOT_INSTALLED": 47,
+  "UNSUPPORTED_WITH_REASON": 34
+ },
  "status_counts": {
   "implemented_not_live_verified": 47,
   "not_implemented": 34

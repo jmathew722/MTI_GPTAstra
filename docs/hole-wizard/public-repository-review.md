@@ -22,3 +22,17 @@ Facts below were read from the GitHub API on 2026-11-18 (default-branch head com
 * Four repositories declare **no license** and one is **GPL-3.0**: nothing may be copied from them. Any reuse of MIT/Apache code requires attribution at the point of use.
 * A documented plain-cut workaround (SW-MCP) is the behavior this program forbids: an unsupported Hole Wizard feature returns a structured status, never a silent substitute.
 * Documentation mirrors do not prove a call succeeds on a given release; the installed type library and live readback do.
+
+## Pinned commits from the reference guide, re-verified (2026-11-18)
+
+`PUBLIC_REPOSITORY_REFERENCE_GUIDE.md` pins five repositories. For each, the GitHub API was asked (a) the declared license now and (b) whether the pinned commit exists. Source was **not** cloned or audited, and **no code was copied**.
+
+| Repository | Pinned commit (guide) | Pinned commit exists | License now | Matches the guide | Use |
+|---|---|---|---|---|---|
+| [d-veloping/SW_MCP](https://github.com/d-veloping/SW_MCP) | `f3057091cb16` | yes (2026-11-10) | Apache-2.0 | yes | Study catalog/database validation and rollback patterns; notice required if code is ever ported. Reported 2026 SP3.2 evidence: not 2025 certification. |
+| [hjbaard/SolidWorks-MCP](https://github.com/hjbaard/SolidWorks-MCP) | `31bc1505992e` | yes (2026-11-18) | MIT | yes | Compare common ISO hole argument mapping only. |
+| [soheil-mp/solidworks-mcp](https://github.com/soheil-mp/solidworks-mcp) | `fd03a7f78eba` | yes (2026-11-05) | MIT | yes | Compare typed-interop behavior; common holes only. |
+| [xarial/codestack](https://github.com/xarial/codestack) | `0cde3849a184` | yes (2026-05-07) | MIT | yes | General API idioms. |
+| [kilwizac/solidworks-api-mcp](https://github.com/kilwizac/solidworks-api-mcp) | `7885946e1ee8` | yes (2026-10-12) | **none declared** | yes | Research/navigation only: no reuse rights. |
+
+Not verified here: the guide's statements about what each repository's code contains (for example "rollback", "readback", "2016 behavior"). Those are unconfirmed claims until the source is read. Nothing in GPTAstra depends on them.

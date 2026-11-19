@@ -629,3 +629,27 @@ CadQuery reference, acceptance-matrix generator/runner, loud (not silent) plain-
 `implemented_not_live_verified`, 34 `not_implemented` (10 legacy, 24 slots). **No variant is `verified`**: the live matrix is blocked at preflight
 (`InitializeHole` never returns on this SolidWorks 2025 Student session; E037), and the Hole Callout round trip is not implemented.
 See `docs/hole-wizard/support-status.md` and `matrix-results.json`.
+
+## Stage 4 update, SOLIDWORKS 2025 gate (2026-11-18, branch Improvements_2)
+
+* **Root cause of E037 found (E038):** the running SOLIDWORKS 2025 SP5 (33.5) is configured to use the **2026** Hole Wizard data root
+  (database **29.01**, Toolbox 34.3.2); 2025 expects **28.00**, and a 2025 root (`SOLIDWORKS Data (2)`, database 28.00) exists unused. The causal
+  link to the `InitializeHole` hang is inferred, not demonstrated (not tested by repointing: that changes SOLIDWORKS configuration).
+* **Environment gate** (`pipeline/ir/solidworks/sw_preflight.py`, `tools/sw_preflight.py`): revision 33.x, database version, Toolbox index family, modal
+  dialogs, catalog, timeout. Live result `docs/hole-wizard/preflight-result.json`: **`HW_DATABASE_VERSION_MISMATCH`**. The compiler no longer calls
+  `HoleWizard5` in that state (loud plain cut / strict failure); the live matrix starts no child process.
+* **`HoleIntentV2`**, multi-line callout grouping, tolerances, NPT/decimal threads, the five regression fixtures (`tests/test_hole_callouts_fixtures.py`),
+  catalog cache + ranked matching, 2025 status vocabulary (47 `SUPPORTED_BY_ADAPTER_NOT_INSTALLED`, 34 `UNSUPPORTED_WITH_REASON`, 0 verified),
+  Advanced Hole / Hole Series as separate domains (Hole Series: `BLOCKED_BY_CONFIRMED_SOLIDWORKS_2025_LIMITATION`, re-checked against the type library),
+  `hole_verify.py`, and Hole Wizard findings (`hole_findings.py`) that the automatic drawing markup places from their source callouts.
+* **Owner action to unblock live verification:** select the 2025 data root in SOLIDWORKS 2025 (Tools > Options > System Options > Hole Wizard/Toolbox), restart,
+  then `python tools/sw_preflight.py` and `python tools/run_hole_wizard_matrix.py --live`. Still not implemented: the drawing Hole Callout round trip,
+  slot creation, Advanced Hole creation.
+
+## Stage 3 fix: automatic Engineering Markup (2026-11-18, branch `Improvements_2`)
+
+`run_part` now ends with `pipeline/engineering_markup.py::finalize_markup` (before the terminal run event): findings, page-aware
+localization, a flattened multi-page marked PDF with a label rail, PNG previews and `engineering_markup.json` (`not_needed | ready |
+partial | failed`). The API serves it at `/api/parts/{s}/{p}/engineering-markup[.pdf|/page/{n}.png]`; the viewer opens
+`Engineering Markup` automatically and links every flag card to its page and region. Distinct from the human `full_marked_view.jpg`.
+Evidence: `docs/test-reports/2026-11-18-stage3-markup-gate-report.md`. Python 1279 passed / 66 skipped; markup e2e 6/6.

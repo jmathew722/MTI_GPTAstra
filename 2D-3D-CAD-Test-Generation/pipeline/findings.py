@@ -21,7 +21,8 @@ SEVERITIES = ("error", "warning", "info")
 CATEGORIES = (
     "feature_not_built", "feature_unresolved", "volume_mismatch", "bbox_mismatch", "plan_rejected",
     "hole_depth_mismatch", "hole_diameter_mismatch", "hole_position_mismatch",
-    "geometry_extra_material", "geometry_missing_material", "hole_wizard_substituted", "practice_advisory", "extraction_review", "other",
+    "geometry_extra_material", "geometry_missing_material", "hole_wizard_substituted", "practice_advisory", "extraction_review",
+    "hole_wizard_environment", "hole_wizard_failure", "hole_callout_unresolved", "hole_readback_mismatch", "other",
 )
 _CTRL = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
 _MAX, _MAX_TITLE = 1000, 200
@@ -197,6 +198,10 @@ def findings_from_run(out: Path, run_id: str) -> list[Finding]:
             consequence="The geometry matches but the feature tree has no Hole Wizard feature, so hole callouts and hardware data are absent.",
             action="Check the Hole Wizard / Toolbox setup on this SolidWorks install (error log E037), then rebuild.",
             evidence=f"hole_wizard_substitutions:{fid}")
+    hw = _load(out / "hole_wizard_findings.json")       # Stage 4: structured Hole Wizard failures (pipeline/hole_findings.py)
+    if hw and hw.get("records"):
+        from pipeline.hole_findings import to_findings
+        found += to_findings(hw["records"], part=part, run_id=run_id)
     for item in rep.get("mti_review") or []:
         m = re.match(r"\[(\w+)\]\s*(.*)", str(item))
         code, msg = (m.group(1), m.group(2)) if m else ("mti", str(item))

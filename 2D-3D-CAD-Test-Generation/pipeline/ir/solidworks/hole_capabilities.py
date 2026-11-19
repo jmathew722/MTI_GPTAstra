@@ -190,3 +190,12 @@ def family_counts() -> dict:
     for v in VARIANTS.values():
         out[v.family] = out.get(v.family, 0) + 1
     return out
+
+
+def fail_closed_rows(live_enum: dict) -> list:
+    """One report row per member of the INSTALLED enum the registry does not know (a future release). Each is
+    ``UNSUPPORTED_WITH_REASON``/``unknown_variant`` and is never attempted."""
+    drift = unknown_members(live_enum)
+    return [{"value": v, "name": n, "status": "not_implemented", "status_2025": "UNSUPPORTED_WITH_REASON", "reason": "unknown_variant",
+             "action": "classify this swWzdHoleTypes_e member from the installed type library before use"}
+            for v, n in sorted(drift["unknown_to_registry"].items())]

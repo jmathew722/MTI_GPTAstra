@@ -407,3 +407,31 @@ def test_a_hole_that_never_wanted_hole_wizard_is_not_flagged(fake_sw, monkeypatc
     monkeypatch.setattr(sw, "_plain_holes", lambda *a, **k: cs.SwFeatureResult("F002", "built", note="plain"))
     res = sw.holes("F002", [[1.0, 1.0]], None, "Z", 0.0, 1)
     assert res.note == "plain" and sw.report.hole_wizard_substitutions == []
+
+
+# --------------------------------------------------------------------------- #
+# SOLIDWORKS 2025 environment gate in front of HoleWizard5 (Stage 4, slice A)
+# --------------------------------------------------------------------------- #
+def test_environment_mismatch_skips_holewizard5_loudly_with_the_preflight_code(fake_sw, monkeypatch):
+    sw, spec = _hw_ready(fake_sw, monkeypatch)
+    monkeypatch.delenv("MTI_HOLE_WIZARD_STRICT", raising=False)
+    called = []
+    sw.doc.FeatureManager.HoleWizard5 = lambda *a: called.append(a)
+    sw._hw_pre = {"code": "HW_DATABASE_VERSION_MISMATCH", "message": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01."}
+    res = sw.holes("F002", [[1.0, 1.0]], spec, "Z", 0.0, 1)
+    assert called == []                                        # InitializeHole/HoleWizard5 is never reached (it would block, E037)
+    assert res.note.startswith("PLAIN CUT, NOT Hole Wizard (HW_DATABASE_VERSION_MISMATCH)")
+    assert sw.report.hole_wizard_substitutions[0]["code"] == "HW_DATABASE_VERSION_MISMATCH"
+
+
+def test_environment_mismatch_in_strict_mode_fails_the_feature(fake_sw, monkeypatch):
+    sw, spec = _hw_ready(fake_sw, monkeypatch)
+    monkeypatch.setenv("MTI_HOLE_WIZARD_STRICT", "1")
+    sw._hw_pre = {"code": "SW_VERSION_UNSUPPORTED", "message": "SOLIDWORKS 2025 (revision 33.x) is required"}
+    res = sw.holes("F002", [[1.0, 1.0]], spec, "Z", 0.0, 1)
+    assert res.status == "failed" and "SW_VERSION_UNSUPPORTED" in res.note
+
+
+def test_the_gate_does_not_run_for_apps_without_a_revision_string(fake_sw, monkeypatch):
+    sw, spec = _hw_ready(fake_sw, monkeypatch)
+    assert sw._hw_environment_failure() is False and sw.report.hole_wizard_preflight is None

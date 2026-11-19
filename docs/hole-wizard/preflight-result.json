@@ -1,0 +1,38 @@
+{
+ "application_revision": "33.5.0",
+ "application_service_pack": "33.5.0",
+ "code": "HW_DATABASE_VERSION_MISMATCH",
+ "configured_root_is": "SOLIDWORKS Data",
+ "data_roots_found": [
+  {
+   "database_version": "29.01",
+   "index_version": "32.5.0.48",
+   "is_configured": true,
+   "name": "SOLIDWORKS Data",
+   "release_line": "SOLIDWORKS 2026 SP3.2",
+   "toolbox_file_version": "34.3.2.0003"
+  },
+  {
+   "database_version": "28.00",
+   "index_version": "33.5.0.53",
+   "is_configured": false,
+   "name": "SOLIDWORKS Data (2)",
+   "release_line": "SOLIDWORKS 2025 SP5.0",
+   "toolbox_file_version": "33.5.0.0053"
+  }
+ ],
+ "database_expected_version": "28.00",
+ "database_version": "29.01",
+ "details": {},
+ "expected_version_source": "database of the SOLIDWORKS 2025 data root found beside the configured one",
+ "fingerprint": "",
+ "message": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+ "remediation_owner": "environment owner: select the SOLIDWORKS 2025 data root in Tools > Options > System Options > Hole Wizard/Toolbox. The pipeline does not change it.",
+ "retryable": false,
+ "stage": "environment_preflight",
+ "standards_found": 0,
+ "status": "failed",
+ "toolbox_file_version": "34.3.2.0003",
+ "toolbox_index_version": "32.5.0.48",
+ "user_action": "Point SOLIDWORKS 2025 to the company-approved 2025 Hole Wizard/Toolbox data folder (Tools > Options > System Options > Hole Wizard/Toolbox), restart SOLIDWORKS, then rerun preflight."
+}

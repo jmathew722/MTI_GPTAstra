@@ -209,8 +209,25 @@ def run_child(value: int, timeout: float) -> dict:
     return cols
 
 
-def run_live(plan: dict, timeout: float) -> dict:
+def preflight_gate() -> dict:
+    """Run the SOLIDWORKS 2025 environment gate against the running session (read-only). A failure here means NO child process
+    is started: nothing that could open the modal database dialog is called."""
+    try:
+        import win32com.client as w
+        app = w.GetActiveObject("SldWorks.Application")
+    except Exception as e:      # noqa: BLE001
+        return {"status": "failed", "code": "SW_NOT_RUNNING", "message": f"no running SOLIDWORKS session: {type(e).__name__}", "retryable": True}
+    from pipeline.ir.solidworks import sw_preflight as pf
+    res, extras = pf.run_live_preflight(app)
+    return {**res.to_dict(), **{k: extras[k] for k in ("expected_version_source", "configured_root_is")}}
+
+
+def run_live(plan: dict, timeout: float, preflight: dict | None = None) -> dict:
+    pre = preflight if preflight is not None else preflight_gate()
+    plan["preflight"] = pre
     blocked = None
+    if pre.get("status") != "ready":
+        blocked = {"code": pre.get("code"), "detail": pre.get("message"), "preflight_variant": None, "source": "environment_preflight"}
     for row in plan["rows"]:
         if row["legacy"] or row.get("resolution") != "ok" or row["reference"] != "ok":
             row["live"]["created"] = "not_attempted"
@@ -232,14 +249,23 @@ def run_live(plan: dict, timeout: float) -> dict:
 
 
 def finalize(plan: dict) -> dict:
+    from pipeline.ir.solidworks.hole_status import map_status, reason_for
     for r in plan["rows"]:
         live = r.get("live", {})
         if all(live.get(c) == "ok" for c in LIVE_COLUMNS):
             r["status"] = "verified"        # unreachable while callout_roundtrip is not implemented
     counts: dict = {}
+    counts25: dict = {}
+    pre = plan.get("preflight") or {}
     for r in plan["rows"]:
         counts[r["status"]] = counts.get(r["status"], 0) + 1
+        r["status_2025"] = map_status(r["status"])
+        r["status_reason"] = reason_for(r, pre if pre.get("status") == "failed" else None)
+        if pre.get("status") == "failed" and r["status"] == "implemented_not_live_verified":
+            r["environment_reason"] = pre.get("code")
+        counts25[r["status_2025"]] = counts25.get(r["status_2025"], 0) + 1
     plan["status_counts"] = counts
+    plan["status_2025_counts"] = counts25
     return plan
 
 
@@ -265,7 +291,7 @@ def main(argv=None) -> int:
     plan = finalize(plan)
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     Path(a.out).write_text(json.dumps(plan, indent=1, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps(plan["status_counts"]), "preflight:", plan.get("live_preflight"))
+    print(json.dumps(plan["status_counts"]), json.dumps(plan["status_2025_counts"]), "preflight:", plan.get("live_preflight"))
     return 0
 
 

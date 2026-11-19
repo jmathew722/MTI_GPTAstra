@@ -835,7 +835,7 @@ The full entry was kept local; add it here.
      `GetHoleStandards`, `GetFastenerTypes`, ... return `False` with empty arrays for every standard, with a part open and after a
      build, through early- and late-bound calls.
 - **Root cause: not confirmed.** Consistent with the Hole Wizard/Toolbox data layer not being set up or enabled for this install
-  (the Toolbox browser parts exist under `C:\SOLIDWORKS Datarowser`, but no Hole Wizard database file was found there, and
+  (the Toolbox browser parts exist under `C:\SOLIDWORKS Data\browser`, but no Hole Wizard database file was found there, and
   almost every add-in is disabled at startup). It was *not* tested by enabling Toolbox, because that changes the user's
   SolidWorks configuration. Earlier entries (E021/E022) verified Hole Wizard on another machine on 2026-10-11.
 - **What the demo plate proved NOT to prove:** its holes (8 mm, 20 mm) match no clearance size, so they were never Hole Wizard
@@ -855,6 +855,35 @@ The full entry was kept local; add it here.
   note reads "PLAIN CUT, NOT Hole Wizard", a `hole_wizard_substituted` finding is raised, and `MTI_HOLE_WIZARD_STRICT=1` fails the feature.
   Tests: `test_ir_compile_solidworks.py` (3), `test_findings.py`. The live matrix (`tools/run_hole_wizard_matrix.py --live`) reproduced the
   blocker: the preflight variant hit `HW_DIALOG_BLOCKED` (no return after 60 s), so no variant was attempted live.
+
+- **Update 2026-11-18 (Stage 4 preflight): root cause found, see E038.** The earlier note that "no Hole Wizard database file was found"
+  was wrong: it looked in `C:\SOLIDWORKS Data\browser`, but the database is `C:\SOLIDWORKS Data\lang\english\swbrowser.sldedb`, and it is
+  the wrong release (29.01 instead of 28.00).
+
+## E038 — SOLIDWORKS 2025 is pointed at the 2026 Hole Wizard/Toolbox data (database 29.01, expected 28.00)
+
+- **Seen:** 2026-11-18, read-only, from the running SOLIDWORKS 2025 SP5 session (`RevisionNumber` 33.5.0).
+- **Evidence (all read without writing anything; no dialog was clicked and no setting changed):**
+  * `GetUserPreferenceStringValue(52)` (`swHoleWizardToolBoxFolder`, value read from the installed `swconst.tlb`) points at the data root `C:\SOLIDWORKS Data`.
+  * That root is **SOLIDWORKS 2026 SP3.2** (`ToolboxVersion.dat` FileVersion 34.3.2.0003; `ToolboxFiles.index` assembly 32.5.0.48);
+    `swbrowser.sldedb` (SQLite, opened `mode=ro&immutable=1`) has `VERSION = 29.01`.
+  * A second root, `C:\SOLIDWORKS Data (2)`, is **SOLIDWORKS 2025 SP5.0** (FileVersion 33.5.0.0053; index 33.5.0.53; database `VERSION = 28.00`).
+    It is not the one SOLIDWORKS 2025 is configured to use.
+  * 29.01 vs the 28.00 that 2025 expects is exactly the "database is not the expected version" mismatch.
+- **Consequence:** `InitializeHole` blocking (E037 symptom 2), `HoleWizard5` returning `None` (symptom 1) and an unreadable catalog (symptom 3) are
+  all consistent with SOLIDWORKS 2025 waiting behind that modal dialog. No dialog was open at the moment of the check, so the causal link is
+  **inferred, not demonstrated**; it was not tested by repointing, because that changes SOLIDWORKS configuration.
+- **Generator rule (done):** `pipeline/ir/solidworks/sw_preflight.py` is the environment gate. It checks revision 33.x, the configured database exists
+  and its version equals what the 2025 install expects (28.x family when no exact expectation exists), the Toolbox index is the 33.x family, no
+  modal window of the SolidWorks process is open (EnumWindows, never clicks), then the catalog. A mismatch is `HW_DATABASE_VERSION_MISMATCH`,
+  not retryable, and runs **before** any call that could open the dialog. `compile_solidworks` runs it once per build and, on a definitive
+  environment failure, does not call `HoleWizard5` at all: the hole becomes a loud plain cut (`hole_wizard_substitutions`, finding
+  "Hole Wizard database 29.01 is incompatible with expected 28.00") or fails under `MTI_HOLE_WIZARD_STRICT=1`.
+  Opt-out for debugging: `MTI_HOLE_WIZARD_PREFLIGHT=0`.
+- **Tests:** `tests/test_sw_preflight.py` (12), `tests/test_ir_compile_solidworks.py` (3 new), `tests/test_hole_wizard_matrix_gate.py` (4).
+  Live record: `docs/hole-wizard/preflight-result.json` (versions only; no paths, no rows).
+- **Owner action (the pipeline will not do it):** in SOLIDWORKS 2025, Tools > Options > System Options > Hole Wizard/Toolbox, select the 2025 data
+  root, restart, then `python tools/sw_preflight.py` and `python tools/run_hole_wizard_matrix.py --live`. Do not upgrade, downgrade or edit either database.
 
 ## Open watch-list (not yet seen at runtime)
 

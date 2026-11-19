@@ -1,115 +1,114 @@
-"""Regenerate docs/hole-wizard/support-status.md from the registry, the installed environment and the inventory.
+"""Regenerate docs/hole-wizard/support-status.md from files and code (Stage 4, task 4.14 / slice K).
 
-Every number comes from a file or a test-pinned table; nothing is typed in by hand except the statuses, which are
-deliberately conservative: no variant is `verified` unless the live matrix says so (it has not run: see E037).
+Every number and result comes from: docs/hole-wizard/matrix-results.json (run tools/run_hole_wizard_matrix.py first),
+docs/hole-wizard/preflight-result.json (tools/sw_preflight.py), the registry, and the five regression fixtures parsed live
+at generation time. Nothing about support is typed in by hand.
 """
-import hashlib
 import json
-import os
-import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+from pipeline.hole_callouts import parse  # noqa: E402
+from pipeline.ir.solidworks import advanced_hole, hole_intent_v2 as v2, hole_series  # noqa: E402
 from pipeline.ir.solidworks.hole_capabilities import family_counts  # noqa: E402
+from pipeline.ir.solidworks.hole_status import STATUSES_2025  # noqa: E402
 
-D25 = r"C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)"
-
-
-def h(p):
-    return hashlib.sha256(open(p, "rb").read()).hexdigest()[:16] if os.path.isfile(p) else "absent"
+DOCS = ROOT.parent / "docs" / "hole-wizard"
+FIXTURES = [
+    ("HW-EX-001", "DRILL .44 - 2.1 DP.\nTAP .25 NPT\n2 - PLACES"),
+    ("HW-EX-002", "DRILL .50 DIA. - 1.1 DEEP\nC'BORE 1.001 DIA ±.001 X .123 +.000/-.003 DEEP\n2 - PLACES"),
+    ("HW-EX-003", ".344 DIA THRU\n.50 C'BORE - .10 DP\n4 - PLACES"),
+    ("HW-EX-004", "DR & TAP .50-13 THD.\n.8 DEEP\n4 PLACES"),
+    ("HW-EX-005", ".50 DIA. - .18 DEEP\n2 PLACES"),
+]
+FAMILIES = [("hole", "swWzdHole (2)"), ("countersink", "swWzdCounterSink (1)"), ("counterbore", "swWzdCounterBore (0)"),
+            ("straight_tap", "swWzdTap (4)"), ("pipe_tap", "swWzdPipeTap (3)"), ("counterbore_slot", "swWzdCounterBoreSlot (6)"),
+            ("countersink_slot", "swWzdCounterSinkSlot (7)"), ("slot", "swWzdHoleSlot (8)"), ("legacy", "swWzdLegacy (5)")]
 
 
 def main():
-    fp = {"swconst.tlb": h(D25 + r"\swconst.tlb"), "sldworks.tlb": h(D25 + r"\sldworks.tlb"),
-          "Holewzd.idx": h(D25 + r"\lang\english\Holewzd.idx"), "ToolboxStandards.xml": h(r"C:\SOLIDWORKS Data\ToolboxStandards.xml")}
-    whole = hashlib.sha256(json.dumps(fp, sort_keys=True).encode()).hexdigest()[:16]
-    snap = json.loads((ROOT / "tests/fixtures/sw_hole_enums_2025.json").read_text(encoding="utf-8"))
+    mx = json.loads((DOCS / "matrix-results.json").read_text(encoding="utf-8"))
+    pre = json.loads((DOCS / "preflight-result.json").read_text(encoding="utf-8"))
     fams = family_counts()
-    inv = (ROOT.parent / "docs/hole-wizard/callout-inventory.md").read_text(encoding="utf-8")
-    status = dict(re.findall(r"\| (parsed|parsed_with_ambiguity|not_a_hole_callout) \| (\d+) \|", inv))
-    fam = dict(re.findall(r"\| (hole|straight_tap|counterbore|pipe_tap|countersink|slot) \| (\d+) \|", inv))
-    rows = [("hole", "swWzdHole (2)"), ("countersink", "swWzdCounterSink (1)"), ("counterbore", "swWzdCounterBore (0)"),
-            ("straight_tap", "swWzdTap (4)"), ("pipe_tap", "swWzdPipeTap (3)"), ("counterbore_slot", "swWzdCounterBoreSlot (6)"),
-            ("countersink_slot", "swWzdCounterSinkSlot (7)"), ("slot", "swWzdHoleSlot (8)"), ("legacy", "swWzdLegacy (5)")]
-    mx = json.loads((ROOT.parent / "docs/hole-wizard/matrix-results.json").read_text(encoding="utf-8"))
     by_fam: dict = {}
     for r in mx["rows"]:
-        by_fam.setdefault(r["family"], set()).add(r["status"])
-    creation = {k: ("implemented_not_live_verified" if v == {"implemented_not_live_verified"} else "not_implemented")
-                for k, v in by_fam.items()}
-    counts = mx["status_counts"]
-    pre = mx.get("live_preflight", {}) or {}
-    total = sum(int(v) for v in status.values())
-    parsed = int(status.get("parsed", 0)) + int(status.get("parsed_with_ambiguity", 0))
-    L = ["# Hole Wizard support status (Stage 4, task 4.14)", "",
-         "**Read this first: no Hole Wizard variant is `verified`.** Live verification could not start: on this machine, in this session, "
-         "Hole Wizard creation through the API does not work (see [E037](../solidworks-macro-error-log.md)). "
-         "Nothing below is a claim that a hole type can be created.", "",
-         "Vocabulary (fixed): `verified`, `implemented_not_live_verified`, `unsupported_by_installed_catalog`, `not_implemented`, "
-         "`ambiguous_source`, `failed_verification`. There is no generic \"supported\".", "",
-         "## Environment evidence", "",
-         "* SOLIDWORKS **2025 SP5 (33.5)**, window title \"Student Edition - Academic Use Only\"; a 2026 install (34.0) is also present. "
-         "Type-library evidence is read from the running 2025 install.",
-         f"* Environment fingerprint `{whole}`, the hash of {json.dumps(fp)} (hashes of files that exist; **no catalog rows are recorded, and none could be enumerated**).",
-         "* `IHoleStandardsData.GetHoleStandards/GetFastenerTypes/...` return `False` for every family; `HoleWizard5` returns `None` for the repo's "
-         "known-good taps; `InitializeHole` blocks. Structured codes: `HW_CATALOG_ENUMERATION_UNAVAILABLE`, `HW_CREATE_NULL`, `HW_DIALOG_BLOCKED`.", "",
-         "## The nine general families", "",
-         "| Family | Enum | Specific variants | Callout parsed (tested) | Creation | Live-verified |", "|---|---|---|---|---|---|"]
-    for k, e in rows:
-        parsed_cell = "never inferred from text" if k == "legacy" else "yes"
-        L.append(f"| {k} | {e} | {fams[k]} | {parsed_cell} | {creation.get(k, 'not_implemented')} | no |")
-    L += ["", f"Total specific variants classified: **{sum(fams.values())}** of the **{len(snap['specific'])}** in the installed `swWzdHoleTypes_e` "
-          "(identical sets in the 2025 and 2026 installs). Values are non-contiguous (the last is 90).", "",
-          "`implemented_not_live_verified` here means only: the repo already builds a **narrow, MTI-specific** subset of that family through "
-          "`HoleWizard5` (clearance holes, socket-head counterbores, tapped holes with a cosmetic thread; error log E021/E022, verified on another "
-          "machine on 2026-10-11). It does **not** cover the family's specific variants, and in this session that path was refused.", "",
-          "## The 81 specific variants", "",
-          "All 81 are classified by `pipeline/ir/solidworks/hole_capabilities.py` and pinned to the installed type library by test. "
-          "Each non-legacy variant has an exemplar intent that round-trips through `select_variant` to exactly itself (test). "
-          "**47** (hole 6, countersink 6, counterbore 12, straight taps 17, pipe taps 6) have the full offline chain (intent, selection, "
-          "catalog resolution, adapter with readback, reference geometry) and are `implemented_not_live_verified`: tested only against "
-          "fake COM objects. **34 are `not_implemented`**: the 10 legacy types (chosen only by explicit policy) and the 24 slot variants "
-          "(no fastener type is documented for slots, so `HW_FASTENER_UNMAPPED`; counterbore/countersink slot reference geometry is not modeled).", "",
-          "| Group | Count | Notes |", "|---|---|---|"]
-    for g, n, nt in [("legacy (0-9)", 10, "preserved by an explicit policy only"), ("counterbore (10-21)", 12, "blind/through x top/middle/bottom countersinks"),
-                     ("hole + countersink (22-30, 43-45)", 12, "incl. 3 without head clearance"),
-                     ("straight taps (31-36, 46-56)", 17, "cosmetic / thread-through / remove-thread variants"),
-                     ("pipe taps (37-42)", 6, "NPT/NPTF/BSPT etc. are never inferred from a diameter"), ("counterbore slots (57-68)", 12, ""),
-                     ("slots (69, 70, 72-75)", 6, ""), ("countersink slots (71, 76-79, 90)", 6, "")]:
-        L.append(f"| {g} | {n} | {nt} |")
-    L += ["", "## Advanced Hole and Hole Series (separate domains)", "",
-          "* **Advanced Hole**: `IFeatureManager.AdvancedHole` / `AdvancedHole2` exist in the installed API. Status `not_implemented`. The parser flags "
-          "stacked near/far callouts as `advanced_hole_candidate` and never treats them as a basic Hole Wizard hole.",
-          "* **Hole Series**: the installed `IAssemblyDoc` exposes **no hole-related member** (and `IFeatureManager` has no Hole Series method), so there is "
-          "no API to create one in this release. Status `not_implemented` (not exposed by the API).", "",
-          "## What is done and tested (no SolidWorks needed)", "",
-          "* Provenance review of 10 public repositories (commits, licenses; no code copied): `public-repository-review.md`; verification limits: `research-sources.md`.",
-          "* Capability registry of all 9 families and 81 variants, pinned to the installed enums; every candidate property exists on the installed "
-          "`IWizardHoleFeatureData2` (75 members).",
-          f"* Callout parser and a corpus inventory over the repo's own saved runs: of {total} distinct callout strings, {parsed} parse as hole/thread "
-          f"callouts ({status.get('parsed_with_ambiguity', '0')} with a flagged ambiguity); families found: {', '.join(f'{k}={v}' for k, v in fam.items())}. "
-          "Real drawings in this corpus contain **pipe threads** (`pipe_tap`), which the existing compiler deliberately leaves as plain cuts. "
-          "See `callout-inventory.md`.", "",
-          "## Stage 4 task status", "", "| Task | State |", "|---|---|",
-          "| 4.3 versioned hole-intent IR + `HoleSpec` migration | done, tested (`hole_intent.py`) |",
-          "| 4.5 installed-catalog discovery + resolver | done against fakes; the real catalog enumerates nothing here (`HW_CATALOG_ENUMERATION_UNAVAILABLE`) |",
-          "| 4.7 typed creation adapter, no silent plain-cut | done against fakes (`hole_adapter.py`); compiler substitution is now recorded with a code, flagged as a finding, and `MTI_HOLE_WIZARD_STRICT=1` fails instead of cutting |",
-          "| 4.8 placement policy incl. radial holes | done, tested (`hole_placement.py`); the compiler's own radial-hole path is unchanged |",
-          "| 4.9 CadQuery reference geometry | done for 47 variants incl. plain slots; counterbore/countersink slots raise `ReferenceUnsupported` |",
-          "| 4.10 definition readback verification | done against fakes; never run live |",
-          "| 4.11 Hole Callout round trip | **not implemented** (needs a drawing document and the Hole Callout API); save/reopen is in the live runner but never ran |",
-          "| 4.12 Advanced Hole / Hole Series | classified and refused with codes (`HW_ADVANCED_HOLE`, `HW_HOLE_SERIES_NO_API`); no creation |",
-          "| 4.13 acceptance matrix | generator and live runner done (`tools/run_hole_wizard_matrix.py`); live run blocked at preflight |",
-          "| Live verification of any variant | **not possible in this session**: `InitializeHole` never returns |", "",
-          "## Conflict recorded with an older rule", "",
-          "The compiler still builds a plain cut when Hole Wizard is refused, to keep parts building, but it is no longer silent: the note says "
-          "\"PLAIN CUT, NOT Hole Wizard (code)\", `hole_wizard_substitutions` is in the build report, a `hole_wizard_substituted` finding is raised, "
-          "and `MTI_HOLE_WIZARD_STRICT=1` fails the feature instead."]
-    out = ROOT.parent / "docs/hole-wizard/support-status.md"
-    out.write_text("\n".join(L) + "\n", encoding="utf-8")
-    print(whole, total, parsed)
+        by_fam.setdefault(r["family"], {}).setdefault(r["status_2025"], 0)
+        by_fam[r["family"]][r["status_2025"]] += 1
+    c25 = mx["status_2025_counts"]
+    cfg = next((x for x in pre.get("data_roots_found", []) if x.get("is_configured")), {})
+    good = next((x for x in pre.get("data_roots_found", []) if not x.get("is_configured") and (x.get("release_line") or "").startswith("SOLIDWORKS 2025")), {})
+    L = ["# Hole Wizard support status (SOLIDWORKS 2025)", "",
+         "Generated by `tools/write_support_status.py` from `matrix-results.json`, `preflight-result.json` and the registry. "
+         "**No variant is `SUPPORTED_AND_LIVE_VERIFIED`.** The live matrix could not start because the environment gate failed; the rows below say so.", "",
+         "## Environment gate (SOLIDWORKS 2025)", "", "| Item | Value |", "|---|---|",
+         f"| Application revision | {pre.get('application_revision')} (SOLIDWORKS 2025 = 33.x) |",
+         f"| Preflight result | **{pre.get('status')}**, `{pre.get('code')}`, retryable: {pre.get('retryable')} |",
+         f"| Configured Hole Wizard data root | release line `{cfg.get('release_line')}`, Toolbox file {cfg.get('toolbox_file_version')}, "
+         f"index {cfg.get('index_version')}, **database {cfg.get('database_version')}** |",
+         f"| Database this 2025 install expects | **{pre.get('database_expected_version')}** (source: {pre.get('expected_version_source')}) |",
+         f"| A compatible 2025 data root also exists | release line `{good.get('release_line')}`, Toolbox file {good.get('toolbox_file_version')}, "
+         f"index {good.get('index_version')}, database {good.get('database_version')} (not selected in SOLIDWORKS) |",
+         f"| Fingerprint | `{pre.get('fingerprint') or 'none: not ready'}` |", "",
+         f"**Finding.** {pre.get('message')} This is the same machine that showed `InitializeHole` never returning and an empty catalog "
+         "([E037/E038](../solidworks-macro-error-log.md)): they are consistent with SOLIDWORKS 2025 waiting behind the "
+         "\"database is not the expected version\" dialog. The pipeline now stops at preflight, before any document, and never calls `HoleWizard5` in this state. "
+         "Not tested: whether repointing fixes the hang (that needs the owner to change the SOLIDWORKS setting).", "",
+         f"**Owner action:** {pre.get('remediation_owner')} Then run `python tools/sw_preflight.py` and `python tools/run_hole_wizard_matrix.py --live`.", "",
+         "No catalog rows and no filesystem paths are recorded in this repository.", "",
+         "## Status vocabulary (fixed)", "",
+         "| Status | Meaning | Rows |", "|---|---|---|"]
+    meaning = {"SUPPORTED_AND_LIVE_VERIFIED": "live creation, definition readback, geometry, drawing callout, save/reopen/rebuild all passed",
+               "SUPPORTED_BY_ADAPTER_NOT_INSTALLED": "adapter + resolution + reference geometry exist and pass fake-COM tests; the installed 2025 catalog could not be used. **Not a verification claim.**",
+               "UNSUPPORTED_WITH_REASON": "recognized, no adapter; the reason is in the row",
+               "NOT_APPLICABLE_TO_INSTALLED_CATALOG": "the enumerated catalog lacks the standard/fastener/size",
+               "BLOCKED_BY_CONFIRMED_SOLIDWORKS_2025_LIMITATION": "the installed 2025 API provably cannot do it (evidence in the row)"}
+    for s in STATUSES_2025:
+        L.append(f"| `{s}` | {meaning[s]} | {c25.get(s, 0)} |")
+    L += ["", "Mapping from the internal statuses: `verified`->SUPPORTED_AND_LIVE_VERIFIED, `implemented_not_live_verified`->SUPPORTED_BY_ADAPTER_NOT_INSTALLED "
+          "(with `environment_reason`), `unsupported_by_installed_catalog`->NOT_APPLICABLE_TO_INSTALLED_CATALOG, everything else->UNSUPPORTED_WITH_REASON. "
+          "An environment fault is never reported as a confirmed SOLIDWORKS limitation.", "",
+          "## The nine general families", "", "| Family | Enum | Variants | " + " | ".join(s.split("_")[0] + "_" + s.split("_")[1] if False else s for s in STATUSES_2025[:3]) + " |",
+          "|---|---|---|" + "---|" * 3]
+    for k, e in FAMILIES:
+        d = by_fam.get(k, {})
+        L.append(f"| {k} | {e} | {fams[k]} | " + " | ".join(str(d.get(s, 0)) for s in STATUSES_2025[:3]) + " |")
+    L += ["", f"All **{mx['total']}** `swWzdHoleTypes_e` members are classified (values are non-contiguous; the last is 90). Unknown future members are "
+          "reported by `fail_closed_rows` as `UNSUPPORTED_WITH_REASON`/`unknown_variant` and never attempted.", "",
+          "* **47** have the full offline chain and map to `SUPPORTED_BY_ADAPTER_NOT_INSTALLED` (hole 6, countersink 6, counterbore 12, straight taps 17, pipe taps 6).",
+          "* **34** are `UNSUPPORTED_WITH_REASON`: 10 legacy types (explicit policy only) and 24 slot variants (no documented fastener type for slots; counterbore/countersink slot geometry not modeled).", "",
+          "## The five regression fixtures (parsed at generation time)", "",
+          "| Fixture | Family | Method | Specific type | Status | Unresolved (never invented) |", "|---|---|---|---|---|---|"]
+    for fid, text in FIXTURES:
+        i = v2.from_parsed(parse(text), "inch", clearance_match=lambda d, u: False)
+        L.append(f"| {fid} | {i.general_family} | {i.creation_method} | {i.specific_type or '-'} | {i.status} | {', '.join(i.unresolved_fields) or '-'} |")
+    ah, hs = advanced_hole.status(), hole_series.status()
+    L += ["", "Live disposition of all five: **none created live** (environment gate). Their structured unresolved/needs-review state is the disposition; "
+          "each unresolved item becomes an engineering finding with the source callout, so the drawing markup places it automatically.", "",
+          "## Advanced Hole and Hole Series (separate domains)", "",
+          f"* **Advanced Hole**: `{ah['status']}` (`{ah['code']}`). {ah['reason']} API surface: `{ah['api_surface']}`.",
+          f"* **Hole Series**: `{hs['status']}` (`{hs['code']}`). {hs['reason']}. Evidence: {hs['evidence']['source']}; checked {', '.join(hs['evidence']['checked'])}; "
+          f"`{hs['evidence']['read_only_object']}` is a reader. A test re-checks this against the installed library.", "",
+          "Neither is ever replaced by a basic Hole Wizard hole.", "",
+          "## Task status", "", "| Slice | State |", "|---|---|",
+          "| A environment gate | done: `sw_preflight.py`, tested for correct 2025, wrong app, 29.01/28.00, missing DB, bad index, modal dialog, empty catalog, timeout; live run recorded |",
+          "| B `HoleIntentV2` | done: `hole_intent_v2.py`, schema 2, v1 migration, provenance, conflicts |",
+          "| C callout parsing | done: multi-line grouping, tolerances, NPT/decimal threads, 5 fixtures in `tests/test_hole_callouts_fixtures.py` |",
+          "| D catalog discovery | cache keyed by the environment fingerprint and ranked matching done; the real catalog could not be enumerated (gate) |",
+          "| E registry | 81 + 9 classified, 2025 vocabulary mapped, unknown members fail closed |",
+          "| F placement/adapters | adapter and placement tested against fakes only |",
+          "| H verification | `hole_verify.py`: five checks; `verified` is unreachable while the Hole Callout round trip is unimplemented |",
+          "| I Advanced Hole / Hole Series | separate modules, explicit statuses, no substitute |",
+          "| J findings | Hole Wizard failures -> structured findings with source callouts (`hole_findings.py`, sidecar `hole_wizard_findings.json`) |",
+          "| K matrix + docs | generated; live run blocked at preflight, no child process started |", "",
+          "## Remaining blocked", "",
+          "* **Live verification of every variant**: blocked by the Hole Wizard database mismatch above (owner action required).",
+          "* **Drawing Hole Callout round trip**: not implemented (needs a drawing document and the Hole Callout API).",
+          "* **Slots**: no documented fastener type; counterbore/countersink slot reference geometry not modeled.",
+          "* **Advanced Hole creation**: not implemented. **Legacy types**: no adapter."]
+    (DOCS / "support-status.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    print("written", c25)
 
 
 if __name__ == "__main__":

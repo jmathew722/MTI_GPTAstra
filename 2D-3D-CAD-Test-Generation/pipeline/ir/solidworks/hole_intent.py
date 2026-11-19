@@ -188,7 +188,7 @@ def select_variant(intent: HoleIntent) -> Selection:
     if intent.mode == "advanced_hole":
         return Selection(None, "HW_ADVANCED_HOLE", "stacked near/far callout: Advanced Hole, a separate feature (not a Hole Wizard hole)")
     if intent.mode == "hole_series":
-        return Selection(None, "HW_HOLE_SERIES_NO_API", "Hole Series has no hole method in the installed API")
+        return Selection(None, "HW_HOLE_SERIES_NO_API", "Hole Series is an assembly feature with no creation entry point in the installed 2025 API (pipeline/ir/solidworks/hole_series.py)")
     if intent.family == "legacy":
         return Selection(None, "HW_LEGACY_POLICY", "legacy hole types are never chosen from drawing text; an explicit policy is required")
     g = FAMILY_GENERAL.get(intent.family)

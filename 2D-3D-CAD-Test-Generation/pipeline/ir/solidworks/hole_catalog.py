@@ -169,3 +169,72 @@ def resolve(intent: HoleIntent, variant: Variant, table: Optional[EnumTable] = N
         if not r.catalog_confirmed:
             r.code, r.reason = "HW_CATALOG_MISSING", f"{r.standard_name} is not installed for general type {variant.general}"
     return r
+
+
+# ---- fingerprinted cache (Stage 4, Slice D) -------------------------------------------------------------------------
+class CatalogCache:
+    """Discovered catalog snapshots keyed by the environment fingerprint
+    (``sw_preflight.fingerprint``: revision/SP, Toolbox file version, database version, index version, company profile and the
+    discovery-code version). A snapshot whose stored fingerprint or discovery version differs is STALE and is never returned.
+    Only enumerated standard ids are stored (no catalog rows); the default location is outside the repository."""
+
+    def __init__(self, directory: Optional[Path] = None):
+        self.dir = Path(directory) if directory else Path.home() / ".mti-2d-3d" / "hole_catalog"
+
+    def _path(self, fp: str) -> Path:
+        if not fp or not all(c in "0123456789abcdef" for c in fp):
+            raise ValueError("cache key must be a hex fingerprint")
+        return self.dir / f"{fp}.json"
+
+    def save(self, fp: str, snap: CatalogSnapshot) -> Path:
+        from pipeline.ir.solidworks import sw_preflight
+        self.dir.mkdir(parents=True, exist_ok=True)
+        p = self._path(fp)
+        p.write_text(json.dumps({"fingerprint": fp, "discovery_version": sw_preflight.DISCOVERY_VERSION, "available": snap.available,
+                                 "code": snap.code, "detail": snap.detail,
+                                 "families": {str(g): {"standards": list(f.get("standards", []))} for g, f in snap.families.items()}},
+                                sort_keys=True), encoding="utf-8")
+        return p
+
+    def load(self, fp: str) -> Optional[CatalogSnapshot]:
+        from pipeline.ir.solidworks import sw_preflight
+        p = self._path(fp)
+        if not p.is_file():
+            return None
+        try:
+            d = json.loads(p.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return None
+        if d.get("fingerprint") != fp or d.get("discovery_version") != sw_preflight.DISCOVERY_VERSION:
+            return None                                   # stale: the environment or the discovery code changed
+        return CatalogSnapshot(bool(d.get("available")), d.get("code"), d.get("detail", ""),
+                               {int(g): {"standards": f["standards"], "fasteners": {}} for g, f in d.get("families", {}).items()})
+
+
+# ---- ranked size matching: never "first approximate" ------------------------------------------------------------------
+@dataclass
+class RankedMatch:
+    label: str
+    value: float
+    error: float
+    exact: bool
+
+
+def rank_sizes(wanted: float, rows: list, tol: float) -> list:
+    """``rows`` = [(label, value)]. Every row within ``10*tol`` is returned best-first with its error; ``exact`` means within ``tol``."""
+    out = [RankedMatch(str(lbl), float(v), abs(float(v) - wanted), abs(float(v) - wanted) <= tol) for lbl, v in rows]
+    out = [m for m in out if m.error <= 10 * tol]
+    return sorted(out, key=lambda m: (m.error, m.label))
+
+
+def select_size(ranked: list) -> tuple:
+    """(RankedMatch | None, code, reason). Exactly one EXACT match is selected. Several exact matches are ambiguous (the drawing
+    or a policy must choose). Only approximate matches are reported as the nearest rows but NOT selected."""
+    exact = [m for m in ranked if m.exact]
+    if len(exact) == 1:
+        return exact[0], None, ""
+    if len(exact) > 1:
+        return None, "HW_CATALOG_AMBIGUOUS", "several catalog rows match exactly: " + ", ".join(m.label for m in exact)
+    if ranked:
+        return None, "HW_CATALOG_NO_MATCH", "no exact row; nearest: " + ", ".join(f"{m.label} (off by {m.error:g})" for m in ranked[:3])
+    return None, "HW_CATALOG_NO_MATCH", "no catalog row within tolerance"
