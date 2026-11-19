@@ -168,7 +168,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
         tel.plan(Phase.RESOLUTION, 1, 1, "passes")
         tel.plan(Phase.BUILD_PLAN, 1, 1, "plans")
         tel.plan(Phase.REFERENCE_BUILD, 1, 1, "reference solids")
-        tel.plan(Phase.ARTIFACT_FINALIZATION, 1, 1, "artifacts")
+        tel.plan(Phase.ARTIFACT_FINALIZATION, 5, 1, "artifacts")   # report + 4 engineering-markup stages
         tel.complete(Phase.INGEST, Op.INGEST_DRAWING, label=f"Prepared {len(images)} drawing image(s)")
         log.info("[stage] extraction: reading %d image(s) for %s", len(images), spec.part)
         with scope(part=spec.part, **run_tags):
@@ -254,8 +254,20 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
     finally:
         res.cost_usd = round(budget.spent_usd() - spent0, 4)
         (out / "ir_report.json").write_text(json.dumps(res.__dict__, indent=2, default=str), encoding="utf-8")
-        from pipeline.flag_overlays import maybe_write_flags      # automatic engineering flags over the drawing
-        maybe_write_flags(out, spec.views, run_id=tel.run_id or _tracker_run_id(_tracker))
+        from pipeline.engineering_markup import finalize_markup    # automatic marked PDF, before the terminal event
+        _ops = {"collect": Op.MARKUP_COLLECT, "localize": Op.MARKUP_LOCALIZE,
+                "render": Op.MARKUP_RENDER, "publish": Op.MARKUP_PUBLISH}
+
+        def _tick(stage: str) -> None:
+            try:
+                tel.complete(Phase.ARTIFACT_FINALIZATION, _ops[stage], unit_id=f"markup_{stage}",
+                             label=f"Engineering markup: {stage}")
+            except Exception:   # noqa: BLE001 - progress bookkeeping must never fail a run
+                pass
+        try:
+            finalize_markup(out, spec.views, run_id=tel.run_id or _tracker_run_id(_tracker), part=spec.part, tick=_tick)
+        except Exception as e:   # noqa: BLE001 - finalize_markup reports through its manifest; this is belt and braces
+            log.warning("engineering markup stage raised for %s: %s", spec.part, e)
         if res.error or res.gate1 in ("REJECT", "NO PLAN"):
             tel.fail(res.error or res.gate1)
         else:

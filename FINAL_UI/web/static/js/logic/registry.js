@@ -15,7 +15,7 @@
 
   /* Every key of payload.categories as produced by app.py _categorize_output (14 keys). */
   var CATEGORY_KEYS = ['extraction', 'resolved', 'build_plan', 'verification', 'model_check', 'review', 'usage',
-                       'macros', 'sldprt', 'stl', 'must_meet', 'overview_analysis', 'console', 'files', 'telemetry', 'flags'];
+                       'macros', 'sldprt', 'stl', 'must_meet', 'overview_analysis', 'console', 'files', 'telemetry', 'flags', 'engineering_markup'];
 
   var GROUPS = [
     { id: 'overview', label: 'Overview' },
@@ -72,7 +72,7 @@
       emptyText: 'No verification report yet.', tools: ['copy', 'download'],
       source: function (p) { return { report: cat(p, 'verification') }; },
       status: function (p) { return present('verification')(p) ? 'present' : 'absent'; } },
-    { id: 'flags', group: 'build', label: 'Engineering flags', keys: ['review', 'flags'],
+    { id: 'flags', group: 'build', label: 'Engineering flags', keys: ['review', 'flags', 'engineering_markup'],
       emptyText: 'No engineering review yet.',
       emptyTextFor: function (p) {
         var r = cat(p, 'review');

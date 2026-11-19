@@ -178,3 +178,19 @@
 .dfl-filter .fchip.high { border-left: 4px solid #E5484D; }
 .dfl-filter .fchip.medium { border-left: 4px dashed #E3B24A; }
 .dfl-filter .fchip.low { border-left: 4px dotted #8FA6C6; }
+
+/* Engineering Markup view (automatic, post-run): transparent hit regions over the pipeline-rendered marked page. */
+.mk-layer { position: absolute; inset: 0; pointer-events: none; z-index: 4; --zs: 1; transform-origin: 50% 50%; }
+.mk-layer[hidden] { display: none; }
+.mk-hit { position: absolute; pointer-events: auto; padding: 0; background: transparent; border: 0; border-radius: calc(2px / var(--zs)); cursor: pointer; }
+.mk-hit:hover { background: color-mix(in srgb, #C8333A 14%, transparent); }
+.mk-hit:focus-visible { outline: calc(3px / var(--zs)) solid var(--accent, #9B8AFB); outline-offset: calc(2px / var(--zs)); }
+.mk-hit[aria-current="true"] { box-shadow: 0 0 0 calc(3px / var(--zs)) color-mix(in srgb, #C8333A 60%, transparent); background: color-mix(in srgb, #C8333A 12%, transparent); }
+.mk-hit.is-pulse { animation: mk-pulse 900ms ease-out 2; }
+@keyframes mk-pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, #C8333A 70%, transparent); } 100% { box-shadow: 0 0 0 calc(18px / var(--zs)) transparent; } }
+@media (prefers-reduced-motion: reduce) { .mk-hit.is-pulse { animation: none; box-shadow: 0 0 0 calc(4px / var(--zs)) color-mix(in srgb, #C8333A 60%, transparent); } }
+.mk-note { position: absolute; left: 8px; right: 8px; bottom: 8px; z-index: 5; margin: 0; padding: 6px 10px; font-size: 12.5px; border-radius: 6px;
+  background: color-mix(in srgb, var(--bg, #101114) 88%, transparent); border: 1px solid var(--border, #30323A); }
+.mk-note[data-kind="failed"] { border-color: #C8333A; }
+.mk-note[hidden] { display: none; }
+.vp-pg .vp-pg-n { font-size: 11px; opacity: .85; }

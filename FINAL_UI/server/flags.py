@@ -212,3 +212,107 @@ def _reconcile(out: Path, review: dict, current_ids: set, run_id: str) -> list:
     if changed:
         _write_review(out, review)
     return history
+
+
+# --------------------------------------------------------------------------- #
+# Engineering Markup (post-run marked PDF + page previews): validated summary and safe artifact paths
+# --------------------------------------------------------------------------- #
+MARKUP_MANIFEST, MARKUP_PAGES = "engineering_markup.json", "engineering_markup_pages"
+MARKUP_STATUSES = ("not_needed", "ready", "partial", "failed")
+MARKUP_LOCATION = ("located", "page_only", "unlocated")
+_PAGE_FILE = re.compile(r"^page-(\d{4})\.png$")
+
+
+def _markup_manifest(out: Path) -> Optional[dict]:
+    d = _read(Path(out) / MARKUP_MANIFEST)
+    return d if isinstance(d, dict) and d.get("schema_version") == 1 and d.get("status") in MARKUP_STATUSES else None
+
+
+def markup_pdf_path(out: Path) -> Optional[Path]:
+    """The marked PDF named by the manifest, only if it sits directly inside ``out`` and is a *_engineering_markup.pdf."""
+    m = _markup_manifest(out)
+    if not m or m["status"] not in ("ready", "partial"):
+        return None
+    name = str(m.get("marked_pdf") or "")
+    if not name.endswith("_engineering_markup.pdf") or "/" in name or "\\" in name or name.startswith("."):
+        return None
+    out_r = Path(out).resolve()
+    p = (out_r / name).resolve()
+    return p if p.is_file() and p.parent == out_r else None
+
+
+def markup_page_path(out: Path, page: int) -> Optional[Path]:
+    """Preview PNG for a 1-based page the manifest lists; never a path built from client text."""
+    m = _markup_manifest(out)
+    if not m or m["status"] not in ("ready", "partial") or not isinstance(page, int) or page < 1:
+        return None
+    listed = {p.get("page") for p in m.get("pages", []) if isinstance(p, dict)}
+    if page not in listed:
+        return None
+    d = (Path(out) / MARKUP_PAGES).resolve()
+    p = d / f"page-{page:04d}.png"
+    return p if p.is_file() and p.parent == d and _PAGE_FILE.match(p.name) else None
+
+
+def _rect4(v: Any) -> Optional[list]:
+    if not isinstance(v, list) or len(v) != 4:
+        return None
+    nums = [_num(x) for x in v]
+    return nums if all(n is not None for n in nums) else None
+
+
+def load_markup(out: Path, *, current_sha: Optional[str] = None) -> dict:
+    """Bounded, validated summary of ``engineering_markup.json`` for the part payload. Never contains an absolute
+    path. A manifest computed for a different drawing revision is reported ``stale`` and its artifacts are withheld."""
+    out = Path(out)
+    m = _markup_manifest(out)
+    if m is None:
+        return {"present": False, "status": "none"}
+    status = m["status"]
+    sha = _txt(m.get("source_sha256"), 80)
+    stale = bool(current_sha and sha and sha != current_sha)
+    res = {"present": True, "status": "stale" if stale else status, "manifest_status": status, "stale": stale,
+           "part": _txt(m.get("part"), 80), "run_id": _txt(m.get("run_id"), 80),
+           "generation_key": _txt(m.get("generation_key"), 40), "generated_at": _txt(m.get("generated_at"), 40),
+           "generator_version": _txt(m.get("generator_version"), 40),
+           "finding_count": int(m.get("finding_count") or 0), "located_count": int(m.get("located_count") or 0),
+           "unlocated_count": int(m.get("unlocated_count") or 0), "report_pages": int(m.get("report_pages") or 0),
+           "source_name": _txt(m.get("source_pdf"), 200), "warnings": [], "findings": [], "pages": [],
+           "has_pdf": False}
+    f = m.get("failure")
+    if isinstance(f, dict):
+        res["failure"] = {"code": _txt(f.get("code"), 60), "detail": _txt(f.get("detail"), 300)}
+    for w in (m.get("warnings") or [])[:10]:
+        if isinstance(w, dict):
+            res["warnings"].append({"code": _txt(w.get("code"), 60), "detail": _txt(w.get("detail"), 300)})
+    if stale or status not in ("ready", "partial"):
+        return res
+    res["has_pdf"] = markup_pdf_path(out) is not None
+    for p in (m.get("pages") or [])[:200]:
+        if not isinstance(p, dict) or not isinstance(p.get("page"), int):
+            continue
+        res["pages"].append({"page": p["page"], "width_pt": _num(p.get("width_pt")), "height_pt": _num(p.get("height_pt")),
+                             "drawing_width_pt": _num(p.get("drawing_width_pt")), "rail_width_pt": _num(p.get("rail_width_pt")),
+                             "finding_ids": [_txt(x, 20) for x in (p.get("finding_ids") or [])[:100]],
+                             "has_preview": markup_page_path(out, p["page"]) is not None})
+    for r in (m.get("findings") or [])[:MAX_FLAGS]:
+        if not isinstance(r, dict):
+            continue
+        loc = r.get("location_status") if r.get("location_status") in MARKUP_LOCATION else "unlocated"
+        res["findings"].append({
+            "id": _txt(r.get("id"), 20), "number": int(r.get("number") or 0), "finding_id": _txt(r.get("finding_id"), 80),
+            "severity": _txt(r.get("severity"), 20), "code": _txt(r.get("code"), 60), "title": _txt(r.get("title"), 200),
+            "explanation": _txt(r.get("explanation"), 1500), "manual_action": _txt(r.get("manual_action"), 600),
+            "location_status": loc, "location_method": _txt(r.get("location_method"), 60),
+            "confidence": _num(r.get("confidence")) or 0.0,
+            "page": r.get("page") if isinstance(r.get("page"), int) else None,
+            "rect_pdf_points": _rect4(r.get("rect_pdf_points")), "rect_normalized": _rect4(r.get("rect_normalized")),
+            "card": ({"page": r["card"].get("page"), "rect": _rect4(r["card"].get("rect"))}
+                     if isinstance(r.get("card"), dict) and isinstance(r["card"].get("page"), int) else None),
+            "regions": [{"page": g.get("page"), "rect_pdf_points": _rect4(g.get("rect_pdf_points")),
+                         "rect_normalized": _rect4(g.get("rect_normalized")),
+                         "rect_marked_pt": _rect4(g.get("rect_marked_pt"))}
+                        for g in (r.get("regions") or [])[:20] if isinstance(g, dict) and isinstance(g.get("page"), int)],
+            "source_callout": _txt(r.get("source_callout"), 400),
+            "feature_ids": [_txt(x, 40) for x in (r.get("feature_ids") or [])[:30]]})
+    return res

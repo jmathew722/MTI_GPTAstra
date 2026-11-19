@@ -87,6 +87,12 @@ test('URL builders', () => {
   assert.equal(api.thumbURL('s', 'A', 5), '/api/parts/s/A/thumb.jpg?t=5');
   assert.equal(api.overviewURL('s', 'A B'), '/api/parts/s/A%20B/overview.jpg');
   assert.equal(api.markedViewURL('s', 'A'), '/api/parts/s/A/marked-view.jpg');
+  // the automatic post-run Engineering Markup is a different artifact from the human marked view
+  assert.equal(api.engineeringMarkupURL('s', 'A', 'k1'), '/api/parts/s/A/engineering-markup?t=k1');
+  assert.equal(api.engineeringMarkupPdfURL('s', 'A B'), '/api/parts/s/A%20B/engineering-markup.pdf');
+  assert.equal(api.engineeringMarkupPageURL('s', 'A', 2, 'k1'), '/api/parts/s/A/engineering-markup/page/2.png?t=k1');
+  assert.equal(api.engineeringMarkupPageURL('s', 'A', 'x'), '/api/parts/s/A/engineering-markup/page/1.png');
+  assert.notEqual(api.engineeringMarkupURL('s', 'A'), api.markedViewURL('s', 'A'));
   assert.equal(api.partStlURL('s', 'A', 1700000100), '/api/parts/s/A/model.stl?t=1700000100');
   assert.equal(api.partFileURL('s', 'A', '117C/macros/01 base.vba'), '/api/parts/s/A/file/117C/macros/01%20base.vba');
   assert.equal(api.runStlURL('r1'), '/api/runs/r1/model.stl');
@@ -117,7 +123,7 @@ test('openLog: lines, done with exit code, error callback, close', () => {
 test('every endpoint named in ARCH 5 exists as a function', () => {
   for (const n of ['status', 'newSession', 'listParts', 'savePart', 'uploadBatch', 'saveNotes', 'getRegions', 'saveRegions', 'saveMarkedView',
     'partOutputs', 'runPart', 'demo', 'runOutputs', 'runFiles', 'cancel', 'openLog', 'runHistory', 'clearHistory', 'convertCad',
-    'thumbURL', 'overviewURL', 'markedViewURL', 'partStlURL', 'partFileURL', 'runStlURL', 'runDownloadURL', 'runZipURL']) {
+    'thumbURL', 'overviewURL', 'markedViewURL', 'engineeringMarkupURL', 'engineeringMarkupPdfURL', 'engineeringMarkupPageURL', 'partStlURL', 'partFileURL', 'runStlURL', 'runDownloadURL', 'runZipURL']) {
     assert.equal(typeof api[n], 'function', n);
   }
 });

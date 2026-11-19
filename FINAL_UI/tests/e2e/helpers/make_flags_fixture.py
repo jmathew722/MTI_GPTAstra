@@ -25,9 +25,10 @@ CALLOUT_TAP = "M6 X 1 - 12 DEEP"                 # flag 1: the tapped hole depth
 CALLOUT_EDGE = "BREAK ALL EDGES .02 MAX"          # flag 2
 CALLOUT_DUP = "2X Ø.250 THRU"               # appears twice: the pipeline must refuse to guess
 CALLOUT_MISSING = "NOT ON THE DRAWING <img src=x onerror=alert(1)>"   # hostile text that is on no sheet
+CALLOUT_P2 = "2X Ø.500 CBORE .12 DEEP"                                  # sheet 2 only (the --markup variants)
 
 
-def build_pdf(path: Path, rotation: int, variant: str) -> None:
+def build_pdf(path: Path, rotation: int, variant: str, pages: int = 1) -> None:
     doc = pymupdf.open()
     pg = doc.new_page(width=600, height=400)
     pg.draw_rect(pymupdf.Rect(20, 20, 580, 380), color=(0, 0, 0), width=1)
@@ -39,6 +40,11 @@ def build_pdf(path: Path, rotation: int, variant: str) -> None:
         pg.insert_text((60, 210), CALLOUT_DUP, fontsize=14, color=BLUE)
         pg.insert_text((330, 210), CALLOUT_DUP, fontsize=14, color=BLUE)
     pg.set_rotation(rotation)
+    for n in range(2, pages + 1):                      # further sheets: the issue on sheet 2 must open sheet 2
+        p2 = doc.new_page(width=600, height=400)
+        p2.draw_rect(pymupdf.Rect(20, 20, 580, 380), color=(0, 0, 0), width=1)
+        p2.insert_text((40, 50), f"SAMPLE PART  SHEET {n}", fontsize=11)
+        p2.insert_text((200, 250), CALLOUT_P2, fontsize=14, color=BLUE)
     doc.save(path)
 
 
@@ -87,11 +93,13 @@ def main() -> int:
     ap.add_argument("--rotation", type=int, default=0)
     ap.add_argument("--variant", choices=("main", "ambiguous"), default="main")
     ap.add_argument("--workdir", type=Path, required=True)
+    ap.add_argument("--markup", choices=("none", "main", "clean", "fail"), default="none",
+                    help="also run the REAL post-run Engineering Markup stage (main: two sheets, one unlocated flag; clean: no flags; fail: generator forced to fail)")
     ap.add_argument("--alt", action="store_true", help="also write a different revision of the drawing (for the stale test)")
     a = ap.parse_args()
     a.workdir.mkdir(parents=True, exist_ok=True)
     pdf = a.workdir / f"{a.part}.pdf"
-    build_pdf(pdf, a.rotation, a.variant)
+    build_pdf(pdf, a.rotation, a.variant, pages=2 if a.markup == "main" else 1)
     pix = pymupdf.open(pdf)[0].get_pixmap(dpi=100)
     png = a.workdir / f"{a.part}.png"
     pix.save(png)
@@ -111,7 +119,24 @@ def main() -> int:
     (run / "ir_report.json").write_text(json.dumps(report), encoding="utf-8")
     for stale in run.glob("markup_positions*.json"):          # the production path never reads these; make sure none exist
         stale.unlink()
+    if a.markup == "clean":
+        report = {"part": a.part, "gate1": "OK", "planned": 1, "sw_ok": True, "error": "", "cq_skipped": {}, "questions": [],
+                  "sw_features": {}, "mti_review": []}
+        (run / "ir_report.json").write_text(json.dumps(report), encoding="utf-8")
+    if a.markup == "main":
+        feats.append({"id": "F007", "kind": "hole", "source_callouts": [CALLOUT_P2]})
+        report["cq_skipped"]["F007"] = "counterbore depth reads .10, drawing says .12"
+        (run / "plan.json").write_text(json.dumps({"plan": {"features": feats}}), encoding="utf-8")
+        (run / "ir_report.json").write_text(json.dumps(report), encoding="utf-8")
     summary = write_flags(run, pdf, run_id="run_fixture_" + a.part)
+    if a.markup != "none":
+        sys.path.insert(0, str(REPO))
+        from pipeline import engineering_markup as em
+        if a.markup == "fail":
+            def _boom(*_a, **_k):
+                raise RuntimeError("forced generator failure for the acceptance test")
+            em.render_marked_pdf = _boom
+        summary["markup"] = em.finalize_markup(run, pdf, run_id="run_fixture_" + a.part, part=a.part)
 
     blocks = cluster(blue_boxes(pix, 2))
     # An independent oracle for where each callout is in the rendered image: PyMuPDF's own text search (not the

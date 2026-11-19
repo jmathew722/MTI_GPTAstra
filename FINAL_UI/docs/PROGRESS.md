@@ -109,3 +109,14 @@ Details and evidence: `docs/test-reports/2026-11-18-stage{1,2,3}-gate-report.md`
 `tests/e2e/tests/21-stage2.spec.ts`, `22-stage3-flags.spec.ts` (these two need `STAGE2_OUT` and a server started with
 `MCAGENT_FINAL_OUTPUTS=$STAGE2_OUT`). Pre-existing failures, unchanged: 3 unit tests (missing `tests/fixtures/part_full.log`) and 13
 Playwright tests (stale after the rebrand), identical on the pre-change commit.
+
+## 2026-11-18: automatic Engineering Markup (Stage 3 fix, branch `Improvements_2`)
+
+Report and evidence: `docs/test-reports/2026-11-18-stage3-markup-gate-report.md`, `docs/test-reports/stage3-markup-evidence/`.
+Post-run, pipeline-generated marked PDF (`<part>_engineering_markup.pdf`, `engineering_markup.json`, `engineering_markup_pages/`),
+separate from the human pre-run `full_marked_view.jpg`. New: `server/flags.py` `load_markup`, three `/engineering-markup*` endpoints,
+`web/static/js/logic/markupview.js`, an `Engineering Markup` source in `features/viewer2d.js` (auto-selected, page strip, clickable
+regions, `focusIssue`), Results card links in `features/engineering-flags.js`. Tests: `tests/server/test_app_markup.py`,
+`tests/unit/markupview.test.js`, `tests/e2e/tests/23-engineering-markup.spec.ts` (needs `STAGE2_OUT`; fixture via
+`make_flags_fixture.py --markup main|clean|fail`). The 3 unit and 13 Playwright pre-existing failures are unchanged.
+

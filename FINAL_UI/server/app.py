@@ -973,6 +973,12 @@ def _flags_for(out: Path, session: str | None) -> dict:
                              latest_run_id=tel.get("run_id") if tel.get("source") == "structured" else None)
 
 
+def _markup_for(out: Path, session: str | None) -> dict:
+    """Post-run Engineering Markup summary. Separate from the human pre-run full_marked_view.jpg."""
+    pname = out.parent.name if out.name == "output" else out.name
+    return _flags.load_markup(out, current_sha=_current_source_sha(session, pname))
+
+
 def _categorize_output(out: Path, session: str | None = None) -> dict:
     """Categorise a pipeline output dir into the shape the output tabs consume.
     Shared by run-id-scoped and per-part outputs so both render identically —
@@ -1035,6 +1041,7 @@ def _categorize_output(out: Path, session: str | None = None) -> dict:
             "usage": _usage_summary(out),
             "telemetry": _telemetry_for(out),
             "flags": _flags_for(out, session),
+            "engineering_markup": _markup_for(out, session),
             "macros": {"present": bool(macros_files), "files": macros_files},
             "sldprt": {"present": bool(_first(out, ["*.sldprt"]))},
             "stl": {"present": stl is not None, "name": stl.name if stl else None,
@@ -1820,6 +1827,47 @@ def part_flags(session: str, part: str):
     if not (_session_dir(session) / _sanitize(part)).is_dir():
         raise HTTPException(404, "Unknown part")
     return _flags_for(_part_output_dir(session, part), session)
+
+
+@app.get("/api/parts/{session}/{part}/engineering-markup")
+def part_engineering_markup(session: str, part: str, request: Request):
+    """The automatic post-run Engineering Markup manifest (NOT the human full_marked_view.jpg)."""
+    out, summary = _markup_part(session, part)
+    headers = _markup_headers(summary)
+    if request.headers.get("if-none-match") == headers["ETag"] and summary.get("present"):
+        return Response(status_code=304, headers=headers)
+    return JSONResponse(summary, headers=headers)
+
+
+@app.get("/api/parts/{session}/{part}/engineering-markup.pdf")
+def part_engineering_markup_pdf(session: str, part: str):
+    out, summary = _markup_part(session, part)
+    p = _flags.markup_pdf_path(out) if summary.get("status") in ("ready", "partial") else None
+    if p is None:
+        raise HTTPException(404, "No engineering markup PDF for this part")
+    return FileResponse(str(p), media_type="application/pdf",
+                        headers={**_markup_headers(summary), "Content-Disposition": f'inline; filename="{p.name}"'})
+
+
+@app.get("/api/parts/{session}/{part}/engineering-markup/page/{page}.png")
+def part_engineering_markup_page(session: str, part: str, page: int):
+    out, summary = _markup_part(session, part)
+    p = _flags.markup_page_path(out, page) if summary.get("status") in ("ready", "partial") else None
+    if p is None:
+        raise HTTPException(404, "No such engineering markup page")
+    return FileResponse(str(p), media_type="image/png", headers=_markup_headers(summary))
+
+
+def _markup_headers(summary: dict) -> dict:
+    key = summary.get("generation_key") or "none"
+    return {"ETag": f'"{key}"', "Cache-Control": "no-cache"}
+
+
+def _markup_part(session: str, part: str) -> tuple:
+    if not (_session_dir(session) / _sanitize(part)).is_dir():
+        raise HTTPException(404, "Unknown part")
+    out = _part_output_dir(session, part)
+    return out, _markup_for(out, session)
 
 
 @app.post("/api/parts/{session}/{part}/flags/{finding_id}/review")

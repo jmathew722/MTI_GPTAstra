@@ -14,10 +14,10 @@ export interface Fixture {
 }
 
 /** Builds the drawing and runs the REAL pipeline stage (write_flags). No overlay position is passed in anywhere. */
-export function buildFixture(part: string, rotation = 0, variant: 'main' | 'ambiguous' = 'main', alt = false): Fixture {
+export function buildFixture(part: string, rotation = 0, variant: 'main' | 'ambiguous' = 'main', alt = false, markup: 'none' | 'main' | 'clean' | 'fail' = 'none'): Fixture {
   const work = fs.mkdtempSync(path.join(os.tmpdir(), 'flagfx-'));
   const args = [path.resolve(__dirname, 'make_flags_fixture.py'), '--out', STAGE2_OUT, '--part', part, '--rotation', String(rotation),
-    '--variant', variant, '--workdir', work].concat(alt ? ['--alt'] : []);
+    '--variant', variant, '--workdir', work, '--markup', markup].concat(alt ? ['--alt'] : []);
   const out = execFileSync(process.env.PYTHON || 'python', args, { encoding: 'utf-8', env: { ...process.env, PYTHONUTF8: '1' } });
   return JSON.parse(out.trim().split('\n').pop()!);
 }

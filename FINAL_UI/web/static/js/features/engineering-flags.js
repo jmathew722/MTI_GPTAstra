@@ -106,11 +106,23 @@
     if (!id) return;
     var m = flagsModel(); if (!m) return;
     var f = FV.flagList(m).filter(function (x) { return x.finding_id === id; })[0];
+    revealIfFiltered(m, id);
+    if (opts.from !== 'box' && McA.viewer2d && McA.viewer2d.focusIssue && McA.viewer2d.focusIssue(id)) return;
+    if (McA.viewer2d && McA.viewer2d.relayoutMarkup) McA.viewer2d.relayoutMarkup();
     if (f && f.located && opts.from !== 'box') focusOnDrawing(f);
     setTimeout(function () {
       var card = document.querySelector('.flagcard[data-finding="' + id + '"]');
       if (card && opts.from === 'box') { card.scrollIntoView({ block: 'nearest' }); }
     }, 30);
+  }
+  /* A flag picked on the marked drawing may be hidden by a Results filter: clear the filter and say so. */
+  function revealIfFiltered(m, id) {
+    var list = FV.flagList(m), shown = FV.filterFlags(list, filters());
+    if (shown.some(function (x) { return x.finding_id === id; })) return;
+    if (!list.some(function (x) { return x.finding_id === id; })) return;
+    McA.dom.setUi({ dflFilter: {} });
+    var live = document.getElementById('status-live');
+    if (live) live.textContent = 'Filters cleared to show the selected flag.';
   }
   function focusOnDrawing(f) {
     if (!showing() || !f.overlay || f.overlay.page_index !== 0) return;
@@ -157,10 +169,14 @@
         h('span', { class: 'mono', text: [(f.feature_ids || []).join(', '), (f.source_callouts || []).join(' | ')].filter(Boolean).join('  —  ') })));
     }
     var actions = h('div', { class: 'flag-actions' });
-    if (f.located) {
-      var show = h('button', { type: 'button', class: 'btn secondary sm', text: 'Show on drawing' });
+    var inMarkup = !!(McA.viewer2d && McA.viewer2d.hasMarkup && McA.viewer2d.hasMarkup(f.finding_id));
+    if (f.located || inMarkup) {
+      var show = h('button', { type: 'button', class: 'btn secondary sm', text: f.located ? 'Show on drawing' : 'Show on page',
+        'aria-label': (f.located ? 'Show on drawing' : 'Show on page') + ' (flag ' + f.number + ')' });   // starts with the visible text
       show.addEventListener('click', function () { selectFlag(f.finding_id, { reveal: false }); });
       actions.append(show);
+    } else {
+      actions.append(h('span', { class: 'hint flag-nolocation', text: 'Location not confirmed' }));
     }
     actions.append(reviewControls(f, d));
     el.append(actions);
@@ -261,6 +277,7 @@
       box.append(layer);
       var st = McA.store;
       st.subscribe(function (s) { return s.outputs; }, layout);
+      st.subscribe(function (s) { return s.outputs; }, function () { if (McA.viewer2d && McA.viewer2d.relayoutMarkup) McA.viewer2d.relayoutMarkup(); });
       st.subscribe(function (s) { return s.parts.selected; }, layout);
       st.subscribe(function (s) { return [s.ui.flagSelected, JSON.stringify(s.ui.dflFilter || null)].join('|'); }, layout);
       if (window.ResizeObserver) new ResizeObserver(McA.util.debounce(layout, 30)).observe(box);

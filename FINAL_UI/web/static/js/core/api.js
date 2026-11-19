@@ -147,6 +147,10 @@
     markedViewURL: function (s, p, bust) { return partBase(s, p) + '/marked-view.jpg' + t(bust); },
     partStlURL: function (s, p, mtime) { return partBase(s, p) + '/model.stl' + t(mtime); },
     partFileURL: function (s, p, rel) { return partBase(s, p) + '/file/' + encPath(rel); },
+    /* Automatic post-run Engineering Markup (NOT the human pre-run marked-view.jpg above). */
+    engineeringMarkupURL: function (s, p, key) { return partBase(s, p) + '/engineering-markup' + t(key); },
+    engineeringMarkupPdfURL: function (s, p, key) { return partBase(s, p) + '/engineering-markup.pdf' + t(key); },
+    engineeringMarkupPageURL: function (s, p, page, key) { return partBase(s, p) + '/engineering-markup/page/' + (parseInt(page, 10) || 1) + '.png' + t(key); },
     partLedgerURL: function (s, p) { return partBase(s, p) + '/ledger.jsonl'; },
     reviewFlag: function (s, p, id, state, reason) {
       return json(partBase(s, p) + '/flags/' + enc(id) + '/review', { method: 'POST', headers: { 'Content-Type': 'application/json' },

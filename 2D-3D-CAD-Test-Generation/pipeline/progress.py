@@ -30,6 +30,10 @@ class Op(str, Enum):
     CREATE_FEATURE = "create_feature"
     VERIFY_CHECK = "verify_check"
     FINALIZE_ARTIFACT = "finalize_artifact"
+    MARKUP_COLLECT = "markup.collect"
+    MARKUP_LOCALIZE = "markup.localize"
+    MARKUP_RENDER = "markup.render"
+    MARKUP_PUBLISH = "markup.publish"
 
 
 _NOT_100 = 99.9
