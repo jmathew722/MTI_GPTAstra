@@ -934,9 +934,14 @@ def _telemetry_for(out: Path) -> dict:
     out_r = Path(out).resolve()
     live = [s for s in RUNS.values() if Path(s["output"]).resolve() == out_r
             and s.get("telemetry", {}).get("run_id")]
+    active = [s for s in RUNS.values() if Path(s["output"]).resolve() == out_r and not s.get("done")]
     if live:
         newest = max(live, key=lambda s: s.get("started") or 0)
         snap = dict(newest["telemetry"])
+    elif active:
+        # A run is writing here but has not emitted its first event yet: never replay the PREVIOUS run's saved events
+        # (it would show that run's failure as the new run's state).
+        snap = _telemetry.legacy_state()
     else:
         events = _telemetry.find_events_file(out_r)
         snap = (_telemetry.replay_file(events) if events else None) or _telemetry.legacy_state()

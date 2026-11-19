@@ -118,3 +118,20 @@ def test_part_ledger_download_contains_only_that_part(tmp_path):
     assert [x["row_id"] for x in lines] == ["a"]
     assert c.get(f"/api/parts/{sess}/NOPE/ledger.jsonl").status_code == 404
     assert c.get(f"/api/parts/{sess}/..%2F..%2Fetc/ledger.jsonl").status_code in (404, 400, 422)
+
+
+def test_a_starting_run_never_shows_the_previous_runs_saved_failure(tmp_path):
+    """Right after Run is pressed the new run has no events yet; the old run_events.jsonl must not be replayed."""
+    import json
+    out = tmp_path / "part_out"
+    out.mkdir()
+    ev = {"schema_version": 1, "event_id": "e1", "run_id": "run_old", "attempt": 1, "part_id": "P", "seq": 1,
+          "occurred_at": "2026-11-18T00:00:00.000Z", "kind": "run.failed", "payload": {"reason": "old failure"}}
+    (out / "run_events.jsonl").write_text(json.dumps(ev) + "\n", encoding="utf-8")
+    assert appmod._telemetry_for(out).get("terminal") == "failed"                       # idle folder: replay is right
+    appmod.RUNS["starting_run"] = {"output": out, "done": False, "started": 1}
+    try:
+        snap = appmod._telemetry_for(out)
+        assert snap.get("source") != "structured" and snap.get("terminal") != "failed"
+    finally:
+        appmod.RUNS.pop("starting_run", None)

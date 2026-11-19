@@ -175,6 +175,7 @@
 
     var next = sig;
     function flag(name) { if (!next[name]) { if (next === sig) next = Object.assign({}, sig); next[name] = true; changed = true; } }
+    if (/API budget stop/.test(s)) flag('costLimit');       // the budget guard stopped the run (exit code 9)
     if (/Extraction failed\b/.test(s)) flag('extractFailed');
     if (/Processing failed:/.test(s)) flag('processFailed');
     if (/^\[SPEC\] (CRITICAL|HIGH):/.test(s)) flag('resolveWarn');
@@ -185,6 +186,13 @@
     return { kind: track.kind, k: k, seen: seen, signals: next, done: track.done, final: track.final, tel: track.tel };
   }
 
+  /** The stage a cost-limit stop is reported against: from the IR report ("COST_LIMIT:<stage>: ..."), else the console
+      signal (stage unknown, ''), else null (not a cost-limit stop). */
+  function costLimitStage(ir, sig) {
+    var m = ir && ir.error ? /^COST_LIMIT:(\w+):/.exec(String(ir.error)) : null;
+    if (m) return m[1];
+    return sig && sig.costLimit ? '' : null;
+  }
   function stageIndexOfK(kind, k) {
     var st = stagesFor(kind);
     for (var i = 0; i < st.length; i++) if (st[i].ks.indexOf(k) !== -1) return i;
@@ -271,6 +279,14 @@
           irFailDetail = 'SolidWorks did not verify the build (bounding box or volume mismatch)';
         }
       }
+      var clStage = costLimitStage(ir, track.signals);
+      if (clStage !== null) {              // say WHY: the API cost limit, not a generic failure
+        var sts = stagesFor(track.kind), ci2 = -1;
+        for (i = 0; i < sts.length; i++) if (sts[i].id === clStage) ci2 = i;
+        if (ci2 < 0) ci2 = runningIdx >= 0 ? runningIdx : (track.k < 0 ? 0 : Math.max(stageIndexOfK(track.kind, track.k), 0));
+        failIdx = ci2;
+        irFailDetail = sts[ci2].label + ' failed - due to cost limit';
+      }
       if (failIdx >= 0) {
         decided = true;
         states[failIdx] = { state: 'failed', detail: irFailDetail || ('Exited with code ' + exit) };
@@ -316,7 +332,10 @@
         // Fall back to whatever the process reported directly.
         var wk = lastWorkK(track);
         var detailOf = summary && summary.detail ? String(summary.detail) : '';
-        if (track.signals.extractFailed || (status === 'ERROR' && wk <= 1)) {
+        if (track.signals.costLimit) {
+          var cj = Math.max(stageIndexOfK('part', wk), 0);
+          states[cj] = { state: 'failed', detail: stagesFor('part')[cj].label + ' failed - due to cost limit' };
+        } else if (track.signals.extractFailed || (status === 'ERROR' && wk <= 1)) {
           states[0] = { state: 'failed', detail: detailOf || 'Extraction failed' };
         } else if (status === 'ERROR') {
           var ei = stageIndexOfK('part', wk);

@@ -97,12 +97,21 @@ def get_extraction(spec: PartSpec, images, out_dir: Path, reuse: list[Path]) -> 
         for cand in (d / spec.part / f"{spec.part}_extraction.json", d / f"{spec.part}_extraction.json"):
             if cand.exists():
                 return json.loads(cand.read_text(encoding="utf-8")), f"reused {cand}"
+    from pipeline.budget import BudgetExceeded
     from pipeline.extractor import extract_drawing_data, extract_drawing_data_multiview
     cache = CODE_ROOT / "output" / ".extraction_cache"
-    if len(images) == 1:
-        data = extract_drawing_data(images[0][2], "image/png", cache_dir=cache)
-    else:
-        data = extract_drawing_data_multiview([(vt, b64, "image/png") for _, vt, b64 in images], cache_dir=cache)
+    try:
+        if len(images) == 1:
+            data = extract_drawing_data(images[0][2], "image/png", cache_dir=cache)
+        else:
+            data = extract_drawing_data_multiview([(vt, b64, "image/png") for _, vt, b64 in images], cache_dir=cache)
+    except BudgetExceeded as e:
+        partial = getattr(e, "partial_extraction", None)
+        if partial:                                   # rule 9: a paid extraction is saved even when the run must stop
+            out_dir.mkdir(parents=True, exist_ok=True)
+            (out_dir / f"{spec.part}_extraction.json").write_text(json.dumps(partial, indent=2), encoding="utf-8")
+            log.warning("Saved the first extraction for %s before the cost-limit stop.", spec.part)
+        raise
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"{spec.part}_extraction.json"
     path.write_text(json.dumps(data, indent=2), encoding="utf-8")   # rule 9: saved first
@@ -161,6 +170,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
     run_tags = {"run_id": tel.run_id, "run_attempt": tel.attempt} if tel.run_id else {}
     res = IRResult(spec.part)
     spent0 = budget.spent_usd()
+    where = "extraction"          # the stage a cost-limit stop is reported against
     try:
         images = images_for(spec)
         tel.plan(Phase.INGEST, 1, 1, "drawings")
@@ -176,12 +186,14 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
             raw, res.extraction = get_extraction(spec, images, out, reuse)
             for i in range(len(images)):   # the extraction call returned: every view is read
                 tel.complete(Phase.EXTRACTION, Op.EXTRACT_VIEW, unit_id=f"view_{i}")
+            where = "resolution"
             log.info("[stage] resolution: resolving ambiguous references for %s", spec.part)
             resolve_unknowns(raw, spec.part)
             tel.complete(Phase.RESOLUTION, Op.RESOLVE_AMBIGUITY, label="Resolved ambiguous references")
             m = DrawingData.model_validate(raw)
             dims, refs = dims_of(m), reference_ids(m)
             saved = out / "plan.json"
+            where = "build_plan"
             log.info("[stage] build_plan_start: planning %s%s", spec.part,
                      " (reusing saved plan, no API call)" if (reuse_plan and saved.exists()) else "")
             if reuse_plan and saved.exists():   # rebuild after a compiler change: no API call
@@ -248,6 +260,8 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
     except Exception as e:
         from pipeline.budget import BudgetExceeded
         if isinstance(e, BudgetExceeded):
+            # Named so the UI can say "<stage> failed - due to cost limit" instead of a generic failure (format: COST_LIMIT:<stage>: ...).
+            res.error = f"COST_LIMIT:{where}: stopped by the API cost limit ({e})"[:300]
             raise
         res.error = f"{type(e).__name__}: {e}"[:400]
         log.error("IR run failed for %s: %s", spec.part, res.error)

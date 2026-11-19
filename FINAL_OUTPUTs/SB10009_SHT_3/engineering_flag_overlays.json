@@ -1,0 +1,1295 @@
+{
+  "schema_version": 1,
+  "source_pdf_sha256": "3036acca9a443dbea90a2afa7c197274648da9fa2c3a607f9494a12c65a7f8ad",
+  "source_name": "SB10009_SHT_3.pdf",
+  "run_id": "run_4cf51f6297d34d1bba88",
+  "pages": [
+    {
+      "page_index": 0,
+      "width": 2492.64,
+      "height": 1582.92,
+      "rotation": 0,
+      "text_source": "ocr"
+    }
+  ],
+  "overlays": [
+    {
+      "finding_id": "flag_69a396feb0b7",
+      "number": 16,
+      "severity": "warning",
+      "label": "16: Feature F007 needs an engineer's answer",
+      "overlay_id": "ov_flag_69a396feb0b7_3",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.415323,
+        "y": 0.248456,
+        "width": 0.020161,
+        "height": 0.026565
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.958,
+      "matched_text": "1.419 TYP",
+      "rotation_degrees": 0,
+      "source_callout": "1.419 TYP",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.439484,
+        "y": 0.248456
+      }
+    },
+    {
+      "finding_id": "flag_89fd777281b2",
+      "number": 22,
+      "severity": "error",
+      "label": "22: Feature F007 was not built",
+      "overlay_id": "ov_flag_89fd777281b2_3",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.415323,
+        "y": 0.248456,
+        "width": 0.020161,
+        "height": 0.026565
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.958,
+      "matched_text": "1.419 TYP",
+      "rotation_degrees": 0,
+      "source_callout": "1.419 TYP",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.439484,
+        "y": 0.288456
+      }
+    },
+    {
+      "finding_id": "flag_36038cf43d39",
+      "number": 8,
+      "severity": "warning",
+      "label": "8: Feature F011 needs an engineer's answer",
+      "overlay_id": "ov_flag_36038cf43d39_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.530242,
+        "y": 0.282053,
+        "width": 0.034274,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8802,
+      "matched_text": "(2)HL'S.",
+      "rotation_degrees": 0,
+      "source_callout": "(2) HL'S.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.568516,
+        "y": 0.282053
+      }
+    },
+    {
+      "finding_id": "flag_3f0aeba5b5d9",
+      "number": 9,
+      "severity": "warning",
+      "label": "9: Feature F012 needs an engineer's answer",
+      "overlay_id": "ov_flag_3f0aeba5b5d9_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.530242,
+        "y": 0.282053,
+        "width": 0.034274,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8802,
+      "matched_text": "(2)HL'S.",
+      "rotation_degrees": 0,
+      "source_callout": "(2) HL'S.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.568516,
+        "y": 0.302053
+      }
+    },
+    {
+      "finding_id": "flag_7f7db02803e7",
+      "number": 19,
+      "severity": "error",
+      "label": "19: Feature F012 was not built",
+      "overlay_id": "ov_flag_7f7db02803e7_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.530242,
+        "y": 0.282053,
+        "width": 0.034274,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8802,
+      "matched_text": "(2)HL'S.",
+      "rotation_degrees": 0,
+      "source_callout": "(2) HL'S.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.568516,
+        "y": 0.342053
+      }
+    },
+    {
+      "finding_id": "flag_a8823325413e",
+      "number": 24,
+      "severity": "error",
+      "label": "24: Feature F011 was not built",
+      "overlay_id": "ov_flag_a8823325413e_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.530242,
+        "y": 0.282053,
+        "width": 0.034274,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8802,
+      "matched_text": "(2)HL'S.",
+      "rotation_degrees": 0,
+      "source_callout": "(2) HL'S.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.568516,
+        "y": 0.362053
+      }
+    },
+    {
+      "finding_id": "flag_1eba556bd9b5",
+      "number": 4,
+      "severity": "error",
+      "label": "4: Feature F015 was not built",
+      "overlay_id": "ov_flag_1eba556bd9b5_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.314086
+      }
+    },
+    {
+      "finding_id": "flag_1f7fa6964a78",
+      "number": 5,
+      "severity": "error",
+      "label": "5: Feature F017 was not built",
+      "overlay_id": "ov_flag_1f7fa6964a78_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.334086
+      }
+    },
+    {
+      "finding_id": "flag_3043f334e627",
+      "number": 7,
+      "severity": "warning",
+      "label": "7: Feature F016 needs an engineer's answer",
+      "overlay_id": "ov_flag_3043f334e627_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.354086
+      }
+    },
+    {
+      "finding_id": "flag_5b57128296ba",
+      "number": 12,
+      "severity": "error",
+      "label": "12: Feature F018 was not built",
+      "overlay_id": "ov_flag_5b57128296ba_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.394086
+      }
+    },
+    {
+      "finding_id": "flag_610c5734055e",
+      "number": 15,
+      "severity": "error",
+      "label": "15: Feature F008 was not built",
+      "overlay_id": "ov_flag_610c5734055e_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.414086
+      }
+    },
+    {
+      "finding_id": "flag_69a396feb0b7",
+      "number": 16,
+      "severity": "warning",
+      "label": "16: Feature F007 needs an engineer's answer",
+      "overlay_id": "ov_flag_69a396feb0b7_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.434086
+      }
+    },
+    {
+      "finding_id": "flag_844b989b3e01",
+      "number": 20,
+      "severity": "warning",
+      "label": "20: Feature F008 needs an engineer's answer",
+      "overlay_id": "ov_flag_844b989b3e01_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.474086
+      }
+    },
+    {
+      "finding_id": "flag_89fd777281b2",
+      "number": 22,
+      "severity": "error",
+      "label": "22: Feature F007 was not built",
+      "overlay_id": "ov_flag_89fd777281b2_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.494086
+      }
+    },
+    {
+      "finding_id": "flag_94897feee6b8",
+      "number": 23,
+      "severity": "warning",
+      "label": "23: Feature F015 needs an engineer's answer",
+      "overlay_id": "ov_flag_94897feee6b8_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.514086
+      }
+    },
+    {
+      "finding_id": "flag_cc83f95adb01",
+      "number": 30,
+      "severity": "warning",
+      "label": "30: Feature F017 needs an engineer's answer",
+      "overlay_id": "ov_flag_cc83f95adb01_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.554086
+      }
+    },
+    {
+      "finding_id": "flag_d2638667d9c0",
+      "number": 31,
+      "severity": "error",
+      "label": "31: Feature F016 was not built",
+      "overlay_id": "ov_flag_d2638667d9c0_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.574086
+      }
+    },
+    {
+      "finding_id": "flag_dd366751c237",
+      "number": 32,
+      "severity": "warning",
+      "label": "32: Feature F018 needs an engineer's answer",
+      "overlay_id": "ov_flag_dd366751c237_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19002,
+        "y": 0.314086,
+        "width": 0.036794,
+        "height": 0.018751
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9594,
+      "matched_text": "4 HOLES",
+      "rotation_degrees": 0,
+      "source_callout": "4 HOLES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.230814,
+        "y": 0.594086
+      }
+    },
+    {
+      "finding_id": "flag_610c5734055e",
+      "number": 15,
+      "severity": "error",
+      "label": "15: Feature F008 was not built",
+      "overlay_id": "ov_flag_610c5734055e_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19254,
+        "y": 0.328931,
+        "width": 0.035282,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8827,
+      "matched_text": "3PLCS.",
+      "rotation_degrees": 0,
+      "source_callout": "3 PL'CS.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.231822,
+        "y": 0.628931
+      }
+    },
+    {
+      "finding_id": "flag_69a396feb0b7",
+      "number": 16,
+      "severity": "warning",
+      "label": "16: Feature F007 needs an engineer's answer",
+      "overlay_id": "ov_flag_69a396feb0b7_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19254,
+        "y": 0.328931,
+        "width": 0.035282,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8827,
+      "matched_text": "3PLCS.",
+      "rotation_degrees": 0,
+      "source_callout": "3 PL'CS.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.231822,
+        "y": 0.648931
+      }
+    },
+    {
+      "finding_id": "flag_844b989b3e01",
+      "number": 20,
+      "severity": "warning",
+      "label": "20: Feature F008 needs an engineer's answer",
+      "overlay_id": "ov_flag_844b989b3e01_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19254,
+        "y": 0.328931,
+        "width": 0.035282,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8827,
+      "matched_text": "3PLCS.",
+      "rotation_degrees": 0,
+      "source_callout": "3 PL'CS.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.231822,
+        "y": 0.668931
+      }
+    },
+    {
+      "finding_id": "flag_89fd777281b2",
+      "number": 22,
+      "severity": "error",
+      "label": "22: Feature F007 was not built",
+      "overlay_id": "ov_flag_89fd777281b2_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.19254,
+        "y": 0.328931,
+        "width": 0.035282,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8827,
+      "matched_text": "3PLCS.",
+      "rotation_degrees": 0,
+      "source_callout": "3 PL'CS.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.231822,
+        "y": 0.708931
+      }
+    },
+    {
+      "finding_id": "flag_424ca41b3cbc",
+      "number": 10,
+      "severity": "warning",
+      "label": "10: Feature F003 needs an engineer's answer",
+      "overlay_id": "ov_flag_424ca41b3cbc_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.285282,
+        "y": 0.426595,
+        "width": 0.068548,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8888,
+      "matched_text": "3.250DIA.THRU.",
+      "rotation_degrees": 0,
+      "source_callout": "3.250 DIA. THRU.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.35783,
+        "y": 0.426595
+      }
+    },
+    {
+      "finding_id": "flag_af68830a30e4",
+      "number": 26,
+      "severity": "error",
+      "label": "26: Feature F003 was not built",
+      "overlay_id": "ov_flag_af68830a30e4_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.285282,
+        "y": 0.426595,
+        "width": 0.068548,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8888,
+      "matched_text": "3.250DIA.THRU.",
+      "rotation_degrees": 0,
+      "source_callout": "3.250 DIA. THRU.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.35783,
+        "y": 0.446595
+      }
+    },
+    {
+      "finding_id": "flag_424ca41b3cbc",
+      "number": 10,
+      "severity": "warning",
+      "label": "10: Feature F003 needs an engineer's answer",
+      "overlay_id": "ov_flag_424ca41b3cbc_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.287298,
+        "y": 0.44144,
+        "width": 0.039315,
+        "height": 0.013282
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8923,
+      "matched_text": "3HOLES.",
+      "rotation_degrees": 0,
+      "source_callout": "3 HOLES.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.330613,
+        "y": 0.74144
+      }
+    },
+    {
+      "finding_id": "flag_af68830a30e4",
+      "number": 26,
+      "severity": "error",
+      "label": "26: Feature F003 was not built",
+      "overlay_id": "ov_flag_af68830a30e4_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.287298,
+        "y": 0.44144,
+        "width": 0.039315,
+        "height": 0.013282
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8923,
+      "matched_text": "3HOLES.",
+      "rotation_degrees": 0,
+      "source_callout": "3 HOLES.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.330613,
+        "y": 0.76144
+      }
+    },
+    {
+      "finding_id": "flag_01199917f01c",
+      "number": 1,
+      "severity": "warning",
+      "label": "1: Feature F019 needs an engineer's answer",
+      "overlay_id": "ov_flag_01199917f01c_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.32006,
+        "y": 0.617234,
+        "width": 0.059476,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8918,
+      "matched_text": ".281DR.THRU",
+      "rotation_degrees": 0,
+      "source_callout": ".281 DR. THRU",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.383536,
+        "y": 0.617234
+      }
+    },
+    {
+      "finding_id": "flag_196a43d7b5a0",
+      "number": 3,
+      "severity": "error",
+      "label": "3: Feature F021 was not built",
+      "overlay_id": "ov_flag_196a43d7b5a0_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.32006,
+        "y": 0.617234,
+        "width": 0.059476,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8918,
+      "matched_text": ".281DR.THRU",
+      "rotation_degrees": 0,
+      "source_callout": ".281 DR. THRU",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.383536,
+        "y": 0.637234
+      }
+    },
+    {
+      "finding_id": "flag_4585b102b26d",
+      "number": 11,
+      "severity": "error",
+      "label": "11: Feature F019 was not built",
+      "overlay_id": "ov_flag_4585b102b26d_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.32006,
+        "y": 0.617234,
+        "width": 0.059476,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8918,
+      "matched_text": ".281DR.THRU",
+      "rotation_degrees": 0,
+      "source_callout": ".281 DR. THRU",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.383536,
+        "y": 0.657234
+      }
+    },
+    {
+      "finding_id": "flag_850150650419",
+      "number": 21,
+      "severity": "warning",
+      "label": "21: Feature F021 needs an engineer's answer",
+      "overlay_id": "ov_flag_850150650419_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.32006,
+        "y": 0.617234,
+        "width": 0.059476,
+        "height": 0.015626
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8918,
+      "matched_text": ".281DR.THRU",
+      "rotation_degrees": 0,
+      "source_callout": ".281 DR. THRU",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.383536,
+        "y": 0.677234
+      }
+    },
+    {
+      "finding_id": "flag_01199917f01c",
+      "number": 1,
+      "severity": "warning",
+      "label": "1: Feature F019 needs an engineer's answer",
+      "overlay_id": "ov_flag_01199917f01c_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.323085,
+        "y": 0.629735,
+        "width": 0.078629,
+        "height": 0.019533
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8804,
+      "matched_text": "2HOLES2PLCS",
+      "rotation_degrees": 0,
+      "source_callout": "2 HOLES 2 PL'CS",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.405714,
+        "y": 0.709735
+      }
+    },
+    {
+      "finding_id": "flag_196a43d7b5a0",
+      "number": 3,
+      "severity": "error",
+      "label": "3: Feature F021 was not built",
+      "overlay_id": "ov_flag_196a43d7b5a0_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.323085,
+        "y": 0.629735,
+        "width": 0.078629,
+        "height": 0.019533
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8804,
+      "matched_text": "2HOLES2PLCS",
+      "rotation_degrees": 0,
+      "source_callout": "2 HOLES 2 PL'CS",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.405714,
+        "y": 0.789735
+      }
+    },
+    {
+      "finding_id": "flag_4585b102b26d",
+      "number": 11,
+      "severity": "error",
+      "label": "11: Feature F019 was not built",
+      "overlay_id": "ov_flag_4585b102b26d_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.323085,
+        "y": 0.629735,
+        "width": 0.078629,
+        "height": 0.019533
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8804,
+      "matched_text": "2HOLES2PLCS",
+      "rotation_degrees": 0,
+      "source_callout": "2 HOLES 2 PL'CS",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.405714,
+        "y": 0.809735
+      }
+    },
+    {
+      "finding_id": "flag_6001e5313191",
+      "number": 14,
+      "severity": "warning",
+      "label": "14: Feature F022 needs an engineer's answer",
+      "overlay_id": "ov_flag_6001e5313191_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.323085,
+        "y": 0.629735,
+        "width": 0.078629,
+        "height": 0.019533
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8804,
+      "matched_text": "2HOLES2PLCS",
+      "rotation_degrees": 0,
+      "source_callout": "2 HOLES 2 PL'CS",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.405714,
+        "y": 0.829735
+      }
+    },
+    {
+      "finding_id": "flag_6f017fe74dea",
+      "number": 17,
+      "severity": "error",
+      "label": "17: Feature F020 was not built",
+      "overlay_id": "ov_flag_6f017fe74dea_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.323085,
+        "y": 0.629735,
+        "width": 0.078629,
+        "height": 0.019533
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8804,
+      "matched_text": "2HOLES2PLCS",
+      "rotation_degrees": 0,
+      "source_callout": "2 HOLES 2 PL'CS",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.405714,
+        "y": 0.849735
+      }
+    },
+    {
+      "finding_id": "flag_73b7c05fa087",
+      "number": 18,
+      "severity": "warning",
+      "label": "18: Feature F020 needs an engineer's answer",
+      "overlay_id": "ov_flag_73b7c05fa087_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.323085,
+        "y": 0.629735,
+        "width": 0.078629,
+        "height": 0.019533
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8804,
+      "matched_text": "2HOLES2PLCS",
+      "rotation_degrees": 0,
+      "source_callout": "2 HOLES 2 PL'CS",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.405714,
+        "y": 0.869735
+      }
+    },
+    {
+      "finding_id": "flag_850150650419",
+      "number": 21,
+      "severity": "warning",
+      "label": "21: Feature F021 needs an engineer's answer",
+      "overlay_id": "ov_flag_850150650419_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.323085,
+        "y": 0.629735,
+        "width": 0.078629,
+        "height": 0.019533
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8804,
+      "matched_text": "2HOLES2PLCS",
+      "rotation_degrees": 0,
+      "source_callout": "2 HOLES 2 PL'CS",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.405714,
+        "y": 0.889735
+      }
+    },
+    {
+      "finding_id": "flag_adc1cd6fc3ed",
+      "number": 25,
+      "severity": "error",
+      "label": "25: Feature F022 was not built",
+      "overlay_id": "ov_flag_adc1cd6fc3ed_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.323085,
+        "y": 0.629735,
+        "width": 0.078629,
+        "height": 0.019533
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8804,
+      "matched_text": "2HOLES2PLCS",
+      "rotation_degrees": 0,
+      "source_callout": "2 HOLES 2 PL'CS",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.405714,
+        "y": 0.929735
+      }
+    },
+    {
+      "finding_id": "flag_2e9ae2b81d21",
+      "number": 6,
+      "severity": "warning",
+      "label": "6: Feature F013 needs an engineer's answer",
+      "overlay_id": "ov_flag_2e9ae2b81d21_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.519153,
+        "y": 0.665675,
+        "width": 0.017137,
+        "height": 0.01172
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9695,
+      "matched_text": "9.24",
+      "rotation_degrees": 0,
+      "source_callout": "9.24",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.54029,
+        "y": 0.665675
+      }
+    },
+    {
+      "finding_id": "flag_bbc841df48ee",
+      "number": 27,
+      "severity": "error",
+      "label": "27: Feature F014 was not built",
+      "overlay_id": "ov_flag_bbc841df48ee_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.519153,
+        "y": 0.665675,
+        "width": 0.017137,
+        "height": 0.01172
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9695,
+      "matched_text": "9.24",
+      "rotation_degrees": 0,
+      "source_callout": "9.24",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.54029,
+        "y": 0.685675
+      }
+    },
+    {
+      "finding_id": "flag_c406510db057",
+      "number": 28,
+      "severity": "error",
+      "label": "28: Feature F013 was not built",
+      "overlay_id": "ov_flag_c406510db057_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.519153,
+        "y": 0.665675,
+        "width": 0.017137,
+        "height": 0.01172
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9695,
+      "matched_text": "9.24",
+      "rotation_degrees": 0,
+      "source_callout": "9.24",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.54029,
+        "y": 0.705675
+      }
+    },
+    {
+      "finding_id": "flag_c7e510e3be44",
+      "number": 29,
+      "severity": "warning",
+      "label": "29: Feature F014 needs an engineer's answer",
+      "overlay_id": "ov_flag_c7e510e3be44_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.519153,
+        "y": 0.665675,
+        "width": 0.017137,
+        "height": 0.01172
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9695,
+      "matched_text": "9.24",
+      "rotation_degrees": 0,
+      "source_callout": "9.24",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.54029,
+        "y": 0.745675
+      }
+    },
+    {
+      "finding_id": "flag_01199917f01c",
+      "number": 1,
+      "severity": "warning",
+      "label": "1: Feature F019 needs an engineer's answer",
+      "overlay_id": "ov_flag_01199917f01c_3",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.27873,
+        "y": 0.671145,
+        "width": 0.021169,
+        "height": 0.01797
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8843,
+      "matched_text": "4.50.",
+      "rotation_degrees": 0,
+      "source_callout": "4.50",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.303899,
+        "y": 0.951145
+      }
+    },
+    {
+      "finding_id": "flag_196a43d7b5a0",
+      "number": 3,
+      "severity": "error",
+      "label": "3: Feature F021 was not built",
+      "overlay_id": "ov_flag_196a43d7b5a0_3",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.27873,
+        "y": 0.671145,
+        "width": 0.021169,
+        "height": 0.01797
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8843,
+      "matched_text": "4.50.",
+      "rotation_degrees": 0,
+      "source_callout": "4.50",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.303899,
+        "y": 0.971145
+      }
+    },
+    {
+      "finding_id": "flag_4585b102b26d",
+      "number": 11,
+      "severity": "error",
+      "label": "11: Feature F019 was not built",
+      "overlay_id": "ov_flag_4585b102b26d_3",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.27873,
+        "y": 0.671145,
+        "width": 0.021169,
+        "height": 0.01797
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8843,
+      "matched_text": "4.50.",
+      "rotation_degrees": 0,
+      "source_callout": "4.50",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.303899,
+        "y": 0.98
+      }
+    },
+    {
+      "finding_id": "flag_6001e5313191",
+      "number": 14,
+      "severity": "warning",
+      "label": "14: Feature F022 needs an engineer's answer",
+      "overlay_id": "ov_flag_6001e5313191_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.27873,
+        "y": 0.671145,
+        "width": 0.021169,
+        "height": 0.01797
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8843,
+      "matched_text": "4.50.",
+      "rotation_degrees": 0,
+      "source_callout": "4.50",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.303899,
+        "y": 0.98
+      }
+    },
+    {
+      "finding_id": "flag_6f017fe74dea",
+      "number": 17,
+      "severity": "error",
+      "label": "17: Feature F020 was not built",
+      "overlay_id": "ov_flag_6f017fe74dea_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.27873,
+        "y": 0.671145,
+        "width": 0.021169,
+        "height": 0.01797
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8843,
+      "matched_text": "4.50.",
+      "rotation_degrees": 0,
+      "source_callout": "4.50",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.303899,
+        "y": 0.98
+      }
+    },
+    {
+      "finding_id": "flag_73b7c05fa087",
+      "number": 18,
+      "severity": "warning",
+      "label": "18: Feature F020 needs an engineer's answer",
+      "overlay_id": "ov_flag_73b7c05fa087_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.27873,
+        "y": 0.671145,
+        "width": 0.021169,
+        "height": 0.01797
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8843,
+      "matched_text": "4.50.",
+      "rotation_degrees": 0,
+      "source_callout": "4.50",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.303899,
+        "y": 0.98
+      }
+    },
+    {
+      "finding_id": "flag_850150650419",
+      "number": 21,
+      "severity": "warning",
+      "label": "21: Feature F021 needs an engineer's answer",
+      "overlay_id": "ov_flag_850150650419_3",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.27873,
+        "y": 0.671145,
+        "width": 0.021169,
+        "height": 0.01797
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8843,
+      "matched_text": "4.50.",
+      "rotation_degrees": 0,
+      "source_callout": "4.50",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.303899,
+        "y": 0.98
+      }
+    },
+    {
+      "finding_id": "flag_adc1cd6fc3ed",
+      "number": 25,
+      "severity": "error",
+      "label": "25: Feature F022 was not built",
+      "overlay_id": "ov_flag_adc1cd6fc3ed_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.27873,
+        "y": 0.671145,
+        "width": 0.021169,
+        "height": 0.01797
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8843,
+      "matched_text": "4.50.",
+      "rotation_degrees": 0,
+      "source_callout": "4.50",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.303899,
+        "y": 0.98
+      }
+    }
+  ],
+  "unlocated_findings": [
+    {
+      "finding_id": "flag_01e7542cee2b",
+      "number": 2,
+      "severity": "info",
+      "label": "2: Modeling practice: mti_hole_grouping",
+      "reason": "no_source_callout",
+      "likely_page": null,
+      "likely_view": null,
+      "likely_region": null,
+      "candidates": 0,
+      "source_callouts": [],
+      "attempts": []
+    },
+    {
+      "finding_id": "flag_5e5be71f019c",
+      "number": 13,
+      "severity": "info",
+      "label": "13: Modeling practice: mti_hole_grouping",
+      "reason": "no_source_callout",
+      "likely_page": null,
+      "likely_view": null,
+      "likely_region": null,
+      "candidates": 0,
+      "source_callouts": [],
+      "attempts": []
+    }
+  ]
+}

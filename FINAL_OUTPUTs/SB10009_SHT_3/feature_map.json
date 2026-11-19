@@ -1,0 +1,254 @@
+{
+  "part": "BRACKET (ISOLATOR GAGES)",
+  "units": "inch",
+  "origin_kind": "corner",
+  "bbox": [
+    0.0,
+    0.0,
+    0.0,
+    16.24,
+    6.0,
+    0.375
+  ],
+  "volume": 30.16255,
+  "volume_mm3": 494275.631,
+  "features": [
+    "F001",
+    "F002",
+    "F004",
+    "F005",
+    "F006",
+    "F009",
+    "F010"
+  ],
+  "skipped": {
+    "F003": "unresolved: Confirm degraded middle-opening baseline D002 before release.",
+    "F007": "unresolved: Middle tapped-pattern station depends on unreadable baseline D002.",
+    "F008": "unresolved: Complete middle square after resolving its baseline.",
+    "F011": "unresolved: Confirm degraded first #10-32 baseline; D004 is provisional.",
+    "F012": "unresolved: Known pitch inherits unresolved seed baseline.",
+    "F013": "unresolved: First formed support: obtain bend radii, dimension-to-tangent/intersection conventions and assembly placement.",
+    "F014": "unresolved: Second separate formed support requires resolved bends and global assembly placement.",
+    "F015": "unresolved: First assembly axis: obtain transverse location; longitudinal station is known.",
+    "F016": "unresolved: Second assembly axis at first end: obtain its separate transverse location.",
+    "F017": "unresolved: Third assembly axis at opposite end requires transverse location and mating support.",
+    "F018": "unresolved: Fourth assembly axis at opposite end requires its separate transverse location.",
+    "F019": "unresolved: First foot seed has known local offsets, but global start face and coordinates await formed-support definition.",
+    "F020": "unresolved: Second first-foot hole; global direction awaits support placement.",
+    "F021": "unresolved: Second foot seed has known local offsets but unresolved global placement.",
+    "F022": "unresolved: Second second-foot hole; global direction awaits support placement."
+  },
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          3.0,
+          3.0
+        ],
+        "planned_d": 3.25,
+        "measured": true,
+        "center": [
+          3.0,
+          3.0
+        ],
+        "d": 3.25,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ],
+    "F004": [
+      {
+        "planned_center": [
+          13.24,
+          3.0
+        ],
+        "planned_d": 3.25,
+        "measured": true,
+        "center": [
+          13.24,
+          3.0
+        ],
+        "d": 3.25,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ],
+    "F005": [
+      {
+        "planned_center": [
+          1.581,
+          1.581
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          1.581,
+          1.581
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ],
+    "F006": [
+      {
+        "planned_center": [
+          4.419,
+          1.581
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          4.419,
+          1.581
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          1.581,
+          4.419
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          1.581,
+          4.419
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          4.419,
+          4.419
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          4.419,
+          4.419
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ],
+    "F009": [
+      {
+        "planned_center": [
+          11.821,
+          1.581
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          11.821,
+          1.581
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ],
+    "F010": [
+      {
+        "planned_center": [
+          14.659,
+          1.581
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          14.659,
+          1.581
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          11.821,
+          4.419
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          11.821,
+          4.419
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          14.659,
+          4.419
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          14.659,
+          4.419
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {},
+  "starts": {
+    "F001": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 0.375,
+      "dir": -1
+    },
+    "F004": {
+      "axis": "Z",
+      "coord": 0.375,
+      "dir": -1
+    },
+    "F005": {
+      "axis": "Z",
+      "coord": 0.375,
+      "dir": -1
+    },
+    "F009": {
+      "axis": "Z",
+      "coord": 0.375,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 36.54,
+    "F002": 33.429086962,
+    "F004": 30.318173924,
+    "F005": 30.298720888,
+    "F006": 30.240361779,
+    "F009": 30.220908743,
+    "F010": 30.162549634
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      0.0,
+      0.0,
+      0.0,
+      16.24,
+      6.0,
+      0.375
+    ]
+  }
+}

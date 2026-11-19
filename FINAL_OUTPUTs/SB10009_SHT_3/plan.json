@@ -1,0 +1,630 @@
+{
+  "dims": {
+    "D001": 16.24,
+    "D002": 8.12,
+    "D003": 13.24,
+    "D004": 5.38,
+    "D005": 3.0,
+    "D006": 0.18,
+    "D007": 1.25,
+    "D008": 0.56,
+    "D009": 1.25,
+    "D010": 0.56,
+    "D011": 2.838,
+    "D012": 1.419,
+    "D013": 2.838,
+    "D014": 1.419,
+    "D015": 5.5,
+    "D016": 0.312,
+    "D017": 3.25,
+    "D018": 0.19,
+    "D019": 0.281,
+    "D020": 4.5,
+    "D021": 0.5,
+    "D022": 0.62,
+    "D023": 4.5,
+    "D024": 0.5,
+    "D025": 0.62,
+    "D026": 0.281,
+    "D027": 6.0,
+    "D028": 6.24,
+    "D029": 9.24,
+    "D030": 0.375,
+    "D031": 45.0,
+    "D032": 6.0,
+    "D033": 0.375,
+    "D034": 0.375,
+    "D035": 6.0,
+    "D036": 16.24,
+    "D037": 0.375,
+    "D038": 1.25,
+    "D039": 21.5,
+    "D040": 3.0,
+    "D041": 8.12,
+    "D042": 5.12,
+    "D043": 5.0,
+    "D044": 1.0,
+    "D045": 3.0,
+    "D046": 5.82,
+    "D047": 10.88,
+    "D048": 15.68,
+    "D049": 15.12
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "BRACKET (ISOLATOR GAGES)",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "auxiliary plate face": "XY; X along plate length, Y along width",
+        "plate thickness": "+Z"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Item 1 plate.",
+        "source_callouts": [
+          "1018 M.S.-.375 X 6.00 X 16.24",
+          "PLATE"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D027",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D030",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "First large opening.",
+        "source_callouts": [
+          "3.250 DIA. THRU.",
+          "3 HOLES.",
+          "3.000"
+        ],
+        "status": "planned",
+        "justification": "Transverse centerline is symmetric across the plate width as drawn.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D005",
+        "v": "D027 / 2",
+        "spec": {
+          "type": "thru",
+          "d": "D017",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Confirm degraded middle-opening baseline D002 before release.",
+        "source_callouts": [
+          "3.250 DIA. THRU.",
+          "3 HOLES."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002",
+        "v": "D027 / 2",
+        "spec": {
+          "type": "thru",
+          "d": "D017",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F004",
+        "rationale": "Third large opening.",
+        "source_callouts": [
+          "3.250 DIA. THRU.",
+          "3 HOLES.",
+          "13.240"
+        ],
+        "status": "planned",
+        "justification": "Transverse centerline is symmetric across the plate width as drawn.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D003",
+        "v": "D027 / 2",
+        "spec": {
+          "type": "thru",
+          "d": "D017",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "First opening's tapped-pattern seed.",
+        "source_callouts": [
+          ".312-18 TAP THRU",
+          "4 HOLES",
+          "3 PL'CS.",
+          "1.419 TYP"
+        ],
+        "status": "planned",
+        "justification": "Standard tap-drill chart: 5/16-18 UNC uses letter F, .257 inch. Pattern is symmetric about the opening center. Null depth denotes through tapping.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D005 - D012",
+        "v": "D027 / 2 - D014",
+        "spec": {
+          "type": "tapped",
+          "d": "0.257",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "5/16-18 UNC THRU; printed .312-18"
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Complete first four-hole square.",
+        "source_callouts": [
+          "4 HOLES",
+          "3 PL'CS.",
+          "2.838 TYP"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F005",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D011",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D013",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F007",
+        "rationale": "Middle tapped-pattern station depends on unreadable baseline D002.",
+        "source_callouts": [
+          ".312-18 TAP THRU",
+          "4 HOLES",
+          "3 PL'CS.",
+          "1.419 TYP"
+        ],
+        "status": "unresolved",
+        "justification": "Standard 5/16-18 UNC tap drill is letter F, .257 inch; offsets follow drawn symmetry.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D002 - D012",
+        "v": "D027 / 2 - D014",
+        "spec": {
+          "type": "tapped",
+          "d": "0.257",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "5/16-18 UNC THRU; printed .312-18"
+        }
+      },
+      {
+        "id": "F008",
+        "rationale": "Complete middle square after resolving its baseline.",
+        "source_callouts": [
+          "4 HOLES",
+          "3 PL'CS.",
+          "2.838 TYP"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F007",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D011",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D013",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F009",
+        "rationale": "Third opening's tapped-pattern seed.",
+        "source_callouts": [
+          ".312-18 TAP THRU",
+          "4 HOLES",
+          "3 PL'CS.",
+          "1.419 TYP"
+        ],
+        "status": "planned",
+        "justification": "Standard 5/16-18 UNC tap drill is letter F, .257 inch; offsets follow drawn symmetry.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D003 - D012",
+        "v": "D027 / 2 - D014",
+        "spec": {
+          "type": "tapped",
+          "d": "0.257",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "5/16-18 UNC THRU; printed .312-18"
+        }
+      },
+      {
+        "id": "F010",
+        "rationale": "Complete third four-hole square.",
+        "source_callouts": [
+          "4 HOLES",
+          "3 PL'CS.",
+          "2.838 TYP"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F009",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D011",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D013",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F011",
+        "rationale": "Confirm degraded first #10-32 baseline; D004 is provisional.",
+        "source_callouts": [
+          "#10-32 TAP THRU",
+          "(2) HL'S.",
+          ".18"
+        ],
+        "status": "unresolved",
+        "justification": "Standard #10-32 UNF tap drill is #21, .159 inch.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D004",
+        "v": "D027 - D006",
+        "spec": {
+          "type": "tapped",
+          "d": "0.159",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "#10-32 UNF THRU"
+        }
+      },
+      {
+        "id": "F012",
+        "rationale": "Known pitch inherits unresolved seed baseline.",
+        "source_callouts": [
+          "#10-32 TAP THRU",
+          "(2) HL'S.",
+          "5.500 +.005"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F011",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D015",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F013",
+        "rationale": "First formed support: obtain bend radii, dimension-to-tangent/intersection conventions and assembly placement.",
+        "source_callouts": [
+          "1018 M.S.-.375 X 1.25 X 21.50 APPX",
+          "SUPPORT",
+          "6.24",
+          "9.24",
+          "6.00",
+          "45\u00b0"
+        ],
+        "status": "unresolved",
+        "justification": "Mandatory prism fields contain a non-executable BOM blank envelope only, not finished support geometry. D039 is approximate.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D038",
+          "h": "D039",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D037",
+        "op": "add"
+      },
+      {
+        "id": "F014",
+        "rationale": "Second separate formed support requires resolved bends and global assembly placement.",
+        "source_callouts": [
+          "1018 M.S.-.375 X 1.25 X 21.50 APPX",
+          "SUPPORT",
+          "6.24",
+          "9.24",
+          "6.00",
+          "45\u00b0"
+        ],
+        "status": "unresolved",
+        "justification": "Mandatory prism fields contain a non-executable BOM blank envelope only. Do not build or fuse it as a finished rectangular support.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D038",
+          "h": "D039",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D037",
+        "op": "add"
+      },
+      {
+        "id": "F015",
+        "rationale": "First assembly axis: obtain transverse location; longitudinal station is known.",
+        "source_callouts": [
+          ".281 DR. THRU BOTH DET'S",
+          "4 HOLES",
+          ".56"
+        ],
+        "status": "unresolved",
+        "justification": "Mandatory v is a non-executable centerline placeholder, not an inferred hole location.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D008",
+        "v": "D027 / 2",
+        "spec": {
+          "type": "thru",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F016",
+        "rationale": "Second assembly axis at first end: obtain its separate transverse location.",
+        "source_callouts": [
+          ".281 DR. THRU BOTH DET'S",
+          "4 HOLES",
+          ".56"
+        ],
+        "status": "unresolved",
+        "justification": "Mandatory v is a non-executable centerline placeholder. This is a distinct axis from F015 once locations are resolved.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D008",
+        "v": "D027 / 2",
+        "spec": {
+          "type": "thru",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F017",
+        "rationale": "Third assembly axis at opposite end requires transverse location and mating support.",
+        "source_callouts": [
+          ".281 DR. THRU BOTH DET'S",
+          "4 HOLES",
+          ".56"
+        ],
+        "status": "unresolved",
+        "justification": "Mandatory v is a non-executable centerline placeholder, not an inferred hole location.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D001 - D010",
+        "v": "D027 / 2",
+        "spec": {
+          "type": "thru",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F018",
+        "rationale": "Fourth assembly axis at opposite end requires its separate transverse location.",
+        "source_callouts": [
+          ".281 DR. THRU BOTH DET'S",
+          "4 HOLES",
+          ".56"
+        ],
+        "status": "unresolved",
+        "justification": "Mandatory v is a non-executable centerline placeholder. This is a distinct axis from F017 once locations are resolved.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D001 - D010",
+        "v": "D027 / 2",
+        "spec": {
+          "type": "thru",
+          "d": "D019",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F019",
+        "rationale": "First foot seed has known local offsets, but global start face and coordinates await formed-support definition.",
+        "source_callouts": [
+          ".281 DR. THRU",
+          "2 HOLES 2 PL'CS",
+          ".50",
+          ".62",
+          "4.50"
+        ],
+        "status": "unresolved",
+        "justification": "Required on/u/v are non-executable stock-envelope placeholders. Actual foot-local center is .62 from the indicated side and .50 from the free end; transform to global coordinates after resolving support.",
+        "kind": "hole",
+        "on": "face(F013,+Z)",
+        "u": "D022",
+        "v": "D021",
+        "spec": {
+          "type": "thru",
+          "d": "D026",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F020",
+        "rationale": "Second first-foot hole; global direction awaits support placement.",
+        "source_callouts": [
+          "2 HOLES 2 PL'CS",
+          "4.50"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F019",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "D020",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F021",
+        "rationale": "Second foot seed has known local offsets but unresolved global placement.",
+        "source_callouts": [
+          ".281 DR. THRU",
+          "2 HOLES 2 PL'CS",
+          ".50",
+          ".62",
+          "4.50"
+        ],
+        "status": "unresolved",
+        "justification": "Required on/u/v are non-executable stock-envelope placeholders. Actual foot-local center is .62 from the indicated side and .50 from the free end; transform to global coordinates after resolving support.",
+        "kind": "hole",
+        "on": "face(F014,+Z)",
+        "u": "D025",
+        "v": "D024",
+        "spec": {
+          "type": "thru",
+          "d": "D026",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F022",
+        "rationale": "Second second-foot hole; global direction awaits support placement.",
+        "source_callouts": [
+          "2 HOLES 2 PL'CS",
+          "4.50"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F021",
+        "mode": "linear",
+        "dir": "+Y",
+        "count": "2",
+        "pitch": "D023",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      }
+    ],
+    "notes": [
+      "Assembly comprises one plate and two separate formed supports. Only resolved item 1 features are executable. Unresolved placeholder geometry must not execute.",
+      "Origin is the plate minimum corner. Complete assembly envelope origin and support transformations require resolved support geometry.",
+      "D002 and D004 are insufficiently legible to certify the extraction; do not silently substitute symmetric baseline values.",
+      "Transverse opening centering and square tapped-pattern symmetry are grounded in the drawn layout.",
+      "Four assembly-drilled axes are separate from four support-foot holes. Do not borrow foot offsets for assembly-hole transverse positions.",
+      "Rounded bends are covered by unresolved support features. No arbitrary bend radii or sharp-corner finished support geometry are authorized.",
+      "All tapped holes are through, with cosmetic threads and null depth. No finite coincident cut depth is intended.",
+      "D031 is in degrees; D039 is approximate blank length, not exact developed length.",
+      "Material is 1018 mild steel. General tolerances: .0 \u00b1.100; .00 \u00b1.040; .000 \u00b1.010; angular \u00b11 degree. Confirm unstated lower deviation for 5.500 +.005.",
+      "No welds, countersinks, counterbores, physical thread helices or sized edge breaks are specified."
+    ]
+  }
+}

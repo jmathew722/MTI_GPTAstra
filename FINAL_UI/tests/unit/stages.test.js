@@ -246,3 +246,24 @@ test('view has five stages with substeps grouped correctly, in order', () => {
   assert.deepEqual(v.stages.map((s) => s.substeps.map((x) => x.k)),
     [[0], [1], [2, 3], [4, 5, 6], [7]]);
 });
+
+
+/* ---- a budget stop is reported as the cost limit, against the right stage ---------------------------------------------- */
+test('finalize: an IR run stopped by the API cost limit says "<stage> failed - due to cost limit"', () => {
+  const ir = irReport({ gate1: '', sw_ok: null, error: 'COST_LIMIT:extraction: stopped by the API cost limit (spent $18.91 of $20.00)' });
+  const f = S.finalize(S.initial('part'), { exit: 9, payload: payload(ir) });
+  const st = f.final.stages;
+  assert.equal(st[0].state, 'failed');
+  assert.equal(st[0].detail, 'Extraction failed - due to cost limit');
+  assert.ok(st.slice(1).every((x) => x.state !== 'failed'), 'later stages are not blamed');
+  const plan = S.finalize(S.initial('part'), { exit: 9, payload: payload(irReport({ gate1: '', sw_ok: null, error: 'COST_LIMIT:build_plan: stopped' })) });
+  assert.equal(plan.final.stages[2].detail, 'Build Plan failed - due to cost limit');
+});
+
+test('finalize: with no IR report, the console line "API budget stop" still names the cost limit', () => {
+  let t = S.initial('part');
+  t = S.reduce(t, '           INFO     [stage] extraction: reading 1 image(s) for P        \r');
+  t = S.reduce(t, '*** STOPPED: API budget stop: spent $18.91 of $20.00; the next call could cost up to $1.12');
+  const f = S.finalize(t, { exit: 9, payload: { categories: { ir_report: { present: false } } } });
+  assert.equal(f.final.stages[0].detail, 'Extraction failed - due to cost limit');
+});

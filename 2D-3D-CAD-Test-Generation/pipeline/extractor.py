@@ -202,6 +202,14 @@ class ExtractionError(Exception):
     """Raised when extraction cannot produce a valid DrawingData object."""
 
 
+def _keep_initial(exc: Exception, data: "DrawingData") -> None:
+    """A paid extraction is never lost (CLAUDE.md rule 9). When the API budget stops the low-confidence re-query, the
+    run still stops (BudgetExceeded must end the whole run), but the first extraction rides on the exception so the
+    caller can save it. It is marked low-confidence and un-requeried."""
+    data.warnings.append("The low-confidence re-query was stopped by the API cost limit; this is the first extraction.")
+    exc.partial_extraction = data.model_dump(mode="json")  # type: ignore[attr-defined]
+
+
 def _build_client(max_retries: int):
     """Construct the provider client, failing clearly if the key is absent."""
     if _provider() == "openai":
@@ -454,6 +462,9 @@ def extract_drawing_data_multiview(
         except ExtractionError as e:
             log.warning("Re-query failed (%s); keeping initial extraction.", e)
             data.warnings.append(f"Low-confidence re-query failed: {e}")
+        except budget.BudgetExceeded as e:
+            _keep_initial(e, data)
+            raise
 
     if prep_warnings:
         data.warnings.extend(prep_warnings)
@@ -587,6 +598,9 @@ def extract_drawing_data(
             # Keep the first (valid) result; just note the re-query failed.
             log.warning("Re-query failed (%s); keeping initial extraction.", e)
             data.warnings.append(f"Low-confidence re-query failed: {e}")
+        except budget.BudgetExceeded as e:
+            _keep_initial(e, data)
+            raise
 
     # Merge image-prep warnings so nothing is lost downstream.
     if prep_warnings:
