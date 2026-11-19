@@ -900,3 +900,58 @@ The full entry was kept local; add it here.
   document and not just detailing options.
 - Counterbore second cut is blind from the same sketch plane — depth direction
   follows the retry logic, but verify the cbore lands on the correct face.
+
+
+## E039 — Hole Wizard live verification on SOLIDWORKS 2025 SP5 (data root repointed; what the API really does)
+
+- **Date:** 2026-11-19. **Authorized by the user** ("yes change and then finish all of the remaining tasks"): `swHoleWizardToolBoxFolder`
+  (`GetUserPreferenceStringValue(52)` / `SetUserPreferenceStringValue(52, ...)`) was changed from the 2026 data root `C:\SOLIDWORKS Data`
+  to the 2025 data root `C:\SOLIDWORKS Data (2)` (the preference holds the ROOT; Get appends `\lang\english`). No database was edited,
+  upgraded or downgraded. To undo: set the preference back to `C:\SOLIDWORKS Data`.
+- **Result:** `python tools/sw_preflight.py` -> `ready` (revision 33.5.0, database 28.00 = expected, Toolbox index 33.5.0.53). `InitializeHole` no
+  longer hangs and `HoleWizard5` works, which supports (does not prove) the E037/E038 inference that the 29.01-vs-28.00 mismatch was the blocker.
+- **Everything below was measured live** by `tools/run_hole_wizard_matrix.py --live` (one child process per variant, watchdog) and the probes it
+  was built from. `verified` needs ALL of: creation, definition readback, removed volume against an independent analytic/CadQuery reference,
+  save + reopen, and the drawing Hole Callout round trip.
+- **Catalog:** `IHoleStandardsData.GetHoleStandards(out Indexes, out Names)` and `GetFastenerTypes(standardName, out, out)` have by-ref VARIANT
+  out parameters: pass `VARIANT(VT_BYREF | VT_VARIANT, None)` objects and read `.value`. `GetFastenerTypes` only works on the SAME data
+  object after `GetHoleStandards` was called on it. Generals 5-8 (legacy/slots) return no data object.
+- **Definition flow:** `InitializeHole` is a VOID method (returns None); a bad combination shows up as a null `CreateFeature`. `Type` is derived
+  from general + end condition; assigning it raises. Main bore = `HoleDiameter` (blind) / `ThruHoleDiameter` (through); the bare
+  `Diameter`/`Depth` read back 0. `HoleDepth`, `TapDrillDepth`, `Length` setters raise a COM exception yet take the value (the readback after
+  creation is what verifies them).
+- **Sizes:** metric tap sizes are `M6x1.0` (an integer pitch needs `.0`; `M6x1` is refused); a pipe tap is the nominal size only (`1/4`).
+  Clearance/counterbore/countersink sizes are `M6`.
+- **End conditions:** `HoleWizard5` refuses ThroughAll (1) for plain holes; Up To Next (11) is accepted and the type reads as the blind type.
+  The definition flow with end 1 gives the true "thru" types. Slots need `HoleWizard5` (the definition flow turns them into round holes):
+  general 8/6/7 with the ScrewClearances / SocketHeadCapScrew / FlatSocket fastener of the round family; counterbore slots map `Value1/Value2` to
+  counterbore diameter/depth, countersink slots `Value1/Value2` to diameter/angle (rad); cosmetic taps need their options in `Value1`/`Value7` at
+  creation (E022). Slot `Length` is the CENTER-TO-CENTER distance; a blind slot ends in a 118 degree point (cone + wedge).
+- **Thread class:** a metric Hole Wizard thread has no class property (reads ""), yet the drawing callout prints `M6x1.0 - 6H`: the class is
+  reported as `unrepresented`, not set and not compared on the feature, and verified on the callout.
+- **Round trip (`pipeline/ir/solidworks/hole_callout_roundtrip.py`):** `NewDocument(template, 12, w, h)`, `CreateDrawViewFromModelView3(path, "*Top", ...)`,
+  `IView.GetVisibleEntities2(None, 1)`, select the smallest circular edge, `IDrawingDoc.AddHoleCallout2`, `IDisplayDimension.GetText(1|3)`; text such as
+  `<HOLE-SPOT><MOD-DIAM> 0.43 <HOLE-DEPTH> 0.26` / `<MOD-DIAM> 0.25 THRU ALL`, `M6x1.0 - 6H <HOLE-DEPTH> 0.39`, `1/4 NPT`, `0.25 X 0.79 THRU ALL`
+  (slot width X overall length). Values are printed in the drawing's units at 2 decimals.
+- **Verified live (13):** counterbore blind/thru, hole blind/thru, countersink blind/thru without head clearance, cosmetic taps blind/thru,
+  counterbore slot blind/thru, plain slot blind, countersink slot blind/thru without head clearance.
+- **Created and read back but NOT verified (2):** pipe taps blind/thru. A Hole Wizard pipe tap cuts a TAPERED bore and there is no independent
+  reference geometry for it yet (recorded as `geometry: not_modelled`).
+- **Not reachable with the calls tried (56, status `failed_verification`, exact mismatch in the matrix):**
+  * near / middle / far countersink treatments on hole, counterbore, tap and pipe-tap families: `NearSideCounterSink` / `FarSideCounterSink` read
+    back False after being set (create flow and `ModifyDefinition` flow), `Mid*` has no flag, and no `HoleWizard5` `Value` exposes them; the
+    feature is created as the plain base type.
+  * countersink variants WITH head clearance (24, 29, 30...): `InitializeHole` always yields the without-head-clearance type 43/44; `HeadClearance`
+    and `HeadClearanceType` do not change it for any of the three fastener types.
+  * plain taps and thread-through / remove-thread variants: `ThreadDepth` cannot be set in the definition flow; `CosmeticThreadType` set after init
+    does not hold (E022), and the plain/thru type is replaced by the cosmetic default.
+  * plain through slot (72): `HoleWizard5` returns no feature for ThroughAll with the clearance fastener.
+  These are NOT recorded as a "confirmed SOLIDWORKS limitation": they are behaviours of the calls tried; another call sequence may reach them.
+- **Advanced Hole (probe only):** `CreateAdvancedHoleElementData(2)` returns an element; `SelectionEntity` takes the face only by DISPATCH_PROPERTYPUTREF
+  (`_oleobj_.Invoke(dispid, 0, 8, 0, face)`); `AdvancedHole2` then returns `swAdvancedHoleResults_FailedIncorrectHoleElementParameters` for the
+  parameters tried (Standard, FastenerType, Size, EndCondition, BlindDepth, Orientation, Diameter), and `Diameter`/`EndCondition` read back unchanged.
+  No Advanced Hole feature was created; it stays unsupported with this evidence.
+- **Hazard found and fixed:** after `gencache.EnsureModule` for the 2025 type library, late-bound `app.RevisionNumber` / `GetProcessID` become METHODS
+  (typed wrapper); the preflight now accepts both (`com_value`). The cache file I created was removed.
+- **Tests:** `tests/test_hole_callout_roundtrip.py` (8), `tests/test_hole_adapter_placement_reference.py` (slot references equal the live volumes),
+  `tests/test_hole_wizard_matrix_gate.py`, `tests/test_hole_intent_catalog.py`.

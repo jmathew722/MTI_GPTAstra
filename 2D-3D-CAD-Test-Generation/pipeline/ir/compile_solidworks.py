@@ -573,7 +573,7 @@ class _SW:
         it. Only definitive environment failures block; an unreadable catalog does not (the recipe is read back instead)."""
         if getattr(self, "_hw_pre", None) is None:
             self._hw_pre = {}
-            if os.environ.get("MTI_HOLE_WIZARD_PREFLIGHT", "1") == "1" and isinstance(getattr(self.app, "RevisionNumber", None), str):
+            if os.environ.get("MTI_HOLE_WIZARD_PREFLIGHT", "1") == "1" and isinstance(__import__("pipeline.ir.solidworks.sw_preflight", fromlist=["com_value"]).com_value(getattr(self.app, "RevisionNumber", None)), str):
                 from pipeline.ir.solidworks import sw_preflight as pf
                 try:
                     r = pf.run_preflight(pf.LiveProbe(self.app), require_catalog=False)
@@ -1201,7 +1201,10 @@ def parse_thread(text: str) -> Optional[tuple[str, str, str]]:
         pitch = float(m.group(2)) if m.group(2) else _ISO_COARSE.get(int(dia)) if dia.is_integer() else None
         if pitch is None:
             return None
-        return "metric", f"M{dia:g}x{pitch:g}", f"M{dia:g}"
+        ps = f"{pitch:g}"
+        if "." not in ps:
+            ps += ".0"          # the 2025 catalog names an integer pitch "M6x1.0"; "M6x1" is refused (verified live)
+        return "metric", f"M{dia:g}x{ps}", f"M{dia:g}"
     m = re.match(r"(#\d+|\d+/\d+|\d*\.\d+|\d+)-(\d+)", t)
     if not m:
         return None

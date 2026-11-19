@@ -653,3 +653,14 @@ localization, a flattened multi-page marked PDF with a label rail, PNG previews 
 partial | failed`). The API serves it at `/api/parts/{s}/{p}/engineering-markup[.pdf|/page/{n}.png]`; the viewer opens
 `Engineering Markup` automatically and links every flag card to its page and region. Distinct from the human `full_marked_view.jpg`.
 Evidence: `docs/test-reports/2026-11-18-stage3-markup-gate-report.md`. Python 1279 passed / 66 skipped; markup e2e 6/6.
+
+
+## Stage 4 live verification on SOLIDWORKS 2025 (2026-11-19, branch `Improvements_2`)
+
+With the user's go-ahead the Hole Wizard folder preference was repointed to the 2025 data root (error log E039); preflight is `ready` and the
+live matrix ran. **13 of 81 variants are `SUPPORTED_AND_LIVE_VERIFIED`** (creation, definition readback, volume against an independent reference,
+save/reopen, drawing Hole Callout round trip): hole blind/thru, counterbore blind/thru, countersink without head clearance blind/thru, cosmetic taps
+blind/thru, counterbore slot blind/thru, plain slot blind, countersink slot blind/thru. 2 pipe taps are created and read back but their tapered
+geometry has no reference yet. 56 are `failed_verification` with the exact mismatch recorded (near/mid/far countersink treatments, head-clearance
+countersinks, plain taps, plain through slot); 10 legacy have no adapter. Advanced Hole: element data and face selection work, `AdvancedHole2` still
+reports incorrect parameters; Hole Series: no creation API. See `docs/hole-wizard/support-status.md` and `matrix-results.json`.

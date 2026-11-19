@@ -153,7 +153,7 @@ def test_angles_are_radians_and_property_set_failures_are_reported():
 
     class Strict(FakeData):
         def __setattr__(self, k, v):
-            if k == "Diameter":
+            if k in ("HoleDiameter", "ThruHoleDiameter"):
                 raise ValueError("read-only for this variant")
             super().__setattr__(k, v)
     data2 = Strict()
@@ -228,9 +228,25 @@ def test_tap_removes_the_tap_drill_only_and_slots_are_obrounds():
     assert ref.analytic_volume(slot, 10.0) == pytest.approx(exp) and _vol(slot, 10.0) == pytest.approx(exp, rel=1e-3)
 
 
-def test_unmodeled_reference_families_say_so_instead_of_approximating():
-    cbs = hi.HoleIntent(family="counterbore_slot", end="through", slot_width=6, slot_length=20, cbore_depth=3)
-    with pytest.raises(ref.ReferenceUnsupported):
-        ref.analytic_volume(cbs, 10.0)
+def test_slot_references_match_what_solidworks_removed_live():
+    """Numbers measured on SOLIDWORKS 2025 SP5 (plate 20 mm, slot 6.4 x 20 overall, cbore 11 x 6.5, csink 12.4 x 82)."""
+    def slot(**kw):
+        return hi.HoleIntent(family=kw.pop("family", "slot"), slot_width=6.4, slot_length=20.0, diameter=6.4, **kw)
+    mm3 = 1e9
+    cases = [
+        (slot(end="blind", depth=12.0), 1.5348154319072213e-06),
+        (slot(family="counterbore_slot", end="blind", depth=12.0, cbore_diameter=11.0, cbore_depth=6.5), 2.350066680396396e-06),
+        (slot(family="counterbore_slot", end="through", cbore_diameter=11.0, cbore_depth=6.5), 3.199449423944343e-06),
+        (slot(family="countersink_slot", end="through", csink_diameter=12.4, csink_angle=82.0), 2.6616120503194097e-06),
+        (slot(family="countersink_slot", end="blind", depth=12.0, csink_diameter=12.4, csink_angle=82.0), 1.812229306771517e-06),
+    ]
+    for intent, live_m3 in cases:
+        assert ref.analytic_volume(intent, 20.0) / mm3 == pytest.approx(live_m3, rel=1e-6), intent.family
+
+
+def test_families_without_a_cadquery_cutter_say_so_instead_of_approximating():
+    cbs = hi.HoleIntent(family="counterbore_slot", end="through", slot_width=6, slot_length=20, cbore_diameter=11, cbore_depth=3)
     with pytest.raises(ref.ReferenceUnsupported):
         ref.cutter(cbs, 10.0)
+    with pytest.raises(ref.ReferenceUnsupported):
+        ref.cutter(hi.HoleIntent(family="slot", end="blind", slot_width=6, slot_length=20, depth=5), 10.0)

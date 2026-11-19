@@ -1,37 +1,34 @@
 {
  "generated_by": "tools/run_hole_wizard_matrix.py --plan",
  "live_preflight": {
-  "code": "HW_DATABASE_VERSION_MISMATCH",
-  "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-  "preflight_variant": null,
-  "source": "environment_preflight"
+  "code": null
  },
  "preflight": {
   "application_revision": "33.5.0",
   "application_service_pack": "33.5.0",
-  "code": "HW_DATABASE_VERSION_MISMATCH",
-  "configured_root_is": "SOLIDWORKS Data",
+  "code": null,
+  "configured_root_is": "SOLIDWORKS Data (2)",
   "database_expected_version": "28.00",
-  "database_version": "29.01",
+  "database_version": "28.00",
   "details": {},
   "expected_version_source": "database of the SOLIDWORKS 2025 data root found beside the configured one",
-  "fingerprint": "",
-  "message": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
+  "fingerprint": "aec2fbf96f28493d0f42f9646396e12365d90452fb40b7040c4aeeb3f2f3d9ca",
+  "message": "",
   "retryable": false,
   "stage": "environment_preflight",
-  "standards_found": 0,
-  "status": "failed",
-  "toolbox_file_version": "34.3.2.0003",
-  "toolbox_index_version": "32.5.0.48",
-  "user_action": "Point SOLIDWORKS 2025 to the company-approved 2025 Hole Wizard/Toolbox data folder (Tools > Options > System Options > Hole Wizard/Toolbox), restart SOLIDWORKS, then rerun preflight."
+  "standards_found": 124,
+  "status": "ready",
+  "toolbox_file_version": "33.5.0.0053",
+  "toolbox_index_version": "33.5.0.53",
+  "user_action": ""
  },
- "ran_at_epoch": 1795058693,
+ "ran_at_epoch": 1795066718,
  "rows": [
   {
    "family": "legacy",
    "legacy": true,
    "live": {
-    "callout_roundtrip": "not_implemented",
+    "callout_roundtrip": "not_run",
     "created": "not_attempted",
     "geometry": "not_run",
     "readback": "not_run",
@@ -51,7 +48,7 @@
    "family": "legacy",
    "legacy": true,
    "live": {
-    "callout_roundtrip": "not_implemented",
+    "callout_roundtrip": "not_run",
     "created": "not_attempted",
     "geometry": "not_run",
     "readback": "not_run",
@@ -71,7 +68,7 @@
    "family": "legacy",
    "legacy": true,
    "live": {
-    "callout_roundtrip": "not_implemented",
+    "callout_roundtrip": "not_run",
     "created": "not_attempted",
     "geometry": "not_run",
     "readback": "not_run",
@@ -91,7 +88,7 @@
    "family": "legacy",
    "legacy": true,
    "live": {
-    "callout_roundtrip": "not_implemented",
+    "callout_roundtrip": "not_run",
     "created": "not_attempted",
     "geometry": "not_run",
     "readback": "not_run",
@@ -111,7 +108,7 @@
    "family": "legacy",
    "legacy": true,
    "live": {
-    "callout_roundtrip": "not_implemented",
+    "callout_roundtrip": "not_run",
     "created": "not_attempted",
     "geometry": "not_run",
     "readback": "not_run",
@@ -131,7 +128,7 @@
    "family": "legacy",
    "legacy": true,
    "live": {
-    "callout_roundtrip": "not_implemented",
+    "callout_roundtrip": "not_run",
     "created": "not_attempted",
     "geometry": "not_run",
     "readback": "not_run",
@@ -151,7 +148,7 @@
    "family": "legacy",
    "legacy": true,
    "live": {
-    "callout_roundtrip": "not_implemented",
+    "callout_roundtrip": "not_run",
     "created": "not_attempted",
     "geometry": "not_run",
     "readback": "not_run",
@@ -171,7 +168,7 @@
    "family": "legacy",
    "legacy": true,
    "live": {
-    "callout_roundtrip": "not_implemented",
+    "callout_roundtrip": "not_run",
     "created": "not_attempted",
     "geometry": "not_run",
     "readback": "not_run",
@@ -191,7 +188,7 @@
    "family": "legacy",
    "legacy": true,
    "live": {
-    "callout_roundtrip": "not_implemented",
+    "callout_roundtrip": "not_run",
     "created": "not_attempted",
     "geometry": "not_run",
     "readback": "not_run",
@@ -211,7 +208,7 @@
    "family": "legacy",
    "legacy": true,
    "live": {
-    "callout_roundtrip": "not_implemented",
+    "callout_roundtrip": "not_run",
     "created": "not_attempted",
     "geometry": "not_run",
     "readback": "not_run",
@@ -228,834 +225,1461 @@
    "value": 9
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
-    "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "counterbore_depth": 0.26,
+      "counterbore_diameter": 0.43,
+      "main_depth": 0.47,
+      "main_diameter": 0.25,
+      "raw": [
+       "<HOLE-SPOT><MOD-DIAM> 0.43 <HOLE-DEPTH> 0.26",
+       "<MOD-DIAM> 0.25 <HOLE-DEPTH> 0.47"
+      ],
+      "through": false
+     }
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 8.152684271481481e-07,
+     "removed_m3": 8.152684271481422e-07
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swCounterBoreBlind",
    "reference": "ok",
    "reference_volume_mm3": 815.268427,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 10
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 10,
+      "property": "Type",
+      "wanted": 11
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "HoleDepth": 0.012,
+     "HoleDiameter": 0.0064,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreBlindCounterSinkMiddle",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 11 got 10",
    "reference": "ok",
    "reference_volume_mm3": 934.020629,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 11 got 10",
    "value": 11
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 10,
+      "property": "Type",
+      "wanted": 12
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "HoleDepth": 0.012,
+     "HoleDiameter": 0.0064,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreBlindCounterSinkTop",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 12 got 10",
    "reference": "ok",
    "reference_volume_mm3": 934.020629,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 12 got 10",
    "value": 12
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "5 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 10,
+      "property": "Type",
+      "wanted": 13
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "HoleDepth": 0.012,
+     "HoleDiameter": 0.0064,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreBlindCounterSinkTopmiddle",
+   "note": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "reference": "ok",
    "reference_volume_mm3": 1052.772832,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "value": 13
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
-    "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "counterbore_depth": 0.26,
+      "counterbore_diameter": 0.43,
+      "main_depth": null,
+      "main_diameter": 0.25,
+      "raw": [
+       "<HOLE-SPOT><MOD-DIAM> 0.43 <HOLE-DEPTH> 0.26",
+       "<MOD-DIAM> 0.25 THRU ALL"
+      ],
+      "through": true
+     }
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 1.052009423944346e-06,
+     "removed_m3": 1.052009423944348e-06
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swCounterBoreThru",
    "reference": "ok",
    "reference_volume_mm3": 1052.009424,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 14
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 14,
+      "property": "Type",
+      "wanted": 15
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreThruCounterSinkBottom",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 15 got 14",
    "reference": "ok",
    "reference_volume_mm3": 1170.761626,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 15 got 14",
    "value": 15
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 14,
+      "property": "Type",
+      "wanted": 16
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreThruCounterSinkMiddle",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 16 got 14",
    "reference": "ok",
    "reference_volume_mm3": 1170.761626,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 16 got 14",
    "value": 16
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "5 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 14,
+      "property": "Type",
+      "wanted": 17
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreThruCounterSinkMiddleBottom",
+   "note": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "reference": "ok",
    "reference_volume_mm3": 1289.513829,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "value": 17
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 14,
+      "property": "Type",
+      "wanted": 18
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreThruCounterSinkTop",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 18 got 14",
    "reference": "ok",
    "reference_volume_mm3": 1170.761626,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 18 got 14",
    "value": 18
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "5 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 14,
+      "property": "Type",
+      "wanted": 19
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreThruCounterSinkTopBottom",
+   "note": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "reference": "ok",
    "reference_volume_mm3": 1289.513829,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "value": 19
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "5 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 14,
+      "property": "Type",
+      "wanted": 20
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreThruCounterSinkTopMiddle",
+   "note": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "reference": "ok",
    "reference_volume_mm3": 1289.513829,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "value": 20
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "counterbore",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "7 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 1.5707963267948966,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.012400000000000001,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 18,
+      "property": "Type",
+      "wanted": 21
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreThruCounterSinkTopMiddleBottom",
+   "note": "HW_READBACK_MISMATCH: 7 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 1.5707963267948966, NearCounterSinkAngle wanted 1.5707963267948966 got 0.012400000000000001, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "reference": "ok",
    "reference_volume_mm3": 1408.266031,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 7 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 1.5707963267948966, NearCounterSinkAngle wanted 1.5707963267948966 got 0.012400000000000001, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "value": 21
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
-    "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "main_depth": 0.47,
+      "main_diameter": 0.25,
+      "raw": [
+       "<MOD-DIAM> 0.25 <HOLE-DEPTH> 0.47",
+       ""
+      ],
+      "through": false
+     }
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 4.0665717865899163e-07,
+     "removed_m3": 4.066571786589808e-07
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swHoleBlind",
    "reference": "ok",
    "reference_volume_mm3": 406.657179,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 22
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 22,
+      "property": "Type",
+      "wanted": 23
+     }
+    ],
+    "properties_set": {
+     "HoleDepth": 0.012,
+     "HoleDiameter": 0.0064,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swHoleBlindCounterSinkTop",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 23 got 22",
    "reference": "ok",
    "reference_volume_mm3": 525.409381,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 23 got 22",
    "value": 23
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "1 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 43,
+      "property": "Type",
+      "wanted": 24
+     }
+    ],
+    "properties_set": {
+     "CounterSinkAngle": 1.4311699866353502,
+     "CounterSinkDiameter": 0.012400000000000001,
+     "HoleDepth": 0.012,
+     "HoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterSinkBlind",
+   "note": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 24 got 43",
    "reference": "ok",
    "reference_volume_mm3": 543.26596,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 24 got 43",
    "value": 24
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
-    "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "main_depth": null,
+      "main_diameter": 0.25,
+      "raw": [
+       "<MOD-DIAM> 0.25 THRU ALL",
+       ""
+      ],
+      "through": true
+     }
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 6.433981754551897e-07,
+     "removed_m3": 6.43398175455173e-07
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swHoleThru",
    "reference": "ok",
    "reference_volume_mm3": 643.398175,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 25
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 25,
+      "property": "Type",
+      "wanted": 26
+     }
+    ],
+    "properties_set": {
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swHoleThruCounterSinkBottom",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 26 got 25",
    "reference": "ok",
    "reference_volume_mm3": 762.150378,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 26 got 25",
    "value": 26
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 25,
+      "property": "Type",
+      "wanted": 27
+     }
+    ],
+    "properties_set": {
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swHoleThruCounterSinkTop",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 27 got 25",
    "reference": "ok",
    "reference_volume_mm3": 762.150378,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 27 got 25",
    "value": 27
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "hole",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 27,
+      "property": "Type",
+      "wanted": 28
+     }
+    ],
+    "properties_set": {
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swHoleThruCounterSinkTopBottom",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 28 got 27",
    "reference": "ok",
    "reference_volume_mm3": 880.90258,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 28 got 27",
    "value": 28
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "1 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 44,
+      "property": "Type",
+      "wanted": 29
+     }
+    ],
+    "properties_set": {
+     "CounterSinkAngle": 1.4311699866353502,
+     "CounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterSinkThru",
+   "note": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 29 got 44",
    "reference": "ok",
    "reference_volume_mm3": 780.006957,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 29 got 44",
    "value": 29
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 44,
+      "property": "Type",
+      "wanted": 30
+     }
+    ],
+    "properties_set": {
+     "CounterSinkAngle": 1.4311699866353502,
+     "CounterSinkDiameter": 0.012400000000000001,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterSinkThruCounterSinkBottom",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 30 got 44",
    "reference": "ok",
    "reference_volume_mm3": 898.75916,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 30 got 44",
    "value": 30
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_PROPERTY_SET_FAILED",
+     "detail": "ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [],
+    "properties_set": {},
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapBlind",
+   "note": "HW_PROPERTY_SET_FAILED: ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)",
    "reference": "ok",
    "reference_volume_mm3": 245.451008,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_PROPERTY_SET_FAILED: ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)",
    "value": 31
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_PROPERTY_SET_FAILED",
+     "detail": "ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [],
+    "properties_set": {
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapBlindCounterSinkTop",
+   "note": "HW_PROPERTY_SET_FAILED: ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)",
    "reference": "ok",
    "reference_volume_mm3": 406.015714,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_PROPERTY_SET_FAILED: ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)",
    "value": 32
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "1 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 48,
+      "property": "Type",
+      "wanted": 33
+     }
+    ],
+    "properties_set": {},
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapThru",
+   "note": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 33 got 48",
    "reference": "ok",
    "reference_volume_mm3": 392.699082,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 33 got 48",
    "value": 33
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 48,
+      "property": "Type",
+      "wanted": 34
+     }
+    ],
+    "properties_set": {
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapThruCounterSinkBottom",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 34 got 48",
    "reference": "ok",
    "reference_volume_mm3": 553.263788,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 34 got 48",
    "value": 34
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 48,
+      "property": "Type",
+      "wanted": 35
+     }
+    ],
+    "properties_set": {
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapThruCounterSinkTop",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 35 got 48",
    "reference": "ok",
    "reference_volume_mm3": 553.263788,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 35 got 48",
    "value": 35
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_CREATE_NULL",
+     "detail": "CreateFeature returned no feature"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [],
+    "properties_set": {
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapThruCounterSinkTopBottom",
+   "note": "HW_CREATE_NULL: CreateFeature returned no feature",
    "reference": "ok",
    "reference_volume_mm3": 713.828494,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_CREATE_NULL: CreateFeature returned no feature",
    "value": 36
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
-    "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "main_depth": 0.5,
+      "main_diameter": 0.44,
+      "pipe_size": "1/4",
+      "pipe_standard": "NPT",
+      "raw": [
+       "1/4 NPT",
+       "<MOD-DIAM> 0.44 <HOLE-DEPTH> 0.50"
+      ],
+      "through": false
+     }
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "not_modelled",
+    "geometry_detail": {
+     "reason": "tapered bore: no independent reference geometry yet",
+     "removed_m3": 1.7828422126101224e-06,
+     "straight_reference_m3": 1.3428534726805409e-06
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swPipeTapBlind",
    "reference": "ok",
-   "reference_volume_mm3": 245.451008,
+   "reference_volume_mm3": 19.649036,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
    "status": "implemented_not_live_verified",
    "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; no live run recorded",
    "value": 37
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.31496
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 37,
+      "property": "Type",
+      "wanted": 38
+     }
+    ],
+    "properties_set": {
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.31496,
+     "TapDrillDepth": 0.0127
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swPipeTapBlindCounterSinkTop",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.31496 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 38 got 37",
    "reference": "ok",
-   "reference_volume_mm3": 406.015714,
+   "reference_volume_mm3": 180.213742,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.31496 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 38 got 37",
    "value": 38
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
-    "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "main_depth": null,
+      "main_diameter": 0.44,
+      "pipe_size": "1/4",
+      "pipe_standard": "NPT",
+      "raw": [
+       "1/4 NPT",
+       "<MOD-DIAM> 0.44 THRU ALL"
+      ],
+      "through": true
+     }
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "not_modelled",
+    "geometry_detail": {
+     "reason": "tapered bore: no independent reference geometry yet",
+     "removed_m3": 2.384164532329204e-06,
+     "straight_reference_m3": 1.944175792399607e-06
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swPipeTapThru",
    "reference": "ok",
    "reference_volume_mm3": 392.699082,
@@ -1064,1021 +1688,1905 @@
    "selection": "ok",
    "status": "implemented_not_live_verified",
    "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; no live run recorded",
    "value": 39
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_CREATE_NULL",
+     "detail": "CreateFeature returned no feature"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [],
+    "properties_set": {
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.31496
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swPipeTapThruCounterSinkBottom",
+   "note": "HW_CREATE_NULL: CreateFeature returned no feature",
    "reference": "ok",
    "reference_volume_mm3": 553.263788,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_CREATE_NULL: CreateFeature returned no feature",
    "value": 40
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_CREATE_NULL",
+     "detail": "CreateFeature returned no feature"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [],
+    "properties_set": {
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.31496
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swPipeTapThruCounterSinkTop",
+   "note": "HW_CREATE_NULL: CreateFeature returned no feature",
    "reference": "ok",
    "reference_volume_mm3": 553.263788,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_CREATE_NULL: CreateFeature returned no feature",
    "value": 41
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "pipe_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_CREATE_NULL",
+     "detail": "CreateFeature returned no feature"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [],
+    "properties_set": {
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.31496,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.31496
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swPipeTapThruCounterSinkTopBottom",
+   "note": "HW_CREATE_NULL: CreateFeature returned no feature",
    "reference": "ok",
    "reference_volume_mm3": 713.828494,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_CREATE_NULL: CreateFeature returned no feature",
    "value": 42
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
-    "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "countersink_angle": 82.0,
+      "countersink_diameter": 0.49,
+      "main_depth": 0.47,
+      "main_diameter": 0.25,
+      "raw": [
+       "<HOLE-SINK><MOD-DIAM> 0.49 X 82\u00b0",
+       "<MOD-DIAM> 0.25 <HOLE-DEPTH> 0.47"
+      ],
+      "through": false
+     }
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 5.432659604793802e-07,
+     "removed_m3": 5.432659604793594e-07
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swCounterSinkBlindWithoutHeadClearance",
    "reference": "ok",
    "reference_volume_mm3": 543.26596,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 43
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
-    "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "countersink_angle": 82.0,
+      "countersink_diameter": 0.49,
+      "main_depth": null,
+      "main_diameter": 0.25,
+      "raw": [
+       "<HOLE-SINK><MOD-DIAM> 0.49 X 82\u00b0",
+       "<MOD-DIAM> 0.25 THRU ALL"
+      ],
+      "through": true
+     }
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 7.800069572755782e-07,
+     "removed_m3": 7.800069572755651e-07
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swCounterSinkThruWithoutHeadClearance",
    "reference": "ok",
    "reference_volume_mm3": 780.006957,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 44
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "countersink",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 44,
+      "property": "Type",
+      "wanted": 45
+     }
+    ],
+    "properties_set": {
+     "CounterSinkAngle": 1.4311699866353502,
+     "CounterSinkDiameter": 0.012400000000000001,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterSinkThruCounterSinkBottomWithoutHeadClearance",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 45 got 44",
    "reference": "ok",
    "reference_volume_mm3": 898.75916,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 45 got 44",
    "value": 45
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
-    "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "main_depth": 0.47,
+      "main_diameter": 0.2,
+      "raw": [
+       "M6x1.0 - 6H <HOLE-DEPTH> 0.39",
+       "<MOD-DIAM> 0.20 <HOLE-DEPTH> 0.47"
+      ],
+      "thread_class": "6H",
+      "thread_depth": 0.39,
+      "thread_designation": "M6x1.0",
+      "through": false
+     }
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 2.454510079076116e-07,
+     "removed_m3": 2.4545100790759693e-07
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swTapBlindCosmeticThread",
    "reference": "ok",
    "reference_volume_mm3": 245.451008,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 46
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_PROPERTY_SET_FAILED",
+     "detail": "ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [],
+    "properties_set": {
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapBlindCosmeticThreadCounterSinkTop",
+   "note": "HW_PROPERTY_SET_FAILED: ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)",
    "reference": "ok",
    "reference_volume_mm3": 406.015714,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_PROPERTY_SET_FAILED: ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)",
    "value": 47
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
-    "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "main_depth": null,
+      "main_diameter": 0.2,
+      "raw": [
+       "M6x1.0 - 6H <HOLE-DEPTH> 0.00",
+       "<MOD-DIAM> 0.20 THRU ALL"
+      ],
+      "thread_class": "6H",
+      "thread_depth": 0.0,
+      "thread_designation": "M6x1.0",
+      "through": true
+     }
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 3.926990816987242e-07,
+     "removed_m3": 3.926990816987175e-07
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swTapThruCosmeticThread",
    "reference": "ok",
    "reference_volume_mm3": 392.699082,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 48
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 48,
+      "property": "Type",
+      "wanted": 49
+     }
+    ],
+    "properties_set": {
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapThruCosmeticThreadCounterSinkTop",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 49 got 48",
    "reference": "ok",
    "reference_volume_mm3": 553.263788,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 49 got 48",
    "value": 49
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 48,
+      "property": "Type",
+      "wanted": 50
+     }
+    ],
+    "properties_set": {
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapThruCosmeticThreadCounterSinkBottom",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 50 got 48",
    "reference": "ok",
    "reference_volume_mm3": 553.263788,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 50 got 48",
    "value": 50
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_CREATE_NULL",
+     "detail": "CreateFeature returned no feature"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [],
+    "properties_set": {
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapThruCosmeticThreadCounterSinkTopBottom",
+   "note": "HW_CREATE_NULL: CreateFeature returned no feature",
    "reference": "ok",
    "reference_volume_mm3": 713.828494,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_CREATE_NULL: CreateFeature returned no feature",
    "value": 51
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "1 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 48,
+      "property": "Type",
+      "wanted": 52
+     }
+    ],
+    "properties_set": {},
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapThruThreadThru",
+   "note": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 52 got 48",
    "reference": "ok",
    "reference_volume_mm3": 392.699082,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 52 got 48",
    "value": 52
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 48,
+      "property": "Type",
+      "wanted": 53
+     }
+    ],
+    "properties_set": {
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapThruThreadThruCounterSinkTop",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 53 got 48",
    "reference": "ok",
    "reference_volume_mm3": 553.263788,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 53 got 48",
    "value": 53
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 48,
+      "property": "Type",
+      "wanted": 54
+     }
+    ],
+    "properties_set": {
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapThruThreadThruCounterSinkBottom",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 54 got 48",
    "reference": "ok",
    "reference_volume_mm3": 553.263788,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 54 got 48",
    "value": 54
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_CREATE_NULL",
+     "detail": "CreateFeature returned no feature"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [],
+    "properties_set": {
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapThruThreadThruCountersinkTopBottom",
+   "note": "HW_CREATE_NULL: CreateFeature returned no feature",
    "reference": "ok",
    "reference_volume_mm3": 713.828494,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_CREATE_NULL: CreateFeature returned no feature",
    "value": 55
   },
   {
-   "environment_reason": "HW_DATABASE_VERSION_MISMATCH",
    "family": "straight_tap",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "blocked_by_preflight",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
     "error": {
-     "code": "HW_DATABASE_VERSION_MISMATCH",
-     "detail": "SOLIDWORKS 2025 expects Hole Wizard database 28.00, but the configured database is 29.01. Hole Wizard database 29.01 is incompatible with expected 28.00.",
-     "preflight_variant": null,
-     "source": "environment_preflight"
+     "code": "HW_PROPERTY_SET_FAILED",
+     "detail": "ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)"
     },
-    "geometry": "blocked_by_preflight",
-    "readback": "blocked_by_preflight",
-    "reopen": "blocked_by_preflight"
+    "geometry": "not_run",
+    "mismatches": [],
+    "properties_set": {},
+    "readback": "failed",
+    "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swTapBlindRemoveThread",
+   "note": "HW_PROPERTY_SET_FAILED: ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)",
    "reference": "ok",
    "reference_volume_mm3": 245.451008,
    "resolution": "ok",
    "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "implemented_not_live_verified",
-   "status_2025": "SUPPORTED_BY_ADAPTER_NOT_INSTALLED",
-   "status_reason": "adapter, selection, catalog resolution and reference geometry exist and pass fake-COM tests; live run blocked by the environment (HW_DATABASE_VERSION_MISMATCH)",
+   "status": "failed_verification",
+   "status_2025": "UNSUPPORTED_WITH_REASON",
+   "status_reason": "HW_PROPERTY_SET_FAILED: ThreadDepth: com_error: (-2147417851, 'The server threw an exception.', None, None)",
    "value": 56
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
-    "geometry": "not_run",
-    "readback": "not_run",
-    "reopen": "not_run"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "counterbore_depth": 0.26,
+      "counterbore_diameter": 0.43,
+      "main_depth": 0.47,
+      "main_diameter": null,
+      "raw": [
+       "<HOLE-SPOT> 0.43 <HOLE-DEPTH> 0.26",
+       "0.25 X 0.79 <HOLE-DEPTH> 0.47"
+      ],
+      "slot_length": 0.79,
+      "slot_width": 0.25,
+      "through": false
+     }
+    },
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 2.3500666803964025e-06,
+     "removed_m3": 2.350066680396396e-06
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swCounterBoreSlotBlind",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "ok",
+   "reference_volume_mm3": 2350.06668,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
-   "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 57
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 57,
+      "property": "Type",
+      "wanted": 58
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "HoleDepth": 0.012,
+     "HoleDiameter": 0.0064,
+     "Length": 0.0136,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreSlotBlindCounterSinkMiddle",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 58 got 57",
+   "reference": "ok",
+   "reference_volume_mm3": 2591.218883,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 58 got 57",
    "value": 58
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 57,
+      "property": "Type",
+      "wanted": 59
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "HoleDepth": 0.012,
+     "HoleDiameter": 0.0064,
+     "Length": 0.0136,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreSlotBlindCounterSinkTop",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 59 got 57",
+   "reference": "ok",
+   "reference_volume_mm3": 2591.218883,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 59 got 57",
    "value": 59
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "5 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 57,
+      "property": "Type",
+      "wanted": 60
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "HoleDepth": 0.012,
+     "HoleDiameter": 0.0064,
+     "Length": 0.0136,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreSlotBlindCounterSinkTopMiddle",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
+   "reference": "ok",
+   "reference_volume_mm3": 2832.371085,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "value": 60
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
-    "geometry": "not_run",
-    "readback": "not_run",
-    "reopen": "not_run"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "counterbore_depth": 0.26,
+      "counterbore_diameter": 0.43,
+      "main_depth": null,
+      "main_diameter": null,
+      "raw": [
+       "<HOLE-SPOT> 0.43 <HOLE-DEPTH> 0.26",
+       "0.25 X 0.79 THRU ALL"
+      ],
+      "slot_length": 0.79,
+      "slot_width": 0.25,
+      "through": true
+     }
+    },
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 3.1994494239443465e-06,
+     "removed_m3": 3.1994494239443296e-06
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swCounterBoreSlotThru",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "ok",
+   "reference_volume_mm3": 3199.449424,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
-   "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 61
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 61,
+      "property": "Type",
+      "wanted": 62
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "Length": 0.0136,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreSlotThruCounterSinkBottom",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 62 got 61",
+   "reference": "ok",
+   "reference_volume_mm3": 3440.601626,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 62 got 61",
    "value": 62
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 61,
+      "property": "Type",
+      "wanted": 63
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "Length": 0.0136,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreSlotThruCounterSinkMiddle",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 63 got 61",
+   "reference": "ok",
+   "reference_volume_mm3": 3440.601626,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 63 got 61",
    "value": 63
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "5 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 61,
+      "property": "Type",
+      "wanted": 64
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "Length": 0.0136,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreSlotThruCounterSinkMiddleBottom",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0",
+   "reference": "ok",
+   "reference_volume_mm3": 3681.753829,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0, FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "value": 64
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 61,
+      "property": "Type",
+      "wanted": 65
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "Length": 0.0136,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreSlotThruCounterSinkTop",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 65 got 61",
+   "reference": "ok",
+   "reference_volume_mm3": 3440.601626,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 65 got 61",
    "value": 65
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "5 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 61,
+      "property": "Type",
+      "wanted": 66
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "Length": 0.0136,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreSlotThruCounterSinkTopBottom",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0",
+   "reference": "ok",
+   "reference_volume_mm3": 3681.753829,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "value": 66
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "5 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 61,
+      "property": "Type",
+      "wanted": 67
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "Length": 0.0136,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreSlotThruCounterSinkTopMiddle",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
+   "reference": "ok",
+   "reference_volume_mm3": 3681.753829,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 5 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "value": 67
   },
   {
    "family": "counterbore_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "7 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "MidCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 61,
+      "property": "Type",
+      "wanted": 68
+     }
+    ],
+    "properties_set": {
+     "CounterBoreDepth": 0.006500000000000001,
+     "CounterBoreDiameter": 0.011,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "Length": 0.0136,
+     "MidCounterSinkAngle": 1.5707963267948966,
+     "MidCounterSinkDiameter": 0.012400000000000001,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterBoreSlotThruCounterSinkTopMiddleBottom",
-   "note": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "counterbore_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 7 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
+   "reference": "ok",
+   "reference_volume_mm3": 3922.906031,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "counterbore_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 7 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, MidCounterSinkDiameter wanted 0.012400000000000001 got 0.0, MidCounterSinkAngle wanted 1.5707963267948966 got 0.0",
    "value": 68
   },
   {
    "family": "slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
-    "geometry": "not_run",
-    "readback": "not_run",
-    "reopen": "not_run"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "main_depth": 0.47,
+      "main_diameter": null,
+      "raw": [
+       "0.25 X 0.79 <HOLE-DEPTH> 0.47",
+       ""
+      ],
+      "slot_length": 0.79,
+      "slot_width": 0.25,
+      "through": false
+     }
+    },
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 1.5348154319072458e-06,
+     "removed_m3": 1.5348154319072348e-06
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swSlotBlind",
-   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
    "reference": "ok",
-   "reference_volume_mm3": 1430.518905,
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference_volume_mm3": 1534.815432,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
-   "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 69
   },
   {
    "family": "slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "NearCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 69,
+      "property": "Type",
+      "wanted": 70
+     }
+    ],
+    "properties_set": {
+     "HoleDepth": 0.012,
+     "HoleDiameter": 0.0064,
+     "Length": 0.0136,
+     "NearCounterSinkAngle": 1.5707963267948966,
+     "NearCounterSinkDiameter": 0.012400000000000001
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swSlotBlindCounterSinkTop",
-   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 70 got 69",
    "reference": "ok",
-   "reference_volume_mm3": 1549.271108,
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference_volume_mm3": 1775.967634,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed NearCounterSinkDiameter wanted 0.012400000000000001 got 0.0, NearCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 70 got 69",
    "value": 70
   },
   {
    "family": "countersink_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "1 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 78,
+      "property": "Type",
+      "wanted": 71
+     }
+    ],
+    "properties_set": {
+     "CounterSinkAngle": 1.4311699866353502,
+     "CounterSinkDiameter": 0.012400000000000001,
+     "HoleDepth": 0.012,
+     "HoleDiameter": 0.0064,
+     "Length": 0.0136
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterSinkSlotBlind",
-   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 71 got 78",
+   "reference": "ok",
+   "reference_volume_mm3": 1812.229307,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 71 got 78",
    "value": 71
   },
   {
    "family": "slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_CREATE_NULL",
+     "detail": "HoleWizard5 returned no feature"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [],
+    "properties_set": {},
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swSlotThru",
-   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_CREATE_NULL: HoleWizard5 returned no feature",
    "reference": "ok",
    "reference_volume_mm3": 2384.198175,
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_CREATE_NULL: HoleWizard5 returned no feature",
    "value": 72
   },
   {
    "family": "slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_CREATE_NULL",
+     "detail": "HoleWizard5 returned no feature"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [],
+    "properties_set": {},
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swSlotThruCounterSinkBottom",
-   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_CREATE_NULL: HoleWizard5 returned no feature",
    "reference": "ok",
-   "reference_volume_mm3": 2502.950378,
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference_volume_mm3": 2625.350378,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_CREATE_NULL: HoleWizard5 returned no feature",
    "value": 73
   },
   {
    "family": "slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_CREATE_NULL",
+     "detail": "HoleWizard5 returned no feature"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [],
+    "properties_set": {},
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swSlotThruCounterSinkTop",
-   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_CREATE_NULL: HoleWizard5 returned no feature",
    "reference": "ok",
-   "reference_volume_mm3": 2502.950378,
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference_volume_mm3": 2625.350378,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_CREATE_NULL: HoleWizard5 returned no feature",
    "value": 74
   },
   {
    "family": "slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_CREATE_NULL",
+     "detail": "HoleWizard5 returned no feature"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [],
+    "properties_set": {},
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swSlotThruCounterSinkTopBottom",
-   "note": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_CREATE_NULL: HoleWizard5 returned no feature",
    "reference": "ok",
-   "reference_volume_mm3": 2621.70258,
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference_volume_mm3": 2866.50258,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_CREATE_NULL: HoleWizard5 returned no feature",
    "value": 75
   },
   {
    "family": "countersink_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "1 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 79,
+      "property": "Type",
+      "wanted": 76
+     }
+    ],
+    "properties_set": {
+     "CounterSinkAngle": 1.4311699866353502,
+     "CounterSinkDiameter": 0.012400000000000001,
+     "Length": 0.0136,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterSinkSlotThru",
-   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 76 got 79",
+   "reference": "ok",
+   "reference_volume_mm3": 2661.61205,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 1 property(ies) differ; feature removed Type wanted 76 got 79",
    "value": 76
   },
   {
    "family": "countersink_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 79,
+      "property": "Type",
+      "wanted": 77
+     }
+    ],
+    "properties_set": {
+     "CounterSinkAngle": 1.4311699866353502,
+     "CounterSinkDiameter": 0.012400000000000001,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "Length": 0.0136,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterSinkSlotThruCounterSinkBottom",
-   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 77 got 79",
+   "reference": "ok",
+   "reference_volume_mm3": 2902.764253,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 77 got 79",
    "value": 77
   },
   {
    "family": "countersink_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
-    "geometry": "not_run",
-    "readback": "not_run",
-    "reopen": "not_run"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "countersink_angle": 82.0,
+      "countersink_diameter": 0.49,
+      "main_depth": 0.47,
+      "main_diameter": null,
+      "raw": [
+       "<HOLE-SINK> 0.49 X 82\u00b0",
+       "0.25 X 0.79 <HOLE-DEPTH> 0.47"
+      ],
+      "slot_length": 0.79,
+      "slot_width": 0.25,
+      "through": false
+     }
+    },
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 1.812229306771486e-06,
+     "removed_m3": 1.812229306771517e-06
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swCounterSinkSlotBlindWithoutHeadClearance",
-   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "ok",
+   "reference_volume_mm3": 1812.229307,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
-   "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 78
   },
   {
    "family": "countersink_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
-    "geometry": "not_run",
-    "readback": "not_run",
-    "reopen": "not_run"
+    "callout": {
+     "detail": "",
+     "mismatches": [],
+     "parsed": {
+      "countersink_angle": 82.0,
+      "countersink_diameter": 0.49,
+      "main_depth": null,
+      "main_diameter": null,
+      "raw": [
+       "<HOLE-SINK> 0.49 X 82\u00b0",
+       "0.25 X 0.79 THRU ALL"
+      ],
+      "slot_length": 0.79,
+      "slot_width": 0.25,
+      "through": true
+     }
+    },
+    "callout_roundtrip": "ok",
+    "created": "ok",
+    "geometry": "ok",
+    "geometry_detail": {
+     "reference_m3": 2.66161205031943e-06,
+     "removed_m3": 2.6616120503194097e-06
+    },
+    "readback": "ok",
+    "reopen": "ok"
    },
+   "live_passed": [
+    "created",
+    "readback",
+    "geometry",
+    "reopen",
+    "callout_roundtrip"
+   ],
    "name": "swCounterSinkSlotThruWithoutHeadClearance",
-   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "reference": "ok",
+   "reference_volume_mm3": 2661.61205,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
-   "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status": "verified",
+   "status_2025": "SUPPORTED_AND_LIVE_VERIFIED",
+   "status_reason": "live creation, readback, geometry, drawing callout and save/reopen/rebuild all passed",
    "value": 79
   },
   {
    "family": "countersink_slot",
    "legacy": false,
    "live": {
-    "callout_roundtrip": "not_implemented",
-    "created": "not_attempted",
+    "callout_roundtrip": "not_run",
+    "created": "failed",
+    "error": {
+     "code": "HW_READBACK_MISMATCH",
+     "detail": "3 property(ies) differ; feature removed"
+    },
     "geometry": "not_run",
-    "readback": "not_run",
+    "mismatches": [
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkDiameter",
+      "wanted": 0.012400000000000001
+     },
+     {
+      "got": 0.0,
+      "property": "FarCounterSinkAngle",
+      "wanted": 1.5707963267948966
+     },
+     {
+      "got": 79,
+      "property": "Type",
+      "wanted": 90
+     }
+    ],
+    "properties_set": {
+     "CounterSinkAngle": 1.4311699866353502,
+     "CounterSinkDiameter": 0.012400000000000001,
+     "FarCounterSinkAngle": 1.5707963267948966,
+     "FarCounterSinkDiameter": 0.012400000000000001,
+     "Length": 0.0136,
+     "ThruHoleDiameter": 0.0064
+    },
+    "readback": "failed",
     "reopen": "not_run"
    },
+   "live_passed": [],
    "name": "swCounterSinkSlotThruCounterSinkBottomWithoutHeadClearance",
-   "note": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
-   "reference": "unsupported",
-   "reference_detail": "countersink_slot: treatment outline is not defined; no reference geometry",
-   "resolution": "HW_FASTENER_UNMAPPED",
-   "resolution_detail": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "note": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 90 got 79",
+   "reference": "ok",
+   "reference_volume_mm3": 2902.764253,
+   "resolution": "ok",
+   "resolution_detail": "HW_CATALOG_NOT_CONSULTED",
    "selection": "ok",
-   "status": "not_implemented",
+   "status": "failed_verification",
    "status_2025": "UNSUPPORTED_WITH_REASON",
-   "status_reason": "countersink_slot: no fastener type is documented for this family; needs catalog discovery",
+   "status_reason": "HW_READBACK_MISMATCH: 3 property(ies) differ; feature removed FarCounterSinkDiameter wanted 0.012400000000000001 got 0.0, FarCounterSinkAngle wanted 1.5707963267948966 got 0.0, Type wanted 90 got 79",
    "value": 90
   }
  ],
  "status_2025_counts": {
-  "SUPPORTED_BY_ADAPTER_NOT_INSTALLED": 47,
-  "UNSUPPORTED_WITH_REASON": 34
+  "SUPPORTED_AND_LIVE_VERIFIED": 13,
+  "SUPPORTED_BY_ADAPTER_NOT_INSTALLED": 2,
+  "UNSUPPORTED_WITH_REASON": 66
  },
  "status_counts": {
-  "implemented_not_live_verified": 47,
-  "not_implemented": 34
+  "failed_verification": 56,
+  "implemented_not_live_verified": 2,
+  "not_implemented": 10,
+  "verified": 13
  },
  "total": 81
 }

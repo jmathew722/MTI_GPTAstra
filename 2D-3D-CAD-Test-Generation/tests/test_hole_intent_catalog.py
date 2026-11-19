@@ -145,7 +145,7 @@ def test_resolution_uses_installed_enum_names_and_the_thread_for_taps():
     assert r.standard == 0 and r.fastener == 27 and r.size == "1/4-20"
     assert r.catalog_confirmed is False and r.warnings == ["HW_CATALOG_NOT_CONSULTED"]
     m = cat.resolve(hi.from_callout(parse("M6 X 1 - 6H"), "mm"), BY_NAME["swTapThruCosmeticThread"])
-    assert m.standard_name == "swStandardAnsiMetric" and m.size == "M6x1" and m.fastener_name.endswith("TappedHole")
+    assert m.standard_name == "swStandardAnsiMetric" and m.size == "M6x1.0" and m.fastener_name.endswith("TappedHole")
 
 
 def test_a_catalog_that_lacks_the_standard_blocks_resolution():
@@ -170,7 +170,8 @@ def test_pipe_standard_unknown_standard_and_slot_fastener_are_never_guessed():
     odd = hi.HoleIntent(family="hole", end="through", diameter=6.4, units="mm", standard="Klingon")
     assert cat.resolve(odd, hi.select_variant(odd).variant).code == "HW_STANDARD_UNKNOWN"
     slot = exemplar(BY_NAME["swSlotThru"])
-    assert cat.resolve(slot, BY_NAME["swSlotThru"]).code == "HW_FASTENER_UNMAPPED"
+    r = cat.resolve(slot, BY_NAME["swSlotThru"])
+    assert r.ok and r.fastener_name.endswith("ScrewClearances")        # slots use their round counterpart's fastener (live-verified)
 
 
 def test_countersink_fastener_follows_the_angle():
@@ -182,8 +183,9 @@ def test_countersink_fastener_follows_the_angle():
 def test_matrix_plan_covers_all_81_and_can_never_report_verified_without_live_evidence():
     from tools.run_hole_wizard_matrix import build_plan, finalize
     plan = finalize(build_plan())
-    assert plan["total"] == 81 and plan["status_counts"] == {"implemented_not_live_verified": 47, "not_implemented": 34}
-    assert all(r["live"]["callout_roundtrip"] == "not_implemented" for r in plan["rows"])
-    assert not any(r["status"] == "verified" for r in plan["rows"])
+    # 10 legacy types have no adapter; the other 71 (incl. the 24 slot variants) resolve against the installed catalog
+    assert plan["total"] == 81 and plan["status_counts"] == {"implemented_not_live_verified": 71, "not_implemented": 10}
+    assert all(r["live"]["callout_roundtrip"] == "not_run" for r in plan["rows"])
+    assert not any(r["status"] == "verified" for r in plan["rows"])         # nothing is verified without live evidence
     slots = [r for r in plan["rows"] if r["family"].endswith("slot") or r["family"] == "slot"]
-    assert len(slots) == 24 and {r["status"] for r in slots} == {"not_implemented"}
+    assert len(slots) == 24 and {r["status"] for r in slots} == {"implemented_not_live_verified"}

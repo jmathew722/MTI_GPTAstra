@@ -20,8 +20,16 @@ class ReferenceUnsupported(ValueError):
 
 
 def _guard(intent: HoleIntent) -> None:
+    """Kept for the CadQuery cutter: counterbore and countersink SLOTS are modeled analytically (see analytic_volume) but
+    have no CadQuery cutter yet."""
+    return None
+
+
+def _no_cutter(intent: HoleIntent) -> None:
     if intent.family in ("counterbore_slot", "countersink_slot"):
-        raise ReferenceUnsupported(f"{intent.family}: treatment outline is not defined; no reference geometry")
+        raise ReferenceUnsupported(f"{intent.family}: analytic reference only (no CadQuery cutter)")
+    if intent.family == "slot" and intent.end == "blind":
+        raise ReferenceUnsupported("blind slot: the Hole Wizard end point (cone + wedge) is analytic only")
 
 
 def _cone_frustum_volume(r1: float, r2: float, h: float) -> float:
@@ -65,9 +73,21 @@ def analytic_volume(intent: HoleIntent, thickness: float, tap_drill: float | Non
         vol = math.pi * r * r * depth
     if blind and not slot:
         vol += _drill_point_vol(d)
-    if intent.family in ("counterbore", "counterbore_slot") and intent.cbore_diameter and intent.cbore_depth:
+    if blind and slot:
+        # the blind end of a Hole Wizard slot is a 118 deg point: a cone at each arc end (one full cone between them) plus a
+        # wedge along the straight part (measured live: slot 6.4 x 20 c2c, 12 deep removes 2065.7 mm3 = 1922.1 + 143.6)
+        w = intent.slot_width or d
+        h = (w / 2) / math.tan(math.radians(DRILL_POINT_DEG / 2))
+        c2c = max((intent.slot_length or w) - w, 0.0)
+        vol += math.pi * (w / 2) ** 2 * h / 3 + w * c2c * h / 2
+    if intent.family == "counterbore" and intent.cbore_diameter and intent.cbore_depth:
         rc = intent.cbore_diameter / 2
-        vol += math.pi * (rc * rc - r * r) * intent.cbore_depth * (1.0 if not slot else 1.0)
+        vol += math.pi * (rc * rc - r * r) * intent.cbore_depth
+    if intent.family == "counterbore_slot" and intent.cbore_diameter and intent.cbore_depth:
+        # an obround counterbore: same center-to-center length, diameter cbore_diameter
+        c2c = max((intent.slot_length or w) - w, 0.0)
+        rc = intent.cbore_diameter / 2
+        vol += (math.pi * rc * rc + 2 * rc * c2c - (math.pi * r * r + 2 * r * c2c)) * intent.cbore_depth
     cs_list = []
     if intent.family in ("countersink", "countersink_slot") and intent.csink_diameter:
         cs_list.append((intent.csink_diameter, intent.csink_angle or 90.0))
@@ -76,14 +96,20 @@ def analytic_volume(intent: HoleIntent, thickness: float, tap_drill: float | Non
         if dia <= 2 * r:
             continue
         h = (dia / 2 - r) / math.tan(math.radians(ang / 2))
-        vol += _cone_frustum_volume(dia / 2, r, h) - math.pi * r * r * h
+        if slot:
+            # an obround countersink: the round ends are a cone, the straight part a prism with a tapered cross-section
+            c2c = max((intent.slot_length or w) - w, 0.0)
+            R = dia / 2
+            vol += (_cone_frustum_volume(R, r, h) - math.pi * r * r * h) + c2c * h * (R + r) - 2 * r * c2c * h
+        else:
+            vol += _cone_frustum_volume(dia / 2, r, h) - math.pi * r * r * h
     return vol
 
 
 def cutter(intent: HoleIntent, thickness: float, tap_drill: float | None = None):
     """A cadquery solid: the removed material of one hole, start face at z=0, material toward -z."""
     import cadquery as cq
-    _guard(intent)
+    _no_cutter(intent)
     d = bore_diameter(intent, tap_drill)
     if d is None:
         raise ValueError("no bore diameter")

@@ -80,6 +80,8 @@ def exemplar(v: Variant) -> hi.HoleIntent:
         i.thread = {"designation": "1/4-18", "size": "1/4-18", "standard": "NPT"}
         i.thread_mode = "plain"
         i.diameter = None
+        if v.end == "blind":
+            i.depth = 0.5          # inch (the exemplar is in inch for pipe taps)
     return i
 
 
@@ -120,7 +122,6 @@ def build_plan() -> dict:
     rows = [plan_row(v) for v in VARIANTS.values()]
     for r in rows:
         r["live"] = live_columns_blank()
-        r["live"]["callout_roundtrip"] = "not_implemented"
     return {"generated_by": "tools/run_hole_wizard_matrix.py --plan", "total": len(rows), "rows": rows}
 
 
@@ -138,7 +139,6 @@ def _live_child(value: int) -> dict:
     intent = exemplar(v)
     res = cat.resolve(intent, v, snapshot=cat.discover(w.GetActiveObject("SldWorks.Application")))
     out = live_columns_blank()
-    out["callout_roundtrip"] = "not_implemented"
     if not res.ok:
         out["error"] = {"code": res.code, "detail": res.reason}
         return out
@@ -165,24 +165,48 @@ def _live_child(value: int) -> dict:
         out["readback"] = "ok" if o.ok else "failed"
         if not o.ok:
             out["error"] = {"code": o.code, "detail": o.detail}
+            out["mismatches"] = o.mismatches
+            out["properties_set"] = o.properties_set
             return out
         vol1 = _total_volume(doc)
         k = 0.001 if intent.units == "mm" else 0.0254
         drill = None
         if v.family in ("straight_tap", "pipe_tap"):      # the tap drill comes from the catalog row, read back
-            drill = (adapter.read_back(o.feature, ["TapDrillDiameter"]).get("TapDrillDiameter") or 0) / k or None
+            rb = adapter.read_back(o.feature, ["TapDrillDiameter", "ThruTapDrillDiameter"])
+            drill = (rb.get("TapDrillDiameter") or rb.get("ThruTapDrillDiameter") or 0) / k or None
         want = ref.analytic_volume(intent, PLATE[2] * 0.001 / k, tap_drill=drill) * k ** 3
-        out["geometry"] = "ok" if abs((vol0 - vol1) - want) <= 1e-3 * want + 1e-12 else "failed"
-        out["geometry_detail"] = {"removed_m3": vol0 - vol1, "reference_m3": want}
+        if v.family == "pipe_tap":
+            # a Hole Wizard pipe tap cuts a TAPERED bore; the reference models a straight tap-drill cylinder only, so the volume
+            # cannot be a pass criterion. Recorded, never counted as verified.
+            out["geometry"] = "not_modelled"
+            out["geometry_detail"] = {"removed_m3": vol0 - vol1, "straight_reference_m3": want,
+                                      "reason": "tapered bore: no independent reference geometry yet"}
+        else:
+            out["geometry"] = "ok" if abs((vol0 - vol1) - want) <= 1e-3 * want + 1e-12 else "failed"
+            out["geometry_detail"] = {"removed_m3": vol0 - vol1, "reference_m3": want}
         path = os.path.join(tempfile.mkdtemp(prefix="hw_matrix_"), f"hw_{value}.SLDPRT")
         doc.SaveAs3(path, 0, 2)
         title = doc.GetTitle
         app.CloseDoc(title)
-        reopened = app.OpenDoc6(path, 1, 1, "", 0, 0)
+        import pythoncom
+        from win32com.client import VARIANT
+        err = VARIANT(pythoncom.VT_BYREF | pythoncom.VT_I4, 0)
+        warn = VARIANT(pythoncom.VT_BYREF | pythoncom.VT_I4, 0)
+        reopened = app.OpenDoc6(path, 1, 1, "", err, warn)
         out["reopen"] = "ok" if reopened is not None else "failed"
+        if reopened is not None and out["geometry"] in ("ok", "not_modelled"):
+            from pipeline.ir.solidworks import hole_callout_roundtrip as rt
+            tap_in = drill * k / 0.0254 if drill else None
+            rtres = rt.round_trip(app, None, path, intent, typed, tap_drill_in=tap_in)
+            out["callout_roundtrip"] = rtres["status"]
+            out["callout"] = {k2: rtres.get(k2) for k2 in ("parsed", "mismatches", "detail")}
         return out
     except ref.ReferenceUnsupported as e:
         out["error"] = {"code": "HW_REFERENCE_UNSUPPORTED", "detail": str(e)}
+        return out
+    except Exception as e:   # a Python error in the checker is its own code: it must not look like a dead COM server
+        import traceback
+        out["error"] = {"code": "HW_CHECK_ERROR", "detail": f"{type(e).__name__}: {e}"[:200], "trace": traceback.format_exc()[-400:]}
         return out
     finally:
         try:
@@ -198,7 +222,6 @@ def run_child(value: int, timeout: float) -> dict:
         p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, env=env, cwd=str(ROOT))
     except subprocess.TimeoutExpired:
         cols = live_columns_blank()
-        cols["callout_roundtrip"] = "not_implemented"
         cols["error"] = {"code": "HW_DIALOG_BLOCKED", "detail": f"no return after {timeout:g}s; process killed"}
         return cols
     for line in reversed(p.stdout.splitlines()):
@@ -233,17 +256,23 @@ def run_live(plan: dict, timeout: float, preflight: dict | None = None) -> dict:
             row["live"]["created"] = "not_attempted"
             continue
         if blocked:
-            row["live"].update({c: "blocked_by_preflight" for c in LIVE_COLUMNS if c != "callout_roundtrip"})
+            row["live"].update({c: "blocked_by_preflight" for c in LIVE_COLUMNS})
             row["live"]["error"] = blocked
             continue
         row["live"] = run_child(row["value"], timeout)
         err = row["live"].get("error")
-        if err and err["code"] in ("HW_DIALOG_BLOCKED", "HW_CREATE_NULL", "HW_INIT_REFUSED", "HW_COM_ERROR"):
+        if err and err["code"] == "HW_DIALOG_BLOCKED" and not row.get("legacy"):   # a hang or a dead COM server stops the run; a per-variant refusal does not
             blocked = {**err, "preflight_variant": row["name"]}       # the first refusal blocks the rest
         passed = [c for c in LIVE_COLUMNS if row["live"].get(c) == "ok"]
         row["live_passed"] = passed
-        if row["live"].get("error"):
-            row["status"] = "failed_verification" if row["live"]["error"]["code"] in ("HW_READBACK_MISMATCH",) else row["status"]
+        live = row["live"]
+        failed = bool(live.get("error")) or "failed" in (live.get("geometry"), live.get("reopen"), live.get("callout_roundtrip"))
+        if failed:
+            row["status"] = "failed_verification"
+            e = live.get("error") or {}
+            mm = live.get("mismatches") or []
+            row["note"] = (f"{e.get('code', 'live check failed')}: {e.get('detail', '')} " +
+                           (", ".join(f"{m['property']} wanted {m['wanted']} got {m['got']}" for m in mm[:4]) if mm else "")).strip()
     plan["live_preflight"] = blocked or {"code": None}
     return plan
 

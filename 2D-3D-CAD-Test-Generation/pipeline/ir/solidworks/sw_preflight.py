@@ -71,6 +71,11 @@ class PreflightResult:
                 "standards_found": self.standards_found, "details": self.details}
 
 
+def com_value(x):
+    """A late-bound COM dispatch exposes ``RevisionNumber`` as a property, a typed (gen_py) one as a method: accept both."""
+    return x() if callable(x) else x
+
+
 def _major(v: Optional[str]) -> Optional[int]:
     m = re.match(r"\s*(\d+)", v or "")
     return int(m.group(1)) if m else None
@@ -260,7 +265,7 @@ class LiveProbe:
         self._root = None
 
     def revision(self):
-        return str(self.app.RevisionNumber)
+        return str(com_value(self.app.RevisionNumber))
 
     def hole_wizard_root(self):
         if self._root is None:
@@ -298,7 +303,7 @@ class LiveProbe:
         return m.group(1) if m else None
 
     def modal_windows(self):
-        return detect_modal(enum_windows(), int(self.app.GetProcessID))
+        return detect_modal(enum_windows(), int(com_value(self.app.GetProcessID)))
 
     def catalog_standards(self):
         from pipeline.ir.solidworks import hole_catalog as cat

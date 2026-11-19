@@ -34,6 +34,12 @@ FASTENER_SUFFIX = {
     "countersink": ("FlatSocket82", "FlatHead82", "FlatHead100", "FlatHead90"),
     "straight_tap": ("TappedHole",),
     "pipe_tap": ("TaperedPipeTap",),
+    # Slots are created through the same fastener types as their round counterparts (verified live on 2025 SP5: general 8
+    # with ScrewClearances gives swSlotBlind, general 6 with the socket-cap fastener gives swCounterBoreSlotBlind, general 7 with
+    # the flat-socket fastener gives swCounterSinkSlot...). The enum has no slot-specific fastener type.
+    "slot": ("ScrewClearances",),
+    "counterbore_slot": ("SocketCapScrew", "SocketHeadCapScrew"),
+    "countersink_slot": ("FlatSocket82", "FlatHead82", "FlatHead100", "FlatHead90"),
 }
 SYSTEM_STANDARD = {"inch": "AnsiInch", "metric": "AnsiMetric", "mm": "AnsiMetric"}
 
@@ -57,6 +63,23 @@ class CatalogSnapshot:
     families: dict = field(default_factory=dict)     # general -> {"standards": [...], "fasteners": {std: [...]}}
 
 
+def _get_standards(data: Any) -> tuple:
+    """(ok, indexes, names). The real ``IHoleStandardsData.GetHoleStandards(out Indexes, out Names)`` has two by-ref VARIANT
+    out parameters, which pywin32 only fills when they are passed as ``VT_BYREF | VT_VARIANT`` VARIANTs (verified live on
+    SOLIDWORKS 2025 SP5). Test doubles expose the older tuple-returning shape."""
+    if hasattr(data, "_oleobj_"):
+        import pythoncom
+        from win32com.client import VARIANT
+        idx = VARIANT(pythoncom.VT_BYREF | pythoncom.VT_VARIANT, None)
+        names = VARIANT(pythoncom.VT_BYREF | pythoncom.VT_VARIANT, None)
+        ok = bool(data.GetHoleStandards(idx, names))
+        return ok, list(idx.value or ()), list(names.value or ())
+    res = data.GetHoleStandards()
+    ok, arr = (res if isinstance(res, tuple) and len(res) == 2 and isinstance(res[0], bool) else (bool(res), res))
+    arr = list(arr) if arr and not isinstance(arr, (bool, int)) else []
+    return ok, arr, []
+
+
 def discover(app: Any, generals=range(9)) -> CatalogSnapshot:
     """Enumerate the running catalog. Any failure (an exception, ``False``, empty arrays) is
     ``HW_CATALOG_ENUMERATION_UNAVAILABLE`` with the detail, never an empty catalog treated as complete."""
@@ -70,13 +93,11 @@ def discover(app: Any, generals=range(9)) -> CatalogSnapshot:
             if data is None:
                 problems.append(f"general {g}: no standards object")
                 continue
-            res = data.GetHoleStandards()
-            ok, arr = (res if isinstance(res, tuple) and len(res) == 2 and isinstance(res[0], bool) else (bool(res), res))
-            arr = list(arr) if arr and not isinstance(arr, (bool, int)) else []
+            ok, arr, names = _get_standards(data)
             if not ok or not arr:
                 problems.append(f"general {g}: GetHoleStandards returned no standards")
                 continue
-            fams[g] = {"standards": arr, "fasteners": {}}
+            fams[g] = {"standards": arr, "standard_names": names, "fasteners": {}}
         except Exception as e:  # COM errors are varied; the code is what matters
             problems.append(f"general {g}: {type(e).__name__}: {str(e)[:80]}")
     if not fams:
@@ -119,7 +140,8 @@ def _size(intent: HoleIntent, variant: Variant) -> tuple[str, Optional[str]]:
         if variant.family == "pipe_tap":
             if not th.get("standard"):
                 return "", "pipe thread standard is not stated (NPT/NPTF/BSPT are never inferred from a diameter)"
-            return str(th.get("size") or des), None
+            # the installed catalog names a pipe-tap size by its nominal size only: "1/4", not "1/4-18" (verified live)
+            return str(th.get("size") or des).split("-")[0].strip(), None
         p = parse_thread(des)
         if p is None:
             return "", f"thread {des!r} is not a size SolidWorks names"
