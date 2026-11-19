@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "run_id": "run_9f120c5295964a41be27",
+  "part": "A040501E",
+  "findings": [
+    {
+      "finding_id": "flag_e9744d398a3a",
+      "part": "A040501E",
+      "run_id": "run_9f120c5295964a41be27",
+      "severity": "info",
+      "category": "practice_advisory",
+      "title": "Modeling practice: mti_edge_ops_last",
+      "expected": "MTI modeling practice",
+      "actual": "F004 (prism) comes after F003 (fillet); MTI puts fillets and chamfers at the end of the tree",
+      "consequence": "Advisory only: this never blocks a part.",
+      "recommended_action": "Review the feature order and grouping if it matters for this part.",
+      "feature_ids": [],
+      "source_callouts": [],
+      "evidence_ids": [
+        "ir_report:mti_review:mti_edge_ops_last"
+      ],
+      "schema_version": 1
+    }
+  ]
+}

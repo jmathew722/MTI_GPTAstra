@@ -1,0 +1,50 @@
+{
+  "part": "A040501E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040501E\\A040501E_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 10,
+  "questions": [],
+  "flagged": [
+    "F002: The top view and section A-A show a transverse through-opening. Start below the entire OD and cut through; axial placement follows the independently dimensioned right wall.",
+    "F004: Section A-A locates the recess floor .500 below the OD crown. Cutting outward from that floor with depth D010 overshoots the curved outside surface. The recess is centered transversely, but its axial position is independently dimensioned and is not forced concentric with the inner opening.",
+    "F005: The leader identifies the inner opening. The outer recess is drawn with rounded corners, but its radius is not independently specified. D005 is a candidate only; do not execute this feature until confirmed. F004 alone is an unfinished sharp-corner recess, not the final recess geometry. DEFAULT D7: general/TYP callout applied to the planned edges",
+    "F006: Use the standard 1-27/64 inch tap drill (1.421875) for a 1-1/2-12 UN thread. The flat-bottom nominal tapped-hole model uses the specified thread depth D012; no unprinted extra drilling allowance or drill-point geometry is added.",
+    "F007: For the D018 nominal .500 SHCS, the supplied ASME B18.3 normal-fit chart specifies .531 drill and .812 counterbore diameter. The printed D017 overrides the chart's usual counterbore depth. Passage depth D007 + D006/2 overshoots the right web into the transverse opening without drilling the left web.",
+    "F008: A 3/8-16 UNC thread uses a standard 5/16 inch (.3125) tap drill. Model the printed tapped depth as a flat-bottom nominal threaded bore, with threads cosmetic and no invented drill-point allowance. End-view coordinates are measured from the shaft axis, not the bounding-box corner.",
+    "F009: The end view shows mirror-image rows and columns about both centerlines, each at the dimensioned .884 offset."
+  ],
+  "defaults": [
+    "F005: D7 fillet 0.25 on the 4 planned edge(s)"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040501E\\reference.step",
+  "volume": 62.629623,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040501E\\4050-D_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040501E\\4050-D_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040501E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built",
+    "F002": "built (Up To Next)",
+    "F003": "built (4 edges selected by nearest point)",
+    "F004": "built",
+    "F005": "built (4 edges selected by nearest point)",
+    "F006": "built",
+    "F007": "built (drill + counterbore)",
+    "F008": "built (Hole Wizard 3/8-16 tapped, cosmetic thread, Blind + drill point, 4 hole(s) on a construction rectangle; one feature for F008, F009)",
+    "F009": "built (in F008 (one feature))",
+    "F010": "built (2 edges selected by nearest point)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F009: Hole Wizard 3/8-16 tapped, cosmetic thread, Blind + drill point, 4 hole(s) on a construction rectangle",
+    "sketches fully defined: 7/7"
+  ],
+  "hole_wizard_substitutions": [],
+  "mti_review": [
+    "[mti_edge_ops_last] F004 (prism) comes after F003 (fillet); MTI puts fillets and chamfers at the end of the tree"
+  ],
+  "cost_usd": 1.8908,
+  "error": ""
+}

@@ -1,0 +1,20 @@
+import { test, expect } from '@playwright/test';
+import { buildFixture, seedFlagsPart, STAGE2_OUT, uniq } from '../helpers/stage3';
+test('debug review', async ({ page, request }) => {
+  test.skip(!STAGE2_OUT);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const part = uniq(), fx = buildFixture(part, 0, 'ambiguous');
+  const session = await seedFlagsPart(page, request, part, fx);
+  await expect(page.locator('.flag-box')).toHaveCount(2, { timeout: 15000 });
+  await page.evaluate(() => (window as any).McA.dom.setUi({ drawerOpen: true, drawerSection: 'flags', drawerMode: 'results' }));
+  await expect(page.locator('#dr-results .dfl')).toBeVisible();
+  page.on('response', async (r) => { if (r.url().includes('/review')) console.log('REVIEW', r.status(), (await r.text()).slice(0, 200)); });
+  const card = page.locator('#dr-results .flagcard').first();
+  await card.locator('select[aria-label^="Review state"]').selectOption('dismissed_with_reason');
+  await card.locator('input[aria-label^="Reason for dismissing"]').fill('Handled at the machine');
+  await card.getByRole('button', { name: 'Save review' }).click();
+  await page.waitForTimeout(1500);
+  console.log('MSG', await page.locator('#dr-results .flagcard').first().locator('.hint').allInnerTexts());
+  console.log('STATES', await page.locator('#dr-results .flagcard').evaluateAll((cs: any[]) => cs.map((c) => c.getAttribute('data-state'))));
+  console.log('API', JSON.stringify((await (await request.get(`/api/parts/${session}/${part}/flags`)).json()).review));
+});
