@@ -23,7 +23,7 @@
       "gpt-6-astra":               {"input": null, "output": null, "cache_write": null, "cache_read": null, "as_of": null, "source": "https://aws.amazon.com/bedrock/pricing/ - fill in"}
     },
     "openai": {
-      "gpt-6-astra": {"input": null, "output": null, "cache_write": null, "cache_read": null, "as_of": null, "source": "OpenAI API pricing page - fill in"}
+      "gpt-6-astra": {"input": 10.00, "output": 50.00, "cache_write": 10.00, "cache_read": 10.00, "as_of": "2026-11-19", "source": "Same model and Standard Global rate as the foundry entry (azure.microsoft.com GPT-6 Astra GA post). Cached-input rate is NOT confirmed: charged at the full input rate, so cost is an upper bound, never an under-count"}
     },
     "typesafe": {
       "jev": {"input": 0.042, "output": 0.00, "cache_write": null, "cache_read": null, "as_of": "2026-09-21", "source": "https://simonwillison.net/2026/Sep/21/jev/ ($0.042 per 1M input tokens, output free)"}
