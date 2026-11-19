@@ -1,0 +1,70 @@
+{
+  "part": "SB10024_1",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\SB10024_1\\SB10024_1_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 12,
+  "questions": [],
+  "flagged": [
+    "F004: Standard 1/2-13 UNC tap drill is 27/64 inch (0.421875). Use the specified .8 DEEP for the nominal tapped-hole feature with a flat bottom; no uncalled pilot extension or cosmetic drill point is introduced. Thread class is unspecified.",
+    "F006: Blind drill depth is full-diameter depth under standard drafting convention (ASME Y14.5); model flat bottom and omit the cosmetic drill point.",
+    "F008: Shared centerlines locate the hole. Printed blind depth is full-diameter depth; omit the cosmetic drill point.",
+    "F009: Use explicitly printed .44 drill diameter. The 2.1 depth is full-diameter drill depth, not NPT engagement; omit drill point. Cosmetic annotation does not infer an unprinted tapping depth.",
+    "F010: Hidden lines show rear-face entry; elevation gives common .75 axis height. Model printed drill diameter and full-diameter depth. NPT is cosmetic; tapping depth is not inferred.",
+    "F011: Drilled depth starts at the bottom face and includes counterbore depth; model full-diameter flat-bottom blind hole. Global coordinates are not mirrored on the bottom face.",
+    "F012: Hidden-circle center is separately dimensioned, not an assumed symmetric pattern. Printed bottom-face drill depth includes counterbore and is modeled full diameter with a flat bottom."
+  ],
+  "defaults": [
+    "D002: D9 0.38 -> 0.375 (two-place print of a 1/16 fraction)",
+    "D004: D9 2.12 -> 2.125 (two-place print of a 1/16 fraction)",
+    "D006: D9 1.06 -> 1.0625 (two-place print of a 1/16 fraction)",
+    "D008: D9 0.88 -> 0.875 (two-place print of a 1/16 fraction)",
+    "D009: D9 0.38 -> 0.375 (two-place print of a 1/16 fraction)",
+    "D012: D9 2.12 -> 2.125 (two-place print of a 1/16 fraction)",
+    "D014: D9 1.19 -> 1.1875 (two-place print of a 1/16 fraction)",
+    "D016: D9 0.38 -> 0.375 (two-place print of a 1/16 fraction)",
+    "D017: D9 2.81 -> 2.8125 (two-place print of a 1/16 fraction)",
+    "D028: D9 0.31 -> 0.3125 (two-place print of a 1/16 fraction)",
+    "D029: D9 2.38 -> 2.375 (two-place print of a 1/16 fraction)",
+    "D031: D9 0.44 -> 0.4375 (two-place print of a 1/16 fraction)"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\SB10024_1\\reference.step",
+  "volume": 32.061181,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\SB10024_1\\SB10024ADAPTERRELIEFVALVE_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\SB10024_1\\SB 10024 \u2014 ADAPTER, RELIEF VALVE_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\SB10024_1\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (drill + counterbore; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (PLAIN CUT, NOT Hole Wizard (HW_CREATE_NULL); one feature for F004, F005)",
+    "F005": "built (in F004 (one feature))",
+    "F006": "built (one feature for F006, F007)",
+    "F007": "built (in F006 (one feature))",
+    "F008": "built",
+    "F009": "built",
+    "F010": "built",
+    "F011": "built (drill + counterbore; one feature for F011, F012)",
+    "F012": "built (in F011 (one feature))"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "F005: Hole Wizard 1/2-13 tapped, cosmetic thread did not match the reference (HoleWizard5 refused Blind + drill point); plain cut",
+    "sketches fully defined: 10/10"
+  ],
+  "hole_wizard_substitutions": [
+    {
+      "fid": "F005",
+      "code": "HW_CREATE_NULL",
+      "detail": "Hole Wizard 1/2-13 tapped, cosmetic thread: HoleWizard5 refused Blind + drill point"
+    }
+  ],
+  "mti_review": [
+    "[mti_hole_grouping] F011, F012: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points"
+  ],
+  "cost_usd": 0.5397,
+  "error": ""
+}

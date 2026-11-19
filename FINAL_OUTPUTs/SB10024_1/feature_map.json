@@ -1,0 +1,353 @@
+{
+  "part": "SB 10024 \u2014 ADAPTER, RELIEF VALVE",
+  "units": "inch",
+  "origin_kind": "corner",
+  "bbox": [
+    -0.0,
+    0.0,
+    0.0,
+    3.75,
+    4.0,
+    2.375
+  ],
+  "volume": 32.061181,
+  "volume_mm3": 525388.628,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F008",
+    "F009",
+    "F010",
+    "F011",
+    "F012"
+  ],
+  "skipped": {},
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          0.375,
+          0.375
+        ],
+        "planned_d": 0.344,
+        "measured": true,
+        "center": [
+          0.375,
+          0.375
+        ],
+        "d": 0.344,
+        "depth": 1.375,
+        "axis": "Z"
+      }
+    ],
+    "F003": [
+      {
+        "planned_center": [
+          3.375,
+          0.375
+        ],
+        "planned_d": 0.344,
+        "measured": true,
+        "center": [
+          3.375,
+          0.375
+        ],
+        "d": 0.344,
+        "depth": 1.375,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          0.375,
+          3.625
+        ],
+        "planned_d": 0.344,
+        "measured": true,
+        "center": [
+          0.375,
+          3.625
+        ],
+        "d": 0.344,
+        "depth": 1.375,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          3.375,
+          3.625
+        ],
+        "planned_d": 0.344,
+        "measured": true,
+        "center": [
+          3.375,
+          3.625
+        ],
+        "d": 0.344,
+        "depth": 1.375,
+        "axis": "Z"
+      }
+    ],
+    "F004": [
+      {
+        "planned_center": [
+          0.99,
+          0.875
+        ],
+        "planned_d": 0.421875,
+        "measured": true,
+        "center": [
+          0.99,
+          0.875
+        ],
+        "d": 0.421875,
+        "depth": 0.8,
+        "axis": "Z"
+      }
+    ],
+    "F005": [
+      {
+        "planned_center": [
+          3.115,
+          0.875
+        ],
+        "planned_d": 0.421875,
+        "measured": true,
+        "center": [
+          3.115,
+          0.875
+        ],
+        "d": 0.421875,
+        "depth": 0.8,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          0.99,
+          3.0
+        ],
+        "planned_d": 0.421875,
+        "measured": true,
+        "center": [
+          0.99,
+          3.0
+        ],
+        "d": 0.421875,
+        "depth": 0.8,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          3.115,
+          3.0
+        ],
+        "planned_d": 0.421875,
+        "measured": true,
+        "center": [
+          3.115,
+          3.0
+        ],
+        "d": 0.421875,
+        "depth": 0.8,
+        "axis": "Z"
+      }
+    ],
+    "F006": [
+      {
+        "planned_center": [
+          2.0525,
+          1.125
+        ],
+        "planned_d": 0.5,
+        "measured": true,
+        "center": [
+          2.0525,
+          1.125
+        ],
+        "d": 0.5,
+        "depth": 1.8,
+        "axis": "Z"
+      }
+    ],
+    "F007": [
+      {
+        "planned_center": [
+          2.0525,
+          2.125
+        ],
+        "planned_d": 0.5,
+        "measured": true,
+        "center": [
+          2.0525,
+          2.125
+        ],
+        "d": 0.5,
+        "depth": 1.8,
+        "axis": "Z"
+      }
+    ],
+    "F008": [
+      {
+        "planned_center": [
+          0.99,
+          2.125
+        ],
+        "planned_d": 0.28,
+        "measured": true,
+        "center": [
+          0.99,
+          2.125
+        ],
+        "d": 0.28,
+        "depth": 0.3125,
+        "axis": "Z"
+      }
+    ],
+    "F009": [
+      {
+        "planned_center": [
+          1.345,
+          0.75
+        ],
+        "planned_d": 0.4375,
+        "measured": true,
+        "center": [
+          1.345,
+          0.75
+        ],
+        "d": 0.4375,
+        "depth": 2.1,
+        "axis": "X"
+      }
+    ],
+    "F010": [
+      {
+        "planned_center": [
+          2.275,
+          0.75
+        ],
+        "planned_d": 0.4375,
+        "measured": true,
+        "center": [
+          2.275,
+          0.75
+        ],
+        "d": 0.4375,
+        "depth": 2.1,
+        "axis": "Y"
+      }
+    ],
+    "F011": [
+      {
+        "planned_center": [
+          0.75,
+          1.5625
+        ],
+        "planned_d": 0.5,
+        "measured": true,
+        "center": [
+          0.75,
+          1.5625
+        ],
+        "d": 0.5,
+        "depth": 0.977,
+        "axis": "Z"
+      }
+    ],
+    "F012": [
+      {
+        "planned_center": [
+          2.5,
+          3.1875
+        ],
+        "planned_d": 0.5,
+        "measured": true,
+        "center": [
+          2.5,
+          3.1875
+        ],
+        "d": 0.5,
+        "depth": 0.977,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {},
+  "starts": {
+    "F001": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 2.375,
+      "dir": -1
+    },
+    "F004": {
+      "axis": "Z",
+      "coord": 2.375,
+      "dir": -1
+    },
+    "F006": {
+      "axis": "Z",
+      "coord": 2.375,
+      "dir": -1
+    },
+    "F008": {
+      "axis": "Z",
+      "coord": 2.375,
+      "dir": -1
+    },
+    "F009": {
+      "axis": "X",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F010": {
+      "axis": "Y",
+      "coord": 4.0,
+      "dir": -1
+    },
+    "F011": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    },
+    "F012": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1
+    }
+  },
+  "volume_after": {
+    "F001": 35.625,
+    "F002": 35.300856753,
+    "F003": 34.328427013,
+    "F004": 34.216599813,
+    "F005": 33.881118215,
+    "F006": 33.527689041,
+    "F007": 33.174259868,
+    "F008": 33.155017613,
+    "F009": 32.858826611,
+    "F010": 32.573425392,
+    "F011": 32.318082353,
+    "F012": 32.061181212
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      0.0,
+      0.0,
+      0.0,
+      3.75,
+      4.0,
+      2.375
+    ]
+  }
+}

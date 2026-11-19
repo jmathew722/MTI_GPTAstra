@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "source_pdf_sha256": "16c778b3a887084c117e98798e70a94a93beb6e5b056338467acb20576aa2573",
+  "source_name": "SB10024_1.pdf",
+  "run_id": "run_fc544a392ec346f9ad20",
+  "pages": [
+    {
+      "page_index": 0,
+      "width": 1596.96,
+      "height": 1243.62,
+      "rotation": 0,
+      "text_source": "ocr"
+    }
+  ],
+  "overlays": [],
+  "unlocated_findings": [
+    {
+      "finding_id": "flag_b52b0a35bfb1",
+      "number": 1,
+      "severity": "warning",
+      "label": "1: F005 is a plain cut, not a Hole Wizard hole",
+      "reason": "ambiguous",
+      "likely_page": 0,
+      "likely_view": null,
+      "likely_region": null,
+      "candidates": 3,
+      "source_callouts": [
+        "4 PLACES",
+        "2.12"
+      ],
+      "attempts": [
+        {
+          "strategy": "exact_tokens",
+          "candidates": 3
+        }
+      ]
+    },
+    {
+      "finding_id": "flag_c375ac7c9b0f",
+      "number": 2,
+      "severity": "info",
+      "label": "2: Modeling practice: mti_hole_grouping",
+      "reason": "no_source_callout",
+      "likely_page": null,
+      "likely_view": null,
+      "likely_region": null,
+      "candidates": 0,
+      "source_callouts": [],
+      "attempts": []
+    }
+  ]
+}
