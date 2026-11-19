@@ -120,3 +120,11 @@ regions, `focusIssue`), Results card links in `features/engineering-flags.js`. T
 `tests/unit/markupview.test.js`, `tests/e2e/tests/23-engineering-markup.spec.ts` (needs `STAGE2_OUT`; fixture via
 `make_flags_fixture.py --markup main|clean|fail`). The 3 unit and 13 Playwright pre-existing failures are unchanged.
 
+## 2026-11-19: Record Pipeline Run (SolidWorks build recording)
+
+Spec: `docs/superpowers/specs/2026-11-19-solidworks-recording-design.md`. New: `web/static/js/logic/recordingview.js` (pure), `features/recording.js`
+(results section + checkbox state), `Run options -> Record Pipeline Run` (`#record-run`, `#record-hint`), `api.recording*URL`, `api.runPart({record})`,
+registry section `recording` (Build & Verification, after Model check), `server/flags.py` `load_recording`, `GET /api/recording/capability`,
+`GET /api/parts/{s}/{p}/recording[.video|-poster.jpg]`, `record` form field on `/api/run-part`. The box is disabled with the reason when recording
+is unavailable, is off by default and not remembered. Tests: `tests/server/test_app_recording.py`, `tests/unit/recordingview.test.js`,
+`tests/e2e/tests/24-solidworks-recording.spec.ts` (needs `STAGE2_OUT`; fixture `helpers/make_recording_fixture.py`).

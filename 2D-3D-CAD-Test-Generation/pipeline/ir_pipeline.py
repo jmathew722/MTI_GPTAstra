@@ -148,7 +148,8 @@ def _tracker_run_id(tracker) -> str:
 
 
 def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pmap=None,
-             template: Optional[str] = None, reuse_plan: bool = False, telemetry=None) -> IRResult:
+             template: Optional[str] = None, reuse_plan: bool = False, telemetry=None,
+             record: Optional[bool] = None) -> IRResult:
     from pipeline import budget
     from pipeline.ir.compile_cadquery import emit_script, run_script
     from pipeline.ir.from_v1 import dims_of, reference_ids
@@ -161,6 +162,9 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
 
     out = out_root / spec.part
     out.mkdir(parents=True, exist_ok=True)
+    from pipeline import solidworks_recorder as swrec
+    want_record = swrec.wanted() if record is None else bool(record)    # "Record Pipeline Run": the SolidWorks build only
+    swrec.clear_stale(out)                                              # an old video is never shown for this run
     tel = telemetry if telemetry is not None else RunTelemetry.from_env(spec.part, out)
     tel.start()
     from pipeline.telemetry import attach_cost_events
@@ -245,12 +249,32 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
                     tel.operation_failed(Phase.SOLIDWORKS_GENERATION, Op.CREATE_FEATURE, f.id, r.note)
                 tel.complete(Phase.SOLIDWORKS_GENERATION, Op.CREATE_FEATURE, unit_id=f.id,
                              label=f"{f.id} {f.kind}: {r.status}")
-            rep = compile_solidworks(sw_app, plan, dims, cq.feature_map, out, template, pmap,
-                                     progress=_on_feature)
+            rec = None
+            if want_record:
+                from pipeline.flag_overlays import sha256_file
+                rec = swrec.SolidWorksRecorder(out, part=spec.part, run_id=tel.run_id or _tracker_run_id(_tracker),
+                                               source_sha256=sha256_file(spec.views) if spec.views.is_file() else "",
+                                               sw_app=sw_app, total_features=len(plan.features))
+                rec.start()                                                 # never raises; failure goes to the manifest
+
+            def _on_feature_rec(f, r):
+                _on_feature(f, r)
+                if rec is not None:
+                    rec.after_feature(f.id, f.kind, r.status)
+            try:
+                rep = compile_solidworks(sw_app, plan, dims, cq.feature_map, out, template, pmap,
+                                         progress=_on_feature_rec)
+            except BaseException as e:   # noqa: BLE001 - close the video, then let the run fail as before
+                if rec is not None:
+                    rec.stop(outcome="failed", error=f"{type(e).__name__}: {e}")
+                raise
             tel.complete_remaining(Phase.SOLIDWORKS_GENERATION, Op.CREATE_FEATURE,
                                    "Merged and skipped features accounted")
             for name in ("origin", "bbox", "volume"):
                 tel.complete(Phase.VERIFICATION, Op.VERIFY_CHECK, unit_id=name, label=f"Verified {name}")
+            if rec is not None:
+                rec.caption("Verification complete")
+                rec.stop(outcome="completed")
             res.sw_ok, res.sldprt, res.stl = rep.ok, rep.sldprt or "", rep.stl or ""
             res.conventions = [f"origin centered: {rep.origin_ok}"] + rep.conventions
             res.hole_wizard_substitutions = list(rep.hole_wizard_substitutions)
@@ -267,6 +291,12 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
         log.error("IR run failed for %s: %s", spec.part, res.error)
     finally:
         res.cost_usd = round(budget.spent_usd() - spent0, 4)
+        if want_record and not (out / swrec.MANIFEST).exists():             # asked to record, never reached SolidWorks
+            from pipeline.flag_overlays import sha256_file
+            swrec.write_skipped(out, run_id=tel.run_id or _tracker_run_id(_tracker), part=spec.part,
+                                source_sha256=sha256_file(spec.views) if spec.views.is_file() else "",
+                                reason=res.error or ("SolidWorks was not part of this run." if sw_app is None
+                                                     else swrec.CODES["REC_NOT_REACHED"]))
         (out / "ir_report.json").write_text(json.dumps(res.__dict__, indent=2, default=str), encoding="utf-8")
         from pipeline.engineering_markup import finalize_markup    # automatic marked PDF, before the terminal event
         _ops = {"collect": Op.MARKUP_COLLECT, "localize": Op.MARKUP_LOCALIZE,

@@ -21,7 +21,7 @@
     "F002": "built (drill + counterbore; one feature for F002, F003, F004)",
     "F003": "built (in F002 (one feature))",
     "F004": "built (in F002 (one feature))",
-    "F005": "built (one feature for F005, F006)",
+    "F005": "built (PLAIN CUT, NOT Hole Wizard (HW_CREATE_NULL); one feature for F005, F006)",
     "F006": "built (in F005 (one feature))"
   },
   "conventions": [
@@ -30,10 +30,17 @@
     "F006: Hole Wizard 3/4-102 tapped, cosmetic thread did not match the reference (HoleWizard5 refused Blind + drill point); plain cut",
     "sketches fully defined: 4/4"
   ],
+  "hole_wizard_substitutions": [
+    {
+      "fid": "F006",
+      "code": "HW_CREATE_NULL",
+      "detail": "Hole Wizard 3/4-102 tapped, cosmetic thread: HoleWizard5 refused Blind + drill point"
+    }
+  ],
   "mti_review": [
     "[mti_hole_grouping] F002, F003, F004: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
     "[mti_hole_grouping] F005, F006: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points"
   ],
-  "cost_usd": 0.3363,
+  "cost_usd": 0.3362,
   "error": ""
 }

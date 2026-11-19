@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "part": "2N26641E",
+  "run_id": "run_9b95504cdb084251bd9a",
+  "source_pdf": "2N26641E.pdf",
+  "source_sha256": "60fb3354b19c57b35a2302b018ea103d3194b3c4087dbee77c8200b0d43babb4",
+  "marked_pdf": "2N26641E_engineering_markup.pdf",
+  "generated_at": "2026-11-19T16:08:35Z",
+  "generator_version": "engineering_markup/1",
+  "finding_count": 3,
+  "located_count": 0,
+  "unlocated_count": 3,
+  "status": "partial",
+  "warnings": [
+    {
+      "code": "MARKUP_LOCALIZATION_PARTIAL",
+      "detail": "3 of 3 flag(s) could not be placed precisely"
+    }
+  ],
+  "report_pages": 1,
+  "pages": [
+    {
+      "page": 1,
+      "width_pt": 3296.55,
+      "height_pt": 1553.0,
+      "drawing_width_pt": 2413.0,
+      "rail_width_pt": 883.55,
+      "source_rotation": 0,
+      "finding_ids": [
+        "EF-001",
+        "EF-002",
+        "EF-003"
+      ],
+      "preview": "engineering_markup_pages/page-0001.png",
+      "preview_dpi": 87
+    }
+  ],
+  "findings": [
+    {
+      "id": "EF-001",
+      "number": 1,
+      "finding_id": "flag_4759c82e6b1d",
+      "severity": "INFO",
+      "code": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "explanation": "Expected: MTI modeling practice. Actual: F011, F013: identical holes on face(F001,+Z,D015) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
+      "expected": "MTI modeling practice",
+      "actual": "F011, F013: identical holes on face(F001,+Z,D015) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "manual_action": "Review the feature order and grouping if it matters for this part.",
+      "location_status": "unlocated",
+      "source_callout": "",
+      "feature_ids": [],
+      "page": 1,
+      "location_method": "no_source_callout",
+      "confidence": 0.0,
+      "rect_pdf_points": null,
+      "rect_normalized": null,
+      "regions": [],
+      "card": {
+        "page": 1,
+        "rect": [
+          2437.37,
+          24.37,
+          3272.17,
+          287.0
+        ]
+      }
+    },
+    {
+      "id": "EF-002",
+      "number": 2,
+      "finding_id": "flag_8d6489ceddd1",
+      "severity": "INFO",
+      "code": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "explanation": "Expected: MTI modeling practice. Actual: F015, F017: identical holes on face(F001,+Z,D013) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
+      "expected": "MTI modeling practice",
+      "actual": "F015, F017: identical holes on face(F001,+Z,D013) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "manual_action": "Review the feature order and grouping if it matters for this part.",
+      "location_status": "unlocated",
+      "source_callout": "",
+      "feature_ids": [],
+      "page": 1,
+      "location_method": "no_source_callout",
+      "confidence": 0.0,
+      "rect_pdf_points": null,
+      "rect_normalized": null,
+      "regions": [],
+      "card": {
+        "page": 1,
+        "rect": [
+          2437.37,
+          305.28,
+          3272.17,
+          567.91
+        ]
+      }
+    },
+    {
+      "id": "EF-003",
+      "number": 3,
+      "finding_id": "flag_d12be3318a51",
+      "severity": "INFO",
+      "code": "practice_advisory",
+      "title": "Modeling practice: mti_edge_ops_last",
+      "explanation": "Expected: MTI modeling practice. Actual: F008 (prism) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree. Advisory only: this never blocks a part.",
+      "expected": "MTI modeling practice",
+      "actual": "F008 (prism) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree",
+      "consequence": "Advisory only: this never blocks a part.",
+      "manual_action": "Review the feature order and grouping if it matters for this part.",
+      "location_status": "unlocated",
+      "source_callout": "",
+      "feature_ids": [],
+      "page": 1,
+      "location_method": "no_source_callout",
+      "confidence": 0.0,
+      "rect_pdf_points": null,
+      "rect_normalized": null,
+      "regions": [],
+      "card": {
+        "page": 1,
+        "rect": [
+          2437.37,
+          586.19,
+          3272.17,
+          848.82
+        ]
+      }
+    }
+  ],
+  "generation_key": "1a097d34cfcd"
+}

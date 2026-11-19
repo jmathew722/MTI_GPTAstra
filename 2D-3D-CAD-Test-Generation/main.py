@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -288,6 +289,11 @@ def main() -> int:
         help="Disable the on-disk extraction cache (re-extract even if an identical image was seen).",
     )
     parser.add_argument(
+        "--record-solidworks",
+        action="store_true",
+        help="Record the SolidWorks window during the native build to <part>/solidworks_recording.mp4 (Windows; --ir --engine com).",
+    )
+    parser.add_argument(
         "--engine",
         choices=("vba", "com"),
         default="vba",
@@ -307,6 +313,8 @@ def main() -> int:
         "(a PDF/PNG sheet) or --views-folder (a folder with <part>.png, _front, _side).",
     )
     args = parser.parse_args()
+    if args.record_solidworks:
+        os.environ["GPTASTRA_RECORD_SOLIDWORKS"] = "1"       # read by pipeline.solidworks_recorder.wanted()
 
     # Every model completion in this run lands in <output>/usage/usage_ledger.jsonl
     # (report with: python -m pipeline.token_report <output>).

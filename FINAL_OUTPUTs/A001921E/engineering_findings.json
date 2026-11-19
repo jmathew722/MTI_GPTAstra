@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "run_id": "run_41aaba369fa344d09e71",
+  "part": "A001921E",
+  "findings": [
+    {
+      "finding_id": "flag_cfb6b623d1d1",
+      "part": "A001921E",
+      "run_id": "run_41aaba369fa344d09e71",
+      "severity": "warning",
+      "category": "hole_wizard_substituted",
+      "title": "F006 is a plain cut, not a Hole Wizard hole",
+      "expected": "a Hole Wizard feature for this hole (MTI practice)",
+      "actual": "HW_CREATE_NULL: Hole Wizard 3/4-102 tapped, cosmetic thread: HoleWizard5 refused Blind + drill point",
+      "consequence": "The geometry matches but the feature tree has no Hole Wizard feature, so hole callouts and hardware data are absent.",
+      "recommended_action": "Check the Hole Wizard / Toolbox setup on this SolidWorks install (error log E037), then rebuild.",
+      "feature_ids": [
+        "F006"
+      ],
+      "source_callouts": [
+        ".656 DIA. THRU & 3/4-10 2B TAP THRU-(2) HL'S.",
+        "9.000",
+        "1.875"
+      ],
+      "evidence_ids": [
+        "ir_report:hole_wizard_substitutions:F006",
+        "plan:F006"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_20ffe6611de4",
+      "part": "A001921E",
+      "run_id": "run_41aaba369fa344d09e71",
+      "severity": "warning",
+      "category": "hole_wizard_failure",
+      "title": "F006 is a plain cut, not a Hole Wizard hole",
+      "expected": "a native Hole Wizard feature",
+      "actual": "HW_CREATE_NULL: Hole Wizard 3/4-102 tapped, cosmetic thread: HoleWizard5 refused Blind + drill point",
+      "consequence": "The geometry matches but the feature tree has no Hole Wizard feature, so hole callouts and hardware data are absent.",
+      "recommended_action": "Fix the Hole Wizard environment (see the preflight finding), then rebuild.",
+      "feature_ids": [
+        "F006"
+      ],
+      "source_callouts": [
+        ".656 DIA. THRU & 3/4-10 2B TAP THRU-(2) HL'S.",
+        "9.000",
+        "1.875"
+      ],
+      "evidence_ids": [
+        "hole_wizard:HW_CREATE_NULL"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_079321586d5a",
+      "part": "A001921E",
+      "run_id": "run_41aaba369fa344d09e71",
+      "severity": "info",
+      "category": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "expected": "MTI modeling practice",
+      "actual": "F002, F003, F004: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "recommended_action": "Review the feature order and grouping if it matters for this part.",
+      "feature_ids": [],
+      "source_callouts": [],
+      "evidence_ids": [
+        "ir_report:mti_review:mti_hole_grouping"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_82778bb70568",
+      "part": "A001921E",
+      "run_id": "run_41aaba369fa344d09e71",
+      "severity": "info",
+      "category": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "expected": "MTI modeling practice",
+      "actual": "F005, F006: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "recommended_action": "Review the feature order and grouping if it matters for this part.",
+      "feature_ids": [],
+      "source_callouts": [],
+      "evidence_ids": [
+        "ir_report:mti_review:mti_hole_grouping"
+      ],
+      "schema_version": 1
+    }
+  ]
+}

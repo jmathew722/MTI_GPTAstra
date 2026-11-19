@@ -10,33 +10,33 @@
     6.0,
     0.375
   ],
-  "volume": 30.16255,
-  "volume_mm3": 494275.631,
+  "volume": 26.973824,
+  "volume_mm3": 442021.788,
   "features": [
     "F001",
     "F002",
+    "F003",
     "F004",
     "F005",
     "F006",
+    "F007",
+    "F008",
     "F009",
     "F010"
   ],
   "skipped": {
-    "F003": "unresolved: Confirm degraded middle-opening baseline D002 before release.",
-    "F007": "unresolved: Middle tapped-pattern station depends on unreadable baseline D002.",
-    "F008": "unresolved: Complete middle square after resolving its baseline.",
-    "F011": "unresolved: Confirm degraded first #10-32 baseline; D004 is provisional.",
-    "F012": "unresolved: Known pitch inherits unresolved seed baseline.",
-    "F013": "unresolved: First formed support: obtain bend radii, dimension-to-tangent/intersection conventions and assembly placement.",
-    "F014": "unresolved: Second separate formed support requires resolved bends and global assembly placement.",
-    "F015": "unresolved: First assembly axis: obtain transverse location; longitudinal station is known.",
-    "F016": "unresolved: Second assembly axis at first end: obtain its separate transverse location.",
-    "F017": "unresolved: Third assembly axis at opposite end requires transverse location and mating support.",
-    "F018": "unresolved: Fourth assembly axis at opposite end requires its separate transverse location.",
-    "F019": "unresolved: First foot seed has known local offsets, but global start face and coordinates await formed-support definition.",
-    "F020": "unresolved: Second first-foot hole; global direction awaits support placement.",
-    "F021": "unresolved: Second foot seed has known local offsets but unresolved global placement.",
-    "F022": "unresolved: Second second-foot hole; global direction awaits support placement."
+    "F011": "unresolved: Confirm whether the degraded first #10-32 baseline D004 reads 5.38.",
+    "F012": "unresolved: Known pitch depends on unresolved first baseline.",
+    "F013": "unresolved: Supply the first assembly-hole transverse coordinate at the first end.",
+    "F014": "unresolved: Supply the second assembly-hole transverse coordinate at the first end.",
+    "F015": "unresolved: Supply the first assembly-hole transverse coordinate at the opposite end.",
+    "F016": "unresolved: Supply the second assembly-hole transverse coordinate at the opposite end.",
+    "F017": "unresolved: Provide support bend radii and dimension-to-bend conventions before constructing the finished profile.",
+    "F018": "unresolved: Second separate support requires finalized formed geometry and assembly placement.",
+    "F019": "unresolved: First support-foot hole requires a resolved global support face.",
+    "F020": "unresolved: Second first-support foot hole requires resolved global support placement.",
+    "F021": "unresolved: First opposite-support foot hole requires resolved global support placement.",
+    "F022": "unresolved: Second opposite-support foot hole requires resolved global support placement."
   },
   "holes": {
     "F002": [
@@ -49,6 +49,23 @@
         "measured": true,
         "center": [
           3.0,
+          3.0
+        ],
+        "d": 3.25,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ],
+    "F003": [
+      {
+        "planned_center": [
+          8.12,
+          3.0
+        ],
+        "planned_d": 3.25,
+        "measured": true,
+        "center": [
+          8.12,
           3.0
         ],
         "d": 3.25,
@@ -137,6 +154,70 @@
         "axis": "Z"
       }
     ],
+    "F007": [
+      {
+        "planned_center": [
+          6.701,
+          1.581
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          6.701,
+          1.581
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ],
+    "F008": [
+      {
+        "planned_center": [
+          9.539,
+          1.581
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          9.539,
+          1.581
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          6.701,
+          4.419
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          6.701,
+          4.419
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          9.539,
+          4.419
+        ],
+        "planned_d": 0.257,
+        "measured": true,
+        "center": [
+          9.539,
+          4.419
+        ],
+        "d": 0.257,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ],
     "F009": [
       {
         "planned_center": [
@@ -215,12 +296,22 @@
       "coord": 0.375,
       "dir": -1
     },
+    "F003": {
+      "axis": "Z",
+      "coord": 0.375,
+      "dir": -1
+    },
     "F004": {
       "axis": "Z",
       "coord": 0.375,
       "dir": -1
     },
     "F005": {
+      "axis": "Z",
+      "coord": 0.375,
+      "dir": -1
+    },
+    "F007": {
       "axis": "Z",
       "coord": 0.375,
       "dir": -1
@@ -234,11 +325,14 @@
   "volume_after": {
     "F001": 36.54,
     "F002": 33.429086962,
-    "F004": 30.318173924,
-    "F005": 30.298720888,
-    "F006": 30.240361779,
-    "F009": 30.220908743,
-    "F010": 30.162549634
+    "F003": 30.318173924,
+    "F004": 27.207260887,
+    "F005": 27.18780785,
+    "F006": 27.129448742,
+    "F007": 27.109995705,
+    "F008": 27.051636597,
+    "F009": 27.03218356,
+    "F010": 26.973824452
   },
   "base": {
     "fid": "F001",

@@ -36,7 +36,7 @@
     "features": [
       {
         "id": "F001",
-        "rationale": "Rectangular plate envelope extruded along +Z.",
+        "rationale": "Rectangular plate with thickness extending into the front view.",
         "source_callouts": [
           "13.375",
           "4.00",
@@ -60,7 +60,7 @@
       },
       {
         "id": "F002",
-        "rationale": "Left lower counterbored hole; drill depth overshoots the plate thickness.",
+        "rationale": "Left lower through hole, counterbored from the front face; drill depth overshoots the back face.",
         "source_callouts": [
           ".781 DIA. THRU & 1.188 CBORE .12 DP. -(3) HL'S.",
           "1.187",
@@ -85,7 +85,7 @@
       },
       {
         "id": "F003",
-        "rationale": "Middle lower counterbored hole at the printed baseline offset; drill extends beyond the back face.",
+        "rationale": "Middle lower counterbored through hole at the printed baseline location; drill overshoots thickness.",
         "source_callouts": [
           ".781 DIA. THRU & 1.188 CBORE .12 DP. -(3) HL'S.",
           "5.500 \u00b1.005",
@@ -110,7 +110,7 @@
       },
       {
         "id": "F004",
-        "rationale": "Right lower counterbored hole using the independent baseline dimension; drill extends beyond the back face.",
+        "rationale": "Right lower counterbored through hole located by the independent baseline dimension; drill overshoots thickness.",
         "source_callouts": [
           ".781 DIA. THRU & 1.188 CBORE .12 DP. -(3) HL'S.",
           "11.000 \u00b1.005",
@@ -135,7 +135,7 @@
       },
       {
         "id": "F005",
-        "rationale": "Left upper tapped through hole, modeled at tap-drill diameter with cosmetic thread and overshooting drill depth.",
+        "rationale": "Left upper tapped through hole using the printed tap drill and cosmetic thread; depth overshoots thickness.",
         "source_callouts": [
           ".656 DIA. THRU & 3/4-10 2B TAP THRU-(2) HL'S.",
           "2.000",
@@ -160,7 +160,7 @@
       },
       {
         "id": "F006",
-        "rationale": "Right upper tapped through hole using the printed baseline location, with cosmetic thread and overshooting drill depth.",
+        "rationale": "Right upper tapped through hole located from the left lower centerline; depth overshoots thickness.",
         "source_callouts": [
           ".656 DIA. THRU & 3/4-10 2B TAP THRU-(2) HL'S.",
           "9.000",
@@ -185,12 +185,12 @@
       }
     ],
     "notes": [
-      "Material: 1018. Front face is z=0; counterbores enter this face as confirmed by the right-side view.",
-      "Counterbore depth is the printed D015 (.12 inch), not a standard SHCS head depth.",
-      "D012 specifies the cosmetic thread nominal major diameter; D011 specifies the modeled tap-drill diameter.",
-      "The 1.875 dimension is the row spacing; lower holes are 1.500 above the bottom.",
-      "Preserve the printed 1.187 left margin rather than centering the hole layout. The 5.500 and 11.000 baseline dimensions each retain their independent \u00b1.005 tolerances.",
-      "General tolerances: two-place \u00b1.020 inch, three-place \u00b1.010 inch, angular \u00b11 degree. No edge breaks or fillets are specified."
+      "Material: 1018. Drawing title: PLATE.",
+      "Front broad face is Z=0; counterbores enter this face as shown in the right-side view.",
+      "Counterbore depth is the printed D015 (.12), not an SHCS chart depth.",
+      "Preserve D004 left margin; do not center the hole layout. D005 and D006 have separate \u00b1.005 baseline tolerances.",
+      "D012 supplies the nominal thread diameter in the cosmetic 3/4-10 class 2B designation. Bore geometry uses D011.",
+      "General tolerances: two-place \u00b1.020 inch; three-place \u00b1.010 inch; angular \u00b11 degree. No edge breaks or heat treatment specified."
     ]
   }
 }

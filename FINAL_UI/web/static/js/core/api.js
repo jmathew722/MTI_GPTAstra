@@ -78,12 +78,14 @@
   function saveMarkedView(s, p, blob) {
     return post('/api/parts/' + enc(s) + '/' + enc(p) + '/marked-view', form({ file: blob }));
   }
+  function recordingCapability() { return json('/api/recording/capability'); }   // {available, backend, encoder, reason}
   function partOutputs(s, p) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/outputs'); }
   function partScoring(s, p) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/scoring'); }
-  /** {session, part, feedback?, no_cache?}. no_cache is sent only when true. */
+  /** {session, part, feedback?, no_cache?, record?}. no_cache and record are sent only when true. */
   function runPart(o) {
     var f = { session: o.session, part: o.part, feedback: o.feedback || '' };
     if (o.no_cache) f.no_cache = 'true';
+    if (o.record) f.record = 'true';                                     // "Record Pipeline Run": the SolidWorks build only
     return post('/api/run-part', form(f));                               // {id, part}
   }
   function demo(sample) {
@@ -151,6 +153,10 @@
     engineeringMarkupURL: function (s, p, key) { return partBase(s, p) + '/engineering-markup' + t(key); },
     engineeringMarkupPdfURL: function (s, p, key) { return partBase(s, p) + '/engineering-markup.pdf' + t(key); },
     engineeringMarkupPageURL: function (s, p, page, key) { return partBase(s, p) + '/engineering-markup/page/' + (parseInt(page, 10) || 1) + '.png' + t(key); },
+    /* SolidWorks build recording (Record Pipeline Run). The video URL carries the manifest key so a new run is never cached. */
+    recordingURL: function (s, p, key) { return partBase(s, p) + '/recording' + t(key); },
+    recordingVideoURL: function (s, p, key) { return partBase(s, p) + '/recording.video' + t(key); },
+    recordingPosterURL: function (s, p, key) { return partBase(s, p) + '/recording-poster.jpg' + t(key); },
     partLedgerURL: function (s, p) { return partBase(s, p) + '/ledger.jsonl'; },
     reviewFlag: function (s, p, id, state, reason) {
       return json(partBase(s, p) + '/flags/' + enc(id) + '/review', { method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -164,7 +170,7 @@
 
   var api = { ApiError: ApiError, status: status, newSession: newSession, listParts: listParts,
     savePart: savePart, uploadBatch: uploadBatch, saveNotes: saveNotes, getRegions: getRegions,
-    saveRegions: saveRegions, saveMarkedView: saveMarkedView, partOutputs: partOutputs, partScoring: partScoring, runPart: runPart,
+    saveRegions: saveRegions, saveMarkedView: saveMarkedView, partOutputs: partOutputs, partScoring: partScoring, runPart: runPart, recordingCapability: recordingCapability,
     demo: demo, runOutputs: runOutputs, runFiles: runFiles, cancel: cancel, openLog: openLog,
     runHistory: runHistory, clearHistory: clearHistory, convertCad: convertCad };
   Object.keys(urls).forEach(function (k) { api[k] = urls[k]; });

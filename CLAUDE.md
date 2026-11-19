@@ -64,6 +64,7 @@ python ir_build.py tests/golden/ir/*.json --solidworks       # Feature IR: CadQu
 python ir_run.py --split dev --solidworks                    # drawing -> Astra extract+plan -> reference -> SW (paid, budget-guarded)
 python ir_run.py --split held_out --solidworks --output <new dir> --reuse  # official benchmark run: MTI parts read drawing.pdf from MTI_BENCH_DATA (paid)
 python main.py --drawing <file> --ir --engine com            # same, one drawing
+python main.py --drawing <file> --ir --engine com --record-solidworks   # also record the SolidWorks window during the build (Windows; UI: Run options -> Record Pipeline Run)
 python ir_compare.py                                         # v1 vs IR on the dev set (no API)
 python mti_discrepancy.py --out ./output --all              # why each part differs from MTI's model; ranked causes (no API)
 python mti_markup.py --out ./output <part> ...               # marked-up COPY of MTI's drawing (OCR positions; local only, never commit)

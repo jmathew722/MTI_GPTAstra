@@ -360,6 +360,8 @@
     textSection('model_check', 'model_check', 'model_check.txt')(body, tools, d);
   };
 
+  R.recording = function (body, tools, d) { if (McA.recording) McA.recording.renderPanel(body, tools, d); };
+
   R.overview_analysis = function (body, tools, d) {
     var oa = cats(d).overview_analysis || {}, data = oa.data || {}, raw = !!d.s.ui.raw.overview_analysis;
     tools.append(segToggle('overview_analysis', ['Summary', 'Raw'], raw), copyBtn(function () { return JSON.stringify(data, null, 2); }));
@@ -722,6 +724,7 @@
       case 'extraction': case 'resolved': case 'build_plan': case 'verification': case 'model_check': return pick(id === 'verification' ? 'verification' : id) || 'not produced';
       case 'overview_analysis': return pick('overview_analysis') || 'overview_analysis.json';
       case 'flags': return 'engineering review in build_plan.json';
+      case 'recording': return 'solidworks_recording.json';
       case 'macros': return ((c.macros && c.macros.files) || []).length + ' .vba files';
       case 'files': return 'outputs listing';
       case 'cost': return c.usage && c.usage.ledger && c.usage.ledger.present ? c.usage.ledger.ledger_name + ' (pipeline ledger)' : 'token_usage_log';

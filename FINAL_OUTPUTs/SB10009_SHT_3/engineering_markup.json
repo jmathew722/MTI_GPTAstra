@@ -1,23 +1,23 @@
 {
   "schema_version": 1,
   "part": "SB10009_SHT_3",
-  "run_id": "run_4cf51f6297d34d1bba88",
+  "run_id": "run_500d33d225d9490abd7e",
   "source_pdf": "SB10009_SHT_3.pdf",
   "source_sha256": "3036acca9a443dbea90a2afa7c197274648da9fa2c3a607f9494a12c65a7f8ad",
   "marked_pdf": "SB10009_SHT_3_engineering_markup.pdf",
-  "generated_at": "2026-11-19T06:27:10Z",
+  "generated_at": "2026-11-19T16:51:39Z",
   "generator_version": "engineering_markup/1",
-  "finding_count": 32,
-  "located_count": 30,
+  "finding_count": 26,
+  "located_count": 24,
   "unlocated_count": 2,
   "status": "partial",
   "warnings": [
     {
       "code": "MARKUP_LOCALIZATION_PARTIAL",
-      "detail": "2 of 32 flag(s) could not be placed precisely"
+      "detail": "2 of 26 flag(s) could not be placed precisely"
     }
   ],
-  "report_pages": 5,
+  "report_pages": 4,
   "pages": [
     {
       "page": 1,
@@ -34,10 +34,10 @@
         "EF-006",
         "EF-007",
         "EF-008",
-        "EF-009",
         "EF-010",
         "EF-011",
         "EF-012",
+        "EF-013",
         "EF-014",
         "EF-015",
         "EF-016",
@@ -51,14 +51,8 @@
         "EF-024",
         "EF-025",
         "EF-026",
-        "EF-027",
-        "EF-028",
-        "EF-029",
-        "EF-030",
-        "EF-031",
-        "EF-032",
         "EF-002",
-        "EF-013"
+        "EF-009"
       ],
       "preview": "engineering_markup_pages/page-0001.png",
       "preview_dpi": 84
@@ -68,103 +62,57 @@
     {
       "id": "EF-001",
       "number": 1,
-      "finding_id": "flag_01199917f01c",
+      "finding_id": "flag_00f8523c7082",
       "severity": "WARNING",
       "code": "feature_unresolved",
-      "title": "Feature F019 needs an engineer's answer",
-      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50. Actual: First foot seed has known local offsets, but global start face and coordinates await formed-support definition.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
-      "actual": "First foot seed has known local offsets, but global start face and coordinates await formed-support definition.",
+      "title": "Feature F015 needs an engineer's answer",
+      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: Supply the first assembly-hole transverse coordinate at the opposite end.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "actual": "Supply the first assembly-hole transverse coordinate at the opposite end.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "manual_action": "Answer the open question on the drawing, then re-run.",
       "location_status": "located",
-      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
+      "source_callout": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
       "feature_ids": [
-        "F019"
+        "F015"
       ],
       "page": 1,
-      "location_method": "normalized",
-      "confidence": 0.8918,
+      "location_method": "exact_tokens",
+      "confidence": 0.9594,
       "rect_pdf_points": [
-        797.79,
-        977.03,
-        946.05,
-        1001.77
+        473.65,
+        497.17,
+        565.37,
+        526.86
       ],
       "rect_normalized": [
-        0.32006,
-        0.617234,
-        0.059476,
-        0.015626
+        0.190019,
+        0.314084,
+        0.036796,
+        0.018756
       ],
       "regions": [
         {
           "page": 1,
-          "method": "normalized",
-          "confidence": 0.8918,
+          "method": "exact_tokens",
+          "confidence": 0.9594,
           "rect_normalized": [
-            0.32006,
-            0.617234,
-            0.059476,
-            0.015626
+            0.190019,
+            0.314084,
+            0.036796,
+            0.018756
           ],
           "rect_pdf_points": [
-            797.79,
-            977.03,
-            946.05,
-            1001.77
+            473.65,
+            497.17,
+            565.37,
+            526.86
           ],
           "rect_marked_pt": [
-            797.79,
-            977.03,
-            946.05,
-            1001.77
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8804,
-          "rect_normalized": [
-            0.323085,
-            0.629735,
-            0.078629,
-            0.019533
-          ],
-          "rect_pdf_points": [
-            805.33,
-            996.82,
-            1001.33,
-            1027.74
-          ],
-          "rect_marked_pt": [
-            805.33,
-            996.82,
-            1001.33,
-            1027.74
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8843,
-          "rect_normalized": [
-            0.27873,
-            0.671145,
-            0.021169,
-            0.01797
-          ],
-          "rect_pdf_points": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
-          ],
-          "rect_marked_pt": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
+            473.65,
+            497.17,
+            565.37,
+            526.86
           ]
         }
       ],
@@ -174,20 +122,20 @@
           2517.82,
           25.18,
           3380.17,
-          172.79
+          149.81
         ]
       }
     },
     {
       "id": "EF-002",
       "number": 2,
-      "finding_id": "flag_01e7542cee2b",
+      "finding_id": "flag_05fe59addda5",
       "severity": "INFO",
       "code": "practice_advisory",
       "title": "Modeling practice: mti_hole_grouping",
-      "explanation": "Expected: MTI modeling practice. Actual: F005, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
+      "explanation": "Expected: MTI modeling practice. Actual: F005, F007, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
       "expected": "MTI modeling practice",
-      "actual": "F005, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
+      "actual": "F005, F007, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
       "consequence": "Advisory only: this never blocks a part.",
       "manual_action": "Review the feature order and grouping if it matters for this part.",
       "location_status": "unlocated",
@@ -203,17 +151,84 @@
     {
       "id": "EF-003",
       "number": 3,
-      "finding_id": "flag_196a43d7b5a0",
+      "finding_id": "flag_10dafd99bd1e",
+      "severity": "WARNING",
+      "code": "feature_unresolved",
+      "title": "Feature F014 needs an engineer's answer",
+      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: Supply the second assembly-hole transverse coordinate at the first end.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "actual": "Supply the second assembly-hole transverse coordinate at the first end.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "manual_action": "Answer the open question on the drawing, then re-run.",
+      "location_status": "located",
+      "source_callout": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "feature_ids": [
+        "F014"
+      ],
+      "page": 1,
+      "location_method": "exact_tokens",
+      "confidence": 0.9594,
+      "rect_pdf_points": [
+        473.65,
+        497.17,
+        565.37,
+        526.86
+      ],
+      "rect_normalized": [
+        0.190019,
+        0.314084,
+        0.036796,
+        0.018756
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9594,
+          "rect_normalized": [
+            0.190019,
+            0.314084,
+            0.036796,
+            0.018756
+          ],
+          "rect_pdf_points": [
+            473.65,
+            497.17,
+            565.37,
+            526.86
+          ],
+          "rect_marked_pt": [
+            473.65,
+            497.17,
+            565.37,
+            526.86
+          ]
+        }
+      ],
+      "card": {
+        "page": 1,
+        "rect": [
+          2517.82,
+          168.69,
+          3380.17,
+          293.33
+        ]
+      }
+    },
+    {
+      "id": "EF-004",
+      "number": 4,
+      "finding_id": "flag_18ecaff327c8",
       "severity": "ERROR",
       "code": "feature_not_built",
       "title": "Feature F021 was not built",
-      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50. Actual: skipped: unresolved: Second foot seed has known local offsets but unresolved global placement.. The model is missing this feature.",
-      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
-      "actual": "skipped: unresolved: Second foot seed has known local offsets but unresolved global placement.",
+      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62. Actual: skipped: unresolved: First opposite-support foot hole requires resolved global support placement.. The model is missing this feature.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
+      "actual": "skipped: unresolved: First opposite-support foot hole requires resolved global support placement.",
       "consequence": "The model is missing this feature.",
       "manual_action": "Review the callout for F021 against the drawing, then add the feature or correct the plan.",
       "location_status": "located",
-      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
+      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
       "feature_ids": [
         "F021"
       ],
@@ -221,16 +236,16 @@
       "location_method": "normalized",
       "confidence": 0.8918,
       "rect_pdf_points": [
-        797.79,
+        797.8,
         977.03,
         946.05,
         1001.77
       ],
       "rect_normalized": [
-        0.32006,
-        0.617234,
-        0.059476,
-        0.015626
+        0.320062,
+        0.617233,
+        0.059475,
+        0.015629
       ],
       "regions": [
         {
@@ -238,19 +253,19 @@
           "method": "normalized",
           "confidence": 0.8918,
           "rect_normalized": [
-            0.32006,
-            0.617234,
-            0.059476,
-            0.015626
+            0.320062,
+            0.617233,
+            0.059475,
+            0.015629
           ],
           "rect_pdf_points": [
-            797.79,
+            797.8,
             977.03,
             946.05,
             1001.77
           ],
           "rect_marked_pt": [
-            797.79,
+            797.8,
             977.03,
             946.05,
             1001.77
@@ -261,10 +276,167 @@
           "method": "normalized",
           "confidence": 0.8804,
           "rect_normalized": [
-            0.323085,
+            0.323083,
             0.629735,
-            0.078629,
-            0.019533
+            0.078631,
+            0.019534
+          ],
+          "rect_pdf_points": [
+            805.33,
+            996.82,
+            1001.33,
+            1027.74
+          ],
+          "rect_marked_pt": [
+            805.33,
+            996.82,
+            1001.33,
+            1027.74
+          ]
+        }
+      ],
+      "card": {
+        "page": 1,
+        "rect": [
+          2517.82,
+          312.21,
+          3380.17,
+          482.79
+        ]
+      }
+    },
+    {
+      "id": "EF-005",
+      "number": 5,
+      "finding_id": "flag_28ac44c16045",
+      "severity": "WARNING",
+      "code": "feature_unresolved",
+      "title": "Feature F011 needs an engineer's answer",
+      "explanation": "Expected: #10-32 TAP THRU; (2) HL'S.; .18. Actual: Confirm whether the degraded first #10-32 baseline D004 reads 5.38.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": "#10-32 TAP THRU; (2) HL'S.; .18",
+      "actual": "Confirm whether the degraded first #10-32 baseline D004 reads 5.38.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "manual_action": "Answer the open question on the drawing, then re-run.",
+      "location_status": "located",
+      "source_callout": "#10-32 TAP THRU; (2) HL'S.; .18",
+      "feature_ids": [
+        "F011"
+      ],
+      "page": 1,
+      "location_method": "normalized",
+      "confidence": 0.8803,
+      "rect_pdf_points": [
+        1321.7,
+        446.47,
+        1407.14,
+        471.2
+      ],
+      "rect_normalized": [
+        0.530241,
+        0.282055,
+        0.034277,
+        0.015623
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8803,
+          "rect_normalized": [
+            0.530241,
+            0.282055,
+            0.034277,
+            0.015623
+          ],
+          "rect_pdf_points": [
+            1321.7,
+            446.47,
+            1407.14,
+            471.2
+          ],
+          "rect_marked_pt": [
+            1321.7,
+            446.47,
+            1407.14,
+            471.2
+          ]
+        }
+      ],
+      "card": {
+        "page": 1,
+        "rect": [
+          2517.82,
+          501.68,
+          3380.17,
+          626.31
+        ]
+      }
+    },
+    {
+      "id": "EF-006",
+      "number": 6,
+      "finding_id": "flag_2da679440118",
+      "severity": "ERROR",
+      "code": "feature_not_built",
+      "title": "Feature F020 was not built",
+      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62. Actual: skipped: unresolved: Second first-support foot hole requires resolved global support placement.. The model is missing this feature.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
+      "actual": "skipped: unresolved: Second first-support foot hole requires resolved global support placement.",
+      "consequence": "The model is missing this feature.",
+      "manual_action": "Review the callout for F020 against the drawing, then add the feature or correct the plan.",
+      "location_status": "located",
+      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
+      "feature_ids": [
+        "F020"
+      ],
+      "page": 1,
+      "location_method": "normalized",
+      "confidence": 0.8918,
+      "rect_pdf_points": [
+        797.8,
+        977.03,
+        946.05,
+        1001.77
+      ],
+      "rect_normalized": [
+        0.320062,
+        0.617233,
+        0.059475,
+        0.015629
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8918,
+          "rect_normalized": [
+            0.320062,
+            0.617233,
+            0.059475,
+            0.015629
+          ],
+          "rect_pdf_points": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ],
+          "rect_marked_pt": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ]
+        },
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8804,
+          "rect_normalized": [
+            0.323083,
+            0.629735,
+            0.078631,
+            0.019534
           ],
           "rect_pdf_points": [
             805.33,
@@ -284,10 +456,10 @@
           "method": "normalized",
           "confidence": 0.8843,
           "rect_normalized": [
-            0.27873,
-            0.671145,
-            0.021169,
-            0.01797
+            0.278729,
+            0.671146,
+            0.02117,
+            0.017967
           ],
           "rect_pdf_points": [
             694.77,
@@ -307,22 +479,89 @@
         "page": 1,
         "rect": [
           2517.82,
-          191.67,
+          645.19,
           3380.17,
-          362.25
+          815.77
         ]
       }
     },
     {
-      "id": "EF-004",
-      "number": 4,
-      "finding_id": "flag_1eba556bd9b5",
+      "id": "EF-007",
+      "number": 7,
+      "finding_id": "flag_34cc19b6a852",
+      "severity": "ERROR",
+      "code": "feature_not_built",
+      "title": "Feature F014 was not built",
+      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: skipped: unresolved: Supply the second assembly-hole transverse coordinate at the first end.. The model is missing this feature.",
+      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "actual": "skipped: unresolved: Supply the second assembly-hole transverse coordinate at the first end.",
+      "consequence": "The model is missing this feature.",
+      "manual_action": "Review the callout for F014 against the drawing, then add the feature or correct the plan.",
+      "location_status": "located",
+      "source_callout": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "feature_ids": [
+        "F014"
+      ],
+      "page": 1,
+      "location_method": "exact_tokens",
+      "confidence": 0.9594,
+      "rect_pdf_points": [
+        473.65,
+        497.17,
+        565.37,
+        526.86
+      ],
+      "rect_normalized": [
+        0.190019,
+        0.314084,
+        0.036796,
+        0.018756
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9594,
+          "rect_normalized": [
+            0.190019,
+            0.314084,
+            0.036796,
+            0.018756
+          ],
+          "rect_pdf_points": [
+            473.65,
+            497.17,
+            565.37,
+            526.86
+          ],
+          "rect_marked_pt": [
+            473.65,
+            497.17,
+            565.37,
+            526.86
+          ]
+        }
+      ],
+      "card": {
+        "page": 1,
+        "rect": [
+          2517.82,
+          834.66,
+          3380.17,
+          1005.24
+        ]
+      }
+    },
+    {
+      "id": "EF-008",
+      "number": 8,
+      "finding_id": "flag_43b0ffd60f7a",
       "severity": "ERROR",
       "code": "feature_not_built",
       "title": "Feature F015 was not built",
-      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: skipped: unresolved: First assembly axis: obtain transverse location; longitudinal station is known.. The model is missing this feature.",
+      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: skipped: unresolved: Supply the first assembly-hole transverse coordinate at the opposite end.. The model is missing this feature.",
       "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "skipped: unresolved: First assembly axis: obtain transverse location; longitudinal station is known.",
+      "actual": "skipped: unresolved: Supply the first assembly-hole transverse coordinate at the opposite end.",
       "consequence": "The model is missing this feature.",
       "manual_action": "Review the callout for F015 against the drawing, then add the feature or correct the plan.",
       "location_status": "located",
@@ -337,13 +576,13 @@
         473.65,
         497.17,
         565.37,
-        526.85
+        526.86
       ],
       "rect_normalized": [
-        0.19002,
-        0.314086,
-        0.036794,
-        0.018751
+        0.190019,
+        0.314084,
+        0.036796,
+        0.018756
       ],
       "regions": [
         {
@@ -351,22 +590,22 @@
           "method": "exact_tokens",
           "confidence": 0.9594,
           "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
+            0.190019,
+            0.314084,
+            0.036796,
+            0.018756
           ],
           "rect_pdf_points": [
             473.65,
             497.17,
             565.37,
-            526.85
+            526.86
           ],
           "rect_marked_pt": [
             473.65,
             497.17,
             565.37,
-            526.85
+            526.86
           ]
         }
       ],
@@ -374,275 +613,7 @@
         "page": 1,
         "rect": [
           2517.82,
-          381.13,
-          3380.17,
-          551.72
-        ]
-      }
-    },
-    {
-      "id": "EF-005",
-      "number": 5,
-      "finding_id": "flag_1f7fa6964a78",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F017 was not built",
-      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: skipped: unresolved: Third assembly axis at opposite end requires transverse location and mating support.. The model is missing this feature.",
-      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "skipped: unresolved: Third assembly axis at opposite end requires transverse location and mating support.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F017 against the drawing, then add the feature or correct the plan.",
-      "location_status": "located",
-      "source_callout": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "feature_ids": [
-        "F017"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9594,
-      "rect_pdf_points": [
-        473.65,
-        497.17,
-        565.37,
-        526.85
-      ],
-      "rect_normalized": [
-        0.19002,
-        0.314086,
-        0.036794,
-        0.018751
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9594,
-          "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
-          ],
-          "rect_pdf_points": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ],
-          "rect_marked_pt": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ]
-        }
-      ],
-      "card": {
-        "page": 1,
-        "rect": [
-          2517.82,
-          570.6,
-          3380.17,
-          741.18
-        ]
-      }
-    },
-    {
-      "id": "EF-006",
-      "number": 6,
-      "finding_id": "flag_2e9ae2b81d21",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F013 needs an engineer's answer",
-      "explanation": "Expected: 1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°. Actual: First formed support: obtain bend radii, dimension-to-tangent/intersection conventions and assembly placement.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
-      "actual": "First formed support: obtain bend radii, dimension-to-tangent/intersection conventions and assembly placement.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
-      "feature_ids": [
-        "F013"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9695,
-      "rect_pdf_points": [
-        1294.06,
-        1053.71,
-        1336.78,
-        1072.26
-      ],
-      "rect_normalized": [
-        0.519153,
-        0.665675,
-        0.017137,
-        0.01172
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9695,
-          "rect_normalized": [
-            0.519153,
-            0.665675,
-            0.017137,
-            0.01172
-          ],
-          "rect_pdf_points": [
-            1294.06,
-            1053.71,
-            1336.78,
-            1072.26
-          ],
-          "rect_marked_pt": [
-            1294.06,
-            1053.71,
-            1336.78,
-            1072.26
-          ]
-        }
-      ],
-      "card": {
-        "page": 1,
-        "rect": [
-          2517.82,
-          760.07,
-          3380.17,
-          907.67
-        ]
-      }
-    },
-    {
-      "id": "EF-007",
-      "number": 7,
-      "finding_id": "flag_3043f334e627",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F016 needs an engineer's answer",
-      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: Second assembly axis at first end: obtain its separate transverse location.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "Second assembly axis at first end: obtain its separate transverse location.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "feature_ids": [
-        "F016"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9594,
-      "rect_pdf_points": [
-        473.65,
-        497.17,
-        565.37,
-        526.85
-      ],
-      "rect_normalized": [
-        0.19002,
-        0.314086,
-        0.036794,
-        0.018751
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9594,
-          "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
-          ],
-          "rect_pdf_points": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ],
-          "rect_marked_pt": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ]
-        }
-      ],
-      "card": {
-        "page": 1,
-        "rect": [
-          2517.82,
-          926.56,
-          3380.17,
-          1051.19
-        ]
-      }
-    },
-    {
-      "id": "EF-008",
-      "number": 8,
-      "finding_id": "flag_36038cf43d39",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F011 needs an engineer's answer",
-      "explanation": "Expected: #10-32 TAP THRU; (2) HL'S.; .18. Actual: Confirm degraded first #10-32 baseline; D004 is provisional.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": "#10-32 TAP THRU; (2) HL'S.; .18",
-      "actual": "Confirm degraded first #10-32 baseline; D004 is provisional.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": "#10-32 TAP THRU; (2) HL'S.; .18",
-      "feature_ids": [
-        "F011"
-      ],
-      "page": 1,
-      "location_method": "normalized",
-      "confidence": 0.8802,
-      "rect_pdf_points": [
-        1321.7,
-        446.47,
-        1407.14,
-        471.2
-      ],
-      "rect_normalized": [
-        0.530242,
-        0.282053,
-        0.034274,
-        0.015626
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8802,
-          "rect_normalized": [
-            0.530242,
-            0.282053,
-            0.034274,
-            0.015626
-          ],
-          "rect_pdf_points": [
-            1321.7,
-            446.47,
-            1407.14,
-            471.2
-          ],
-          "rect_marked_pt": [
-            1321.7,
-            446.47,
-            1407.14,
-            471.2
-          ]
-        }
-      ],
-      "card": {
-        "page": 1,
-        "rect": [
-          2517.82,
-          1070.07,
+          1024.12,
           3380.17,
           1194.7
         ]
@@ -651,332 +622,13 @@
     {
       "id": "EF-009",
       "number": 9,
-      "finding_id": "flag_3f0aeba5b5d9",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F012 needs an engineer's answer",
-      "explanation": "Expected: #10-32 TAP THRU; (2) HL'S.; 5.500 +.005. Actual: Known pitch inherits unresolved seed baseline.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": "#10-32 TAP THRU; (2) HL'S.; 5.500 +.005",
-      "actual": "Known pitch inherits unresolved seed baseline.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": "#10-32 TAP THRU; (2) HL'S.; 5.500 +.005",
-      "feature_ids": [
-        "F012"
-      ],
-      "page": 1,
-      "location_method": "normalized",
-      "confidence": 0.8802,
-      "rect_pdf_points": [
-        1321.7,
-        446.47,
-        1407.14,
-        471.2
-      ],
-      "rect_normalized": [
-        0.530242,
-        0.282053,
-        0.034274,
-        0.015626
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8802,
-          "rect_normalized": [
-            0.530242,
-            0.282053,
-            0.034274,
-            0.015626
-          ],
-          "rect_pdf_points": [
-            1321.7,
-            446.47,
-            1407.14,
-            471.2
-          ],
-          "rect_marked_pt": [
-            1321.7,
-            446.47,
-            1407.14,
-            471.2
-          ]
-        }
-      ],
-      "card": {
-        "page": 1,
-        "rect": [
-          2517.82,
-          1213.59,
-          3380.17,
-          1338.22
-        ]
-      }
-    },
-    {
-      "id": "EF-010",
-      "number": 10,
-      "finding_id": "flag_424ca41b3cbc",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F003 needs an engineer's answer",
-      "explanation": "Expected: 3.250 DIA. THRU.; 3 HOLES.. Actual: Confirm degraded middle-opening baseline D002 before release.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": "3.250 DIA. THRU.; 3 HOLES.",
-      "actual": "Confirm degraded middle-opening baseline D002 before release.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": "3.250 DIA. THRU.; 3 HOLES.",
-      "feature_ids": [
-        "F003"
-      ],
-      "page": 1,
-      "location_method": "normalized",
-      "confidence": 0.8888,
-      "rect_pdf_points": [
-        711.11,
-        675.27,
-        881.97,
-        700.0
-      ],
-      "rect_normalized": [
-        0.285282,
-        0.426595,
-        0.068548,
-        0.015626
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8888,
-          "rect_normalized": [
-            0.285282,
-            0.426595,
-            0.068548,
-            0.015626
-          ],
-          "rect_pdf_points": [
-            711.11,
-            675.27,
-            881.97,
-            700.0
-          ],
-          "rect_marked_pt": [
-            711.11,
-            675.27,
-            881.97,
-            700.0
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8923,
-          "rect_normalized": [
-            0.287298,
-            0.44144,
-            0.039315,
-            0.013282
-          ],
-          "rect_pdf_points": [
-            716.13,
-            698.76,
-            814.13,
-            719.79
-          ],
-          "rect_marked_pt": [
-            716.13,
-            698.76,
-            814.13,
-            719.79
-          ]
-        }
-      ],
-      "card": {
-        "page": 1,
-        "rect": [
-          2517.82,
-          1357.1,
-          3380.17,
-          1481.74
-        ]
-      }
-    },
-    {
-      "id": "EF-011",
-      "number": 11,
-      "finding_id": "flag_4585b102b26d",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F019 was not built",
-      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50. Actual: skipped: unresolved: First foot seed has known local offsets, but global start face and coordinates await formed-support definition.. The model is missing this feature.",
-      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
-      "actual": "skipped: unresolved: First foot seed has known local offsets, but global start face and coordinates await formed-support definition.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F019 against the drawing, then add the feature or correct the plan.",
-      "location_status": "located",
-      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
-      "feature_ids": [
-        "F019"
-      ],
-      "page": 1,
-      "location_method": "normalized",
-      "confidence": 0.8918,
-      "rect_pdf_points": [
-        797.79,
-        977.03,
-        946.05,
-        1001.77
-      ],
-      "rect_normalized": [
-        0.32006,
-        0.617234,
-        0.059476,
-        0.015626
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8918,
-          "rect_normalized": [
-            0.32006,
-            0.617234,
-            0.059476,
-            0.015626
-          ],
-          "rect_pdf_points": [
-            797.79,
-            977.03,
-            946.05,
-            1001.77
-          ],
-          "rect_marked_pt": [
-            797.79,
-            977.03,
-            946.05,
-            1001.77
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8804,
-          "rect_normalized": [
-            0.323085,
-            0.629735,
-            0.078629,
-            0.019533
-          ],
-          "rect_pdf_points": [
-            805.33,
-            996.82,
-            1001.33,
-            1027.74
-          ],
-          "rect_marked_pt": [
-            805.33,
-            996.82,
-            1001.33,
-            1027.74
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8843,
-          "rect_normalized": [
-            0.27873,
-            0.671145,
-            0.021169,
-            0.01797
-          ],
-          "rect_pdf_points": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
-          ],
-          "rect_marked_pt": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-012",
-      "number": 12,
-      "finding_id": "flag_5b57128296ba",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F018 was not built",
-      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: skipped: unresolved: Fourth assembly axis at opposite end requires its separate transverse location.. The model is missing this feature.",
-      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "skipped: unresolved: Fourth assembly axis at opposite end requires its separate transverse location.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F018 against the drawing, then add the feature or correct the plan.",
-      "location_status": "located",
-      "source_callout": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "feature_ids": [
-        "F018"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9594,
-      "rect_pdf_points": [
-        473.65,
-        497.17,
-        565.37,
-        526.85
-      ],
-      "rect_normalized": [
-        0.19002,
-        0.314086,
-        0.036794,
-        0.018751
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9594,
-          "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
-          ],
-          "rect_pdf_points": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ],
-          "rect_marked_pt": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-013",
-      "number": 13,
-      "finding_id": "flag_5e5be71f019c",
+      "finding_id": "flag_48808508a3f3",
       "severity": "INFO",
       "code": "practice_advisory",
       "title": "Modeling practice: mti_hole_grouping",
-      "explanation": "Expected: MTI modeling practice. Actual: F002, F004: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
+      "explanation": "Expected: MTI modeling practice. Actual: F002, F003, F004: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
       "expected": "MTI modeling practice",
-      "actual": "F002, F004: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
+      "actual": "F002, F003, F004: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
       "consequence": "Advisory only: this never blocks a part.",
       "manual_action": "Review the feature order and grouping if it matters for this part.",
       "location_status": "unlocated",
@@ -990,47 +642,137 @@
       "regions": []
     },
     {
-      "id": "EF-014",
-      "number": 14,
-      "finding_id": "flag_6001e5313191",
+      "id": "EF-010",
+      "number": 10,
+      "finding_id": "flag_4ad9ac9e618c",
       "severity": "WARNING",
       "code": "feature_unresolved",
-      "title": "Feature F022 needs an engineer's answer",
-      "explanation": "Expected: 2 HOLES 2 PL'CS; 4.50. Actual: Second second-foot hole; global direction awaits support placement.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": "2 HOLES 2 PL'CS; 4.50",
-      "actual": "Second second-foot hole; global direction awaits support placement.",
+      "title": "Feature F017 needs an engineer's answer",
+      "explanation": "Expected: 1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°; .375. Actual: Provide support bend radii and dimension-to-bend conventions before constructing the finished profile.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°; .375",
+      "actual": "Provide support bend radii and dimension-to-bend conventions before constructing the finished profile.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "manual_action": "Answer the open question on the drawing, then re-run.",
       "location_status": "located",
-      "source_callout": "2 HOLES 2 PL'CS; 4.50",
+      "source_callout": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°; .375",
+      "feature_ids": [
+        "F017"
+      ],
+      "page": 1,
+      "location_method": "exact_tokens",
+      "confidence": 0.9696,
+      "rect_pdf_points": [
+        1294.06,
+        1053.71,
+        1336.78,
+        1072.26
+      ],
+      "rect_normalized": [
+        0.519152,
+        0.665675,
+        0.017138,
+        0.011719
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9696,
+          "rect_normalized": [
+            0.519152,
+            0.665675,
+            0.017138,
+            0.011719
+          ],
+          "rect_pdf_points": [
+            1294.06,
+            1053.71,
+            1336.78,
+            1072.26
+          ],
+          "rect_marked_pt": [
+            1294.06,
+            1053.71,
+            1336.78,
+            1072.26
+          ]
+        }
+      ],
+      "card": {
+        "page": 1,
+        "rect": [
+          2517.82,
+          1213.59,
+          3380.17,
+          1361.2
+        ]
+      }
+    },
+    {
+      "id": "EF-011",
+      "number": 11,
+      "finding_id": "flag_4d8116e3c728",
+      "severity": "WARNING",
+      "code": "feature_unresolved",
+      "title": "Feature F022 needs an engineer's answer",
+      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62. Actual: Second opposite-support foot hole requires resolved global support placement.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
+      "actual": "Second opposite-support foot hole requires resolved global support placement.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "manual_action": "Answer the open question on the drawing, then re-run.",
+      "location_status": "located",
+      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
       "feature_ids": [
         "F022"
       ],
       "page": 1,
       "location_method": "normalized",
-      "confidence": 0.8804,
+      "confidence": 0.8918,
       "rect_pdf_points": [
-        805.33,
-        996.82,
-        1001.33,
-        1027.74
+        797.8,
+        977.03,
+        946.05,
+        1001.77
       ],
       "rect_normalized": [
-        0.323085,
-        0.629735,
-        0.078629,
-        0.019533
+        0.320062,
+        0.617233,
+        0.059475,
+        0.015629
       ],
       "regions": [
         {
           "page": 1,
           "method": "normalized",
+          "confidence": 0.8918,
+          "rect_normalized": [
+            0.320062,
+            0.617233,
+            0.059475,
+            0.015629
+          ],
+          "rect_pdf_points": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ],
+          "rect_marked_pt": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ]
+        },
+        {
+          "page": 1,
+          "method": "normalized",
           "confidence": 0.8804,
           "rect_normalized": [
-            0.323085,
+            0.323083,
             0.629735,
-            0.078629,
-            0.019533
+            0.078631,
+            0.019534
           ],
           "rect_pdf_points": [
             805.33,
@@ -1050,10 +792,308 @@
           "method": "normalized",
           "confidence": 0.8843,
           "rect_normalized": [
-            0.27873,
-            0.671145,
-            0.021169,
-            0.01797
+            0.278729,
+            0.671146,
+            0.02117,
+            0.017967
+          ],
+          "rect_pdf_points": [
+            694.77,
+            1062.37,
+            747.54,
+            1090.81
+          ],
+          "rect_marked_pt": [
+            694.77,
+            1062.37,
+            747.54,
+            1090.81
+          ]
+        }
+      ],
+      "card": {
+        "page": 1,
+        "rect": [
+          2517.82,
+          1380.08,
+          3380.17,
+          1504.71
+        ]
+      }
+    },
+    {
+      "id": "EF-012",
+      "number": 12,
+      "finding_id": "flag_5bc18271d4ea",
+      "severity": "WARNING",
+      "code": "feature_unresolved",
+      "title": "Feature F021 needs an engineer's answer",
+      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62. Actual: First opposite-support foot hole requires resolved global support placement.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
+      "actual": "First opposite-support foot hole requires resolved global support placement.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "manual_action": "Answer the open question on the drawing, then re-run.",
+      "location_status": "located",
+      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
+      "feature_ids": [
+        "F021"
+      ],
+      "page": 1,
+      "location_method": "normalized",
+      "confidence": 0.8918,
+      "rect_pdf_points": [
+        797.8,
+        977.03,
+        946.05,
+        1001.77
+      ],
+      "rect_normalized": [
+        0.320062,
+        0.617233,
+        0.059475,
+        0.015629
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8918,
+          "rect_normalized": [
+            0.320062,
+            0.617233,
+            0.059475,
+            0.015629
+          ],
+          "rect_pdf_points": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ],
+          "rect_marked_pt": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ]
+        },
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8804,
+          "rect_normalized": [
+            0.323083,
+            0.629735,
+            0.078631,
+            0.019534
+          ],
+          "rect_pdf_points": [
+            805.33,
+            996.82,
+            1001.33,
+            1027.74
+          ],
+          "rect_marked_pt": [
+            805.33,
+            996.82,
+            1001.33,
+            1027.74
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EF-013",
+      "number": 13,
+      "finding_id": "flag_66d6f9e9100b",
+      "severity": "ERROR",
+      "code": "feature_not_built",
+      "title": "Feature F022 was not built",
+      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62. Actual: skipped: unresolved: Second opposite-support foot hole requires resolved global support placement.. The model is missing this feature.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
+      "actual": "skipped: unresolved: Second opposite-support foot hole requires resolved global support placement.",
+      "consequence": "The model is missing this feature.",
+      "manual_action": "Review the callout for F022 against the drawing, then add the feature or correct the plan.",
+      "location_status": "located",
+      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
+      "feature_ids": [
+        "F022"
+      ],
+      "page": 1,
+      "location_method": "normalized",
+      "confidence": 0.8918,
+      "rect_pdf_points": [
+        797.8,
+        977.03,
+        946.05,
+        1001.77
+      ],
+      "rect_normalized": [
+        0.320062,
+        0.617233,
+        0.059475,
+        0.015629
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8918,
+          "rect_normalized": [
+            0.320062,
+            0.617233,
+            0.059475,
+            0.015629
+          ],
+          "rect_pdf_points": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ],
+          "rect_marked_pt": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ]
+        },
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8804,
+          "rect_normalized": [
+            0.323083,
+            0.629735,
+            0.078631,
+            0.019534
+          ],
+          "rect_pdf_points": [
+            805.33,
+            996.82,
+            1001.33,
+            1027.74
+          ],
+          "rect_marked_pt": [
+            805.33,
+            996.82,
+            1001.33,
+            1027.74
+          ]
+        },
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8843,
+          "rect_normalized": [
+            0.278729,
+            0.671146,
+            0.02117,
+            0.017967
+          ],
+          "rect_pdf_points": [
+            694.77,
+            1062.37,
+            747.54,
+            1090.81
+          ],
+          "rect_marked_pt": [
+            694.77,
+            1062.37,
+            747.54,
+            1090.81
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EF-014",
+      "number": 14,
+      "finding_id": "flag_73f4f72213bc",
+      "severity": "WARNING",
+      "code": "feature_unresolved",
+      "title": "Feature F020 needs an engineer's answer",
+      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62. Actual: Second first-support foot hole requires resolved global support placement.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
+      "actual": "Second first-support foot hole requires resolved global support placement.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "manual_action": "Answer the open question on the drawing, then re-run.",
+      "location_status": "located",
+      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
+      "feature_ids": [
+        "F020"
+      ],
+      "page": 1,
+      "location_method": "normalized",
+      "confidence": 0.8918,
+      "rect_pdf_points": [
+        797.8,
+        977.03,
+        946.05,
+        1001.77
+      ],
+      "rect_normalized": [
+        0.320062,
+        0.617233,
+        0.059475,
+        0.015629
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8918,
+          "rect_normalized": [
+            0.320062,
+            0.617233,
+            0.059475,
+            0.015629
+          ],
+          "rect_pdf_points": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ],
+          "rect_marked_pt": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ]
+        },
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8804,
+          "rect_normalized": [
+            0.323083,
+            0.629735,
+            0.078631,
+            0.019534
+          ],
+          "rect_pdf_points": [
+            805.33,
+            996.82,
+            1001.33,
+            1027.74
+          ],
+          "rect_marked_pt": [
+            805.33,
+            996.82,
+            1001.33,
+            1027.74
+          ]
+        },
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8843,
+          "rect_normalized": [
+            0.278729,
+            0.671146,
+            0.02117,
+            0.017967
           ],
           "rect_pdf_points": [
             694.77,
@@ -1073,80 +1113,57 @@
     {
       "id": "EF-015",
       "number": 15,
-      "finding_id": "flag_610c5734055e",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F008 was not built",
-      "explanation": "Expected: 4 HOLES; 3 PL'CS.; 2.838 TYP. Actual: skipped: unresolved: Complete middle square after resolving its baseline.. The model is missing this feature.",
-      "expected": "4 HOLES; 3 PL'CS.; 2.838 TYP",
-      "actual": "skipped: unresolved: Complete middle square after resolving its baseline.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F008 against the drawing, then add the feature or correct the plan.",
+      "finding_id": "flag_8337457d2411",
+      "severity": "WARNING",
+      "code": "feature_unresolved",
+      "title": "Feature F018 needs an engineer's answer",
+      "explanation": "Expected: SUPPORT; 1.25. Actual: Second separate support requires finalized formed geometry and assembly placement.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": "SUPPORT; 1.25",
+      "actual": "Second separate support requires finalized formed geometry and assembly placement.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "manual_action": "Answer the open question on the drawing, then re-run.",
       "location_status": "located",
-      "source_callout": "4 HOLES; 3 PL'CS.; 2.838 TYP",
+      "source_callout": "SUPPORT; 1.25",
       "feature_ids": [
-        "F008"
+        "F018"
       ],
       "page": 1,
       "location_method": "exact_tokens",
-      "confidence": 0.9594,
+      "confidence": 0.9485,
       "rect_pdf_points": [
-        473.65,
-        497.17,
-        565.37,
-        526.85
+        1246.32,
+        505.83,
+        1286.52,
+        524.38
       ],
       "rect_normalized": [
-        0.19002,
-        0.314086,
-        0.036794,
-        0.018751
+        0.5,
+        0.319555,
+        0.016127,
+        0.011719
       ],
       "regions": [
         {
           "page": 1,
           "method": "exact_tokens",
-          "confidence": 0.9594,
+          "confidence": 0.9485,
           "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
+            0.5,
+            0.319555,
+            0.016127,
+            0.011719
           ],
           "rect_pdf_points": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
+            1246.32,
+            505.83,
+            1286.52,
+            524.38
           ],
           "rect_marked_pt": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8827,
-          "rect_normalized": [
-            0.19254,
-            0.328931,
-            0.035282,
-            0.015626
-          ],
-          "rect_pdf_points": [
-            479.93,
-            520.67,
-            567.88,
-            545.41
-          ],
-          "rect_marked_pt": [
-            479.93,
-            520.67,
-            567.88,
-            545.41
+            1246.32,
+            505.83,
+            1286.52,
+            524.38
           ]
         }
       ]
@@ -1154,684 +1171,13 @@
     {
       "id": "EF-016",
       "number": 16,
-      "finding_id": "flag_69a396feb0b7",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F007 needs an engineer's answer",
-      "explanation": "Expected: .312-18 TAP THRU; 4 HOLES; 3 PL'CS.; 1.419 TYP. Actual: Middle tapped-pattern station depends on unreadable baseline D002.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": ".312-18 TAP THRU; 4 HOLES; 3 PL'CS.; 1.419 TYP",
-      "actual": "Middle tapped-pattern station depends on unreadable baseline D002.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": ".312-18 TAP THRU; 4 HOLES; 3 PL'CS.; 1.419 TYP",
-      "feature_ids": [
-        "F007"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.958,
-      "rect_pdf_points": [
-        1035.25,
-        393.29,
-        1085.5,
-        435.34
-      ],
-      "rect_normalized": [
-        0.415323,
-        0.248456,
-        0.020161,
-        0.026565
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.958,
-          "rect_normalized": [
-            0.415323,
-            0.248456,
-            0.020161,
-            0.026565
-          ],
-          "rect_pdf_points": [
-            1035.25,
-            393.29,
-            1085.5,
-            435.34
-          ],
-          "rect_marked_pt": [
-            1035.25,
-            393.29,
-            1085.5,
-            435.34
-          ]
-        },
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9594,
-          "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
-          ],
-          "rect_pdf_points": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ],
-          "rect_marked_pt": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8827,
-          "rect_normalized": [
-            0.19254,
-            0.328931,
-            0.035282,
-            0.015626
-          ],
-          "rect_pdf_points": [
-            479.93,
-            520.67,
-            567.88,
-            545.41
-          ],
-          "rect_marked_pt": [
-            479.93,
-            520.67,
-            567.88,
-            545.41
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-017",
-      "number": 17,
-      "finding_id": "flag_6f017fe74dea",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F020 was not built",
-      "explanation": "Expected: 2 HOLES 2 PL'CS; 4.50. Actual: skipped: unresolved: Second first-foot hole; global direction awaits support placement.. The model is missing this feature.",
-      "expected": "2 HOLES 2 PL'CS; 4.50",
-      "actual": "skipped: unresolved: Second first-foot hole; global direction awaits support placement.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F020 against the drawing, then add the feature or correct the plan.",
-      "location_status": "located",
-      "source_callout": "2 HOLES 2 PL'CS; 4.50",
-      "feature_ids": [
-        "F020"
-      ],
-      "page": 1,
-      "location_method": "normalized",
-      "confidence": 0.8804,
-      "rect_pdf_points": [
-        805.33,
-        996.82,
-        1001.33,
-        1027.74
-      ],
-      "rect_normalized": [
-        0.323085,
-        0.629735,
-        0.078629,
-        0.019533
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8804,
-          "rect_normalized": [
-            0.323085,
-            0.629735,
-            0.078629,
-            0.019533
-          ],
-          "rect_pdf_points": [
-            805.33,
-            996.82,
-            1001.33,
-            1027.74
-          ],
-          "rect_marked_pt": [
-            805.33,
-            996.82,
-            1001.33,
-            1027.74
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8843,
-          "rect_normalized": [
-            0.27873,
-            0.671145,
-            0.021169,
-            0.01797
-          ],
-          "rect_pdf_points": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
-          ],
-          "rect_marked_pt": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-018",
-      "number": 18,
-      "finding_id": "flag_73b7c05fa087",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F020 needs an engineer's answer",
-      "explanation": "Expected: 2 HOLES 2 PL'CS; 4.50. Actual: Second first-foot hole; global direction awaits support placement.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": "2 HOLES 2 PL'CS; 4.50",
-      "actual": "Second first-foot hole; global direction awaits support placement.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": "2 HOLES 2 PL'CS; 4.50",
-      "feature_ids": [
-        "F020"
-      ],
-      "page": 1,
-      "location_method": "normalized",
-      "confidence": 0.8804,
-      "rect_pdf_points": [
-        805.33,
-        996.82,
-        1001.33,
-        1027.74
-      ],
-      "rect_normalized": [
-        0.323085,
-        0.629735,
-        0.078629,
-        0.019533
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8804,
-          "rect_normalized": [
-            0.323085,
-            0.629735,
-            0.078629,
-            0.019533
-          ],
-          "rect_pdf_points": [
-            805.33,
-            996.82,
-            1001.33,
-            1027.74
-          ],
-          "rect_marked_pt": [
-            805.33,
-            996.82,
-            1001.33,
-            1027.74
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8843,
-          "rect_normalized": [
-            0.27873,
-            0.671145,
-            0.021169,
-            0.01797
-          ],
-          "rect_pdf_points": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
-          ],
-          "rect_marked_pt": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-019",
-      "number": 19,
-      "finding_id": "flag_7f7db02803e7",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F012 was not built",
-      "explanation": "Expected: #10-32 TAP THRU; (2) HL'S.; 5.500 +.005. Actual: skipped: unresolved: Known pitch inherits unresolved seed baseline.. The model is missing this feature.",
-      "expected": "#10-32 TAP THRU; (2) HL'S.; 5.500 +.005",
-      "actual": "skipped: unresolved: Known pitch inherits unresolved seed baseline.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F012 against the drawing, then add the feature or correct the plan.",
-      "location_status": "located",
-      "source_callout": "#10-32 TAP THRU; (2) HL'S.; 5.500 +.005",
-      "feature_ids": [
-        "F012"
-      ],
-      "page": 1,
-      "location_method": "normalized",
-      "confidence": 0.8802,
-      "rect_pdf_points": [
-        1321.7,
-        446.47,
-        1407.14,
-        471.2
-      ],
-      "rect_normalized": [
-        0.530242,
-        0.282053,
-        0.034274,
-        0.015626
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8802,
-          "rect_normalized": [
-            0.530242,
-            0.282053,
-            0.034274,
-            0.015626
-          ],
-          "rect_pdf_points": [
-            1321.7,
-            446.47,
-            1407.14,
-            471.2
-          ],
-          "rect_marked_pt": [
-            1321.7,
-            446.47,
-            1407.14,
-            471.2
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-020",
-      "number": 20,
-      "finding_id": "flag_844b989b3e01",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F008 needs an engineer's answer",
-      "explanation": "Expected: 4 HOLES; 3 PL'CS.; 2.838 TYP. Actual: Complete middle square after resolving its baseline.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": "4 HOLES; 3 PL'CS.; 2.838 TYP",
-      "actual": "Complete middle square after resolving its baseline.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": "4 HOLES; 3 PL'CS.; 2.838 TYP",
-      "feature_ids": [
-        "F008"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9594,
-      "rect_pdf_points": [
-        473.65,
-        497.17,
-        565.37,
-        526.85
-      ],
-      "rect_normalized": [
-        0.19002,
-        0.314086,
-        0.036794,
-        0.018751
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9594,
-          "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
-          ],
-          "rect_pdf_points": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ],
-          "rect_marked_pt": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8827,
-          "rect_normalized": [
-            0.19254,
-            0.328931,
-            0.035282,
-            0.015626
-          ],
-          "rect_pdf_points": [
-            479.93,
-            520.67,
-            567.88,
-            545.41
-          ],
-          "rect_marked_pt": [
-            479.93,
-            520.67,
-            567.88,
-            545.41
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-021",
-      "number": 21,
-      "finding_id": "flag_850150650419",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F021 needs an engineer's answer",
-      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50. Actual: Second foot seed has known local offsets but unresolved global placement.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
-      "actual": "Second foot seed has known local offsets but unresolved global placement.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
-      "feature_ids": [
-        "F021"
-      ],
-      "page": 1,
-      "location_method": "normalized",
-      "confidence": 0.8918,
-      "rect_pdf_points": [
-        797.79,
-        977.03,
-        946.05,
-        1001.77
-      ],
-      "rect_normalized": [
-        0.32006,
-        0.617234,
-        0.059476,
-        0.015626
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8918,
-          "rect_normalized": [
-            0.32006,
-            0.617234,
-            0.059476,
-            0.015626
-          ],
-          "rect_pdf_points": [
-            797.79,
-            977.03,
-            946.05,
-            1001.77
-          ],
-          "rect_marked_pt": [
-            797.79,
-            977.03,
-            946.05,
-            1001.77
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8804,
-          "rect_normalized": [
-            0.323085,
-            0.629735,
-            0.078629,
-            0.019533
-          ],
-          "rect_pdf_points": [
-            805.33,
-            996.82,
-            1001.33,
-            1027.74
-          ],
-          "rect_marked_pt": [
-            805.33,
-            996.82,
-            1001.33,
-            1027.74
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8843,
-          "rect_normalized": [
-            0.27873,
-            0.671145,
-            0.021169,
-            0.01797
-          ],
-          "rect_pdf_points": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
-          ],
-          "rect_marked_pt": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-022",
-      "number": 22,
-      "finding_id": "flag_89fd777281b2",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F007 was not built",
-      "explanation": "Expected: .312-18 TAP THRU; 4 HOLES; 3 PL'CS.; 1.419 TYP. Actual: skipped: unresolved: Middle tapped-pattern station depends on unreadable baseline D002.. The model is missing this feature.",
-      "expected": ".312-18 TAP THRU; 4 HOLES; 3 PL'CS.; 1.419 TYP",
-      "actual": "skipped: unresolved: Middle tapped-pattern station depends on unreadable baseline D002.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F007 against the drawing, then add the feature or correct the plan.",
-      "location_status": "located",
-      "source_callout": ".312-18 TAP THRU; 4 HOLES; 3 PL'CS.; 1.419 TYP",
-      "feature_ids": [
-        "F007"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.958,
-      "rect_pdf_points": [
-        1035.25,
-        393.29,
-        1085.5,
-        435.34
-      ],
-      "rect_normalized": [
-        0.415323,
-        0.248456,
-        0.020161,
-        0.026565
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.958,
-          "rect_normalized": [
-            0.415323,
-            0.248456,
-            0.020161,
-            0.026565
-          ],
-          "rect_pdf_points": [
-            1035.25,
-            393.29,
-            1085.5,
-            435.34
-          ],
-          "rect_marked_pt": [
-            1035.25,
-            393.29,
-            1085.5,
-            435.34
-          ]
-        },
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9594,
-          "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
-          ],
-          "rect_pdf_points": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ],
-          "rect_marked_pt": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8827,
-          "rect_normalized": [
-            0.19254,
-            0.328931,
-            0.035282,
-            0.015626
-          ],
-          "rect_pdf_points": [
-            479.93,
-            520.67,
-            567.88,
-            545.41
-          ],
-          "rect_marked_pt": [
-            479.93,
-            520.67,
-            567.88,
-            545.41
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-023",
-      "number": 23,
-      "finding_id": "flag_94897feee6b8",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F015 needs an engineer's answer",
-      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: First assembly axis: obtain transverse location; longitudinal station is known.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "First assembly axis: obtain transverse location; longitudinal station is known.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "feature_ids": [
-        "F015"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9594,
-      "rect_pdf_points": [
-        473.65,
-        497.17,
-        565.37,
-        526.85
-      ],
-      "rect_normalized": [
-        0.19002,
-        0.314086,
-        0.036794,
-        0.018751
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9594,
-          "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
-          ],
-          "rect_pdf_points": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ],
-          "rect_marked_pt": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-024",
-      "number": 24,
-      "finding_id": "flag_a8823325413e",
+      "finding_id": "flag_85d1b29dbb84",
       "severity": "ERROR",
       "code": "feature_not_built",
       "title": "Feature F011 was not built",
-      "explanation": "Expected: #10-32 TAP THRU; (2) HL'S.; .18. Actual: skipped: unresolved: Confirm degraded first #10-32 baseline; D004 is provisional.. The model is missing this feature.",
+      "explanation": "Expected: #10-32 TAP THRU; (2) HL'S.; .18. Actual: skipped: unresolved: Confirm whether the degraded first #10-32 baseline D004 reads 5.38.. The model is missing this feature.",
       "expected": "#10-32 TAP THRU; (2) HL'S.; .18",
-      "actual": "skipped: unresolved: Confirm degraded first #10-32 baseline; D004 is provisional.",
+      "actual": "skipped: unresolved: Confirm whether the degraded first #10-32 baseline D004 reads 5.38.",
       "consequence": "The model is missing this feature.",
       "manual_action": "Review the callout for F011 against the drawing, then add the feature or correct the plan.",
       "location_status": "located",
@@ -1841,7 +1187,7 @@
       ],
       "page": 1,
       "location_method": "normalized",
-      "confidence": 0.8802,
+      "confidence": 0.8803,
       "rect_pdf_points": [
         1321.7,
         446.47,
@@ -1849,21 +1195,21 @@
         471.2
       ],
       "rect_normalized": [
-        0.530242,
-        0.282053,
-        0.034274,
-        0.015626
+        0.530241,
+        0.282055,
+        0.034277,
+        0.015623
       ],
       "regions": [
         {
           "page": 1,
           "method": "normalized",
-          "confidence": 0.8802,
+          "confidence": 0.8803,
           "rect_normalized": [
-            0.530242,
-            0.282053,
-            0.034274,
-            0.015626
+            0.530241,
+            0.282055,
+            0.034277,
+            0.015623
           ],
           "rect_pdf_points": [
             1321.7,
@@ -1881,47 +1227,174 @@
       ]
     },
     {
-      "id": "EF-025",
-      "number": 25,
-      "finding_id": "flag_adc1cd6fc3ed",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F022 was not built",
-      "explanation": "Expected: 2 HOLES 2 PL'CS; 4.50. Actual: skipped: unresolved: Second second-foot hole; global direction awaits support placement.. The model is missing this feature.",
-      "expected": "2 HOLES 2 PL'CS; 4.50",
-      "actual": "skipped: unresolved: Second second-foot hole; global direction awaits support placement.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F022 against the drawing, then add the feature or correct the plan.",
+      "id": "EF-017",
+      "number": 17,
+      "finding_id": "flag_956cb94b872c",
+      "severity": "WARNING",
+      "code": "feature_unresolved",
+      "title": "Feature F012 needs an engineer's answer",
+      "explanation": "Expected: #10-32 TAP THRU; (2) HL'S.; 5.500; +.005. Actual: Known pitch depends on unresolved first baseline.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": "#10-32 TAP THRU; (2) HL'S.; 5.500; +.005",
+      "actual": "Known pitch depends on unresolved first baseline.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "manual_action": "Answer the open question on the drawing, then re-run.",
       "location_status": "located",
-      "source_callout": "2 HOLES 2 PL'CS; 4.50",
+      "source_callout": "#10-32 TAP THRU; (2) HL'S.; 5.500; +.005",
       "feature_ids": [
-        "F022"
+        "F012"
       ],
       "page": 1,
       "location_method": "normalized",
-      "confidence": 0.8804,
+      "confidence": 0.8878,
       "rect_pdf_points": [
-        805.33,
-        996.82,
-        1001.33,
-        1027.74
+        1018.92,
+        325.27,
+        1071.68,
+        347.53
       ],
       "rect_normalized": [
-        0.323085,
-        0.629735,
-        0.078629,
-        0.019533
+        0.408771,
+        0.205487,
+        0.021166,
+        0.014063
       ],
       "regions": [
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8878,
+          "rect_normalized": [
+            0.408771,
+            0.205487,
+            0.021166,
+            0.014063
+          ],
+          "rect_pdf_points": [
+            1018.92,
+            325.27,
+            1071.68,
+            347.53
+          ],
+          "rect_marked_pt": [
+            1018.92,
+            325.27,
+            1071.68,
+            347.53
+          ]
+        },
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9482,
+          "rect_normalized": [
+            0.403729,
+            0.216423,
+            0.02369,
+            0.014063
+          ],
+          "rect_pdf_points": [
+            1006.35,
+            342.58,
+            1065.4,
+            364.84
+          ],
+          "rect_marked_pt": [
+            1006.35,
+            342.58,
+            1065.4,
+            364.84
+          ]
+        },
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8803,
+          "rect_normalized": [
+            0.530241,
+            0.282055,
+            0.034277,
+            0.015623
+          ],
+          "rect_pdf_points": [
+            1321.7,
+            446.47,
+            1407.14,
+            471.2
+          ],
+          "rect_marked_pt": [
+            1321.7,
+            446.47,
+            1407.14,
+            471.2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EF-018",
+      "number": 18,
+      "finding_id": "flag_9a64e2573eae",
+      "severity": "ERROR",
+      "code": "feature_not_built",
+      "title": "Feature F019 was not built",
+      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62. Actual: skipped: unresolved: First support-foot hole requires a resolved global support face.. The model is missing this feature.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
+      "actual": "skipped: unresolved: First support-foot hole requires a resolved global support face.",
+      "consequence": "The model is missing this feature.",
+      "manual_action": "Review the callout for F019 against the drawing, then add the feature or correct the plan.",
+      "location_status": "located",
+      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
+      "feature_ids": [
+        "F019"
+      ],
+      "page": 1,
+      "location_method": "normalized",
+      "confidence": 0.8918,
+      "rect_pdf_points": [
+        797.8,
+        977.03,
+        946.05,
+        1001.77
+      ],
+      "rect_normalized": [
+        0.320062,
+        0.617233,
+        0.059475,
+        0.015629
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8918,
+          "rect_normalized": [
+            0.320062,
+            0.617233,
+            0.059475,
+            0.015629
+          ],
+          "rect_pdf_points": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ],
+          "rect_marked_pt": [
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ]
+        },
         {
           "page": 1,
           "method": "normalized",
           "confidence": 0.8804,
           "rect_normalized": [
-            0.323085,
+            0.323083,
             0.629735,
-            0.078629,
-            0.019533
+            0.078631,
+            0.019534
           ],
           "rect_pdf_points": [
             805.33,
@@ -1935,303 +1408,210 @@
             1001.33,
             1027.74
           ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8843,
-          "rect_normalized": [
-            0.27873,
-            0.671145,
-            0.021169,
-            0.01797
-          ],
-          "rect_pdf_points": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
-          ],
-          "rect_marked_pt": [
-            694.77,
-            1062.37,
-            747.54,
-            1090.81
-          ]
         }
       ]
     },
     {
-      "id": "EF-026",
-      "number": 26,
-      "finding_id": "flag_af68830a30e4",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F003 was not built",
-      "explanation": "Expected: 3.250 DIA. THRU.; 3 HOLES.. Actual: skipped: unresolved: Confirm degraded middle-opening baseline D002 before release.. The model is missing this feature.",
-      "expected": "3.250 DIA. THRU.; 3 HOLES.",
-      "actual": "skipped: unresolved: Confirm degraded middle-opening baseline D002 before release.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F003 against the drawing, then add the feature or correct the plan.",
-      "location_status": "located",
-      "source_callout": "3.250 DIA. THRU.; 3 HOLES.",
-      "feature_ids": [
-        "F003"
-      ],
-      "page": 1,
-      "location_method": "normalized",
-      "confidence": 0.8888,
-      "rect_pdf_points": [
-        711.11,
-        675.27,
-        881.97,
-        700.0
-      ],
-      "rect_normalized": [
-        0.285282,
-        0.426595,
-        0.068548,
-        0.015626
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8888,
-          "rect_normalized": [
-            0.285282,
-            0.426595,
-            0.068548,
-            0.015626
-          ],
-          "rect_pdf_points": [
-            711.11,
-            675.27,
-            881.97,
-            700.0
-          ],
-          "rect_marked_pt": [
-            711.11,
-            675.27,
-            881.97,
-            700.0
-          ]
-        },
-        {
-          "page": 1,
-          "method": "normalized",
-          "confidence": 0.8923,
-          "rect_normalized": [
-            0.287298,
-            0.44144,
-            0.039315,
-            0.013282
-          ],
-          "rect_pdf_points": [
-            716.13,
-            698.76,
-            814.13,
-            719.79
-          ],
-          "rect_marked_pt": [
-            716.13,
-            698.76,
-            814.13,
-            719.79
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-027",
-      "number": 27,
-      "finding_id": "flag_bbc841df48ee",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F014 was not built",
-      "explanation": "Expected: 1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°. Actual: skipped: unresolved: Second separate formed support requires resolved bends and global assembly placement.. The model is missing this feature.",
-      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
-      "actual": "skipped: unresolved: Second separate formed support requires resolved bends and global assembly placement.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F014 against the drawing, then add the feature or correct the plan.",
-      "location_status": "located",
-      "source_callout": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
-      "feature_ids": [
-        "F014"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9695,
-      "rect_pdf_points": [
-        1294.06,
-        1053.71,
-        1336.78,
-        1072.26
-      ],
-      "rect_normalized": [
-        0.519153,
-        0.665675,
-        0.017137,
-        0.01172
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9695,
-          "rect_normalized": [
-            0.519153,
-            0.665675,
-            0.017137,
-            0.01172
-          ],
-          "rect_pdf_points": [
-            1294.06,
-            1053.71,
-            1336.78,
-            1072.26
-          ],
-          "rect_marked_pt": [
-            1294.06,
-            1053.71,
-            1336.78,
-            1072.26
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-028",
-      "number": 28,
-      "finding_id": "flag_c406510db057",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F013 was not built",
-      "explanation": "Expected: 1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°. Actual: skipped: unresolved: First formed support: obtain bend radii, dimension-to-tangent/intersection conventions and assembly placement.. The model is missing this feature.",
-      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
-      "actual": "skipped: unresolved: First formed support: obtain bend radii, dimension-to-tangent/intersection conventions and assembly placement.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F013 against the drawing, then add the feature or correct the plan.",
-      "location_status": "located",
-      "source_callout": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
-      "feature_ids": [
-        "F013"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9695,
-      "rect_pdf_points": [
-        1294.06,
-        1053.71,
-        1336.78,
-        1072.26
-      ],
-      "rect_normalized": [
-        0.519153,
-        0.665675,
-        0.017137,
-        0.01172
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9695,
-          "rect_normalized": [
-            0.519153,
-            0.665675,
-            0.017137,
-            0.01172
-          ],
-          "rect_pdf_points": [
-            1294.06,
-            1053.71,
-            1336.78,
-            1072.26
-          ],
-          "rect_marked_pt": [
-            1294.06,
-            1053.71,
-            1336.78,
-            1072.26
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-029",
-      "number": 29,
-      "finding_id": "flag_c7e510e3be44",
+      "id": "EF-019",
+      "number": 19,
+      "finding_id": "flag_b0ead7dd5223",
       "severity": "WARNING",
       "code": "feature_unresolved",
-      "title": "Feature F014 needs an engineer's answer",
-      "explanation": "Expected: 1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°. Actual: Second separate formed support requires resolved bends and global assembly placement.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
-      "actual": "Second separate formed support requires resolved bends and global assembly placement.",
+      "title": "Feature F019 needs an engineer's answer",
+      "explanation": "Expected: .281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62. Actual: First support-foot hole requires a resolved global support face.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
+      "actual": "First support-foot hole requires a resolved global support face.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "manual_action": "Answer the open question on the drawing, then re-run.",
       "location_status": "located",
-      "source_callout": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
+      "source_callout": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
       "feature_ids": [
-        "F014"
+        "F019"
       ],
       "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9695,
+      "location_method": "normalized",
+      "confidence": 0.8918,
       "rect_pdf_points": [
-        1294.06,
-        1053.71,
-        1336.78,
-        1072.26
+        797.8,
+        977.03,
+        946.05,
+        1001.77
       ],
       "rect_normalized": [
-        0.519153,
-        0.665675,
-        0.017137,
-        0.01172
+        0.320062,
+        0.617233,
+        0.059475,
+        0.015629
       ],
       "regions": [
         {
           "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9695,
+          "method": "normalized",
+          "confidence": 0.8918,
           "rect_normalized": [
-            0.519153,
-            0.665675,
-            0.017137,
-            0.01172
+            0.320062,
+            0.617233,
+            0.059475,
+            0.015629
           ],
           "rect_pdf_points": [
-            1294.06,
-            1053.71,
-            1336.78,
-            1072.26
+            797.8,
+            977.03,
+            946.05,
+            1001.77
           ],
           "rect_marked_pt": [
-            1294.06,
-            1053.71,
-            1336.78,
-            1072.26
+            797.8,
+            977.03,
+            946.05,
+            1001.77
+          ]
+        },
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8804,
+          "rect_normalized": [
+            0.323083,
+            0.629735,
+            0.078631,
+            0.019534
+          ],
+          "rect_pdf_points": [
+            805.33,
+            996.82,
+            1001.33,
+            1027.74
+          ],
+          "rect_marked_pt": [
+            805.33,
+            996.82,
+            1001.33,
+            1027.74
           ]
         }
       ]
     },
     {
-      "id": "EF-030",
-      "number": 30,
-      "finding_id": "flag_cc83f95adb01",
+      "id": "EF-020",
+      "number": 20,
+      "finding_id": "flag_b5a8be0469e8",
+      "severity": "ERROR",
+      "code": "feature_not_built",
+      "title": "Feature F012 was not built",
+      "explanation": "Expected: #10-32 TAP THRU; (2) HL'S.; 5.500; +.005. Actual: skipped: unresolved: Known pitch depends on unresolved first baseline.. The model is missing this feature.",
+      "expected": "#10-32 TAP THRU; (2) HL'S.; 5.500; +.005",
+      "actual": "skipped: unresolved: Known pitch depends on unresolved first baseline.",
+      "consequence": "The model is missing this feature.",
+      "manual_action": "Review the callout for F012 against the drawing, then add the feature or correct the plan.",
+      "location_status": "located",
+      "source_callout": "#10-32 TAP THRU; (2) HL'S.; 5.500; +.005",
+      "feature_ids": [
+        "F012"
+      ],
+      "page": 1,
+      "location_method": "normalized",
+      "confidence": 0.8878,
+      "rect_pdf_points": [
+        1018.92,
+        325.27,
+        1071.68,
+        347.53
+      ],
+      "rect_normalized": [
+        0.408771,
+        0.205487,
+        0.021166,
+        0.014063
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8878,
+          "rect_normalized": [
+            0.408771,
+            0.205487,
+            0.021166,
+            0.014063
+          ],
+          "rect_pdf_points": [
+            1018.92,
+            325.27,
+            1071.68,
+            347.53
+          ],
+          "rect_marked_pt": [
+            1018.92,
+            325.27,
+            1071.68,
+            347.53
+          ]
+        },
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9482,
+          "rect_normalized": [
+            0.403729,
+            0.216423,
+            0.02369,
+            0.014063
+          ],
+          "rect_pdf_points": [
+            1006.35,
+            342.58,
+            1065.4,
+            364.84
+          ],
+          "rect_marked_pt": [
+            1006.35,
+            342.58,
+            1065.4,
+            364.84
+          ]
+        },
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8803,
+          "rect_normalized": [
+            0.530241,
+            0.282055,
+            0.034277,
+            0.015623
+          ],
+          "rect_pdf_points": [
+            1321.7,
+            446.47,
+            1407.14,
+            471.2
+          ],
+          "rect_marked_pt": [
+            1321.7,
+            446.47,
+            1407.14,
+            471.2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EF-021",
+      "number": 21,
+      "finding_id": "flag_cb7d59441857",
       "severity": "WARNING",
       "code": "feature_unresolved",
-      "title": "Feature F017 needs an engineer's answer",
-      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: Third assembly axis at opposite end requires transverse location and mating support.. The feature was not built: the pipeline asks instead of guessing.",
+      "title": "Feature F016 needs an engineer's answer",
+      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: Supply the second assembly-hole transverse coordinate at the opposite end.. The feature was not built: the pipeline asks instead of guessing.",
       "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "Third assembly axis at opposite end requires transverse location and mating support.",
+      "actual": "Supply the second assembly-hole transverse coordinate at the opposite end.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "manual_action": "Answer the open question on the drawing, then re-run.",
       "location_status": "located",
       "source_callout": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
       "feature_ids": [
-        "F017"
+        "F016"
       ],
       "page": 1,
       "location_method": "exact_tokens",
@@ -2240,13 +1620,13 @@
         473.65,
         497.17,
         565.37,
-        526.85
+        526.86
       ],
       "rect_normalized": [
-        0.19002,
-        0.314086,
-        0.036794,
-        0.018751
+        0.190019,
+        0.314084,
+        0.036796,
+        0.018756
       ],
       "regions": [
         {
@@ -2254,36 +1634,268 @@
           "method": "exact_tokens",
           "confidence": 0.9594,
           "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
+            0.190019,
+            0.314084,
+            0.036796,
+            0.018756
           ],
           "rect_pdf_points": [
             473.65,
             497.17,
             565.37,
-            526.85
+            526.86
           ],
           "rect_marked_pt": [
             473.65,
             497.17,
             565.37,
-            526.85
+            526.86
           ]
         }
       ]
     },
     {
-      "id": "EF-031",
-      "number": 31,
-      "finding_id": "flag_d2638667d9c0",
+      "id": "EF-022",
+      "number": 22,
+      "finding_id": "flag_d59a730e120a",
+      "severity": "ERROR",
+      "code": "feature_not_built",
+      "title": "Feature F013 was not built",
+      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: skipped: unresolved: Supply the first assembly-hole transverse coordinate at the first end.. The model is missing this feature.",
+      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "actual": "skipped: unresolved: Supply the first assembly-hole transverse coordinate at the first end.",
+      "consequence": "The model is missing this feature.",
+      "manual_action": "Review the callout for F013 against the drawing, then add the feature or correct the plan.",
+      "location_status": "located",
+      "source_callout": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "feature_ids": [
+        "F013"
+      ],
+      "page": 1,
+      "location_method": "exact_tokens",
+      "confidence": 0.9594,
+      "rect_pdf_points": [
+        473.65,
+        497.17,
+        565.37,
+        526.86
+      ],
+      "rect_normalized": [
+        0.190019,
+        0.314084,
+        0.036796,
+        0.018756
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9594,
+          "rect_normalized": [
+            0.190019,
+            0.314084,
+            0.036796,
+            0.018756
+          ],
+          "rect_pdf_points": [
+            473.65,
+            497.17,
+            565.37,
+            526.86
+          ],
+          "rect_marked_pt": [
+            473.65,
+            497.17,
+            565.37,
+            526.86
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EF-023",
+      "number": 23,
+      "finding_id": "flag_e3590cf01d92",
+      "severity": "ERROR",
+      "code": "feature_not_built",
+      "title": "Feature F017 was not built",
+      "explanation": "Expected: 1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°; .375. Actual: skipped: unresolved: Provide support bend radii and dimension-to-bend conventions before constructing the finished profile.. The model is missing this feature.",
+      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°; .375",
+      "actual": "skipped: unresolved: Provide support bend radii and dimension-to-bend conventions before constructing the finished profile.",
+      "consequence": "The model is missing this feature.",
+      "manual_action": "Review the callout for F017 against the drawing, then add the feature or correct the plan.",
+      "location_status": "located",
+      "source_callout": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°; .375",
+      "feature_ids": [
+        "F017"
+      ],
+      "page": 1,
+      "location_method": "exact_tokens",
+      "confidence": 0.9696,
+      "rect_pdf_points": [
+        1294.06,
+        1053.71,
+        1336.78,
+        1072.26
+      ],
+      "rect_normalized": [
+        0.519152,
+        0.665675,
+        0.017138,
+        0.011719
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9696,
+          "rect_normalized": [
+            0.519152,
+            0.665675,
+            0.017138,
+            0.011719
+          ],
+          "rect_pdf_points": [
+            1294.06,
+            1053.71,
+            1336.78,
+            1072.26
+          ],
+          "rect_marked_pt": [
+            1294.06,
+            1053.71,
+            1336.78,
+            1072.26
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EF-024",
+      "number": 24,
+      "finding_id": "flag_e627059fa62e",
+      "severity": "ERROR",
+      "code": "feature_not_built",
+      "title": "Feature F018 was not built",
+      "explanation": "Expected: SUPPORT; 1.25. Actual: skipped: unresolved: Second separate support requires finalized formed geometry and assembly placement.. The model is missing this feature.",
+      "expected": "SUPPORT; 1.25",
+      "actual": "skipped: unresolved: Second separate support requires finalized formed geometry and assembly placement.",
+      "consequence": "The model is missing this feature.",
+      "manual_action": "Review the callout for F018 against the drawing, then add the feature or correct the plan.",
+      "location_status": "located",
+      "source_callout": "SUPPORT; 1.25",
+      "feature_ids": [
+        "F018"
+      ],
+      "page": 1,
+      "location_method": "exact_tokens",
+      "confidence": 0.9485,
+      "rect_pdf_points": [
+        1246.32,
+        505.83,
+        1286.52,
+        524.38
+      ],
+      "rect_normalized": [
+        0.5,
+        0.319555,
+        0.016127,
+        0.011719
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9485,
+          "rect_normalized": [
+            0.5,
+            0.319555,
+            0.016127,
+            0.011719
+          ],
+          "rect_pdf_points": [
+            1246.32,
+            505.83,
+            1286.52,
+            524.38
+          ],
+          "rect_marked_pt": [
+            1246.32,
+            505.83,
+            1286.52,
+            524.38
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EF-025",
+      "number": 25,
+      "finding_id": "flag_f96f741da961",
+      "severity": "WARNING",
+      "code": "feature_unresolved",
+      "title": "Feature F013 needs an engineer's answer",
+      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: Supply the first assembly-hole transverse coordinate at the first end.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "actual": "Supply the first assembly-hole transverse coordinate at the first end.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "manual_action": "Answer the open question on the drawing, then re-run.",
+      "location_status": "located",
+      "source_callout": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "feature_ids": [
+        "F013"
+      ],
+      "page": 1,
+      "location_method": "exact_tokens",
+      "confidence": 0.9594,
+      "rect_pdf_points": [
+        473.65,
+        497.17,
+        565.37,
+        526.86
+      ],
+      "rect_normalized": [
+        0.190019,
+        0.314084,
+        0.036796,
+        0.018756
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9594,
+          "rect_normalized": [
+            0.190019,
+            0.314084,
+            0.036796,
+            0.018756
+          ],
+          "rect_pdf_points": [
+            473.65,
+            497.17,
+            565.37,
+            526.86
+          ],
+          "rect_marked_pt": [
+            473.65,
+            497.17,
+            565.37,
+            526.86
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EF-026",
+      "number": 26,
+      "finding_id": "flag_fb62693fc69c",
       "severity": "ERROR",
       "code": "feature_not_built",
       "title": "Feature F016 was not built",
-      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: skipped: unresolved: Second assembly axis at first end: obtain its separate transverse location.. The model is missing this feature.",
+      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: skipped: unresolved: Supply the second assembly-hole transverse coordinate at the opposite end.. The model is missing this feature.",
       "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "skipped: unresolved: Second assembly axis at first end: obtain its separate transverse location.",
+      "actual": "skipped: unresolved: Supply the second assembly-hole transverse coordinate at the opposite end.",
       "consequence": "The model is missing this feature.",
       "manual_action": "Review the callout for F016 against the drawing, then add the feature or correct the plan.",
       "location_status": "located",
@@ -2298,13 +1910,13 @@
         473.65,
         497.17,
         565.37,
-        526.85
+        526.86
       ],
       "rect_normalized": [
-        0.19002,
-        0.314086,
-        0.036794,
-        0.018751
+        0.190019,
+        0.314084,
+        0.036796,
+        0.018756
       ],
       "regions": [
         {
@@ -2312,84 +1924,26 @@
           "method": "exact_tokens",
           "confidence": 0.9594,
           "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
+            0.190019,
+            0.314084,
+            0.036796,
+            0.018756
           ],
           "rect_pdf_points": [
             473.65,
             497.17,
             565.37,
-            526.85
+            526.86
           ],
           "rect_marked_pt": [
             473.65,
             497.17,
             565.37,
-            526.85
-          ]
-        }
-      ]
-    },
-    {
-      "id": "EF-032",
-      "number": 32,
-      "finding_id": "flag_dd366751c237",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F018 needs an engineer's answer",
-      "explanation": "Expected: .281 DR. THRU BOTH DET'S; 4 HOLES; .56. Actual: Fourth assembly axis at opposite end requires its separate transverse location.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "Fourth assembly axis at opposite end requires its separate transverse location.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "feature_ids": [
-        "F018"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9594,
-      "rect_pdf_points": [
-        473.65,
-        497.17,
-        565.37,
-        526.85
-      ],
-      "rect_normalized": [
-        0.19002,
-        0.314086,
-        0.036794,
-        0.018751
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9594,
-          "rect_normalized": [
-            0.19002,
-            0.314086,
-            0.036794,
-            0.018751
-          ],
-          "rect_pdf_points": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
-          ],
-          "rect_marked_pt": [
-            473.65,
-            497.17,
-            565.37,
-            526.85
+            526.86
           ]
         }
       ]
     }
   ],
-  "generation_key": "980c541a845d"
+  "generation_key": "858c93b8f604"
 }

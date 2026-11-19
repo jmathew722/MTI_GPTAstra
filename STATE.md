@@ -664,3 +664,13 @@ blind/thru, counterbore slot blind/thru, plain slot blind, countersink slot blin
 geometry has no reference yet. 56 are `failed_verification` with the exact mismatch recorded (near/mid/far countersink treatments, head-clearance
 countersinks, plain taps, plain through slot); 10 legacy have no adapter. Advanced Hole: element data and face selection work, `AdvancedHole2` still
 reports incorrect parameters; Hole Series: no creation API. See `docs/hole-wizard/support-status.md` and `matrix-results.json`.
+
+## SolidWorks build recording: "Record Pipeline Run" (2026-11-19, branch `Improvements_2`)
+
+Design: `docs/superpowers/specs/2026-11-19-solidworks-recording-design.md`; report: `docs/test-reports/2026-11-19-solidworks-recording-report.md`.
+A checkbox under "Force fresh extraction" (Run options) records only the SolidWorks window, only during the native build, to
+`<part>/solidworks_recording.mp4` (+ `.json` manifest, `_poster.jpg`), shown in Pipeline Results -> Build & Verification -> "SolidWorks recording"
+(player, 1x/2x/4x, feature chapters that seek, download; partial/failed/skipped/stale/interrupted states say why). Backend: Windows Graphics Capture
+(records the one window even when covered); fallback: screen rectangle with a privacy gate (covered frames are dropped). CLI: `--record-solidworks`.
+Recordings are gitignored. Tests: `tests/test_solidworks_recorder.py` (16), `FINAL_UI/tests/server/test_app_recording.py` (11),
+`tests/unit/recordingview.test.js`, `tests/e2e/tests/24-solidworks-recording.spec.ts` (5).

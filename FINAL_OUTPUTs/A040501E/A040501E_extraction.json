@@ -1,0 +1,1101 @@
+{
+  "part_name": "SHAFT",
+  "part_number": "4050-D",
+  "revision": "1",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "4140",
+  "finish": "DIRECT HDN. R/C 28-32. IONITRIDE OUTSIDE DIA ONLY, .008 MIN. CASE DEPTH, R/C 49 MIN. Surface texture: 16 on OD; 125 on indicated end faces, opening walls and recess surfaces. Texture values interpreted as microinches.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1.02; 3 PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b11\u00b0.",
+  "views": [
+    {
+      "view_type": "Top",
+      "description": "Longitudinal exterior view showing rounded rectangular transverse opening and larger shallow entrance recess.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D021",
+        "D022"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F010"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Horizontal shaft axis; CENT. dimensions center both opening widths transversely. Opening is not centered along shaft length."
+    },
+    {
+      "view_type": "Section",
+      "description": "SECTION A-A: longitudinal axial section showing transverse through-opening, .500-deep entrance recess, left blind tapped bore, right drilled/counterbored passage and end chamfers. Small tapped holes beyond section plane also represented.",
+      "dimensions_shown": [
+        "D009",
+        "D010",
+        "D011",
+        "D012",
+        "D013",
+        "D014"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005",
+        "F007",
+        "F010"
+      ],
+      "hidden_features": [
+        "F006",
+        "F008",
+        "F009"
+      ],
+      "centerline_notes": "Horizontal common axis of shaft and axial bores. OD is datum feature A."
+    },
+    {
+      "view_type": "Right",
+      "description": "Circular right-end view with central drilled/counterbored passage, four tapped holes in square arrangement, and cutting plane A-A.",
+      "dimensions_shown": [
+        "D015",
+        "D016",
+        "D017",
+        "D018",
+        "D019",
+        "D020"
+      ],
+      "visible_features": [
+        "F001",
+        "F005",
+        "F006",
+        "F008",
+        "F009",
+        "F010"
+      ],
+      "hidden_features": [
+        "F002",
+        "F003",
+        "F004",
+        "F007"
+      ],
+      "centerline_notes": "Crossed shaft centerlines and hole center marks. Four holes at \u00b1.884 in each end-face direction. A-A passes vertically through shaft axis."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 8.0,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_length",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 8.000; general tolerance."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 1.88,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "recess_axial_length",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 3.44,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_end_to_recess_right_wall",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General tolerance."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 1.75,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "recess_transverse_width",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.75 CENT.; centered across shaft axis; general tolerance."
+    },
+    {
+      "id": "D005",
+      "type": "radial",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "opening_corner_radius",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".250 R TYP.; leader points to inner opening corner. Confirm application to larger recess corners. General tolerance."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 1.75,
+      "unit": "inch",
+      "tolerance_plus": 0.001,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "unilateral",
+      "applies_to": "through_slot_axial_length",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.750 +.001/-.000."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 3.5,
+      "unit": "inch",
+      "tolerance_plus": 0.001,
+      "tolerance_minus": 0.001,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_end_to_through_slot_right_wall",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "3.500 \u00b1.001."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 1.5,
+      "unit": "inch",
+      "tolerance_plus": 0.001,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "unilateral",
+      "applies_to": "through_slot_transverse_width",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.500 CENT. +.001/-.000; centered across shaft axis."
+    },
+    {
+      "id": "D009",
+      "type": "depth",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "recess_depth_from_OD_crown",
+      "feature_ref": "F003",
+      "view": "Section A-A",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".500 from upper OD envelope to recess floor; general tolerance."
+    },
+    {
+      "id": "D010",
+      "type": "diameter",
+      "value": 3.501,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.001,
+      "tolerance_type": "unilateral",
+      "applies_to": "shaft_outside_diameter",
+      "feature_ref": "F001",
+      "view": "Section A-A",
+      "datum_ref": "A",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "3.501 DIA. +.000/-.001; datum feature A; surface texture 16."
+    },
+    {
+      "id": "D011",
+      "type": "thread",
+      "value": 1.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_internal_thread_nominal_diameter",
+      "feature_ref": "F007",
+      "view": "Section A-A",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.500-12 TAP; 12 TPI. Thread series/class not printed. Not a tap-drill diameter."
+    },
+    {
+      "id": "D012",
+      "type": "depth",
+      "value": 2.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_tapped_depth",
+      "feature_ref": "F007",
+      "view": "Section A-A",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "2.50 DP. in tap callout; general tolerance. Pilot-drill depth not separately given."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "end_chamfer_size",
+      "feature_ref": "F010",
+      "view": "Section A-A",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".060 \u00d7 45\u00b0 BOTH ENDS; general tolerance."
+    },
+    {
+      "id": "D014",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "end_chamfer_angle",
+      "feature_ref": "F010",
+      "view": "Section A-A",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Value and tolerance are DEGREES. Inch is only a schema-required drawing-unit placeholder; degree units are unavailable in the schema."
+    },
+    {
+      "id": "D015",
+      "type": "thread",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_end_internal_thread_nominal_diameter",
+      "feature_ref": "F008",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".375-16 TAP, 4 HLS.; 16 TPI; thread series/class not explicitly given."
+    },
+    {
+      "id": "D016",
+      "type": "depth",
+      "value": 0.88,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_end_tapped_depth",
+      "feature_ref": "F008",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".88 DP. in tap callout; general tolerance. Not a separately specified pilot-drill depth."
+    },
+    {
+      "id": "D017",
+      "type": "depth",
+      "value": 1.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_central_counterbore_depth",
+      "feature_ref": "F005",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DR. & C'BORE 1.25 DP. FOR .500 S.H.C.S.; interpreted as counterbore depth, consistent with section. General tolerance."
+    },
+    {
+      "id": "D018",
+      "type": "diameter",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_socket_head_cap_screw_size",
+      "feature_ref": "F005",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": true,
+      "notes": "FOR .500 S.H.C.S. specifies nominal fastener size, NOT drilled or counterbore diameter. Actual bore diameters require resolution before building."
+    },
+    {
+      "id": "D019",
+      "type": "linear",
+      "value": 0.884,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "hole_horizontal_offset_from_axis",
+      "feature_ref": "F009",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".884 TYP. \u00b1.005; both columns."
+    },
+    {
+      "id": "D020",
+      "type": "linear",
+      "value": 0.884,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "hole_vertical_offset_from_axis",
+      "feature_ref": "F009",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".884 TYP. \u00b1.005; both rows."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "perpendicularity_of_through_slot_right_wall",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "A",
+      "gdt_symbol": "perpendicularity",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Legacy frame: perpendicularity | A | .001. Attached to right inner slot wall extension."
+    },
+    {
+      "id": "D022",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "perpendicularity_of_right_end_face",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "A",
+      "gdt_symbol": "perpendicularity",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Legacy frame: perpendicularity | A | .001. Attached to right end-face extension."
+    },
+    {
+      "id": "D023",
+      "type": "depth",
+      "value": 0.008,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "minimum_OD_case_depth",
+      "feature_ref": "",
+      "view": "Title block",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".008 MIN. ionitrided case depth; minimum only, no upper limit specified."
+    },
+    {
+      "id": "D024",
+      "type": "linear",
+      "value": 2.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_end_to_through_slot_left_wall",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED nominal: 8.000 - 3.500 - 1.750 = 2.750; no independent tolerance."
+    },
+    {
+      "id": "D025",
+      "type": "linear",
+      "value": 2.68,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_end_to_recess_left_wall",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED nominal: 8.000 - 3.44 - 1.88 = 2.68."
+    },
+    {
+      "id": "D026",
+      "type": "linear",
+      "value": 1.768,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "hole_column_spacing",
+      "feature_ref": "F009",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED nominal: 2 \u00d7 .884 = 1.768."
+    },
+    {
+      "id": "D027",
+      "type": "linear",
+      "value": 1.768,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "hole_row_spacing",
+      "feature_ref": "F009",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED nominal: 2 \u00d7 .884 = 1.768."
+    },
+    {
+      "id": "D028",
+      "type": "linear",
+      "value": 0.8665,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "lower_or_left_hole_edge_coordinate",
+      "feature_ref": "F009",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED nominal: 3.501/2 - .884 = .8665, from lower-left corner of circular end-view bounding box."
+    },
+    {
+      "id": "D029",
+      "type": "linear",
+      "value": 2.6345,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper_or_right_hole_edge_coordinate",
+      "feature_ref": "F009",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED nominal: 3.501/2 + .884 = 2.6345, from lower-left corner of circular end-view bounding box."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "tapped",
+      "diameter": 1.5,
+      "thru": false,
+      "depth": 2.5,
+      "thread_spec": "1.500-12 TAP",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 0.0,
+      "y_position": 0.0,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          1.7505,
+          1.7505
+        ]
+      ],
+      "feature_ref": "F007",
+      "view": "Section A-A"
+    },
+    {
+      "id": "H002",
+      "type": "counterbore",
+      "diameter": 0.5,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 1.25,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 0.0,
+      "y_position": 0.0,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          1.7505,
+          1.7505
+        ]
+      ],
+      "feature_ref": "F005",
+      "view": "Right / Section A-A"
+    },
+    {
+      "id": "H003",
+      "type": "tapped",
+      "diameter": 0.375,
+      "thru": false,
+      "depth": 0.88,
+      "thread_spec": ".375-16 TAP",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 4,
+      "x_position": -0.884,
+      "y_position": -0.884,
+      "position_known": true,
+      "pattern": "linear",
+      "pattern_spacing": 1.768,
+      "instance_positions": [
+        [
+          0.8665,
+          0.8665
+        ],
+        [
+          2.6345,
+          0.8665
+        ],
+        [
+          0.8665,
+          2.6345
+        ],
+        [
+          2.6345,
+          2.6345
+        ]
+      ],
+      "feature_ref": "F009",
+      "view": "Right"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Cylinder diameter 3.501, length 8.000. OD is datum A. Axial coordinate L=0 at left end, L=8 at right end.",
+      "related_dimensions": [
+        "D001",
+        "D010",
+        "D022"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D001",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_cut",
+      "description": "Rounded rectangular through-opening normal to Top plane, L=2.750 to 4.500, transverse width 1.500 centered on axis; .250 typical corner radius. Right wall perpendicular to datum A within .001.",
+      "related_dimensions": [
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D021",
+        "D024"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 3.625,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Rounded rectangular upper entrance recess 1.88 axial by 1.75 transverse, L=2.68 to 4.56, centered transversely. Floor .500 below upper OD crown. Recess corner radius application requires confirmation.",
+      "related_dimensions": [
+        "D002",
+        "D003",
+        "D004",
+        "D009",
+        "D025"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "D009",
+      "parent_feature": "F001",
+      "offset_x": 3.62,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "hole",
+      "description": "Left coaxial blind pilot bore for 1.500-12 thread. Pilot diameter and drilling allowance unspecified; nominal thread diameter must not be used as pilot diameter.",
+      "related_dimensions": [
+        "D011",
+        "D012"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F005",
+      "type": "hole",
+      "description": "Right coaxial passage through right-end web into transverse slot; 1.25-deep counterbore for .500 SHCS. Actual clearance and counterbore diameters unknown. Do not use H002 diameter placeholder as a manufacturing dimension.",
+      "related_dimensions": [
+        "D007",
+        "D017",
+        "D018"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F006",
+      "type": "hole",
+      "description": "Right-end seed pilot hole at (-.884,-.884) for .375-16 tap; pilot diameter and drill depth unspecified.",
+      "related_dimensions": [
+        "D015",
+        "D016",
+        "D019",
+        "D020"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": -0.884,
+      "offset_y": -0.884,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F007",
+      "type": "thread",
+      "description": "Left internal 1.500-12 thread, 2.50 deep; fit class and series unspecified.",
+      "related_dimensions": [
+        "D011",
+        "D012"
+      ],
+      "sketch_plane": "custom",
+      "depth_dimension_id": "D012",
+      "parent_feature": "F004",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F008",
+      "type": "thread",
+      "description": "Right seed internal .375-16 thread, .88 deep.",
+      "related_dimensions": [
+        "D015",
+        "D016"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D016",
+      "parent_feature": "F006",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F009",
+      "type": "pattern",
+      "description": "2\u00d72 pattern of seed pilot bore and thread together; four positions at (\u00b1.884,\u00b1.884), 1.768 pitch in both directions.",
+      "related_dimensions": [
+        "D019",
+        "D020",
+        "D026",
+        "D027",
+        "D028",
+        "D029"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "",
+      "parent_feature": "F008",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F010",
+      "type": "chamfer",
+      "description": "Outside circular end-edge chamfers .060 \u00d7 45\u00b0, both ends.",
+      "related_dimensions": [
+        "D013",
+        "D014"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [
+    {
+      "symbol": "perpendicularity",
+      "value": 0.001,
+      "datum": "A"
+    },
+    {
+      "symbol": "perpendicularity",
+      "value": 0.001,
+      "datum": "A"
+    }
+  ],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Longitudinal plane through shaft axis, normal to transverse opening-width direction",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F007",
+          "F009",
+          "F010"
+        ],
+        "description": "Both opening widths centered on shaft axis. Top recess breaks top/bottom symmetry of complete part."
+      },
+      {
+        "plane": "Horizontal and vertical center planes of right-end hole pattern",
+        "feature_ids": [
+          "F009"
+        ],
+        "description": "Holes at \u00b1.884 in both end-face directions; pattern symmetry only."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F001",
+          "F004",
+          "F005",
+          "F007",
+          "F010"
+        ],
+        "description": "OD, left axial tapped bore, right drilled/counterbored passage and circular end chamfers share shaft axis A."
+      },
+      {
+        "feature_ids": [
+          "F006",
+          "F008"
+        ],
+        "description": "Seed pilot and internal thread coaxial; repeated at four positions."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "F009",
+        "qty": 2,
+        "spacing_value": 1.768,
+        "computed_from": "Horizontal pitch = .884 + .884 = 1.768."
+      },
+      {
+        "feature_ref": "F009",
+        "qty": 2,
+        "spacing_value": 1.768,
+        "computed_from": "Vertical pitch = .884 + .884 = 1.768."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D024",
+          "D006",
+          "D007"
+        ],
+        "description": "8.000 = 2.750 + 1.750 + 3.500, axial through-opening chain."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D025",
+          "D002",
+          "D003"
+        ],
+        "description": "8.000 = 2.68 + 1.88 + 3.44, axial recess chain."
+      },
+      {
+        "total_dimension_id": "D026",
+        "component_dimension_ids": [
+          "D019",
+          "D019"
+        ],
+        "description": "Column pitch 1.768 = .884 + .884."
+      },
+      {
+        "total_dimension_id": "D027",
+        "component_dimension_ids": [
+          "D020",
+          "D020"
+        ],
+        "description": "Row pitch 1.768 = .884 + .884."
+      },
+      {
+        "total_dimension_id": "D010",
+        "component_dimension_ids": [
+          "D028",
+          "D026",
+          "D028"
+        ],
+        "description": "End-view bounding width: 3.501 = .8665 + 1.768 + .8665."
+      },
+      {
+        "total_dimension_id": "D029",
+        "component_dimension_ids": [
+          "D028",
+          "D026"
+        ],
+        "description": "Right column coordinate: 2.6345 = .8665 + 1.768."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D024",
+      "D025",
+      "D026",
+      "D027",
+      "D028",
+      "D029"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F008",
+    "F009",
+    "F010"
+  ],
+  "warnings": [
+    "H002 diameter=0.500 is ONLY the printed nominal screw size, retained as a placeholder because the reporting tool requires a positive hole diameter. It is NOT the specified drilled diameter and must NOT drive a build. Actual clearance-hole diameter is unknown; cbore_diameter=0 means unknown. Resolve screw standard, fit and head clearance before building F005.",
+    "H002 is through the right-end web into the transverse opening, not through the entire shaft. Its 1.25 DP callout is interpreted as counterbore depth from the right end.",
+    "No explicit ASME/ANSI/ISO/DIN designation appears. Inches and third-angle projection are explicitly stated; legacy US-style GD&T is used.",
+    "Revision 1 is taken from populated CHG entry dated 8/23/93. D is retained in drawing number 4050-D. MODEL No. 180 is also printed.",
+    "Tapped depths are thread depths; tap-drill diameters, pilot-drill depths, bottom allowances and thread fit classes are not specified. They require confirmation rather than invented dimensions.",
+    "The .250 R TYP leader points to an inner opening corner. Larger recess corners are rounded but application of the same radius there should be confirmed for an exact model.",
+    "Recess axial center is nominally 3.620 from left end; inner opening center is 3.625. Do not impose uncalled-for axial concentricity; difference follows dimensions with different precision.",
+    "Surface textures 125 and 16 are conventionally interpreted as microinches for this inch drawing; no explicit texture standard or parameter is printed.",
+    "D014 value and tolerances are degrees despite the schema-required inch label.",
+    "Top-cut offsets use axial distance from left end and transverse offset from shaft axis. End-hole offsets use end-face center. Instance positions use lower-left corner of nominal 3.501-square end-view bounding box.",
+    "Derived values have no independent tolerance; retain controlling dimensions and their tolerances.",
+    "Two perpendicularity frames apply separately to right inner opening wall and right end face, identified in D021 and D022."
+  ],
+  "confidence": 0.88
+}

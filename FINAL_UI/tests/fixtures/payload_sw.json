@@ -4,6 +4,7 @@
   "stl_source": "solidworks",
   "categories": {
     "engineering_markup": {"present": false, "status": "none"},
+    "recording": {"present": false, "status": "none"},
     "extraction": {"present": true, "name": "117C_extraction.json", "text": "{\"part_number\": \"117C\", \"thickness\": 0.250, \"scale\": 1e-7, \"big\": 12345678901234567890}"},
     "resolved": {"present": true, "name": "117C_resolved_extraction.json", "text": "{}"},
     "build_plan": {"present": true, "name": "117C_build_plan.json", "text": "{\"steps\": []}"},

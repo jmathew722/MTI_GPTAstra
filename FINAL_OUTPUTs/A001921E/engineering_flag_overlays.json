@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "source_pdf_sha256": "b4275d79302b853e37204a1be76e04b78c0d5e8004c1becfac80c1c3e665684a",
+  "source_name": "A001921E.pdf",
+  "run_id": "run_41aaba369fa344d09e71",
+  "pages": [
+    {
+      "page_index": 0,
+      "width": 1224.0,
+      "height": 791.0,
+      "rotation": 0,
+      "text_source": "ocr"
+    }
+  ],
+  "overlays": [
+    {
+      "finding_id": "flag_20ffe6611de4",
+      "number": 2,
+      "severity": "warning",
+      "label": "2: F006 is a plain cut, not a Hole Wizard hole",
+      "overlay_id": "ov_flag_20ffe6611de4_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.239919,
+        "y": 0.316422,
+        "width": 0.053931,
+        "height": 0.026564
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9698,
+      "matched_text": "9.000",
+      "rotation_degrees": 0,
+      "source_callout": "9.000",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.29785,
+        "y": 0.316422
+      }
+    },
+    {
+      "finding_id": "flag_cfb6b623d1d1",
+      "number": 4,
+      "severity": "warning",
+      "label": "4: F006 is a plain cut, not a Hole Wizard hole",
+      "overlay_id": "ov_flag_cfb6b623d1d1_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.239919,
+        "y": 0.316422,
+        "width": 0.053931,
+        "height": 0.026564
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9698,
+      "matched_text": "9.000",
+      "rotation_degrees": 0,
+      "source_callout": "9.000",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.29785,
+        "y": 0.336422
+      }
+    },
+    {
+      "finding_id": "flag_20ffe6611de4",
+      "number": 2,
+      "severity": "warning",
+      "label": "2: F006 is a plain cut, not a Hole Wizard hole",
+      "overlay_id": "ov_flag_20ffe6611de4_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.488911,
+        "y": 0.457054,
+        "width": 0.045867,
+        "height": 0.028126
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.958,
+      "matched_text": "1.875",
+      "rotation_degrees": 0,
+      "source_callout": "1.875",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.538778,
+        "y": 0.457054
+      }
+    },
+    {
+      "finding_id": "flag_cfb6b623d1d1",
+      "number": 4,
+      "severity": "warning",
+      "label": "4: F006 is a plain cut, not a Hole Wizard hole",
+      "overlay_id": "ov_flag_cfb6b623d1d1_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.488911,
+        "y": 0.457054,
+        "width": 0.045867,
+        "height": 0.028126
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.958,
+      "matched_text": "1.875",
+      "rotation_degrees": 0,
+      "source_callout": "1.875",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.538778,
+        "y": 0.497054
+      }
+    }
+  ],
+  "unlocated_findings": [
+    {
+      "finding_id": "flag_079321586d5a",
+      "number": 1,
+      "severity": "info",
+      "label": "1: Modeling practice: mti_hole_grouping",
+      "reason": "no_source_callout",
+      "likely_page": null,
+      "likely_view": null,
+      "likely_region": null,
+      "candidates": 0,
+      "source_callouts": [],
+      "attempts": []
+    },
+    {
+      "finding_id": "flag_82778bb70568",
+      "number": 3,
+      "severity": "info",
+      "label": "3: Modeling practice: mti_hole_grouping",
+      "reason": "no_source_callout",
+      "likely_page": null,
+      "likely_view": null,
+      "likely_region": null,
+      "candidates": 0,
+      "source_callouts": [],
+      "attempts": []
+    }
+  ]
+}

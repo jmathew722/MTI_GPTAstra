@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "run_id": "run_9b95504cdb084251bd9a",
+  "part": "2N26641E",
+  "findings": [
+    {
+      "finding_id": "flag_4759c82e6b1d",
+      "part": "2N26641E",
+      "run_id": "run_9b95504cdb084251bd9a",
+      "severity": "info",
+      "category": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "expected": "MTI modeling practice",
+      "actual": "F011, F013: identical holes on face(F001,+Z,D015) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "recommended_action": "Review the feature order and grouping if it matters for this part.",
+      "feature_ids": [],
+      "source_callouts": [],
+      "evidence_ids": [
+        "ir_report:mti_review:mti_hole_grouping"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_8d6489ceddd1",
+      "part": "2N26641E",
+      "run_id": "run_9b95504cdb084251bd9a",
+      "severity": "info",
+      "category": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "expected": "MTI modeling practice",
+      "actual": "F015, F017: identical holes on face(F001,+Z,D013) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "recommended_action": "Review the feature order and grouping if it matters for this part.",
+      "feature_ids": [],
+      "source_callouts": [],
+      "evidence_ids": [
+        "ir_report:mti_review:mti_hole_grouping"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_d12be3318a51",
+      "part": "2N26641E",
+      "run_id": "run_9b95504cdb084251bd9a",
+      "severity": "info",
+      "category": "practice_advisory",
+      "title": "Modeling practice: mti_edge_ops_last",
+      "expected": "MTI modeling practice",
+      "actual": "F008 (prism) comes after F002 (fillet); MTI puts fillets and chamfers at the end of the tree",
+      "consequence": "Advisory only: this never blocks a part.",
+      "recommended_action": "Review the feature order and grouping if it matters for this part.",
+      "feature_ids": [],
+      "source_callouts": [],
+      "evidence_ids": [
+        "ir_report:mti_review:mti_edge_ops_last"
+      ],
+      "schema_version": 1
+    }
+  ]
+}

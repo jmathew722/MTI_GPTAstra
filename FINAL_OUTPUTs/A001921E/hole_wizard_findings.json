@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "code": "HW_CREATE_NULL",
+      "severity": "warning",
+      "title": "F006 is a plain cut, not a Hole Wizard hole",
+      "expected": "a native Hole Wizard feature",
+      "actual": "HW_CREATE_NULL: Hole Wizard 3/4-102 tapped, cosmetic thread: HoleWizard5 refused Blind + drill point",
+      "consequence": "The geometry matches but the feature tree has no Hole Wizard feature, so hole callouts and hardware data are absent.",
+      "recommended_action": "Fix the Hole Wizard environment (see the preflight finding), then rebuild.",
+      "source_callouts": [
+        ".656 DIA. THRU & 3/4-10 2B TAP THRU-(2) HL'S.",
+        "9.000",
+        "1.875"
+      ],
+      "feature_ids": [
+        "F006"
+      ]
+    }
+  ]
+}

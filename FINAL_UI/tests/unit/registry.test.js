@@ -16,14 +16,14 @@ test('every categories key maps to exactly one section', () => {
   assert.deepEqual(real.slice().sort(), G.CATEGORY_KEYS.slice().sort());
 });
 
-test('six groups in the required order, sixteen sections with required fields', () => {
+test('six groups in the required order, seventeen sections with required fields', () => {
   assert.deepEqual(G.GROUPS.map((g) => g.label), ['Overview', 'Extraction', 'Build & Verification', 'Automation & Files', 'Diagnostics', 'Scoring Rubric']);
-  assert.equal(G.sections.length, 16);
+  assert.equal(G.sections.length, 17);
   // Must-Meet Specs and Corrections sit in Build & Verification, immediately after Model Check;
   // Scoring Rubric is its own group, adjacent to the rest (Solid Flow brand spec: moved out of
   // the right inspector / fed by the real bench scorer + ir_report.json practices findings).
   assert.deepEqual(G.sections.map((s) => s.id), ['overview', 'extraction', 'resolved', 'overview_analysis', 'build_plan',
-    'verification', 'flags', 'model_check', 'must_meet', 'corrections', 'macros', 'files', 'cost', 'console', 'events', 'scoring_rubric']);
+    'verification', 'flags', 'model_check', 'recording', 'must_meet', 'corrections', 'macros', 'files', 'cost', 'console', 'events', 'scoring_rubric']);
   const order = G.GROUPS.map((g) => g.id);
   let last = -1;
   for (const s of G.sections) {
@@ -33,7 +33,7 @@ test('six groups in the required order, sixteen sections with required fields', 
     assert.equal(typeof s.source, 'function'); assert.equal(typeof s.status, 'function');
     assert.equal(s.render, undefined, 'render is added by the UI, not the registry');
   }
-  assert.equal(new Set(G.sections.map((s) => s.id)).size, 16);
+  assert.equal(new Set(G.sections.map((s) => s.id)).size, 17);
   for (const g of G.GROUPS) assert.ok(G.inGroup(g.id).length >= 1);
 });
 
@@ -51,7 +51,7 @@ test('status and source over a full payload and over nothing', () => {
   const p = H.payload();
   for (const s of G.sections) {
     const live = ['console', 'events'].includes(s.id) ? { lines: H.lines('part_full.log') } : undefined;
-    if (s.id === 'model_check') { assert.equal(s.status(p, live), 'absent'); continue; }
+    if (s.id === 'model_check' || s.id === 'recording') { assert.equal(s.status(p, live), 'absent'); continue; }   // fixture: no model check, not recorded
     assert.equal(s.status(p, live), 'present', s.id);
     assert.notEqual(s.source(p, live), undefined);
   }

@@ -15,7 +15,7 @@
 
   /* Every key of payload.categories as produced by app.py _categorize_output (14 keys). */
   var CATEGORY_KEYS = ['extraction', 'resolved', 'build_plan', 'verification', 'model_check', 'review', 'usage',
-                       'macros', 'sldprt', 'stl', 'must_meet', 'overview_analysis', 'console', 'files', 'telemetry', 'flags', 'engineering_markup'];
+                       'macros', 'sldprt', 'stl', 'must_meet', 'overview_analysis', 'console', 'files', 'telemetry', 'flags', 'engineering_markup', 'recording'];
 
   var GROUPS = [
     { id: 'overview', label: 'Overview' },
@@ -85,6 +85,10 @@
       emptyText: 'Model check requires Windows and SolidWorks; it was not produced for this run.',
       tools: ['copy', 'download'],
       source: srcKey('model_check'), status: function (p) { return present('model_check')(p) ? 'present' : 'absent'; } },
+    { id: 'recording', group: 'build', label: 'SolidWorks recording', keys: ['recording'],
+      emptyText: 'Not recorded. Tick "Record pipeline run" in Run options before running to record the SolidWorks build.',
+      tools: [],
+      source: srcKey('recording'), status: function (p) { return present('recording')(p) ? 'present' : 'absent'; } },
     { id: 'must_meet', group: 'build', label: 'Must-Meet Specs', keys: ['must_meet'],
       emptyText: 'No must-meet specification saved for this part yet.',
       tools: [],

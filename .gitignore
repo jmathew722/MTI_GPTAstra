@@ -235,3 +235,6 @@ graphify-out/cost.json
 *.local.json
 2D-3D-CAD-Test-Generation/config/mti/*
 !2D-3D-CAD-Test-Generation/config/mti/README.md
+
+# Local screen recordings of the SolidWorks build ("Record Pipeline Run"): demo artifacts, never committed (manifest, poster and video go together)
+**/solidworks_recording*

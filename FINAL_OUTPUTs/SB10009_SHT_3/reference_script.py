@@ -7,25 +7,25 @@ from pipeline.ir.cq_runtime import Model
 m = Model('BRACKET (ISOLATOR GAGES)', origin_kind='corner', units='inch', strict=False)
 m.prism('F001', on='plane(front)', offset=0, profile={'shape': 'rect', 'w': 16.24, 'h': 6, 'anchor': 'corner', 'u': 0, 'v': 0}, depth=0.375, op='add')  # w=D001, h=D027, u=0, v=0; depth=D030; offset=0
 m.hole('F002', on='face(F001,+Z)', u=3, v=3, spec={'type': 'thru', 'd': 3.25})  # u=D005, v=D027 / 2, d=D017
-m.skip('F003', 'unresolved: Confirm degraded middle-opening baseline D002 before release.')
+m.hole('F003', on='face(F001,+Z)', u=8.12, v=3, spec={'type': 'thru', 'd': 3.25})  # u=(D005 + D003) / 2, v=D027 / 2, d=D017
 m.hole('F004', on='face(F001,+Z)', u=13.24, v=3, spec={'type': 'thru', 'd': 3.25})  # u=D003, v=D027 / 2, d=D017
 m.hole('F005', on='face(F001,+Z)', u=1.581, v=1.581, spec={'type': 'tapped', 'd': 0.257})  # u=D005 - D012, v=D027 / 2 - D014, d=0.257
 m.pattern('F006', seed='F005', mode='grid', count=2, pitch=2.838, dir='+X', count2=2, pitch2=2.838, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D011
-m.skip('F007', 'unresolved: Middle tapped-pattern station depends on unreadable baseline D002.')
-m.skip('F008', 'unresolved: Complete middle square after resolving its baseline.')
+m.hole('F007', on='face(F001,+Z)', u=6.701, v=1.581, spec={'type': 'tapped', 'd': 0.257})  # u=(D005 + D003) / 2 - D012, v=D027 / 2 - D014, d=0.257
+m.pattern('F008', seed='F007', mode='grid', count=2, pitch=2.838, dir='+X', count2=2, pitch2=2.838, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D011
 m.hole('F009', on='face(F001,+Z)', u=11.821, v=1.581, spec={'type': 'tapped', 'd': 0.257})  # u=D003 - D012, v=D027 / 2 - D014, d=0.257
 m.pattern('F010', seed='F009', mode='grid', count=2, pitch=2.838, dir='+X', count2=2, pitch2=2.838, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D011
-m.skip('F011', 'unresolved: Confirm degraded first #10-32 baseline; D004 is provisional.')
-m.skip('F012', 'unresolved: Known pitch inherits unresolved seed baseline.')
-m.skip('F013', 'unresolved: First formed support: obtain bend radii, dimension-to-tangent/intersection conventions and assembly placement.')
-m.skip('F014', 'unresolved: Second separate formed support requires resolved bends and global assembly placement.')
-m.skip('F015', 'unresolved: First assembly axis: obtain transverse location; longitudinal station is known.')
-m.skip('F016', 'unresolved: Second assembly axis at first end: obtain its separate transverse location.')
-m.skip('F017', 'unresolved: Third assembly axis at opposite end requires transverse location and mating support.')
-m.skip('F018', 'unresolved: Fourth assembly axis at opposite end requires its separate transverse location.')
-m.skip('F019', 'unresolved: First foot seed has known local offsets, but global start face and coordinates await formed-support definition.')
-m.skip('F020', 'unresolved: Second first-foot hole; global direction awaits support placement.')
-m.skip('F021', 'unresolved: Second foot seed has known local offsets but unresolved global placement.')
-m.skip('F022', 'unresolved: Second second-foot hole; global direction awaits support placement.')
+m.skip('F011', 'unresolved: Confirm whether the degraded first #10-32 baseline D004 reads 5.38.')
+m.skip('F012', 'unresolved: Known pitch depends on unresolved first baseline.')
+m.skip('F013', 'unresolved: Supply the first assembly-hole transverse coordinate at the first end.')
+m.skip('F014', 'unresolved: Supply the second assembly-hole transverse coordinate at the first end.')
+m.skip('F015', 'unresolved: Supply the first assembly-hole transverse coordinate at the opposite end.')
+m.skip('F016', 'unresolved: Supply the second assembly-hole transverse coordinate at the opposite end.')
+m.skip('F017', 'unresolved: Provide support bend radii and dimension-to-bend conventions before constructing the finished profile.')
+m.skip('F018', 'unresolved: Second separate support requires finalized formed geometry and assembly placement.')
+m.skip('F019', 'unresolved: First support-foot hole requires a resolved global support face.')
+m.skip('F020', 'unresolved: Second first-support foot hole requires resolved global support placement.')
+m.skip('F021', 'unresolved: First opposite-support foot hole requires resolved global support placement.')
+m.skip('F022', 'unresolved: Second opposite-support foot hole requires resolved global support placement.')
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

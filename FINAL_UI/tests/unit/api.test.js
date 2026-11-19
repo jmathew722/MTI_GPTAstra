@@ -37,15 +37,19 @@ test('POST endpoints use POST and the documented bodies', async () => {
   assert.deepEqual(fields(calls[0].init.body), { session: 's', part: 'A', feedback: '' });      // no_cache omitted unless true
   await api.runPart({ session: 's', part: 'A', feedback: 'move hole', no_cache: true });
   assert.deepEqual(fields(calls[1].init.body), { session: 's', part: 'A', feedback: 'move hole', no_cache: 'true' });
+  await api.runPart({ session: 's', part: 'A', record: true });
+  assert.deepEqual(fields(calls[2].init.body), { session: 's', part: 'A', feedback: '', record: 'true' });   // record only when true
+  await api.runPart({ session: 's', part: 'A', record: false });
+  assert.deepEqual(fields(calls[3].init.body), { session: 's', part: 'A', feedback: '' });
   await api.demo('117C'); await api.demo();
-  assert.equal(calls[2].url, '/api/demo'); assert.equal(calls[2].init.body, '{"sample":"117C"}');
-  assert.equal(calls[3].init.body, '{"sample":null}');
-  assert.equal(calls[2].init.headers['Content-Type'], 'application/json');
+  assert.equal(calls[4].url, '/api/demo'); assert.equal(calls[4].init.body, '{"sample":"117C"}');
+  assert.equal(calls[5].init.body, '{"sample":null}');
+  assert.equal(calls[4].init.headers['Content-Type'], 'application/json');
   await api.saveRegions('s', 'A', { regions: [], origin: null, datums: [] });
-  assert.equal(calls[4].url, '/api/parts/s/A/regions'); assert.equal(calls[4].init.method, 'POST');
-  assert.equal(JSON.parse(calls[4].init.body).regions.length, 0);
+  assert.equal(calls[6].url, '/api/parts/s/A/regions'); assert.equal(calls[6].init.method, 'POST');
+  assert.equal(JSON.parse(calls[6].init.body).regions.length, 0);
   await api.saveNotes('s', 'A', 'hole d=0.25');
-  assert.deepEqual(fields(calls[5].init.body), { notes: 'hole d=0.25' });
+  assert.deepEqual(fields(calls[7].init.body), { notes: 'hole d=0.25' });
 });
 
 test('errors become ApiError with FastAPI detail', async () => {
@@ -93,6 +97,9 @@ test('URL builders', () => {
   assert.equal(api.engineeringMarkupPageURL('s', 'A', 2, 'k1'), '/api/parts/s/A/engineering-markup/page/2.png?t=k1');
   assert.equal(api.engineeringMarkupPageURL('s', 'A', 'x'), '/api/parts/s/A/engineering-markup/page/1.png');
   assert.notEqual(api.engineeringMarkupURL('s', 'A'), api.markedViewURL('s', 'A'));
+  assert.equal(api.recordingURL('s', 'A', 'k1'), '/api/parts/s/A/recording?t=k1');
+  assert.equal(api.recordingVideoURL('s', 'A', 'k1'), '/api/parts/s/A/recording.video?t=k1');
+  assert.equal(api.recordingPosterURL('s', 'A'), '/api/parts/s/A/recording-poster.jpg');
   assert.equal(api.partStlURL('s', 'A', 1700000100), '/api/parts/s/A/model.stl?t=1700000100');
   assert.equal(api.partFileURL('s', 'A', '117C/macros/01 base.vba'), '/api/parts/s/A/file/117C/macros/01%20base.vba');
   assert.equal(api.runStlURL('r1'), '/api/runs/r1/model.stl');

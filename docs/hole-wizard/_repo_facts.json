@@ -1,0 +1,92 @@
+[
+ {
+  "repo": "soheil-mp/solidworks-mcp",
+  "license": "MIT",
+  "default_branch": "main",
+  "commit": "fd03a7f78eba1071eb5b60ce809811db99a8137e",
+  "commit_date": "2026-11-05T17:54:19Z",
+  "archived": false,
+  "description": "MCP server that lets AI agents drive SOLIDWORKS: parts, sketches, features, assemblies, drawings, export and simulation, with every change verified (C#, .NET 10, official COM API)"
+ },
+ {
+  "repo": "kilwizac/solidworks-api-mcp",
+  "license": "none declared",
+  "default_branch": "main",
+  "commit": "7885946e1ee8783128f2d9a01d9a97349a2fddb0",
+  "commit_date": "2026-10-12T02:36:16Z",
+  "archived": false,
+  "description": "Model Context Protocol (MCP) server for the SOLIDWORKS API. Gives AI assistants (Claude, Cursor) instant ranked search and exact lookups across 14,000+ methods, properties, enums, and examples."
+ },
+ {
+  "repo": "slamatik/pysolidworks",
+  "license": "none declared",
+  "default_branch": "master",
+  "commit": "78b9ca7a82943ba59c66e96c68ba8850b4906f40",
+  "commit_date": "2022-02-22T11:30:43Z",
+  "archived": false,
+  "description": null
+ },
+ {
+  "repo": "HarrierPigeon/Solidworks-MCP-Server",
+  "license": "MIT",
+  "default_branch": "main",
+  "commit": "60c11fe45b6cfc60c4e2da8ad41fc725a48bf8ea",
+  "commit_date": "2026-08-07T07:44:34Z",
+  "archived": false,
+  "description": "Ever wanted Claude to do your CAD for you?"
+ },
+ {
+  "repo": "ambrosic/SW-MCP",
+  "license": "none declared",
+  "default_branch": "main",
+  "commit": "16a91beceb1b4a284f31d299a0828f50183f3ec2",
+  "commit_date": "2026-03-12T03:54:01Z",
+  "archived": false,
+  "description": "Automated CAD using Anthropic's Claude and Solidworks"
+ },
+ {
+  "repo": "RoboMechatronics/MyCustomTaskpane",
+  "license": "none declared",
+  "default_branch": "master",
+  "commit": "87b65a12798d519e7d19142ca5b810a69e9d56f1",
+  "commit_date": "2024-05-12T11:11:17Z",
+  "archived": false,
+  "description": "Journey to SOLIDWORKS Add-In (C#) | The First Custom Task Pane"
+ },
+ {
+  "repo": "xarial/codestack",
+  "license": "MIT",
+  "default_branch": "master",
+  "commit": "0cde3849a184cdbbface61238ef431a6ebb9d530",
+  "commit_date": "2026-05-07T01:24:13Z",
+  "archived": false,
+  "description": "Library of SOLIDWORKS API, SOLIDWORKS PDM API, VBA and Desktop code examples, applications macros and tutorials."
+ },
+ {
+  "repo": "xarial/xcad",
+  "license": "MIT",
+  "default_branch": "master",
+  "commit": "f9feb293f74576a6a5dbb3ffcca99502e0a257ed",
+  "commit_date": "2026-02-25T06:02:00Z",
+  "archived": false,
+  "description": "Framework for developing CAD applications for SOLIDWORKS, including add-ins, stand-alone applications, macro features, property manager pages, etc."
+ },
+ {
+  "repo": "streetartist/solidworks-automation",
+  "license": "GPL-3.0",
+  "default_branch": "main",
+  "commit": "3513f70e0c30fe3db8f15641b8d350ccdb7367f1",
+  "commit_date": "2026-05-08T14:56:09Z",
+  "archived": false,
+  "description": null
+ },
+ {
+  "repo": "luigidoria/CADapter",
+  "license": "Apache-2.0",
+  "default_branch": "main",
+  "commit": "eef44dd5a149085762d669c3a5056b75b8f480fd",
+  "commit_date": "2026-09-30T12:27:54Z",
+  "archived": false,
+  "description": null
+ }
+]

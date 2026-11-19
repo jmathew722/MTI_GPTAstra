@@ -15,3 +15,7 @@ pyyaml>=6.0
 cadquery>=2.4
 # Drawing markups (mti_markup.py): locate callouts on scanned sheets. Local models, no API cost.
 rapidocr-onnxruntime>=1.4
+# "Record Pipeline Run": records only the SolidWorks window during the native build (pipeline/solidworks_recorder.py)
+opencv-python>=4.8
+imageio-ffmpeg>=0.5
+windows-capture>=1.4; platform_system == "Windows"

@@ -316,3 +316,73 @@ def load_markup(out: Path, *, current_sha: Optional[str] = None) -> dict:
             "source_callout": _txt(r.get("source_callout"), 400),
             "feature_ids": [_txt(x, 40) for x in (r.get("feature_ids") or [])[:30]]})
     return res
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# SolidWorks build recording ("Record Pipeline Run"): manifest + video + poster written by pipeline/solidworks_recorder.py.
+REC_MANIFEST, REC_POSTER = "solidworks_recording.json", "solidworks_recording_poster.jpg"
+REC_STATUSES = ("recording", "ready", "partial", "failed", "skipped")
+REC_VIDEOS = {"solidworks_recording.mp4": "video/mp4", "solidworks_recording.webm": "video/webm"}
+
+
+def _rec_manifest(out: Path) -> Optional[dict]:
+    d = _read(Path(out) / REC_MANIFEST)
+    return d if isinstance(d, dict) and d.get("schema_version") == 1 and d.get("status") in REC_STATUSES else None
+
+
+def recording_video_path(out: Path) -> Optional[Path]:
+    """The video named by the manifest: only an allowlisted name that sits directly inside ``out``."""
+    m = _rec_manifest(out)
+    if not m or m["status"] not in ("ready", "partial"):
+        return None
+    name = str(m.get("video") or "")
+    if name not in REC_VIDEOS:
+        return None
+    out_r = Path(out).resolve()
+    p = (out_r / name).resolve()
+    return p if p.is_file() and p.parent == out_r else None
+
+
+def recording_poster_path(out: Path) -> Optional[Path]:
+    m = _rec_manifest(out)
+    if not m or m["status"] not in ("ready", "partial") or m.get("poster") != REC_POSTER:
+        return None
+    out_r = Path(out).resolve()
+    p = (out_r / REC_POSTER).resolve()
+    return p if p.is_file() and p.parent == out_r else None
+
+
+def load_recording(out: Path, *, current_sha: Optional[str] = None, run_active: bool = False) -> dict:
+    """Bounded, validated summary of ``solidworks_recording.json``. Never contains an absolute path. A recording made for
+    a different drawing revision is ``stale`` (video withheld); a ``recording`` manifest with no live run is ``interrupted``."""
+    out = Path(out)
+    m = _rec_manifest(out)
+    if m is None:
+        return {"present": False, "status": "none"}
+    status = m["status"]
+    sha = _txt(m.get("source_sha256"), 80)
+    stale = bool(current_sha and sha and sha != current_sha)
+    shown = "stale" if stale else status
+    code, reason = _txt(m.get("code"), 40), _txt(m.get("reason"), 300)
+    if status == "recording" and not run_active and not stale:
+        shown, code, reason = "interrupted", "REC_INTERRUPTED", "The run ended before the recording was finished."
+    res = {"present": True, "status": shown, "manifest_status": status, "stale": stale,
+           "part": _txt(m.get("part"), 80), "run_id": _txt(m.get("run_id"), 80),
+           "generation_key": _txt(m.get("generation_key"), 40), "code": code, "reason": reason,
+           "backend": _txt(m.get("backend"), 20), "fps": int(_num(m.get("fps")) or 0),
+           "width": int(_num(m.get("width")) or 0), "height": int(_num(m.get("height")) or 0),
+           "frames": int(_num(m.get("frames")) or 0), "dropped_frames": int(_num(m.get("dropped_frames")) or 0),
+           "duration_s": _num(m.get("duration_s")) or 0.0, "bytes": int(_num(m.get("bytes")) or 0),
+           "paced": bool(m.get("paced")), "build_outcome": _txt(m.get("build_outcome"), 20),
+           "has_video": False, "has_poster": False, "media_type": "", "chapters": []}
+    if stale or status not in ("ready", "partial"):
+        return res
+    v = recording_video_path(out)
+    res["has_video"] = v is not None
+    res["media_type"] = REC_VIDEOS.get(v.name, "") if v else ""
+    res["has_poster"] = recording_poster_path(out) is not None
+    for c in (m.get("chapters") or [])[:200]:
+        if isinstance(c, dict) and _num(c.get("t")) is not None:
+            res["chapters"].append({"id": _txt(c.get("id"), 40), "label": _txt(c.get("label"), 80),
+                                    "status": _txt(c.get("status"), 20), "t": _num(c.get("t"))})
+    return res

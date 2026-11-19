@@ -151,14 +151,14 @@
   }
 
   /* ── Launch ────────────────────────────────────────────────────────────── */
-  /** o: {kind:'part'|'demo', session, part, feedback, no_cache, sample}. Resolves {id} or null. */
+  /** o: {kind:'part'|'demo', session, part, feedback, no_cache, record, sample}. Resolves {id} or null. */
   function launch(o) {
     var s = store.get();
     if (launching || sel.isRunning(s)) return Promise.resolve(null);
     launching = true;
     var kind = o.kind === 'demo' ? 'demo' : 'part';
     store.dispatch('run/queued', { kind: kind, session: o.session, part: o.part });
-    var req = kind === 'demo' ? api.demo(o.sample) : api.runPart({ session: o.session, part: o.part, feedback: o.feedback, no_cache: o.no_cache });
+    var req = kind === 'demo' ? api.demo(o.sample) : api.runPart({ session: o.session, part: o.part, feedback: o.feedback, no_cache: o.no_cache, record: o.record });
     return req.then(function (res) {
       launching = false;
       if (!res || !res.id) throw new Error('The server did not return a run id.');
@@ -180,7 +180,18 @@
     var s = store.get(), sl = s.parts.selected;
     if (sel.runDisabledReason(s) || !sl) return Promise.resolve(null);
     var nc = $('no-cache');
-    return launch({ kind: 'part', session: sl.session, part: sl.part, no_cache: !!(nc && nc.checked) });
+    return launch({ kind: 'part', session: sl.session, part: sl.part, no_cache: !!(nc && nc.checked), record: wantRecord() });
+  }
+  /* "Record Pipeline Run": ticked AND recording is available on this machine (McA.recordingview.shouldRecord). */
+  var recordCap = null;
+  function wantRecord() {
+    var rc = $('record-run');
+    return !!(rc && McA.recordingview && McA.recordingview.shouldRecord(rc.checked, recordCap));
+  }
+  function loadRecordingCapability() {
+    if (!api.recordingCapability) return;
+    api.recordingCapability().then(function (c) { recordCap = c; renderActions(); },
+      function () { recordCap = { available: false, reason: 'Could not check whether recording is available.' }; renderActions(); });
   }
   function cancelRun() {
     var s = store.get(), run = s.run;
@@ -269,7 +280,7 @@
       savePersistBatch({ queue: queue, index: i + 1, results: results });
       store.dispatch('parts/select', { session: sid, part: name });
       var nc = $('no-cache');
-      return launch({ kind: 'part', session: sid, part: name, no_cache: !!(nc && nc.checked) }).then(function (r) {
+      return launch({ kind: 'part', session: sid, part: name, no_cache: !!(nc && nc.checked), record: wantRecord() }).then(function (r) {
         if (!r) { stoppedEarly = true; results[name] = { state: 'failed', exit: null, error: store.get().run.error || 'Launch failed' }; return; }
         return waitFinal(r.id).then(function () {
           var run = store.get().run;
@@ -307,6 +318,7 @@
     var ra = batchReason(s);
     setAria(runAll, ra);
     nc.disabled = !s.server.reachable || running;
+    if (McA.recording) McA.recording.applyCheckbox(recordCap, { reachable: s.server.reachable, running: running });
     why.textContent = ra || 'Run All Parts makes paid API calls, one part at a time.';
     if (mirror) mirror.hidden = !sel.isRunning(s);
     if (mirror) { mirror.disabled = !!s.run.cancelPending; mirror.textContent = s.run.cancelPending ? 'Cancelling…' : 'Cancel run'; }
@@ -347,7 +359,7 @@
     var text = ta.value.trim();
     McA.dialog.confirm('Re-run with correction?', 'This makes new API calls and replaces the saved output for "' + sl.part + '". The current outputs are kept on screen as the previous run until the new run produces its own.', 'Re-run').then(function (ok) {
       if (!ok) return;
-      launch({ kind: 'part', session: sl.session, part: sl.part, feedback: text, no_cache: true }).then(function (r) {
+      launch({ kind: 'part', session: sl.session, part: sl.part, feedback: text, no_cache: true, record: wantRecord() }).then(function (r) {
         if (r) { persist.corr.clear(sl.session, sl.part); ta.value = ''; renderCorr(); }
         else { persist.corr.set(sl.session, sl.part, text); }   // draft survives a failed launch
       });
@@ -471,6 +483,7 @@
     $('run-all-btn').addEventListener('click', function () { if (this.getAttribute('aria-disabled') !== 'true') requestBatch(); else toast(batchReason(store.get()) || '', 'warn'); });
     ['server', 'parts', 'run', 'batch'].forEach(function (k) { store.subscribe(function (s) { return s[k]; }, renderActions); });
     renderActions();
+    loadRecordingCapability();
 
     /* Corrections: the fields themselves (#feedback-text etc.) no longer exist in static
        HTML -- they moved into Pipeline Results (ui/results.js R.corrections), which creates

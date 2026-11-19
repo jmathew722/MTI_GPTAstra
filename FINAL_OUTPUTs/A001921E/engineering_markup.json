@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "part": "A001921E",
+  "run_id": "run_41aaba369fa344d09e71",
+  "source_pdf": "A001921E.pdf",
+  "source_sha256": "b4275d79302b853e37204a1be76e04b78c0d5e8004c1becfac80c1c3e665684a",
+  "marked_pdf": "A001921E_engineering_markup.pdf",
+  "generated_at": "2026-11-19T16:46:11Z",
+  "generator_version": "engineering_markup/1",
+  "finding_count": 4,
+  "located_count": 2,
+  "unlocated_count": 2,
+  "status": "partial",
+  "warnings": [
+    {
+      "code": "MARKUP_LOCALIZATION_PARTIAL",
+      "detail": "2 of 4 flag(s) could not be placed precisely"
+    }
+  ],
+  "report_pages": 1,
+  "pages": [
+    {
+      "page": 1,
+      "width_pt": 1672.18,
+      "height_pt": 791.0,
+      "drawing_width_pt": 1224.0,
+      "rail_width_pt": 448.18,
+      "source_rotation": 0,
+      "finding_ids": [
+        "EF-002",
+        "EF-004",
+        "EF-001",
+        "EF-003"
+      ],
+      "preview": "engineering_markup_pages/page-0001.png",
+      "preview_dpi": 110
+    }
+  ],
+  "findings": [
+    {
+      "id": "EF-001",
+      "number": 1,
+      "finding_id": "flag_079321586d5a",
+      "severity": "INFO",
+      "code": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "explanation": "Expected: MTI modeling practice. Actual: F002, F003, F004: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
+      "expected": "MTI modeling practice",
+      "actual": "F002, F003, F004: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "manual_action": "Review the feature order and grouping if it matters for this part.",
+      "location_status": "unlocated",
+      "source_callout": "",
+      "feature_ids": [],
+      "page": 1,
+      "location_method": "no_source_callout",
+      "confidence": 0.0,
+      "rect_pdf_points": null,
+      "rect_normalized": null,
+      "regions": [],
+      "card": {
+        "page": 1,
+        "rect": [
+          1236.36,
+          268.6,
+          1659.82,
+          401.82
+        ]
+      }
+    },
+    {
+      "id": "EF-002",
+      "number": 2,
+      "finding_id": "flag_20ffe6611de4",
+      "severity": "WARNING",
+      "code": "hole_wizard_failure",
+      "title": "F006 is a plain cut, not a Hole Wizard hole",
+      "explanation": "Expected: a native Hole Wizard feature. Actual: HW_CREATE_NULL: Hole Wizard 3/4-102 tapped, cosmetic thread: HoleWizard5 refused Blind + drill point. The geometry matches but the feature tree has no Hole Wizard feature, so hole callouts and hardware data are absent.",
+      "expected": "a native Hole Wizard feature",
+      "actual": "HW_CREATE_NULL: Hole Wizard 3/4-102 tapped, cosmetic thread: HoleWizard5 refused Blind + drill point",
+      "consequence": "The geometry matches but the feature tree has no Hole Wizard feature, so hole callouts and hardware data are absent.",
+      "manual_action": "Fix the Hole Wizard environment (see the preflight finding), then rebuild.",
+      "location_status": "located",
+      "source_callout": ".656 DIA. THRU & 3/4-10 2B TAP THRU-(2) HL'S.; 9.000; 1.875",
+      "feature_ids": [
+        "F006"
+      ],
+      "page": 1,
+      "location_method": "exact_tokens",
+      "confidence": 0.9698,
+      "rect_pdf_points": [
+        293.66,
+        250.29,
+        359.67,
+        271.3
+      ],
+      "rect_normalized": [
+        0.239919,
+        0.316422,
+        0.053931,
+        0.026564
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9698,
+          "rect_normalized": [
+            0.239919,
+            0.316422,
+            0.053931,
+            0.026564
+          ],
+          "rect_pdf_points": [
+            293.66,
+            250.29,
+            359.67,
+            271.3
+          ],
+          "rect_marked_pt": [
+            293.66,
+            250.29,
+            359.67,
+            271.3
+          ]
+        },
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.958,
+          "rect_normalized": [
+            0.488911,
+            0.457054,
+            0.045867,
+            0.028126
+          ],
+          "rect_pdf_points": [
+            598.43,
+            361.53,
+            654.57,
+            383.78
+          ],
+          "rect_marked_pt": [
+            598.43,
+            361.53,
+            654.57,
+            383.78
+          ]
+        }
+      ],
+      "card": {
+        "page": 1,
+        "rect": [
+          1236.36,
+          12.36,
+          1659.82,
+          131.21
+        ]
+      }
+    },
+    {
+      "id": "EF-003",
+      "number": 3,
+      "finding_id": "flag_82778bb70568",
+      "severity": "INFO",
+      "code": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "explanation": "Expected: MTI modeling practice. Actual: F005, F006: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
+      "expected": "MTI modeling practice",
+      "actual": "F005, F006: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "manual_action": "Review the feature order and grouping if it matters for this part.",
+      "location_status": "unlocated",
+      "source_callout": "",
+      "feature_ids": [],
+      "page": 1,
+      "location_method": "no_source_callout",
+      "confidence": 0.0,
+      "rect_pdf_points": null,
+      "rect_normalized": null,
+      "regions": [],
+      "card": {
+        "page": 1,
+        "rect": [
+          1236.36,
+          411.09,
+          1659.82,
+          544.31
+        ]
+      }
+    },
+    {
+      "id": "EF-004",
+      "number": 4,
+      "finding_id": "flag_cfb6b623d1d1",
+      "severity": "WARNING",
+      "code": "hole_wizard_substituted",
+      "title": "F006 is a plain cut, not a Hole Wizard hole",
+      "explanation": "Expected: a Hole Wizard feature for this hole (MTI practice). Actual: HW_CREATE_NULL: Hole Wizard 3/4-102 tapped, cosmetic thread: HoleWizard5 refused Blind + drill point. The geometry matches but the feature tree has no Hole Wizard feature, so hole callouts and hardware data are absent.",
+      "expected": "a Hole Wizard feature for this hole (MTI practice)",
+      "actual": "HW_CREATE_NULL: Hole Wizard 3/4-102 tapped, cosmetic thread: HoleWizard5 refused Blind + drill point",
+      "consequence": "The geometry matches but the feature tree has no Hole Wizard feature, so hole callouts and hardware data are absent.",
+      "manual_action": "Check the Hole Wizard / Toolbox setup on this SolidWorks install (error log E037), then rebuild.",
+      "location_status": "located",
+      "source_callout": ".656 DIA. THRU & 3/4-10 2B TAP THRU-(2) HL'S.; 9.000; 1.875",
+      "feature_ids": [
+        "F006"
+      ],
+      "page": 1,
+      "location_method": "exact_tokens",
+      "confidence": 0.9698,
+      "rect_pdf_points": [
+        293.66,
+        250.29,
+        359.67,
+        271.3
+      ],
+      "rect_normalized": [
+        0.239919,
+        0.316422,
+        0.053931,
+        0.026564
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9698,
+          "rect_normalized": [
+            0.239919,
+            0.316422,
+            0.053931,
+            0.026564
+          ],
+          "rect_pdf_points": [
+            293.66,
+            250.29,
+            359.67,
+            271.3
+          ],
+          "rect_marked_pt": [
+            293.66,
+            250.29,
+            359.67,
+            271.3
+          ]
+        },
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.958,
+          "rect_normalized": [
+            0.488911,
+            0.457054,
+            0.045867,
+            0.028126
+          ],
+          "rect_pdf_points": [
+            598.43,
+            361.53,
+            654.57,
+            383.78
+          ],
+          "rect_marked_pt": [
+            598.43,
+            361.53,
+            654.57,
+            383.78
+          ]
+        }
+      ],
+      "card": {
+        "page": 1,
+        "rect": [
+          1236.36,
+          140.48,
+          1659.82,
+          259.33
+        ]
+      }
+    }
+  ],
+  "generation_key": "d62d8cac1338"
+}

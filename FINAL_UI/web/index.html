@@ -217,6 +217,8 @@
             <details class="more" id="run-options"><summary>Run options</summary>
               <label class="chk"><input id="no-cache" type="checkbox" disabled><span>Force fresh extraction</span></label>
               <p class="hint">Ignores the extraction cache; makes new API calls.</p>
+              <label class="chk"><input id="record-run" type="checkbox" disabled aria-describedby="record-hint"><span>Record Pipeline Run</span></label>
+              <p class="hint" id="record-hint">Checking whether recording is available.</p>
             </details>
             <button id="cancel-mirror-btn" class="btn danger sm" type="button" hidden>Cancel run</button>
             <p id="runall-why" class="reason">No saved parts yet.</p>
@@ -346,6 +348,7 @@
 <script defer src="/static/js/logic/drawersize.js"></script>
 <script defer src="/static/js/logic/flagview.js"></script>
 <script defer src="/static/js/logic/markupview.js"></script>
+<script defer src="/static/js/logic/recordingview.js"></script>
 <script defer src="/static/js/logic/logparse.js"></script>
 <script defer src="/static/js/logic/jsontree.js"></script>
 <script defer src="/static/js/logic/csv.js"></script>
@@ -357,6 +360,7 @@
 <script defer src="/static/js/features/cropper.js"></script>
 <script defer src="/static/js/features/viewer2d.js"></script>
 <script defer src="/static/js/features/engineering-flags.js"></script>
+<script defer src="/static/js/features/recording.js"></script>
 <script defer src="/static/js/features/viewer3d.js"></script>
 <script defer src="/static/js/ui/toast.js"></script>
 <script defer src="/static/js/ui/dialog.js"></script>

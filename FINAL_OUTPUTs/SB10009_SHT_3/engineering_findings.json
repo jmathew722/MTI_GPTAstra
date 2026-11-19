@@ -1,92 +1,17 @@
 {
   "schema_version": 1,
-  "run_id": "run_4cf51f6297d34d1bba88",
+  "run_id": "run_500d33d225d9490abd7e",
   "part": "SB10009_SHT_3",
   "findings": [
     {
-      "finding_id": "flag_af68830a30e4",
+      "finding_id": "flag_85d1b29dbb84",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
-      "severity": "error",
-      "category": "feature_not_built",
-      "title": "Feature F003 was not built",
-      "expected": "3.250 DIA. THRU.; 3 HOLES.",
-      "actual": "skipped: unresolved: Confirm degraded middle-opening baseline D002 before release.",
-      "consequence": "The model is missing this feature.",
-      "recommended_action": "Review the callout for F003 against the drawing, then add the feature or correct the plan.",
-      "feature_ids": [
-        "F003"
-      ],
-      "source_callouts": [
-        "3.250 DIA. THRU.",
-        "3 HOLES."
-      ],
-      "evidence_ids": [
-        "ir_report:cq_skipped:F003",
-        "plan:F003"
-      ],
-      "schema_version": 1
-    },
-    {
-      "finding_id": "flag_89fd777281b2",
-      "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
-      "severity": "error",
-      "category": "feature_not_built",
-      "title": "Feature F007 was not built",
-      "expected": ".312-18 TAP THRU; 4 HOLES; 3 PL'CS.; 1.419 TYP",
-      "actual": "skipped: unresolved: Middle tapped-pattern station depends on unreadable baseline D002.",
-      "consequence": "The model is missing this feature.",
-      "recommended_action": "Review the callout for F007 against the drawing, then add the feature or correct the plan.",
-      "feature_ids": [
-        "F007"
-      ],
-      "source_callouts": [
-        ".312-18 TAP THRU",
-        "4 HOLES",
-        "3 PL'CS.",
-        "1.419 TYP"
-      ],
-      "evidence_ids": [
-        "ir_report:cq_skipped:F007",
-        "plan:F007"
-      ],
-      "schema_version": 1
-    },
-    {
-      "finding_id": "flag_610c5734055e",
-      "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
-      "severity": "error",
-      "category": "feature_not_built",
-      "title": "Feature F008 was not built",
-      "expected": "4 HOLES; 3 PL'CS.; 2.838 TYP",
-      "actual": "skipped: unresolved: Complete middle square after resolving its baseline.",
-      "consequence": "The model is missing this feature.",
-      "recommended_action": "Review the callout for F008 against the drawing, then add the feature or correct the plan.",
-      "feature_ids": [
-        "F008"
-      ],
-      "source_callouts": [
-        "4 HOLES",
-        "3 PL'CS.",
-        "2.838 TYP"
-      ],
-      "evidence_ids": [
-        "ir_report:cq_skipped:F008",
-        "plan:F008"
-      ],
-      "schema_version": 1
-    },
-    {
-      "finding_id": "flag_a8823325413e",
-      "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F011 was not built",
       "expected": "#10-32 TAP THRU; (2) HL'S.; .18",
-      "actual": "skipped: unresolved: Confirm degraded first #10-32 baseline; D004 is provisional.",
+      "actual": "skipped: unresolved: Confirm whether the degraded first #10-32 baseline D004 reads 5.38.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F011 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
@@ -104,14 +29,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_7f7db02803e7",
+      "finding_id": "flag_b5a8be0469e8",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F012 was not built",
-      "expected": "#10-32 TAP THRU; (2) HL'S.; 5.500 +.005",
-      "actual": "skipped: unresolved: Known pitch inherits unresolved seed baseline.",
+      "expected": "#10-32 TAP THRU; (2) HL'S.; 5.500; +.005",
+      "actual": "skipped: unresolved: Known pitch depends on unresolved first baseline.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F012 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
@@ -120,7 +45,8 @@
       "source_callouts": [
         "#10-32 TAP THRU",
         "(2) HL'S.",
-        "5.500 +.005"
+        "5.500",
+        "+.005"
       ],
       "evidence_ids": [
         "ir_report:cq_skipped:F012",
@@ -129,26 +55,23 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_c406510db057",
+      "finding_id": "flag_d59a730e120a",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F013 was not built",
-      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
-      "actual": "skipped: unresolved: First formed support: obtain bend radii, dimension-to-tangent/intersection conventions and assembly placement.",
+      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "actual": "skipped: unresolved: Supply the first assembly-hole transverse coordinate at the first end.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F013 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
         "F013"
       ],
       "source_callouts": [
-        "1018 M.S.-.375 X 1.25 X 21.50 APPX",
-        "SUPPORT",
-        "6.24",
-        "9.24",
-        "6.00",
-        "45°"
+        ".281 DR. THRU BOTH DET'S",
+        "4 HOLES",
+        ".56"
       ],
       "evidence_ids": [
         "ir_report:cq_skipped:F013",
@@ -157,26 +80,23 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_bbc841df48ee",
+      "finding_id": "flag_34cc19b6a852",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F014 was not built",
-      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
-      "actual": "skipped: unresolved: Second separate formed support requires resolved bends and global assembly placement.",
+      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "actual": "skipped: unresolved: Supply the second assembly-hole transverse coordinate at the first end.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F014 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
         "F014"
       ],
       "source_callouts": [
-        "1018 M.S.-.375 X 1.25 X 21.50 APPX",
-        "SUPPORT",
-        "6.24",
-        "9.24",
-        "6.00",
-        "45°"
+        ".281 DR. THRU BOTH DET'S",
+        "4 HOLES",
+        ".56"
       ],
       "evidence_ids": [
         "ir_report:cq_skipped:F014",
@@ -185,14 +105,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_1eba556bd9b5",
+      "finding_id": "flag_43b0ffd60f7a",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F015 was not built",
       "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "skipped: unresolved: First assembly axis: obtain transverse location; longitudinal station is known.",
+      "actual": "skipped: unresolved: Supply the first assembly-hole transverse coordinate at the opposite end.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F015 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
@@ -210,14 +130,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_d2638667d9c0",
+      "finding_id": "flag_fb62693fc69c",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F016 was not built",
       "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "skipped: unresolved: Second assembly axis at first end: obtain its separate transverse location.",
+      "actual": "skipped: unresolved: Supply the second assembly-hole transverse coordinate at the opposite end.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F016 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
@@ -235,23 +155,27 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_1f7fa6964a78",
+      "finding_id": "flag_e3590cf01d92",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F017 was not built",
-      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "skipped: unresolved: Third assembly axis at opposite end requires transverse location and mating support.",
+      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°; .375",
+      "actual": "skipped: unresolved: Provide support bend radii and dimension-to-bend conventions before constructing the finished profile.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F017 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
         "F017"
       ],
       "source_callouts": [
-        ".281 DR. THRU BOTH DET'S",
-        "4 HOLES",
-        ".56"
+        "1018 M.S.-.375 X 1.25 X 21.50 APPX",
+        "SUPPORT",
+        "6.24",
+        "9.24",
+        "6.00",
+        "45°",
+        ".375"
       ],
       "evidence_ids": [
         "ir_report:cq_skipped:F017",
@@ -260,23 +184,22 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_5b57128296ba",
+      "finding_id": "flag_e627059fa62e",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F018 was not built",
-      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "skipped: unresolved: Fourth assembly axis at opposite end requires its separate transverse location.",
+      "expected": "SUPPORT; 1.25",
+      "actual": "skipped: unresolved: Second separate support requires finalized formed geometry and assembly placement.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F018 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
         "F018"
       ],
       "source_callouts": [
-        ".281 DR. THRU BOTH DET'S",
-        "4 HOLES",
-        ".56"
+        "SUPPORT",
+        "1.25"
       ],
       "evidence_ids": [
         "ir_report:cq_skipped:F018",
@@ -285,14 +208,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_4585b102b26d",
+      "finding_id": "flag_9a64e2573eae",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F019 was not built",
-      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
-      "actual": "skipped: unresolved: First foot seed has known local offsets, but global start face and coordinates await formed-support definition.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
+      "actual": "skipped: unresolved: First support-foot hole requires a resolved global support face.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F019 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
@@ -302,8 +225,7 @@
         ".281 DR. THRU",
         "2 HOLES 2 PL'CS",
         ".50",
-        ".62",
-        "4.50"
+        ".62"
       ],
       "evidence_ids": [
         "ir_report:cq_skipped:F019",
@@ -312,22 +234,25 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_6f017fe74dea",
+      "finding_id": "flag_2da679440118",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F020 was not built",
-      "expected": "2 HOLES 2 PL'CS; 4.50",
-      "actual": "skipped: unresolved: Second first-foot hole; global direction awaits support placement.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
+      "actual": "skipped: unresolved: Second first-support foot hole requires resolved global support placement.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F020 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
         "F020"
       ],
       "source_callouts": [
+        ".281 DR. THRU",
         "2 HOLES 2 PL'CS",
-        "4.50"
+        "4.50",
+        ".50",
+        ".62"
       ],
       "evidence_ids": [
         "ir_report:cq_skipped:F020",
@@ -336,14 +261,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_196a43d7b5a0",
+      "finding_id": "flag_18ecaff327c8",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F021 was not built",
-      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
-      "actual": "skipped: unresolved: Second foot seed has known local offsets but unresolved global placement.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
+      "actual": "skipped: unresolved: First opposite-support foot hole requires resolved global support placement.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F021 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
@@ -353,8 +278,7 @@
         ".281 DR. THRU",
         "2 HOLES 2 PL'CS",
         ".50",
-        ".62",
-        "4.50"
+        ".62"
       ],
       "evidence_ids": [
         "ir_report:cq_skipped:F021",
@@ -363,22 +287,25 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_adc1cd6fc3ed",
+      "finding_id": "flag_66d6f9e9100b",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "error",
       "category": "feature_not_built",
       "title": "Feature F022 was not built",
-      "expected": "2 HOLES 2 PL'CS; 4.50",
-      "actual": "skipped: unresolved: Second second-foot hole; global direction awaits support placement.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
+      "actual": "skipped: unresolved: Second opposite-support foot hole requires resolved global support placement.",
       "consequence": "The model is missing this feature.",
       "recommended_action": "Review the callout for F022 against the drawing, then add the feature or correct the plan.",
       "feature_ids": [
         "F022"
       ],
       "source_callouts": [
+        ".281 DR. THRU",
         "2 HOLES 2 PL'CS",
-        "4.50"
+        "4.50",
+        ".50",
+        ".62"
       ],
       "evidence_ids": [
         "ir_report:cq_skipped:F022",
@@ -387,89 +314,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_424ca41b3cbc",
+      "finding_id": "flag_28ac44c16045",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
-      "severity": "warning",
-      "category": "feature_unresolved",
-      "title": "Feature F003 needs an engineer's answer",
-      "expected": "3.250 DIA. THRU.; 3 HOLES.",
-      "actual": "Confirm degraded middle-opening baseline D002 before release.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "recommended_action": "Answer the open question on the drawing, then re-run.",
-      "feature_ids": [
-        "F003"
-      ],
-      "source_callouts": [
-        "3.250 DIA. THRU.",
-        "3 HOLES."
-      ],
-      "evidence_ids": [
-        "ir_report:questions:F003",
-        "plan:F003"
-      ],
-      "schema_version": 1
-    },
-    {
-      "finding_id": "flag_69a396feb0b7",
-      "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
-      "severity": "warning",
-      "category": "feature_unresolved",
-      "title": "Feature F007 needs an engineer's answer",
-      "expected": ".312-18 TAP THRU; 4 HOLES; 3 PL'CS.; 1.419 TYP",
-      "actual": "Middle tapped-pattern station depends on unreadable baseline D002.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "recommended_action": "Answer the open question on the drawing, then re-run.",
-      "feature_ids": [
-        "F007"
-      ],
-      "source_callouts": [
-        ".312-18 TAP THRU",
-        "4 HOLES",
-        "3 PL'CS.",
-        "1.419 TYP"
-      ],
-      "evidence_ids": [
-        "ir_report:questions:F007",
-        "plan:F007"
-      ],
-      "schema_version": 1
-    },
-    {
-      "finding_id": "flag_844b989b3e01",
-      "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
-      "severity": "warning",
-      "category": "feature_unresolved",
-      "title": "Feature F008 needs an engineer's answer",
-      "expected": "4 HOLES; 3 PL'CS.; 2.838 TYP",
-      "actual": "Complete middle square after resolving its baseline.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "recommended_action": "Answer the open question on the drawing, then re-run.",
-      "feature_ids": [
-        "F008"
-      ],
-      "source_callouts": [
-        "4 HOLES",
-        "3 PL'CS.",
-        "2.838 TYP"
-      ],
-      "evidence_ids": [
-        "ir_report:questions:F008",
-        "plan:F008"
-      ],
-      "schema_version": 1
-    },
-    {
-      "finding_id": "flag_36038cf43d39",
-      "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F011 needs an engineer's answer",
       "expected": "#10-32 TAP THRU; (2) HL'S.; .18",
-      "actual": "Confirm degraded first #10-32 baseline; D004 is provisional.",
+      "actual": "Confirm whether the degraded first #10-32 baseline D004 reads 5.38.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
@@ -487,14 +339,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_3f0aeba5b5d9",
+      "finding_id": "flag_956cb94b872c",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F012 needs an engineer's answer",
-      "expected": "#10-32 TAP THRU; (2) HL'S.; 5.500 +.005",
-      "actual": "Known pitch inherits unresolved seed baseline.",
+      "expected": "#10-32 TAP THRU; (2) HL'S.; 5.500; +.005",
+      "actual": "Known pitch depends on unresolved first baseline.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
@@ -503,7 +355,8 @@
       "source_callouts": [
         "#10-32 TAP THRU",
         "(2) HL'S.",
-        "5.500 +.005"
+        "5.500",
+        "+.005"
       ],
       "evidence_ids": [
         "ir_report:questions:F012",
@@ -512,26 +365,23 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_2e9ae2b81d21",
+      "finding_id": "flag_f96f741da961",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F013 needs an engineer's answer",
-      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
-      "actual": "First formed support: obtain bend radii, dimension-to-tangent/intersection conventions and assembly placement.",
+      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "actual": "Supply the first assembly-hole transverse coordinate at the first end.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
         "F013"
       ],
       "source_callouts": [
-        "1018 M.S.-.375 X 1.25 X 21.50 APPX",
-        "SUPPORT",
-        "6.24",
-        "9.24",
-        "6.00",
-        "45°"
+        ".281 DR. THRU BOTH DET'S",
+        "4 HOLES",
+        ".56"
       ],
       "evidence_ids": [
         "ir_report:questions:F013",
@@ -540,26 +390,23 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_c7e510e3be44",
+      "finding_id": "flag_10dafd99bd1e",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F014 needs an engineer's answer",
-      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°",
-      "actual": "Second separate formed support requires resolved bends and global assembly placement.",
+      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
+      "actual": "Supply the second assembly-hole transverse coordinate at the first end.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
         "F014"
       ],
       "source_callouts": [
-        "1018 M.S.-.375 X 1.25 X 21.50 APPX",
-        "SUPPORT",
-        "6.24",
-        "9.24",
-        "6.00",
-        "45°"
+        ".281 DR. THRU BOTH DET'S",
+        "4 HOLES",
+        ".56"
       ],
       "evidence_ids": [
         "ir_report:questions:F014",
@@ -568,14 +415,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_94897feee6b8",
+      "finding_id": "flag_00f8523c7082",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F015 needs an engineer's answer",
       "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "First assembly axis: obtain transverse location; longitudinal station is known.",
+      "actual": "Supply the first assembly-hole transverse coordinate at the opposite end.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
@@ -593,14 +440,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_3043f334e627",
+      "finding_id": "flag_cb7d59441857",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F016 needs an engineer's answer",
       "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "Second assembly axis at first end: obtain its separate transverse location.",
+      "actual": "Supply the second assembly-hole transverse coordinate at the opposite end.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
@@ -618,23 +465,27 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_cc83f95adb01",
+      "finding_id": "flag_4ad9ac9e618c",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F017 needs an engineer's answer",
-      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "Third assembly axis at opposite end requires transverse location and mating support.",
+      "expected": "1018 M.S.-.375 X 1.25 X 21.50 APPX; SUPPORT; 6.24; 9.24; 6.00; 45°; .375",
+      "actual": "Provide support bend radii and dimension-to-bend conventions before constructing the finished profile.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
         "F017"
       ],
       "source_callouts": [
-        ".281 DR. THRU BOTH DET'S",
-        "4 HOLES",
-        ".56"
+        "1018 M.S.-.375 X 1.25 X 21.50 APPX",
+        "SUPPORT",
+        "6.24",
+        "9.24",
+        "6.00",
+        "45°",
+        ".375"
       ],
       "evidence_ids": [
         "ir_report:questions:F017",
@@ -643,23 +494,22 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_dd366751c237",
+      "finding_id": "flag_8337457d2411",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F018 needs an engineer's answer",
-      "expected": ".281 DR. THRU BOTH DET'S; 4 HOLES; .56",
-      "actual": "Fourth assembly axis at opposite end requires its separate transverse location.",
+      "expected": "SUPPORT; 1.25",
+      "actual": "Second separate support requires finalized formed geometry and assembly placement.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
         "F018"
       ],
       "source_callouts": [
-        ".281 DR. THRU BOTH DET'S",
-        "4 HOLES",
-        ".56"
+        "SUPPORT",
+        "1.25"
       ],
       "evidence_ids": [
         "ir_report:questions:F018",
@@ -668,14 +518,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_01199917f01c",
+      "finding_id": "flag_b0ead7dd5223",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F019 needs an engineer's answer",
-      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
-      "actual": "First foot seed has known local offsets, but global start face and coordinates await formed-support definition.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
+      "actual": "First support-foot hole requires a resolved global support face.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
@@ -685,8 +535,7 @@
         ".281 DR. THRU",
         "2 HOLES 2 PL'CS",
         ".50",
-        ".62",
-        "4.50"
+        ".62"
       ],
       "evidence_ids": [
         "ir_report:questions:F019",
@@ -695,22 +544,25 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_73b7c05fa087",
+      "finding_id": "flag_73f4f72213bc",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F020 needs an engineer's answer",
-      "expected": "2 HOLES 2 PL'CS; 4.50",
-      "actual": "Second first-foot hole; global direction awaits support placement.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
+      "actual": "Second first-support foot hole requires resolved global support placement.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
         "F020"
       ],
       "source_callouts": [
+        ".281 DR. THRU",
         "2 HOLES 2 PL'CS",
-        "4.50"
+        "4.50",
+        ".50",
+        ".62"
       ],
       "evidence_ids": [
         "ir_report:questions:F020",
@@ -719,14 +571,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_850150650419",
+      "finding_id": "flag_5bc18271d4ea",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F021 needs an engineer's answer",
-      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62; 4.50",
-      "actual": "Second foot seed has known local offsets but unresolved global placement.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; .50; .62",
+      "actual": "First opposite-support foot hole requires resolved global support placement.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
@@ -736,8 +588,7 @@
         ".281 DR. THRU",
         "2 HOLES 2 PL'CS",
         ".50",
-        ".62",
-        "4.50"
+        ".62"
       ],
       "evidence_ids": [
         "ir_report:questions:F021",
@@ -746,22 +597,25 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_6001e5313191",
+      "finding_id": "flag_4d8116e3c728",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "warning",
       "category": "feature_unresolved",
       "title": "Feature F022 needs an engineer's answer",
-      "expected": "2 HOLES 2 PL'CS; 4.50",
-      "actual": "Second second-foot hole; global direction awaits support placement.",
+      "expected": ".281 DR. THRU; 2 HOLES 2 PL'CS; 4.50; .50; .62",
+      "actual": "Second opposite-support foot hole requires resolved global support placement.",
       "consequence": "The feature was not built: the pipeline asks instead of guessing.",
       "recommended_action": "Answer the open question on the drawing, then re-run.",
       "feature_ids": [
         "F022"
       ],
       "source_callouts": [
+        ".281 DR. THRU",
         "2 HOLES 2 PL'CS",
-        "4.50"
+        "4.50",
+        ".50",
+        ".62"
       ],
       "evidence_ids": [
         "ir_report:questions:F022",
@@ -770,14 +624,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_5e5be71f019c",
+      "finding_id": "flag_48808508a3f3",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "info",
       "category": "practice_advisory",
       "title": "Modeling practice: mti_hole_grouping",
       "expected": "MTI modeling practice",
-      "actual": "F002, F004: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
+      "actual": "F002, F003, F004: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
       "consequence": "Advisory only: this never blocks a part.",
       "recommended_action": "Review the feature order and grouping if it matters for this part.",
       "feature_ids": [],
@@ -788,14 +642,14 @@
       "schema_version": 1
     },
     {
-      "finding_id": "flag_01e7542cee2b",
+      "finding_id": "flag_05fe59addda5",
       "part": "SB10009_SHT_3",
-      "run_id": "run_4cf51f6297d34d1bba88",
+      "run_id": "run_500d33d225d9490abd7e",
       "severity": "info",
       "category": "practice_advisory",
       "title": "Modeling practice: mti_hole_grouping",
       "expected": "MTI modeling practice",
-      "actual": "F005, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
+      "actual": "F005, F007, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
       "consequence": "Advisory only: this never blocks a part.",
       "recommended_action": "Review the feature order and grouping if it matters for this part.",
       "feature_ids": [],

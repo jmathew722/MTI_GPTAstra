@@ -147,7 +147,7 @@ FINAL_OUTPUTS_DIR = Path(
 ).expanduser().resolve()
 
 
-def _pipeline_cmd(src: Path, out_dir: Path, no_cache: bool = False) -> list[str]:
+def _pipeline_cmd(src: Path, out_dir: Path, no_cache: bool = False, record: bool = False) -> list[str]:
     """argv for one build: the Feature-IR path, native SolidWorks engine.
 
     `--ir` accepts a single drawing file or a folder of views, so one helper covers both
@@ -159,6 +159,8 @@ def _pipeline_cmd(src: Path, out_dir: Path, no_cache: bool = False) -> list[str]
            "--ir", "--engine", "com"]
     if no_cache:
         cmd.append("--no-extract-cache")
+    if record:
+        cmd.append("--record-solidworks")     # records only the SolidWorks window during the native build
     return cmd
 
 
@@ -984,6 +986,30 @@ def _markup_for(out: Path, session: str | None) -> dict:
     return _flags.load_markup(out, current_sha=_current_source_sha(session, pname))
 
 
+def _recording_capability() -> dict:
+    """Can this machine record the SolidWorks window? Same interpreter as the pipeline child, so the check is truthful."""
+    import importlib.util as u
+    if sys.platform != "win32":
+        return {"available": False, "backend": None, "encoder": None, "reason": "Recording needs Windows."}
+    have = lambda m: u.find_spec(m) is not None    # noqa: E731
+    if not (have("numpy") and have("cv2")):
+        return {"available": False, "backend": None, "encoder": None, "reason": "Recording needs numpy and opencv-python."}
+    backend = "wgc" if have("windows_capture") else ("gdi" if have("win32gui") and have("win32ui") else None)
+    if backend is None:
+        return {"available": False, "backend": None, "encoder": None,
+                "reason": "No window-capture backend (pip install windows-capture)."}
+    return {"available": True, "backend": backend,
+            "encoder": "h264" if have("imageio_ffmpeg") else "webm", "reason": ""}
+
+
+def _recording_for(out: Path, session: str | None) -> dict:
+    """SolidWorks build recording summary (manifest only; the video is served by its own endpoint)."""
+    pname = out.parent.name if out.name == "output" else out.name
+    out_r = Path(out).resolve()
+    active = any(Path(s["output"]).resolve() == out_r and not s.get("done") for s in RUNS.values())
+    return _flags.load_recording(out, current_sha=_current_source_sha(session, pname), run_active=active)
+
+
 def _categorize_output(out: Path, session: str | None = None) -> dict:
     """Categorise a pipeline output dir into the shape the output tabs consume.
     Shared by run-id-scoped and per-part outputs so both render identically —
@@ -1047,6 +1073,7 @@ def _categorize_output(out: Path, session: str | None = None) -> dict:
             "telemetry": _telemetry_for(out),
             "flags": _flags_for(out, session),
             "engineering_markup": _markup_for(out, session),
+            "recording": _recording_for(out, session),
             "macros": {"present": bool(macros_files), "files": macros_files},
             "sldprt": {"present": bool(_first(out, ["*.sldprt"]))},
             "stl": {"present": stl is not None, "name": stl.name if stl else None,
@@ -1875,6 +1902,54 @@ def _markup_part(session: str, part: str) -> tuple:
     return out, _markup_for(out, session)
 
 
+@app.get("/api/recording/capability")
+def recording_capability():
+    """Whether 'Record pipeline run' can work here (the UI disables the box with this reason otherwise)."""
+    return _recording_capability()
+
+
+def _recording_part(session: str, part: str) -> tuple:
+    if not (_session_dir(session) / _sanitize(part)).is_dir():
+        raise HTTPException(404, "Unknown part")
+    out = _part_output_dir(session, part)
+    return out, _recording_for(out, session)
+
+
+def _recording_headers(summary: dict) -> dict:
+    return {"ETag": f'"rec-{summary.get("generation_key") or "none"}"', "Cache-Control": "no-cache"}
+
+
+@app.get("/api/parts/{session}/{part}/recording")
+def part_recording(session: str, part: str, request: Request):
+    """The SolidWorks build recording manifest (status, chapters, failure code)."""
+    out, summary = _recording_part(session, part)
+    headers = _recording_headers(summary)
+    if request.headers.get("if-none-match") == headers["ETag"] and summary.get("present"):
+        return Response(status_code=304, headers=headers)
+    return JSONResponse(summary, headers=headers)
+
+
+@app.get("/api/parts/{session}/{part}/recording.video")
+def part_recording_video(session: str, part: str, download: bool = False):
+    """The recorded video. Range requests are honoured (seeking); the name comes from the validated manifest only."""
+    out, summary = _recording_part(session, part)
+    p = _flags.recording_video_path(out) if summary.get("status") in ("ready", "partial") else None
+    if p is None:
+        raise HTTPException(404, "No recording for this part")
+    disp = "attachment" if download else "inline"
+    return FileResponse(str(p), media_type=_flags.REC_VIDEOS[p.name],
+                        headers={**_recording_headers(summary), "Content-Disposition": f'{disp}; filename="{_sanitize(part)}_{p.name}"'})
+
+
+@app.get("/api/parts/{session}/{part}/recording-poster.jpg")
+def part_recording_poster(session: str, part: str):
+    out, summary = _recording_part(session, part)
+    p = _flags.recording_poster_path(out) if summary.get("status") in ("ready", "partial") else None
+    if p is None:
+        raise HTTPException(404, "No recording poster for this part")
+    return FileResponse(str(p), media_type="image/jpeg", headers=_recording_headers(summary))
+
+
 @app.post("/api/parts/{session}/{part}/flags/{finding_id}/review")
 def review_flag(session: str, part: str, finding_id: str, req: ReviewReq):
     """A person's decision about a flag (acknowledge / corrected / dismissed). Never edits the pipeline's finding."""
@@ -2073,7 +2148,7 @@ def clear_run_history():
 
 @app.post("/api/run-part")
 def run_part(session: str = Form(...), part: str = Form(...),
-             feedback: str = Form(""), no_cache: bool = Form(False)):
+             feedback: str = Form(""), no_cache: bool = Form(False), record: bool = Form(False)):
     if not _has_api_key():
         raise HTTPException(400, _no_key_message())
     pdir = _session_dir(session) / _sanitize(part)
@@ -2106,6 +2181,8 @@ def run_part(session: str = Form(...), part: str = Form(...),
                                                                   ".tif", ".tiff", ".bmp")), None)
     src = original if original is not None else pdir
     # run_part() creates <output root>/<part>/, so hand it the root, not the part folder.
-    cmd = _pipeline_cmd(src, FINAL_OUTPUTS_DIR, no_cache=no_cache)
+    if record and not _recording_capability()["available"]:
+        record = False        # the UI disables the box in this case; a stale client must not fail the run over a video
+    cmd = _pipeline_cmd(src, FINAL_OUTPUTS_DIR, no_cache=no_cache, record=record)
     run_id = _start_run(cmd, out_dir, deliver_name=_sanitize(part), extra_files=originals)
     return {"id": run_id, "part": _sanitize(part)}
