@@ -1,0 +1,73 @@
+{
+  "status": "ready",
+  "run_id": "run_85a8b9d940bc4c49b688",
+  "part": "A040711E",
+  "source_sha256": "5b97f8dff4e09483a120ddd7b0a7485cba16328b01aadfac49ca0ace6d702077",
+  "video": "solidworks_recording.mp4",
+  "poster": "solidworks_recording_poster.jpg",
+  "backend": "wgc",
+  "fps": 10,
+  "width": 1520,
+  "height": 856,
+  "frames": 2280,
+  "dropped_frames": 0,
+  "duration_s": 228.0,
+  "bytes": 3495621,
+  "paced": true,
+  "build_outcome": "completed",
+  "build_error": "",
+  "chapters": [
+    {
+      "id": "F001",
+      "label": "F001 prism: built",
+      "status": "built",
+      "t": 3.53
+    },
+    {
+      "id": "F002",
+      "label": "F002 prism: built",
+      "status": "built",
+      "t": 12.7
+    },
+    {
+      "id": "F003",
+      "label": "F003 hole: built",
+      "status": "built",
+      "t": 30.52
+    },
+    {
+      "id": "F004",
+      "label": "F004 hole: built",
+      "status": "built",
+      "t": 76.47
+    },
+    {
+      "id": "F006",
+      "label": "F006 hole: built",
+      "status": "built",
+      "t": 122.31
+    },
+    {
+      "id": "F008",
+      "label": "F008 hole: built",
+      "status": "built",
+      "t": 169.72
+    },
+    {
+      "id": "F009",
+      "label": "F009 hole: built",
+      "status": "built",
+      "t": 216.75
+    },
+    {
+      "id": "F011",
+      "label": "F011 edge_op: built",
+      "status": "built",
+      "t": 224.04
+    }
+  ],
+  "code": "",
+  "reason": "",
+  "schema_version": 1,
+  "generation_key": "be66b1a35856"
+}

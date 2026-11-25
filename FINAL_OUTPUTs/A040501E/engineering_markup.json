@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
   "part": "A040501E",
-  "run_id": "run_fccf07f08f6047bf9764",
+  "run_id": "run_0002ebe5c5324ce1bae3",
   "source_pdf": "A040501E.pdf",
   "source_sha256": "566027a48799c2b6b3efe7b2e43e327232f8c9c39ae5ca6b5b26ae58e2f22287",
   "marked_pdf": "A040501E_engineering_markup.pdf",
-  "generated_at": "2026-11-19T19:33:40Z",
+  "generated_at": "2026-11-19T21:21:42Z",
   "generator_version": "engineering_markup/1",
-  "finding_count": 5,
-  "located_count": 4,
+  "finding_count": 1,
+  "located_count": 0,
   "unlocated_count": 1,
   "status": "partial",
   "warnings": [
     {
       "code": "MARKUP_LOCALIZATION_PARTIAL",
-      "detail": "1 of 5 flag(s) could not be placed precisely"
+      "detail": "1 of 1 flag(s) could not be placed precisely"
     }
   ],
   "report_pages": 1,
@@ -27,11 +27,7 @@
       "rail_width_pt": 896.36,
       "source_rotation": 0,
       "finding_ids": [
-        "EF-001",
-        "EF-002",
-        "EF-003",
-        "EF-004",
-        "EF-005"
+        "EF-001"
       ],
       "preview": "engineering_markup_pages/page-0001.png",
       "preview_dpi": 86
@@ -41,412 +37,6 @@
     {
       "id": "EF-001",
       "number": 1,
-      "finding_id": "flag_24704bc5da46",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F009 was not built",
-      "explanation": "Expected: 1.88; 3.44; 1.75 CENT.; .500; .250 R TYP.. Actual: skipped: unresolved: Does .250 R TYP. also govern the four larger entrance-recess corners? The drawing shows rounded corners but the leader identifies the inner opening.. The model is missing this feature.",
-      "expected": "1.88; 3.44; 1.75 CENT.; .500; .250 R TYP.",
-      "actual": "skipped: unresolved: Does .250 R TYP. also govern the four larger entrance-recess corners? The drawing shows rounded corners but the leader identifies the inner opening.",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F009 against the drawing, then add the feature or correct the plan.",
-      "location_status": "located",
-      "source_callout": "1.88; 3.44; 1.75 CENT.; .500; .250 R TYP.",
-      "feature_ids": [
-        "F009"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9693,
-      "rect_pdf_points": [
-        774.87,
-        282.9,
-        834.1,
-        307.5
-      ],
-      "rect_normalized": [
-        0.316532,
-        0.179733,
-        0.024195,
-        0.015629
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9693,
-          "rect_normalized": [
-            0.316532,
-            0.179733,
-            0.024195,
-            0.015629
-          ],
-          "rect_pdf_points": [
-            774.87,
-            282.9,
-            834.1,
-            307.5
-          ],
-          "rect_marked_pt": [
-            774.87,
-            282.9,
-            834.1,
-            307.5
-          ]
-        },
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9445,
-          "rect_normalized": [
-            0.24143,
-            0.181296,
-            0.018145,
-            0.011722
-          ],
-          "rect_pdf_points": [
-            591.02,
-            285.36,
-            635.44,
-            303.81
-          ],
-          "rect_marked_pt": [
-            591.02,
-            285.36,
-            635.44,
-            303.81
-          ]
-        },
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9585,
-          "rect_normalized": [
-            0.106352,
-            0.286792,
-            0.026712,
-            0.028914
-          ],
-          "rect_pdf_points": [
-            260.35,
-            451.41,
-            325.74,
-            496.92
-          ],
-          "rect_marked_pt": [
-            260.35,
-            451.41,
-            325.74,
-            496.92
-          ]
-        }
-      ],
-      "card": {
-        "page": 1,
-        "rect": [
-          2472.73,
-          24.73,
-          3319.64,
-          258.09
-        ]
-      }
-    },
-    {
-      "id": "EF-002",
-      "number": 2,
-      "finding_id": "flag_36ebbb258477",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F011 needs an engineer's answer",
-      "explanation": "Expected: 1.500-12 TAP; 2.50 DP.; SECTION A-A. Actual: Confirm the left pilot-bore full-diameter extent: does it continue into the transverse opening beyond the 2.50 thread depth shown in section A-A?. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": "1.500-12 TAP; 2.50 DP.; SECTION A-A",
-      "actual": "Confirm the left pilot-bore full-diameter extent: does it continue into the transverse opening beyond the 2.50 thread depth shown in section A-A?",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": "1.500-12 TAP; 2.50 DP.; SECTION A-A",
-      "feature_ids": [
-        "F011"
-      ],
-      "page": 1,
-      "location_method": "fuzzy",
-      "confidence": 0.7862,
-      "rect_pdf_points": [
-        72.8,
-        1040.58,
-        176.44,
-        1061.49
-      ],
-      "rect_normalized": [
-        0.029739,
-        0.661105,
-        0.042337,
-        0.013285
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "fuzzy",
-          "confidence": 0.7862,
-          "rect_normalized": [
-            0.029739,
-            0.661105,
-            0.042337,
-            0.013285
-          ],
-          "rect_pdf_points": [
-            72.8,
-            1040.58,
-            176.44,
-            1061.49
-          ],
-          "rect_marked_pt": [
-            72.8,
-            1040.58,
-            176.44,
-            1061.49
-          ]
-        },
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9643,
-          "rect_normalized": [
-            0.21875,
-            0.805673,
-            0.070061,
-            0.017973
-          ],
-          "rect_pdf_points": [
-            535.5,
-            1268.13,
-            707.01,
-            1296.42
-          ],
-          "rect_marked_pt": [
-            535.5,
-            1268.13,
-            707.01,
-            1296.42
-          ]
-        }
-      ],
-      "card": {
-        "page": 1,
-        "rect": [
-          2472.73,
-          276.64,
-          3319.64,
-          481.25
-        ]
-      }
-    },
-    {
-      "id": "EF-003",
-      "number": 3,
-      "finding_id": "flag_cb78bfe46c78",
-      "severity": "ERROR",
-      "code": "feature_not_built",
-      "title": "Feature F011 was not built",
-      "explanation": "Expected: 1.500-12 TAP; 2.50 DP.; SECTION A-A. Actual: skipped: unresolved: Confirm the left pilot-bore full-diameter extent: does it continue into the transverse opening beyond the 2.50 thread depth shown in section A-A?. The model is missing this feature.",
-      "expected": "1.500-12 TAP; 2.50 DP.; SECTION A-A",
-      "actual": "skipped: unresolved: Confirm the left pilot-bore full-diameter extent: does it continue into the transverse opening beyond the 2.50 thread depth shown in section A-A?",
-      "consequence": "The model is missing this feature.",
-      "manual_action": "Review the callout for F011 against the drawing, then add the feature or correct the plan.",
-      "location_status": "located",
-      "source_callout": "1.500-12 TAP; 2.50 DP.; SECTION A-A",
-      "feature_ids": [
-        "F011"
-      ],
-      "page": 1,
-      "location_method": "fuzzy",
-      "confidence": 0.7862,
-      "rect_pdf_points": [
-        72.8,
-        1040.58,
-        176.44,
-        1061.49
-      ],
-      "rect_normalized": [
-        0.029739,
-        0.661105,
-        0.042337,
-        0.013285
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "fuzzy",
-          "confidence": 0.7862,
-          "rect_normalized": [
-            0.029739,
-            0.661105,
-            0.042337,
-            0.013285
-          ],
-          "rect_pdf_points": [
-            72.8,
-            1040.58,
-            176.44,
-            1061.49
-          ],
-          "rect_marked_pt": [
-            72.8,
-            1040.58,
-            176.44,
-            1061.49
-          ]
-        },
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9643,
-          "rect_normalized": [
-            0.21875,
-            0.805673,
-            0.070061,
-            0.017973
-          ],
-          "rect_pdf_points": [
-            535.5,
-            1268.13,
-            707.01,
-            1296.42
-          ],
-          "rect_marked_pt": [
-            535.5,
-            1268.13,
-            707.01,
-            1296.42
-          ]
-        }
-      ],
-      "card": {
-        "page": 1,
-        "rect": [
-          2472.73,
-          499.8,
-          3319.64,
-          733.16
-        ]
-      }
-    },
-    {
-      "id": "EF-004",
-      "number": 4,
-      "finding_id": "flag_d71d19241aec",
-      "severity": "WARNING",
-      "code": "feature_unresolved",
-      "title": "Feature F009 needs an engineer's answer",
-      "explanation": "Expected: 1.88; 3.44; 1.75 CENT.; .500; .250 R TYP.. Actual: Does .250 R TYP. also govern the four larger entrance-recess corners? The drawing shows rounded corners but the leader identifies the inner opening.. The feature was not built: the pipeline asks instead of guessing.",
-      "expected": "1.88; 3.44; 1.75 CENT.; .500; .250 R TYP.",
-      "actual": "Does .250 R TYP. also govern the four larger entrance-recess corners? The drawing shows rounded corners but the leader identifies the inner opening.",
-      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
-      "manual_action": "Answer the open question on the drawing, then re-run.",
-      "location_status": "located",
-      "source_callout": "1.88; 3.44; 1.75 CENT.; .500; .250 R TYP.",
-      "feature_ids": [
-        "F009"
-      ],
-      "page": 1,
-      "location_method": "exact_tokens",
-      "confidence": 0.9693,
-      "rect_pdf_points": [
-        774.87,
-        282.9,
-        834.1,
-        307.5
-      ],
-      "rect_normalized": [
-        0.316532,
-        0.179733,
-        0.024195,
-        0.015629
-      ],
-      "regions": [
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9693,
-          "rect_normalized": [
-            0.316532,
-            0.179733,
-            0.024195,
-            0.015629
-          ],
-          "rect_pdf_points": [
-            774.87,
-            282.9,
-            834.1,
-            307.5
-          ],
-          "rect_marked_pt": [
-            774.87,
-            282.9,
-            834.1,
-            307.5
-          ]
-        },
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9445,
-          "rect_normalized": [
-            0.24143,
-            0.181296,
-            0.018145,
-            0.011722
-          ],
-          "rect_pdf_points": [
-            591.02,
-            285.36,
-            635.44,
-            303.81
-          ],
-          "rect_marked_pt": [
-            591.02,
-            285.36,
-            635.44,
-            303.81
-          ]
-        },
-        {
-          "page": 1,
-          "method": "exact_tokens",
-          "confidence": 0.9585,
-          "rect_normalized": [
-            0.106352,
-            0.286792,
-            0.026712,
-            0.028914
-          ],
-          "rect_pdf_points": [
-            260.35,
-            451.41,
-            325.74,
-            496.92
-          ],
-          "rect_marked_pt": [
-            260.35,
-            451.41,
-            325.74,
-            496.92
-          ]
-        }
-      ],
-      "card": {
-        "page": 1,
-        "rect": [
-          2472.73,
-          751.71,
-          3319.64,
-          956.33
-        ]
-      }
-    },
-    {
-      "id": "EF-005",
-      "number": 5,
       "finding_id": "flag_eb82c08d3c26",
       "severity": "INFO",
       "code": "practice_advisory",
@@ -469,12 +59,12 @@
         "page": 1,
         "rect": [
           2472.73,
-          974.87,
+          24.73,
           3319.64,
-          1241.31
+          291.16
         ]
       }
     }
   ],
-  "generation_key": "6945546c77ee"
+  "generation_key": "9a49484c9d26"
 }

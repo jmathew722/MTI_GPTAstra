@@ -1,0 +1,1355 @@
+{
+  "part_name": "ANGLE PLATE",
+  "part_number": "4071-C",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "1020",
+  "finish": "Local surface-texture values: 125 on rear broad face, inner upright face, and datum-A inner flange face; 250 on the two longitudinal end faces. Conventionally microinches; roughness parameter not explicitly stated.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1.02; 3 PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b11\u00b0.",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Upper-left end view, 1.88 depth by 4.00 width. Taken as Front for the third-angle view arrangement.",
+      "dimensions_shown": [
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010",
+        "D011"
+      ],
+      "visible_features": [
+        "F001",
+        "F007"
+      ],
+      "hidden_features": [
+        "F008"
+      ],
+      "centerline_notes": "Two flange-hole axes, 1.750 apart, symmetric about width midplane. Counterbore outlines are hidden. Upright holes are not fully represented by hidden lines."
+    },
+    {
+      "view_type": "Right",
+      "description": "Upper-right broad-face view, envelope 5.75 by 4.00 as established by the other views. Shows central bore, four large counterbored holes, three small counterbored holes, and the flange at right.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D016",
+        "D017",
+        "D018",
+        "D019",
+        "D020",
+        "D021",
+        "D022",
+        "D023",
+        "D024"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005",
+        "F006"
+      ],
+      "hidden_features": [
+        "F007",
+        "F008"
+      ],
+      "centerline_notes": "Central bore is at the center of the four-hole square. Middle small hole lies on width midline. Upper and lower small holes are symmetric about that line. Dashed stepped profiles at right represent the two orthogonal flange counterbores."
+    },
+    {
+      "view_type": "Bottom",
+      "description": "Lower-left L-profile view, below Front in third-angle arrangement. Shows 5.75 length, 1.88 depth, .875 upright thickness, 1.00 flange length, internal root radius, and datum A.",
+      "dimensions_shown": [
+        "D011",
+        "D012",
+        "D013",
+        "D014",
+        "D015"
+      ],
+      "visible_features": [
+        "F001",
+        "F009"
+      ],
+      "hidden_features": [
+        "F005",
+        "F006",
+        "F007",
+        "F008"
+      ],
+      "centerline_notes": "Projected hole centerlines across upright and through flange. Some hole projections have centerlines without complete hidden outlines."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "diameter",
+      "value": 0.531,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "four_through_hole_diameters",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".531 DR. THRU, 4 HLS. General three-place tolerance."
+    },
+    {
+      "id": "D002",
+      "type": "diameter",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "four_counterbore_diameters",
+      "feature_ref": "F004",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.000 DIA. C'BORE. General three-place tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "depth",
+      "value": 0.56,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "four_counterbore_depths",
+      "feature_ref": "F004",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".56 DP. General two-place tolerance."
+    },
+    {
+      "id": "D004",
+      "type": "diameter",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_socket_head_cap_screw_size",
+      "feature_ref": "",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": true,
+      "notes": "DR. & C'BORE FOR .375 SOC. HD. CAP SCR. 5 HLS. Nominal screw size, NOT clearance-hole diameter. Three upright holes and two flange holes; actual drill diameter, counterbore diameter and depth are unspecified. Resolve these sizes before building."
+    },
+    {
+      "id": "D005",
+      "type": "diameter",
+      "value": 1.531,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "central_through_bore_diameter",
+      "feature_ref": "F002",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.531 DIA. THRU. General three-place tolerance."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 4.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_width",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 4.00; general two-place tolerance."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 2.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "top_edge_to_width_midplane",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.00; general two-place tolerance."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 1.75,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "flange_hole_spacing_across_width",
+      "feature_ref": "F007",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.750 \u00b1.005."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 0.875,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "upper_flange_hole_to_width_midplane",
+      "feature_ref": "F007",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".875 \u00b1.005; distinct from upright thickness."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 1.88,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_L_profile_depth",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-place tolerance."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 0.875,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "upright_thickness",
+      "feature_ref": "F001",
+      "view": "Bottom / Front shared projection",
+      "datum_ref": "A",
+      "gdt_symbol": "perpendicularity",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance. Inner upright face separately has .001 perpendicularity to A."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 5.75,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_longitudinal_length",
+      "feature_ref": "F001",
+      "view": "Bottom",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-place tolerance."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "flange_longitudinal_thickness",
+      "feature_ref": "F001",
+      "view": "Bottom",
+      "datum_ref": "A",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.00; general two-place tolerance. Inner flange shoulder is datum A."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "flange_hole_axis_offset_from_inner_upright_face",
+      "feature_ref": "F007",
+      "view": "Bottom",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".500 \u00b1.005, measured into projecting flange."
+    },
+    {
+      "id": "D015",
+      "type": "radial",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "internal_L_root_radius",
+      "feature_ref": "F009",
+      "view": "Bottom",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".060 R.; general three-place tolerance."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 2.05,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "large_hole_pattern_vertical_pitch",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "2.050 \u00b1.005."
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 1.025,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "lower_large_hole_row_to_central_bore_axis",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance; no local \u00b1.005 printed on half-pitch."
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 1.025,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_large_hole_column_to_central_bore_axis",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance; no local \u00b1.005 printed on half-pitch."
+    },
+    {
+      "id": "D019",
+      "type": "linear",
+      "value": 2.05,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "large_hole_pattern_horizontal_pitch",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "2.050 \u00b1.005."
+    },
+    {
+      "id": "D020",
+      "type": "linear",
+      "value": 3.125,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "central_bore_axis_to_inner_flange_shoulder",
+      "feature_ref": "F002",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Endpoint is inner flange shoulder, not overall right edge."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 0.625,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "middle_to_outer_small_hole_column_horizontal_offset",
+      "feature_ref": "F005",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D022",
+      "type": "linear",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "outer_small_hole_column_to_inner_flange_shoulder",
+      "feature_ref": "F005",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Distinct from nominal .375 screw-size callout."
+    },
+    {
+      "id": "D023",
+      "type": "linear",
+      "value": 1.5,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "upper_small_hole_to_width_midplane",
+      "feature_ref": "F005",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.500 \u00b1.005."
+    },
+    {
+      "id": "D024",
+      "type": "linear",
+      "value": 3.0,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "upper_to_lower_small_hole_vertical_spacing",
+      "feature_ref": "F005",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "3.000 \u00b1.005."
+    },
+    {
+      "id": "D025",
+      "type": "linear",
+      "value": 4.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_edge_to_inner_flange_shoulder",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 5.75 - 1.00 = 4.75. No independent tolerance."
+    },
+    {
+      "id": "D026",
+      "type": "linear",
+      "value": 1.625,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "central_bore_x",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 5.75 - 1.00 - 3.125 = 1.625."
+    },
+    {
+      "id": "D027",
+      "type": "linear",
+      "value": 0.6,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_large_hole_column_x",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 1.625 - 1.025 = .600."
+    },
+    {
+      "id": "D028",
+      "type": "linear",
+      "value": 2.65,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_large_hole_column_x",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: .600 + 2.050 = 2.650."
+    },
+    {
+      "id": "D029",
+      "type": "linear",
+      "value": 0.975,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "lower_large_hole_row_y",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED from bottom edge: 4.00 - 2.00 - 1.025 = .975."
+    },
+    {
+      "id": "D030",
+      "type": "linear",
+      "value": 3.025,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper_large_hole_row_y",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: .975 + 2.050 = 3.025."
+    },
+    {
+      "id": "D031",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "lower_small_upright_hole_y",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 4.00 - 2.00 + 1.500 - 3.000 = .500."
+    },
+    {
+      "id": "D032",
+      "type": "linear",
+      "value": 3.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper_small_upright_hole_y",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 4.00 - 2.00 + 1.500 = 3.500."
+    },
+    {
+      "id": "D033",
+      "type": "linear",
+      "value": 4.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "outer_small_upright_hole_column_x",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 4.750 - .375 = 4.375."
+    },
+    {
+      "id": "D034",
+      "type": "linear",
+      "value": 3.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "middle_small_upright_hole_x",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 4.375 - .625 = 3.750."
+    },
+    {
+      "id": "D035",
+      "type": "linear",
+      "value": 1.125,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "lower_flange_hole_y",
+      "feature_ref": "F007",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 4.00 - 2.00 + .875 - 1.750 = 1.125."
+    },
+    {
+      "id": "D036",
+      "type": "linear",
+      "value": 2.875,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper_flange_hole_y",
+      "feature_ref": "F007",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 4.00 - 2.00 + .875 = 2.875."
+    },
+    {
+      "id": "D037",
+      "type": "linear",
+      "value": 1.005,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "flange_projection_beyond_inner_upright_face",
+      "feature_ref": "F001",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 1.88 - .875 = 1.005."
+    },
+    {
+      "id": "D038",
+      "type": "linear",
+      "value": 0.505,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "flange_hole_horizontal_coordinate_in_end_view",
+      "feature_ref": "F007",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: 1.88 - .875 - .500 = .505 from projecting flange edge."
+    },
+    {
+      "id": "D039",
+      "type": "linear",
+      "value": 0.315,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "remaining_thickness_below_large_counterbores",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DERIVED: .875 - .56 = .315."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "counterbore",
+      "diameter": 0.531,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 1.0,
+      "cbore_depth": 0.56,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 4,
+      "x_position": 0.6,
+      "y_position": 0.975,
+      "position_known": true,
+      "pattern": "linear",
+      "pattern_spacing": 2.05,
+      "instance_positions": [
+        [
+          0.6,
+          0.975
+        ],
+        [
+          2.65,
+          0.975
+        ],
+        [
+          0.6,
+          3.025
+        ],
+        [
+          2.65,
+          3.025
+        ]
+      ],
+      "feature_ref": "F003",
+      "view": "Right"
+    },
+    {
+      "id": "H002",
+      "type": "thru",
+      "diameter": 1.531,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 1.625,
+      "y_position": 2.0,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          1.625,
+          2.0
+        ]
+      ],
+      "feature_ref": "F002",
+      "view": "Right"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Extrude L profile across 4.00 width. Profile coordinates u horizontally from projecting flange edge, v longitudinally from outer flange end: (0,0), (1.88,0), (1.88,5.75), (1.005,5.75), (1.005,1.00), (0,1.00). Root radius is applied last.",
+      "related_dimensions": [
+        "D006",
+        "D007",
+        "D010",
+        "D011",
+        "D012",
+        "D013",
+        "D025",
+        "D037"
+      ],
+      "sketch_plane": "Bottom",
+      "depth_dimension_id": "D006",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Central 1.531 through bore normal to upright broad face; broad-face edge coordinates (1.625,2.000).",
+      "related_dimensions": [
+        "D005",
+        "D007",
+        "D020",
+        "D026"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 1.625,
+      "offset_y": 2.0,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "hole",
+      "description": "Four .531 through bores normal to upright, on 2.050 by 2.050 square centered on central bore. See H001 positions.",
+      "related_dimensions": [
+        "D001",
+        "D016",
+        "D017",
+        "D018",
+        "D019",
+        "D027",
+        "D028",
+        "D029",
+        "D030"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F004",
+      "type": "extrude_cut",
+      "description": "Four concentric 1.000-diameter counterbores, .56 deep, entering from visible upright broad face.",
+      "related_dimensions": [
+        "D002",
+        "D003",
+        "D039"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D003",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F005",
+      "type": "hole",
+      "description": "Three upright clearance holes from the five-hole callout DR. & C'BORE FOR .375 SOC. HD. CAP SCR. Broad-face lower-left-referenced positions [[4.375,.500],[3.750,2.000],[4.375,3.500]]. Actual hole diameter unspecified; through condition inferred. Cannot build without dimensional clarification.",
+      "related_dimensions": [
+        "D004",
+        "D021",
+        "D022",
+        "D023",
+        "D024",
+        "D031",
+        "D032",
+        "D033",
+        "D034"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 3
+    },
+    {
+      "id": "F006",
+      "type": "extrude_cut",
+      "description": "Three upright counterbores coaxial with F005, entering from visible broad face, for .375 socket-head cap screws. Counterbore diameter and depth unspecified; require approved standard or clarification.",
+      "related_dimensions": [
+        "D004"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "",
+      "parent_feature": "F005",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 3
+    },
+    {
+      "id": "F007",
+      "type": "hole",
+      "description": "Remaining two clearance holes of the five-hole .375 socket-head cap screw callout, through the 1.00 flange. Axes perpendicular to upright-hole axes. End-view lower-left-referenced positions [[.505,1.125],[.505,2.875]], spacing 1.750. Actual drill diameter unspecified.",
+      "related_dimensions": [
+        "D004",
+        "D008",
+        "D009",
+        "D013",
+        "D014",
+        "D035",
+        "D036",
+        "D038"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F008",
+      "type": "extrude_cut",
+      "description": "Two flange counterbores coaxial with F007, entering from outer flange end opposite datum A. Hidden in upper-left view. Counterbore diameter and depth unspecified.",
+      "related_dimensions": [
+        "D004"
+      ],
+      "sketch_plane": "custom: outer flange end",
+      "depth_dimension_id": "",
+      "parent_feature": "F007",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F009",
+      "type": "fillet",
+      "description": "Internal concave .060 root radius between inner upright face and datum-A inner flange face, extending across width.",
+      "related_dimensions": [
+        "D015"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    }
+  ],
+  "geometric_tolerances": [
+    {
+      "symbol": "perpendicularity",
+      "value": 0.001,
+      "datum": "A"
+    }
+  ],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Width midplane y = 2.000 in broad-face/end views",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007",
+          "F008",
+          "F009"
+        ],
+        "description": "Nominal bilateral symmetry across 4.00 width, with paired hole centers established by full and half spacings."
+      },
+      {
+        "plane": "Local longitudinal plane x = 1.625 through central bore",
+        "feature_ids": [
+          "F002",
+          "F003",
+          "F004"
+        ],
+        "description": "Local symmetry of central bore and four-hole pattern only, not the entire part."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F003",
+          "F004"
+        ],
+        "description": "Each 1.000 counterbore is coaxial with its .531 through hole."
+      },
+      {
+        "feature_ids": [
+          "F005",
+          "F006"
+        ],
+        "description": "Each upright small counterbore is coaxial with its clearance hole."
+      },
+      {
+        "feature_ids": [
+          "F007",
+          "F008"
+        ],
+        "description": "Each flange counterbore is coaxial with its clearance hole; axes perpendicular to upright-hole axes."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "H001",
+        "qty": 2,
+        "spacing_value": 2.05,
+        "computed_from": "Two columns: 2.650 - .600 = 2.050, matching printed horizontal pitch."
+      },
+      {
+        "feature_ref": "H001",
+        "qty": 2,
+        "spacing_value": 2.05,
+        "computed_from": "Two rows: 3.025 - .975 = 2.050, matching printed vertical pitch."
+      },
+      {
+        "feature_ref": "F007",
+        "qty": 2,
+        "spacing_value": 1.75,
+        "computed_from": "2.875 - 1.125 = 1.750, matching printed flange-hole pitch."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D012",
+        "component_dimension_ids": [
+          "D025",
+          "D013"
+        ],
+        "description": "5.75 overall length = 4.75 to inner flange shoulder + 1.00 flange thickness."
+      },
+      {
+        "total_dimension_id": "D025",
+        "component_dimension_ids": [
+          "D026",
+          "D020"
+        ],
+        "description": "4.75 shoulder x = 1.625 bore x + 3.125 bore-to-shoulder distance."
+      },
+      {
+        "total_dimension_id": "D010",
+        "component_dimension_ids": [
+          "D037",
+          "D011"
+        ],
+        "description": "1.88 depth = 1.005 projecting flange + .875 upright thickness."
+      },
+      {
+        "total_dimension_id": "D037",
+        "component_dimension_ids": [
+          "D038",
+          "D014"
+        ],
+        "description": "1.005 projecting flange = .505 edge-to-axis + .500 axis-to-upright."
+      },
+      {
+        "total_dimension_id": "D026",
+        "component_dimension_ids": [
+          "D027",
+          "D018"
+        ],
+        "description": "Central bore x = left large-hole x + horizontal half-pitch."
+      },
+      {
+        "total_dimension_id": "D028",
+        "component_dimension_ids": [
+          "D027",
+          "D019"
+        ],
+        "description": "Right large-hole x = left large-hole x + horizontal pitch."
+      },
+      {
+        "total_dimension_id": "D030",
+        "component_dimension_ids": [
+          "D029",
+          "D016"
+        ],
+        "description": "Upper large-hole y = lower large-hole y + vertical pitch."
+      },
+      {
+        "total_dimension_id": "D006",
+        "component_dimension_ids": [
+          "D007",
+          "D017",
+          "D029"
+        ],
+        "description": "4.00 width = 2.00 top-to-midplane + 1.025 midplane-to-lower-row + .975 lower margin."
+      },
+      {
+        "total_dimension_id": "D025",
+        "component_dimension_ids": [
+          "D033",
+          "D022"
+        ],
+        "description": "Shoulder x = outer small-hole column x + .375."
+      },
+      {
+        "total_dimension_id": "D033",
+        "component_dimension_ids": [
+          "D034",
+          "D021"
+        ],
+        "description": "Outer small-hole column x = middle small-hole x + .625."
+      },
+      {
+        "total_dimension_id": "D032",
+        "component_dimension_ids": [
+          "D031",
+          "D024"
+        ],
+        "description": "Upper small-hole y = lower small-hole y + 3.000."
+      },
+      {
+        "total_dimension_id": "D006",
+        "component_dimension_ids": [
+          "D007",
+          "D023",
+          "D031"
+        ],
+        "description": "4.00 width = 2.00 + 1.500 + .500 nominal."
+      },
+      {
+        "total_dimension_id": "D036",
+        "component_dimension_ids": [
+          "D035",
+          "D008"
+        ],
+        "description": "Upper flange-hole y = lower flange-hole y + 1.750."
+      },
+      {
+        "total_dimension_id": "D006",
+        "component_dimension_ids": [
+          "D007",
+          "D009",
+          "D035"
+        ],
+        "description": "4.00 width = 2.00 + .875 + 1.125 nominal."
+      },
+      {
+        "total_dimension_id": "D011",
+        "component_dimension_ids": [
+          "D003",
+          "D039"
+        ],
+        "description": ".875 upright thickness = .56 counterbore depth + .315 remaining thickness."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D025",
+      "D026",
+      "D027",
+      "D028",
+      "D029",
+      "D030",
+      "D031",
+      "D032",
+      "D033",
+      "D034",
+      "D035",
+      "D036",
+      "D037",
+      "D038",
+      "D039"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F005",
+    "F007",
+    "F004",
+    "F006",
+    "F008",
+    "F009"
+  ],
+  "warnings": [
+    "The five-hole screw-clearance callout is fully transcribed in D004 and represented by F005-F008. Its drill diameter is unspecified. The reporting schema rejects unknown/zero hole diameters, so these five holes cannot honestly be entered in hole_callouts without inventing a diameter. All five positions are explicitly preserved in F005 and F007. Resolve drill diameter, counterbore diameter, and counterbore depth before building.",
+    "Do not use .375 as the clearance-hole diameter: it is the nominal screw size. The five small holes comprise three upright and two orthogonal flange holes.",
+    "The smaller holes are interpreted as through clearance holes from geometry and application; only the central bore and large four-hole callout explicitly print THRU.",
+    "Inches and third-angle projection are explicit. No ASME/ANSI/ISO/DIN standard is named; drawing_standard left blank.",
+    "Drawing number reads 4071-C. No separate revision is populated; suffix C was retained in the number. Additional title-block model number is 180.",
+    "Material reads 1020, conventionally carbon steel. Heat-treatment field is blank.",
+    "Broad-face coordinates use its lower-left corner: x along 5.75, y along 4.00. Flange-hole positions use upper-left end-view lower-left coordinates: horizontal along 1.88, y along 4.00. These are different face-local coordinate systems.",
+    "Hole coordinates are calculated from printed dimension chains, not scaled from the image. Derived dimensions have no additional independent tolerance; retain controlling tolerances.",
+    "View names are not printed. Front upper-left, Right upper-right and Bottom lower-left provide a consistent third-angle interpretation; CAD orientation may differ without changing geometry.",
+    "Datum A is the inner flange face. Perpendicularity .001 applies to the inner upright face. Frame is printed in legacy order perpendicularity | A | .001.",
+    "Surface-texture values 125 and 250 are conventionally microinches; the roughness parameter is not printed.",
+    "Hidden-line depiction is selective. Missing hidden outlines must not be used to infer blind holes or omit visible bores."
+  ],
+  "confidence": 0.89
+}

@@ -3,25 +3,23 @@
   "extraction": "reused C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040501E\\A040501E_extraction.json",
   "plan_attempts": 1,
   "gate1": "OK",
-  "planned": 12,
-  "questions": [
-    "F009: Does .250 R TYP. also govern the four larger entrance-recess corners? The drawing shows rounded corners but the leader identifies the inner opening.",
-    "F011: Confirm the left pilot-bore full-diameter extent: does it continue into the transverse opening beyond the 2.50 thread depth shown in section A-A?"
-  ],
+  "planned": 10,
+  "questions": [],
   "flagged": [
-    "F003: The top view and section A-A show a transverse through-opening. Two overlapping rectangular strips and four circular cuts form its exact .250-radius profile. Cuts start outside the negative-Y envelope and pass through the shaft.",
-    "F010: Use the standard 1-27/64 inch tap drill (1.421875) for a 1-1/2-12 thread. D012 is the specified threaded depth; this feature models that nominal depth without inventing an additional drilling allowance. Any continuation beyond the threaded length is held separately for review.",
-    "F012: For D018=.500 SHCS, the supplied ASME B18.3 normal-fit chart gives clearance drill .531 and counterbore diameter .812. The explicitly printed D017 overrides the chart's default counterbore depth. Section A-A shows the passage ending in the transverse opening; drilling to its axial midpoint overshoots the right web without drilling the left web.",
-    "F013: Use the standard 5/16 inch (.3125) tap drill for D015=.375, 16-TPI UNC. Model the specified threaded depth as a flat-bottom nominal bore with cosmetic threads; no unprinted drill-point or extra bottom allowance is added. The end view shows symmetric offsets about both axis centerlines.",
-    "F014: Both rows and both columns are mirror images about the end-view centerlines; pitches are twice the dimensioned offsets."
+    "F003: The top view centers the opening transversely; section A-A shows it breaking through the shaft. Start and finish beyond the OD envelope to avoid coincident cut limits.",
+    "F005: Section A-A places the recess floor .500 below the upper OD crown. Cutting upward from that floor beyond the OD gives the exact recess depth. Transverse centering is explicitly called out; axial centering on the inner opening is not imposed.",
+    "F006: The outer recess corners are visibly rounded, but the leader terminates on the inner opening. D005 is a candidate only; do not execute this fillet until its applicability is confirmed. F005 is an intermediate sharp-corner recess, not a claim that the finished recess has square corners. DEFAULT D7: general/TYP callout applied to the planned edges",
+    "F007: Use the conventional Unified 1-1/2-12 tap-drill chart size 1-27/64 inch (1.421875). The modeled flat-bottom bore extends to the specified tapped depth; uncalled-for drill-point geometry and additional manufacturing drilling allowance are not added.",
+    "F008: For the D018 = .500 SHCS, the supplied ASME B18.3 normal-fit SHCS chart gives .531 clearance drill and .812 counterbore diameter. The printed D017 depth overrides the chart's default head-seat depth. Section A-A shows the clearance passage terminating in the transverse opening, not continuing into the left web; D005 provides overshoot into that opening.",
+    "F009: The standard tap drill for 3/8-16 UNC is 5/16 inch (.3125). Model the specified tapped extent as a flat-bottom cosmetic-thread bore without adding unspecified drilling allowances. End-view coordinates are relative to the shaft axis, not its bounding-box corner.",
+    "F010: The right end view shows mirror-image hole locations about both centerlines, giving coordinates (\u00b1D019, \u00b1D020)."
   ],
-  "defaults": [],
+  "defaults": [
+    "F006: D7 fillet 0.25 on the 4 planned edge(s)"
+  ],
   "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040501E\\reference.step",
-  "volume": 62.860345,
-  "cq_skipped": {
-    "F009": "unresolved: Does .250 R TYP. also govern the four larger entrance-recess corners? The drawing shows rounded corners but the leader identifies the inner opening.",
-    "F011": "unresolved: Confirm the left pilot-bore full-diameter extent: does it continue into the transverse opening beyond the 2.50 thread depth shown in section A-A?"
-  },
+  "volume": 62.629623,
+  "cq_skipped": {},
   "sw_ok": true,
   "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040501E\\4050-D_ir.SLDPRT",
   "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040501E\\4050-D_ir.STL",
@@ -29,28 +27,24 @@
   "sw_features": {
     "F001": "built",
     "F002": "built (2 edges selected by nearest point)",
-    "F003": "built (Up To Next)",
-    "F004": "built (Up To Next)",
-    "F005": "built (Up To Next)",
-    "F006": "built (Up To Next)",
-    "F007": "built (Up To Next)",
-    "F008": "built (Up To Next)",
-    "F009": "skipped (unresolved: Does .250 R TYP. also govern the four larger entrance-recess corners? The drawing shows rounded corners but the leader identifies the inner opening.)",
-    "F010": "built",
-    "F011": "skipped (unresolved: Confirm the left pilot-bore full-diameter extent: does it continue into the transverse opening beyond the 2.50 thread depth shown in section A-A?)",
-    "F012": "built (drill + counterbore)",
-    "F013": "built (Hole Wizard 3/8-16 tapped, cosmetic thread, Blind + drill point, 4 hole(s) on a construction rectangle; one feature for F013, F014)",
-    "F014": "built (in F013 (one feature))"
+    "F003": "built",
+    "F004": "built (4 edges selected by nearest point)",
+    "F005": "built",
+    "F006": "built (4 edges selected by nearest point)",
+    "F007": "built",
+    "F008": "built (drill + counterbore)",
+    "F009": "built (Hole Wizard 3/8-16 tapped, cosmetic thread, Blind + drill point, 4 hole(s) on a construction rectangle; one feature for F009, F010)",
+    "F010": "built (in F009 (one feature))"
   },
   "conventions": [
     "origin centered: True",
-    "F014: Hole Wizard 3/8-16 tapped, cosmetic thread, Blind + drill point, 4 hole(s) on a construction rectangle",
-    "sketches fully defined: 11/11"
+    "F010: Hole Wizard 3/8-16 tapped, cosmetic thread, Blind + drill point, 4 hole(s) on a construction rectangle",
+    "sketches fully defined: 7/7"
   ],
   "hole_wizard_substitutions": [],
   "mti_review": [
     "[mti_edge_ops_last] F003 (prism) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree"
   ],
-  "cost_usd": 0.2912,
+  "cost_usd": 0.2606,
   "error": ""
 }
