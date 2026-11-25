@@ -77,3 +77,10 @@ The Scoring tab grades what the drawing's extraction asked for against the **rea
 from the SLDPRT, needs **no answer key**, and is free. Spec: `docs/scoring-rubric-emf.md`. Engine: `2D-3D-CAD-Test-Generation/bench/fidelity.py`
 (`python -m bench.fidelity <part_dir>`); the pipeline writes `fidelity_score.json` after every run. The answer-key benchmark (`bench.score`) is an
 optional second measure shown separately. A part with no STL is Incomplete, a failed build is its own state, and neither is ever scored 0.
+
+### Build Plan and colour coding (v4)
+
+The Build Plan section reads the Feature-IR `plan.json` (`{dims, plan:{features}}`) as well as the legacy `steps` plan: each operation shows the status
+SolidWorks reported for it (`ir_report.sw_features`), its numbers resolved from the dimension table, its drawing callouts, flags and defaults. Pipeline
+Results sections carry a health colour (navigation dot, status chip with a word, accent bar) computed by `logic/resulttone.js`; the Scoring tab uses band
+colours plus six category accents. Colour is never the only cue: every verdict has a word or glyph.

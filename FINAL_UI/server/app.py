@@ -1056,8 +1056,10 @@ def _categorize_output(out: Path, session: str | None = None) -> dict:
     # Compact IR facts for the frontend's verdict/tracker logic (McA.runstate, McA.stages): the
     # IR path has no multiview_summary.csv (that is v1-only), so deriveVerdict/finalize read
     # this instead of falling through to "unknown" for every successful IR run.
+    # sw_features / flagged / defaults feed the Build Plan view: every planned operation shows the status SolidWorks reported for it.
     ir_report_cat = ({"present": True, **{k: ir_report.get(k) for k in
-                      ("part", "gate1", "planned", "questions", "sw_ok", "error", "cost_usd")}}
+                      ("part", "gate1", "planned", "questions", "sw_ok", "error", "cost_usd", "sw_features", "flagged", "defaults",
+                       "hole_wizard_substitutions", "conventions", "mti_review", "volume", "plan_attempts", "cq_skipped")}}
                      if ir_report is not None else {"present": False})
     return {
         "has_any": has_any,
@@ -2357,7 +2359,8 @@ def _run_presence(out: Path) -> dict:
     """File-existence flags for each output category (drives the ✓ indicators
     without reading file contents — cheap enough to scan every part)."""
     stl, _src = _active_stl(out)
-    build_plan = _first(out, ["*build_plan*.json", "**/build_plan*.json"])
+    # The Feature-IR path writes plan.json (not *_build_plan.json); both count as a build plan.
+    build_plan = _first(out, ["*build_plan*.json", "**/build_plan*.json"]) or _first(out, ["plan.json"])
     return {
         "extraction": _first(out, ["*_extraction.json", "*extraction*.json"],
                              exclude=["resolved"]) is not None,

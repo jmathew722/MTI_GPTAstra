@@ -145,3 +145,10 @@ size, feature coverage, hole and bore accuracy, placement and patterns, extracti
 gate, and an issues list by severity. New: `bench/fidelity.py` + `fidelity_config.yaml` (22 tests on real CadQuery meshes), server hub/endpoints
 (append-only history, pipeline-written `fidelity_score.json` ingested once), `pages/scoring.js` rewrite, band tokens in `design-tokens.css`.
 It immediately found real artifact problems: several `FINAL_OUTPUTs` folders hold an STL that is not the part's own mesh (for example A040501E).
+
+### 2026-11-25 (later still): Build Plan fix and colour coding
+
+Root cause of the empty Build Plan: the viewer only knew the v1 `steps` plan and every IR build writes `{dims, plan:{features}}`. Fixed with `logic/planview.js`
+and an IR renderer (kind chips, SolidWorks status per operation, resolved numbers, flags, dimensions). Also fixed the run list's Plan presence check
+(`plan.json`). Added section health tones (`logic/resulttone.js`) to Pipeline Results and more colour to the Scoring tab (row accents, item tints, severity
+code chips, category accents). Tests: planview 8, resulttone 6, browser `26-v4-color-and-build-plan` 5.

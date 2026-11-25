@@ -687,3 +687,8 @@ New primary scorer `bench/fidelity.py` (spec `docs/scoring-rubric-emf.md`): extr
 in six categories, colour bands, severity-ranked issues, no answer key. Scores of the 19 `FINAL_OUTPUTs` parts: 4 green, several red because their
 STL is not their own mesh (A040501E holds A040691E's), 5 Incomplete (no exported STL), 1 no part. Open item found by it: fix the STL export so each
 run's STL belongs to its SLDPRT (the rubric flags it as a critical `STL_NOT_THIS_BUILD`).
+
+## v4: Build Plan fix and colour coding (2026-11-25, branch `Improvementsv4`)
+
+The Build Plan tab was empty for every IR build because the viewer only understood the legacy `steps` plan (fixed: `planview.js`). Pipeline Results sections
+now carry health colours and the Scoring tab has more colour coding. See `docs/test-reports/2026-11-25-v4-report.md` (Addendum 2).

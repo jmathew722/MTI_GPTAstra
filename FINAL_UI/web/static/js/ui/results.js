@@ -85,7 +85,7 @@
     if (rel && d.ctx) box.append(h('a', { class: 'btn secondary sm', href: fileURL(d.ctx, rel), download: rel.split('/').pop(), text: 'Download' }));
     return box;
   }
-  function chip(text, kind) { return h('span', { class: 'badge-c ' + wl(kind, ['ok', 'err', 'warn', 'steel', 'mono'], ''), text: text }); }
+  function chip(text, kind) { return h('span', { class: 'badge-c ' + wl(kind, ['ok', 'err', 'warn', 'steel', 'mono', 'orange', 'violet', 'info'], ''), text: text }); }
   function table(cols, rows, caption) {
     return h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' }, h('caption', { class: 'sr-only', text: caption }),
       h('thead', null, h('tr', null, cols.map(function (c) { return h('th', { scope: 'col', text: c }); }))), h('tbody', null, rows)));
@@ -171,12 +171,71 @@
   R.extraction = jsonSection('extraction', 'extraction');
   R.resolved = jsonSection('resolved', 'resolved');
 
+  /* ── Build plan: the Feature-IR plan (every current build) and the legacy v1 plan ──────────────────────────────────────
+     The IR plan.json has no "steps" array (it is {dims, plan:{features}}), so a viewer that only knew v1 showed nothing for
+     every build. McA.planview reads the IR shape; each operation shows the status SolidWorks reported for it. */
+  var TONE_CHIP = { green: 'ok', amber: 'warn', orange: 'orange', red: 'err', blue: 'steel', violet: 'violet', none: 'mono' };
+  function toneChip(text, tone) { return chip(text, TONE_CHIP[tone] || 'mono'); }
+  function renderIrPlan(body, rd, q, d) {
+    var s = rd.summary, PV = McA.planview, u = rd.units === 'inch' ? 'in' : rd.units;
+    var facts = h('dl', { class: 'facts' });
+    [['part', rd.part], ['units', rd.units], ['plan format', rd.irVersion ? 'Feature IR v' + rd.irVersion : ''], ['origin', (rd.frame && rd.frame.origin_kind) || ''],
+     ['operations', s.built + ' of ' + s.total + ' built'], ['dimensions', s.dims + (s.unusedDims ? ' (' + s.unusedDims + ' unused)' : '')]].forEach(function (r) {
+      if (r[1] !== '' && r[1] !== null && r[1] !== undefined) facts.append(h('div', null, h('dt', { text: r[0] }), h('dd', { class: 'mono', text: String(r[1]) })));
+    });
+    body.append(facts);
+    var sum = h('div', { class: 'plan-sum', role: 'group', 'aria-label': 'Build status of the operations' });
+    [[s.built, 'built', 'green'], [s.fallback, 'built with a fallback', 'amber'], [s.decision, 'need a decision', 'orange'], [s.skipped, 'skipped or not built', 'red'], [s.planned, 'planned', 'none']].forEach(function (x) {
+      if (x[0]) sum.append(toneChip(x[0] + ' ' + x[1], x[2]));
+    });
+    body.append(sum);
+    var shown = rd.features.filter(function (f) { return PV.matches(f, q); });
+    body.append(h('p', { class: 'rsec-note', text: (q ? shown.length + ' of ' : '') + rd.features.length + ' operations, in build order. The status is what SolidWorks reported for each one.' }));
+    var list = h('ol', { class: 'ops' });
+    shown.forEach(function (f) {
+      var det = h('details', { class: 'op', 'data-tone': f.tone, 'data-status': f.status.id });
+      if (q) det.open = true;
+      var gist = f.rationale.length > 150 ? f.rationale.slice(0, 147) + '…' : f.rationale;
+      det.append(h('summary', null, h('span', { class: 'op-n mono', text: String(f.seq) }), toneChip(f.kindLabel, f.tone), h('span', { class: 'op-t mono', text: f.id }), h('span', { class: 'op-d', text: gist }), toneChip(f.status.label, f.status.tone)));
+      var inner = h('div', { class: 'op-body' });
+      inner.append(h('p', { class: 'op-st op-st-' + f.status.tone }, h('strong', { text: f.status.label + ': ' }), h('span', { text: f.status.detail })));
+      if (f.rationale) inner.append(h('p', { class: 'op-why', text: f.rationale }));
+      if (f.justification) inner.append(note('Why: ' + f.justification, 'hint'));
+      if (f.callouts.length) inner.append(h('div', { class: 'op-co' }, h('span', { class: 'cap-c', text: 'From the drawing ' }), f.callouts.map(function (c) { return toneChip(String(c), 'blue'); })));
+      f.flags.forEach(function (t) { inner.append(note('Flag: ' + t, 'is-warn')); });
+      f.defaults.forEach(function (t) { inner.append(note('Default applied: ' + t, 'is-warn')); });
+      if (f.params.length) inner.append(table(['Parameter', 'Plan expression', 'Resolved' + (u ? ' (' + u + ')' : '')], f.params.map(function (p) {
+        return h('tr', null, h('td', { class: 'mono', text: p.key }), h('td', { class: 'mono', text: p.raw }), h('td', { class: 'mono num', text: p.value === null ? '' : String(p.value) }));
+      }), f.id + ' parameters'));
+      det.append(inner);
+      list.append(h('li', null, det));
+    });
+    body.append(list);
+    var dimKeys = Object.keys(rd.dims);
+    if (dimKeys.length) {
+      var dd = h('details', { class: 'op op-dims', 'data-tone': 'none' });
+      if (q) dd.open = true;
+      dd.append(h('summary', null, h('span', { class: 'op-t mono', text: 'Dimensions' }), h('span', { class: 'op-d', text: dimKeys.length + ' read from the drawing, with how many operations use each' })));
+      dd.append(h('div', { class: 'op-body' }, table(['ID', 'Value' + (u ? ' (' + u + ')' : ''), 'Used by', 'Note'], dimKeys.map(function (k) {
+        var n = rd.usage[k] || 0, ref = rd.referenceIds.indexOf(k) >= 0;
+        return h('tr', null, h('td', { class: 'mono', text: k }), h('td', { class: 'mono num', text: String(rd.dims[k]) }), h('td', { class: 'num', text: String(n) }),
+          h('td', null, ref ? toneChip('reference only', 'blue') : n === 0 ? toneChip('unused', 'amber') : null));
+      }), 'Dimensions')));
+      body.append(dd);
+    }
+    if ((rd.notes || []).length) { body.append(h('h3', { class: 'sub-h', text: 'Planner notes' }), h('ul', { class: 'dlg-list' }, rd.notes.map(function (t) { return h('li', { text: String(t) }); }))); }
+  }
+
   R.build_plan = function (body, tools, d) {
     var c = cats(d).build_plan || {}, raw = !!d.s.ui.raw.build_plan, q = LOCAL.search.build_plan || '';
     var rel = McA.registry.downloadRel(d.payload, 'build_plan');
     if (c.text === null || c.text === undefined) { body.append(tooLarge(d, rel)); return; }
     tools.append(searchBox('build_plan', function () { McA.results.refresh(); }), segToggle('build_plan', ['List', 'Raw'], raw), copyBtn(function () { return c.text; }), downloadBtn(d, rel, c.name || 'build_plan.json', function () { return c.text; }));
     if (raw) { body.append(rawPre(c.text, q)); return; }
+    var parsed = null;
+    try { parsed = JSON.parse(c.text); } catch (e) { parsed = null; }
+    var rd = parsed ? McA.planview.read(parsed, cats(d).ir_report) : { kind: 'unknown' };
+    if (rd.kind === 'ir') { renderIrPlan(body, rd, q, d); return; }
     var root = McA.jsontree.parse(c.text);
     if (root.type !== 'object') { body.append(note('The build plan is not a JSON object. Showing raw text.', 'is-warn'), rawPre(c.text, q)); return; }
     var by = {}; root.children.forEach(function (n) { by[n.key] = n; });
@@ -437,7 +496,7 @@
     if (!list.length) body.append(note('No output files yet.'));
     else {
       var rows = list.map(function (f) {
-        return h('tr', null, h('td', { class: 'mono', text: f.name }), h('td', { class: 'num', text: McA.util.fmtBytes(f.size) }),
+        return h('tr', null, h('td', { class: 'mono' }, h('span', { class: 'ft-dot band-' + McA.resulttone.fileTone(f.name), 'aria-hidden': 'true' }), f.name), h('td', { class: 'num', text: McA.util.fmtBytes(f.size) }),
           h('td', null, d.ctx ? h('a', { class: 'btn ghost sm', href: fileURL(d.ctx, f.name), download: String(f.name).split('/').pop(), 'aria-label': 'Download ' + f.name }, McA.icons.get('download', 14), 'Download') : null));
       });
       body.append(table(['Path', 'Size', 'Download'], rows, 'Output files'));
@@ -455,7 +514,7 @@
   };
 
   /* ── Cost: the pipeline ledger (scopes, attempts, every row) ─────────────── */
-  var PRICE = { priced: ['Priced', 'ok'], partial: ['Partial estimate', 'warn'], unpriced: ['Unpriced', 'mono'] };
+  var PRICE = { priced: ['Priced', 'ok'], partial: ['Partial estimate', 'warn'], unpriced: ['Unpriced', 'orange'] };
   function money(v) {   // exact backend decimal string, shown with 2-6 places; null is "Unpriced", never zero
     if (v === null || v === undefined || isNaN(Number(v))) return null;
     var t = Number(v).toFixed(6).replace(/0+$/, '');
@@ -754,8 +813,10 @@
     var tools = h('div', { class: 'rsec-tools' });
     var body = h('div', { class: 'rsec-body' });
     var statusTxt = { none: 'No part selected', loading: 'Loading', error: 'Error', absent: 'Not available', present: 'Present' }[st];
-    var el = h('section', { class: 'rsec', 'data-sec': sec.id, 'data-state': st, 'aria-labelledby': 'rsec-h-' + sec.id },
-      h('header', { class: 'rsec-head' }, h(tag, { id: 'rsec-h-' + sec.id, text: sec.label }), h('span', { class: 'rsec-status st-' + st, text: statusTxt }),
+    var ht = st === 'present' ? McA.resulttone.sectionTone(sec.id, d.payload, d.extra, McA.logparse.level) : { tone: 'none', word: '' };
+    if (st === 'present' && ht.word) statusTxt = ht.word;
+    var el = h('section', { class: 'rsec', 'data-sec': sec.id, 'data-state': st, 'data-tone': ht.tone, 'aria-labelledby': 'rsec-h-' + sec.id },
+      h('header', { class: 'rsec-head' }, h(tag, { id: 'rsec-h-' + sec.id, text: sec.label }), h('span', { class: 'rsec-status st-' + st + ' band-' + ht.tone, text: statusTxt }),
         d.demo ? h('span', { class: 'badge-c', text: 'Demo' }) : null, st === 'present' ? h('span', { class: 'rsec-src mono', text: srcLabel(sec.id, d) }) : null, tools), body);
     if (st === 'none') body.append(h('div', { class: 'empty' }, McA.icons.get('results', 28), h('p', { class: 'empty-t', text: 'No part selected' }), h('p', { class: 'empty-d', text: 'Select a part or a run to see its results.' })));
     else if (st === 'loading') { for (var i = 0; i < 4; i++) body.append(h('div', { class: 'skel', style: 'width:' + (90 - i * 15) + '%' })); body.setAttribute('aria-busy', 'true'); }
@@ -805,7 +866,9 @@
         if (condensed) { b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; if (on) b.setAttribute('aria-controls', 'dr-pane-body'); }
         else if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
         b.setAttribute('data-st', st);
-        b.querySelector('.res-st').textContent = ' ' + ({ present: 'present', absent: 'not available', loading: 'loading', error: 'error', none: 'no part' }[st]);
+        var ht = st === 'present' ? McA.resulttone.sectionTone(k, d.payload, d.extra, McA.logparse.level) : { tone: 'none', word: '' };
+        b.setAttribute('data-tone', ht.tone);
+        b.querySelector('.res-st').textContent = ' ' + ({ present: ht.word || 'present', absent: 'not available', loading: 'loading', error: 'error', none: 'no part' }[st]);
       });
       /* incremental console: keep the node and append */
       if (sec.id === 'console' && o.pane.firstChild && o.pane.firstChild.getAttribute && o.pane.firstChild.getAttribute('data-sec') === 'console' && o.pane.firstChild.getAttribute('data-state') === 'present' && secState(sec, d) === 'present' && CON.box && o.pane.contains(CON.box) && CON.sig) {

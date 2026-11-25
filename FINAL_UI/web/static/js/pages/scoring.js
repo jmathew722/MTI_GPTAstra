@@ -121,7 +121,7 @@
     wrap.append(h('h3', { class: 'sec-h', text: 'Parts that need attention' }));
     if (!attention.length) wrap.append(h('p', { class: 'reason', text: s.scored ? 'Every scored part is in the green band.' : 'Nothing scored yet. Open Part results and press Evaluate.' }));
     else wrap.append(h('ul', { class: 'sc-attn' }, attention.map(function (r) {
-      return h('li', null, h('div', { class: 'sc-attn-h' }, h('strong', { text: r.part }), scoreChip(r), issueBadges(r.counts)),
+      return h('li', { class: 'band-' + ((r.band && r.band.id) || 'none') }, h('div', { class: 'sc-attn-h' }, h('strong', { text: r.part }), scoreChip(r), issueBadges(r.counts)),
         r.top_issue ? h('p', { class: 'sc-attn-t', text: r.top_issue }) : null,
         h('button', { class: 'btn ghost sm', type: 'button', text: 'Details', onclick: function () { openDetail(r.part); } }));
     })));
@@ -166,7 +166,7 @@
   function catCard(c) {
     var tone = c.checked ? c.band.id : 'none';
     return h('div', { class: 'sc-cat band-' + tone, 'data-cat': c.id },
-      h('div', { class: 'sc-cat-h' }, h('strong', { text: c.label }), h('span', { class: 'sc-cat-w', text: c.weight + ' pts' })),
+      h('div', { class: 'sc-cat-h' }, h('strong', null, h('span', { class: 'sc-cat-k', 'aria-hidden': 'true' }), c.label), h('span', { class: 'sc-cat-w', text: c.weight + ' pts' })),
       h('div', { class: 'sc-cat-s' }, h('span', { class: 'sc-cat-n', text: c.checked ? Math.round(c.score) : SV.DASH }), h('span', { class: 'sc-cat-of', text: c.checked ? ' / 100' : ' not checkable' }), c.checked ? pill(c.band.id, c.band.glyph, c.band.label, 'is-quiet') : null),
       bar(c.checked ? c.score : null, tone),
       h('div', { class: 'sc-cat-m', text: c.checked ? (c.earned.toFixed(1) + ' of ' + c.max.toFixed(1) + ' points · ' + c.n) : c.n }),
@@ -177,7 +177,7 @@
     if (!rows.length) return h('p', { class: 'reason', text: 'Nothing in this category could be checked for this part.' });
     return h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl sc-items' }, h('caption', { class: 'sr-only', text: cat.label + ' checks' }),
       h('thead', null, h('tr', null, ['Check', 'Drawing / expected', 'Real part / measured', 'Error', 'Credit', 'Note'].map(function (t) { return h('th', { scope: 'col', text: t }); }))),
-      h('tbody', null, rows.map(function (r) { return h('tr', null, h('td', { text: r.label }), h('td', { class: 'mono', text: r.expected }), h('td', { class: 'mono', text: r.measured }), h('td', { class: 'mono', text: r.error }),
+      h('tbody', null, rows.map(function (r) { return h('tr', { class: 'row-' + r.band.id }, h('td', { text: r.label }), h('td', { class: 'mono', text: r.expected }), h('td', { class: 'mono', text: r.measured }), h('td', { class: 'mono', text: r.error }),
         h('td', null, h('span', { class: 'cr cr-' + r.band.id, title: r.band.label }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: SV.sym(r.band.glyph) }), h('span', { text: r.credit }))), h('td', { text: r.note })); }))));
   }
   function issuesBlock(rec) {
@@ -187,7 +187,7 @@
       return h('section', { class: 'sc-iss-g', 'aria-label': g.label + ' issues' }, h('h4', { class: 'sc-iss-h' }, sevPill(g.severity), h('span', { class: 'reason', text: g.items.length + (g.items.length === 1 ? ' issue' : ' issues') })),
         h('ul', { class: 'sc-iss-l' }, g.items.map(function (i) {
           return h('li', { class: 'sc-iss sev-' + i.severity }, h('div', { class: 'sc-iss-m', text: i.message }),
-            h('div', { class: 'sc-iss-e' }, h('span', { class: 'mono', text: i.code }), i.ref ? h('span', { class: 'mono', text: i.ref }) : null, i.category ? h('span', { text: i.category.replace(/_/g, ' ') }) : null,
+            h('div', { class: 'sc-iss-e' }, h('span', { class: 'mono sc-code', text: i.code }), i.ref ? h('span', { class: 'mono', text: i.ref }) : null, i.category ? h('span', { text: i.category.replace(/_/g, ' ') }) : null,
               i.points ? h('span', { class: 'sc-iss-p', text: '−' + i.points + ' pts' }) : null), i.evidence ? h('div', { class: 'reason', text: i.evidence }) : null);
         })));
     }));
@@ -227,14 +227,14 @@
           h('dt', { text: 'Mesh' }), h('dd', { class: 'mono', text: m.triangles + ' triangles, ' + Math.round((m.closed_fraction || 0) * 1000) / 10 + '% closed' }), h('dt', { text: 'Holes found' }), h('dd', { class: 'mono', text: String((m.holes || []).length) })));
       if ((m.holes || []).length) wrap.append(h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' }, h('caption', { class: 'sr-only', text: 'Holes measured in the real part' }),
         h('thead', null, h('tr', null, ['Axis', 'Diameter', 'Depth', 'Type', 'Counterbore'].map(function (t) { return h('th', { scope: 'col', text: t }); }))),
-        h('tbody', null, m.holes.map(function (x) { return h('tr', null, h('td', { text: x.axis }), h('td', { class: 'num', text: x.d + ' ' + u }), h('td', { class: 'num', text: x.depth + ' ' + u }), h('td', { text: x.through ? 'Through' : 'Blind' }), h('td', { text: x.cbore ? 'Ø' + x.cbore.d + ' × ' + x.cbore.depth : SV.DASH })); })))));
+        h('tbody', null, m.holes.map(function (x) { return h('tr', null, h('td', { text: x.axis }), h('td', { class: 'num', text: x.d + ' ' + u }), h('td', { class: 'num', text: x.depth + ' ' + u }), h('td', null, h('span', { class: 'sc-hole-t ' + (x.through ? 'thru' : 'blind'), text: x.through ? 'Through' : 'Blind' })), h('td', null, x.cbore ? h('span', { class: 'sc-hole-t cbore', text: '\u00d8' + x.cbore.d + ' \u00d7 ' + x.cbore.depth }) : SV.DASH)); })))));
     }
     (rec.notes || []).forEach(function (n) { wrap.append(h('p', { class: 'sc-note', text: n })); });
     var b = d.benchmark;
     wrap.append(h('h3', { class: 'sec-h', text: 'Answer-key benchmark (optional)' }),
       h('p', { class: 'sc-note', text: b && b.state === 'scored' ? 'Benchmark score ' + b.score.toFixed(1) + ' / 100 against a signed answer key (separate from the fidelity score above).' : 'No signed answer key for this drawing, so there is no benchmark score. The fidelity score above does not need one.' }));
-    if ((d.history || []).length > 1) wrap.append(h('h3', { class: 'sec-h', text: 'Evaluation history (kept, never overwritten)' }), h('ul', { class: 'dlg-list' }, d.history.slice().reverse().map(function (x) {
-      return h('li', null, fmtTime(x.evaluated_at) + ' · ' + (x.fingerprint || '') + ' · ' + (x.state === 'scored' ? SV.scoreFull({ state: 'scored', score: x.score }) + ' (' + SV.bandOf(x.score).label + ')' : x.state)); })));
+    if ((d.history || []).length > 1) wrap.append(h('h3', { class: 'sec-h', text: 'Evaluation history (kept, never overwritten)' }), h('ul', { class: 'dlg-list sc-hist' }, d.history.slice().reverse().map(function (x) {
+      var hb = x.state === 'scored' ? SV.bandOf(x.score) : null; return h('li', null, h('span', { text: fmtTime(x.evaluated_at) }), hb ? pill(hb.id, hb.glyph, SV.scoreFull({ state: 'scored', score: x.score }) + ' \u00b7 ' + hb.label, 'is-quiet') : pill('amber', '!', x.state, 'is-quiet'), h('span', { class: 'reason mono', text: x.fingerprint || '' })); })));
     return wrap;
   }
 
@@ -249,7 +249,8 @@
       h('h3', { class: 'sec-h', text: 'Formula' }), h('p', { class: 'mono sc-formula', text: m.formula }), h('p', { class: 'mono sc-formula', text: m.credit_formula }),
       h('h3', { class: 'sec-h', text: 'Colour bands out of 100' }), legend(m.bands),
       h('h3', { class: 'sec-h', text: 'Categories' }),
-      tbl('Rubric categories', ['Category', 'Points', 'Question it answers', 'How it is measured'], m.categories.map(function (c) { return h('tr', null, h('td', null, h('strong', { text: c.label })), h('td', { class: 'num', text: String(c.weight) }), h('td', { text: c.question }), h('td', { text: c.how || '' })); })),
+      h('div', { class: 'sc-wbar', role: 'img', 'aria-label': 'Points per category: ' + m.categories.map(function (c) { return c.label + ' ' + c.weight; }).join(', ') }, m.categories.map(function (c) { return h('div', { class: 'sc-wbar-s cat-m-' + c.id, style: 'flex:' + c.weight, title: c.label + ': ' + c.weight + ' points', text: String(c.weight) }); })),
+      tbl('Rubric categories', ['Category', 'Points', 'Question it answers', 'How it is measured'], m.categories.map(function (c) { return h('tr', null, h('td', null, h('span', { class: 'sc-m-cat cat-m-' + c.id }, h('span', { class: 'sc-cat-k', 'aria-hidden': 'true' }), c.label)), h('td', { class: 'num', text: String(c.weight) }), h('td', { text: c.question }), h('td', { text: c.how || '' })); })),
       h('h3', { class: 'sec-h', text: 'Checks inside Build integrity and Extraction reliability' }),
       tbl('Check weights', ['Category', 'Check', 'Points'], Object.keys(m.integrity_checks).map(function (k) { return h('tr', null, h('td', { text: 'Build integrity' }), h('td', { text: k.replace(/_/g, ' ') }), h('td', { class: 'num', text: String(m.integrity_checks[k]) })); })
         .concat(Object.keys(m.trust_checks).map(function (k) { return h('tr', null, h('td', { text: 'Extraction reliability' }), h('td', { text: k.replace(/_/g, ' ') }), h('td', { class: 'num', text: String(m.trust_checks[k]) })); }))),
@@ -280,7 +281,7 @@
       tbl('Worked example cases', ['Scenario', 'Score', 'Band', 'Build', 'Size', 'Features', 'Holes', 'Placement', 'Extraction'], x.cases.map(function (c) {
         var by = {}; c.categories.forEach(function (k) { by[k.id] = k; });
         var cell = function (id) { var k = by[id]; return h('td', null, k && k.score !== null ? h('span', { class: 'cr cr-' + k.band.id }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: SV.sym(k.band.glyph) }), h('span', { text: Math.round(k.score) })) : SV.DASH); };
-        return h('tr', null, h('td', null, c.case, c.caps && c.caps.length ? h('div', { class: 'reason', text: c.caps[0] }) : null), h('td', null, h('strong', { class: 'sc-ex-s band-' + c.band.id, text: c.score.toFixed(1) })),
+        return h('tr', { class: 'sc-ex-row band-' + c.band.id }, h('td', null, c.case, c.caps && c.caps.length ? h('div', { class: 'reason', text: c.caps[0] }) : null), h('td', null, h('strong', { class: 'sc-ex-s band-' + c.band.id, text: c.score.toFixed(1) })),
           h('td', null, pill(c.band.id, c.band.glyph, c.band.label, 'is-quiet')), cell('model_integrity'), cell('envelope'), cell('feature_coverage'), cell('hole_accuracy'), cell('placement'), cell('extraction_trust'));
       })));
   }

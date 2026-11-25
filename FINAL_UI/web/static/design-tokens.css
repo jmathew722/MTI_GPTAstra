@@ -287,3 +287,10 @@ html { -webkit-font-smoothing: antialiased; }
   --band-orange: #F59A5B;  --band-orange-fill: #E8782B;  --band-orange-wash: rgba(245,154,91,0.14);
   --band-red:    #F3797E;  --band-red-fill:    #E5484D;  --band-red-wash:    rgba(229,72,77,0.15);
 }
+
+/* Extra semantic tones (blue = informational, violet = holes and patterns) and the six rubric-category accents. Categories use hues that are NOT score bands, so a category colour never reads as a verdict. */
+:root {
+  --band-blue:   #86B7FF;  --band-blue-fill:   #4C8DF0;  --band-blue-wash:   rgba(134,183,255,0.13);
+  --band-violet: #BDB1FF;  --band-violet-fill: #8F7CF2;  --band-violet-wash: rgba(189,177,255,0.14);
+  --cat-1: #86B7FF; --cat-2: #BDB1FF; --cat-3: #5ED1C4; --cat-4: #E8C07A; --cat-5: #F08FD2; --cat-6: #9FB0C8;
+}

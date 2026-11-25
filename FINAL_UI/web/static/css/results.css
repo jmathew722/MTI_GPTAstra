@@ -184,3 +184,48 @@ mark { background: var(--gold-dim); color: var(--gold-bright); border-radius: 2p
 .cost-attempt .tbl { font-size: var(--fs-small); }
 .cost-model { max-width: 22ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cost-attempt tr[data-pricing="unpriced"] td:nth-last-child(2) { color: var(--ink-3); font-style: italic; }
+
+/* ── v4: colour coding across Pipeline Results (health tones, chips, build plan) ─────────────────────────────────── */
+.band-blue   { --b: var(--band-blue);   --bf: var(--band-blue-fill);   --bw: var(--band-blue-wash); }
+.band-violet { --b: var(--band-violet); --bf: var(--band-violet-fill); --bw: var(--band-violet-wash); }
+.badge-c.steel  { color: var(--band-blue);   border-color: color-mix(in srgb, var(--band-blue) 45%, transparent);   background: var(--band-blue-wash); }
+.badge-c.violet { color: var(--band-violet); border-color: color-mix(in srgb, var(--band-violet) 45%, transparent); background: var(--band-violet-wash); }
+.badge-c.orange { color: var(--band-orange); border-color: color-mix(in srgb, var(--band-orange) 45%, transparent); background: var(--band-orange-wash); }
+.badge-c.info   { color: var(--band-blue);   border-color: color-mix(in srgb, var(--band-blue) 45%, transparent); }
+.badge-c.ok   { background: var(--band-green-wash); }
+.badge-c.warn { background: var(--band-amber-wash); }
+.badge-c.err  { background: var(--band-red-wash); }
+/* navigation dots and section status carry the section's health tone */
+.res-link[data-st="present"] .res-dot { background: var(--bf, var(--ok)); border-color: var(--bf, var(--ok)); }
+.res-link[data-tone="green"]  .res-dot { background: var(--band-green-fill);  border-color: var(--band-green-fill); }
+.res-link[data-tone="amber"]  .res-dot { background: var(--band-amber-fill);  border-color: var(--band-amber-fill); }
+.res-link[data-tone="orange"] .res-dot { background: var(--band-orange-fill); border-color: var(--band-orange-fill); }
+.res-link[data-tone="red"]    .res-dot { background: var(--band-red-fill);    border-color: var(--band-red-fill); box-shadow: 0 0 0 3px var(--band-red-wash); }
+.res-link[data-tone="blue"]   .res-dot { background: var(--band-blue-fill);   border-color: var(--band-blue-fill); }
+.res-link[data-tone="none"][data-st="present"] .res-dot { background: var(--ink-4); border-color: var(--ink-4); }
+.rsec-status[class*="band-"]:not(.band-none) { color: var(--b); background: var(--bw); border-color: color-mix(in srgb, var(--b) 55%, transparent); }
+.rsec[data-tone="red"]    { box-shadow: inset 3px 0 0 var(--band-red-fill); }
+.rsec[data-tone="orange"] { box-shadow: inset 3px 0 0 var(--band-orange-fill); }
+.rsec[data-tone="amber"]  { box-shadow: inset 3px 0 0 var(--band-amber-fill); }
+.rsec[data-tone="green"]  { box-shadow: inset 3px 0 0 var(--band-green-fill); }
+.rsec[data-tone="blue"]   { box-shadow: inset 3px 0 0 var(--band-blue-fill); }
+/* build plan: one colour family per kind of operation, status on the right, resolved numbers */
+.plan-sum { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin: var(--sp-3) 0; }
+.op { border-left: 4px solid var(--line-strong); }
+.op[data-tone="blue"]   { border-left-color: var(--band-blue-fill); }
+.op[data-tone="violet"] { border-left-color: var(--band-violet-fill); }
+.op[data-tone="orange"] { border-left-color: var(--band-orange-fill); }
+.op[data-tone="amber"]  { border-left-color: var(--band-amber-fill); }
+.op[data-status="skipped"], .op[data-status="failed"] { background: linear-gradient(var(--band-red-wash), var(--band-red-wash)), var(--surface); }
+.op[data-status="decision"] { background: linear-gradient(var(--band-orange-wash), var(--band-orange-wash)), var(--surface); }
+.op[data-status="fallback"] { background: linear-gradient(var(--band-amber-wash), var(--band-amber-wash)), var(--surface); }
+.op-body { padding: var(--sp-3); display: grid; gap: var(--sp-2); }
+.op-st { margin: 0; }
+.op-st-green strong { color: var(--band-green); } .op-st-amber strong { color: var(--band-amber); } .op-st-orange strong { color: var(--band-orange); } .op-st-red strong { color: var(--band-red); }
+.op-why { margin: 0; color: var(--ink-2); }
+.op-co { display: flex; flex-wrap: wrap; gap: var(--sp-1); align-items: center; }
+.rsec-note.is-warn { color: var(--band-amber); border-left: 3px solid var(--band-amber-fill); padding-left: var(--sp-2); }
+.op summary .badge-c { flex: none; }
+.op-d { overflow-wrap: anywhere; }
+/* files table: a dot per kind of deliverable */
+.ft-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 8px; background: var(--bf); vertical-align: baseline; }
