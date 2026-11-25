@@ -651,18 +651,23 @@
     if (sc.state === 'loading') { body.append(note('Loading…', 'hint')); return; }
     if (sc.state === 'error' || !sc.data) { body.append(note('Scoring data could not be loaded for this part.', 'hint')); return; }
     var geo = sc.data.geometry || {}, pr = sc.data.practices || {};
-    /* One scoring implementation: the stored evaluation of the Scoring tab (the pipeline's own scorer, append-only history).
-       This section only summarises it and links there; it no longer reads scores.json on its own. */
-    body.append(h('h3', { class: 'sub-h', text: 'Geometry score' }));
+    /* One scoring implementation: the stored Extraction-to-Model Fidelity evaluation of the Scoring tab (the pipeline's own scorer,
+       append-only history). This section summarises it and links there; it no longer reads scores.json on its own. */
+    body.append(h('h3', { class: 'sub-h', text: 'Model fidelity score' }));
     var ev = getEval(d);
     if (ev.state === 'loading') body.append(note('Loading…', 'hint'));
     else {
-      var rec = ev.rec, SV = McA.scoringview, st = rec ? SV.statusOf({ state: rec.state, exact: rec.exact }) : { label: 'Not evaluated yet', tone: '' };
+      var rec = ev.rec, SV = McA.scoringview;
+      var stt = rec ? SV.statusOf({ state: rec.state, reason: rec.reason, band: rec.band, score: rec.score }) : { label: 'Not evaluated yet', tone: 'none', glyph: SV.DASH };
       body.append(h('p', { class: 'verdict' }, h('span', { class: 'cap-c', text: 'Score ' }),
-        chip(rec && rec.state === 'scored' ? SV.scoreText({ state: 'scored', score: rec.score }) : SV.DASH, rec && rec.state === 'scored' ? (rec.score >= 90 ? 'ok' : rec.score >= 70 ? 'warn' : 'err') : ''),
-        ' ', chip(st.label, st.tone)));
-      body.append(note(rec ? (rec.state === 'incomplete' ? (rec.explanation || 'Not scored.') + ' Missing evidence is never scored as 0.' : rec.state === 'scoring_failed' ? 'Scoring failed: ' + (rec.error || 'unknown error') : 'Rubric ' + (rec.rubric_version || '?') + '.')
-        : 'Open the Scoring tab and press Evaluate. Nothing is assumed.', 'hint'));
+        h('span', { class: 'band-pill band-' + stt.tone }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: SV.sym(stt.glyph) }),
+          h('span', { text: (rec && rec.state === 'scored' ? SV.scoreFull({ state: 'scored', score: rec.score }) + ' · ' : '') + stt.label }))));
+      body.append(note(!rec ? 'Open the Scoring tab and press Evaluate. Nothing is assumed.' : rec.state === 'scored' ? 'How closely the real SolidWorks part matches the drawing’s extraction (rubric ' + ((rec.rubric && rec.rubric.fingerprint) || '?') + ').'
+        : (rec.explanation || rec.error || 'Not scored.') + ' Missing evidence is never scored as 0.', 'hint'));
+      if (rec && rec.issues && rec.issues.length) {
+        body.append(h('div', { class: 'row' }, SV.issueSummary(rec.counts) || 'No major issues'));
+        rec.issues.filter(function (i) { return i.severity !== 'info'; }).slice(0, 3).forEach(function (i) { body.append(h('div', { class: 'row' }, h('span', { class: 'sev-pill sev-' + i.severity }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: SV.severityMeta(i.severity).glyph }), h('span', { text: SV.severityMeta(i.severity).label })), ' ' + i.message)); });
+      }
       body.append(h('button', { class: 'btn secondary sm', type: 'button', text: 'Open in Scoring', onclick: function () { McA.router.go('scoring'); } }));
     }
     body.append(h('h3', { class: 'sub-h', text: 'MTI modeling practices' }),

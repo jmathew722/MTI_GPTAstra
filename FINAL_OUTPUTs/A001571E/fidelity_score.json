@@ -1,0 +1,468 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "A001571E",
+  "evaluated_at": "2026-11-25T23:00:31+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "157-C_ir.SLDPRT",
+    "stl": "157-C_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "scored",
+  "score": 49.9,
+  "raw_score": 75.3,
+  "caps": [
+    "A critical issue caps the score at 50: the breakdown above is not enough to trust this model."
+  ],
+  "coverage": 1.0,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 57.8,
+      "pct": 57.8,
+      "earned": 8.67,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 0.6667,
+          "expected": "6 planned",
+          "measured": "4 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "no fallbacks",
+          "measured": "0 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 0.0,
+          "expected": "closed mesh",
+          "measured": "50.0% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 0.0,
+          "expected": "[0.105, 5.25, 11.0] in",
+          "measured": "[0.105, 4.718, 10.718] in",
+          "note": "size differs from the build record by 10.1%"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 34.3,
+      "pct": 34.3,
+      "earned": 6.86,
+      "items": [
+        {
+          "id": "D001",
+          "label": "plate overall width",
+          "weight": 1.0,
+          "credit": 0.0268,
+          "expected": 11.0,
+          "measured": 10.7178,
+          "unit": "inch",
+          "error": -0.2822,
+          "tol": 0.02,
+          "e": 14.11
+        },
+        {
+          "id": "D006",
+          "label": "plate overall height in broad-face view",
+          "weight": 1.0,
+          "credit": 0.0016,
+          "expected": 5.25,
+          "measured": 4.7176,
+          "unit": "inch",
+          "error": -0.5324,
+          "tol": 0.02,
+          "e": 26.62
+        },
+        {
+          "id": "D021",
+          "label": "nominal steel stock thickness",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 0.105,
+          "measured": 0.105,
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 75.0,
+      "pct": 75.0,
+      "earned": 15.0,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Base steel plate, 11.00 x 5.25 x nominal .105 thick. BOM item 1, quantity 1, 1018 steel, 12 gauge. Use lower-left corner"
+        },
+        {
+          "id": "F002",
+          "label": "F002 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Through-thickness semicircular notch opening at the upper edge, diameter 3.062. Nominal center (5.500, 5.250) in the bro"
+        },
+        {
+          "id": "F003",
+          "label": "F003 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Four .218 drilled through holes in a rectangular 10.500 x 4.500 center pattern. Construct using the four explicit center"
+        },
+        {
+          "id": "F004",
+          "label": "F004 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Separate sponge-rubber strip body on the underside along the left side: 5.25 long x 1/2 wide x 5/32 thick, adhesive back"
+        },
+        {
+          "id": "F005",
+          "label": "F005 extrude boss",
+          "weight": 10.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "skipped",
+          "note": "Second separate sponge-rubber strip body on the underside along the right side, same dimensions and material as F004. Ed"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "amber",
+        "label": "Review recommended",
+        "glyph": "alert"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "H001#1",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.218 in through",
+          "measured": "d 0.218 in, through",
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#2",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.218 in through",
+          "measured": "d 0.218 in, through",
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#3",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.218 in through",
+          "measured": "d 0.218 in, through",
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#4",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.218 in through",
+          "measured": "d 0.218 in, through",
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.005
+        }
+      ],
+      "n_checked": 4,
+      "n_total": 4,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 15.0,
+      "items": [
+        {
+          "id": "H001-spacing",
+          "label": "H001 pattern spacing",
+          "weight": 4.0,
+          "credit": 1.0,
+          "expected": "nearest-neighbour [4.5, 4.5, 4.5]",
+          "measured": "[4.5, 4.5, 4.5]",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 1,
+      "n_total": 1,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 98.2,
+      "pct": 98.2,
+      "earned": 9.82,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 0.9556,
+          "expected": ">= 95%",
+          "measured": "93%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "none",
+          "measured": "0 unclear dimension(s), 0 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "none",
+          "measured": "0 assumed, 0 default(s), 0 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 10.0
+    }
+  ],
+  "band": {
+    "id": "red",
+    "label": "Does not match",
+    "glyph": "x"
+  },
+  "issues": [
+    {
+      "severity": "critical",
+      "category": "envelope",
+      "code": "ENVELOPE_OFF",
+      "message": "The real part's plate overall height in broad-face view is 4.718 in but the drawing says 5.25 in (10% off).",
+      "evidence": "D006 expected 5.25, measured 4.718",
+      "points": 6.67,
+      "ref": "D006"
+    },
+    {
+      "severity": "critical",
+      "category": "model_integrity",
+      "code": "STL_NOT_THIS_BUILD",
+      "message": "The exported STL is not the model that was built: size differs from the build record by 10.1%. It is probably a stale or wrong export, so every measurement below describes the wrong shape.",
+      "evidence": "STL dims [0.105, 4.718, 10.718] vs build record [0.105, 5.25, 11.0] (in)",
+      "points": 3.0,
+      "ref": "157-C_ir.STL"
+    },
+    {
+      "severity": "high",
+      "category": "envelope",
+      "code": "SIZE_DEVIATION",
+      "message": "plate overall width measures 10.72 in, drawing 11 in (tolerance 0.02).",
+      "evidence": "D001",
+      "points": 6.47,
+      "ref": "D001"
+    },
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_SKIPPED",
+      "message": "F005 (extrude_boss) was in the extraction but is not in the model: unsupported: Left adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation..",
+      "evidence": "Second separate sponge-rubber strip body on the underside along the right side, same dimensions and material as F004. Edge-flush placement i",
+      "points": 5.0,
+      "ref": "F005"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F005 was planned but not built: skipped (unsupported: Left adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation.).",
+      "evidence": "skipped (unsupported: Left adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation.)",
+      "points": 0.67,
+      "ref": "F005"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F006 was planned but not built: skipped (unsupported: Right adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation.).",
+      "evidence": "skipped (unsupported: Right adhesive-backed rubber strip requires a separate material/body; this IR has no separate-body or assembly operation.)",
+      "points": 0.67,
+      "ref": "F006"
+    },
+    {
+      "severity": "medium",
+      "category": "model_integrity",
+      "code": "MESH_OPEN",
+      "message": "The exported mesh is only 50.0% closed; measurements may be off.",
+      "evidence": "157-C_ir.STL",
+      "points": 1.0,
+      "ref": ""
+    }
+  ],
+  "notes": [],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      0.105,
+      4.7176,
+      10.7178
+    ],
+    "stl_volume": 0.0104,
+    "triangles": 296,
+    "closed_fraction": 0.5,
+    "holes": [
+      {
+        "axis": "Y",
+        "d": 0.218,
+        "depth": 0.105,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.218,
+        "depth": 0.105,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.218,
+        "depth": 0.105,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.218,
+        "depth": 0.105,
+        "through": true,
+        "cbore": null
+      }
+    ]
+  },
+  "counts": {
+    "critical": 2,
+    "high": 4,
+    "medium": 1,
+    "low": 0,
+    "info": 0
+  }
+}

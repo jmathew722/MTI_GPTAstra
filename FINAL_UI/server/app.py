@@ -1807,24 +1807,34 @@ def _latest_run_id(part: str) -> str | None:
     return rid
 
 
+def _fid_fingerprint() -> str:
+    import hashlib
+    try:
+        return "emf-" + hashlib.sha256((PROJECT_DIR / _sh.FIDELITY_CONFIG_REL).read_bytes().replace(b"\r\n", b"\n")).hexdigest()[:10]
+    except OSError:
+        return "unknown"
+
+
 def _scoring_row(session: str, part: str) -> dict:
+    """One part's row: its latest Extraction-to-Model Fidelity evaluation (primary) and its benchmark score (secondary, needs a signed key)."""
     out = FINAL_OUTPUTS_DIR / part
     has_out = out.is_dir() and _categorize_output(out)["has_any"]
-    rec = _sh.latest(SCORING_DIR, part)
+    rid = _latest_run_id(part)
+    if (out / "fidelity_score.json").is_file():                       # written by the pipeline after every run: persist it once
+        _sh.ingest_fidelity_file(SCORING_DIR, part, out / "fidelity_score.json", rid)
+    rec = _sh.fidelity_latest(SCORING_DIR, part)
+    bench = _sh.benchmark_latest(SCORING_DIR, part)
     pdir = _session_dir(session) / part if session else None
     t = _part_times(_session_dir(session), pdir) if pdir is not None and pdir.is_dir() else {}
     gen = next(iter(sorted(out.glob("*_ir.SLDPRT"))), None) if out.is_dir() else None
-    row = {"part": part, "session": session, "has_output": has_out, "has_part": gen is not None,
-           "run_id": _latest_run_id(part), "last_activity": t.get("last_activity")}
+    row = {"part": part, "session": session, "has_output": has_out, "has_part": gen is not None, "run_id": rid, "last_activity": t.get("last_activity")}
     if rec:
-        row.update({k: rec.get(k) for k in ("state", "score", "exact", "reason", "explanation", "error", "evaluated_at",
-                                            "rubric_version", "key_kind")})
-        row["stale_rubric"] = rec.get("rubric_version") != _sh.rubric_version(PROJECT_DIR)
-        pr = rec.get("practices")
-        row["practices_score"] = pr.get("score") if isinstance(pr, dict) else None
-        row["flags"] = rec.get("consistency_flags") or []
+        row.update(_sh.fidelity_row(rec))
+        row["stale_rubric"] = row.get("fingerprint") != _fid_fingerprint()
     else:
         row["state"] = "pending" if has_out else "no_output"
+    if bench:
+        row["benchmark"] = {"state": bench.get("state"), "score": bench.get("score"), "reason": bench.get("reason"), "evaluated_at": bench.get("evaluated_at")}
     return row
 
 
@@ -1832,52 +1842,72 @@ def _scoring_row(session: str, part: str) -> dict:
 def scoring_overview():
     rows = [_scoring_row(s, p) for s, p in _all_scoring_parts()]
     rows.sort(key=lambda r: (-(r.get("last_activity") or 0), r["part"].lower()))
-    latest = {r["part"]: _sh.latest(SCORING_DIR, r["part"]) for r in rows}
-    return {"version": _sh.rubric_version(PROJECT_DIR), "parts": rows,
-            "summary": _sh.summarize(latest, [r["part"] for r in rows if r["has_output"]])}
+    try:
+        bands = _sh.fidelity_methodology(PROJECT_DIR)["methodology"]["bands"]
+    except Exception:  # noqa: BLE001 - the overview must still load without the engine
+        bands = [{"id": "green"}, {"id": "amber"}, {"id": "orange"}, {"id": "red"}]
+    eligible = [r["part"] for r in rows if r["has_output"]]
+    return {"version": _fid_fingerprint(), "rubric": "Extraction-to-Model Fidelity", "bands": bands, "parts": rows,
+            "summary": _sh.summarize_fidelity([r for r in rows if r.get("state") and r["part"] in eligible], eligible, bands)}
 
 
 @app.get("/api/scoring/methodology")
 def scoring_methodology():
     try:
-        return {"methodology": _sh.methodology(PROJECT_DIR), "example": _sh.worked_example(PROJECT_DIR)}
+        out = _sh.fidelity_methodology(PROJECT_DIR)
     except Exception as e:  # noqa: BLE001
-        raise HTTPException(503, f"The scorer configuration could not be read ({PROJECT_DIR / _sh.CONFIG_REL}): {e}")
+        raise HTTPException(503, f"The scoring rubric could not be loaded: {str(e)[:300]}")
+    try:
+        bench = {"methodology": _sh.methodology(PROJECT_DIR), "example": _sh.worked_example(PROJECT_DIR)}
+    except Exception:  # noqa: BLE001 - the secondary benchmark description is optional
+        bench = None
+    return {"methodology": out["methodology"], "example": out["example"], "benchmark": bench}
 
 
 @app.get("/api/scoring/parts/{part}")
 def scoring_part(part: str):
     p = _sanitize(part)
-    h = _sh.history(SCORING_DIR, p)
-    return {"part": p, "latest": h[-1] if h else None,
-            "history": [{k: r.get(k) for k in ("evaluated_at", "rubric_version", "state", "score", "run_id")} for r in h]}
+    out = FINAL_OUTPUTS_DIR / p
+    if (out / "fidelity_score.json").is_file():
+        _sh.ingest_fidelity_file(SCORING_DIR, p, out / "fidelity_score.json", _latest_run_id(p))
+    h = _sh.fidelity_history(SCORING_DIR, p)
+    bench = _sh.benchmark_latest(SCORING_DIR, p)
+    return {"part": p, "latest": h[-1] if h else None, "benchmark": bench,
+            "history": [{"evaluated_at": r.get("evaluated_at"), "fingerprint": (r.get("rubric") or {}).get("fingerprint"), "state": r.get("state"),
+                         "score": r.get("score"), "band": (r.get("band") or {}).get("id"), "run_id": r.get("run_id")} for r in h],
+            "current_fingerprint": _fid_fingerprint()}
 
 
 class ScoreRequest(BaseModel):
     parts: list[str]
-    export: bool = False        # True lets the scorer export the SLDPRT to STEP through an already-running SolidWorks
+    export: bool = False          # benchmark only: let bench.score export the SLDPRT to STEP through an already-running SolidWorks
+    benchmark: bool = False       # also run the answer-key benchmark scorer (needs a signed key; otherwise it records Incomplete)
 
 
 @app.post("/api/scoring/evaluate")
 def scoring_evaluate(req: ScoreRequest):
-    """Run the free scorer (python -m bench.score) for each part and append the result to its history.
-    A failed generation and a failed scoring are different states."""
-    version = _sh.rubric_version(PROJECT_DIR)
+    """Score each part with the Extraction-to-Model Fidelity rubric (free: reads the extraction and the exported mesh of the real SolidWorks part).
+    Every result is appended to the part's history; nothing is overwritten. A failed model, an incomplete input and a failed scorer are different states."""
     results = []
-    for raw in req.parts[:50]:
+    for raw in req.parts[:60]:
         part = _sanitize(raw)
         out = FINAL_OUTPUTS_DIR / part
         if not out.is_dir():
             results.append({"part": part, "state": "no_output"})
             continue
-        try:
-            row, _tail = _sh.run_scorer(PROJECT_DIR, out, SCORING_DIR, part, export=req.export)
-        except Exception as e:  # noqa: BLE001
-            row = {"part": part, "error": f"The scorer could not be run: {str(e)[:200]}"}
-        rec = _sh.record_from_scorer(row, run_id=_latest_run_id(part), version=version)
-        _sh.append(SCORING_DIR, part, rec)
-        results.append({"part": part, "state": rec["state"], "score": rec.get("score")})
-    return {"version": version, "results": results}
+        rec = _sh.run_fidelity(PROJECT_DIR, out)
+        _sh.append_fidelity(SCORING_DIR, part, rec, _latest_run_id(part))
+        item = {"part": part, "state": rec.get("state"), "score": rec.get("score"), "band": (rec.get("band") or {}).get("id")}
+        if req.benchmark:
+            try:
+                row, _tail = _sh.run_scorer(PROJECT_DIR, out, SCORING_DIR, part, export=req.export)
+            except Exception as e:  # noqa: BLE001
+                row = {"part": part, "error": f"The scorer could not be run: {str(e)[:200]}"}
+            b = _sh.record_from_scorer(row, run_id=_latest_run_id(part), version=_sh.rubric_version(PROJECT_DIR))
+            _sh.append(SCORING_DIR, part, b)
+            item["benchmark"] = {"state": b.get("state"), "score": b.get("score")}
+        results.append(item)
+    return {"version": _fid_fingerprint(), "results": results}
 
 
 @app.get("/api/parts/{session}/{part}/thumb.jpg")

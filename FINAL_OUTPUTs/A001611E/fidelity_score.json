@@ -1,0 +1,39 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "A001611E",
+  "evaluated_at": "2026-11-25T23:00:31+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "161-B_ir.SLDPRT",
+    "stl": null,
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "incomplete",
+  "score": null,
+  "band": {
+    "id": "none",
+    "label": "Not scored",
+    "glyph": "dash"
+  },
+  "reason": "no_mesh",
+  "explanation": "The SolidWorks part exists but no STL was exported from it, so its geometry could not be measured. Re-run the part (or export an STL) to score it.",
+  "categories": [],
+  "issues": [
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "NO_MESH",
+      "message": "The SolidWorks part exists but no STL was exported from it, so its geometry could not be measured. Re-run the part (or export an STL) to score it.",
+      "evidence": "161-B_ir.SLDPRT has no matching *_ir.STL",
+      "points": 0.0,
+      "ref": ""
+    }
+  ]
+}

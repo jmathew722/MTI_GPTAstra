@@ -1,0 +1,494 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "A001161E",
+  "evaluated_at": "2026-11-25T23:00:31+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "116-C_ir.SLDPRT",
+    "stl": "116-C_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "scored",
+  "score": 44.1,
+  "raw_score": 44.1,
+  "caps": [],
+  "coverage": 0.85,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 66.7,
+      "pct": 66.7,
+      "earned": 11.77,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "5 planned",
+          "measured": "5 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "no fallbacks",
+          "measured": "0 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 0.0,
+          "expected": "closed mesh",
+          "measured": "71.4% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 0.0,
+          "expected": "[1.5, 2.75, 3.25] in",
+          "measured": "[0.111, 1.0, 2.381] in",
+          "note": "size differs from the build record by 92.6%"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "orange",
+        "label": "Significant deviations",
+        "glyph": "warn"
+      },
+      "max": 17.65
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 0.0,
+      "pct": 0.0,
+      "earned": 0.0,
+      "items": [
+        {
+          "id": "D001",
+          "label": "overall width",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": 3.25,
+          "measured": 2.3811,
+          "unit": "inch",
+          "error": -0.8689,
+          "tol": 0.005,
+          "e": 173.78
+        },
+        {
+          "id": "D002",
+          "label": "overall plan height",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": 2.75,
+          "measured": 1.0002,
+          "unit": "inch",
+          "error": -1.7498,
+          "tol": 0.005,
+          "e": 349.96
+        },
+        {
+          "id": "D003",
+          "label": "block thickness",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": 1.5,
+          "measured": 0.111,
+          "unit": "inch",
+          "error": -1.389,
+          "tol": 0.005,
+          "e": 277.8
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 23.53
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 23.53,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Rectangular base block, 3.25 by 2.75 in plan and 1.5 thick. Extrude normal to the Top plane. Outer plan corners are roun"
+        },
+        {
+          "id": "F002",
+          "label": "F002 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Four .40 through holes normal to the plan face, on a rectangular 2.38 horizontal by 1.88 vertical center pattern. Relati"
+        },
+        {
+          "id": "F003",
+          "label": "F003 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two .58 blind drilled holes, .50 deep, on the intermediate mounting-pattern row and 1.38 apart horizontally. Both have c"
+        },
+        {
+          "id": "F004",
+          "label": "F004 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two shallow cylindrical counterbores coaxial with F003, cut from the same upper face. Diameter limits 1.002\u20131.012; inter"
+        },
+        {
+          "id": "F005",
+          "label": "F005 fillet",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Four rounded external plan corners, corresponding to corner edges parallel to the block thickness. No radius is dimensio"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 23.53
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 0.0,
+      "pct": 0.0,
+      "earned": 0.0,
+      "items": [
+        {
+          "id": "H002#1",
+          "label": "H002 counterbore hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.58 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H002#2",
+          "label": "H002 counterbore hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.58 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H001#1",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.4 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H001#2",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.4 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H001#3",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.4 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H001#4",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.4 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        }
+      ],
+      "n_checked": 6,
+      "n_total": 6,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 23.53
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": false,
+      "score": null,
+      "pct": null,
+      "earned": null,
+      "items": [],
+      "n_checked": 0,
+      "n_total": 0,
+      "band": {
+        "id": "none",
+        "label": "Not scored",
+        "glyph": "dash"
+      },
+      "max": 0.0
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 74.8,
+      "pct": 74.8,
+      "earned": 8.8,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 0.7333,
+          "expected": ">= 95%",
+          "measured": "83%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 0.6667,
+          "expected": "none",
+          "measured": "1 unclear dimension(s), 2 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 0.85,
+          "expected": "none",
+          "measured": "0 assumed, 1 default(s), 0 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "orange",
+        "label": "Significant deviations",
+        "glyph": "warn"
+      },
+      "max": 11.76
+    }
+  ],
+  "band": {
+    "id": "red",
+    "label": "Does not match",
+    "glyph": "x"
+  },
+  "issues": [
+    {
+      "severity": "critical",
+      "category": "envelope",
+      "code": "ENVELOPE_OFF",
+      "message": "The real part's overall width is 2.381 in but the drawing says 3.25 in (27% off).",
+      "evidence": "D001 expected 3.25, measured 2.381",
+      "points": 7.84,
+      "ref": "D001"
+    },
+    {
+      "severity": "critical",
+      "category": "envelope",
+      "code": "ENVELOPE_OFF",
+      "message": "The real part's overall plan height is 1 in but the drawing says 2.75 in (64% off).",
+      "evidence": "D002 expected 2.75, measured 1",
+      "points": 7.84,
+      "ref": "D002"
+    },
+    {
+      "severity": "critical",
+      "category": "envelope",
+      "code": "ENVELOPE_OFF",
+      "message": "The real part's block thickness is 0.111 in but the drawing says 1.5 in (93% off).",
+      "evidence": "D003 expected 1.5, measured 0.111",
+      "points": 7.84,
+      "ref": "D003"
+    },
+    {
+      "severity": "critical",
+      "category": "model_integrity",
+      "code": "STL_NOT_THIS_BUILD",
+      "message": "The exported STL is not the model that was built: size differs from the build record by 92.6%. It is probably a stale or wrong export, so every measurement below describes the wrong shape.",
+      "evidence": "STL dims [0.111, 1.0, 2.381] vs build record [1.5, 2.75, 3.25] (in)",
+      "points": 3.53,
+      "ref": "116-C_ir.STL"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_MISSING",
+      "message": "H001: the drawing calls for 4 hole(s) of about 0.4 in but only 0 exist in the real part.",
+      "evidence": "4 missing",
+      "points": 15.69,
+      "ref": "H001"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_MISSING",
+      "message": "H002: the drawing calls for 2 hole(s) of about 0.58 in but only 0 exist in the real part.",
+      "evidence": "2 missing",
+      "points": 7.84,
+      "ref": "H002"
+    },
+    {
+      "severity": "medium",
+      "category": "hole_accuracy",
+      "code": "HOLE_EXTRA",
+      "message": "2 hole(s) in the real part match no hole callout on the drawing.",
+      "evidence": "d 1.002 in, d 1.002 in",
+      "points": 2.35,
+      "ref": ""
+    },
+    {
+      "severity": "medium",
+      "category": "model_integrity",
+      "code": "MESH_OPEN",
+      "message": "The exported mesh is only 71.4% closed; measurements may be off.",
+      "evidence": "116-C_ir.STL",
+      "points": 1.18,
+      "ref": ""
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "AMBIGUOUS_DIMENSIONS",
+      "message": "1 dimension(s) were unclear on the drawing.",
+      "evidence": "D013",
+      "points": 0.59,
+      "ref": ""
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "DEFAULTS_APPLIED",
+      "message": "1 default value(s) were applied where the drawing was vague.",
+      "evidence": "F006: D4 not modelled: edge break with no printed size",
+      "points": 0.53,
+      "ref": ""
+    },
+    {
+      "severity": "low",
+      "category": "placement",
+      "code": "POSITION_UNKNOWN",
+      "message": "H002: the extraction does not know where these holes are, so their placement was not scored.",
+      "evidence": "position_known = false",
+      "points": 0.0,
+      "ref": "H002"
+    },
+    {
+      "severity": "low",
+      "category": "placement",
+      "code": "POSITION_UNKNOWN",
+      "message": "H001: the extraction does not know where these holes are, so their placement was not scored.",
+      "evidence": "position_known = false",
+      "points": 0.0,
+      "ref": "H001"
+    }
+  ],
+  "notes": [],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      0.111,
+      1.0002,
+      2.3811
+    ],
+    "stl_volume": 0.3671,
+    "triangles": 296,
+    "closed_fraction": 0.7143,
+    "holes": [
+      {
+        "axis": "Y",
+        "d": 1.002,
+        "depth": 0.111,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 1.002,
+        "depth": 0.111,
+        "through": false,
+        "cbore": null
+      }
+    ]
+  },
+  "counts": {
+    "critical": 4,
+    "high": 2,
+    "medium": 2,
+    "low": 4,
+    "info": 0
+  }
+}

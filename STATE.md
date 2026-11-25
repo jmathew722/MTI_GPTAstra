@@ -680,3 +680,10 @@ Recordings are gitignored. Tests: `tests/test_solidworks_recorder.py` (16), `FIN
 Batch folders accept PDF/JPG/JPEG/PNG (mixed, any case) with preflight and Retry failed; a Scoring sidebar tab over `bench.score` (Incomplete, never 0, when
 there is no signed key); real PDF previews and newest-first ordering on Projects; time and cost estimates under Run Pipeline from finished runs and the priced
 ledger. Details: `docs/test-reports/2026-11-25-v4-report.md`, `FINAL_UI/README.md` (v4 section). Pipeline tests: 1308 passed, 66 skipped.
+
+## Scoring rubric: Extraction-to-Model Fidelity (2026-11-25, branch `Improvementsv4`)
+
+New primary scorer `bench/fidelity.py` (spec `docs/scoring-rubric-emf.md`): extraction vs the real SolidWorks part (STL exported from the SLDPRT), 100 points
+in six categories, colour bands, severity-ranked issues, no answer key. Scores of the 19 `FINAL_OUTPUTs` parts: 4 green, several red because their
+STL is not their own mesh (A040501E holds A040691E's), 5 Incomplete (no exported STL), 1 no part. Open item found by it: fix the STL export so each
+run's STL belongs to its SLDPRT (the rubric flags it as a critical `STL_NOT_THIS_BUILD`).

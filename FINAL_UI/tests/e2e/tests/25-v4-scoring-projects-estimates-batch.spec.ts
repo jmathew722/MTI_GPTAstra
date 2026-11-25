@@ -197,72 +197,118 @@ test.describe('v4: Run Pipeline estimates', () => {
   });
 });
 
-test.describe('v4: Scoring tab', () => {
-  test('68 the sidebar has Scoring; overview, results, methodology and the labelled example render', async ({ page, request }) => {
+function scoredPart(part: string, kind: 'good' | 'stale' | 'badhole' | 'nomesh') {
+  execFileSync(process.env.PYTHON || 'python', [path.resolve(__dirname, '../helpers/make_scored_part.py'), STAGE2_OUT, part, kind], { encoding: 'utf-8', env: { ...process.env, PYTHONUTF8: '1' } });
+}
+
+test.describe('v4: Scoring tab (Extraction-to-Model Fidelity)', () => {
+  test('68 the sidebar has Scoring; overview, results, methodology and the labelled example render with colour bands', async ({ page, request }) => {
     await newSessionPage(page, request);
-    const part = 'Sc' + uniq();
-    const dir = path.join(STAGE2_OUT, part); fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(path.join(dir, part + '_extraction.json'), '{}');
+    const good = 'Sg' + uniq(), bad = 'Sb' + uniq();
+    scoredPart(good, 'good'); scoredPart(bad, 'stale');
+    const pending = 'Sp' + uniq();
+    const dir = path.join(STAGE2_OUT, pending); fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(path.join(dir, pending + '_extraction.json'), '{}');
+    const ev = await request.post('/api/scoring/evaluate', { data: { parts: [good, bad] } });
+    expect(ev.ok()).toBeTruthy();
     await page.goto('/#/home');
     await page.locator('#sidebar a.sb-item[data-page="scoring"]').click();
     await expect(page).toHaveURL(/#\/scoring/);
     await expect(page.locator('#sidebar a.sb-item[data-page="scoring"]')).toHaveAttribute('aria-current', 'page');
     await expect(page.locator('#page-scoring h1')).toHaveText('Scoring');
-    const stats = page.locator('.sc-stat');
-    await expect(stats).toHaveCount(4, { timeout: 15_000 });
-    await expect(page.locator('.sc-stat', { hasText: 'Rubric version' })).toContainText('cfg-');
-    await expect(page.locator('.sc-stat', { hasText: 'Average score' })).toBeVisible();
+    await expect(page.locator('.sc-stat')).toHaveCount(5, { timeout: 15_000 });
+    await expect(page.locator('.sc-stat', { hasText: 'Rubric' }).last()).toContainText('emf-');
+    await expect(page.locator('.sc-legend .band-pill')).toHaveCount(4);                       // green, amber, orange, red, each with a word
+    await expect(page.locator('.sc-dist')).toBeVisible();
+    await expect(page.locator('.sc-attn li', { hasText: bad })).toBeVisible();
     await shot(page, 'scoring-overview-1440x900.png');
 
     await page.getByRole('tab', { name: 'Part results' }).click();
-    const row = page.locator('.sc-tbl tr', { hasText: part });
-    await expect(row).toContainText(/No SolidWorks part|Pending evaluation/);       // output exists but no SLDPRT was generated
-    await expect(row.locator('.sc-score')).toHaveText('–');                          // not evaluated: a dash, never 0
+    const gRow = page.locator('.sc-tbl tr', { hasText: good }), bRow = page.locator('.sc-tbl tr', { hasText: bad }), pRow = page.locator('.sc-tbl tr', { hasText: pending });
+    await expect(gRow).toHaveAttribute('data-band', 'green');
+    await expect(gRow.locator('.sc-score-n')).toHaveText(/^(9\d|100)(\.\d)?$/);
+    await expect(gRow.locator('.band-pill').first()).toContainText('Matches the drawing');
+    await expect(bRow).toHaveAttribute('data-band', 'red');
+    await expect(bRow.locator('.sev-pill.sev-critical')).toBeVisible();
+    await expect(bRow.locator('.band-pill').first()).toContainText('Does not match');
+    await expect(gRow.locator('.sc-strip-c')).toHaveCount(6);
+    await expect(pRow).toContainText('Pending evaluation');
+    await expect(pRow.locator('.sc-score-n')).toHaveCount(0);                                  // not evaluated: no number, never 0
     await page.getByLabel('Search part results').fill('zzz-nothing');
     await expect(page.locator('.sc-tbl')).toHaveCount(0);
-    await page.getByLabel('Search part results').fill(part);
-    await expect(page.locator('.sc-tbl tr', { hasText: part })).toBeVisible();
+    await page.getByLabel('Search part results').fill(good);
+    await expect(page.locator('.sc-tbl tr', { hasText: good })).toBeVisible();
+    await page.getByLabel('Search part results').fill('');
+    await shot(page, 'scoring-results-1440x900.png');
 
     await page.getByRole('tab', { name: 'Scoring methodology' }).click();
     await expect(page.locator('.sc-method')).toContainText('Total possible: 100 points', { timeout: 15_000 });
-    await expect(page.locator('.sc-method table').first()).toContainText('position');
+    await expect(page.locator('.sc-method')).toContainText('Extraction-to-Model Fidelity');
+    await expect(page.locator('.sc-method table').first()).toContainText('Overall size');
     await expect(page.locator('.sc-method')).toContainText('exp(-(e - 1) /');
+    await expect(page.locator('.sc-method')).toContainText('Colour bands out of 100');
     await shot(page, 'scoring-methodology-1440x900.png');
 
     await page.getByRole('tab', { name: 'Worked example' }).click();
     const ex = page.locator('.sc-example');
     await expect(ex).toContainText('Illustrative example, not a measured part', { timeout: 15_000 });
-    await expect(ex).toContainText('W = 10 + 4 x 2.50 = 20.00');
-    await expect(ex.locator('tr', { hasText: 'Nothing wrong' })).toContainText('100.00');
-    await expect(ex.locator('tr', { hasText: 'One hole missing' })).toContainText('87.50');
+    await expect(ex.locator('tr', { hasText: 'Everything matches the drawing' })).toContainText('100.0');
+    await expect(ex.locator('tr', { hasText: 'Everything matches the drawing' }).locator('.band-pill')).toContainText('Matches the drawing');
+    await expect(ex.locator('tr', { hasText: 'critical gate' })).toContainText('49.9');
+    await expect(ex.locator('tr', { hasText: 'critical gate' }).locator('.band-pill')).toContainText('Does not match');
     await shot(page, 'scoring-example-1440x900.png');
     expect(serious(await new AxeBuilder({ page }).include('#page-scoring').analyze())).toEqual([]);
   });
 
-  test('69 evaluating a part with no answer key is Incomplete (never 0), has a detail page, and keeps history', async ({ page, request }) => {
+  test('69 part detail: score ring, six coloured categories, issues by severity, what was checked, history', async ({ page, request }) => {
     await newSessionPage(page, request);
-    const part = 'Ev' + uniq();
-    const dir = path.join(STAGE2_OUT, part); fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(path.join(dir, part + '_extraction.json'), '{}');
+    const part = 'Sd' + uniq();
+    scoredPart(part, 'badhole');
     await page.goto('/#/scoring');
     await page.getByRole('tab', { name: 'Part results' }).click();
     const row = page.locator('.sc-tbl tr', { hasText: part });
     await expect(row).toBeVisible({ timeout: 15_000 });
     await row.getByRole('button', { name: 'Evaluate' }).click();
-    await expect(row).toContainText(/Incomplete|Scoring failed/, { timeout: 60_000 });
-    await expect(row.locator('.sc-score')).toHaveText('–');
+    await expect(row.locator('.sc-score-n')).toBeVisible({ timeout: 60_000 });
     await row.getByRole('button', { name: 'Details' }).click();
     const det = page.locator('.sc-detail');
-    await expect(det).toContainText(part, { timeout: 15_000 });
-    await expect(det.locator('.sc-stat', { hasText: 'Final score' })).toContainText('–');
-    await expect(det).toContainText(/no signed answer key|never scored as 0|Scoring failed/);
+    await expect(det.locator('.sc-ring')).toBeVisible({ timeout: 15_000 });
+    await expect(det.locator('.sc-cat')).toHaveCount(6);
+    await expect(det.locator('.sc-cat[data-cat="envelope"] .sc-cat-n')).toHaveText('100');
+    await expect(det.locator('.sc-cat[data-cat="envelope"]')).toHaveClass(/band-green/);
+    await expect(det.locator('.sc-cat[data-cat="hole_accuracy"]')).not.toHaveClass(/band-green/);       // the oversize hole costs points
+    await expect(det.locator('.sc-iss-g .sev-pill.sev-medium, .sc-iss-g .sev-pill.sev-high').first()).toBeVisible();
+    await expect(det).toContainText('HOLE_DIAMETER');
+    await expect(det).toContainText('PATTERN_SPACING');
+    await expect(det.locator('.sc-det', { hasText: 'Hole and bore accuracy' }).first()).toBeVisible();
+    await expect(det).toContainText('Measured on the real SolidWorks part');
+    await expect(det).toContainText('Answer-key benchmark (optional)');
     await shot(page, 'scoring-detail-1440x900.png');
-    await det.getByRole('button', { name: '← All parts' }).click();
-    await page.getByRole('tab', { name: 'Part results' }).click();
-    await page.locator('.sc-tbl tr', { hasText: part }).getByRole('button', { name: 'Re-evaluate' }).click();
-    await page.locator('.sc-tbl tr', { hasText: part }).getByRole('button', { name: 'Details' }).click();
-    await expect(page.locator('.sc-detail')).toContainText('Evaluation history', { timeout: 60_000 });   // two stored evaluations, none overwritten
+    await det.getByRole('button', { name: 'Re-evaluate' }).click();
+    await expect(det).toContainText('Evaluation history', { timeout: 60_000 });                         // two stored evaluations, none overwritten
+    expect(serious(await new AxeBuilder({ page }).include('#page-scoring').analyze())).toEqual([]);
   });
 
-  test('70 narrow layout: the Scoring page and the batch preflight fit without horizontal scroll', async ({ page, request }) => {
+  test('70 a stale mesh is red with a critical issue; no mesh is Incomplete; no part is its own state', async ({ page, request }) => {
+    await newSessionPage(page, request);
+    const stale = 'St' + uniq(), nomesh = 'Sn' + uniq(), nopart = 'Sq' + uniq();
+    scoredPart(stale, 'stale'); scoredPart(nomesh, 'nomesh');
+    const qd = path.join(STAGE2_OUT, nopart); fs.mkdirSync(qd, { recursive: true }); fs.writeFileSync(path.join(qd, nopart + '_extraction.json'), JSON.stringify({ units: 'inch', features: [], dimensions: [], hole_callouts: [] }));
+    await request.post('/api/scoring/evaluate', { data: { parts: [stale, nomesh, nopart] } });
+    await page.goto('/#/scoring');
+    await page.getByRole('tab', { name: 'Part results' }).click();
+    await expect(page.locator('.sc-tbl tr', { hasText: nomesh })).toContainText('Incomplete: No exported STL', { timeout: 15_000 });
+    await expect(page.locator('.sc-tbl tr', { hasText: nomesh }).locator('.sc-score-n')).toHaveCount(0);
+    await expect(page.locator('.sc-tbl tr', { hasText: nopart })).toContainText('Build failed or no part');
+    await page.locator('.sc-tbl tr', { hasText: stale }).getByRole('button', { name: 'Details' }).click();
+    const det = page.locator('.sc-detail');
+    await expect(det.locator('.sc-ring')).toHaveClass(/band-red/, { timeout: 15_000 });
+    await expect(det.locator('.sc-head')).toContainText('critical');                       // the header names the critical issue; a cap banner appears only when the raw score was above the cap
+    const stl = det.locator('.sc-iss.sev-critical', { hasText: 'STL_NOT_THIS_BUILD' });
+    await expect(stl).toContainText('not the model that was built');
+    await shot(page, 'scoring-stale-red-1440x900.png');
+  });
+
+  test('71 narrow layout: Scoring, Projects and the Workspace fit without horizontal scroll', async ({ page, request }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await newSessionPage(page, request);
     for (const hash of ['#/scoring', '#/projects', '#/workspace']) {

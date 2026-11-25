@@ -1,0 +1,39 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "SB11039",
+  "evaluated_at": "2026-11-25T23:00:31+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": null,
+    "stl": null,
+    "extraction": true,
+    "ir_report": false,
+    "feature_map": true
+  },
+  "state": "no_model",
+  "score": null,
+  "band": {
+    "id": "none",
+    "label": "Not scored",
+    "glyph": "dash"
+  },
+  "reason": "no_model",
+  "explanation": "No SolidWorks part was found beside the outputs: the part has not been built.",
+  "categories": [],
+  "issues": [
+    {
+      "severity": "critical",
+      "category": "model_integrity",
+      "code": "NO_MODEL",
+      "message": "No SolidWorks part was found beside the outputs: the part has not been built.",
+      "evidence": "ir_report.sw_ok=None sldprt=False stl=False",
+      "points": 0.0,
+      "ref": ""
+    }
+  ]
+}

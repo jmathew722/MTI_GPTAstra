@@ -1,0 +1,66 @@
+# Extraction-to-Model Fidelity rubric (EMF). Change numbers here, never in code.
+# Grades what the drawing's EXTRACTION asked for against the ACTUAL SolidWorks part (measured on the STL that SolidWorks
+# exported from the SLDPRT). Needs no answer key, so every built part can be scored. Free: no API calls, no SolidWorks session.
+id: emf
+name: Extraction-to-Model Fidelity
+version: "1.0"
+
+# Category weights sum to 100. A category with nothing checkable for a part is dropped and the rest are rescaled, and the
+# report says how much of the 100 could be checked ("coverage").
+categories:
+  model_integrity:   {weight: 15, label: "Build integrity",              question: "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?", how: "Build record (ir_report, feature_map) plus the exported mesh: the build completed, every planned feature built, no fallbacks, the mesh is a closed solid, and the mesh is the model that was built (size and volume match the build record, and it is not older than the SLDPRT)."}
+  envelope:          {weight: 20, label: "Overall size",                 question: "Does the real part's bounding box match the overall dimensions on the drawing?", how: "Sorted overall dimensions of the real part (bounding box of the SolidWorks STL) against the overall dimensions the extraction read for its base feature, each graded against the drawing's tolerance."}
+  feature_coverage:  {weight: 20, label: "Feature coverage",             question: "Is every feature the extraction asked for actually in the model?", how: "Every feature in the extraction against the build status of the matching planned feature. Weighted by feature importance. Built = full credit, skipped, unresolved or missing = none."}
+  hole_accuracy:     {weight: 20, label: "Hole and bore accuracy",       question: "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?", how: "Holes found in the real part (full-circle cylinders, depth, through or blind, counterbore) matched to the extraction's hole callouts: diameter, depth or through, counterbore size, and the count. Tapped holes accept any plausible tap-drill size."}
+  placement:         {weight: 15, label: "Placement and patterns",       question: "Are the holes the right distance apart, in the right pattern, and concentric where they should be?", how: "Frame-free placement of the real holes: nearest-neighbour spacing of each pattern against the extraction's instance positions, and counterbores concentric with their holes. Absolute single-hole position needs an answer key and is covered by the benchmark scorer."}
+  extraction_trust:  {weight: 10, label: "Extraction reliability",       question: "How much of this score rests on unclear, assumed or defaulted input?", how: "How much of the result rests on shaky input: the extraction's own confidence, unclear dimensions and unknown positions, assumed positions, applied defaults, open questions and engineering flags."}
+
+# Credit curve (same shape as the benchmark scorer): full credit within tolerance, `drop` just past it, then a slow fade.
+credit: {drop: 0.5, k: 4.48}
+
+# Used when the drawing states no tolerance (drawing units).
+fallback_tol: {inch: 0.005, mm: 0.1}
+# STL tessellation and float32 noise floor: a measurement is never judged tighter than this (drawing units).
+mesh_floor: {inch: 0.0015, mm: 0.04}
+
+# Weights of individual checks inside Build integrity (sum 15) and Extraction reliability (sum 10).
+integrity_checks: {sw_build: 4, features_built: 4, no_fallbacks: 2, mesh_valid: 2, mesh_matches_build: 3}
+trust_checks:     {confidence: 4, ambiguity: 3, assumptions: 3}
+
+# Feature importance for the coverage category (relative; the same ladder the benchmark uses).
+tiers: {extrude_boss: 10, revolve: 10, extrude_cut: 5, hole: 5, pattern: 3, fillet: 1, chamfer: 1, thread: 0, default: 3}
+
+# Below this share of the 100 points being checkable, no score is given (the partial result is still shown).
+min_coverage: 0.5
+
+# Hole matching: a measured cylinder may be matched to a called-out hole when the diameter is within this fraction.
+match: {diameter_fraction: 0.35, tapped_range: [0.70, 1.03]}   # tapped: any plausible tap-drill/minor/major size vs the nominal thread
+
+# Hard gates: a critical issue caps the total so a polished-looking breakdown cannot hide a wrong model.
+gates:
+  critical_cap: 49.9          # any critical issue
+  envelope_off_fraction: 0.10 # overall size off by more than 10% is critical
+  mesh_vs_build_fraction: 0.02 # exported mesh differs from the build record by more than 2%: wrong or stale export
+
+# Colour bands (lower bound inclusive). Each band also has a label and a glyph so colour is never the only cue.
+bands:
+  - {id: green,  min: 90, label: "Matches the drawing",     glyph: "check"}
+  - {id: amber,  min: 75, label: "Review recommended",      glyph: "alert"}
+  - {id: orange, min: 60, label: "Significant deviations",  glyph: "warn"}
+  - {id: red,    min: 0,  label: "Does not match",          glyph: "x"}
+
+# Issue severities, worst first.
+severities:
+  critical: {label: "Critical", rank: 0}
+  high:     {label: "High",     rank: 1}
+  medium:   {label: "Medium",   rank: 2}
+  low:      {label: "Low",      rank: 3}
+  info:     {label: "Note",     rank: 4}
+
+# Honest limits, shown on the methodology page.
+limits:
+  - "Measured on the STL that SolidWorks exported from the SLDPRT: holes, bores and bosses on a principal axis are read; fillets, chamfers, slots and oblique features are checked through the build record only."
+  - "Single-hole absolute position needs an answer key. The optional benchmark scorer (bench.score) covers it when a signed key exists."
+  - "Expected overall size is read only from dimensions explicitly named overall, plate/block/sheet thickness, or outside diameter on the base feature. When the extraction has none, the category is skipped and the score is rescaled."
+  - "A blind-hole floor is detected from the mesh; a hole that breaks into another bore can be read as through."
+  - "Threads are cosmetic: a tapped hole is graded on its tap-drill size, depth and position, never on thread form."

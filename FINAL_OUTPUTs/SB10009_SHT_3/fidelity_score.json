@@ -1,0 +1,948 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "SB10009_SHT_3",
+  "evaluated_at": "2026-11-25T23:00:31+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "BRACKETISOLATORGAGES_ir.SLDPRT",
+    "stl": "BRACKET (ISOLATOR GAGES)_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "scored",
+  "score": 70.3,
+  "raw_score": 70.3,
+  "caps": [],
+  "coverage": 1.0,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 85.5,
+      "pct": 85.5,
+      "earned": 12.82,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 0.4545,
+          "expected": "22 planned",
+          "measured": "10 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "no fallbacks",
+          "measured": "0 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "closed mesh",
+          "measured": "100.0% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "[0.375, 6.0, 16.24] in",
+          "measured": "[0.375, 6.0, 16.24] in",
+          "note": "matches the build record"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "amber",
+        "label": "Review recommended",
+        "glyph": "alert"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "D001",
+          "label": "plate overall length",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 16.24,
+          "measured": 16.24,
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.04,
+          "e": 0.0
+        },
+        {
+          "id": "D035",
+          "label": "item 1 stock width",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 6.0,
+          "measured": 6.0,
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.04,
+          "e": 0.0
+        },
+        {
+          "id": "D030",
+          "label": "plate thickness",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 0.375,
+          "measured": 0.375,
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.01,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Item 1 plate, 16.24 long by 6.00 wide by .375 thick. Local origin is the first-end/lower-width plate corner."
+        },
+        {
+          "id": "F002",
+          "label": "F002 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two item 2 bent-strip supports, each .375 thick and 1.25 wide. Extrude the end profile across the strip width, as separa"
+        },
+        {
+          "id": "F003",
+          "label": "F003 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Three 3.250 through openings in the plate, at baseline X stations 3.000, best-read 8.120, and 13.240. Y=3.00 is inferred"
+        },
+        {
+          "id": "F004",
+          "label": "F004 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Twelve through tap-preparation holes, four per large opening. Each square pattern has coordinate offsets \u00b11.419 in both "
+        },
+        {
+          "id": "F006",
+          "label": "F006 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two through tap-preparation holes for #10-32, with printed 5.500 +.005 pitch. Corrected best first station is X=5.38 and"
+        },
+        {
+          "id": "F008",
+          "label": "F008 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Four .281 assembly-drilled holes through both the plate and the upper support arms. Longitudinal stations are .56 from e"
+        },
+        {
+          "id": "F009",
+          "label": "F009 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two .281 through holes per support foot. Local foot coordinates from the indicated side/free-end corner are (.62,.50) an"
+        },
+        {
+          "id": "F010",
+          "label": "F010 fillet",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Placeholder for the rounded formed bends visible at two locations per support. No radius is supplied. Do not generate ar"
+        }
+      ],
+      "n_checked": 8,
+      "n_total": 8,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 63.9,
+      "pct": 63.9,
+      "earned": 12.78,
+      "items": [
+        {
+          "id": "H001#1",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 3.25 in through",
+          "measured": "d 3.25 in, through",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#2",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 3.25 in through",
+          "measured": "d 3.25 in, through",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#3",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 3.25 in through",
+          "measured": "d 3.25 in, through",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H005#1",
+          "label": "H005 thru hole",
+          "weight": 1.0,
+          "credit": 0.607,
+          "expected": "d 0.281 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.024,
+          "tol": 0.005
+        },
+        {
+          "id": "H005#2",
+          "label": "H005 thru hole",
+          "weight": 1.0,
+          "credit": 0.607,
+          "expected": "d 0.281 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.024,
+          "tol": 0.005
+        },
+        {
+          "id": "H006#1",
+          "label": "H006 thru hole",
+          "weight": 1.0,
+          "credit": 0.607,
+          "expected": "d 0.281 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.024,
+          "tol": 0.005
+        },
+        {
+          "id": "H006#2",
+          "label": "H006 thru hole",
+          "weight": 1.0,
+          "credit": 0.607,
+          "expected": "d 0.281 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.024,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#1",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.312 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.055,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#2",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.312 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.055,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#3",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.312 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.055,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#4",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.312 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.055,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#5",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.312 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.055,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#6",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.312 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.055,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#7",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.312 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.055,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#8",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.312 in through",
+          "measured": "d 0.257 in, through",
+          "unit": "inch",
+          "error": -0.055,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#9",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.312 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H002#10",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.312 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H002#11",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.312 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H002#12",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.312 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H003#1",
+          "label": "H003 tapped hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.19 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H003#2",
+          "label": "H003 tapped hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.19 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        }
+      ],
+      "n_checked": 21,
+      "n_total": 21,
+      "band": {
+        "id": "orange",
+        "label": "Significant deviations",
+        "glyph": "warn"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 0.0,
+      "pct": 0.0,
+      "earned": 0.0,
+      "items": [
+        {
+          "id": "H005-spacing",
+          "label": "H005 pattern spacing",
+          "weight": 2.0,
+          "credit": 0.0,
+          "expected": "nearest-neighbour [4.5, 4.5]",
+          "measured": "[2.838, 2.838]",
+          "unit": "inch",
+          "error": 1.662,
+          "tol": 0.005,
+          "e": 332.4
+        },
+        {
+          "id": "H006-spacing",
+          "label": "H006 pattern spacing",
+          "weight": 2.0,
+          "credit": 0.0,
+          "expected": "nearest-neighbour [4.5, 4.5]",
+          "measured": "[2.838, 2.838]",
+          "unit": "inch",
+          "error": 1.662,
+          "tol": 0.005,
+          "e": 332.4
+        }
+      ],
+      "n_checked": 2,
+      "n_total": 2,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 47.3,
+      "pct": 47.3,
+      "earned": 4.73,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 0.6222,
+          "expected": ">= 95%",
+          "measured": "78%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 0.7455,
+          "expected": "none",
+          "measured": "2 unclear dimension(s), 5 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 0.0,
+          "expected": "none",
+          "measured": "0 assumed, 0 default(s), 12 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 10.0
+    }
+  ],
+  "band": {
+    "id": "orange",
+    "label": "Significant deviations",
+    "glyph": "warn"
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "category": "placement",
+      "code": "PATTERN_SPACING",
+      "message": "H005 hole spacing is off by up to 1.662 in compared with the drawing's positions.",
+      "evidence": "332.4x tolerance",
+      "points": 7.5,
+      "ref": "H005"
+    },
+    {
+      "severity": "high",
+      "category": "placement",
+      "code": "PATTERN_SPACING",
+      "message": "H006 hole spacing is off by up to 1.662 in compared with the drawing's positions.",
+      "evidence": "332.4x tolerance",
+      "points": 7.5,
+      "ref": "H006"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_MISSING",
+      "message": "H002: the drawing calls for 12 hole(s) of about 0.312 in but only 8 exist in the real part.",
+      "evidence": "4 missing",
+      "points": 3.81,
+      "ref": "H002"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_MISSING",
+      "message": "H003: the drawing calls for 2 hole(s) of about 0.19 in but only 0 exist in the real part.",
+      "evidence": "2 missing",
+      "points": 1.9,
+      "ref": "H003"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_DIAMETER",
+      "message": "H005 diameter is 0.257 in but the drawing calls for 0.281 in.",
+      "evidence": "error -0.024 in",
+      "points": 0.37,
+      "ref": "H005"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_DIAMETER",
+      "message": "H005 diameter is 0.257 in but the drawing calls for 0.281 in.",
+      "evidence": "error -0.024 in",
+      "points": 0.37,
+      "ref": "H005"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_DIAMETER",
+      "message": "H006 diameter is 0.257 in but the drawing calls for 0.281 in.",
+      "evidence": "error -0.024 in",
+      "points": 0.37,
+      "ref": "H006"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_DIAMETER",
+      "message": "H006 diameter is 0.257 in but the drawing calls for 0.281 in.",
+      "evidence": "error -0.024 in",
+      "points": 0.37,
+      "ref": "H006"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F011 was planned but not built: skipped (unresolved: Confirm whether the degraded first #10-32 baseline D004 reads 5.38.).",
+      "evidence": "skipped (unresolved: Confirm whether the degraded first #10-32 baseline D004 reads 5.38.)",
+      "points": 0.18,
+      "ref": "F011"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F012 was planned but not built: skipped (unresolved: Known pitch depends on unresolved first baseline.).",
+      "evidence": "skipped (unresolved: Known pitch depends on unresolved first baseline.)",
+      "points": 0.18,
+      "ref": "F012"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F013 was planned but not built: skipped (unresolved: Supply the first assembly-hole transverse coordinate at the first end.).",
+      "evidence": "skipped (unresolved: Supply the first assembly-hole transverse coordinate at the first end.)",
+      "points": 0.18,
+      "ref": "F013"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F014 was planned but not built: skipped (unresolved: Supply the second assembly-hole transverse coordinate at the first end.).",
+      "evidence": "skipped (unresolved: Supply the second assembly-hole transverse coordinate at the first end.)",
+      "points": 0.18,
+      "ref": "F014"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F015 was planned but not built: skipped (unresolved: Supply the first assembly-hole transverse coordinate at the opposite end.).",
+      "evidence": "skipped (unresolved: Supply the first assembly-hole transverse coordinate at the opposite end.)",
+      "points": 0.18,
+      "ref": "F015"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F016 was planned but not built: skipped (unresolved: Supply the second assembly-hole transverse coordinate at the opposite end.).",
+      "evidence": "skipped (unresolved: Supply the second assembly-hole transverse coordinate at the opposite end.)",
+      "points": 0.18,
+      "ref": "F016"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F017 was planned but not built: skipped (unresolved: Provide support bend radii and dimension-to-bend conventions before constructing the finished profile.).",
+      "evidence": "skipped (unresolved: Provide support bend radii and dimension-to-bend conventions before constructing the finished profile.)",
+      "points": 0.18,
+      "ref": "F017"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F018 was planned but not built: skipped (unresolved: Second separate support requires finalized formed geometry and assembly placement.).",
+      "evidence": "skipped (unresolved: Second separate support requires finalized formed geometry and assembly placement.)",
+      "points": 0.18,
+      "ref": "F018"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F019 was planned but not built: skipped (unresolved: First support-foot hole requires a resolved global support face.).",
+      "evidence": "skipped (unresolved: First support-foot hole requires a resolved global support face.)",
+      "points": 0.18,
+      "ref": "F019"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F020 was planned but not built: skipped (unresolved: Second first-support foot hole requires resolved global support placement.).",
+      "evidence": "skipped (unresolved: Second first-support foot hole requires resolved global support placement.)",
+      "points": 0.18,
+      "ref": "F020"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F021 was planned but not built: skipped (unresolved: First opposite-support foot hole requires resolved global support placement.).",
+      "evidence": "skipped (unresolved: First opposite-support foot hole requires resolved global support placement.)",
+      "points": 0.18,
+      "ref": "F021"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F022 was planned but not built: skipped (unresolved: Second opposite-support foot hole requires resolved global support placement.).",
+      "evidence": "skipped (unresolved: Second opposite-support foot hole requires resolved global support placement.)",
+      "points": 0.18,
+      "ref": "F022"
+    },
+    {
+      "severity": "medium",
+      "category": "extraction_trust",
+      "code": "OPEN_QUESTIONS",
+      "message": "12 question(s) were left open for a person to answer.",
+      "evidence": "F011: Confirm whether the degraded first #10-32 baseline D004 reads 5.38.; F012: Known pitch depends on unresolved first baseline.; F013: Supply the first assembly-hole transverse coordinate at the first end.",
+      "points": 5.4,
+      "ref": ""
+    },
+    {
+      "severity": "medium",
+      "category": "hole_accuracy",
+      "code": "CALLOUT_NOT_SCORABLE",
+      "message": "H004 could not be scored: the extraction marks this callout's size as a placeholder or unknown.",
+      "evidence": "diameter field = 0.281",
+      "points": 0.0,
+      "ref": "H004"
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "AMBIGUOUS_DIMENSIONS",
+      "message": "2 dimension(s) were unclear on the drawing.",
+      "evidence": "D002, D004",
+      "points": 0.38,
+      "ref": ""
+    },
+    {
+      "severity": "low",
+      "category": "placement",
+      "code": "POSITION_UNKNOWN",
+      "message": "H001: the extraction does not know where these holes are, so their placement was not scored.",
+      "evidence": "position_known = false",
+      "points": 0.0,
+      "ref": "H001"
+    },
+    {
+      "severity": "low",
+      "category": "placement",
+      "code": "POSITION_UNKNOWN",
+      "message": "H002: the extraction does not know where these holes are, so their placement was not scored.",
+      "evidence": "position_known = false",
+      "points": 0.0,
+      "ref": "H002"
+    },
+    {
+      "severity": "low",
+      "category": "placement",
+      "code": "POSITION_UNKNOWN",
+      "message": "H003: the extraction does not know where these holes are, so their placement was not scored.",
+      "evidence": "position_known = false",
+      "points": 0.0,
+      "ref": "H003"
+    },
+    {
+      "severity": "info",
+      "category": "model_integrity",
+      "code": "MTI_PRACTICE",
+      "message": "[mti_hole_grouping] F002, F003, F004: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
+      "evidence": "advisory only, never blocks a part",
+      "points": 0.0,
+      "ref": ""
+    },
+    {
+      "severity": "info",
+      "category": "model_integrity",
+      "code": "MTI_PRACTICE",
+      "message": "[mti_hole_grouping] F005, F007, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
+      "evidence": "advisory only, never blocks a part",
+      "points": 0.0,
+      "ref": ""
+    }
+  ],
+  "notes": [
+    "Not scored because the drawing's size was not read: H004."
+  ],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      0.375,
+      6.0,
+      16.24
+    ],
+    "stl_volume": 27.0193,
+    "triangles": 2432,
+    "closed_fraction": 1.0,
+    "holes": [
+      {
+        "axis": "Y",
+        "d": 3.25,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 3.25,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 3.25,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.257,
+        "depth": 0.375,
+        "through": true,
+        "cbore": null
+      }
+    ]
+  },
+  "counts": {
+    "critical": 0,
+    "high": 20,
+    "medium": 2,
+    "low": 4,
+    "info": 2
+  }
+}

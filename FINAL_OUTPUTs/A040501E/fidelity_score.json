@@ -1,0 +1,624 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "A040501E",
+  "evaluated_at": "2026-11-25T23:00:31+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "4050-D_ir.SLDPRT",
+    "stl": "4050-D_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "scored",
+  "score": 43.6,
+  "raw_score": 43.6,
+  "caps": [],
+  "coverage": 1.0,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 80.0,
+      "pct": 80.0,
+      "earned": 12.0,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "10 planned",
+          "measured": "10 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "no fallbacks",
+          "measured": "0 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "closed mesh",
+          "measured": "100.0% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 0.0,
+          "expected": "[3.501, 3.501, 8.0] in",
+          "measured": "[2.25, 4.375, 5.0] in",
+          "note": "size differs from the build record by 37.5%"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "amber",
+        "label": "Review recommended",
+        "glyph": "alert"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 0.0,
+      "pct": 0.0,
+      "earned": 0.0,
+      "items": [
+        {
+          "id": "D001",
+          "label": "overall length",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": 8.0,
+          "measured": 5.0,
+          "unit": "inch",
+          "error": -3.0,
+          "tol": 0.01,
+          "e": 300.0
+        },
+        {
+          "id": "D010",
+          "label": "shaft outside diameter",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": 3.501,
+          "measured": 4.375,
+          "unit": "inch",
+          "error": 0.874,
+          "tol": 0.0015,
+          "e": 582.67
+        },
+        {
+          "id": "D010",
+          "label": "shaft outside diameter",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": 3.501,
+          "measured": 2.25,
+          "unit": "inch",
+          "error": -1.251,
+          "tol": 0.0015,
+          "e": 834.0
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Cylinder diameter 3.501, length 8.000. OD is datum A. Axial coordinate L=0 at left end, L=8 at right end."
+        },
+        {
+          "id": "F002",
+          "label": "F002 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Rounded rectangular through-opening normal to Top plane, L=2.750 to 4.500, transverse width 1.500 centered on axis; .250"
+        },
+        {
+          "id": "F003",
+          "label": "F003 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Rounded rectangular upper entrance recess 1.88 axial by 1.75 transverse, L=2.68 to 4.56, centered transversely. Floor .5"
+        },
+        {
+          "id": "F004",
+          "label": "F004 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Left coaxial blind pilot bore for 1.500-12 thread. Pilot diameter and drilling allowance unspecified; nominal thread dia"
+        },
+        {
+          "id": "F005",
+          "label": "F005 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Right coaxial passage through right-end web into transverse slot; 1.25-deep counterbore for .500 SHCS. Actual clearance "
+        },
+        {
+          "id": "F006",
+          "label": "F006 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Right-end seed pilot hole at (-.884,-.884) for .375-16 tap; pilot diameter and drill depth unspecified."
+        },
+        {
+          "id": "F009",
+          "label": "F009 pattern",
+          "weight": 3.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "2\u00d72 pattern of seed pilot bore and thread together; four positions at (\u00b1.884,\u00b1.884), 1.768 pitch in both directions."
+        },
+        {
+          "id": "F010",
+          "label": "F010 chamfer",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Outside circular end-edge chamfers .060 \u00d7 45\u00b0, both ends."
+        }
+      ],
+      "n_checked": 8,
+      "n_total": 8,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 15.0,
+      "pct": 15.0,
+      "earned": 3.0,
+      "items": [
+        {
+          "id": "H001#1",
+          "label": "H001 tapped hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 1.5 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H003#1",
+          "label": "H003 tapped hole",
+          "weight": 1.0,
+          "credit": 0.3757,
+          "expected": "d 0.375 in depth 0.88",
+          "measured": "d 0.3125 in, blind 0.75",
+          "unit": "inch",
+          "error": -0.0625,
+          "tol": 0.005
+        },
+        {
+          "id": "H003#2",
+          "label": "H003 tapped hole",
+          "weight": 1.0,
+          "credit": 0.3757,
+          "expected": "d 0.375 in depth 0.88",
+          "measured": "d 0.3125 in, blind 0.75",
+          "unit": "inch",
+          "error": -0.0625,
+          "tol": 0.005
+        },
+        {
+          "id": "H003#3",
+          "label": "H003 tapped hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.375 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H003#4",
+          "label": "H003 tapped hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.375 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 0.0,
+      "pct": 0.0,
+      "earned": 0.0,
+      "items": [
+        {
+          "id": "H003-spacing",
+          "label": "H003 pattern spacing",
+          "weight": 4.0,
+          "credit": 0.0,
+          "expected": "nearest-neighbour [1.768, 1.768, 1.768]",
+          "measured": "[1.0, 1.0]",
+          "unit": "inch",
+          "error": 0.768,
+          "tol": 0.005,
+          "e": 153.6
+        }
+      ],
+      "n_checked": 1,
+      "n_total": 1,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 85.5,
+      "pct": 85.5,
+      "earned": 8.55,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 0.8444,
+          "expected": ">= 95%",
+          "measured": "88%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 0.875,
+          "expected": "none",
+          "measured": "1 unclear dimension(s), 1 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 0.85,
+          "expected": "none",
+          "measured": "0 assumed, 1 default(s), 0 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "amber",
+        "label": "Review recommended",
+        "glyph": "alert"
+      },
+      "max": 10.0
+    }
+  ],
+  "band": {
+    "id": "red",
+    "label": "Does not match",
+    "glyph": "x"
+  },
+  "issues": [
+    {
+      "severity": "critical",
+      "category": "envelope",
+      "code": "ENVELOPE_OFF",
+      "message": "The real part's overall length is 5 in but the drawing says 8 in (38% off).",
+      "evidence": "D001 expected 8, measured 5",
+      "points": 6.67,
+      "ref": "D001"
+    },
+    {
+      "severity": "critical",
+      "category": "envelope",
+      "code": "ENVELOPE_OFF",
+      "message": "The real part's shaft outside diameter is 4.375 in but the drawing says 3.501 in (25% off).",
+      "evidence": "D010 expected 3.501, measured 4.375",
+      "points": 6.67,
+      "ref": "D010"
+    },
+    {
+      "severity": "critical",
+      "category": "envelope",
+      "code": "ENVELOPE_OFF",
+      "message": "The real part's shaft outside diameter is 2.25 in but the drawing says 3.501 in (36% off).",
+      "evidence": "D010 expected 3.501, measured 2.25",
+      "points": 6.67,
+      "ref": "D010"
+    },
+    {
+      "severity": "critical",
+      "category": "model_integrity",
+      "code": "STL_NOT_THIS_BUILD",
+      "message": "The exported STL is not the model that was built: size differs from the build record by 37.5%. It is probably a stale or wrong export, so every measurement below describes the wrong shape.",
+      "evidence": "STL dims [2.25, 4.375, 5.0] vs build record [3.501, 3.501, 8.0] (in)",
+      "points": 3.0,
+      "ref": "4050-D_ir.STL"
+    },
+    {
+      "severity": "high",
+      "category": "placement",
+      "code": "PATTERN_SPACING",
+      "message": "H003 hole spacing is off by up to 0.768 in compared with the drawing's positions.",
+      "evidence": "153.6x tolerance",
+      "points": 15.0,
+      "ref": "H003"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_MISSING",
+      "message": "H003: the drawing calls for 4 hole(s) of about 0.375 in but only 2 exist in the real part.",
+      "evidence": "2 missing",
+      "points": 8.0,
+      "ref": "H003"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_MISSING",
+      "message": "H001: the drawing calls for 1 hole(s) of about 1.5 in but only 0 exist in the real part.",
+      "evidence": "1 missing",
+      "points": 4.0,
+      "ref": "H001"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_DEPTH",
+      "message": "H003 depth is 0.75 in, drawing 0.88 in.",
+      "evidence": "",
+      "points": 2.0,
+      "ref": "H003"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_DEPTH",
+      "message": "H003 depth is 0.75 in, drawing 0.88 in.",
+      "evidence": "",
+      "points": 2.0,
+      "ref": "H003"
+    },
+    {
+      "severity": "medium",
+      "category": "hole_accuracy",
+      "code": "HOLE_EXTRA",
+      "message": "8 hole(s) in the real part match no hole callout on the drawing.",
+      "evidence": "d 0.406 in, d 0.406 in, d 0.406 in, d 0.406 in, d 0.75 in",
+      "points": 5.0,
+      "ref": ""
+    },
+    {
+      "severity": "medium",
+      "category": "hole_accuracy",
+      "code": "CALLOUT_NOT_SCORABLE",
+      "message": "H002 could not be scored: the extraction marks this callout's size as a placeholder or unknown.",
+      "evidence": "diameter field = 0.5",
+      "points": 0.0,
+      "ref": "H002"
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "DEFAULTS_APPLIED",
+      "message": "1 default value(s) were applied where the drawing was vague.",
+      "evidence": "F006: D7 fillet 0.25 on the 4 planned edge(s)",
+      "points": 0.45,
+      "ref": ""
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "AMBIGUOUS_DIMENSIONS",
+      "message": "1 dimension(s) were unclear on the drawing.",
+      "evidence": "D018",
+      "points": 0.19,
+      "ref": ""
+    },
+    {
+      "severity": "info",
+      "category": "model_integrity",
+      "code": "MTI_PRACTICE",
+      "message": "[mti_edge_ops_last] F003 (prism) comes after F002 (chamfer); MTI puts fillets and chamfers at the end of the tree",
+      "evidence": "advisory only, never blocks a part",
+      "points": 0.0,
+      "ref": ""
+    }
+  ],
+  "notes": [
+    "Not scored because the drawing's size was not read: H002."
+  ],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      2.25,
+      4.375,
+      5.0
+    ],
+    "stl_volume": 24.5002,
+    "triangles": 1528,
+    "closed_fraction": 1.0,
+    "holes": [
+      {
+        "axis": "X",
+        "d": 0.406,
+        "depth": 1.375,
+        "through": true,
+        "cbore": {
+          "d": 0.625,
+          "depth": 0.375
+        }
+      },
+      {
+        "axis": "X",
+        "d": 0.406,
+        "depth": 1.375,
+        "through": true,
+        "cbore": {
+          "d": 0.625,
+          "depth": 0.375
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.406,
+        "depth": 1.875,
+        "through": true,
+        "cbore": {
+          "d": 0.625,
+          "depth": 0.375
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.406,
+        "depth": 1.875,
+        "through": true,
+        "cbore": {
+          "d": 0.625,
+          "depth": 0.375
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.75,
+        "depth": 0.875,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.201,
+        "depth": 0.5,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.201,
+        "depth": 0.5,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.201,
+        "depth": 0.5,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.6875,
+        "depth": 1.25,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.3125,
+        "depth": 0.75,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.3125,
+        "depth": 0.75,
+        "through": false,
+        "cbore": null
+      }
+    ]
+  },
+  "counts": {
+    "critical": 4,
+    "high": 5,
+    "medium": 2,
+    "low": 2,
+    "info": 1
+  }
+}

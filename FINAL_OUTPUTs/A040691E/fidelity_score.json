@@ -1,0 +1,690 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "A040691E",
+  "evaluated_at": "2026-11-25T23:00:31+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "4069-C_ir.SLDPRT",
+    "stl": "4069-C_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "scored",
+  "score": 86.8,
+  "raw_score": 86.8,
+  "caps": [],
+  "coverage": 0.8,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 95.6,
+      "pct": 95.6,
+      "earned": 17.93,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 0.8333,
+          "expected": "18 planned",
+          "measured": "15 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "no fallbacks",
+          "measured": "0 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "closed mesh",
+          "measured": "100.0% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "[2.25, 4.375, 5.0] in",
+          "measured": "[2.25, 4.375, 5.0] in",
+          "note": "matches the build record"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 18.75
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": false,
+      "score": null,
+      "pct": null,
+      "earned": null,
+      "items": [],
+      "n_checked": 0,
+      "n_total": 0,
+      "band": {
+        "id": "none",
+        "label": "Not scored",
+        "glyph": "dash"
+      },
+      "max": 0.0
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 90.4,
+      "pct": 90.4,
+      "earned": 22.6,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Base web extruded .88 normal to Right plane. Coordinates u=Right-view horizontal, v=height, x=Front-view horizontal thic"
+        },
+        {
+          "id": "F002",
+          "label": "F002 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Flange over u=2.51..4.26, v=0..5. Add 1.37 thickness to web, reaching x=2.25. Rear plane u=4.26 is datum A."
+        },
+        {
+          "id": "F003",
+          "label": "F003 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Lower width step: remove x=1.50..2.25, v=0.. .75, through flange depth u=2.51..4.26."
+        },
+        {
+          "id": "F004",
+          "label": "F004 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Tongue projecting .12 beyond A, .749 high. Interpreted nominal u=4.26..4.38, v=2.626..3.375, across overall thickness wi"
+        },
+        {
+          "id": "F005",
+          "label": "F005 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": ".750 +.001/-.000 through bore normal to Right view, through .88 web, at (u,v)=(1.26,3)."
+        },
+        {
+          "id": "F006",
+          "label": "F006 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Three blind tap preparations at Right-view positions (.51,3), (1.635,3.65), (1.635,2.35). Rectangular dimensions control"
+        },
+        {
+          "id": "F008",
+          "label": "F008 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Blind preparation for .750-16 thread normal to Right view at (u,v)=(3.26,3). Drill diameter/depth allowance unspecified."
+        },
+        {
+          "id": "F010",
+          "label": "F010 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two blind tap preparations normal to Right view, entering stepped x=1.50 face. Centers (u,v)=(2.885,.375),(3.885,.375). "
+        },
+        {
+          "id": "F012",
+          "label": "F012 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Front-facing portion of the single four-hole DR. & C'BORE FOR .375 SOC. HD. CAP SCR. callout: qty 2. Edge-referenced Fro"
+        },
+        {
+          "id": "F013",
+          "label": "F013 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Right-facing portion of same four-hole screw callout: qty 2. Edge-referenced Right-view instance_positions=[[3.635,1.875"
+        },
+        {
+          "id": "F014",
+          "label": "F014 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two front-facing counterbores, concentric with F012 holes. Counterbore diameter/depth unspecified; resolve using approve"
+        },
+        {
+          "id": "F015",
+          "label": "F015 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two right-facing counterbores, concentric with F013 holes. Counterbore diameter/depth unspecified."
+        },
+        {
+          "id": "F016",
+          "label": "F016 extrude cut",
+          "weight": 5.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "skipped",
+          "note": "Two RELIEF features at upper/lower tongue roots. Width, depth, radius and exact section unspecified."
+        },
+        {
+          "id": "F017",
+          "label": "F017 fillet",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "skipped",
+          "note": "Lower width-step internal radius .03 MAX.; select compliant radius, not necessarily .03."
+        },
+        {
+          "id": "F018",
+          "label": "F018 fillet",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "skipped",
+          "note": "Web/flange internal radius .06 MAX. in Bottom view; actual nominal unspecified."
+        },
+        {
+          "id": "F019",
+          "label": "F019 chamfer",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "missing",
+          "note": "Two 1.00 x 45\u00b0 chamfers through web thickness. Side-profile endpoints (0,4) to (1,5), and (0,2) to (1,1)."
+        }
+      ],
+      "n_checked": 16,
+      "n_total": 16,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 25.0
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 80.0,
+      "pct": 80.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "H001#1",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 0.8,
+          "expected": "d 0.75 in through",
+          "measured": "d 0.75 in, through",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H003#1",
+          "label": "H003 tapped hole",
+          "weight": 1.0,
+          "credit": 0.8,
+          "expected": "d 0.75 in depth 1.25",
+          "measured": "d 0.6875 in, blind 1.25",
+          "unit": "inch",
+          "error": -0.0625,
+          "tol": 0.005
+        },
+        {
+          "id": "H004#1",
+          "label": "H004 tapped hole",
+          "weight": 1.0,
+          "credit": 0.8,
+          "expected": "d 0.375 in depth 0.75",
+          "measured": "d 0.3125 in, blind 0.75",
+          "unit": "inch",
+          "error": -0.0625,
+          "tol": 0.005
+        },
+        {
+          "id": "H004#2",
+          "label": "H004 tapped hole",
+          "weight": 1.0,
+          "credit": 0.8,
+          "expected": "d 0.375 in depth 0.75",
+          "measured": "d 0.3125 in, blind 0.75",
+          "unit": "inch",
+          "error": -0.0625,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#1",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 0.8,
+          "expected": "d 0.25 in depth 0.5",
+          "measured": "d 0.201 in, blind 0.5",
+          "unit": "inch",
+          "error": -0.049,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#2",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 0.8,
+          "expected": "d 0.25 in depth 0.5",
+          "measured": "d 0.201 in, blind 0.5",
+          "unit": "inch",
+          "error": -0.049,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#3",
+          "label": "H002 tapped hole",
+          "weight": 1.0,
+          "credit": 0.8,
+          "expected": "d 0.25 in depth 0.5",
+          "measured": "d 0.201 in, blind 0.5",
+          "unit": "inch",
+          "error": -0.049,
+          "tol": 0.005
+        }
+      ],
+      "n_checked": 7,
+      "n_total": 7,
+      "band": {
+        "id": "amber",
+        "label": "Review recommended",
+        "glyph": "alert"
+      },
+      "max": 25.0
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 18.75,
+      "items": [
+        {
+          "id": "H004-spacing",
+          "label": "H004 pattern spacing",
+          "weight": 2.0,
+          "credit": 1.0,
+          "expected": "nearest-neighbour [1.0, 1.0]",
+          "measured": "[1.0, 1.0]",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005,
+          "e": 0.0
+        },
+        {
+          "id": "H002-spacing",
+          "label": "H002 pattern spacing",
+          "weight": 3.0,
+          "credit": 1.0,
+          "expected": "nearest-neighbour [1.2993, 1.2993, 1.2993]",
+          "measured": "[1.2993, 1.2993, 1.2993]",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 2,
+      "n_total": 2,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 18.75
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 60.0,
+      "pct": 60.0,
+      "earned": 7.5,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 0.7556,
+          "expected": ">= 95%",
+          "measured": "84%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 0.8909,
+          "expected": "none",
+          "measured": "3 unclear dimension(s), 0 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 0.1,
+          "expected": "none",
+          "measured": "0 assumed, 3 default(s), 3 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 12.5
+    }
+  ],
+  "band": {
+    "id": "amber",
+    "label": "Review recommended",
+    "glyph": "alert"
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_SKIPPED",
+      "message": "F016 (extrude_cut) was in the extraction but is not in the model: unresolved: What nominal internal radius is required at the lower width step? Only a maximum is specified..",
+      "evidence": "Two RELIEF features at upper/lower tongue roots. Width, depth, radius and exact section unspecified.",
+      "points": 1.51,
+      "ref": "F016"
+    },
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_SKIPPED",
+      "message": "F017 (fillet) was in the extraction but is not in the model: unresolved: What nominal internal radius is required at the web/flange junction? Only a maximum is specified..",
+      "evidence": "Lower width-step internal radius .03 MAX.; select compliant radius, not necessarily .03.",
+      "points": 0.3,
+      "ref": "F017"
+    },
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_SKIPPED",
+      "message": "F018 (fillet) was in the extraction but is not in the model: unresolved: What are the section, width, depth and radius of the two tongue-root reliefs?.",
+      "evidence": "Web/flange internal radius .06 MAX. in Bottom view; actual nominal unspecified.",
+      "points": 0.3,
+      "ref": "F018"
+    },
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_MISSING",
+      "message": "F019 (chamfer) is in the extraction but no build status exists for it.",
+      "evidence": "Two 1.00 x 45\u00b0 chamfers through web thickness. Side-profile endpoints (0,4) to (1,5), and (0,2) to (1,1).",
+      "points": 0.3,
+      "ref": "F019"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F016 was planned but not built: skipped (unresolved: What nominal internal radius is required at the lower width step? Only a maximum is specified.).",
+      "evidence": "skipped (unresolved: What nominal internal radius is required at the lower width step? Only a maximum is specified.)",
+      "points": 0.28,
+      "ref": "F016"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F017 was planned but not built: skipped (unresolved: What nominal internal radius is required at the web/flange junction? Only a maximum is specified.).",
+      "evidence": "skipped (unresolved: What nominal internal radius is required at the web/flange junction? Only a maximum is specified.)",
+      "points": 0.28,
+      "ref": "F017"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F018 was planned but not built: skipped (unresolved: What are the section, width, depth and radius of the two tongue-root reliefs?).",
+      "evidence": "skipped (unresolved: What are the section, width, depth and radius of the two tongue-root reliefs?)",
+      "points": 0.28,
+      "ref": "F018"
+    },
+    {
+      "severity": "medium",
+      "category": "hole_accuracy",
+      "code": "HOLE_EXTRA",
+      "message": "4 hole(s) in the real part match no hole callout on the drawing.",
+      "evidence": "d 0.406 in, d 0.406 in, d 0.406 in, d 0.406 in",
+      "points": 5.0,
+      "ref": ""
+    },
+    {
+      "severity": "medium",
+      "category": "extraction_trust",
+      "code": "OPEN_QUESTIONS",
+      "message": "3 question(s) were left open for a person to answer.",
+      "evidence": "F016: What nominal internal radius is required at the lower width step? Only a maximum is ; F017: What nominal internal radius is required at the web/flange junction? Only a maximum ; F018: What are the section, width, depth and radius of the two tongue-root reliefs?",
+      "points": 1.69,
+      "ref": ""
+    },
+    {
+      "severity": "medium",
+      "category": "extraction_trust",
+      "code": "AMBIGUOUS_DIMENSIONS",
+      "message": "3 dimension(s) were unclear on the drawing.",
+      "evidence": "D027, D028, D038",
+      "points": 0.2,
+      "ref": ""
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "DEFAULTS_APPLIED",
+      "message": "3 default value(s) were applied where the drawing was vague.",
+      "evidence": "D007: D9 0.88 -> 0.875 (two-place print of a 1/16 fraction); D022: D9 4.38 -> 4.375 (two-place print of a 1/16 fraction); D024: D9 0.12 -> 0.125 (two-place print of a 1/16 fraction)",
+      "points": 1.69,
+      "ref": ""
+    },
+    {
+      "severity": "info",
+      "category": "envelope",
+      "code": "ENVELOPE_NOT_CHECKABLE",
+      "message": "The overall size could not be checked: the extraction gives fewer than two overall dimensions for the base feature.",
+      "evidence": "",
+      "points": 0.0,
+      "ref": ""
+    },
+    {
+      "severity": "info",
+      "category": "model_integrity",
+      "code": "MTI_PRACTICE",
+      "message": "[mti_hole_grouping] F006, F007: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
+      "evidence": "advisory only, never blocks a part",
+      "points": 0.0,
+      "ref": ""
+    }
+  ],
+  "notes": [
+    "The extraction has fewer than two overall dimensions on its base feature, so the overall size could not be checked against the drawing."
+  ],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      2.25,
+      4.375,
+      5.0
+    ],
+    "stl_volume": 24.4849,
+    "triangles": 2320,
+    "closed_fraction": 1.0,
+    "holes": [
+      {
+        "axis": "X",
+        "d": 0.406,
+        "depth": 1.375,
+        "through": true,
+        "cbore": {
+          "d": 0.625,
+          "depth": 0.375
+        }
+      },
+      {
+        "axis": "X",
+        "d": 0.406,
+        "depth": 1.375,
+        "through": true,
+        "cbore": {
+          "d": 0.625,
+          "depth": 0.375
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.406,
+        "depth": 1.875,
+        "through": true,
+        "cbore": {
+          "d": 0.625,
+          "depth": 0.375
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.406,
+        "depth": 1.875,
+        "through": true,
+        "cbore": {
+          "d": 0.625,
+          "depth": 0.375
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.75,
+        "depth": 0.875,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.201,
+        "depth": 0.5,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.201,
+        "depth": 0.5,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.201,
+        "depth": 0.5,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.6875,
+        "depth": 1.25,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.3125,
+        "depth": 0.75,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.3125,
+        "depth": 0.75,
+        "through": false,
+        "cbore": null
+      }
+    ]
+  },
+  "counts": {
+    "critical": 0,
+    "high": 7,
+    "medium": 3,
+    "low": 1,
+    "info": 2
+  }
+}

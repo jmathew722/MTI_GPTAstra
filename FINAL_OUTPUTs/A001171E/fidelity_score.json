@@ -1,0 +1,639 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "A001171E",
+  "evaluated_at": "2026-11-25T23:00:31+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "117-C_ir.SLDPRT",
+    "stl": "117-C_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "scored",
+  "score": 49.9,
+  "raw_score": 53.3,
+  "caps": [
+    "A critical issue caps the score at 50: the breakdown above is not enough to trust this model."
+  ],
+  "coverage": 1.0,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 62.6,
+      "pct": 62.6,
+      "earned": 9.39,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 0.8462,
+          "expected": "13 planned",
+          "measured": "11 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "no fallbacks",
+          "measured": "0 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 0.0,
+          "expected": "closed mesh",
+          "measured": "80.0% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 0.0,
+          "expected": "[1.0, 3.812, 4.438] in",
+          "measured": "[0.312, 1.53, 2.18] in",
+          "note": "size differs from the build record by 68.8%"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "orange",
+        "label": "Significant deviations",
+        "glyph": "warn"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 0.1,
+      "pct": 0.1,
+      "earned": 0.02,
+      "items": [
+        {
+          "id": "D001",
+          "label": "overall width",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": 4.44,
+          "measured": 2.1798,
+          "unit": "inch",
+          "error": -2.2602,
+          "tol": 0.03,
+          "e": 75.34
+        },
+        {
+          "id": "D008",
+          "label": "overall height",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": 3.81,
+          "measured": 1.5295,
+          "unit": "inch",
+          "error": -2.2805,
+          "tol": 0.03,
+          "e": 76.02
+        },
+        {
+          "id": "D019",
+          "label": "plate thickness",
+          "weight": 1.0,
+          "credit": 0.0038,
+          "expected": 1.0,
+          "measured": 0.3125,
+          "unit": "inch",
+          "error": -0.6875,
+          "tol": 0.03,
+          "e": 22.92
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "1018 steel plate, nominal envelope 4.44 x 3.81 x 1.00 inches. Use front-projection lower-left corner as x/y origin. Corn"
+        },
+        {
+          "id": "F002",
+          "label": "F002 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Four 21/32 through mounting holes in a rectangular 3.190 x 2.560 pattern. Coordinates are fully tabulated in H001."
+        },
+        {
+          "id": "F003",
+          "label": "F003 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two front-face 29/32 drilled ports, .50 deep, centers (1.125,1.905) and (2.935,1.905). Preserve depicted drill-point geo"
+        },
+        {
+          "id": "F004",
+          "label": "F004 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two rear-face 29/32 drilled ports, .50 deep, centers (1.505,1.905) and (3.315,1.905) in front-projection coordinates. Re"
+        },
+        {
+          "id": "F005",
+          "label": "F005 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two coaxial rear-port counterbores, diameter 1.311 +.003/-.000, depth .111 +.002/-.000 from rear face."
+        },
+        {
+          "id": "F006",
+          "label": "F006 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two front-face 9/32 drilled blind locating/clearance holes .31 deep: right-middle and lower-middle positions listed in H"
+        },
+        {
+          "id": "F007",
+          "label": "F007 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two rear-face nominal 1/4 reamed press-fit blind dowel holes, .31 deep: left-middle and upper-middle positions listed in"
+        },
+        {
+          "id": "F008",
+          "label": "F008 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Represent two separate purchased/manufactured dowel pin bodies, nominal diameter 1/4 x .50 long, installed in F007 with "
+        },
+        {
+          "id": "F009",
+          "label": "F009 fillet",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Four external plan-profile corner rounds visible in primary view. Radius is not specified; no numeric radius may be infe"
+        }
+      ],
+      "n_checked": 9,
+      "n_total": 9,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 9.6,
+      "pct": 9.6,
+      "earned": 1.92,
+      "items": [
+        {
+          "id": "H004#1",
+          "label": "H004 blind hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.9062 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H004#2",
+          "label": "H004 blind hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.9062 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H005#1",
+          "label": "H005 counterbore hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.9062 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H005#2",
+          "label": "H005 counterbore hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.9062 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H001#1",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.6562 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H001#2",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.6562 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H001#3",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.6562 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H001#4",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.6562 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H002#1",
+          "label": "H002 blind hole",
+          "weight": 1.0,
+          "credit": 0.5774,
+          "expected": "d 0.2812 in depth 0.31",
+          "measured": "d 0.25 in, blind 0.3125",
+          "unit": "inch",
+          "error": -0.0313,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#2",
+          "label": "H002 blind hole",
+          "weight": 1.0,
+          "credit": 0.5774,
+          "expected": "d 0.2812 in depth 0.31",
+          "measured": "d 0.25 in, blind 0.3125",
+          "unit": "inch",
+          "error": -0.0313,
+          "tol": 0.005
+        },
+        {
+          "id": "H003#1",
+          "label": "H003 blind hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.25 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        },
+        {
+          "id": "H003#2",
+          "label": "H003 blind hole",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "d 0.25 in",
+          "measured": "not found in the real part",
+          "unit": "inch"
+        }
+      ],
+      "n_checked": 12,
+      "n_total": 12,
+      "band": {
+        "id": "red",
+        "label": "Does not match",
+        "glyph": "x"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 15.0,
+      "items": [
+        {
+          "id": "H002-spacing",
+          "label": "H002 pattern spacing",
+          "weight": 2.0,
+          "credit": 1.0,
+          "expected": "nearest-neighbour [2.3159, 2.3159]",
+          "measured": "[2.3159, 2.3159]",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 1,
+      "n_total": 1,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 69.5,
+      "pct": 69.5,
+      "earned": 6.95,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 0.8,
+          "expected": ">= 95%",
+          "measured": "86%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "none",
+          "measured": "0 unclear dimension(s), 0 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 0.25,
+          "expected": "none",
+          "measured": "0 assumed, 5 default(s), 0 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "orange",
+        "label": "Significant deviations",
+        "glyph": "warn"
+      },
+      "max": 10.0
+    }
+  ],
+  "band": {
+    "id": "red",
+    "label": "Does not match",
+    "glyph": "x"
+  },
+  "issues": [
+    {
+      "severity": "critical",
+      "category": "envelope",
+      "code": "ENVELOPE_OFF",
+      "message": "The real part's overall width is 2.18 in but the drawing says 4.44 in (51% off).",
+      "evidence": "D001 expected 4.44, measured 2.18",
+      "points": 6.67,
+      "ref": "D001"
+    },
+    {
+      "severity": "critical",
+      "category": "envelope",
+      "code": "ENVELOPE_OFF",
+      "message": "The real part's overall height is 1.53 in but the drawing says 3.81 in (60% off).",
+      "evidence": "D008 expected 3.81, measured 1.53",
+      "points": 6.67,
+      "ref": "D008"
+    },
+    {
+      "severity": "critical",
+      "category": "envelope",
+      "code": "ENVELOPE_OFF",
+      "message": "The real part's plate thickness is 0.3125 in but the drawing says 1 in (69% off).",
+      "evidence": "D019 expected 1, measured 0.3125",
+      "points": 6.67,
+      "ref": "D019"
+    },
+    {
+      "severity": "critical",
+      "category": "model_integrity",
+      "code": "STL_NOT_THIS_BUILD",
+      "message": "The exported STL is not the model that was built: size differs from the build record by 68.8%. It is probably a stale or wrong export, so every measurement below describes the wrong shape.",
+      "evidence": "STL dims [0.312, 1.53, 2.18] vs build record [1.0, 3.812, 4.438] (in)",
+      "points": 3.0,
+      "ref": "117-C_ir.STL"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_MISSING",
+      "message": "H001: the drawing calls for 4 hole(s) of about 0.6562 in but only 0 exist in the real part.",
+      "evidence": "4 missing",
+      "points": 6.67,
+      "ref": "H001"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_MISSING",
+      "message": "H004: the drawing calls for 2 hole(s) of about 0.9062 in but only 0 exist in the real part.",
+      "evidence": "2 missing",
+      "points": 3.33,
+      "ref": "H004"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_MISSING",
+      "message": "H005: the drawing calls for 2 hole(s) of about 0.9062 in but only 0 exist in the real part.",
+      "evidence": "2 missing",
+      "points": 3.33,
+      "ref": "H005"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_MISSING",
+      "message": "H003: the drawing calls for 2 hole(s) of about 0.25 in but only 0 exist in the real part.",
+      "evidence": "2 missing",
+      "points": 3.33,
+      "ref": "H003"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_DIAMETER",
+      "message": "H002 diameter is 0.25 in but the drawing calls for 0.2812 in.",
+      "evidence": "error -0.03125 in",
+      "points": 0.7,
+      "ref": "H002"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_DIAMETER",
+      "message": "H002 diameter is 0.25 in but the drawing calls for 0.2812 in.",
+      "evidence": "error -0.03125 in",
+      "points": 0.7,
+      "ref": "H002"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F012 was planned but not built: skipped (unsupported: Left rear installed dowel is a separate component; this IR has no separate-body or assembly operation and must not fuse it to the plate.).",
+      "evidence": "skipped (unsupported: Left rear installed dowel is a separate component; this IR has no separate-body or assembly operation and must not fuse it to the plate.)",
+      "points": 0.31,
+      "ref": "F012"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F013 was planned but not built: skipped (unsupported: Upper rear installed dowel is a separate component; retain its location and length for assembly implementation rather than merging it into the plate.).",
+      "evidence": "skipped (unsupported: Upper rear installed dowel is a separate component; retain its location and length for assembly implementation rather than merging it into the plate.)",
+      "points": 0.31,
+      "ref": "F013"
+    },
+    {
+      "severity": "medium",
+      "category": "model_integrity",
+      "code": "MESH_OPEN",
+      "message": "The exported mesh is only 80.0% closed; measurements may be off.",
+      "evidence": "117-C_ir.STL",
+      "points": 1.0,
+      "ref": ""
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "DEFAULTS_APPLIED",
+      "message": "5 default value(s) were applied where the drawing was vague.",
+      "evidence": "F014: D4 not modelled: edge break with no printed size; D001: D9 4.44 -> 4.4375 (two-place print of a 1/16 fraction); D008: D9 3.81 -> 3.8125 (two-place print of a 1/16 fraction)",
+      "points": 2.25,
+      "ref": ""
+    },
+    {
+      "severity": "info",
+      "category": "model_integrity",
+      "code": "MTI_PRACTICE",
+      "message": "[mti_hole_grouping] F008, F009: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "evidence": "advisory only, never blocks a part",
+      "points": 0.0,
+      "ref": ""
+    },
+    {
+      "severity": "info",
+      "category": "model_integrity",
+      "code": "MTI_PRACTICE",
+      "message": "[mti_hole_grouping] F010, F011: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
+      "evidence": "advisory only, never blocks a part",
+      "points": 0.0,
+      "ref": ""
+    }
+  ],
+  "notes": [],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      0.3125,
+      1.5295,
+      2.1798
+    ],
+    "stl_volume": 0.002,
+    "triangles": 222,
+    "closed_fraction": 0.8,
+    "holes": [
+      {
+        "axis": "Y",
+        "d": 0.25,
+        "depth": 0.3125,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.25,
+        "depth": 0.3125,
+        "through": false,
+        "cbore": null
+      }
+    ]
+  },
+  "counts": {
+    "critical": 4,
+    "high": 8,
+    "medium": 1,
+    "low": 1,
+    "info": 2
+  }
+}

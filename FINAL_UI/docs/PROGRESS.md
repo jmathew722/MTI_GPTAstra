@@ -137,3 +137,11 @@ mixed and uppercase, with content checks, page counts, a skipped-file summary, a
 (3) Projects shows real PDF/image previews and is ordered newest activity first with local timestamps; (4) the Run Pipeline section shows
 estimated time and cost, live elapsed/remaining/cost, and persisted actuals. New: `server/estimates.py`, `server/scoring_hub.py`,
 `web/static/js/logic/{folderplan,estimateview,projectorder,scoringview}.js`, `features/estimate.js`, `pages/scoring.js`.
+
+### 2026-11-25 (later): Extraction-to-Model Fidelity scoring
+
+Replaced the key-dependent Scoring tab headline with a rubric that works for every built part: six categories out of 100 (build integrity, overall
+size, feature coverage, hole and bore accuracy, placement and patterns, extraction reliability), colour bands with a word and glyph per band, critical
+gate, and an issues list by severity. New: `bench/fidelity.py` + `fidelity_config.yaml` (22 tests on real CadQuery meshes), server hub/endpoints
+(append-only history, pipeline-written `fidelity_score.json` ingested once), `pages/scoring.js` rewrite, band tokens in `design-tokens.css`.
+It immediately found real artifact problems: several `FINAL_OUTPUTs` folders hold an STL that is not the part's own mesh (for example A040501E).

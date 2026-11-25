@@ -302,32 +302,94 @@ def test_history_is_append_only_and_a_rubric_change_does_not_rewrite_it(tmp_path
     assert sh.latest(tmp_path, "P")["rubric_version"] == "cfg-new"
 
 
-def test_scoring_endpoints_list_every_input_including_failures_and_pending():
-    add_part("SC1")
-    sdir = appmod.FINAL_OUTPUTS_DIR / "SC1"
-    sdir.mkdir(parents=True, exist_ok=True)
-    (sdir / "SC1_extraction.json").write_text("{}", encoding="utf-8")
-    sh.append(appmod.SCORING_DIR, "SC1", {"state": "scoring_failed", "error": "boom", "rubric_version": sh.rubric_version(REPO)})
-    ov = client.get("/api/scoring").json()
-    row = next(r for r in ov["parts"] if r["part"] == "SC1")
-    assert row["state"] == "scoring_failed" and row["error"] == "boom" and row["stale_rubric"] is False
-    assert ov["version"] == sh.rubric_version(REPO) and "average" in ov["summary"]
-    m = client.get("/api/scoring/methodology").json()
-    assert m["example"]["illustrative"] is True and m["methodology"]["total_possible"] == 100
-    d = client.get("/api/scoring/parts/SC1").json()
-    assert d["latest"]["state"] == "scoring_failed" and len(d["history"]) == 1
+def box_stl(path: Path, dims_mm):
+    """A closed binary STL box (12 triangles)."""
+    import struct
+    x, y, z = dims_mm
+    v = [(0, 0, 0), (x, 0, 0), (x, y, 0), (0, y, 0), (0, 0, z), (x, 0, z), (x, y, z), (0, y, z)]
+    f = [(0, 2, 1), (0, 3, 2), (4, 5, 6), (4, 6, 7), (0, 1, 5), (0, 5, 4), (1, 2, 6), (1, 6, 5), (2, 3, 7), (2, 7, 6), (3, 0, 4), (3, 4, 7)]
+    with open(path, "wb") as fh:
+        fh.write(b"\0" * 80 + struct.pack("<I", len(f)))
+        for a_, b_, c_ in f:
+            fh.write(struct.pack("<12fH", 0, 0, 0, *v[a_], *v[b_], *v[c_], 0))
 
 
-def test_evaluate_without_a_key_records_incomplete_through_the_real_scorer():
-    """Runs the real (free) bench.score subprocess: a part with no answer key is 'not scored', never 0."""
-    add_part("SC2")
-    out = appmod.FINAL_OUTPUTS_DIR / "SC2"
+def seed_scorable(part, *, stl_dims_in=(6.0, 4.0, 0.5), overall=(6.0, 4.0, 0.5)):
+    """A part folder with an extraction, a build record and a real exported mesh (inches -> mm)."""
+    out = appmod.FINAL_OUTPUTS_DIR / part
     out.mkdir(parents=True, exist_ok=True)
-    (out / "SC2_extraction.json").write_text("{}", encoding="utf-8")
-    os.environ.pop("MTI_BENCH_DATA", None)
-    r = client.post("/api/scoring/evaluate", json={"parts": ["SC2", "DOES_NOT_EXIST"]}).json()
+    (out / "x_ir.SLDPRT").write_bytes(b"sldprt")
+    box_stl(out / "x_ir.STL", [v * 25.4 for v in stl_dims_in])
+    (out / f"{part}_extraction.json").write_text(json.dumps({
+        "units": "inch", "confidence": 0.95, "warnings": [], "features": [{"id": "F001", "type": "extrude_boss"}],
+        "dimensions": [{"id": f"D00{i}", "type": "linear", "value": v, "applies_to": n, "feature_ref": "F001", "tolerance_plus": 0.01, "tolerance_minus": 0.01}
+                       for i, (n, v) in enumerate(zip(("overall_length", "overall_width", "plate_thickness"), overall), 1)], "hole_callouts": []}))
+    (out / "ir_report.json").write_text(json.dumps({"sw_ok": True, "sw_features": {"F001": "built"}, "defaults": [], "questions": [], "flagged": []}))
+    (out / "feature_map.json").write_text(json.dumps({"units": "inch", "bbox": [0, 0, 0, *overall]}))
+    return out
+
+
+def test_evaluate_scores_the_real_part_and_keeps_every_evaluation():
+    seed_scorable("FID1")
+    r = client.post("/api/scoring/evaluate", json={"parts": ["FID1", "DOES_NOT_EXIST"]}).json()
     by = {x["part"]: x for x in r["results"]}
     assert by["DOES_NOT_EXIST"]["state"] == "no_output"
-    assert by["SC2"]["state"] in ("incomplete", "scoring_failed") and by["SC2"]["score"] is None
-    h = sh.history(appmod.SCORING_DIR, "SC2")
-    assert len(h) == 1 and h[0]["rubric_version"] == r["version"]
+    assert by["FID1"]["state"] == "scored" and by["FID1"]["score"] >= 90 and by["FID1"]["band"] == "green"
+    client.post("/api/scoring/evaluate", json={"parts": ["FID1"]})
+    d = client.get("/api/scoring/parts/FID1").json()
+    assert len(d["history"]) == 2 and d["latest"]["rubric"]["id"] == "emf"                       # appended, never overwritten
+    cats = {c["id"]: c for c in d["latest"]["categories"]}
+    assert cats["envelope"]["score"] == 100 and cats["envelope"]["items"][0]["measured"] is not None
+
+
+def test_a_stale_stl_is_red_with_a_critical_issue_through_the_api():
+    seed_scorable("FID2")
+    box_stl(appmod.FINAL_OUTPUTS_DIR / "FID2" / "x_ir.STL", [4.375 * 25.4, 5.0 * 25.4, 2.25 * 25.4])     # another part's mesh
+    client.post("/api/scoring/evaluate", json={"parts": ["FID2"]})
+    row = next(r for r in client.get("/api/scoring").json()["parts"] if r["part"] == "FID2")
+    assert row["state"] == "scored" and row["band"]["id"] == "red" and row["score"] <= 49.9
+    assert row["counts"]["critical"] >= 1 and row["caps"]
+    latest = client.get("/api/scoring/parts/FID2").json()["latest"]
+    assert any(i["code"] == "STL_NOT_THIS_BUILD" and i["severity"] == "critical" for i in latest["issues"])
+
+
+def test_a_pipeline_written_score_is_ingested_once():
+    out = seed_scorable("FID3")
+    import subprocess
+    subprocess.run([sys.executable, "-m", "bench.fidelity", str(out)], cwd=str(REPO), check=True, capture_output=True, env={**os.environ, "PYTHONUTF8": "1"})
+    assert (out / "fidelity_score.json").is_file()
+    for _ in range(3):
+        client.get("/api/scoring")
+    assert len(client.get("/api/scoring/parts/FID3").json()["history"]) == 1
+
+
+def test_missing_evidence_is_incomplete_and_a_failed_build_is_its_own_state():
+    out = seed_scorable("FID4")
+    (out / "x_ir.STL").unlink()
+    (appmod.FINAL_OUTPUTS_DIR / "FID5").mkdir(parents=True, exist_ok=True)
+    seed_scorable("FID5")
+    (appmod.FINAL_OUTPUTS_DIR / "FID5" / "ir_report.json").write_text(json.dumps({"sw_ok": False, "sw_features": {}}))
+    client.post("/api/scoring/evaluate", json={"parts": ["FID4", "FID5"]})
+    rows = {r["part"]: r for r in client.get("/api/scoring").json()["parts"]}
+    assert rows["FID4"]["state"] == "incomplete" and rows["FID4"]["reason"] == "no_mesh" and rows["FID4"]["score"] is None
+    assert rows["FID5"]["state"] == "no_model" and rows["FID5"]["score"] is None
+
+
+def test_overview_summary_counts_bands_and_averages_scored_parts_only():
+    seed_scorable("FID6")
+    client.post("/api/scoring/evaluate", json={"parts": ["FID6"]})
+    ov = client.get("/api/scoring").json()
+    s = ov["summary"]
+    assert s["scored"] >= 1 and 0 <= s["average"] <= 100 and set(s["distribution"]) == {"green", "amber", "orange", "red"}
+    assert sum(s["distribution"].values()) == s["scored"]
+    assert ov["rubric"] == "Extraction-to-Model Fidelity" and ov["version"].startswith("emf-")
+
+
+def test_methodology_endpoint_describes_the_fidelity_rubric_and_its_example():
+    m = client.get("/api/scoring/methodology").json()
+    meth, ex = m["methodology"], m["example"]
+    assert meth["total_possible"] == 100 and sum(c["weight"] for c in meth["categories"]) == 100
+    assert [b["id"] for b in meth["bands"]] == ["green", "amber", "orange", "red"]
+    assert ex["illustrative"] is True and "not a measured part" in ex["label"]
+    assert ex["cases"][0]["score"] == 100
+    assert m["benchmark"] is None or m["benchmark"]["methodology"]["total_possible"] == 100

@@ -1,0 +1,365 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "SB11780",
+  "evaluated_at": "2026-11-25T23:00:31+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "SB11780_ir.SLDPRT",
+    "stl": "SB11780_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "reason": "low_coverage",
+  "explanation": "Only 45% of the rubric could be checked (the extraction gives too few overall dimensions or hole callouts). The partial result is shown, but no score is given.",
+  "state": "incomplete",
+  "score": null,
+  "raw_score": 81.0,
+  "caps": [],
+  "coverage": 0.45,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 76.7,
+      "pct": 76.7,
+      "earned": 25.57,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "4 planned",
+          "measured": "4 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "no fallbacks",
+          "measured": "0 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 0.0,
+          "expected": "closed mesh",
+          "measured": "50.0% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 0.5,
+          "expected": "[2.498, 2.498, 76.88] in",
+          "measured": "[2.496, 2.498, 76.88] in",
+          "note": "volume differs from the build record by 96.7%"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "amber",
+        "label": "Review recommended",
+        "glyph": "alert"
+      },
+      "max": 33.33
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": false,
+      "score": null,
+      "pct": null,
+      "earned": null,
+      "items": [],
+      "n_checked": 0,
+      "n_total": 0,
+      "band": {
+        "id": "none",
+        "label": "Not scored",
+        "glyph": "dash"
+      },
+      "max": 0.0
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 92.6,
+      "pct": 92.6,
+      "earned": 41.16,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Base cylindrical stock, nominal reference diameter 2.4985 and length 76.88. Use a circular sketch on a plane normal to t"
+        },
+        {
+          "id": "F002",
+          "label": "F002 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Left annular neck: remove material down to diameter 1.734 over axial width 1.016 beginning .88 from the left end. Its co"
+        },
+        {
+          "id": "F003",
+          "label": "F003 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Right annular neck, interpreted as matching the left neck diameter and TYP width. Its collar-side shoulder is 75.125 fro"
+        },
+        {
+          "id": "F004",
+          "label": "F004 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Interpreted longitudinal centered keyway, width .500 +.002/-.000 and floor 2.218 from the opposite cylindrical extreme. "
+        },
+        {
+          "id": "F005",
+          "label": "F005 fillet",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "missing",
+          "note": "Typical annular neck root rounds, radius no greater than .125. Exact modeling radius is not specified."
+        },
+        {
+          "id": "F006",
+          "label": "F006 fillet",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "missing",
+          "note": ".06 corner radius at both outer circular end edges, interpreting the C/R callout as corner radius."
+        }
+      ],
+      "n_checked": 6,
+      "n_total": 6,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 44.44
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": false,
+      "score": null,
+      "pct": null,
+      "earned": null,
+      "items": [],
+      "n_checked": 0,
+      "n_total": 0,
+      "band": {
+        "id": "none",
+        "label": "Not scored",
+        "glyph": "dash"
+      },
+      "max": 0.0
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": false,
+      "score": null,
+      "pct": null,
+      "earned": null,
+      "items": [],
+      "n_checked": 0,
+      "n_total": 0,
+      "band": {
+        "id": "none",
+        "label": "Not scored",
+        "glyph": "dash"
+      },
+      "max": 0.0
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 64.4,
+      "pct": 64.4,
+      "earned": 14.31,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 0.6,
+          "expected": ">= 95%",
+          "measured": "77%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 0.6471,
+          "expected": "none",
+          "measured": "3 unclear dimension(s), 0 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 0.7,
+          "expected": "none",
+          "measured": "0 assumed, 2 default(s), 0 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "orange",
+        "label": "Significant deviations",
+        "glyph": "warn"
+      },
+      "max": 22.22
+    }
+  ],
+  "band": {
+    "id": "none",
+    "label": "Not scored",
+    "glyph": "dash"
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "VOLUME_MISMATCH",
+      "message": "The exported mesh volume differs from the build record by 96.7%.",
+      "evidence": "12.09 vs 361.9 in^3",
+      "points": 3.33,
+      "ref": ""
+    },
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_MISSING",
+      "message": "F005 (fillet) is in the extraction but no build status exists for it.",
+      "evidence": "Typical annular neck root rounds, radius no greater than .125. Exact modeling radius is not specified.",
+      "points": 1.65,
+      "ref": "F005"
+    },
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_MISSING",
+      "message": "F006 (fillet) is in the extraction but no build status exists for it.",
+      "evidence": ".06 corner radius at both outer circular end edges, interpreting the C/R callout as corner radius.",
+      "points": 1.65,
+      "ref": "F006"
+    },
+    {
+      "severity": "medium",
+      "category": "model_integrity",
+      "code": "MESH_OPEN",
+      "message": "The exported mesh is only 50.0% closed; measurements may be off.",
+      "evidence": "SB11780_ir.STL",
+      "points": 2.22,
+      "ref": ""
+    },
+    {
+      "severity": "medium",
+      "category": "extraction_trust",
+      "code": "AMBIGUOUS_DIMENSIONS",
+      "message": "3 dimension(s) were unclear on the drawing.",
+      "evidence": "D008, D009, D015",
+      "points": 1.18,
+      "ref": ""
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "DEFAULTS_APPLIED",
+      "message": "2 default value(s) were applied where the drawing was vague.",
+      "evidence": "F003: D1 fillet at the max value 0.125; F004: D3 chamfer 0.06 x 45 (C/R)",
+      "points": 2.0,
+      "ref": ""
+    },
+    {
+      "severity": "info",
+      "category": "envelope",
+      "code": "ENVELOPE_NOT_CHECKABLE",
+      "message": "The overall size could not be checked: the extraction gives fewer than two overall dimensions for the base feature.",
+      "evidence": "",
+      "points": 0.0,
+      "ref": ""
+    },
+    {
+      "severity": "info",
+      "category": "model_integrity",
+      "code": "LOW_COVERAGE",
+      "message": "Only 45% of the rubric could be checked, which is too little for an honest score.",
+      "evidence": "",
+      "points": 0,
+      "ref": ""
+    }
+  ],
+  "notes": [
+    "The extraction has fewer than two overall dimensions on its base feature, so the overall size could not be checked against the drawing.",
+    "The extraction has no hole callouts, so hole accuracy was not checked."
+  ],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      2.4962,
+      2.4985,
+      76.88
+    ],
+    "stl_volume": 12.0853,
+    "triangles": 150,
+    "closed_fraction": 0.5,
+    "holes": []
+  },
+  "counts": {
+    "critical": 0,
+    "high": 3,
+    "medium": 2,
+    "low": 1,
+    "info": 2
+  }
+}

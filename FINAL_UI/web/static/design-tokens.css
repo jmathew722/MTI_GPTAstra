@@ -279,3 +279,11 @@ html { -webkit-font-smoothing: antialiased; }
 }
 .seg-c > button:hover { color: var(--ink); }
 .seg-c > button.on { background: var(--accent); color: var(--on-accent); }
+
+/* Score bands (Scoring tab). Text colours pass AA on --bg/--surface; fills are for bars and rings. Never the only cue: each band also has a word and a glyph. */
+:root {
+  --band-green:  #7EDB84;  --band-green-fill:  #4FBF58;  --band-green-wash:  rgba(126,219,132,0.13);
+  --band-amber:  #E3B24A;  --band-amber-fill:  #D39A1E;  --band-amber-wash:  rgba(227,178,74,0.13);
+  --band-orange: #F59A5B;  --band-orange-fill: #E8782B;  --band-orange-wash: rgba(245,154,91,0.14);
+  --band-red:    #F3797E;  --band-red-fill:    #E5484D;  --band-red-wash:    rgba(229,72,77,0.15);
+}

@@ -1,0 +1,502 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "A001921E",
+  "evaluated_at": "2026-11-25T23:00:31+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "192B_ir.SLDPRT",
+    "stl": "192 B_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "scored",
+  "score": 97.5,
+  "raw_score": 97.5,
+  "caps": [],
+  "coverage": 1.0,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 86.7,
+      "pct": 86.7,
+      "earned": 13.01,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "6 planned",
+          "measured": "6 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 0.0,
+          "expected": "no fallbacks",
+          "measured": "2 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "closed mesh",
+          "measured": "100.0% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "[1.25, 4.0, 13.375] in",
+          "measured": "[1.25, 4.0, 13.375] in",
+          "note": "matches the build record"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "amber",
+        "label": "Review recommended",
+        "glyph": "alert"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "D001",
+          "label": "overall length",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 13.375,
+          "measured": 13.375,
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.01,
+          "e": 0.0
+        },
+        {
+          "id": "D002",
+          "label": "overall height",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 4.0,
+          "measured": 4.0,
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.02,
+          "e": 0.0
+        },
+        {
+          "id": "D003",
+          "label": "plate thickness",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 1.25,
+          "measured": 1.25,
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.02,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Rectangular 13.375 by 4.00 inch plate, extruded 1.25 inches. Front-face lower-left corner is the coordinate origin used "
+        },
+        {
+          "id": "F002",
+          "label": "F002 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Three diameter .781 through holes normal to the broad face at (1.187,1.500), (6.687,1.500), and (12.187,1.500). Preserve"
+        },
+        {
+          "id": "F003",
+          "label": "F003 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two diameter .656 tap-drilled through holes at (3.187,3.375) and (10.187,3.375), normal to the broad face. Coordinates f"
+        },
+        {
+          "id": "F004",
+          "label": "F004 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Three concentric diameter 1.188 counterbores, .12 deep from the front face, on the three lower through holes."
+        }
+      ],
+      "n_checked": 4,
+      "n_total": 4,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "H002#1",
+          "label": "H002 counterbore hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.781 in through",
+          "measured": "d 0.781 in, through, cbore d 1.188 in",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#2",
+          "label": "H002 counterbore hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.781 in through",
+          "measured": "d 0.781 in, through, cbore d 1.188 in",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#3",
+          "label": "H002 counterbore hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.781 in through",
+          "measured": "d 0.781 in, through, cbore d 1.188 in",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#1",
+          "label": "H001 tapped hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.656 in through",
+          "measured": "d 0.656 in, through",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#2",
+          "label": "H001 tapped hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.656 in through",
+          "measured": "d 0.656 in, through",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 15.0,
+      "items": [
+        {
+          "id": "H002-spacing",
+          "label": "H002 pattern spacing",
+          "weight": 3.0,
+          "credit": 1.0,
+          "expected": "nearest-neighbour [5.5, 5.5, 5.5]",
+          "measured": "[5.5, 5.5, 5.5]",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005,
+          "e": 0.0
+        },
+        {
+          "id": "H002-concentric",
+          "label": "H002 counterbore concentric with its hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "0",
+          "measured": "2.47e-07 in",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.0025
+        },
+        {
+          "id": "H002-concentric",
+          "label": "H002 counterbore concentric with its hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "0",
+          "measured": "2.009e-07 in",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.0025
+        },
+        {
+          "id": "H002-concentric",
+          "label": "H002 counterbore concentric with its hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "0",
+          "measured": "5.107e-08 in",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.0025
+        },
+        {
+          "id": "H001-spacing",
+          "label": "H001 pattern spacing",
+          "weight": 2.0,
+          "credit": 1.0,
+          "expected": "nearest-neighbour [7.0, 7.0]",
+          "measured": "[7.0, 7.0]",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 95.5,
+      "pct": 95.5,
+      "earned": 9.55,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": ">= 95%",
+          "measured": "97%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "none",
+          "measured": "0 unclear dimension(s), 0 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 0.85,
+          "expected": "none",
+          "measured": "0 assumed, 1 default(s), 0 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 10.0
+    }
+  ],
+  "band": {
+    "id": "green",
+    "label": "Matches the drawing",
+    "glyph": "check"
+  },
+  "issues": [
+    {
+      "severity": "medium",
+      "category": "model_integrity",
+      "code": "FALLBACK_USED",
+      "message": "2 feature(s) used a fallback instead of the intended SolidWorks feature.",
+      "evidence": "F005, {'fid': 'F006', 'code': 'HW_CREATE_NULL', 'detail': 'Hole Wizard 3/4-102 tapped, cosmetic thread: HoleWizard5 refused Blind + drill point'}",
+      "points": 2.0,
+      "ref": ""
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "DEFAULTS_APPLIED",
+      "message": "1 default value(s) were applied where the drawing was vague.",
+      "evidence": "D015: D9 0.12 -> 0.125 (two-place print of a 1/16 fraction)",
+      "points": 0.45,
+      "ref": ""
+    },
+    {
+      "severity": "info",
+      "category": "model_integrity",
+      "code": "MTI_PRACTICE",
+      "message": "[mti_hole_grouping] F002, F003, F004: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "evidence": "advisory only, never blocks a part",
+      "points": 0.0,
+      "ref": ""
+    },
+    {
+      "severity": "info",
+      "category": "model_integrity",
+      "code": "MTI_PRACTICE",
+      "message": "[mti_hole_grouping] F005, F006: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "evidence": "advisory only, never blocks a part",
+      "points": 0.0,
+      "ref": ""
+    }
+  ],
+  "notes": [],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      1.25,
+      4.0,
+      13.375
+    ],
+    "stl_volume": 64.0111,
+    "triangles": 1258,
+    "closed_fraction": 1.0,
+    "holes": [
+      {
+        "axis": "Y",
+        "d": 0.781,
+        "depth": 1.125,
+        "through": true,
+        "cbore": {
+          "d": 1.188,
+          "depth": 0.125
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.781,
+        "depth": 1.125,
+        "through": true,
+        "cbore": {
+          "d": 1.188,
+          "depth": 0.125
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.781,
+        "depth": 1.125,
+        "through": true,
+        "cbore": {
+          "d": 1.188,
+          "depth": 0.125
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.656,
+        "depth": 1.25,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.656,
+        "depth": 1.25,
+        "through": true,
+        "cbore": null
+      }
+    ]
+  },
+  "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 1,
+    "low": 1,
+    "info": 2
+  }
+}

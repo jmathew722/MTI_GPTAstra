@@ -258,3 +258,104 @@ def summarize(latest_by_part: dict[str, Optional[dict]], all_parts: list[str]) -
     pending = sum(1 for p in all_parts if not latest_by_part.get(p))
     return {"parts": len(all_parts), "scored": scored, "pending": pending, "incomplete": incomplete, "scoring_failed": failed,
             "average": round(sum(valid) / scored, 2) if scored else None}
+
+
+# ══ Extraction-to-Model Fidelity (EMF): the primary rubric. Computed by the pipeline repo's bench.fidelity (free) ══════════
+FIDELITY_CONFIG_REL = Path("bench") / "fidelity_config.yaml"
+_method_cache: dict[str, dict] = {}
+
+
+def _py_env() -> dict:
+    return {**os.environ, "PYTHONUTF8": "1"}
+
+
+def fidelity_methodology(repo: Path) -> dict:
+    """{methodology, example} from the pipeline's own engine, cached by the config fingerprint."""
+    try:
+        key = hashlib.sha256((Path(repo) / FIDELITY_CONFIG_REL).read_bytes()).hexdigest()
+    except OSError as e:
+        raise RuntimeError(f"fidelity_config.yaml not found in {repo}: {e}")
+    if key not in _method_cache:
+        p = subprocess.run([sys.executable, "-m", "bench.fidelity", "--methodology"], cwd=str(repo), env=_py_env(), capture_output=True,
+                           text=True, timeout=120, encoding="utf-8", errors="replace")
+        if p.returncode != 0 or not p.stdout.strip():
+            raise RuntimeError("bench.fidelity --methodology failed: " + (p.stderr or p.stdout)[-300:])
+        _method_cache.clear()
+        _method_cache[key] = json.loads(p.stdout.strip().splitlines()[-1])
+    return _method_cache[key]
+
+
+def run_fidelity(repo: Path, part_dir: Path, timeout: int = 180) -> dict:
+    """Score one part folder with bench.fidelity. Returns the engine's record (a failure is a scoring_failed record)."""
+    try:
+        p = subprocess.run([sys.executable, "-m", "bench.fidelity", str(part_dir), "--stdout"], cwd=str(repo), env=_py_env(), capture_output=True,
+                           text=True, timeout=timeout, encoding="utf-8", errors="replace")
+        line = (p.stdout or "").strip().splitlines()[-1] if (p.stdout or "").strip() else ""
+        rec = json.loads(line) if line else None
+    except Exception as e:  # noqa: BLE001
+        return {"rubric_id": "emf", "state": "scoring_failed", "score": None, "error": f"The fidelity scorer could not run: {str(e)[:200]}"}
+    if not rec:
+        return {"rubric_id": "emf", "state": "scoring_failed", "score": None, "error": ("The fidelity scorer wrote nothing. " + (p.stderr or "")[-300:]).strip()}
+    return rec
+
+
+def is_fidelity(rec: dict) -> bool:
+    return bool(rec) and (rec.get("rubric_id") == "emf" or (isinstance(rec.get("rubric"), dict) and rec["rubric"].get("id") == "emf"))
+
+
+def fidelity_history(store_dir: Path, part: str) -> list[dict]:
+    return [r for r in history(store_dir, part) if is_fidelity(r)]
+
+
+def fidelity_latest(store_dir: Path, part: str) -> Optional[dict]:
+    h = fidelity_history(store_dir, part)
+    return h[-1] if h else None
+
+
+def benchmark_latest(store_dir: Path, part: str) -> Optional[dict]:
+    h = [r for r in history(store_dir, part) if not is_fidelity(r)]
+    return h[-1] if h else None
+
+
+def append_fidelity(store_dir: Path, part: str, rec: dict, run_id: Optional[str] = None) -> dict:
+    rec = {**rec, "rubric_id": "emf", "run_id": run_id or rec.get("run_id")}
+    return append(store_dir, part, rec)
+
+
+def ingest_fidelity_file(store_dir: Path, part: str, path: Path, run_id: Optional[str] = None) -> bool:
+    """Persist a pipeline-written fidelity_score.json once (matched by its evaluated_at). True when it was new."""
+    try:
+        rec = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    if not is_fidelity(rec):
+        return False
+    if any(r.get("evaluated_at") == rec.get("evaluated_at") for r in fidelity_history(store_dir, part)):
+        return False
+    append_fidelity(store_dir, part, rec, run_id)
+    return True
+
+
+def fidelity_row(rec: Optional[dict]) -> dict:
+    """The compact, UI-ready summary of one stored fidelity evaluation."""
+    if not rec:
+        return {}
+    cats = {c["id"]: {"score": c.get("score"), "band": (c.get("band") or {}).get("id"), "checked": c.get("checked"), "weight": c.get("weight")} for c in rec.get("categories") or []}
+    return {"state": rec.get("state"), "score": rec.get("score"), "band": rec.get("band"), "reason": rec.get("reason"), "explanation": rec.get("explanation"),
+            "error": rec.get("error"), "evaluated_at": rec.get("evaluated_at"), "fingerprint": (rec.get("rubric") or {}).get("fingerprint"),
+            "coverage": rec.get("coverage"), "caps": rec.get("caps") or [], "counts": rec.get("counts") or {}, "categories": cats,
+            "top_issue": (rec.get("issues") or [{}])[0].get("message") if rec.get("issues") else None}
+
+
+def summarize_fidelity(rows: list[dict], eligible: list[str], bands: list[dict]) -> dict:
+    """Overview numbers over each part's latest fidelity evaluation. The average counts scored parts only."""
+    valid = [r["score"] for r in rows if r.get("state") == "scored" and isinstance(r.get("score"), (int, float)) and 0 <= r["score"] <= 100]
+    dist = {b["id"]: 0 for b in bands}
+    for r in rows:
+        if r.get("state") == "scored" and (r.get("band") or {}).get("id") in dist:
+            dist[r["band"]["id"]] += 1
+    crit = sum(1 for r in rows if (r.get("counts") or {}).get("critical"))
+    return {"parts": len(eligible), "scored": len(valid), "average": round(sum(valid) / len(valid), 1) if valid else None, "distribution": dist,
+            "incomplete": sum(1 for r in rows if r.get("state") == "incomplete"), "no_model": sum(1 for r in rows if r.get("state") == "no_model"),
+            "scoring_failed": sum(1 for r in rows if r.get("state") == "scoring_failed"),
+            "pending": sum(1 for p in eligible if not any(r.get("part") == p for r in rows)), "parts_with_critical": crit}

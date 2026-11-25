@@ -312,6 +312,11 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
             finalize_markup(out, spec.views, run_id=tel.run_id or _tracker_run_id(_tracker), part=spec.part, tick=_tick)
         except Exception as e:   # noqa: BLE001 - finalize_markup reports through its manifest; this is belt and braces
             log.warning("engineering markup stage raised for %s: %s", spec.part, e)
+        try:      # Extraction-to-Model Fidelity score of the real SolidWorks part (free, no API); never fails a run
+            from bench.fidelity import evaluate_dir
+            (out / "fidelity_score.json").write_text(json.dumps(evaluate_dir(out), indent=2), encoding="utf-8")
+        except Exception as e:   # noqa: BLE001
+            log.warning("fidelity score skipped for %s: %s", spec.part, e)
         if res.error or res.gate1 in ("REJECT", "NO PLAN"):
             tel.fail(res.error or res.gate1)
         else:

@@ -72,6 +72,7 @@ python -m pytest tests/ -v                                   # tests (1308 passi
 python -m bench.prep status                                  # benchmark data (needs MTI_BENCH_DATA + ODA_CONVERTER in .env)
 python -m bench.prep <copy|dxf|pdf|step|keys|check|link|review|accept|signoff|profile>  # benchmark prep (no API cost)
 python -m bench.score <run_dir> [--keys-dir DIR] [--no-sw]   # geometry score 0-100 + stage blame, plus a separate MTI practices score -> scores.json, report.html (no API cost)
+python -m bench.fidelity <part_dir|--all run_dir>            # Extraction-to-Model Fidelity 0-100 of the REAL SolidWorks part (STL) vs the extraction; no key, no API cost -> fidelity_score.json (docs/scoring-rubric-emf.md)
 python -m bench.calibrate                                    # planted-error table on real parts; tune bench/score_config.yaml
 UPDATE_GOLDEN=1 python -m pytest tests/test_golden_macros.py # accept an intended macro change
 python -m pipeline.token_report ./output --html output/usage/usage_report.html  # token & cost report
