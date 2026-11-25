@@ -309,9 +309,38 @@
   }
 
   /* ── Parts folder upload ─────────────────────────────────────────────── */
+  /* A chosen folder is planned by McA.folderplan: every PDF/JPG/JPEG/PNG file directly in it is one part (created like
+     "Upload parts"), and a subfolder of view images is still one multi-view part (the upload-batch layout). Unsupported
+     files are named in a visible summary, never dropped silently. */
   function handleFolder(files) {
     var list = Array.prototype.slice.call(files || []);
-    if (!list.length) return Promise.resolve();
+    if (!list.length) { toast('That folder is empty. Choose a folder with PDF, JPG, JPEG or PNG drawings.', 'err'); return Promise.resolve(); }
+    var F = McA.folderplan;
+    if (F) {
+      var plan = F.plan(list.map(function (f) { return { name: f.name, path: f.webkitRelativePath || f.name, size: f.size, lastModified: f.lastModified }; }));
+      var note = F.skippedSummary(plan.skipped);
+      if (!plan.total) { toast('No supported files in that folder. Add PDF, JPG, JPEG or PNG drawings.' + (note ? ' ' + note : ''), 'err', { ms: 9000 }); return Promise.resolve(); }
+      var jobFiles = plan.jobs.map(function (j) { return { job: j, file: list[j.index] }; });
+      var checks = jobFiles.map(function (x) {
+        return x.file.slice(0, 16).arrayBuffer().then(function (buf) { return F.mismatch(x.job, Array.prototype.slice.call(new Uint8Array(buf))); }, function () { return 'the file could not be read'; });
+      });
+      return Promise.all(checks).then(function (why) {
+        var good = [], bad = [];
+        jobFiles.forEach(function (x, i) { if (why[i]) bad.push(x.file.name + ' (' + why[i] + ')'); else good.push(x.file); });
+        var chain = Promise.resolve(), added = [];
+        if (plan.parts.length) chain = chain.then(function () {
+          var fd = new FormData(); fd.append('session', S().session.id);
+          plan.parts.forEach(function (p) { p.items.forEach(function (i) { fd.append('paths', i.path); fd.append('files', list[i.index], list[i.index].name); }); });
+          return McA.api.uploadBatch(fd).then(function (d) { if (d.parts) store().dispatch('parts/loaded', { list: d.parts }); added = added.concat(d.added || []); },
+            function (e) { bad.push('subfolder parts (' + errText(e) + ')'); });
+        });
+        if (good.length) chain = chain.then(function () { return createParts(good).then(function (r) { added = added.concat(r.added); r.failed.forEach(function (f) { bad.push(f.name + ' (' + f.why + ')'); }); }); });
+        return chain.then(function () {
+          var msg = 'Added ' + added.length + ' part' + (added.length === 1 ? '' : 's') + ' from the folder' + (plan.total ? ' (' + plan.total + ' supported input' + (plan.total === 1 ? '' : 's') + ')' : '') + '.';
+          toast(msg + (note ? ' ' + note : '') + (bad.length ? ' Not added: ' + bad.join('; ') + '.' : ''), bad.length || !added.length ? 'warn' : 'ok', { ms: bad.length || note ? 12000 : 5000 });
+        });
+      });
+    }
     var usable = list.filter(function (f) { return FOLDER_RE.test(f.name); });
     if (!usable.length) { toast('No view images or .txt spec files found in that folder.', 'err'); return Promise.resolve(); }
     var sid = S().session.id;
@@ -378,7 +407,7 @@
       chain = chain.then(function () {
         return fileToFront(f).then(function (r) {
           if (!r) { out.failed.push({ name: f.name, why: 'cancelled' }); return; }
-          var part = G.uniqueName(G.stemOf(f.name), taken); taken.push(part);
+          var part = G.uniqueName(McA.folderplan ? McA.folderplan.stemOf(f.name) : G.stemOf(f.name), taken); taken.push(part);
           var fd = new FormData();
           fd.append('session', sid); fd.append('part', part); fd.append('source_format', r.format); fd.append('notes', '');
           fd.append('source', window.MTIBridge.dataURLtoBlob(r.dataURL), 'source.jpg');

@@ -139,9 +139,8 @@
         var s = SECTIONS_BY_ID.events.source(p, extra);
         return s.events.length ? 'present' : 'absent';
       } },
-    /* Fetched separately (GET .../scoring), not part of the outputs payload: a geometry score
-       needs a signed answer key (bench.score; only exists for official benchmark parts) and
-       the MTI practices checklist is derived from ir_report.json's real mti_review findings.
+    /* Summary only: the geometry score lives in the Scoring tab (one implementation, stored evaluations). This section links
+       there and keeps the MTI practices checklist, derived from ir_report.json's real mti_review findings (GET .../scoring).
        keys:[] because no payload.categories key backs it -- see server/app.py part_scoring. */
     { id: 'scoring_rubric', group: 'scoring', label: 'Scoring Rubric', keys: [],
       emptyText: 'Not scored.', tools: [],

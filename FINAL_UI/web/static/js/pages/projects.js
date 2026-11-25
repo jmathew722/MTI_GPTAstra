@@ -15,14 +15,46 @@
     if (r && BATCH[r.state]) return h('span', { class: 'badge-c ' + (r.state === 'failed' ? 'err' : r.state === 'succeeded' ? 'ok' : r.state === 'succeeded_with_warnings' ? 'warn' : ''), text: BATCH[r.state] });
     return h('span', { class: 'badge-c' + (p.has_output ? ' steel' : ''), text: p.has_output ? 'Has output' : 'Not run' });
   }
+  /* The preview is the first page of the ORIGINAL drawing (rendered server-side from the PDF, or the image itself),
+     shown whole on a neutral canvas so title blocks and dimensions are never cropped. Order of attempts: real preview,
+     the saved JPEG thumbnail, then a labelled fallback icon. Loading and failure are both visible states. */
+  function previewButton(p, sess) {
+    var th = h('button', { class: 'pcard-th is-loading', type: 'button', 'aria-label': 'Open ' + p.name, 'data-state': 'loading' }, McA.icons.get('file', 30));
+    th.addEventListener('click', function () { McA.openPart(sess, p.name); });
+    var tried = 0;
+    var urls = [];
+    if (p.has_original !== false) urls.push(McA.api.previewURL(sess, p.name, p.last_activity || ''));
+    if (p.has_thumb !== false) urls.push(McA.api.thumbURL(sess, p.name, p.last_activity || ''));
+    function next() {
+      if (tried >= urls.length) {
+        th.classList.remove('is-loading'); th.setAttribute('data-state', 'unavailable');
+        th.replaceChildren(McA.icons.get('file', 30), h('span', { class: 'pcard-nopv', text: 'Preview unavailable' }));
+        return;
+      }
+      var img = h('img', { alt: 'Drawing preview of ' + p.name, decoding: 'async' });
+      img.addEventListener('load', function () { th.classList.remove('is-loading'); th.setAttribute('data-state', tried === 1 ? 'preview' : 'thumbnail'); th.replaceChildren(img); });
+      img.addEventListener('error', next);
+      img.src = urls[tried++];
+    }
+    /* Lazy: a preview is requested only when its card is about to scroll into view (a detached <img loading=lazy> never loads). */
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) { if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); next(); } }, { rootMargin: '300px' });
+      io.observe(th);
+    } else next();
+    return th;
+  }
+  function whenEl(p) {
+    var w = McA.projectorder.whenLine(p);
+    var t = h('time', { class: 'pcard-when', text: w.primary });
+    var iso = McA.projectorder.isoOf(p.last_activity); if (iso) t.setAttribute('datetime', iso);
+    return h('div', { class: 'pcard-t' }, t, w.secondary ? h('span', { class: 'pcard-created', text: w.secondary }) : null);
+  }
   function partCard(p, sess, batch) {
-    var th = h('div', { class: 'pcard-th' }, McA.icons.get('file', 30));
-    var img = h('img', { alt: 'Thumbnail of ' + p.name, loading: 'lazy' });
-    img.addEventListener('load', function () { th.replaceChildren(img); });
-    img.src = McA.api.thumbURL(sess, p.name);
+    var th = previewButton(p, sess);
     var sheets = (p.n_views || 0) + ' image' + (p.n_views === 1 ? '' : 's');
     return h('li', { class: 'pcard' }, th, h('div', { class: 'pcard-b' },
       h('div', { class: 'pcard-n', title: p.name, text: p.name }),
+      whenEl(p),
       h('div', { class: 'pcard-m' }, statusChip(p, batch), h('span', { class: 'badge-c', text: sheets }),
         p.has_overview ? h('span', { class: 'badge-c', text: 'Overview' }) : null, p.has_marked ? h('span', { class: 'badge-c', text: 'Marked' }) : null,
         p.source_format ? h('span', { class: 'badge-c mono', text: String(p.source_format).toUpperCase() }) : null),
@@ -55,7 +87,7 @@
     body.append(h('h2', { class: 'sec-h', text: 'Parts in this session' }));
     if (!s.parts.list.length) {
       body.append(empty('folder', 'No parts in this session', 'Upload a drawing from Home, or upload a folder of parts. Parts from earlier sessions that have not been run are not listed.', h('a', { class: 'btn secondary sm', href: '#/home', text: 'Go to Home' })));
-    } else body.append(h('ul', { class: 'pgrid' }, s.parts.list.map(function (p) { return partCard(p, sess, s.batch); })));
+    } else body.append(h('ul', { class: 'pgrid' }, McA.projectorder.sortParts(s.parts.list).map(function (p) { return partCard(p, sess, s.batch); })));
     body.append(h('h2', { class: 'sec-h', text: 'All runs' }));
     var runs = (s.history.runs || []).slice().sort(function (a, b) { return (b.epoch || 0) - (a.epoch || 0); });
     if (s.history.error) body.append(h('div', { class: 'banner is-err', role: 'alert' }, McA.icons.get('warn', 18), 'Could not load run history: ' + s.history.error));
@@ -65,6 +97,15 @@
     var runnable = s.parts.list.length;
     var reason = !s.server.reachable ? 'Server unreachable.' : s.run.state === 'running' || s.run.state === 'queued' ? 'A run is in progress.' : !s.server.live ? ((s.server.keyName || 'The extraction API key') + ' is not set on the server. Run All Parts makes paid API calls.') : !runnable ? 'No saved parts.' : '';
     var btn = $('proj-runall'); btn.setAttribute('aria-disabled', String(!!reason)); $('proj-runall-why').textContent = reason;
+    var failed = Object.keys((s.batch && s.batch.results) || {}).filter(function (k) { return s.batch.results[k].state === 'failed'; });
+    var rb = $('proj-retry');
+    if (rb) {
+      var busy = s.run.state === 'running' || s.run.state === 'queued' || (s.batch && s.batch.active);
+      rb.hidden = !failed.length;
+      rb.textContent = 'Retry failed (' + failed.length + ')';
+      rb.setAttribute('aria-disabled', String(!!busy));
+      rb.title = busy ? 'A run is in progress.' : 'Re-run only the parts that failed. Successful parts are not run again.';
+    }
   }
 
   function clearAll() {
@@ -94,6 +135,12 @@
         if (!list.length) return;
         if (!McA.store.has('intake/folder')) { McA.toast.show('Folder upload is not available in this build.', 'err'); return; }
         McA.dom.dispatch('intake/folder', { files: list, source: 'projects' });
+      });
+      var retry = $('proj-retry');
+      if (retry) retry.addEventListener('click', function (e) {
+        if (e.currentTarget.getAttribute('aria-disabled') === 'true') return;
+        if (!McA.store.has('batch/retry')) { McA.toast.show('The batch runner is not available in this build.', 'err'); return; }
+        McA.dom.dispatch('batch/retry');
       });
       $('proj-runall').addEventListener('click', function (e) {
         if (e.currentTarget.getAttribute('aria-disabled') === 'true') return;

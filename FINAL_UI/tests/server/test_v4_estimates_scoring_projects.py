@@ -1,0 +1,333 @@
+"""v4: run estimates, the Scoring tab backend, PDF previews and newest-first projects. No paid calls, no SolidWorks."""
+import json
+import math
+import os
+import sys
+import tempfile
+import time
+from decimal import Decimal
+from pathlib import Path
+
+import pytest
+
+pytest.importorskip("fastapi")
+fitz = pytest.importorskip("fitz")
+from fastapi.testclient import TestClient  # noqa: E402
+
+REPO = Path(__file__).resolve().parents[3] / "2D-3D-CAD-Test-Generation"
+_TMP = tempfile.mkdtemp(prefix="mcagent_v4_")
+os.environ["MCAGENT_REPO"] = str(REPO)
+os.environ["MCAGENT_DATA"] = os.path.join(_TMP, "data")
+os.environ["MCAGENT_FINAL_OUTPUTS"] = os.path.join(_TMP, "final")
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "server"))
+sys.path.insert(0, str(REPO))
+import app as appmod  # noqa: E402
+import estimates as est  # noqa: E402
+import scoring_hub as sh  # noqa: E402
+
+client = TestClient(appmod.app)
+SESSION = "v4" + "a" * 10
+
+
+@pytest.fixture(autouse=True, scope="module")
+def isolated_dirs():
+    """appmod is imported once per pytest run, with whichever env came first. Point its folders at a private
+    temp tree so these tests never read or write the real FINAL_OUTPUTs."""
+    root = Path(tempfile.mkdtemp(prefix="mcagent_v4_iso_"))
+    saved = {k: getattr(appmod, k) for k in ("FINAL_OUTPUTS_DIR", "PARTS_DIR", "DATA_DIR", "SCORING_DIR")}
+    appmod.FINAL_OUTPUTS_DIR, appmod.PARTS_DIR, appmod.DATA_DIR = root / "final", root / "parts", root / "data"
+    appmod.SCORING_DIR = root / "data" / "scoring"
+    for d in (appmod.FINAL_OUTPUTS_DIR, appmod.PARTS_DIR, appmod.DATA_DIR):
+        d.mkdir(parents=True, exist_ok=True)
+    yield
+    for k, v in saved.items():
+        setattr(appmod, k, v)
+
+
+def make_pdf(path: Path, pages=1):
+    doc = fitz.open()
+    for i in range(pages):
+        pg = doc.new_page(width=842, height=595)
+        pg.insert_text((72, 72), f"DRAWING page {i + 1}", fontsize=24)
+        pg.draw_rect(fitz.Rect(60, 100, 700, 500))
+    doc.save(str(path))
+    doc.close()
+
+
+def add_part(name, pdf_pages=1, fmt="pdf"):
+    sdir = appmod._session_dir(SESSION)
+    (sdir / appmod.ORIGINALS_DIRNAME).mkdir(parents=True, exist_ok=True)
+    (sdir / name).mkdir(parents=True, exist_ok=True)
+    if fmt == "pdf":
+        make_pdf(sdir / appmod.ORIGINALS_DIRNAME / f"{name}.pdf", pdf_pages)
+    appmod._touch_meta(sdir / name)
+    (sdir / name / "00_full.jpg").write_bytes(b"x")
+    return sdir / name
+
+
+def events(part, runs):
+    d = appmod.FINAL_OUTPUTS_DIR / part
+    d.mkdir(parents=True, exist_ok=True)
+    lines = []
+    for i, (start, end, kind) in enumerate(runs, start=1):
+        rid = f"run_{part}_{i}"
+        lines.append({"run_id": rid, "attempt": 1, "part_id": part, "kind": "run.started", "occurred_at": start})
+        lines.append({"run_id": rid, "attempt": 1, "part_id": part, "kind": kind, "occurred_at": end})
+    (d / "run_events.jsonl").write_text("\n".join(json.dumps(x) for x in lines) + "\n", encoding="utf-8")
+
+
+# ── estimates ────────────────────────────────────────────────────────────────────────────────
+def test_durations_use_completed_runs_only(tmp_path):
+    events("EA", [("2026-11-01T10:00:00Z", "2026-11-01T10:03:00Z", "run.completed"),
+                  ("2026-11-01T11:00:00Z", "2026-11-01T11:00:30Z", "run.failed")])
+    d = est.run_durations(appmod.FINAL_OUTPUTS_DIR)
+    mine = [x for x in d if x["part"] == "EA"]
+    assert [x["seconds"] for x in mine] == [180.0]
+
+
+def test_cost_history_skips_runs_with_any_unpriced_row():
+    rows = [{"run_id": "r1", "run_attempt": 1, "cost_usd": 0.25, "priced": True},
+            {"run_id": "r1", "run_attempt": 1, "cost_usd": 0.5, "priced": True},
+            {"run_id": "r2", "run_attempt": 1, "cost_usd": 0.4, "priced": True},
+            {"run_id": "r2", "run_attempt": 1, "cost_usd": None, "priced": False}]
+    c = est.run_costs(rows)
+    assert c == {("r1", 1): Decimal("0.75")}
+
+
+def test_estimate_unknown_is_unavailable_never_zero():
+    e = est.estimate(3, [], [])
+    assert e["time"]["available"] is False and e["cost"]["available"] is False
+    assert "low" not in e["time"] and "low" not in e["cost"]
+    assert est.estimate(0, [10.0], [Decimal("1")])["time"]["available"] is False
+
+
+def test_estimate_batch_is_the_sum_because_solidworks_is_serialized():
+    one = est.estimate(1, [100.0, 200.0, 300.0], [Decimal("0.10"), Decimal("0.20"), Decimal("0.30")])
+    four = est.estimate(4, [100.0, 200.0, 300.0], [Decimal("0.10"), Decimal("0.20"), Decimal("0.30")])
+    assert four["concurrency"] == 1
+    assert four["time"]["low"] == pytest.approx(one["time"]["low"] * 4)
+    assert Decimal(four["cost"]["high"]) == Decimal(one["cost"]["high"]) * 4
+    assert one["time"]["limited"] is False and one["time"]["low"] == 150.0 and one["time"]["high"] == 250.0
+
+
+def test_limited_history_is_flagged_and_small_costs_keep_precision():
+    e = est.estimate(1, [60.0], [Decimal("0.000123")])
+    assert e["time"]["limited"] and e["cost"]["limited"]
+    assert e["cost"]["low"] == "0.000123"
+
+
+def test_estimate_endpoint_reconciles_with_part_count():
+    events("EB", [("2026-11-02T10:00:00Z", "2026-11-02T10:04:00Z", "run.completed")] * 1)
+    add_part("EB")
+    r1 = client.get("/api/estimate", params={"session": SESSION, "parts": ["EB"]}).json()
+    r2 = client.get("/api/estimate", params={"session": SESSION, "parts": ["EB", "EB", "EB"]}).json()
+    assert r1["inputs"] == 1 and r2["inputs"] == 3
+    assert r2["time"]["available"] and r2["time"]["low"] == pytest.approx(r1["time"]["low"] * 3, abs=0.2)
+    assert r1["parts"][0]["pages"] == 1
+
+
+def test_pdf_pages_counts_and_rejects_corrupt(tmp_path):
+    p = tmp_path / "a.pdf"
+    make_pdf(p, 3)
+    assert est.pdf_pages(p) == (3, None)
+    bad = tmp_path / "bad.pdf"
+    bad.write_bytes(b"%PDF-1.4\nthis is not a pdf")
+    pages, err = est.pdf_pages(bad)
+    assert pages is None and err
+
+
+def test_preflight_pdf_endpoint(tmp_path):
+    p = tmp_path / "good.pdf"
+    make_pdf(p, 2)
+    ok = client.post("/api/preflight/pdf", files={"file": ("good.pdf", p.read_bytes(), "application/pdf")}).json()
+    assert ok == {"ok": True, "pages": 2, "error": None}
+    for body in (b"MZ not a pdf", b"%PDF-1.4 broken"):
+        bad = client.post("/api/preflight/pdf", files={"file": ("x.pdf", body, "application/pdf")}).json()
+        assert bad["ok"] is False and bad["error"]
+
+
+# ── previews and ordering ────────────────────────────────────────────────────────────────────
+def test_preview_renders_the_real_first_page_and_regenerates_when_the_source_changes():
+    add_part("PV1", pdf_pages=2)
+    r = client.get(f"/api/parts/{SESSION}/PV1/preview.png")
+    assert r.status_code == 200 and r.headers["content-type"] == "image/png" and r.content[:4] == b"\x89PNG"
+    cache = appmod._session_dir(SESSION) / ".thumbs" / "previews"
+    first = sorted(p.name for p in cache.glob("PV1-*.png"))
+    assert len(first) == 1
+    make_pdf(appmod._session_dir(SESSION) / appmod.ORIGINALS_DIRNAME / "PV1.pdf", 5)      # new content -> new fingerprint
+    assert client.get(f"/api/parts/{SESSION}/PV1/preview.png").status_code == 200
+    second = sorted(p.name for p in cache.glob("PV1-*.png"))
+    assert len(second) == 1 and second != first                                           # stale one removed
+
+
+def test_preview_unavailable_cases_do_not_crash():
+    add_part("PV2")
+    (appmod._session_dir(SESSION) / appmod.ORIGINALS_DIRNAME / "PV2.pdf").write_bytes(b"%PDF-1.4 corrupt")
+    r = client.get(f"/api/parts/{SESSION}/PV2/preview.png")
+    assert r.status_code == 204 and "could not be rendered" in r.headers["x-preview-reason"]
+    assert "C:" not in r.headers["x-preview-reason"] and "Temp" not in r.headers["x-preview-reason"]     # no server paths leak
+    nope = client.get(f"/api/parts/{SESSION}/NOPE/preview.png")
+    assert nope.status_code == 204 and "no original" in nope.headers["x-preview-reason"]
+    assert client.get(f"/api/parts/{SESSION}/%2e%2e/preview.png").status_code in (204, 404, 422)
+    parts = {p["name"]: p for p in appmod._list_parts(appmod._session_dir(SESSION))}
+    assert parts["PV2"]["has_original"] is True and parts["PV2"]["has_thumb"] is False
+
+
+def test_parts_are_newest_activity_first_with_a_stable_tiebreak_and_timestamps_survive_reload():
+    sess = "v4order" + "b" * 5
+    sdir = appmod._session_dir(sess)
+    for name, stamp in (("Zeta", "2026-01-01T00:00:00+00:00"), ("Alpha", "2026-03-01T00:00:00+00:00"), ("Mid", "2026-02-01T00:00:00+00:00")):
+        (sdir / name).mkdir(parents=True, exist_ok=True)
+        (sdir / name / appmod.META_NAME).write_text(json.dumps({"created_at": stamp}), encoding="utf-8")
+        (sdir / name / "00_full.jpg").write_bytes(b"x")
+    names = [p["name"] for p in appmod._list_parts(sdir)]
+    assert names == ["Alpha", "Mid", "Zeta"]                                               # not alphabetical
+    again = [p["name"] for p in appmod._list_parts(sdir)]                                  # a "reload": re-read from disk
+    assert again == names
+    first = appmod._list_parts(sdir)[0]
+    assert first["created_at"] == pytest.approx(1772323200.0) and first["created_source"] == "recorded"
+    (sdir / "Zeta" / appmod.META_NAME).write_text(json.dumps({"created_at": "2026-01-01T00:00:00+00:00", "last_run_at": "2026-04-01T00:00:00+00:00"}), encoding="utf-8")
+    assert [p["name"] for p in appmod._list_parts(sdir)][0] == "Zeta"                      # a rerun moves it to the top at once
+    # created_at is kept separately from activity
+    z = next(p for p in appmod._list_parts(sdir) if p["name"] == "Zeta")
+    assert z["last_activity"] > z["created_at"]
+
+
+def test_unknown_creation_time_is_none_not_invented():
+    sess = "v4unk" + "c" * 7
+    sdir = appmod._session_dir(sess)
+    (sdir / "Ghost").mkdir(parents=True, exist_ok=True)
+    (sdir / "Ghost" / "front.png").write_bytes(b"x")
+    g = appmod._list_parts(sdir)[0]
+    assert g["created_at"] is None and g["last_activity"] is None and g["created_source"] == "unknown"
+
+
+def test_preview_and_thumbnail_activity_does_not_change_ordering():
+    sess = "v4act" + "d" * 7
+    sdir = appmod._session_dir(sess)
+    (sdir / "Old").mkdir(parents=True, exist_ok=True)
+    (sdir / "Old" / appmod.META_NAME).write_text(json.dumps({"created_at": "2026-01-01T00:00:00+00:00"}), encoding="utf-8")
+    (sdir / "Old" / "00_full.jpg").write_bytes(b"x")
+    before = appmod._list_parts(sdir)[0]["last_activity"]
+    time.sleep(0.05)
+    (sdir / ".thumbs").mkdir(exist_ok=True)
+    (sdir / ".thumbs" / "Old.jpg").write_bytes(b"t")
+    assert appmod._list_parts(sdir)[0]["last_activity"] == before
+
+
+# ── scoring ──────────────────────────────────────────────────────────────────────────────────
+def test_credit_curve_matches_the_scorer_module():
+    bench = pytest.importorskip("bench.credit")
+    from bench import score_config, weights  # noqa: F401
+    cfg = score_config.load()
+    raw = sh.load_config(REPO)
+    for err in (0.0, 0.004, 0.005, 0.0075, 0.01, 0.025, 0.05, 0.1):
+        assert sh.attr_credit(err, 0.005, raw) == pytest.approx(bench.attr_credit(err, 0.005, cfg))
+    attrs = {"position": 0.4, "size": 1.0, "depth": 1.0, "type": 1.0}
+    assert sh.feature_credit(attrs, raw) == pytest.approx(bench.feature_credit(attrs, cfg))
+    assert sh.feature_credit({"size": 0.5}, raw) == pytest.approx(0.5)                     # shares renormalise
+
+
+def test_weights_match_the_scorer_module():
+    from bench.features import Feature
+    from bench import score_config, weights
+    cfg, raw = score_config.load(), sh.load_config(REPO)
+    f = Feature(id="H1", type="thru_hole", center=(0, 0, 0), axis=(0, 0, 1), d=0.344, depth=1.0, thru=True)
+    assert sh.feature_weight("thru_hole", 0.344, 6.0, raw) == pytest.approx(weights.weight(f, 6.0, cfg))
+    assert sh.feature_weight("base_body", 6.0, 6.0, raw) == 10.0
+    assert sh.feature_weight("hole_pattern", 1.0, 6.0, raw) == 0.0
+
+
+def test_worked_example_recomputes_from_the_documented_arithmetic():
+    ex = sh.worked_example(REPO)
+    assert ex["illustrative"] is True and "not a measured part" in ex["label"]
+    W = ex["part"]["total_weight_W"]
+    assert W == pytest.approx(10 + 4 * 2.5)
+    by = {c["case"]: c for c in ex["cases"]}
+    assert by["Nothing wrong"]["score"] == 100.0 and by["Nothing wrong"]["exact"] is True
+    c2 = by["One hole 0.010 in off (2x tolerance)"]
+    pos = 0.5 * math.exp(-1 / 4.48)
+    credit = 0.55 * pos + 0.25 + 0.10 + 0.10
+    assert c2["feature_credit"] == pytest.approx(credit, abs=1e-4)
+    assert c2["points_lost"] == pytest.approx(100 * 2.5 * (1 - credit) / W, abs=1e-3)
+    assert by["One through hole built blind"]["points_lost"] == pytest.approx(1.25, abs=1e-3)
+    assert by["One hole missing"]["score"] == 87.5
+    assert by["One extra hole"]["score"] == 93.75 and by["One extra hole"]["exact"] is False
+    for c in ex["cases"]:
+        assert 0 <= c["score"] <= 100
+        assert c["score"] == pytest.approx(100 - c["points_lost"], abs=0.01)
+
+
+def test_methodology_reads_the_live_config():
+    m = sh.methodology(REPO)
+    assert m["total_possible"] == 100
+    assert {c["id"] for c in m["criteria"]} == {"position", "size", "depth", "type"}
+    assert sum(c["share"] for c in m["criteria"]) == pytest.approx(1.0)
+    assert m["version"].startswith("cfg-") and m["version"] == sh.rubric_version(REPO)
+    curve = {c["e"]: c["credit"] for c in m["credit_curve"]}
+    assert curve[1] == 1.0 and curve[2] == pytest.approx(0.4, abs=0.001) and curve[5] == pytest.approx(0.2, abs=0.01)
+
+
+def test_boundary_and_inconsistent_records_are_flagged_not_hidden():
+    assert sh.consistency_flags({"score": 100, "exact": True, "rows": [{"points_lost": 0}]}) == []
+    assert sh.consistency_flags({"score": 120, "rows": []})
+    assert sh.consistency_flags({"score": 90, "exact": True, "rows": [{"points_lost": 10}]})
+    assert sh.consistency_flags({"score": 90, "rows": [{"points_lost": 3}]})                # lost points do not add up
+    assert sh.consistency_flags({"score": 0, "rows": [{"points_lost": 100}]}) == []
+
+
+def test_missing_evidence_is_incomplete_never_zero_and_failures_are_distinct():
+    inc = sh.record_from_scorer({"part": "P", "status": "not scored (no key)"}, run_id="r", version="v1")
+    assert inc["state"] == "incomplete" and inc["score"] is None and inc["explanation"]
+    fail = sh.record_from_scorer({"part": "P", "error": "unreadable STEP"}, run_id="r", version="v1")
+    assert fail["state"] == "scoring_failed" and fail["score"] is None
+    ok = sh.record_from_scorer({"part": "P", "score": 0.0, "exact": False, "rows": [{"points_lost": 100}], "extras": []}, run_id="r", version="v1")
+    assert ok["state"] == "scored" and ok["score"] == 0.0                                    # a real zero stays a real zero
+
+
+def test_average_counts_only_completed_valid_scores():
+    latest = {"A": {"state": "scored", "score": 80.0}, "B": {"state": "scored", "score": 100.0},
+              "C": {"state": "incomplete", "score": None}, "D": {"state": "scoring_failed"}, "E": None,
+              "F": {"state": "scored", "score": 140.0}}
+    s = sh.summarize(latest, list("ABCDEF"))
+    assert s["average"] == 90.0 and s["scored"] == 2 and s["pending"] == 1 and s["incomplete"] == 1 and s["scoring_failed"] == 1
+    assert sh.summarize({}, [])["average"] is None
+
+
+def test_history_is_append_only_and_a_rubric_change_does_not_rewrite_it(tmp_path):
+    sh.append(tmp_path, "P", {"state": "scored", "score": 91.0, "rubric_version": "cfg-old"})
+    sh.append(tmp_path, "P", {"state": "scored", "score": 84.5, "rubric_version": "cfg-new"})
+    h = sh.history(tmp_path, "P")
+    assert [x["score"] for x in h] == [91.0, 84.5] and h[0]["rubric_version"] == "cfg-old"
+    assert sh.latest(tmp_path, "P")["rubric_version"] == "cfg-new"
+
+
+def test_scoring_endpoints_list_every_input_including_failures_and_pending():
+    add_part("SC1")
+    sdir = appmod.FINAL_OUTPUTS_DIR / "SC1"
+    sdir.mkdir(parents=True, exist_ok=True)
+    (sdir / "SC1_extraction.json").write_text("{}", encoding="utf-8")
+    sh.append(appmod.SCORING_DIR, "SC1", {"state": "scoring_failed", "error": "boom", "rubric_version": sh.rubric_version(REPO)})
+    ov = client.get("/api/scoring").json()
+    row = next(r for r in ov["parts"] if r["part"] == "SC1")
+    assert row["state"] == "scoring_failed" and row["error"] == "boom" and row["stale_rubric"] is False
+    assert ov["version"] == sh.rubric_version(REPO) and "average" in ov["summary"]
+    m = client.get("/api/scoring/methodology").json()
+    assert m["example"]["illustrative"] is True and m["methodology"]["total_possible"] == 100
+    d = client.get("/api/scoring/parts/SC1").json()
+    assert d["latest"]["state"] == "scoring_failed" and len(d["history"]) == 1
+
+
+def test_evaluate_without_a_key_records_incomplete_through_the_real_scorer():
+    """Runs the real (free) bench.score subprocess: a part with no answer key is 'not scored', never 0."""
+    add_part("SC2")
+    out = appmod.FINAL_OUTPUTS_DIR / "SC2"
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "SC2_extraction.json").write_text("{}", encoding="utf-8")
+    os.environ.pop("MTI_BENCH_DATA", None)
+    r = client.post("/api/scoring/evaluate", json={"parts": ["SC2", "DOES_NOT_EXIST"]}).json()
+    by = {x["part"]: x for x in r["results"]}
+    assert by["DOES_NOT_EXIST"]["state"] == "no_output"
+    assert by["SC2"]["state"] in ("incomplete", "scoring_failed") and by["SC2"]["score"] is None
+    h = sh.history(appmod.SCORING_DIR, "SC2")
+    assert len(h) == 1 and h[0]["rubric_version"] == r["version"]

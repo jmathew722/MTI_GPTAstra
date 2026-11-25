@@ -25,8 +25,8 @@ def test_priced_model_uses_exact_rate():
 
 
 def test_unpriced_model_uses_max_listed_rate_for_that_model():
-    # direct-OpenAI gpt-6-astra is null; Azure lists 10/50 -> budget uses 10/50
-    i, o, basis = budget.budget_rates("openai", "gpt-6-astra")
+    # Bedrock gpt-6-astra is still unpriced; Azure lists 10/50 -> budget uses 10/50 (openai was priced 2026-11-19, see tests/test_pricing_config.py)
+    i, o, basis = budget.budget_rates("bedrock", "gpt-6-astra")
     assert (i, o) == (10.0, 50.0) and basis.startswith("unpriced")
 
 
@@ -36,20 +36,20 @@ def test_unknown_model_uses_max_rate_in_file():
 
 
 def test_charge_accumulates_spend(ledger):
-    budget.charge(_resp(100_000, 0), "openai", "gpt-6-astra")   # 0.1M input x $10/M = $1.00
+    budget.charge(_resp(100_000, 0), "bedrock", "gpt-6-astra")   # 0.1M input x $10/M = $1.00
     assert budget.spent_usd() == pytest.approx(1.0)
     row = json.loads(ledger.read_text().splitlines()[0])
     assert row["cost_usd"] == pytest.approx(1.0) and row["basis"].startswith("unpriced")
 
 
 def test_preflight_blocks_when_worst_case_crosses_cap(ledger):
-    budget.charge(_resp(50_000, 0), "openai", "gpt-6-astra")    # $0.50 spent of $1.00
+    budget.charge(_resp(50_000, 0), "bedrock", "gpt-6-astra")    # $0.50 spent of $1.00
     with pytest.raises(budget.BudgetExceeded, match=r"spent \$0\.50 of \$1\.00"):
-        budget.preflight("openai", "gpt-6-astra", 10_000, 16_000)  # reserve $0.10 + $0.80
+        budget.preflight("bedrock", "gpt-6-astra", 10_000, 16_000)  # reserve $0.10 + $0.80
 
 
 def test_preflight_allows_when_it_fits(ledger):
-    assert budget.preflight("openai", "gpt-6-astra", 1_000, 1_000) == pytest.approx(0.06)
+    assert budget.preflight("bedrock", "gpt-6-astra", 1_000, 1_000) == pytest.approx(0.06)
 
 
 def test_image_estimate_uses_fixed_allowance():

@@ -17,6 +17,11 @@
   ApiError.prototype.constructor = ApiError;
 
   function enc(s) { return encodeURIComponent(s); }
+  /** Query string with a repeated key: ?session=a&parts=x&parts=y (what FastAPI list params read). */
+  function qMulti(params, key, values) {
+    var base = q(params), extra = (values || []).map(function (v) { return enc(key) + '=' + enc(v); }).join('&');
+    return base ? base + (extra ? '&' + extra : '') : (extra ? '?' + extra : '');
+  }
   function encPath(rel) { return String(rel).split('/').map(enc).join('/'); }
   function q(params) {
     var parts = [];
@@ -79,6 +84,17 @@
     return post('/api/parts/' + enc(s) + '/' + enc(p) + '/marked-view', form({ file: blob }));
   }
   function recordingCapability() { return json('/api/recording/capability'); }   // {available, backend, encoder, reason}
+  /* Run estimate (one backend source of truth), persisted last run, PDF preflight, Scoring tab. */
+  function estimate(session, parts) { return json('/api/estimate' + qMulti({ session: session }, 'parts', parts)); }
+  function lastRun(s, p) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/last-run'); }
+  function preflightPdf(file) { return post('/api/preflight/pdf', form({ file: file })); }
+  function scoringOverview() { return json('/api/scoring'); }
+  function scoringMethodology() { return json('/api/scoring/methodology'); }
+  function scoringPart(p) { return json('/api/scoring/parts/' + enc(p)); }
+  function scoringEvaluate(parts, exportStep) {
+    return json('/api/scoring/evaluate', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ parts: parts, export: !!exportStep }) });
+  }
   function partOutputs(s, p) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/outputs'); }
   function partScoring(s, p) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/scoring'); }
   /** {session, part, feedback?, no_cache?, record?}. no_cache and record are sent only when true. */
@@ -157,6 +173,8 @@
     recordingURL: function (s, p, key) { return partBase(s, p) + '/recording' + t(key); },
     recordingVideoURL: function (s, p, key) { return partBase(s, p) + '/recording.video' + t(key); },
     recordingPosterURL: function (s, p, key) { return partBase(s, p) + '/recording-poster.jpg' + t(key); },
+    /* First-page preview of the ORIGINAL drawing (PDF page 1, or the image), cached server-side by content. */
+    previewURL: function (s, p, bust) { return partBase(s, p) + '/preview.png' + t(bust); },
     partLedgerURL: function (s, p) { return partBase(s, p) + '/ledger.jsonl'; },
     reviewFlag: function (s, p, id, state, reason) {
       return json(partBase(s, p) + '/flags/' + enc(id) + '/review', { method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -170,7 +188,8 @@
 
   var api = { ApiError: ApiError, status: status, newSession: newSession, listParts: listParts,
     savePart: savePart, uploadBatch: uploadBatch, saveNotes: saveNotes, getRegions: getRegions,
-    saveRegions: saveRegions, saveMarkedView: saveMarkedView, partOutputs: partOutputs, partScoring: partScoring, runPart: runPart, recordingCapability: recordingCapability,
+    saveRegions: saveRegions, saveMarkedView: saveMarkedView, partOutputs: partOutputs, partScoring: partScoring, runPart: runPart, recordingCapability: recordingCapability, estimate: estimate, lastRun: lastRun, preflightPdf: preflightPdf,
+    scoringOverview: scoringOverview, scoringMethodology: scoringMethodology, scoringPart: scoringPart, scoringEvaluate: scoringEvaluate,
     demo: demo, runOutputs: runOutputs, runFiles: runFiles, cancel: cancel, openLog: openLog,
     runHistory: runHistory, clearHistory: clearHistory, convertCad: convertCad };
   Object.keys(urls).forEach(function (k) { api[k] = urls[k]; });

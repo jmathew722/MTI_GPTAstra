@@ -240,19 +240,48 @@
     if (!batchNames().length) return 'No saved parts.';
     return null;
   }
-  function confirmList(names, title, okLabel) {
-    var h = McA.dom.h;
-    var body = h('div', null, h('p', { text: 'Each part makes paid API calls and runs one at a time. A cancel or a launch failure stops the queue.' }),
-      h('ul', { class: 'dlg-list' }, names.map(function (n) { return h('li', { class: 'mono', text: n }); })));
-    return McA.dialog.open({ title: title, body: body, actions: [{ id: 'cancel', label: 'Cancel' }, { id: 'ok', label: okLabel, kind: 'primary' }] })
+  /** Preflight for a batch: every filename with its page count, the supported-file count, and the estimated batch time and cost
+      (from the same backend estimate as the Workspace). Best effort: if the estimate cannot load, the list still shows. */
+  function preflightInfo(names) {
+    var sid = store.get().session.id;
+    if (!sid || !McA.api.estimate) return Promise.resolve(null);
+    return McA.api.estimate(sid, names).catch(function () { return null; });
+  }
+  function confirmList(names, title, okLabel, est) {
+    var h = McA.dom.h, V = McA.estimateview;
+    var pages = {}; ((est && est.parts) || []).forEach(function (p) { pages[p.part] = p; });
+    var d = V && est ? V.describe(est) : null;
+    var bad = names.filter(function (n) { return pages[n] && pages[n].error; });
+    var body = h('div', null,
+      h('p', { text: names.length + ' supported input' + (names.length === 1 ? '' : 's') + '. Each part makes paid API calls and runs one at a time. A failed part does not stop the rest; a cancel or a launch failure stops the queue.' }),
+      d ? h('p', { class: 'dlg-est' }, h('strong', { text: d.time }), ' \u00b7 ', h('strong', { text: d.cost }), h('br'), h('span', { class: 'reason', text: d.detail })) : null,
+      bad.length ? h('p', { class: 'reason is-warn', text: bad.length + ' input' + (bad.length === 1 ? ' has' : 's have') + ' a problem and will probably fail: ' + bad.map(function (n) { return n + ' (' + pages[n].error + ')'; }).join('; ') }) : null,
+      h('ul', { class: 'dlg-list' }, names.map(function (n) {
+        var p = pages[n], pg = p && p.pages ? ' \u00b7 ' + p.pages + ' page' + (p.pages === 1 ? '' : 's') + (p.pages > 1 ? ' (page 1 is read; the PDF is kept whole)' : '') : '';
+        return h('li', { class: 'mono' + (p && p.error ? ' is-bad' : ''), text: n + pg });
+      })));
+    return McA.dialog.open({ title: title, body: body, actions: [{ id: 'cancel', label: 'Cancel' }, { id: 'ok', label: okLabel, kind: 'primary', disabled: !names.length }] })
       .then(function (r) { return r === 'ok'; });
   }
   function requestBatch() {
     var s = store.get(), why = batchReason(s);
     if (why) { toast(why, 'warn'); return Promise.resolve(); }
     var names = batchNames();
-    return confirmList(names, 'Run ' + names.length + ' part' + (names.length === 1 ? '' : 's') + '?', 'Run ' + names.length + ' part' + (names.length === 1 ? '' : 's'))
-      .then(function (ok) { if (ok) return runBatch(names, 0, {}); });
+    return preflightInfo(names).then(function (est) {
+      return confirmList(names, 'Run ' + names.length + ' part' + (names.length === 1 ? '' : 's') + '?', 'Run ' + names.length + ' part' + (names.length === 1 ? '' : 's'), est);
+    }).then(function (ok) { if (ok) return runBatch(names, 0, {}); });
+  }
+  /** Re-run ONLY the failed parts of the last batch; parts that succeeded keep their results and are not run again. */
+  function retryFailed() {
+    var s = store.get(), why = batchReason(s);
+    if (why) { toast(why, 'warn'); return Promise.resolve(); }
+    var results = s.batch.results || {};
+    var failed = Object.keys(results).filter(function (k) { return results[k].state === 'failed'; });
+    if (!failed.length) { toast('No failed parts to retry.', 'info'); return Promise.resolve(); }
+    var kept = {}; Object.keys(results).forEach(function (k) { if (failed.indexOf(k) < 0) kept[k] = results[k]; });
+    return preflightInfo(failed).then(function (est) {
+      return confirmList(failed, 'Retry ' + failed.length + ' failed part' + (failed.length === 1 ? '' : 's') + '?', 'Retry ' + failed.length, est);
+    }).then(function (ok) { if (ok) return runBatch(failed, 0, kept); });
   }
   function resumeBatch() {
     var s = store.get(), b = s.batch, why = batchReason(s);
@@ -295,7 +324,7 @@
       var nextIdx = stoppedEarly ? Math.min(queue.length, i + 1) : queue.length;
       store.set({ batch: { active: false, queue: queue.slice(), index: nextIdx, results: results } });
       if (done || nextIdx >= queue.length) persist.remove(persist.KEYS.batch); else savePersistBatch({ queue: queue, index: nextIdx, results: results });
-      var okN = Object.keys(results).filter(function (k) { return results[k].state === 'succeeded' || results[k].state === 'succeeded_with_warnings'; }).length;
+      var okN = queue.filter(function (k) { return results[k] && (results[k].state === 'succeeded' || results[k].state === 'succeeded_with_warnings'); }).length;
       toast(done ? 'Batch finished: ' + okN + ' of ' + queue.length + ' parts completed.' : 'Batch stopped after ' + Object.keys(results).length + ' of ' + queue.length + ' parts.',
         done ? 'ok' : 'warn', { ms: 9000 });
     }).then(function () { batchBusy = false; }, function (e) { batchBusy = false; toast('Batch error: ' + errText(e), 'err'); });
@@ -461,6 +490,7 @@
     store.register('run/demo', function (s, p) { launch({ kind: 'demo', sample: p && p.sample }); return null; });
     store.register('run/cancel', function () { cancelRun(); return null; });
     store.register('batch/request', function () { requestBatch(); return null; });
+    store.register('batch/retry', function () { retryFailed(); return null; });
     store.register('batch/resume', function () { resumeBatch(); return null; });
     store.register('batch/dismiss', function () { dismissBatch(); return null; });
     store.register('outputs/load', function (s, p) { loadOutputs(p && p.ctx); return null; });
@@ -512,7 +542,7 @@
   }
 
   McA.run = { init: init, launch: launch, runSelected: runSelected, cancel: cancelRun, loadOutputs: loadOutputs,
-    requestBatch: requestBatch, resumeBatch: resumeBatch, dismissBatch: dismissBatch, batchRemaining: batchRemaining,
+    requestBatch: requestBatch, retryFailed: retryFailed, resumeBatch: resumeBatch, dismissBatch: dismissBatch, batchRemaining: batchRemaining,
     exportItems: exportItems, zipAvailable: zipAvailable, fileURL: fileURL,
     /* Corrections now renders inside Pipeline Results (Build & Verification), not the right
        inspector. These are the same functions the old inspector card used -- same launch()

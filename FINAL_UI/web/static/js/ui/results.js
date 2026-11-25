@@ -617,6 +617,17 @@
       .then(function () { McA.results.refresh(); });
     return summaryCache[k];
   }
+  var evalCache = {};
+  function getEval(d) {
+    var part = d.ctx && d.ctx.part, c = part && evalCache[part];
+    if (!part) return { state: 'none', rec: null };
+    var stamp = d.payload && d.payload.stl_mtime;
+    if (c && c.stamp === stamp) return c;
+    evalCache[part] = { state: 'loading', rec: null, stamp: stamp };
+    McA.api.scoringPart(part).then(function (r) { evalCache[part] = { state: 'ok', rec: r && r.latest, stamp: stamp }; },
+      function () { evalCache[part] = { state: 'ok', rec: null, stamp: stamp }; }).then(function () { McA.results.refresh(); });
+    return evalCache[part];
+  }
   var scoringCache = {};
   function getScoring(d) {
     if (!d.ctx || d.ctx.kind !== 'part') return { state: 'none', data: null };
@@ -640,21 +651,19 @@
     if (sc.state === 'loading') { body.append(note('Loading…', 'hint')); return; }
     if (sc.state === 'error' || !sc.data) { body.append(note('Scoring data could not be loaded for this part.', 'hint')); return; }
     var geo = sc.data.geometry || {}, pr = sc.data.practices || {};
+    /* One scoring implementation: the stored evaluation of the Scoring tab (the pipeline's own scorer, append-only history).
+       This section only summarises it and links there; it no longer reads scores.json on its own. */
     body.append(h('h3', { class: 'sub-h', text: 'Geometry score' }));
-    if (geo.present) {
+    var ev = getEval(d);
+    if (ev.state === 'loading') body.append(note('Loading…', 'hint'));
+    else {
+      var rec = ev.rec, SV = McA.scoringview, st = rec ? SV.statusOf({ state: rec.state, exact: rec.exact }) : { label: 'Not evaluated yet', tone: '' };
       body.append(h('p', { class: 'verdict' }, h('span', { class: 'cap-c', text: 'Score ' }),
-        chip(String(geo.score) + (geo.exact ? ' · exact' : ''), geo.score >= 90 ? 'ok' : geo.score >= 70 ? 'warn' : 'err')),
-        note('From ' + geo.source + '.', 'hint'));
-      if ((geo.rows || []).length) {
-        body.append(table(['Feature', 'Score', 'Notes'], geo.rows.map(function (r) {
-          return h('tr', null, h('td', { class: 'mono', text: String(r.feature_id || '') }),
-            h('td', { class: 'mono', text: r.score === undefined ? '' : String(r.score) }),
-            h('td', { text: r.note || '' }));
-        }), 'Per-feature geometry score'));
-      }
-    } else {
-      body.append(note('Not scored: this part has no signed reference key (bench.score only scores official ' +
-        'benchmark parts with a ground-truth answer key, not ordinary uploads).', 'hint'));
+        chip(rec && rec.state === 'scored' ? SV.scoreText({ state: 'scored', score: rec.score }) : SV.DASH, rec && rec.state === 'scored' ? (rec.score >= 90 ? 'ok' : rec.score >= 70 ? 'warn' : 'err') : ''),
+        ' ', chip(st.label, st.tone)));
+      body.append(note(rec ? (rec.state === 'incomplete' ? (rec.explanation || 'Not scored.') + ' Missing evidence is never scored as 0.' : rec.state === 'scoring_failed' ? 'Scoring failed: ' + (rec.error || 'unknown error') : 'Rubric ' + (rec.rubric_version || '?') + '.')
+        : 'Open the Scoring tab and press Evaluate. Nothing is assumed.', 'hint'));
+      body.append(h('button', { class: 'btn secondary sm', type: 'button', text: 'Open in Scoring', onclick: function () { McA.router.go('scoring'); } }));
     }
     body.append(h('h3', { class: 'sub-h', text: 'MTI modeling practices' }),
       note('Advisory, never blended into the geometry score above (same separation as the pipeline’s own scorer).', 'hint'));

@@ -128,3 +128,12 @@ registry section `recording` (Build & Verification, after Model check), `server/
 `GET /api/parts/{s}/{p}/recording[.video|-poster.jpg]`, `record` form field on `/api/run-part`. The box is disabled with the reason when recording
 is unavailable, is off by default and not remembered. Tests: `tests/server/test_app_recording.py`, `tests/unit/recordingview.test.js`,
 `tests/e2e/tests/24-solidworks-recording.spec.ts` (needs `STAGE2_OUT`; fixture `helpers/make_recording_fixture.py`).
+
+## 2026-11-25: v4 (branch `Improvementsv4`)
+
+Four areas, all verified with real browser tests (no paid calls, no SolidWorks): (1) Run All Parts / folder upload accepts PDF, JPG, JPEG, PNG,
+mixed and uppercase, with content checks, page counts, a skipped-file summary, a preflight estimate and Retry failed; (2) a Scoring sidebar tab
+(overview, searchable part results, methodology, labelled worked example, part detail, append-only history) over the existing `bench.score`;
+(3) Projects shows real PDF/image previews and is ordered newest activity first with local timestamps; (4) the Run Pipeline section shows
+estimated time and cost, live elapsed/remaining/cost, and persisted actuals. New: `server/estimates.py`, `server/scoring_hub.py`,
+`web/static/js/logic/{folderplan,estimateview,projectorder,scoringview}.js`, `features/estimate.js`, `pages/scoring.js`.

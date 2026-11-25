@@ -45,3 +45,27 @@ Nothing is mocked in the UI. Demo runs are real backend calls (no API). 3D shows
 ## Gaps
 
 G1-G17 from `docs/ARCHITECTURE.md` section 17 (no model name in `/api/status`, no learning-loop endpoint, no active-run listing, no structured progress API, no part delete/rename, batch is a client loop, and so on). Also: Upload parts uses page 1 / the first image as Front; a repo whose `main.py` lacks `--no-export` cannot run demos or live runs.
+
+## v4 (branch `Improvementsv4`): batch folders, Scoring tab, project previews, run estimates
+
+Setup, migration, tests and launch for the four v4 areas. Nothing here makes a paid API call except Run Pipeline itself.
+
+- **Setup:** `cd FINAL_UI && ./run.sh --repo ../2D-3D-CAD-Test-Generation` (or `run.ps1` / `run.bat`). The launcher installs the repo
+  `requirements.txt`; `pymupdf` (PDF page counts and previews) and `pyyaml` (scoring methodology) must be importable by the server.
+- **Migration:** none. New parts get a `.meta.json` (UTC `created_at`, `last_run_at`). Older parts fall back to the upload file time and, when
+  there is none, show "Date unknown" (never invented). Scores are stored append-only in `<data>/scoring/<part>.jsonl`.
+- **Batch folders (Home > Upload folder, Projects > Upload parts folder):** every PDF / JPG / JPEG / PNG directly in the folder is one input
+  (any letter case; a multi-page PDF is one input, kept whole, page 1 is read by the pipeline). A subfolder of view images is still one multi-view
+  part. Subfolders are scanned for files only by `McA.folderplan.plan(entries, {recursive:true})`. Real file content is checked, not just the
+  extension. Unsupported, empty and corrupt files are named in the preflight summary. Run All Parts shows page counts and the batch estimate,
+  runs parts one at a time (SolidWorks is serialized), keeps going after a failure, and **Retry failed** re-runs only the failed parts.
+- **Scoring (sidebar):** reads the pipeline's own scorer (`python -m bench.score`, free) and its `bench/score_config.yaml`. Methodology and the
+  worked example (labelled illustrative) are computed from that config. A part with no signed answer key is **Incomplete**, never 0.
+  Without `MTI_BENCH_DATA` (the confidential keys) most UI parts will be Incomplete: that is the honest result.
+- **Projects:** real first-page previews of the original PDF/image (`GET /api/parts/{s}/{p}/preview.png`, cached by content fingerprint),
+  newest activity first, local date and time on every card.
+- **Run estimates (Workspace > Run Pipeline):** `GET /api/estimate` from finished runs (`run_events.jsonl` + the priced ledger). Unknown is
+  "insufficient history" or "unavailable", never $0.00. Actual time and measured cost persist via `GET /api/parts/{s}/{p}/last-run`.
+- **Tests:** `node --test "tests/unit/*.test.js"`; `python -m pytest tests/server -q`; Playwright
+  `STAGE2_OUT=<tmp>/final BASE_URL=http://127.0.0.1:8210 npx playwright test` (start a test server with `MCAGENT_FINAL_OUTPUTS=$STAGE2_OUT`).
+  Evidence screenshots: `docs/verification/v4/`.

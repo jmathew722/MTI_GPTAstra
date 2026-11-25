@@ -32,7 +32,7 @@ import subprocess
 from pathlib import Path
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, Form, Request, UploadFile, HTTPException
+from fastapi import FastAPI, File, Form, Query, Request, UploadFile, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse, Response, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -41,6 +41,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import telemetry as _telemetry  # noqa: E402  structured run events (Stage 1)
 import costs as _costs  # noqa: E402  ledger cost scopes (Stage 2)
 import flags as _flags  # noqa: E402  engineering-flag artifacts (Stage 3)
+import estimates as _est  # noqa: E402  run time / cost estimates from finished runs
+import scoring_hub as _sh  # noqa: E402  Scoring tab: methodology, persisted evaluations
 
 # FINAL_UI/server/app.py. The pipeline repo (main.py + pipeline/ + samples) is
 # external and chosen by the launcher through MCAGENT_REPO.
@@ -1399,6 +1401,65 @@ def _find_overview_image(pdir: Path) -> Path | None:
     return None
 
 
+META_NAME = ".meta.json"
+
+
+def _now_iso() -> str:
+    from datetime import datetime, timezone
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _iso_epoch(s: str | None) -> float | None:
+    from datetime import datetime
+    try:
+        return datetime.fromisoformat(str(s).replace("Z", "+00:00")).timestamp()
+    except (ValueError, TypeError):
+        return None
+
+
+def _read_meta(pdir: Path) -> dict:
+    try:
+        d = json.loads((pdir / META_NAME).read_text(encoding="utf-8"))
+        return d if isinstance(d, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def _touch_meta(pdir: Path, **fields) -> None:
+    """Persist created_at once (UTC) and any last_run_at update. Never fatal."""
+    try:
+        m = _read_meta(pdir)
+        m.setdefault("created_at", _now_iso())
+        m.update({k: v for k, v in fields.items() if v is not None})
+        (pdir / META_NAME).write_text(json.dumps(m), encoding="utf-8")
+    except OSError:
+        pass
+
+
+def _part_times(sdir: Path, pdir: Path) -> dict:
+    """Creation time and latest activity (a project creation or a run/update event, never thumbnail
+    generation or page views). Values are epoch seconds or None when not trustworthy ("unknown")."""
+    meta = _read_meta(pdir)
+    created = _iso_epoch(meta.get("created_at"))
+    src = "recorded"
+    if created is None:      # older parts: the upload's own file time is the only trustworthy record
+        odir = sdir / ORIGINALS_DIRNAME
+        cands = [p.stat().st_mtime for p in odir.glob(pdir.name + ".*")] if odir.is_dir() else []
+        cands += [p.stat().st_mtime for p in (pdir / OVERVIEW_FILENAME,) if p.is_file()]
+        created, src = (min(cands), "file") if cands else (None, "unknown")
+    events = [created] if created else []
+    run = _iso_epoch(meta.get("last_run_at"))
+    if run:
+        events.append(run)
+    ev = FINAL_OUTPUTS_DIR / pdir.name / "run_events.jsonl"
+    if ev.is_file():
+        for r in _est._jsonl(ev):
+            t = _iso_epoch(r.get("occurred_at"))
+            if t and r.get("kind") in ("run.started", "run.completed", "run.failed", "run.cancelled"):
+                events.append(t)
+    return {"created_at": created, "created_source": src, "last_activity": max(events) if events else None}
+
+
 def _list_parts(sdir: Path) -> list[dict]:
     if not sdir.is_dir():
         return []
@@ -1424,10 +1485,15 @@ def _list_parts(sdir: Path) -> list[dict]:
             # (overview as whole-part context, marked as hole-placement ground
             # truth) — surfaced so the Pipeline tab shows every image it uses.
             "has_marked": (pdir / MARKED_VIEW_FILENAME).is_file(),
+            "has_original": _source_for_preview(sdir, pdir.name) is not None,
+            "has_thumb": (sdir / ".thumbs" / f"{pdir.name}.jpg").is_file(),
             "source_format": fmt_file.read_text(encoding="utf-8").strip()
                              if fmt_file.is_file() else "",
             "notes": notes_text,
+            **_part_times(sdir, pdir),
         })
+    # Newest activity first (numeric, stable tie-break on the name); unknown dates sort last.
+    parts.sort(key=lambda p: (-(p["last_activity"] or 0), p["name"].lower()))
     return parts
 
 
@@ -1478,6 +1544,7 @@ async def add_part(
         for old in pdir.glob("*.jpg"):
             old.unlink()
     pdir.mkdir(parents=True, exist_ok=True)
+    _touch_meta(pdir)
     # Remember what kind of file this part came from (PDF / DWG / eDrawings /
     # image) so the verification view can label the source correctly.
     if source_format.strip():
@@ -1576,6 +1643,7 @@ async def upload_parts_batch(
             continue
         (pdir / fname).write_bytes(data)
         added[part_name] = added.get(part_name, 0) + 1
+        _touch_meta(pdir)
 
     # notes.txt mirror (legacy grading) + thumbnails for every touched part.
     for part_name in added:
@@ -1598,6 +1666,218 @@ async def upload_parts_batch(
     return {"session": _safe_session(session), "added": sorted(added),
             "n_files": sum(added.values()), "n_skipped": skipped,
             "parts": _list_parts(sdir)}
+
+
+def _source_for_preview(sdir: Path, part: str) -> Path | None:
+    odir = sdir / ORIGINALS_DIRNAME
+    if odir.is_dir():
+        for p in sorted(odir.glob(f"{_sanitize(part)}.*")):
+            if p.suffix.lower() == ".pdf" or p.suffix.lower() in IMG_EXTS:
+                return p
+    return None
+
+
+def _fingerprint(p: Path) -> str:
+    import hashlib
+    h = hashlib.sha256()
+    h.update(str(p.stat().st_size).encode())
+    with p.open("rb") as f:
+        h.update(f.read(1 << 20))
+    return h.hexdigest()[:16]
+
+
+@app.get("/api/parts/{session}/{part}/preview.png")
+def part_preview(session: str, part: str):
+    """First-page preview of the part's ORIGINAL drawing (PDF page 1 rendered whole, or the image itself),
+    aspect preserved, cached by content fingerprint so an edited source regenerates. 204 with an X-Preview-Reason
+    header when no real preview can be produced (a 4xx would log a console error; the client shows its fallback)."""
+    sdir = _session_dir(session)
+    src = _source_for_preview(sdir, part)
+    if src is None:
+        return Response(status_code=204, headers={"X-Preview-Reason": "no original drawing is stored for this part"})
+    cache = sdir / ".thumbs" / "previews"
+    cache.mkdir(parents=True, exist_ok=True)
+    png = cache / f"{_sanitize(part)}-{_fingerprint(src)}.png"
+    if not png.is_file():
+        try:
+            if src.suffix.lower() == ".pdf":
+                import fitz
+                with fitz.open(str(src)) as doc:
+                    if doc.page_count < 1:
+                        raise ValueError("the PDF has no pages")
+                    pg = doc.load_page(0)
+                    zoom = min(2.0, 640.0 / max(pg.rect.width, 1.0))
+                    pg.get_pixmap(matrix=fitz.Matrix(zoom, zoom), alpha=False).save(str(png))
+            else:
+                from PIL import Image
+                with Image.open(src) as im:
+                    im = im.convert("RGB")
+                    im.thumbnail((640, 640))
+                    im.save(png, "PNG")
+        except Exception:  # noqa: BLE001 - any renderer failure is "unavailable", never a crash (and the raw error can name server paths)
+            return Response(status_code=204, headers={"X-Preview-Reason": "the preview could not be rendered (the source looks corrupt)"})
+        for old in cache.glob(f"{_sanitize(part)}-*.png"):      # drop stale versions
+            if old != png:
+                try:
+                    old.unlink()
+                except OSError:
+                    pass
+    return FileResponse(str(png), media_type="image/png", headers={"Cache-Control": "private, max-age=3600"})
+
+
+@app.get("/api/estimate")
+def estimate_run(session: str = "", parts: list[str] = Query(default_factory=list)):
+    """Estimated time and cost for running ``parts`` one after another, from finished runs on this machine."""
+    names = [_sanitize(p) for p in parts]
+    ledger = _costs.read_rows(_costs.ledger_paths(FINAL_OUTPUTS_DIR / "_"))
+    est = _est.build(FINAL_OUTPUTS_DIR, ledger, len(names))
+    info = []
+    if session:
+        odir = _session_dir(session) / ORIGINALS_DIRNAME
+        for n in names:
+            pages, err = None, None
+            src = next(iter(sorted(odir.glob(f"{n}.*"))), None) if odir.is_dir() else None
+            if src is not None and src.suffix.lower() == ".pdf":
+                pages, err = _est.pdf_pages(src)
+            elif src is not None:
+                pages = 1
+            info.append({"part": n, "pages": pages, "error": err})
+    est["parts"] = info
+    return est
+
+
+PREFLIGHT_MAX_BYTES = 200 * 1024 * 1024
+
+
+@app.get("/api/parts/{session}/{part}/last-run")
+def part_last_run(session: str, part: str):
+    """Persisted timing and measured cost of the part's latest run (survives refresh and reconnection)."""
+    out = FINAL_OUTPUTS_DIR / _sanitize(part)
+    ledger = [r for r in _costs.read_rows(_costs.ledger_paths(out)) if r.get("part") == _sanitize(part)]
+    return {"part": _sanitize(part), "run": _est.last_run(out, ledger)}
+
+
+@app.post("/api/preflight/pdf")
+async def preflight_pdf(file: UploadFile = File(...)):
+    """Page count and readability of one uploaded PDF (used by the batch preflight list)."""
+    data = await file.read(PREFLIGHT_MAX_BYTES + 1)
+    if len(data) > PREFLIGHT_MAX_BYTES:
+        return {"ok": False, "pages": None, "error": "The PDF is larger than 200 MB, which is more than the preflight check reads."}
+    if not data.startswith(b"%PDF-"):
+        return {"ok": False, "pages": None, "error": "Not a PDF file (the content does not start with %PDF-)."}
+    tmp = DATA_DIR / f".preflight-{uuid.uuid4().hex[:8]}.pdf"
+    tmp.write_bytes(data)
+    try:
+        pages, err = _est.pdf_pages(tmp)
+    finally:
+        try:
+            tmp.unlink()
+        except OSError:
+            pass
+    return {"ok": pages is not None, "pages": pages, "error": err}
+
+
+# ── Scoring tab ─────────────────────────────────────────────────────────────────────────────
+SCORING_DIR = DATA_DIR / "scoring"
+
+
+def _all_scoring_parts() -> list[tuple[str, str]]:
+    """[(session, part)] for every saved part in every session, plus parts that only have an output folder."""
+    seen: dict[str, str] = {}
+    if PARTS_DIR.is_dir():
+        for sdir in sorted(PARTS_DIR.iterdir()):
+            if sdir.is_dir() and not sdir.name.startswith("."):
+                for pdir in sorted(sdir.iterdir()):
+                    if pdir.is_dir() and not pdir.name.startswith("."):
+                        seen[pdir.name] = sdir.name
+    if FINAL_OUTPUTS_DIR.is_dir():
+        for d in sorted(FINAL_OUTPUTS_DIR.iterdir()):
+            if d.is_dir() and d.name != "usage" and not d.name.startswith(".") and d.name not in seen:
+                seen[d.name] = ""
+    return [(sess, part) for part, sess in seen.items()]
+
+
+def _latest_run_id(part: str) -> str | None:
+    ev = FINAL_OUTPUTS_DIR / part / "run_events.jsonl"
+    rid = None
+    if ev.is_file():
+        for r in _est._jsonl(ev):
+            if r.get("kind") == "run.started":
+                rid = r.get("run_id")
+    return rid
+
+
+def _scoring_row(session: str, part: str) -> dict:
+    out = FINAL_OUTPUTS_DIR / part
+    has_out = out.is_dir() and _categorize_output(out)["has_any"]
+    rec = _sh.latest(SCORING_DIR, part)
+    pdir = _session_dir(session) / part if session else None
+    t = _part_times(_session_dir(session), pdir) if pdir is not None and pdir.is_dir() else {}
+    gen = next(iter(sorted(out.glob("*_ir.SLDPRT"))), None) if out.is_dir() else None
+    row = {"part": part, "session": session, "has_output": has_out, "has_part": gen is not None,
+           "run_id": _latest_run_id(part), "last_activity": t.get("last_activity")}
+    if rec:
+        row.update({k: rec.get(k) for k in ("state", "score", "exact", "reason", "explanation", "error", "evaluated_at",
+                                            "rubric_version", "key_kind")})
+        row["stale_rubric"] = rec.get("rubric_version") != _sh.rubric_version(PROJECT_DIR)
+        pr = rec.get("practices")
+        row["practices_score"] = pr.get("score") if isinstance(pr, dict) else None
+        row["flags"] = rec.get("consistency_flags") or []
+    else:
+        row["state"] = "pending" if has_out else "no_output"
+    return row
+
+
+@app.get("/api/scoring")
+def scoring_overview():
+    rows = [_scoring_row(s, p) for s, p in _all_scoring_parts()]
+    rows.sort(key=lambda r: (-(r.get("last_activity") or 0), r["part"].lower()))
+    latest = {r["part"]: _sh.latest(SCORING_DIR, r["part"]) for r in rows}
+    return {"version": _sh.rubric_version(PROJECT_DIR), "parts": rows,
+            "summary": _sh.summarize(latest, [r["part"] for r in rows if r["has_output"]])}
+
+
+@app.get("/api/scoring/methodology")
+def scoring_methodology():
+    try:
+        return {"methodology": _sh.methodology(PROJECT_DIR), "example": _sh.worked_example(PROJECT_DIR)}
+    except Exception as e:  # noqa: BLE001
+        raise HTTPException(503, f"The scorer configuration could not be read ({PROJECT_DIR / _sh.CONFIG_REL}): {e}")
+
+
+@app.get("/api/scoring/parts/{part}")
+def scoring_part(part: str):
+    p = _sanitize(part)
+    h = _sh.history(SCORING_DIR, p)
+    return {"part": p, "latest": h[-1] if h else None,
+            "history": [{k: r.get(k) for k in ("evaluated_at", "rubric_version", "state", "score", "run_id")} for r in h]}
+
+
+class ScoreRequest(BaseModel):
+    parts: list[str]
+    export: bool = False        # True lets the scorer export the SLDPRT to STEP through an already-running SolidWorks
+
+
+@app.post("/api/scoring/evaluate")
+def scoring_evaluate(req: ScoreRequest):
+    """Run the free scorer (python -m bench.score) for each part and append the result to its history.
+    A failed generation and a failed scoring are different states."""
+    version = _sh.rubric_version(PROJECT_DIR)
+    results = []
+    for raw in req.parts[:50]:
+        part = _sanitize(raw)
+        out = FINAL_OUTPUTS_DIR / part
+        if not out.is_dir():
+            results.append({"part": part, "state": "no_output"})
+            continue
+        try:
+            row, _tail = _sh.run_scorer(PROJECT_DIR, out, SCORING_DIR, part, export=req.export)
+        except Exception as e:  # noqa: BLE001
+            row = {"part": part, "error": f"The scorer could not be run: {str(e)[:200]}"}
+        rec = _sh.record_from_scorer(row, run_id=_latest_run_id(part), version=version)
+        _sh.append(SCORING_DIR, part, rec)
+        results.append({"part": part, "state": rec["state"], "score": rec.get("score")})
+    return {"version": version, "results": results}
 
 
 @app.get("/api/parts/{session}/{part}/thumb.jpg")
@@ -2184,5 +2464,6 @@ def run_part(session: str = Form(...), part: str = Form(...),
     if record and not _recording_capability()["available"]:
         record = False        # the UI disables the box in this case; a stale client must not fail the run over a video
     cmd = _pipeline_cmd(src, FINAL_OUTPUTS_DIR, no_cache=no_cache, record=record)
+    _touch_meta(pdir, last_run_at=_now_iso())
     run_id = _start_run(cmd, out_dir, deliver_name=_sanitize(part), extra_files=originals)
     return {"id": run_id, "part": _sanitize(part)}

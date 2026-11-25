@@ -28,6 +28,7 @@
     <li><a class="sb-item" href="#/workspace" data-page="workspace" data-tip="Workspace"><span data-icon="workspace"></span><span class="sb-label">Workspace</span><span class="sb-run" hidden aria-hidden="true"></span></a></li>
     <li><a class="sb-item" href="#/projects" data-page="projects" data-tip="Projects"><span data-icon="projects"></span><span class="sb-label">Projects</span></a></li>
     <li><a class="sb-item" href="#/results" data-page="results" data-tip="Pipeline Results"><span data-icon="results"></span><span class="sb-label">Pipeline Results</span></a></li>
+    <li><a class="sb-item" href="#/scoring" data-page="scoring" data-tip="Scoring"><span data-icon="scoring"></span><span class="sb-label">Scoring</span></a></li>
     <li><a class="sb-item" href="#/recent" data-page="recent" data-tip="Recent Files"><span data-icon="recent"></span><span class="sb-label">Recent Files</span></a></li>
   </ul>
   <ul class="sb-nav sb-bottom">
@@ -65,6 +66,7 @@
         <button id="home-create" class="btn xl" type="button" aria-disabled="true" aria-describedby="home-create-reason"><span data-icon="sparkles" data-size="18"></span><span id="home-create-label">Create 3D Model</span></button>
         <span id="home-create-reason" class="reason" aria-live="polite">Add a drawing to continue.</span>
       </div>
+      <div id="home-staged-sum" class="home-staged-sum" aria-live="polite" hidden></div>
       <ul id="home-staged" class="home-staged" aria-label="Selected parts" hidden></ul>
       <div class="home-secondary" role="group" aria-label="More ways to add parts">
         <button id="home-parts-btn" class="btn secondary" type="button"><span data-icon="files" data-size="16"></span>Upload parts</button>
@@ -191,7 +193,7 @@
             <div class="row2">
               <label class="btn secondary sm" for="intake-file" id="intake-file-lbl"><span data-icon="upload" data-size="16"></span>Upload drawing</label>
               <input id="intake-file" class="dz-input" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,.bmp,.tif,.tiff,.dwg,.dxf,.edrw,.eprt,.easm">
-              <label class="btn secondary sm" for="batch-folder" id="batch-folder-lbl" title="Upload a parts folder (one subfolder per part)"><span data-icon="folder" data-size="16"></span>Upload folder</label>
+              <label class="btn secondary sm" for="batch-folder" id="batch-folder-lbl" title="Upload a folder of PDFs and images (each file is one part), or a parts folder with one subfolder per part"><span data-icon="folder" data-size="16"></span>Upload folder</label>
               <input id="batch-folder" class="dz-input" type="file" webkitdirectory multiple>
             </div>
             <p id="req-warn" class="req-warn" role="status"></p>
@@ -209,6 +211,12 @@
             <button id="run-btn" class="btn gold run-main" type="button" aria-disabled="true" aria-describedby="run-reason"><span data-icon="play" data-size="16"></span><span class="run-lbl">Run Pipeline</span></button>
             <button id="cancel-btn" class="btn danger sm" type="button" hidden>Cancel</button>
             <span id="run-reason" class="reason trk-reason">Select or create a part.</span>
+            <div id="run-estimate" class="run-est" role="group" aria-label="Run estimate" aria-live="off" data-state="loading">
+              <p class="est-line" id="est-time">Estimated time: calculating</p>
+              <p class="est-line" id="est-cost">Estimated cost: calculating</p>
+              <p class="est-live" id="est-live" hidden></p>
+              <p class="est-detail" id="est-detail"></p>
+            </div>
             <div class="row2 row-actions">
               <button id="run-all-btn" class="btn secondary" type="button" disabled aria-describedby="runall-why"><span data-icon="play-all" data-size="16"></span>Run All Parts</button>
             </div>
@@ -281,6 +289,7 @@
         <label class="btn secondary" for="proj-folder"><span data-icon="folder" data-size="16"></span>Upload parts folder</label>
         <input id="proj-folder" class="dz-input" type="file" webkitdirectory multiple>
         <button id="proj-runall" class="btn secondary" type="button" aria-describedby="proj-runall-why"><span data-icon="play-all" data-size="16"></span>Run All Parts</button>
+        <button id="proj-retry" class="btn secondary" type="button" hidden>Retry failed</button>
         <button id="proj-more" class="ibtn big" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="More actions"><span data-icon="more" data-size="18"></span></button>
         <div id="proj-menu" class="menu" role="menu" hidden><button type="button" role="menuitem" id="proj-clear" class="menu-item danger"><span data-icon="trash" data-size="16"></span>Clear all models</button></div>
       </div>
@@ -294,6 +303,15 @@
     <header class="pg-head"><h1 tabindex="-1">Pipeline Results</h1></header>
     <!-- OWNER: results (res-head, res-body per ARCH 8.7 mount into #res-root) -->
     <div id="res-root"></div>
+  </section>
+
+  <!-- ============ SCORING ============ -->
+  <section id="page-scoring" class="page page-scoring" data-page="scoring" hidden>
+    <header class="pg-head"><h1 tabindex="-1">Scoring</h1>
+      <div class="pg-actions"><button id="sc-eval-all" class="btn secondary" type="button"><span data-icon="refresh" data-size="16"></span>Evaluate all</button></div>
+    </header>
+    <p id="sc-lede" class="reason pg-reason"></p>
+    <div id="sc-body"></div>
   </section>
 
   <!-- ============ RECENT ============ -->
@@ -353,6 +371,10 @@
 <script defer src="/static/js/logic/jsontree.js"></script>
 <script defer src="/static/js/logic/csv.js"></script>
 <script defer src="/static/js/logic/batchgroup.js"></script>
+<script defer src="/static/js/logic/folderplan.js"></script>
+<script defer src="/static/js/logic/estimateview.js"></script>
+<script defer src="/static/js/logic/projectorder.js"></script>
+<script defer src="/static/js/logic/scoringview.js"></script>
 <script defer src="/static/js/logic/registry.js"></script>
 <script defer src="/static/js/features/run.js"></script>
 <script defer src="/static/js/features/intake.js"></script>
@@ -361,6 +383,7 @@
 <script defer src="/static/js/features/viewer2d.js"></script>
 <script defer src="/static/js/features/engineering-flags.js"></script>
 <script defer src="/static/js/features/recording.js"></script>
+<script defer src="/static/js/features/estimate.js"></script>
 <script defer src="/static/js/features/viewer3d.js"></script>
 <script defer src="/static/js/ui/toast.js"></script>
 <script defer src="/static/js/ui/dialog.js"></script>
@@ -374,6 +397,7 @@
 <script defer src="/static/js/pages/home.js"></script>
 <script defer src="/static/js/pages/workspace.js"></script>
 <script defer src="/static/js/pages/projects.js"></script>
+<script defer src="/static/js/pages/scoring.js"></script>
 <script defer src="/static/js/pages/resultsPage.js"></script>
 <script defer src="/static/js/pages/recent.js"></script>
 <script defer src="/static/js/pages/help.js"></script>

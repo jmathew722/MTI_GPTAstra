@@ -674,3 +674,9 @@ A checkbox under "Force fresh extraction" (Run options) records only the SolidWo
 (records the one window even when covered); fallback: screen rectangle with a privacy gate (covered frames are dropped). CLI: `--record-solidworks`.
 Recordings are gitignored. Tests: `tests/test_solidworks_recorder.py` (16), `FINAL_UI/tests/server/test_app_recording.py` (11),
 `tests/unit/recordingview.test.js`, `tests/e2e/tests/24-solidworks-recording.spec.ts` (5).
+
+## v4 UI update (2026-11-25, branch `Improvementsv4`)
+
+Batch folders accept PDF/JPG/JPEG/PNG (mixed, any case) with preflight and Retry failed; a Scoring sidebar tab over `bench.score` (Incomplete, never 0, when
+there is no signed key); real PDF previews and newest-first ordering on Projects; time and cost estimates under Run Pipeline from finished runs and the priced
+ledger. Details: `docs/test-reports/2026-11-25-v4-report.md`, `FINAL_UI/README.md` (v4 section). Pipeline tests: 1308 passed, 66 skipped.

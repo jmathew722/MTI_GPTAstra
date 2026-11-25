@@ -87,7 +87,7 @@ test.describe('Home (minimal layout)', () => {
       await page.setInputFiles('#home-folder', root);
       await expect(page.locator('#home-staged li')).toHaveCount(3);
       await expect(page.locator('#home-staged li', { hasText: a })).toContainText('2 views');
-      await expect(page.locator('#home-staged li', { hasText: solo })).toContainText('1 view');
+      await expect(page.locator('#home-staged li', { hasText: solo })).toContainText('1 page');   // v4: a loose file shows its type and page count
       await expect(page.locator('#home-create-label')).toHaveText('Create 3 3D models');
       await page.click('#home-create');
       await expect(page).toHaveURL(/#\/projects/);
