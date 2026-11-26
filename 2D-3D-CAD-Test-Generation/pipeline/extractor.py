@@ -91,9 +91,21 @@ def _accumulate_usage(acc: dict[str, int], response: Any) -> None:
 
 
 # --- Extraction cache: skip the API entirely for an already-seen image ------- #
+def _prompt_fingerprint() -> str:
+    """Hash of everything that shapes the model's answer besides the image: the system prompt and the output schema. A cached extraction made with an older
+    prompt or schema (for example before ``material_extraction`` existed) must never be served for a newer one."""
+    h = hashlib.sha256()
+    h.update(SYSTEM_PROMPT.encode("utf-8"))
+    h.update(b"\0")
+    h.update(json.dumps(DrawingData.model_json_schema(), sort_keys=True).encode("utf-8"))
+    return h.hexdigest()
+
+
 def _cache_key(image_b64: str, model: str) -> str:
     h = hashlib.sha256()
     h.update(model.encode("utf-8"))
+    h.update(b"\0")
+    h.update(_prompt_fingerprint().encode("utf-8"))
     h.update(b"\0")
     h.update(image_b64.encode("utf-8"))
     return h.hexdigest()

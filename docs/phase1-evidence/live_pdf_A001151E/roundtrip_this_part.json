@@ -1,0 +1,87 @@
+{
+ "original_total": 18,
+ "matched": [
+  [
+   "D001 linear 2.38 inch",
+   "H001:pitch_h1"
+  ],
+  [
+   "D002 linear 2.75 inch",
+   "body:extent_z"
+  ],
+  [
+   "D003 linear 1.88 inch",
+   "H001:pitch_v1"
+  ],
+  [
+   "D004 linear 0.94 inch",
+   "H003:location_h_from_edge"
+  ],
+  [
+   "D005 linear 0.5 inch",
+   "H003:depth"
+  ],
+  [
+   "D006 linear 1.88 inch",
+   "H001:pitch_v1"
+  ],
+  [
+   "D007 diameter 0.4 inch",
+   "H001:diameter"
+  ],
+  [
+   "D008 diameter 0.58 inch",
+   "H003:diameter"
+  ],
+  [
+   "D009 depth 0.5 inch",
+   "H003:depth"
+  ],
+  [
+   "D010 diameter 1.002 inch",
+   "H003:counterbore"
+  ],
+  [
+   "D011 depth 0.111 inch",
+   "H003:counterbore_depth"
+  ],
+  [
+   "D012 linear 1.5 inch",
+   "body:extent_y"
+  ],
+  [
+   "D013 linear 3.25 inch",
+   "body:extent_x"
+  ],
+  [
+   "D014 linear 1.38 inch",
+   "H003:pitch_h1"
+  ],
+  [
+   "D015 linear 0.5 inch",
+   "H003:depth"
+  ],
+  [
+   "D016 linear 0.94 inch",
+   "H003:location_h_from_edge"
+  ],
+  [
+   "H001 hole dia 0.4 inch (x4)",
+   "H001:diameter"
+  ],
+  [
+   "H002 hole dia 0.58 inch (x2)",
+   "H003:diameter"
+  ]
+ ],
+ "strict_matched": 16,
+ "original_only": [],
+ "regen_only": [
+  "H001:location_h_from_edge",
+  "H001:location_v_from_edge",
+  "H003:location_v_from_edge"
+ ],
+ "material_original_text": "CRS 1018",
+ "material_regenerated": "Plain Carbon Steel",
+ "material_note": "original names a material; the regenerated part carries 'Plain Carbon Steel'"
+}

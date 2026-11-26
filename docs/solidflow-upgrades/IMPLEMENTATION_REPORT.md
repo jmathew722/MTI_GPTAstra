@@ -48,6 +48,8 @@ Phase 1 detail: `PHASE_1_REPORT.md`. API proof: `api_validation.md`. Dependencie
 * `tools/reverse_http_e2e.py`: a **real** uvicorn server, real multipart upload, template generated through the API, real CAD worker thread, real SOLIDWORKS, artifacts downloaded
   through the artifact endpoint with matching byte counts, traversal refused, no server paths in responses: 14/14 steps (`docs/phase2-evidence/http_e2e/`). This run found and fixed a real bug
   (a template task arriving before any job ran on an unconnected CAD session).
+* `docs/solidflow-upgrades/LIVE_PDF_RUN.md`: original PDF -> live OpenAI extraction (0.371 USD, evidence + bounding box) -> company-library match -> native assignment verified after reopen -> mass and cost -> regenerated drawing with MATERIAL in the title block -> 18/18 original dimensions found. Found and fixed a stale extraction cache.
+* `docs/phase2-evidence/roundtrip/ROUNDTRIP_REPORT.md`: original-vs-regenerated comparison over the 18-part batch (53 % of 631 original dimensions found by value, 45 % strictly), with discrepancies listed per part.
 * Hand-checked sheets: `docs/phase2-evidence/fixture_probe/sheet-1.png`, `batch18/*/sheet-1.png`.
 
 ## 4. UI
@@ -65,7 +67,7 @@ exercised end to end against the real CAD worker (section 3). Reproducible regre
 * **Speed:** about 1-4 minutes per part with sections (SOLIDWORKS regenerates every view); the UI estimate comes from real history.
 * A hung COM call cannot be force-killed without killing a SOLIDWORKS session that may be the user's; the watchdog flags the part and requests cancellation.
 * Student Edition adds a license line to every PDF; this is not part of the pipeline.
-* **NOT RUN:** a live OpenAI extraction with real material callouts (needs the API key and a budget go-ahead); comparison against engineer-prepared reference drawings; the engineering review gate.
+* **Live PDF run done for one drawing** (`LIVE_PDF_RUN.md`); other callout types (conflicting, unreadable, multi-page) are covered by schema / unit tests only. **NOT RUN:** comparison against engineer-prepared reference drawings; the engineering review gate.
 * **NOT RUN:** a browser drive of the UI against a real job (the browser specs use fixture jobs; the HTTP end-to-end uses the real worker but no browser).
 
 ## 6. Exact commands

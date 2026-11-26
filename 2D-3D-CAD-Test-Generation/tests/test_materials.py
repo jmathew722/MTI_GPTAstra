@@ -355,3 +355,12 @@ def test_finalize_without_solidworks_leaves_cost_unavailable_not_zero(tmp_path):
     assert est["available"] is False and est["net_material_cost"] is None and est["reason"]
     app = json.loads((tmp_path / "appearance.json").read_text())
     assert app["verified"] is False
+
+
+def test_extraction_cache_key_changes_with_the_prompt_and_schema(monkeypatch):
+    """A cache hit made before the prompt/schema changed (no material_extraction) must not be served after it (found by the live PDF run)."""
+    from pipeline import extractor
+    k1 = extractor._cache_key("IMG", "m")
+    assert k1 == extractor._cache_key("IMG", "m") and k1 != extractor._cache_key("IMG2", "m") and k1 != extractor._cache_key("IMG", "m2")
+    monkeypatch.setattr(extractor, "SYSTEM_PROMPT", extractor.SYSTEM_PROMPT + "\nnew instruction")
+    assert extractor._cache_key("IMG", "m") != k1

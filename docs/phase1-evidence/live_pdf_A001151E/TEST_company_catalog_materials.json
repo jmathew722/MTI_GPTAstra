@@ -1,0 +1,32 @@
+{
+ "schema_version": 1,
+ "catalog_id": "TEST-company-library",
+ "label": "TEST company library (scratch, synthetic price)",
+ "currency": "USD",
+ "price_basis": "TEST_CATALOG_synthetic_usd_per_kg",
+ "materials": [
+  {
+   "id": "co-1018",
+   "label": "AISI 1018 Steel (company approved, mapped to SW Plain Carbon Steel)",
+   "aliases": [
+    "1018 steel",
+    "1018",
+    "CRS 1018",
+    "1018 CRS",
+    "1018 STEEL",
+    "CRS1018",
+    "COLD ROLLED STEEL 1018"
+   ],
+   "spec": "AISI 1018",
+   "density_kg_m3": 7800,
+   "price_per_kg": 0.85,
+   "sw_database": "solidworks materials.sldmat",
+   "sw_material_name": "Plain Carbon Steel",
+   "appearance": {
+    "color": "#A5ABB4",
+    "metalness": 0.8,
+    "roughness": 0.35
+   }
+  }
+ ]
+}

@@ -6,7 +6,7 @@ Resume point: read this file, `IMPLEMENTATION_REPORT.md`, `git log`, then contin
 ## Phase 1: 2D -> 3D material upgrade
 | Requirement | Status | Evidence |
 |---|---|---|
-| OpenAI extraction of material (`material_extraction`, evidence vs inference, statuses) | DONE (contract, schema, prompt, validation) / live model read **see section "Live PDF run" in `LIVE_PDF_RUN.md`** | `tests/test_materials.py`; `LIVE_PDF_RUN.md` |
+| OpenAI extraction of material (`material_extraction`, evidence vs inference, statuses) | DONE, including a LIVE model read (CRS 1018, evidence + bbox, 0.371 USD) | `tests/test_materials.py`; `LIVE_PDF_RUN.md` |
 | Drawings with no material are explicit | DONE | unit tests; live `none` scenario; UI "No material specified on drawing" |
 | Company material folder control below Upload Folder | DONE | `30-v5-materials` e2e (DOM order + layout audit) |
 | Demo steel / copper / PLA | DONE | `config/materials/solidflow-demo.json`; live native assignment 7850 / 8960 / 1240 kg/m3 |
@@ -52,7 +52,7 @@ Resume point: read this file, `IMPLEMENTATION_REPORT.md`, `git log`, then contin
 |---|---|---|
 | SLDPRT -> STL -> SLDDRW -> PDF | DONE | batch18, HTTP e2e |
 | PDF -> SLDPRT -> STL (existing pipeline) | DONE previously (v1-v4); re-checked via saved extraction rebuild | `docs/phase1-evidence/` |
-| PDF -> material extraction -> native assignment (live model read) | see `LIVE_PDF_RUN.md` | |
+| PDF -> material extraction -> native assignment (live model read) | DONE (one drawing; test catalog; reopen-verified) | `LIVE_PDF_RUN.md` |
 | Material preserved into the drawing | DONE | manifest `material`, title block |
 | Native file integrity, STL vs SLDPRT consistency, drawing dims vs native geometry | DONE | `reopen_check.json`, `stl_validation.json`, ledger read-back |
 | Missing material / corrupt / unsupported files | DONE | gates, unit tests |

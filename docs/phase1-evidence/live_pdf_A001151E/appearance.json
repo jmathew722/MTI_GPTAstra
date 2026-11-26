@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "artifact": "116-C_ir.stl",
+  "artifact_sha256": "a420cb94cda27febb28432e99c7a92e69140d09c48b9e2e46eb40eec00394e25",
+  "job_id": "",
+  "configuration": "Default",
+  "material_id": "co-1018",
+  "material_label": "AISI 1018 Steel (company approved, mapped to SW Plain Carbon Steel)",
+  "status": "assigned_verified",
+  "verified": true,
+  "color": "#A5ABB4",
+  "metalness": 0.8,
+  "roughness": 0.35,
+  "source": "catalog",
+  "caption": "Illustrative appearance, not a finish specification.",
+  "per_body": null
+}

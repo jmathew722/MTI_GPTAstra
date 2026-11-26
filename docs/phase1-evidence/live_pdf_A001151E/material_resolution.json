@@ -1,0 +1,92 @@
+{
+  "status": "assigned_verified",
+  "drawing": {
+    "status": "specified",
+    "raw_text": "CRS 1018",
+    "normalized_candidate": "CRS 1018",
+    "evidence": [
+      {
+        "page": 1,
+        "region": "title_block",
+        "quote": "CRS 1018",
+        "bbox_normalized": [
+          0.81,
+          0.704,
+          0.89,
+          0.726
+        ]
+      }
+    ],
+    "alternatives": [],
+    "confidence": 0.99,
+    "review_reason": null,
+    "specification": null,
+    "condition_or_temper": "Cold rolled (CRS)",
+    "coating": null,
+    "heat_treatment": "NONE",
+    "finish": "63 surface-texture callout with G at the indicated face; see finish field.",
+    "hardness": null,
+    "stock_form": null,
+    "body_scope": null
+  },
+  "label": "CRS 1018",
+  "chosen": {
+    "material_id": "co-1018",
+    "label": "AISI 1018 Steel (company approved, mapped to SW Plain Carbon Steel)",
+    "catalog_id": "company_lib",
+    "catalog_source": "company",
+    "catalog_path": "<local-path>/company_lib",
+    "catalog_sha256": "0ecf31d3c22418e76df1ec1bfb27d7cbad88becde6219cc67e4781b575458f19",
+    "density_kg_m3": 7800.0,
+    "price_per_kg": 0.85,
+    "currency": "USD",
+    "price_basis": "TEST_CATALOG_synthetic_usd_per_kg",
+    "sw_material_name": "Plain Carbon Steel",
+    "sw_database": "<local-path>/solidworks materials.sldmat",
+    "appearance": {
+      "color": "#A5ABB4",
+      "metalness": 0.8,
+      "roughness": 0.35
+    },
+    "classification": ""
+  },
+  "selection_source": "drawing",
+  "suggestions": [],
+  "standard_candidates": [],
+  "override": null,
+  "review_required": false,
+  "review_reasons": [],
+  "assignable": true,
+  "catalogs": [
+    {
+      "catalog_id": "company_lib",
+      "source": "company",
+      "path": "<local-path>/company_lib",
+      "sha256": "0ecf31d3c22418e76df1ec1bfb27d7cbad88becde6219cc67e4781b575458f19",
+      "currency": "USD",
+      "price_basis": "TEST_CATALOG_synthetic_usd_per_kg",
+      "entries": 260,
+      "rejected": 0,
+      "files": [
+        "materials.json",
+        "solidworks materials.sldmat"
+      ]
+    },
+    {
+      "catalog_id": "sw-standard",
+      "source": "standard",
+      "path": "<local-path>/solidworks materials.sldmat",
+      "sha256": "636ef75ffb10e8abf7529c910a50dc2cb0d73ce5112c9721e7e4de1824cf57c5",
+      "currency": "USD",
+      "price_basis": "",
+      "entries": 259,
+      "rejected": 0,
+      "files": [
+        "solidworks materials.sldmat"
+      ]
+    }
+  ],
+  "resolved_at": "2026-11-26T09:13:40+00:00",
+  "catalog_warnings": [],
+  "strict_release": false
+}
