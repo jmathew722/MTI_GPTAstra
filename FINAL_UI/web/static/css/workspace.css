@@ -93,7 +93,8 @@
 
 .vpanel { container-type: inline-size; container-name: vp; display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--bg-raised); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .vpanel:fullscreen { border-radius: 0; background: var(--bg-raised); }
-.vp-head { display: flex; align-items: center; gap: 10px; min-height: 57px; padding: 8px 14px; border-bottom: 1px solid var(--line-soft); flex-wrap: nowrap; min-width: 0; }
+.vp-head { display: flex; align-items: center; gap: 10px; min-height: 57px; padding: 8px 14px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; row-gap: 4px; min-width: 0; }
+.vp-head .badge-c { flex: none; } /* a status label is never shortened: the header wraps instead */
 .vp-head h2 { font-size: 17px; font-weight: 600; white-space: nowrap; }
 .vp-ic { color: var(--accent-text); display: grid; place-items: center; }
 .vp-file { color: var(--ink-2); font-size: var(--fs-small); max-width: 18ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

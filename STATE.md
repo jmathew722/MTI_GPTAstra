@@ -701,3 +701,7 @@ See `docs/test-reports/2026-11-25-v4-report.md` (Addendum 3).
 ## v4: always-fresh UI and action buttons (2026-11-25, branch `Improvementsv4`)
 
 Static UI files are versioned and revalidated; all scoring numbers are grade-coloured; Open/Results/Details/Evaluate buttons are larger with violet and gold treatments. See `docs/test-reports/2026-11-25-v4-report.md` (Addendum 4).
+
+## v4: layout audit (2026-11-25, branch `Improvementsv4`)
+
+Accent bars, borders and status indicators are kept 8px+ clear of text across the UI and guarded by an automated crawl (`29-v4-layout-audit.spec.ts`). See `docs/test-reports/2026-11-25-v4-report.md` (Addendum 5).

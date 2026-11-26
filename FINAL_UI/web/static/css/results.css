@@ -48,7 +48,7 @@
 .res-body { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: var(--sp-4); min-height: 0; }
 .res-nav { display: grid; gap: var(--sp-3); align-content: start; align-self: start; position: sticky; top: 0; max-height: 100dvh; overflow-y: auto; }   /* align-self:start so sticky has room to follow long content */
 .res-group h3 { font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); padding: 0 var(--sp-2) var(--sp-1); }
-.res-link { appearance: none; width: 100%; display: flex; align-items: center; gap: var(--sp-2); text-align: left; background: transparent; border: 0; border-radius: var(--r-md); padding: 7px var(--sp-2); color: var(--ink-2); font-size: var(--fs-control); }
+.res-link { appearance: none; width: 100%; display: flex; align-items: center; gap: var(--sp-2); text-align: left; background: transparent; border: 0; border-radius: var(--r-md); padding: 7px var(--sp-3); color: var(--ink-2); font-size: var(--fs-control); }
 .res-link:hover { background: var(--surface-2); color: var(--ink); }
 .res-link[aria-current="true"], .res-link[aria-selected="true"] { background: var(--accent-dim); color: var(--ink); box-shadow: inset 2px 0 0 var(--accent); }
 .res-dot { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--ink-4); flex: none; }
@@ -59,7 +59,7 @@
 @media (max-width: 800px) { .res-body { grid-template-columns: 1fr; } .res-nav { position: static; grid-template-columns: 1fr 1fr; } }
 
 /* ── Section frame ──────────────────────────────────────────────────────── */
-.rsec { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.rsec { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; padding-left: var(--sp-4); border-radius: var(--r-sm); } /* the health accent is an inset shadow on the left edge: the padding keeps content 13px clear of it */
 .rsec-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
 .rsec-head h2, .rsec-head h3 { font-size: var(--fs-h2); }
 .rsec-status { font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); border: 1px solid var(--line-strong); border-radius: var(--r-sm); padding: 1px var(--sp-2); }

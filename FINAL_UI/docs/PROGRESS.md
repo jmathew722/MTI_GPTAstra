@@ -162,3 +162,7 @@ macro-readiness style metrics) onto it. Fixed thresholds, no rounding up, neutra
 
 Versioned asset URLs and `no-cache` headers (the likely reason new colours did not show), every overview/example/credit-curve number graded, larger violet/gold action buttons (Open, Results, Details, Evaluate, Re-evaluate),
 two Projects accessibility fixes. Tests: server stale-UI test, browser `28-v4-buttons-and-number-colour` 4.
+
+### 2026-11-25 (last+1): layout audit
+
+Fixed the Pipeline Results accent bar overlapping headings and text (`.rsec` padding), tightened `.res-link`, stopped the Workspace viewer badge being truncated. Added the reusable layout audit (`helpers/layout-audit.ts`, `29-v4-layout-audit.spec.ts`, 3 tests) over every page, section, size and sidebar state.
