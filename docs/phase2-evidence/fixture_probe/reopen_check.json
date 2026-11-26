@@ -1,0 +1,33 @@
+{
+  "opened": true,
+  "views": [
+    {
+      "name": "Drawing View1",
+      "references": "probe_a.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View2",
+      "references": "probe_a.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View3",
+      "references": "probe_a.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View4",
+      "references": "probe_a.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View5",
+      "references": "probe_a.SLDPRT",
+      "ok": true
+    }
+  ],
+  "dimensions": 15,
+  "errors": [],
+  "sheets": 1
+}

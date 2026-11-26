@@ -1,0 +1,139 @@
+"""Job creation and serialized execution for 3D -> 2D: one CAD session, one part at a time, bounded and cancellable.
+
+``run_job`` is what the server's single worker thread calls; ``python -m reverse.cli`` calls the same function, so the command line and the UI run
+exactly the same code.
+"""
+from __future__ import annotations
+
+import logging
+import threading
+from pathlib import Path
+from typing import Callable, Optional
+
+from reverse import engine, safety, state, worker
+
+log = logging.getLogger(__name__)
+
+
+def create_job(store: state.JobStore, *, template: dict, part_paths: list[Path], profile: str = "us_third_angle_inch", configs: Optional[dict] = None,
+               options: Optional[dict] = None, authorized_roots: Optional[list[Path]] = None) -> state.Job:
+    """Validate every input BEFORE anything is queued. A bad file is reported with its reason; good files still run (batch isolation)."""
+    from reverse.planner import PROFILES
+    if profile not in PROFILES:
+        raise safety.SafetyError(f"Unknown drawing profile {profile!r}.")
+    job = state.Job(job_id=safety.new_job_id(), template_id=template["id"], profile=profile, output_root=str(store.root), options=dict(options or {}))
+    rejected = []
+    pairs = safety.dedupe_ids(list(part_paths))
+    for path, pid in pairs:
+        try:
+            p = safety.authorize(path, authorized_roots) if authorized_roots else Path(path).resolve()
+            safety.check_part_file(p)
+            cfg = (configs or {}).get(str(path), "") or ""
+            job.parts.append(state.PartState(part_id=pid, source=str(p), name=p.name, config=cfg))
+        except safety.SafetyError as e:
+            rejected.append({"name": Path(path).name, "reason": str(e)})
+    job.options["rejected"] = rejected
+    if not job.parts:
+        raise safety.SafetyError("No valid SOLIDWORKS parts to process: " + "; ".join(f"{r['name']}: {r['reason']}" for r in rejected))
+    store.save(job)
+    store.event(job.job_id, "created", parts=len(job.parts), rejected=len(rejected))
+    return job
+
+
+def run_job(store: state.JobStore, job_id: str, template: dict, *, cancel: Optional[Callable[[], bool]] = None, session: Optional[worker.CadSession] = None,
+            only: Optional[list[str]] = None) -> state.Job:
+    """Run (or retry, with ``only``) the parts of a job. Never raises for a part failure: each part carries its own result."""
+    job = store.load(job_id)
+    s = session or worker.CadSession()
+    cancelled = cancel or (lambda: store.load(job_id).cancel_requested)
+    try:
+        job.solidworks = s.connect().as_dict()
+    except Exception as e:      # noqa: BLE001
+        for p in job.parts:
+            if not only or p.part_id in only:
+                state.finish(p, "failed", f"SOLIDWORKS is not available: {type(e).__name__}: {e}"[:300])
+        job.state = job.summary_state()
+        store.save(job)
+        store.event(job_id, "solidworks_unavailable", error=str(e))
+        return job
+    job.state = "running"
+    store.save(job)
+    for part in job.parts:
+        if only and part.part_id not in only:
+            continue
+        if part.state in ("completed", "review_required") and not only:
+            continue
+        if cancelled():
+            if part.state not in state.TERMINAL:
+                state.finish(part, "canceled")
+            continue
+        if only:       # retry: start the part over
+            part.state, part.error, part.stages, part.ended = "queued", "", {}, None
+        engine.PartRunner(s, store, job, part, template, cancel=cancelled).run()
+        store.save(job)
+    job.state = job.summary_state()
+    store.save(job)
+    store.event(job_id, "job_done", state=job.state)
+    return job
+
+
+class JobQueue:
+    """One worker thread, strictly serialized (one COM session). Submitting never blocks the caller."""
+
+    def __init__(self, store: state.JobStore, template_lookup: Callable[[str], dict]):
+        self.store = store
+        self.lookup = template_lookup
+        self._q: list[tuple[str, Optional[list[str]]]] = []
+        self._cv = threading.Condition()
+        self._stop = False
+        self._t: Optional[threading.Thread] = None
+        self.current: Optional[str] = None
+
+    def start(self) -> None:
+        if self._t and self._t.is_alive():
+            return
+        self.store.recover()
+        self._t = threading.Thread(target=self._loop, name="reverse-cad-worker", daemon=True)
+        self._t.start()
+
+    def submit(self, job_id: str, only: Optional[list[str]] = None) -> None:
+        with self._cv:
+            self._q.append((job_id, only))
+            self._cv.notify()
+
+    def cancel(self, job_id: str) -> None:
+        j = self.store.load(job_id)
+        j.cancel_requested = True
+        for p in j.parts:
+            if p.state == "queued":
+                state.finish(p, "canceled")
+        self.store.save(j)
+        self.store.event(job_id, "cancel_requested")
+
+    def _loop(self) -> None:
+        import pythoncom
+        pythoncom.CoInitialize()               # the COM session lives on THIS thread only (STA)
+        try:
+            session = worker.CadSession()
+            while True:
+                with self._cv:
+                    while not self._q and not self._stop:
+                        self._cv.wait(timeout=1.0)
+                    if self._stop:
+                        return
+                    job_id, only = self._q.pop(0)
+                self.current = job_id
+                try:
+                    j = self.store.load(job_id)
+                    run_job(self.store, job_id, self.lookup(j.template_id), session=session, only=only)
+                except Exception:      # noqa: BLE001
+                    log.exception("job %s crashed", job_id)
+                finally:
+                    self.current = None
+        finally:
+            pythoncom.CoUninitialize()
+
+    def stop(self) -> None:
+        with self._cv:
+            self._stop = True
+            self._cv.notify_all()

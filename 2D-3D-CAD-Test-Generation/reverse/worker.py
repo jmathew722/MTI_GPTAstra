@@ -51,6 +51,7 @@ class CadSession:
     def __init__(self, sw_app=None):
         self._owns_session = sw_app is None
         self.app = sw_app
+        self.last_open_warnings = 0
         self.opened: dict[str, str] = {}          # normalized path -> title, for docs THIS worker opened
         self.info = SwInfo()
         self._prefs: dict[tuple[str, int], object] = {}
@@ -99,7 +100,7 @@ class CadSession:
             self._close_title(str(doc.GetTitle()))
             raise CadError(f"{path.name} is not a part document.")
         self.opened[self._norm(path)] = str(doc.GetTitle())
-        doc._open_warnings = warns       # type: ignore[attr-defined]
+        self.last_open_warnings = int(warns or 0)
         return doc
 
     def close_part(self, path: Path) -> None:
@@ -179,7 +180,7 @@ class CadSession:
 
     # ------------------------------------------------------------ geometry
     def body_box(self, doc) -> Optional[tuple[float, ...]]:
-        bodies = doc.GetBodies2(0, False) or ()
+        bodies = self.typed(doc, "IPartDoc").GetBodies2(0, False) or ()
         if not bodies:
             return None
         mins = [math.inf] * 3

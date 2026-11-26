@@ -91,16 +91,34 @@ def choose_front(ext: dict, hole_axes: dict, override: Optional[str] = None) -> 
     return best
 
 
+VIEW_PAD = 0.0065        # SOLIDWORKS' real view outline includes centre-mark / centreline overshoot (measured ~5.6 mm each side): plan with it
+
+
 def _view_dims(view: str, ext: dict) -> tuple[float, float]:
+    """Raw part extents (metres, model scale) of the view. Callers scale these and then add ``2 * VIEW_PAD`` on the sheet."""
     h, v, _ = VIEWS[view]
     return ext[h], ext[v]
 
 
+def find_spot(w: float, h: float, placed: list, keep_out: list, usable: Rect, gap: float, step: float = 0.005) -> Optional[Rect]:
+    """First collision-free w x h rectangle in the usable area (scanning top-right first, where an isometric reads best), else None."""
+    y = usable.y1 - gap * 0.5 - h
+    while y >= usable.y0 + gap * 0.3:
+        x = usable.x1 - gap * 0.5 - w
+        while x >= usable.x0 + gap * 0.3:
+            r = Rect(x, y, x + w, y + h)
+            if r.inside(usable) and not any(r.grow(gap * 0.4).overlaps(o) for o in list(placed) + list(keep_out)):
+                return r
+            x -= step
+        y -= step
+    return None
+
+
 def _ortho_rects(front: str, ext: dict, s: float, projection: str, x0: float, y0: float, gap: float) -> dict:
     top_view, right_view = _projected_names(front)
-    fw, fh = (d * s for d in _view_dims(front, ext))
-    tw, th = (d * s for d in _view_dims(top_view, ext))
-    rw, rh = (d * s for d in _view_dims(right_view, ext))
+    fw, fh = (d * s + 2 * VIEW_PAD for d in _view_dims(front, ext))
+    tw, th = (d * s + 2 * VIEW_PAD for d in _view_dims(top_view, ext))
+    rw, rh = (d * s + 2 * VIEW_PAD for d in _view_dims(right_view, ext))
     if projection == "third":   # top ABOVE the front, right to the RIGHT of the front
         front_r = Rect(x0, y0, x0 + fw, y0 + fh)
         top_r = Rect(front_r.x0, front_r.y1 + gap, front_r.x0 + tw, front_r.y1 + gap + th)
@@ -145,25 +163,18 @@ def layout_at_scale(front: str, ext: dict, s: float, projection: str, regions: d
             break
     if ortho is None:
         return None
-    iso_side = max(ext.values()) * s * 1.35
-    iso_side = max(iso_side, 0.05)
-    block_r = max(r.x1 for r in ortho.values())
-    block_t = max(r.y1 for r in ortho.values())
-    cands = [Rect(usable.x1 - iso_side - gap * 0.5, usable.y1 - iso_side - gap * 0.5, usable.x1 - gap * 0.5, usable.y1 - gap * 0.5),
-             Rect(block_r + gap, usable.y1 - iso_side - gap * 0.5, block_r + gap + iso_side, usable.y1 - gap * 0.5),
-             Rect(ortho["right"].x0, ortho["right"].y1 + gap, ortho["right"].x0 + iso_side, ortho["right"].y1 + gap + iso_side),
-             Rect(usable.x1 - iso_side - gap * 0.5, title.y1 + gap, usable.x1 - gap * 0.5, title.y1 + gap + iso_side)]
-    iso = None
-    for c in cands:
-        trial = dict(ortho, iso=c)
-        if _ok(trial, usable, keep_out, gap):
-            iso = c
+    iso_scale, iso = s, None
+    for factor in (1.0, 0.5, 0.25):
+        side = max(ext.values()) * s * factor * 1.35 + 2 * VIEW_PAD
+        iso = find_spot(side, side * 0.85, list(ortho.values()), keep_out, usable, gap)
+        if iso is not None:
+            iso_scale = s * factor
             break
     rects = dict(ortho)
     if iso is not None:
         rects["iso"] = iso
     return {"rects": rects, "views": {"front": front, "top": top_view, "right": right_view, "iso": "*Isometric" if iso is not None else None},
-            "iso_on_sheet": 1 if iso is not None else 2}
+            "iso_on_sheet": 1 if iso is not None else 2, "iso_scale": iso_scale}
 
 
 def _projected_names(front: str) -> tuple[str, str]:
@@ -202,9 +213,12 @@ def plan_views(bbox_m: tuple[float, float, float], profile: str = "us_third_angl
     if lay.get("iso_on_sheet") == 2:
         sheets = [{"index": 1, "name": "Sheet1", "contents": ["front", "top", "right"]}, {"index": 2, "name": "Sheet2", "contents": ["iso"]}]
         notes.append("The isometric view does not fit beside the orthographic views at this scale; it is placed on a second sheet instead of crowding sheet 1.")
+    iso_scale = lay.get("iso_scale", num / den)
+    if lay.get("iso_on_sheet") == 1 and abs(iso_scale - num / den) > 1e-9:
+        notes.append(f"The isometric view is shown at a smaller scale ({iso_scale:g}) than the orthographic views; it is labelled on the sheet.")
     rects = {k: v.as_list() for k, v in lay["rects"].items()}
     return {"profile": profile, "projection": prof["projection"], "units": prof["units"], "sheet_size": prof["sheet"], "paper": SHEETS[prof["sheet"]]["paper"],
             "front_view": front, "views": lay["views"], "scale": {"num": num, "den": den, "label": f"{num}:{den}"}, "scale_fits": scale_fit,
-            "rects_m": rects, "regions_m": {k: v.as_list() for k, v in regions.items()}, "sheets": sheets, "needs_section": needs_section,
+            "rects_m": rects, "iso_scale": iso_scale, "regions_m": {k: v.as_list() for k, v in regions.items()}, "sheets": sheets, "needs_section": needs_section,
             "bbox_m": list(bbox_m), "hole_axes": hole_axes or {}, "notes": notes,
             "basis": "front chosen for the largest silhouette (ties: the model's own Front); scale = largest standard scale that fits without collisions"}
