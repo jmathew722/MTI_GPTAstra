@@ -1,0 +1,171 @@
+{
+  "profile": "us_third_angle_inch",
+  "projection": "third",
+  "units": "inch",
+  "sheet_size": "ANSI_B",
+  "paper": "ANSI B (17x11 in)",
+  "front_view": "*Top",
+  "views": {
+    "front": "*Top",
+    "top": "*Back",
+    "right": "*Right",
+    "iso": "*Isometric"
+  },
+  "scale": {
+    "num": 1,
+    "den": 2,
+    "label": "1:2"
+  },
+  "scale_fits": true,
+  "rects_m": {
+    "front": [
+      0.0487,
+      0.09199,
+      0.1633,
+      0.149453
+    ],
+    "top": [
+      0.0487,
+      0.194453,
+      0.1633,
+      0.251915
+    ],
+    "right": [
+      0.2083,
+      0.09199,
+      0.265763,
+      0.149453
+    ],
+    "iso": [
+      0.32137,
+      0.181207,
+      0.40295,
+      0.25055
+    ]
+  },
+  "iso_scale": 0.25,
+  "regions_m": {
+    "sheet": [
+      0,
+      0,
+      0.4318,
+      0.2794
+    ],
+    "usable": [
+      0.0127,
+      0.00635,
+      0.42545,
+      0.27305
+    ],
+    "title_block": [
+      0.26035,
+      0.00635,
+      0.42545,
+      0.04699
+    ],
+    "notes": [
+      0.15875,
+      0.00635,
+      0.26035,
+      0.04699
+    ]
+  },
+  "sheets": [
+    {
+      "index": 1,
+      "name": "Sheet1",
+      "contents": [
+        "front",
+        "top",
+        "right",
+        "iso"
+      ]
+    }
+  ],
+  "needs_section": false,
+  "bbox_m": [
+    0.2032,
+    0.08892539999999999,
+    0.08892539999999999
+  ],
+  "hole_axes": {
+    "x": 6,
+    "y": 8,
+    "z": 0
+  },
+  "notes": [
+    "The isometric view is shown at a smaller scale (0.25) than the orthographic views; it is labelled on the sheet."
+  ],
+  "basis": "front chosen for the largest silhouette (ties: the model's own Front); scale = largest standard scale that fits without collisions",
+  "extra_views": [
+    {
+      "role": "extra_left",
+      "sw_view": "*Left",
+      "center": [
+        0.2542186499999999,
+        0.22181865
+      ],
+      "fits": true,
+      "rect": [
+        0.225487,
+        0.193087,
+        0.28295,
+        0.25055
+      ],
+      "scale": 0.5
+    }
+  ],
+  "sections": [
+    {
+      "label": "A",
+      "parent": "right",
+      "hole_ids": [
+        "H001",
+        "H002"
+      ],
+      "fits": true,
+      "role": "section_A",
+      "name": "Section View A-A",
+      "cut": {
+        "axis": "x",
+        "entry_side": "+",
+        "cut_along": "y",
+        "at_axis": "z",
+        "at_m": -0.0224536
+      }
+    },
+    {
+      "label": "B",
+      "parent": "front",
+      "hole_ids": [
+        "H009",
+        "H010"
+      ],
+      "fits": false,
+      "role": "section_B",
+      "cut": {
+        "axis": "y",
+        "entry_side": "?",
+        "cut_along": "x",
+        "at_axis": "z",
+        "at_m": -0.012699999999999998
+      }
+    },
+    {
+      "label": "C",
+      "parent": "extra_left",
+      "hole_ids": [
+        "H003"
+      ],
+      "fits": false,
+      "role": "section_C",
+      "cut": {
+        "axis": "x",
+        "entry_side": "-",
+        "cut_along": "y",
+        "at_axis": "z",
+        "at_m": 0.0
+      }
+    }
+  ]
+}

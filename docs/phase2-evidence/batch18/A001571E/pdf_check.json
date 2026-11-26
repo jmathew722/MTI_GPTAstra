@@ -1,0 +1,22 @@
+{
+  "exists": true,
+  "pages": 1,
+  "expected_pages": 1,
+  "nonblack_text": [],
+  "nonblack_strokes": 0,
+  "color_fills": 0,
+  "text_overlaps": [
+    {
+      "page": 1,
+      "a": "3.062 ",
+      "b": "4X "
+    }
+  ],
+  "text_clipped": [],
+  "vector": true,
+  "errors": [],
+  "ok": false,
+  "previews": [
+    "page-001.png"
+  ]
+}

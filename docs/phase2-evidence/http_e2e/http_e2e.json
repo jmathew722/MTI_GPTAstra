@@ -1,0 +1,321 @@
+{
+  "steps": [
+    {
+      "step": "server up",
+      "ok": true,
+      "detail": "http://127.0.0.1:8213"
+    },
+    {
+      "step": "templates listed",
+      "ok": true,
+      "detail": "b'{\"templates\":[{\"has_preview\":false,\"id\":\"stock-default\",\"name\":\"SOLIDWORKS stock drawing template\",\"source\":\"stock\",\"ava'"
+    },
+    {
+      "step": "generate default template accepted (202)",
+      "ok": true,
+      "detail": "202 b'{\"task\":{\"id\":\"3308fe2ae6\",\"kind\":\"generate\",\"state\":\"running\",\"error\":\"\",\"template_id\":null,\"label\"'"
+    },
+    {
+      "step": "generated template available (native, validated)",
+      "ok": true,
+      "detail": "solidflow-ansi-b"
+    },
+    {
+      "step": "job submitted",
+      "ok": true,
+      "detail": "200 r3d_c76b721b2d42c936"
+    },
+    {
+      "step": "job reached a terminal state",
+      "ok": true,
+      "detail": "review_required"
+    },
+    {
+      "step": "part is review_required (never silently 'complete')",
+      "ok": true,
+      "detail": "review_required"
+    },
+    {
+      "step": "PDF + SLDDRW + STL + manifest listed (only files that exist)",
+      "ok": true,
+      "detail": "['dimension_coverage.json', 'drawing.pdf', 'drawing.slddrw', 'drawing_plan.json', 'inventory.json', 'manifest.json', 'model.stl', 'pdf_check.json', 'preview/page-001.png', 'qa.json', 'reopen_check.json', 'stl_validation.json']"
+    },
+    {
+      "step": "download drawing.pdf",
+      "ok": true,
+      "detail": "200 51124 bytes None"
+    },
+    {
+      "step": "download model.stl",
+      "ok": true,
+      "detail": "200 83384 bytes None"
+    },
+    {
+      "step": "download drawing.slddrw",
+      "ok": true,
+      "detail": "200 135988 bytes None"
+    },
+    {
+      "step": "path traversal on download refused",
+      "ok": true,
+      "detail": "400"
+    },
+    {
+      "step": "no absolute server paths in the job JSON",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "step": "history lists the job",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "job": {
+    "job_id": "r3d_c76b721b2d42c936",
+    "template_id": "solidflow-ansi-b",
+    "profile": "us_third_angle_inch",
+    "options": {
+      "rejected": []
+    },
+    "state": "review_required",
+    "created": "2026-11-26T04:43:45+00:00",
+    "updated": "2026-11-26T04:45:48+00:00",
+    "solidworks": {
+      "revision": "33.5.0",
+      "major": 33,
+      "service_pack": "SP5.0",
+      "is_2025": true
+    },
+    "cancel_requested": false,
+    "actual_api_cost_usd": 0.0,
+    "kind": "drawing_generation",
+    "parts": [
+      {
+        "part_id": "probe_a",
+        "name": "probe_a.sldprt",
+        "config": "",
+        "state": "review_required",
+        "stages": {
+          "preflight": {
+            "status": "succeeded",
+            "started": "2026-11-26T04:43:46+00:00",
+            "warnings": [],
+            "errors": [],
+            "ended": "2026-11-26T04:43:46+00:00",
+            "seconds": 0.05
+          },
+          "mesh_export": {
+            "status": "succeeded",
+            "started": "2026-11-26T04:43:46+00:00",
+            "warnings": [],
+            "errors": [],
+            "ended": "2026-11-26T04:43:52+00:00",
+            "seconds": 5.9
+          },
+          "inventory": {
+            "status": "succeeded",
+            "started": "2026-11-26T04:43:52+00:00",
+            "warnings": [],
+            "errors": [],
+            "ended": "2026-11-26T04:43:56+00:00",
+            "seconds": 4.45
+          },
+          "planning": {
+            "status": "succeeded",
+            "started": "2026-11-26T04:44:11+00:00",
+            "warnings": [],
+            "errors": [],
+            "ended": "2026-11-26T04:44:11+00:00",
+            "seconds": 0.01
+          },
+          "drawing": {
+            "status": "succeeded",
+            "started": "2026-11-26T04:44:11+00:00",
+            "warnings": [],
+            "errors": [],
+            "ended": "2026-11-26T04:44:56+00:00",
+            "seconds": 44.4
+          },
+          "dimensioning": {
+            "status": "succeeded",
+            "started": "2026-11-26T04:44:56+00:00",
+            "warnings": [],
+            "errors": [],
+            "ended": "2026-11-26T04:45:04+00:00",
+            "seconds": 8.18
+          },
+          "verification": {
+            "status": "warning",
+            "started": "2026-11-26T04:45:04+00:00",
+            "warnings": [
+              "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used."
+            ],
+            "errors": [],
+            "ended": "2026-11-26T04:45:48+00:00",
+            "seconds": 43.81
+          },
+          "publishing": {
+            "status": "succeeded",
+            "started": "2026-11-26T04:45:48+00:00",
+            "warnings": [],
+            "errors": [],
+            "ended": "2026-11-26T04:45:48+00:00",
+            "seconds": 0.07
+          }
+        },
+        "review_status": "required",
+        "issues": [
+          {
+            "id": "probe_a-SECTION_NO_ROOM-001",
+            "severity": "medium",
+            "code": "SECTION_NO_ROOM",
+            "message": "Section B-B (through H001) does not fit beside its parent view on sheet 1.",
+            "source_ref": "",
+            "view": "",
+            "sheet": null,
+            "observed": "",
+            "expected": "",
+            "next_action": "Use a larger sheet or place the section manually.",
+            "history": []
+          },
+          {
+            "id": "probe_a-BLIND_DEPTH_REVIEW-002",
+            "severity": "medium",
+            "code": "BLIND_DEPTH_REVIEW",
+            "message": "H001: blind depth 60.325 mm is carried by the callout/hidden geometry; confirm or add a section view",
+            "source_ref": "",
+            "view": "right",
+            "sheet": null,
+            "observed": "60.325 mm",
+            "expected": "",
+            "next_action": "Confirm the depth on the drawing or add a section view.",
+            "history": []
+          },
+          {
+            "id": "probe_a-DESIGN_INTENT-003",
+            "severity": "info",
+            "code": "DESIGN_INTENT",
+            "message": "Tolerances, surface finish, thread specifications and datum scheme/GD&T are not in the part geometry and were not invented.",
+            "source_ref": "",
+            "view": "",
+            "sheet": null,
+            "observed": "",
+            "expected": "",
+            "next_action": "Add them from the source design intent before release.",
+            "history": []
+          },
+          {
+            "id": "probe_a-TEXT_OVERLAPS-004",
+            "severity": "high",
+            "code": "TEXT_OVERLAPS",
+            "message": "PDF check text_overlaps: {'page': 1, 'a': 'SECTION A-A', 'b': 'SCALE 1 : 2'}",
+            "source_ref": "",
+            "view": "",
+            "sheet": null,
+            "observed": "",
+            "expected": "",
+            "next_action": "Fix the annotation style / layout.",
+            "history": []
+          }
+        ],
+        "artifacts": {
+          "model.stl": "probe_a/active/model.stl",
+          "drawing.slddrw": "probe_a/active/drawing.slddrw",
+          "drawing.pdf": "probe_a/active/drawing.pdf",
+          "inventory.json": "probe_a/active/inventory.json",
+          "drawing_plan.json": "probe_a/active/drawing_plan.json",
+          "dimension_coverage.json": "probe_a/active/dimension_coverage.json",
+          "stl_validation.json": "probe_a/active/stl_validation.json",
+          "pdf_check.json": "probe_a/active/pdf_check.json",
+          "reopen_check.json": "probe_a/active/reopen_check.json",
+          "qa.json": "probe_a/active/qa.json",
+          "preview/page-001.png": "probe_a/active/preview/page-001.png",
+          "manifest.json": "probe_a/active/manifest.json"
+        },
+        "error": "",
+        "attempts": 1,
+        "started": "2026-11-26T04:43:46+00:00",
+        "ended": "2026-11-26T04:45:48+00:00",
+        "seconds": 122.0,
+        "coverage_pct": 82.14285714285714,
+        "material": {
+          "name": null,
+          "library": null,
+          "density_kg_m3": null,
+          "mass_kg": null,
+          "source": "native part (SetMaterialPropertyName2 read-back)",
+          "status": "not_specified"
+        },
+        "files": {
+          "model.stl": {
+            "bytes": 83384,
+            "url_path": "probe_a/active/model.stl"
+          },
+          "drawing.slddrw": {
+            "bytes": 135988,
+            "url_path": "probe_a/active/drawing.slddrw"
+          },
+          "drawing.pdf": {
+            "bytes": 51124,
+            "url_path": "probe_a/active/drawing.pdf"
+          },
+          "inventory.json": {
+            "bytes": 14110,
+            "url_path": "probe_a/active/inventory.json"
+          },
+          "drawing_plan.json": {
+            "bytes": 2814,
+            "url_path": "probe_a/active/drawing_plan.json"
+          },
+          "dimension_coverage.json": {
+            "bytes": 12791,
+            "url_path": "probe_a/active/dimension_coverage.json"
+          },
+          "stl_validation.json": {
+            "bytes": 547,
+            "url_path": "probe_a/active/stl_validation.json"
+          },
+          "pdf_check.json": {
+            "bytes": 363,
+            "url_path": "probe_a/active/pdf_check.json"
+          },
+          "reopen_check.json": {
+            "bytes": 722,
+            "url_path": "probe_a/active/reopen_check.json"
+          },
+          "qa.json": {
+            "bytes": 3108,
+            "url_path": "probe_a/active/qa.json"
+          },
+          "preview/page-001.png": {
+            "bytes": 147827,
+            "url_path": "probe_a/active/preview/page-001.png"
+          },
+          "manifest.json": {
+            "bytes": 3037,
+            "url_path": "probe_a/active/manifest.json"
+          }
+        }
+      }
+    ],
+    "summary_state": "review_required",
+    "progress": {
+      "stages_done": 8,
+      "stages_total": 8,
+      "fraction": 1.0,
+      "parts_done": 1,
+      "parts_total": 1
+    },
+    "stage_labels": {
+      "preflight": "Preflight",
+      "mesh_export": "STL export",
+      "inventory": "Geometry inventory",
+      "planning": "View planning",
+      "drawing": "Native drawing",
+      "dimensioning": "Dimensions",
+      "verification": "Verification",
+      "publishing": "Publish"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "path": "model.stl",
+  "exists": true,
+  "ok": true,
+  "triangles": 2132,
+  "bbox_mm": [
+    -57.15,
+    -3.9624,
+    -88.9,
+    57.15,
+    3.9624,
+    88.9
+  ],
+  "errors": [],
+  "bytes": 106684,
+  "format": "binary",
+  "size_mm": [
+    114.3,
+    7.9248,
+    177.8
+  ],
+  "native_comparison": {
+    "ok": true,
+    "worst_relative_error": 0.0,
+    "native_size_mm": [
+      7.9248,
+      114.3,
+      177.8
+    ],
+    "stl_size_mm": [
+      7.9248,
+      114.3,
+      177.8
+    ],
+    "tolerance": 0.01
+  }
+}

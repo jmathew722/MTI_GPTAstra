@@ -1,0 +1,78 @@
+{
+  "part": "A001161E",
+  "issues": [
+    {
+      "id": "A001161E-DESIGN_INTENT-005",
+      "severity": "info",
+      "code": "DESIGN_INTENT",
+      "message": "Tolerances, surface finish, thread specifications and datum scheme/GD&T are not in the part geometry and were not invented.",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Add them from the source design intent before release.",
+      "history": []
+    },
+    {
+      "id": "A001161E-TEXT_OVERLAPS-006",
+      "severity": "high",
+      "code": "TEXT_OVERLAPS",
+      "message": "PDF check text_overlaps: {'page': 1, 'a': 'SECTION A-A', 'b': 'SCALE 1 : 2'}",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Fix the annotation style / layout.",
+      "history": []
+    }
+  ],
+  "coverage": {
+    "covered": 20,
+    "applicable": 24,
+    "percent": 83.33333333333333,
+    "by_status": {
+      "covered": 20,
+      "review_required": 4
+    },
+    "excluded": [],
+    "note": "Diagnostic only: geometric coverage is not manufacturing completeness or approval."
+  },
+  "hard_failures": [
+    {
+      "id": "A001161E-TEXT_OVERLAPS-006",
+      "severity": "high",
+      "code": "TEXT_OVERLAPS",
+      "message": "PDF check text_overlaps: {'page': 1, 'a': 'SECTION A-A', 'b': 'SCALE 1 : 2'}",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Fix the annotation style / layout.",
+      "history": []
+    }
+  ],
+  "pdf": {
+    "exists": true,
+    "pages": 1,
+    "expected_pages": 1,
+    "nonblack_text": [],
+    "nonblack_strokes": 0,
+    "color_fills": 0,
+    "text_overlaps": [
+      {
+        "page": 1,
+        "a": "SECTION A-A",
+        "b": "SCALE 1 : 2"
+      }
+    ],
+    "text_clipped": [],
+    "vector": true,
+    "errors": [],
+    "ok": false
+  },
+  "review_required": true,
+  "note": "Software QA is not engineering approval. This drawing is PRELIMINARY / FOR REVIEW until an authorized engineer dispositions the issues."
+}

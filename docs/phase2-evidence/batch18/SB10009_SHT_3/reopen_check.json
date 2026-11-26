@@ -1,0 +1,28 @@
+{
+  "opened": true,
+  "views": [
+    {
+      "name": "Drawing View1",
+      "references": "SB10009_SHT_3.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View2",
+      "references": "SB10009_SHT_3.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View3",
+      "references": "SB10009_SHT_3.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View4",
+      "references": "SB10009_SHT_3.SLDPRT",
+      "ok": true
+    }
+  ],
+  "dimensions": 16,
+  "errors": [],
+  "sheets": 1
+}

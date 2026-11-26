@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "job_id": "r3d_14ecf59d5598d4c9",
+  "part_id": "SB10009_SHT_3",
+  "source_name": "SB10009_SHT_3.SLDPRT",
+  "source_sha256": "3c99975aa4e06578ccabba8dc2d11cc136a62e20fedda81c297183c1e8555163",
+  "source_unchanged": true,
+  "configuration": "Default",
+  "solidworks": {
+    "revision": "33.5.0",
+    "major": 33,
+    "service_pack": "SP5.0",
+    "is_2025": true
+  },
+  "template": {
+    "id": "cli-template",
+    "name": "solidflow-ansi-b.DRWDOT",
+    "sha256": null,
+    "own_sheet_format": true
+  },
+  "profile": "us_third_angle_inch",
+  "units": "inch",
+  "projection": "third",
+  "scale": {
+    "num": 1,
+    "den": 2,
+    "label": "1:2"
+  },
+  "stl": {
+    "unit": "mm",
+    "transform": "none (the part is exported in its own coordinate system)"
+  },
+  "material": {
+    "name": null,
+    "library": null,
+    "density_kg_m3": null,
+    "mass_kg": null,
+    "source": "native part (SetMaterialPropertyName2 read-back)",
+    "status": "not_specified"
+  },
+  "stage_seconds": {
+    "preflight": 0.02,
+    "mesh_export": 14.14,
+    "inventory": 4.02,
+    "planning": 0.01,
+    "drawing": 68.46,
+    "dimensioning": 4.17,
+    "verification": 24.23,
+    "publishing": null
+  },
+  "files": {
+    "model.stl": {
+      "bytes": 118284,
+      "sha256": "1bf02e282bb0e0cf2a482d195412c7f1687f3a08ee6cfc464abc23a715a28f05"
+    },
+    "drawing.slddrw": {
+      "bytes": 92505,
+      "sha256": "9cf23d5afb3adeebdfdaca5e0799fa248857c55633932cce407e03b2b551708a"
+    },
+    "drawing.pdf": {
+      "bytes": 51571,
+      "sha256": "0ab897f14c48b6a7f1cfb46e4b6451a495f52465b7d3c58fbf69074752a8455f"
+    },
+    "inventory.json": {
+      "bytes": 15659,
+      "sha256": "9164e5183f9bfef56dfa6c09958b8b12c8ff4d823453395c2058e179ab33310a"
+    },
+    "drawing_plan.json": {
+      "bytes": 1824,
+      "sha256": "e6091ad9edec5068767ea754c1e840864d924c30643f416db65856fd68859bf8"
+    },
+    "dimension_coverage.json": {
+      "bytes": 16102,
+      "sha256": "88a34779ee4642967059a841e7f6b0bbbe1296cbc1fb8678766d145af6050a25"
+    },
+    "stl_validation.json": {
+      "bytes": 557,
+      "sha256": "0d3d8a375e4a6cc93d2c0d4c5c869c4da72a258bbb657a4383015cff779f8a33"
+    },
+    "pdf_check.json": {
+      "bytes": 273,
+      "sha256": "e63168856e7c76432bf9b3763c3c3cef72f14562e500bff423d137a9bbf5c16e"
+    },
+    "reopen_check.json": {
+      "bytes": 535,
+      "sha256": "0f01bce906c324d99646835179a1a8d518c15f63813be8f90b0bbac09c89b026"
+    },
+    "qa.json": {
+      "bytes": 1818,
+      "sha256": "855d4305db88786aca83979ed94a0f5a3c0c72f9922cca5239a6c4017012118a"
+    },
+    "preview/page-001.png": {
+      "bytes": 143720,
+      "sha256": "c942f02a83fc3de684bb48452469754a9917fd950f7dfc7f6e8e337513289f16"
+    }
+  },
+  "review_status": "required",
+  "status": "review_required",
+  "draft": true,
+  "note": "Draft output. Not approved for manufacture."
+}

@@ -1,0 +1,23 @@
+{
+  "opened": true,
+  "views": [
+    {
+      "name": "Drawing View1",
+      "references": "SB11780.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View2",
+      "references": "SB11780.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View3",
+      "references": "SB11780.SLDPRT",
+      "ok": true
+    }
+  ],
+  "dimensions": 1,
+  "errors": [],
+  "sheets": 1
+}

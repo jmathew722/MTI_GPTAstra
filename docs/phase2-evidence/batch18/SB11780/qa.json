@@ -1,0 +1,111 @@
+{
+  "part": "SB11780",
+  "issues": [
+    {
+      "id": "SB11780-OVERALL_DIM_FAILED-141",
+      "severity": "high",
+      "code": "OVERALL_DIM_FAILED",
+      "message": "Overall extent along x: no suitable view",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Dimension this size manually.",
+      "history": []
+    },
+    {
+      "id": "SB11780-FILLETS_REVIEW-142",
+      "severity": "medium",
+      "code": "FILLETS_REVIEW",
+      "message": "4 rounded faces (fillets) are present and not dimensioned",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Add fillet radii (or a general note).",
+      "history": []
+    },
+    {
+      "id": "SB11780-CONES_REVIEW-143",
+      "severity": "medium",
+      "code": "CONES_REVIEW",
+      "message": "2 conical faces (chamfers/countersinks) are not dimensioned automatically",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Dimension chamfers.",
+      "history": []
+    },
+    {
+      "id": "SB11780-BOSSES_REVIEW-144",
+      "severity": "medium",
+      "code": "BOSSES_REVIEW",
+      "message": "5 cylindrical bosses/shafts need diameters and axial lengths",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Dimension revolved features.",
+      "history": []
+    },
+    {
+      "id": "SB11780-MULTIBODY_OR_FREEFORM-145",
+      "severity": "high",
+      "code": "MULTIBODY_OR_FREEFORM",
+      "message": "2 faces are neither planar nor simple revolved surfaces; freeform geometry cannot be fully dimensioned automatically.",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Engineering review of body selection and interfaces.",
+      "history": []
+    },
+    {
+      "id": "SB11780-DESIGN_INTENT-146",
+      "severity": "info",
+      "code": "DESIGN_INTENT",
+      "message": "Tolerances, surface finish, thread specifications and datum scheme/GD&T are not in the part geometry and were not invented.",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Add them from the source design intent before release.",
+      "history": []
+    }
+  ],
+  "coverage": {
+    "covered": 1,
+    "applicable": 12,
+    "percent": 8.333333333333334,
+    "by_status": {
+      "unresolved": 1,
+      "covered": 1,
+      "review_required": 10
+    },
+    "excluded": [],
+    "note": "Diagnostic only: geometric coverage is not manufacturing completeness or approval."
+  },
+  "hard_failures": [],
+  "pdf": {
+    "exists": true,
+    "pages": 1,
+    "expected_pages": 1,
+    "nonblack_text": [],
+    "nonblack_strokes": 0,
+    "color_fills": 0,
+    "text_overlaps": [],
+    "text_clipped": [],
+    "vector": true,
+    "errors": [],
+    "ok": true
+  },
+  "review_required": true,
+  "note": "Software QA is not engineering approval. This drawing is PRELIMINARY / FOR REVIEW until an authorized engineer dispositions the issues."
+}

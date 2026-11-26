@@ -1,0 +1,48 @@
+{
+  "opened": true,
+  "views": [
+    {
+      "name": "Drawing View1",
+      "references": "SB10024_1.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View2",
+      "references": "SB10024_1.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View3",
+      "references": "SB10024_1.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View4",
+      "references": "SB10024_1.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View5",
+      "references": "SB10024_1.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View6",
+      "references": "SB10024_1.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Section View A-A",
+      "references": "SB10024_1.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Section View B-B",
+      "references": "SB10024_1.SLDPRT",
+      "ok": true
+    }
+  ],
+  "dimensions": 34,
+  "errors": [],
+  "sheets": 1
+}

@@ -1,0 +1,22 @@
+{
+  "exists": true,
+  "pages": 1,
+  "expected_pages": 1,
+  "nonblack_text": [],
+  "nonblack_strokes": 0,
+  "color_fills": 0,
+  "text_overlaps": [
+    {
+      "page": 1,
+      "a": " 3.250 ",
+      "b": "3 HOLES EQ SP ON DIA 1.501 B.C"
+    }
+  ],
+  "text_clipped": [],
+  "vector": true,
+  "errors": [],
+  "ok": false,
+  "previews": [
+    "page-001.png"
+  ]
+}

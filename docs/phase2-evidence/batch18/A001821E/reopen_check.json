@@ -1,0 +1,28 @@
+{
+  "opened": true,
+  "views": [
+    {
+      "name": "Drawing View1",
+      "references": "A001821E.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View2",
+      "references": "A001821E.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View3",
+      "references": "A001821E.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View4",
+      "references": "A001821E.SLDPRT",
+      "ok": true
+    }
+  ],
+  "dimensions": 29,
+  "errors": [],
+  "sheets": 1
+}

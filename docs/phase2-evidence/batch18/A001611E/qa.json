@@ -1,0 +1,72 @@
+{
+  "part": "A001611E",
+  "issues": [
+    {
+      "id": "A001611E-OVERALL_DIM_FAILED-017",
+      "severity": "high",
+      "code": "OVERALL_DIM_FAILED",
+      "message": "Overall extent along x: no suitable view",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Dimension this size manually.",
+      "history": []
+    },
+    {
+      "id": "A001611E-BOSSES_REVIEW-018",
+      "severity": "medium",
+      "code": "BOSSES_REVIEW",
+      "message": "2 cylindrical bosses/shafts need diameters and axial lengths",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Dimension revolved features.",
+      "history": []
+    },
+    {
+      "id": "A001611E-DESIGN_INTENT-019",
+      "severity": "info",
+      "code": "DESIGN_INTENT",
+      "message": "Tolerances, surface finish, thread specifications and datum scheme/GD&T are not in the part geometry and were not invented.",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Add them from the source design intent before release.",
+      "history": []
+    }
+  ],
+  "coverage": {
+    "covered": 6,
+    "applicable": 13,
+    "percent": 46.15384615384615,
+    "by_status": {
+      "unresolved": 1,
+      "covered": 6,
+      "review_required": 6
+    },
+    "excluded": [],
+    "note": "Diagnostic only: geometric coverage is not manufacturing completeness or approval."
+  },
+  "hard_failures": [],
+  "pdf": {
+    "exists": true,
+    "pages": 1,
+    "expected_pages": 1,
+    "nonblack_text": [],
+    "nonblack_strokes": 0,
+    "color_fills": 0,
+    "text_overlaps": [],
+    "text_clipped": [],
+    "vector": true,
+    "errors": [],
+    "ok": true
+  },
+  "review_required": true,
+  "note": "Software QA is not engineering approval. This drawing is PRELIMINARY / FOR REVIEW until an authorized engineer dispositions the issues."
+}

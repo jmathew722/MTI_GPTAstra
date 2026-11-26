@@ -1,0 +1,33 @@
+{
+  "opened": true,
+  "views": [
+    {
+      "name": "Drawing View1",
+      "references": "A001161E.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View2",
+      "references": "A001161E.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View3",
+      "references": "A001161E.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View4",
+      "references": "A001161E.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Section View A-A",
+      "references": "A001161E.SLDPRT",
+      "ok": true
+    }
+  ],
+  "dimensions": 15,
+  "errors": [],
+  "sheets": 1
+}

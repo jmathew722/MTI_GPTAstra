@@ -1,0 +1,1027 @@
+{
+  "configuration": "Default",
+  "bodies": 1,
+  "bbox_m": [
+    -0.1016,
+    -0.044462699999999994,
+    -0.044462699999999994,
+    0.1016,
+    0.044462699999999994,
+    0.044462699999999994
+  ],
+  "size_m": [
+    0.2032,
+    0.08892539999999999,
+    0.08892539999999999
+  ],
+  "features": [
+    {
+      "name": "Sketch1",
+      "type": "ProfileFeature",
+      "suppressed": false
+    },
+    {
+      "name": "Revolve1",
+      "type": "Revolution",
+      "suppressed": false
+    },
+    {
+      "name": "Chamfer1",
+      "type": "Chamfer",
+      "suppressed": false
+    },
+    {
+      "name": "Sketch2",
+      "type": "ProfileFeature",
+      "suppressed": false
+    },
+    {
+      "name": "Cut-Extrude2",
+      "type": "ICE",
+      "suppressed": false
+    },
+    {
+      "name": "Fillet1",
+      "type": "Fillet",
+      "suppressed": false
+    },
+    {
+      "name": "Sketch3",
+      "type": "ProfileFeature",
+      "suppressed": false
+    },
+    {
+      "name": "Cut-Extrude4",
+      "type": "ICE",
+      "suppressed": false
+    },
+    {
+      "name": "Fillet2",
+      "type": "Fillet",
+      "suppressed": false
+    },
+    {
+      "name": "Sketch4",
+      "type": "ProfileFeature",
+      "suppressed": false
+    },
+    {
+      "name": "Cut-Extrude6",
+      "type": "ICE",
+      "suppressed": false
+    },
+    {
+      "name": "Sketch5",
+      "type": "ProfileFeature",
+      "suppressed": false
+    },
+    {
+      "name": "Cut-Extrude8",
+      "type": "ICE",
+      "suppressed": false
+    },
+    {
+      "name": "Sketch6",
+      "type": "ProfileFeature",
+      "suppressed": false
+    },
+    {
+      "name": "Cut-Extrude10",
+      "type": "ICE",
+      "suppressed": false
+    },
+    {
+      "name": "3/8-16 Tapped Hole2",
+      "type": "HoleWzd",
+      "suppressed": false
+    }
+  ],
+  "suppressed_features": [],
+  "faces": {
+    "planes": 13,
+    "cylinders": 16,
+    "cones": 6,
+    "tori": 0,
+    "other": 0
+  },
+  "holes": [
+    {
+      "id": "H001",
+      "axis": "x",
+      "center_m": [
+        -0.0224536,
+        -0.0224536
+      ],
+      "center_axes": [
+        "y",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.003968749999999988,
+          "d0_m": 0.079248,
+          "d1_m": 0.1016,
+          "length_m": 0.022351999999999997
+        }
+      ],
+      "diameter_m": 0.0079374,
+      "through": false,
+      "entry_side": "+",
+      "depth_m": 0.022351999999999997,
+      "counterbore": null,
+      "cone": true,
+      "faces": [
+        32
+      ],
+      "confidence": "high",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H002",
+      "axis": "x",
+      "center_m": [
+        0.0224536,
+        -0.0224536
+      ],
+      "center_axes": [
+        "y",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.003968749999999988,
+          "d0_m": 0.079248,
+          "d1_m": 0.1016,
+          "length_m": 0.022351999999999997
+        }
+      ],
+      "diameter_m": 0.0079374,
+      "through": false,
+      "entry_side": "+",
+      "depth_m": 0.022351999999999997,
+      "counterbore": null,
+      "cone": true,
+      "faces": [
+        28
+      ],
+      "confidence": "high",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H003",
+      "axis": "x",
+      "center_m": [
+        0.0,
+        0.0
+      ],
+      "center_axes": [
+        "y",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.0180578125,
+          "d0_m": -0.1016,
+          "d1_m": -0.038099999999999995,
+          "length_m": 0.0635
+        }
+      ],
+      "diameter_m": 0.0361156,
+      "through": false,
+      "entry_side": "-",
+      "depth_m": 0.0635,
+      "counterbore": null,
+      "cone": true,
+      "faces": [
+        0,
+        23,
+        26
+      ],
+      "confidence": "high",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H004",
+      "axis": "x",
+      "center_m": [
+        0.0,
+        0.0
+      ],
+      "center_axes": [
+        "y",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.010312400000000001,
+          "d0_m": 0.06985,
+          "d1_m": 0.1016,
+          "length_m": 0.03175
+        },
+        {
+          "radius_m": 0.0067437,
+          "d0_m": 0.0127,
+          "d1_m": 0.06985,
+          "length_m": 0.05714999999999999
+        }
+      ],
+      "diameter_m": 0.0134874,
+      "through": false,
+      "entry_side": "+",
+      "depth_m": 0.08889999999999999,
+      "counterbore": {
+        "diameter_m": 0.0206248,
+        "depth_m": 0.03175
+      },
+      "cone": true,
+      "faces": [
+        0,
+        23,
+        26
+      ],
+      "confidence": "high",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H005",
+      "axis": "x",
+      "center_m": [
+        -0.0224536,
+        0.0224536
+      ],
+      "center_axes": [
+        "y",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.003968749999999988,
+          "d0_m": 0.079248,
+          "d1_m": 0.1016,
+          "length_m": 0.022351999999999997
+        }
+      ],
+      "diameter_m": 0.0079374,
+      "through": false,
+      "entry_side": "+",
+      "depth_m": 0.022351999999999997,
+      "counterbore": null,
+      "cone": true,
+      "faces": [
+        34
+      ],
+      "confidence": "high",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H006",
+      "axis": "x",
+      "center_m": [
+        0.0224536,
+        0.0224536
+      ],
+      "center_axes": [
+        "y",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.003968749999999988,
+          "d0_m": 0.079248,
+          "d1_m": 0.1016,
+          "length_m": 0.022351999999999997
+        }
+      ],
+      "diameter_m": 0.0079374,
+      "through": false,
+      "entry_side": "+",
+      "depth_m": 0.022351999999999997,
+      "counterbore": null,
+      "cone": true,
+      "faces": [
+        30
+      ],
+      "confidence": "high",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H007",
+      "axis": "y",
+      "center_m": [
+        -0.02717799999999998,
+        -0.015875
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.00635,
+          "d0_m": 0.0317627,
+          "d1_m": 0.04200157485932694,
+          "length_m": 0.010238874859326945
+        }
+      ],
+      "diameter_m": 0.0127,
+      "through": false,
+      "entry_side": "?",
+      "depth_m": 0.010238874859326945,
+      "counterbore": null,
+      "cone": false,
+      "faces": [
+        20
+      ],
+      "confidence": "medium",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H008",
+      "axis": "y",
+      "center_m": [
+        0.007874000000000013,
+        -0.015874999999999997
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.00635,
+          "d0_m": 0.0317627,
+          "d1_m": 0.04189561441492998,
+          "length_m": 0.010132914414929979
+        }
+      ],
+      "diameter_m": 0.0127,
+      "through": false,
+      "entry_side": "?",
+      "depth_m": 0.010132914414929979,
+      "counterbore": null,
+      "cone": false,
+      "faces": [
+        19
+      ],
+      "confidence": "medium",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H009",
+      "axis": "y",
+      "center_m": [
+        -0.0254,
+        -0.012699999999999998
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.00635,
+          "d0_m": -0.04297591272461287,
+          "d1_m": 0.0317627,
+          "length_m": 0.07473861272461287
+        }
+      ],
+      "diameter_m": 0.0127,
+      "through": false,
+      "entry_side": "?",
+      "depth_m": 0.07473861272461287,
+      "counterbore": null,
+      "cone": false,
+      "faces": [
+        11
+      ],
+      "confidence": "medium",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H010",
+      "axis": "y",
+      "center_m": [
+        0.00635,
+        -0.012699999999999996
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.00635,
+          "d0_m": -0.04303750403481039,
+          "d1_m": 0.0317627,
+          "length_m": 0.07480020403481039
+        }
+      ],
+      "diameter_m": 0.0127,
+      "through": false,
+      "entry_side": "?",
+      "depth_m": 0.07480020403481039,
+      "counterbore": null,
+      "cone": false,
+      "faces": [
+        10
+      ],
+      "confidence": "medium",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H011",
+      "axis": "y",
+      "center_m": [
+        -0.0254,
+        0.012699999999999998
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.00635,
+          "d0_m": -0.04303750403481038,
+          "d1_m": 0.0317627,
+          "length_m": 0.07480020403481039
+        }
+      ],
+      "diameter_m": 0.0127,
+      "through": false,
+      "entry_side": "?",
+      "depth_m": 0.07480020403481039,
+      "counterbore": null,
+      "cone": false,
+      "faces": [
+        13
+      ],
+      "confidence": "medium",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H012",
+      "axis": "y",
+      "center_m": [
+        0.0063500000000000015,
+        0.012699999999999998
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.00635,
+          "d0_m": -0.04297591272461287,
+          "d1_m": 0.0317627,
+          "length_m": 0.07473861272461287
+        }
+      ],
+      "diameter_m": 0.0127,
+      "through": false,
+      "entry_side": "?",
+      "depth_m": 0.07473861272461287,
+      "counterbore": null,
+      "cone": false,
+      "faces": [
+        12
+      ],
+      "confidence": "medium",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H013",
+      "axis": "y",
+      "center_m": [
+        -0.02717799999999998,
+        0.015875
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.00635,
+          "d0_m": 0.0317627,
+          "d1_m": 0.04189561441492998,
+          "length_m": 0.010132914414929979
+        }
+      ],
+      "diameter_m": 0.0127,
+      "through": false,
+      "entry_side": "?",
+      "depth_m": 0.010132914414929979,
+      "counterbore": null,
+      "cone": false,
+      "faces": [
+        22
+      ],
+      "confidence": "medium",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H014",
+      "axis": "y",
+      "center_m": [
+        0.007874000000000013,
+        0.015875
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.00635,
+          "d0_m": 0.0317627,
+          "d1_m": 0.04200157485932695,
+          "length_m": 0.010238874859326952
+        }
+      ],
+      "diameter_m": 0.0127,
+      "through": false,
+      "entry_side": "?",
+      "depth_m": 0.010238874859326952,
+      "counterbore": null,
+      "cone": false,
+      "faces": [
+        21
+      ],
+      "confidence": "medium",
+      "source": "geometry_derived"
+    }
+  ],
+  "bosses": [
+    {
+      "axis": "x",
+      "radius_m": 0.044462699999999994,
+      "box_m": [
+        -0.10007600000000001,
+        -0.044462699999999994,
+        -0.044462699999999994,
+        0.10007599999999997,
+        0.044462699999999994,
+        0.044462699999999994
+      ],
+      "face": 1
+    }
+  ],
+  "unsupported": [],
+  "patterns": [
+    {
+      "ids": [
+        "H001",
+        "H002",
+        "H005",
+        "H006"
+      ],
+      "count": 4,
+      "axis": "x",
+      "diameter_m": 0.007937,
+      "axes": [
+        "y",
+        "z"
+      ],
+      "u_m": [
+        -0.02245,
+        0.02245
+      ],
+      "v_m": [
+        -0.02245,
+        0.02245
+      ],
+      "rectangular_grid": true,
+      "u_pitch_m": 0.0449,
+      "v_pitch_m": 0.0449,
+      "uniform_u": true,
+      "uniform_v": true
+    },
+    {
+      "ids": [
+        "H007",
+        "H014"
+      ],
+      "count": 2,
+      "axis": "y",
+      "diameter_m": 0.0127,
+      "axes": [
+        "x",
+        "z"
+      ],
+      "u_m": [
+        -0.027200000000000002,
+        0.007850000000000001
+      ],
+      "v_m": [
+        -0.0159,
+        0.0159
+      ],
+      "rectangular_grid": false,
+      "u_pitch_m": 0.035050000000000005,
+      "v_pitch_m": 0.0318,
+      "uniform_u": true,
+      "uniform_v": true
+    },
+    {
+      "ids": [
+        "H008",
+        "H013"
+      ],
+      "count": 2,
+      "axis": "y",
+      "diameter_m": 0.0127,
+      "axes": [
+        "x",
+        "z"
+      ],
+      "u_m": [
+        -0.027200000000000002,
+        0.007850000000000001
+      ],
+      "v_m": [
+        -0.01585,
+        0.0159
+      ],
+      "rectangular_grid": false,
+      "u_pitch_m": 0.035050000000000005,
+      "v_pitch_m": 0.03175,
+      "uniform_u": true,
+      "uniform_v": true
+    },
+    {
+      "ids": [
+        "H009",
+        "H012"
+      ],
+      "count": 2,
+      "axis": "y",
+      "diameter_m": 0.0127,
+      "axes": [
+        "x",
+        "z"
+      ],
+      "u_m": [
+        -0.025400000000000002,
+        0.006350000000000001
+      ],
+      "v_m": [
+        -0.012700000000000001,
+        0.012700000000000001
+      ],
+      "rectangular_grid": false,
+      "u_pitch_m": 0.03175,
+      "v_pitch_m": 0.025400000000000002,
+      "uniform_u": true,
+      "uniform_v": true
+    },
+    {
+      "ids": [
+        "H010",
+        "H011"
+      ],
+      "count": 2,
+      "axis": "y",
+      "diameter_m": 0.0127,
+      "axes": [
+        "x",
+        "z"
+      ],
+      "u_m": [
+        -0.025400000000000002,
+        0.006350000000000001
+      ],
+      "v_m": [
+        -0.012700000000000001,
+        0.012700000000000001
+      ],
+      "rectangular_grid": false,
+      "u_pitch_m": 0.03175,
+      "v_pitch_m": 0.025400000000000002,
+      "uniform_u": true,
+      "uniform_v": true
+    }
+  ],
+  "circular_patterns": [
+    {
+      "ids": [
+        "H001",
+        "H002",
+        "H005",
+        "H006"
+      ],
+      "count": 4,
+      "axis": "x",
+      "diameter_m": 0.007937,
+      "axes": [
+        "y",
+        "z"
+      ],
+      "center_m": [
+        0.0,
+        0.0
+      ],
+      "pcd_m": 0.06350837128820105,
+      "equal_spacing": true,
+      "angles_deg": [
+        45.0,
+        135.0,
+        225.0,
+        315.0
+      ],
+      "opposite_pairs": [
+        [
+          "H001",
+          "H006"
+        ],
+        [
+          "H002",
+          "H005"
+        ]
+      ]
+    }
+  ],
+  "hole_axes": {
+    "x": 6,
+    "y": 8,
+    "z": 0
+  },
+  "planes": [
+    {
+      "normal": [
+        -1.0,
+        -0.0,
+        -0.0
+      ],
+      "point": [
+        -0.1016,
+        0.0,
+        0.0
+      ],
+      "area_m2": 0.0047678298138957706,
+      "box_m": [
+        -0.1016,
+        -0.04293870000000003,
+        -0.04293870000000003,
+        -0.1016,
+        0.04293870000000003,
+        0.04293870000000003
+      ]
+    },
+    {
+      "normal": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.1016,
+        0.0,
+        -0.044462699999999994
+      ],
+      "area_m2": 0.005260227628347104,
+      "box_m": [
+        0.1016,
+        -0.04293869999999997,
+        -0.04293869999999997,
+        0.1016,
+        0.04293869999999997,
+        0.04293869999999997
+      ]
+    },
+    {
+      "normal": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        -0.03175,
+        0.08892539999999999,
+        0.019049999999999997
+      ],
+      "area_m2": 0.0019205749592235506,
+      "box_m": [
+        -0.03175,
+        -0.044462699999999994,
+        -0.012699999999999998,
+        -0.03175,
+        0.0317627,
+        0.012699999999999998
+      ]
+    },
+    {
+      "normal": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "point": [
+        -0.03175,
+        0.08892539999999999,
+        0.019049999999999997
+      ],
+      "area_m2": 0.0022840214084747655,
+      "box_m": [
+        -0.025400000000000006,
+        -0.04017498215668552,
+        0.019049999999999997,
+        0.0063499999999999945,
+        0.0317627,
+        0.019049999999999997
+      ]
+    },
+    {
+      "normal": [
+        -1.0,
+        -0.0,
+        -0.0
+      ],
+      "point": [
+        0.0127,
+        0.08892539999999999,
+        0.019049999999999997
+      ],
+      "area_m2": 0.0017777032117097416,
+      "box_m": [
+        0.012699999999999989,
+        -0.044462699999999994,
+        -0.0127,
+        0.012700000000000003,
+        0.0317627,
+        0.012699999999999998
+      ]
+    },
+    {
+      "normal": [
+        -0.0,
+        0.0,
+        1.0
+      ],
+      "point": [
+        -0.03175,
+        0.08892539999999999,
+        -0.019049999999999997
+      ],
+      "area_m2": 0.002284021408474765,
+      "box_m": [
+        -0.025400000000000006,
+        -0.04017498215668552,
+        -0.019049999999999997,
+        0.0063499999999999945,
+        0.0317627,
+        -0.019049999999999997
+      ]
+    },
+    {
+      "normal": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        -0.03352799999999998,
+        0.12068809999999999,
+        0.022224999999999998
+      ],
+      "area_m2": 0.00037263032792791696,
+      "box_m": [
+        -0.03352799999999998,
+        0.0317627,
+        -0.015875,
+        -0.033527999999999974,
+        0.044462699999999994,
+        0.015875
+      ]
+    },
+    {
+      "normal": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "point": [
+        -0.03352799999999998,
+        0.12068809999999999,
+        0.022224999999999998
+      ],
+      "area_m2": 0.00023648859514133934,
+      "box_m": [
+        -0.02717799999999998,
+        0.0317627,
+        0.022224999999999998,
+        0.00787400000000002,
+        0.03850949319700273,
+        0.022224999999999998
+      ]
+    },
+    {
+      "normal": [
+        -1.0,
+        -0.0,
+        -0.0
+      ],
+      "point": [
+        0.014224000000000013,
+        0.12068809999999999,
+        0.022224999999999998
+      ],
+      "area_m2": 0.00037263032792791696,
+      "box_m": [
+        0.014224000000000013,
+        0.0317627,
+        -0.015874999999999997,
+        0.014224000000000014,
+        0.044462699999999994,
+        0.015875
+      ]
+    },
+    {
+      "normal": [
+        -0.0,
+        0.0,
+        1.0
+      ],
+      "point": [
+        -0.03352799999999998,
+        0.12068809999999999,
+        -0.022224999999999998
+      ],
+      "area_m2": 0.00023648859514133937,
+      "box_m": [
+        -0.02717799999999998,
+        0.0317627,
+        -0.022224999999999998,
+        0.00787400000000002,
+        0.03850949319700273,
+        -0.022224999999999998
+      ]
+    },
+    {
+      "normal": [
+        -0.0,
+        1.0,
+        -0.0
+      ],
+      "point": [
+        0.0,
+        0.0317627,
+        0.0
+      ],
+      "area_m2": 0.00042903139999999956,
+      "box_m": [
+        -0.03352799999999998,
+        0.0317627,
+        -0.022225,
+        0.014224000000000013,
+        0.0317627,
+        0.022225
+      ]
+    },
+    {
+      "normal": [
+        -1.0,
+        -0.0,
+        -0.0
+      ],
+      "point": [
+        -0.038099999999999995,
+        0.0,
+        0.0
+      ],
+      "area_m2": 0.0010244249595718696,
+      "box_m": [
+        -0.038099999999999995,
+        -0.0180578125,
+        -0.0180578125,
+        -0.038099999999999995,
+        0.0180578125,
+        0.0180578125
+      ]
+    },
+    {
+      "normal": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.06985,
+        0.0,
+        0.0
+      ],
+      "area_m2": 0.00019122278858425113,
+      "box_m": [
+        0.06985,
+        -0.010312400000000001,
+        -0.010312400000000001,
+        0.06985,
+        0.010312400000000001,
+        0.010312400000000001
+      ]
+    }
+  ],
+  "freeform_or_multibody": false,
+  "notes": []
+}

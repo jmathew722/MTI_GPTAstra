@@ -1,0 +1,102 @@
+{
+  "profile": "us_third_angle_inch",
+  "projection": "third",
+  "units": "inch",
+  "sheet_size": "ANSI_B",
+  "paper": "ANSI B (17x11 in)",
+  "front_view": "*Top",
+  "views": {
+    "front": "*Top",
+    "top": "*Back",
+    "right": "*Right",
+    "iso": "*Isometric"
+  },
+  "scale": {
+    "num": 1,
+    "den": 1,
+    "label": "1:1"
+  },
+  "scale_fits": true,
+  "rects_m": {
+    "front": [
+      0.0487,
+      0.09199,
+      0.164697,
+      0.199427
+    ],
+    "top": [
+      0.0487,
+      0.244427,
+      0.164697,
+      0.266927
+    ],
+    "right": [
+      0.209697,
+      0.09199,
+      0.317134,
+      0.11449
+    ],
+    "iso": [
+      0.320427,
+      0.180405,
+      0.40295,
+      0.25055
+    ]
+  },
+  "iso_scale": 0.5,
+  "regions_m": {
+    "sheet": [
+      0,
+      0,
+      0.4318,
+      0.2794
+    ],
+    "usable": [
+      0.0127,
+      0.00635,
+      0.42545,
+      0.27305
+    ],
+    "title_block": [
+      0.26035,
+      0.00635,
+      0.42545,
+      0.04699
+    ],
+    "notes": [
+      0.15875,
+      0.00635,
+      0.26035,
+      0.04699
+    ]
+  },
+  "sheets": [
+    {
+      "index": 1,
+      "name": "Sheet1",
+      "contents": [
+        "front",
+        "top",
+        "right",
+        "iso"
+      ]
+    }
+  ],
+  "needs_section": false,
+  "bbox_m": [
+    0.10299700000000003,
+    0.009499600000000007,
+    0.0944372
+  ],
+  "hole_axes": {
+    "x": 0,
+    "y": 7,
+    "z": 0
+  },
+  "notes": [
+    "The isometric view is shown at a smaller scale (0.5) than the orthographic views; it is labelled on the sheet."
+  ],
+  "basis": "front chosen for the largest silhouette (ties: the model's own Front); scale = largest standard scale that fits without collisions",
+  "extra_views": [],
+  "sections": []
+}

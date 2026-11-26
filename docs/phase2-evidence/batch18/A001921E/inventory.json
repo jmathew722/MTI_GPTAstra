@@ -1,0 +1,509 @@
+{
+  "configuration": "Default",
+  "bodies": 1,
+  "bbox_m": [
+    -0.1698625,
+    -0.015875,
+    -0.0508,
+    0.1698625,
+    0.015875,
+    0.0508
+  ],
+  "size_m": [
+    0.339725,
+    0.03175,
+    0.1016
+  ],
+  "features": [
+    {
+      "name": "Sketch1",
+      "type": "ProfileFeature",
+      "suppressed": false
+    },
+    {
+      "name": "Boss-Extrude1",
+      "type": "Extrusion",
+      "suppressed": false
+    },
+    {
+      "name": "Sketch2",
+      "type": "ProfileFeature",
+      "suppressed": false
+    },
+    {
+      "name": "Cut-Extrude2",
+      "type": "ICE",
+      "suppressed": false
+    },
+    {
+      "name": "Sketch3",
+      "type": "ProfileFeature",
+      "suppressed": false
+    },
+    {
+      "name": "Cut-Extrude4",
+      "type": "ICE",
+      "suppressed": false
+    },
+    {
+      "name": "Sketch4",
+      "type": "ProfileFeature",
+      "suppressed": false
+    },
+    {
+      "name": "Cut-Extrude6",
+      "type": "ICE",
+      "suppressed": false
+    }
+  ],
+  "suppressed_features": [],
+  "faces": {
+    "planes": 9,
+    "cylinders": 8,
+    "cones": 0,
+    "tori": 0,
+    "other": 0
+  },
+  "holes": [
+    {
+      "id": "H001",
+      "axis": "y",
+      "center_m": [
+        -0.08891269999999998,
+        -0.034925
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.008331199999999997,
+          "d0_m": -0.015875,
+          "d1_m": 0.015875,
+          "length_m": 0.03175
+        }
+      ],
+      "diameter_m": 0.0166624,
+      "through": true,
+      "entry_side": "both",
+      "depth_m": 0.03175,
+      "counterbore": null,
+      "cone": false,
+      "faces": [
+        16
+      ],
+      "confidence": "high",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H002",
+      "axis": "y",
+      "center_m": [
+        0.08888729999999997,
+        -0.034925
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.008331199999999997,
+          "d0_m": -0.015875,
+          "d1_m": 0.015875,
+          "length_m": 0.03175
+        }
+      ],
+      "diameter_m": 0.0166624,
+      "through": true,
+      "entry_side": "both",
+      "depth_m": 0.03175,
+      "counterbore": null,
+      "cone": false,
+      "faces": [
+        15
+      ],
+      "confidence": "high",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H003",
+      "axis": "y",
+      "center_m": [
+        -0.1397127,
+        0.0127
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.015087599999999993,
+          "d0_m": -0.015875,
+          "d1_m": -0.0127,
+          "length_m": 0.0031750000000000007
+        },
+        {
+          "radius_m": 0.009918700000000003,
+          "d0_m": -0.012700000000000003,
+          "d1_m": 0.015875,
+          "length_m": 0.028575000000000003
+        }
+      ],
+      "diameter_m": 0.0198374,
+      "through": true,
+      "entry_side": "both",
+      "depth_m": 0.03175,
+      "counterbore": {
+        "diameter_m": 0.0301752,
+        "depth_m": 0.0031750000000000007
+      },
+      "cone": false,
+      "faces": [
+        8,
+        9
+      ],
+      "confidence": "high",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H004",
+      "axis": "y",
+      "center_m": [
+        -1.2699999999992962e-05,
+        0.0127
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.015087599999999998,
+          "d0_m": -0.015875,
+          "d1_m": -0.0127,
+          "length_m": 0.0031750000000000007
+        },
+        {
+          "radius_m": 0.0099187,
+          "d0_m": -0.012700000000000003,
+          "d1_m": 0.015875,
+          "length_m": 0.028575000000000003
+        }
+      ],
+      "diameter_m": 0.0198374,
+      "through": true,
+      "entry_side": "both",
+      "depth_m": 0.03175,
+      "counterbore": {
+        "diameter_m": 0.0301752,
+        "depth_m": 0.0031750000000000007
+      },
+      "cone": false,
+      "faces": [
+        7,
+        11
+      ],
+      "confidence": "high",
+      "source": "geometry_derived"
+    },
+    {
+      "id": "H005",
+      "axis": "y",
+      "center_m": [
+        0.1396873,
+        0.0127
+      ],
+      "center_axes": [
+        "x",
+        "z"
+      ],
+      "steps": [
+        {
+          "radius_m": 0.015087600000000007,
+          "d0_m": -0.015875,
+          "d1_m": -0.0127,
+          "length_m": 0.0031750000000000007
+        },
+        {
+          "radius_m": 0.009918700000000003,
+          "d0_m": -0.012700000000000003,
+          "d1_m": 0.015875,
+          "length_m": 0.028575000000000003
+        }
+      ],
+      "diameter_m": 0.0198374,
+      "through": true,
+      "entry_side": "both",
+      "depth_m": 0.03175,
+      "counterbore": {
+        "diameter_m": 0.0301752,
+        "depth_m": 0.0031750000000000007
+      },
+      "cone": false,
+      "faces": [
+        6,
+        13
+      ],
+      "confidence": "high",
+      "source": "geometry_derived"
+    }
+  ],
+  "bosses": [],
+  "unsupported": [],
+  "patterns": [
+    {
+      "ids": [
+        "H001",
+        "H002"
+      ],
+      "count": 2,
+      "axis": "y",
+      "diameter_m": 0.016662,
+      "axes": [
+        "x",
+        "z"
+      ],
+      "u_m": [
+        -0.0889,
+        0.0889
+      ],
+      "v_m": [
+        -0.0349
+      ],
+      "rectangular_grid": true,
+      "u_pitch_m": 0.1778,
+      "v_pitch_m": null,
+      "uniform_u": true,
+      "uniform_v": true
+    },
+    {
+      "ids": [
+        "H003",
+        "H004",
+        "H005"
+      ],
+      "count": 3,
+      "axis": "y",
+      "diameter_m": 0.019837,
+      "axes": [
+        "x",
+        "z"
+      ],
+      "u_m": [
+        -0.13970000000000002,
+        0.0,
+        0.13970000000000002
+      ],
+      "v_m": [
+        0.012700000000000001
+      ],
+      "rectangular_grid": true,
+      "u_pitch_m": 0.13970000000000002,
+      "v_pitch_m": null,
+      "uniform_u": true,
+      "uniform_v": true
+    }
+  ],
+  "circular_patterns": [],
+  "hole_axes": {
+    "x": 0,
+    "y": 5,
+    "z": 0
+  },
+  "planes": [
+    {
+      "normal": [
+        1.0,
+        -0.0,
+        -0.0
+      ],
+      "point": [
+        0.1698625,
+        0.015875,
+        0.0508
+      ],
+      "area_m2": 0.0032258,
+      "box_m": [
+        0.1698625,
+        -0.015875,
+        -0.0508,
+        0.1698625,
+        0.015875,
+        0.0508
+      ]
+    },
+    {
+      "normal": [
+        -0.0,
+        -0.0,
+        -1.0
+      ],
+      "point": [
+        -0.1698625,
+        0.015875,
+        -0.0508
+      ],
+      "area_m2": 0.01078626875,
+      "box_m": [
+        -0.1698625,
+        -0.015875,
+        -0.0508,
+        0.1698625,
+        0.015875,
+        -0.0508
+      ]
+    },
+    {
+      "normal": [
+        -1.0,
+        0.0,
+        -0.0
+      ],
+      "point": [
+        -0.1698625,
+        0.015875,
+        0.0508
+      ],
+      "area_m2": 0.0032258,
+      "box_m": [
+        -0.1698625,
+        -0.015875,
+        -0.0508,
+        -0.1698625,
+        0.015875,
+        0.0508
+      ]
+    },
+    {
+      "normal": [
+        -0.0,
+        -0.0,
+        1.0
+      ],
+      "point": [
+        -0.1698625,
+        0.015875,
+        0.0508
+      ],
+      "area_m2": 0.01078626875,
+      "box_m": [
+        -0.1698625,
+        -0.015875,
+        0.0508,
+        0.1698625,
+        0.015875,
+        0.0508
+      ]
+    },
+    {
+      "normal": [
+        -0.0,
+        1.0,
+        -0.0
+      ],
+      "point": [
+        0.0,
+        0.015875,
+        0.0
+      ],
+      "area_m2": 0.033152735658576835,
+      "box_m": [
+        -0.1698625,
+        0.015875,
+        -0.0508,
+        0.1698625,
+        0.015875,
+        0.0508
+      ]
+    },
+    {
+      "normal": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        -0.015875,
+        0.0
+      ],
+      "area_m2": 0.031934535379412064,
+      "box_m": [
+        -0.1698625,
+        -0.015875,
+        -0.0508,
+        0.1698625,
+        -0.015875,
+        0.0508
+      ]
+    },
+    {
+      "normal": [
+        -0.0,
+        -1.0,
+        -0.0
+      ],
+      "point": [
+        -0.1397127,
+        -0.0127,
+        0.0127
+      ],
+      "area_m2": 0.0004060667597215891,
+      "box_m": [
+        -0.1548003,
+        -0.012700000000000003,
+        -0.002387599999999993,
+        -0.1246251,
+        -0.0127,
+        0.027787599999999992
+      ]
+    },
+    {
+      "normal": [
+        -0.0,
+        -1.0,
+        -0.0
+      ],
+      "point": [
+        -1.2699999999992962e-05,
+        -0.0127,
+        0.0127
+      ],
+      "area_m2": 0.00040606675972158974,
+      "box_m": [
+        -0.01510029999999999,
+        -0.012700000000000003,
+        -0.0023875999999999984,
+        0.015074900000000006,
+        -0.0127,
+        0.027787599999999996
+      ]
+    },
+    {
+      "normal": [
+        -0.0,
+        -1.0,
+        -0.0
+      ],
+      "point": [
+        0.1396873,
+        -0.0127,
+        0.0127
+      ],
+      "area_m2": 0.0004060667597215905,
+      "box_m": [
+        0.12459969999999998,
+        -0.012700000000000003,
+        -0.002387600000000007,
+        0.1547749,
+        -0.0127,
+        0.027787600000000006
+      ]
+    }
+  ],
+  "freeform_or_multibody": false,
+  "notes": []
+}

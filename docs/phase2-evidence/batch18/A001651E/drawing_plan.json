@@ -1,0 +1,156 @@
+{
+  "profile": "us_third_angle_inch",
+  "projection": "third",
+  "units": "inch",
+  "sheet_size": "ANSI_B",
+  "paper": "ANSI B (17x11 in)",
+  "front_view": "*Right",
+  "views": {
+    "front": "*Right",
+    "top": "*Top",
+    "right": "*Back",
+    "iso": "*Isometric"
+  },
+  "scale": {
+    "num": 1,
+    "den": 16,
+    "label": "1:16"
+  },
+  "scale_fits": true,
+  "rects_m": {
+    "front": [
+      0.0487,
+      0.09199,
+      0.093439,
+      0.136729
+    ],
+    "top": [
+      0.0487,
+      0.181729,
+      0.063932,
+      0.226468
+    ],
+    "right": [
+      0.138439,
+      0.09199,
+      0.153671,
+      0.136729
+    ],
+    "iso": [
+      0.347103,
+      0.20308,
+      0.40295,
+      0.25055
+    ]
+  },
+  "iso_scale": 0.0625,
+  "regions_m": {
+    "sheet": [
+      0,
+      0,
+      0.4318,
+      0.2794
+    ],
+    "usable": [
+      0.0127,
+      0.00635,
+      0.42545,
+      0.27305
+    ],
+    "title_block": [
+      0.26035,
+      0.00635,
+      0.42545,
+      0.04699
+    ],
+    "notes": [
+      0.15875,
+      0.00635,
+      0.26035,
+      0.04699
+    ]
+  },
+  "sheets": [
+    {
+      "index": 1,
+      "name": "Sheet1",
+      "contents": [
+        "front",
+        "top",
+        "right",
+        "iso"
+      ]
+    }
+  ],
+  "needs_section": false,
+  "bbox_m": [
+    0.035712400000000005,
+    0.5078221999999999,
+    0.5078221999999999
+  ],
+  "hole_axes": {
+    "x": 18,
+    "y": 0,
+    "z": 0
+  },
+  "notes": [],
+  "basis": "front chosen for the largest silhouette (ties: the model's own Front); scale = largest standard scale that fits without collisions",
+  "extra_views": [
+    {
+      "role": "extra_left",
+      "sw_view": "*Left",
+      "center": [
+        0.2855805562499999,
+        0.22818055625
+      ],
+      "fits": true,
+      "rect": [
+        0.263211,
+        0.205811,
+        0.30795,
+        0.25055
+      ],
+      "scale": 0.0625
+    }
+  ],
+  "sections": [
+    {
+      "label": "A",
+      "parent": "extra_left",
+      "hole_ids": [
+        "H007",
+        "H009",
+        "H012"
+      ],
+      "fits": false,
+      "role": "section_A",
+      "error": "RuntimeError: could not select the cutting line",
+      "cut": {
+        "axis": "x",
+        "entry_side": "-",
+        "cut_along": "y",
+        "at_axis": "z",
+        "at_m": 0.0
+      }
+    },
+    {
+      "label": "B",
+      "parent": "front",
+      "hole_ids": [
+        "H008",
+        "H010",
+        "H011"
+      ],
+      "fits": false,
+      "role": "section_B",
+      "error": "RuntimeError: could not select the cutting line",
+      "cut": {
+        "axis": "x",
+        "entry_side": "+",
+        "cut_along": "y",
+        "at_axis": "z",
+        "at_m": 0.0
+      }
+    }
+  ]
+}
