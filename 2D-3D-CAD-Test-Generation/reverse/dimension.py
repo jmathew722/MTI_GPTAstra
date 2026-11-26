@@ -192,6 +192,8 @@ class Dimensioner:
         self.units = dd.units
         self._n = 0
         self._objs: list[dict] = []
+        self.sections: list[dict] = []          # created section views (reverse.section_views)
+        self.section_cover: set[str] = set()    # holes whose depth / counterbore a section view carries
 
     # ------------------------------------------------------------ plumbing
     def _id(self, p: str) -> str:
@@ -462,13 +464,13 @@ class Dimensioner:
             item.status, item.reason = "unresolved", f"{type(e).__name__}: {e}"
             self._flag("high", "HOLE_CALLOUT_FAILED", f"{h['id']}: hole callout failed: {e}", view=ctx.role, next_action="Dimension this hole manually.")
         # depth / counterbore characteristics
-        if not h["through"]:
+        if not h["through"] and h["id"] not in self.section_cover:
             d = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"{h['id']}:depth", category="feature", source="geometry_derived", value=h["depth_m"],
                                            feature_id=h["id"], view=ctx.role, status="review_required",
                                            reason="blind-hole depth: the native callout is checked by the engineer (no section view is generated in this version)"))
             self._flag("medium", "BLIND_DEPTH_REVIEW", f"{h['id']}: blind depth {h['depth_m'] * 1000:.3f} mm is carried by the callout/hidden geometry; confirm or add a section view",
                        view=ctx.role, observed=f"{h['depth_m'] * 1000:.3f} mm", next_action="Confirm the depth on the drawing or add a section view.")
-        if h.get("counterbore"):
+        if h.get("counterbore") and h["id"] not in self.section_cover:
             c = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"{h['id']}:counterbore", category="feature", source="geometry_derived",
                                            value=h["counterbore"]["diameter_m"], feature_id=h["id"], view=ctx.role, status="review_required",
                                            reason="counterbore diameter and depth need a section or detail view"))
@@ -638,6 +640,101 @@ class Dimensioner:
         self._flag("info", "DESIGN_INTENT", "Tolerances, surface finish, thread specifications and datum scheme/GD&T are not in the part geometry and were not invented.",
                    next_action="Add them from the source design intent before release.")
 
+    def _section_line_pair(self, ctx: "ViewCtx", ax: int, kind: str, coord_a: float, coord_b: float, u_i: int, a_range: tuple[float, float]):
+        """Two straight edges of a section view in exact model space.
+        kind 'wall': lines parallel to the hole axis at u = coord_a and u = coord_b, inside the axial interval ``a_range``.
+        kind 'floor': lines perpendicular to the axis at axial positions coord_a and coord_b."""
+        def long_first(c):
+            return sorted(c, key=lambda e: -math.dist(e["m0"], e["m1"]))
+        cands_a, cands_b = [], []
+        for e in ctx.edges:
+            if e["kind"] != "line":
+                continue
+            m0, m1 = e["m0"], e["m1"]
+            along = abs(m1[ax] - m0[ax])
+            if kind == "wall" and along > 1e-5 and all(abs(m1[j] - m0[j]) < 1e-7 for j in range(3) if j != ax):
+                lo, hi = min(m0[ax], m1[ax]), max(m0[ax], m1[ax])
+                if lo >= a_range[0] - 1e-4 and hi <= a_range[1] + 1e-4:
+                    if abs(m0[u_i] - coord_a) < 3e-5:
+                        cands_a.append(e)
+                    if abs(m0[u_i] - coord_b) < 3e-5:
+                        cands_b.append(e)
+            if kind == "floor" and along < 1e-7:
+                if abs(m0[ax] - coord_a) < 3e-5:
+                    cands_a.append(e)
+                if abs(m0[ax] - coord_b) < 3e-5:
+                    cands_b.append(e)
+        if not cands_a or not cands_b:
+            return None
+        return long_first(cands_a)[0], long_first(cands_b)[0]
+
+    def _dim_pair(self, ctx: "ViewCtx", a: dict, b: dict):
+        """A native dimension between two straight edges, direction chosen from how they lie on the sheet."""
+        if not self._select([a["ent"], b["ent"]]):
+            return None
+        x0, y0, x1, y1 = ctx.outline
+        vertical_on_sheet = abs(a["s0"][0] - a["s1"][0]) < 1e-7 and abs(a["s0"][1] - a["s1"][1]) > 1e-7
+        if vertical_on_sheet:           # two vertical edges: a HORIZONTAL dimension between them
+            mid = (a["s0"][0] + b["s0"][0]) / 2
+            return self.dd.mdl.AddHorizontalDimension2(mid, ctx.lane("top"), 0)
+        mid = (a["s0"][1] + b["s0"][1]) / 2
+        return self.dd.mdl.AddVerticalDimension2(ctx.lane("left"), mid, 0)
+
+    def section_dims(self) -> None:
+        """Bore diameters, counterbore diameter, blind depth and counterbore depth from the cut edges of each section view; every value is read back and
+        compared with the exact hole geometry in model space."""
+        holes = {h["id"]: h for h in self.inv["holes"]}
+        bbox = self.inv["bbox_m"]
+        for rec in self.sections:
+            if not rec.get("fits") or rec["role"] not in self.dd.views:
+                continue
+            ctx = self.view(rec["role"], "*Section")
+            u_name = rec["plan"]["cut_along"]
+            u_i = "xyz".index(u_name)
+            done: set[tuple] = set()
+            for hid in rec["hole_ids"]:
+                h = holes[hid]
+                sig = (round(h["diameter_m"], 6), bool(h["through"]), round(h["depth_m"], 5), bool(h.get("counterbore")))
+                if sig in done:
+                    self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"{hid}:section", category="feature", source="geometry_derived", feature_id=hid, view=rec["role"],
+                                               status="covered", evidence=f"same section dimensions as the identical hole already dimensioned in section {rec['label']}-{rec['label']}"))
+                    continue
+                done.add(sig)
+                self._section_hole(ctx, rec, h, u_i, bbox)
+        self._clear()
+
+    def _section_hole(self, ctx: "ViewCtx", rec: dict, h: dict, u_i: int, bbox) -> None:
+        ax = "xyz".index(h["axis"])
+        cu = h["center_m"][h["center_axes"].index("xyz"[u_i])]
+        entry = h["entry_side"] if h["entry_side"] in ("+", "-") else "-"
+        a_entry = bbox[ax] if entry == "-" else bbox[ax + 3]
+        sgn = 1.0 if entry == "-" else -1.0
+        steps = sorted(h["steps"], key=lambda s: (s["d0_m"] if entry == "-" else -s["d1_m"]))
+        # step diameters (the smallest one is already carried by the hole callout; the others - a counterbore - are dimensioned here)
+        big = max(steps, key=lambda s: s["radius_m"])
+        small = min(steps, key=lambda s: s["radius_m"])
+        targets = []
+        if h.get("counterbore"):
+            targets.append((f"{h['id']}:counterbore", 2 * big["radius_m"], ("wall", cu - big["radius_m"], cu + big["radius_m"], (big["d0_m"], big["d1_m"]))))
+            targets.append((f"{h['id']}:counterbore_depth", big["length_m"], ("floor", a_entry, a_entry + sgn * big["length_m"], None)))
+        if not h["through"]:
+            targets.append((f"{h['id']}:depth", h["depth_m"], ("floor", a_entry, a_entry + sgn * h["depth_m"], None)))
+        for charac, expected, (kind, ca, cb, arange) in targets:
+            item = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=charac, category="feature", source="geometry_derived", value=expected, feature_id=h["id"], view=rec["role"]))
+            try:
+                pair = self._section_line_pair(ctx, ax, kind, ca, cb, u_i, arange or (-1e9, 1e9))
+                if pair is None:
+                    raise RuntimeError("the cut edges needed for this dimension are not visible in the section")
+                dd_obj = self._dim_pair(ctx, *pair)
+                if dd_obj is None:
+                    raise RuntimeError("no dimension was created")
+                aid = self._id("D")
+                self._check(item, self._record(dd_obj, aid, charac, "h"), expected, aid, rec["role"])
+            except Exception as e:      # noqa: BLE001
+                item.status, item.reason = "review_required", f"{type(e).__name__}: {e}"
+                self._flag("medium", "SECTION_DIM_REVIEW", f"{h['id']}: {charac.split(':')[1]} could not be dimensioned in section {rec['label']}-{rec['label']}: {e}",
+                           view=rec["role"], next_action="Dimension this in the section view manually.")
+
     def repair_layout(self, usable, margin: float = 0.008, step: float = 0.011, max_iter: int = 8) -> dict:
         """Deterministic layout pass over the annotations just created: clamp every one inside the sheet's usable area and push colliding text apart along
         its own lane (horizontal dimensions move up/down, vertical ones left/right), bounded iterations. Text boxes are estimated from the character count
@@ -689,6 +786,19 @@ class Dimensioner:
                             x = x + step if x + step + H / 2 <= inner.x1 else x - step
                         cur[mv["id"]] = [x, y]
                         changed = True
+            # view labels (notes) are fixed: a dimension that touches one is pushed away from it
+            fixed = [Rect(*nb) for nb in getattr(self.dd, "note_boxes", [])]
+            for o in objs:
+                for fx in fixed:
+                    ro = mk(o, *cur[o["id"]])
+                    if ro.grow(0.001).overlaps(fx):
+                        x, y = cur[o["id"]]
+                        if o["orient"] == "h":
+                            y = y + step if y + step + H / 2 <= inner.y1 else y - step
+                        else:
+                            x = x + step if x + step + H / 2 <= inner.x1 else x - step
+                        cur[o["id"]] = [x, y]
+                        changed = True
             if not changed:
                 break
         for o in self._objs:
@@ -705,5 +815,6 @@ class Dimensioner:
     def run(self) -> dict:
         self.overall()
         self.holes()
+        self.section_dims()
         self.residual_review()
         return {"ledger": self.ledger.to_json(), "issues": self.issues, "annotations": self.annotations}

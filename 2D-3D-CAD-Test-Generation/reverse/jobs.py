@@ -68,7 +68,11 @@ def run_job(store: state.JobStore, job_id: str, template: dict, *, cancel: Optio
         store.save(job)
         store.event(job_id, "solidworks_unavailable", error=str(e))
         return job
-    stale = s.close_docs_under(store.root)
+    try:        # a stale-document sweep must never be able to stop a job
+        stale = s.close_docs_under(store.root) if hasattr(s, "close_docs_under") else []
+    except Exception as e:      # noqa: BLE001
+        log.warning("stale-document sweep failed: %s", e)
+        stale = []
     if stale:
         store.event(job_id, "closed_stale_documents", documents=stale)
     job.state = "running"

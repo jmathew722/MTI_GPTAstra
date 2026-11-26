@@ -467,3 +467,48 @@ def test_generated_templates_shipped_with_the_repo_are_real_files():
         f = next(p for p in d.iterdir() if p.name.lower() == f"{key}.drwdot")
         assert f.stat().st_size > 5000 and f.read_bytes()[:8] != b"NOT A TE"       # a real native file, not text renamed
         assert (d / f"{key}_preview.pdf").is_file()
+
+
+# ------------------------------------------------------------------ sections + bolt circles (pure geometry)
+
+def _hole(i, axis, entry, thru, cx, cy, axes, cb=None, d=0.01, depth=0.02):
+    return {"id": i, "axis": axis, "entry_side": entry, "through": thru, "center_axes": axes, "center_m": [cx, cy], "counterbore": cb, "diameter_m": d, "depth_m": depth}
+
+
+def test_section_plan_cuts_through_the_row_with_the_most_holes_and_leaves_through_holes_alone():
+    from reverse import sections
+    hs = [_hole("H1", "y", "-", False, -0.017, 0.0, ["x", "z"], cb={"diameter_m": 0.025}), _hole("H2", "y", "-", False, 0.017, 0.0, ["x", "z"], cb={"diameter_m": 0.025}),
+          _hole("H3", "y", "-", False, 0.017, 0.03, ["x", "z"], cb={"diameter_m": 0.025}), _hole("H4", "y", "both", True, 0.03, 0.02, ["x", "z"]),
+          _hole("H5", "x", "+", False, 0.0, 0.0, ["y", "z"])]
+    p = sections.plan_sections(hs)
+    assert [s["label"] for s in p] == ["A", "B"]
+    a = p[0]
+    assert a["axis"] == "y" and a["cut_along"] == "x" and a["at_axis"] == "z" and a["covers"] == ["H1", "H2"] and a["at_m"] == 0.0
+    assert sections.uncovered(hs, p) == ["H3"]                    # off the cutting line: stays a review item, never silently dropped
+    assert all(not sections.needs_section(h) for h in hs if h["id"] == "H4")
+
+
+def test_no_sections_when_every_hole_is_a_plain_through_hole():
+    from reverse import sections
+    assert sections.plan_sections([_hole("H1", "y", "both", True, 0, 0, ["x", "z"])]) == []
+
+
+def test_bolt_circle_equal_spacing_pcd_and_opposite_pairs():
+    import math
+    hs = [_hole(f"H{i}", "z", "+", True, 0.1 * math.cos(2 * math.pi * i / 8), 0.1 * math.sin(2 * math.pi * i / 8), ["x", "y"]) for i in range(8)]
+    c = inventory.circular_patterns(hs)
+    assert len(c) == 1 and c[0]["count"] == 8 and c[0]["equal_spacing"] and abs(c[0]["pcd_m"] - 0.2) < 1e-9 and len(c[0]["opposite_pairs"]) == 4
+
+
+def test_unequal_ring_and_off_circle_holes_are_not_called_a_bolt_circle():
+    import math
+    ring = [_hole(f"H{i}", "z", "+", True, 0.1 * math.cos(a), 0.1 * math.sin(a), ["x", "y"]) for i, a in enumerate([0, 0.5, 2.0, 4.0])]
+    # the centre comes from the centroid of the holes, so a lopsided ring is NOT claimed as a bolt circle: its holes keep individual callouts and locations
+    assert inventory.circular_patterns(ring) == []
+    # a symmetric ring with an unequal step (holes in opposite pairs) IS a circle, and is reported as not equally spaced
+    pairs = [_hole(f"P{i}", "z", "+", True, 0.1 * math.cos(a), 0.1 * math.sin(a), ["x", "y"]) for i, a in enumerate([0.0, 0.5, math.pi, math.pi + 0.5])]
+    c = inventory.circular_patterns(pairs)
+    assert c and not c[0]["equal_spacing"] and len(c[0]["opposite_pairs"]) == 2
+    scatter = [_hole(f"H{i}", "z", "+", True, x, y, ["x", "y"]) for i, (x, y) in enumerate([(0, 0.05), (0.07, 0.0), (0.0, 0.11), (0.12, 0.12)])]
+    assert inventory.circular_patterns(scatter) == []
+    assert inventory.circular_patterns(ring[:2]) == []                 # fewer than three holes is not a pattern

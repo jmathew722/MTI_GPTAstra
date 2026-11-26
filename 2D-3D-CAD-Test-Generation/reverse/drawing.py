@@ -46,6 +46,7 @@ class DrawingDoc:
         self.title = ""
         self.views: dict[str, object] = {}        # role -> typed IView
         self.warnings: list[str] = []
+        self.note_boxes: list[tuple[float, float, float, float]] = []      # (x0, y0, x1, y1) of every label we placed
 
     # ------------------------------------------------------------ lifecycle
     def create(self) -> None:
@@ -181,6 +182,7 @@ class DrawingDoc:
         tn = self.s.typed(n, "INote")
         an = self.s.typed(tn.GetAnnotation(), "IAnnotation")
         an.SetPosition2(x, y, 0)
+        self.note_boxes.append((x, y - 0.002, x + 0.0026 * len(text) + 0.004, y + 0.007))
         return an
 
     # ------------------------------------------------------------ outputs

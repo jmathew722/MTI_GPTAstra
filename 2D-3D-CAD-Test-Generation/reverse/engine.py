@@ -14,7 +14,7 @@ import time
 from pathlib import Path
 from typing import Callable, Optional
 
-from reverse import dimension, drawing, inventory, planner, qa, safety, state, worker
+from reverse import dimension, drawing, inventory, planner, qa, safety, section_views, state, worker
 
 log = logging.getLogger(__name__)
 
@@ -162,7 +162,11 @@ class PartRunner:
         except OSError as e:
             raise worker.CadError(f"The output folder for this part could not be created or written ({type(e).__name__}). Check the output location and its permissions.") from None
         base = safety.safe_id(self.src.stem)
-        if base.lower() in self.s.open_titles():
+        try:
+            titles = self.s.open_titles() if hasattr(self.s, "open_titles") else set()
+        except Exception:      # noqa: BLE001
+            titles = set()
+        if base.lower() in titles:
             base = f"{base}__sf{self.job.job_id[-6:]}"        # the user has a part with this title open: a same-titled copy could not be opened
         copy = self.stage_dir / "source" / (base + ".SLDPRT")
 
@@ -285,17 +289,28 @@ class PartRunner:
                     if r.overlaps(reg["title_block"]) or r.overlaps(reg["notes"]):
                         self.issues.append(qa.issue("high", "VIEW_IN_TITLE_BLOCK", f"View {k} intrudes into the title block or notes area.", part_id=p.part_id))
                 base = self.plan["scale"]["num"] / self.plan["scale"]["den"]
+                self.secs = []
+                if self.job.options.get("sections", True):
+                    placed = dict(rects)
+                    self.secs = section_views.create_sections(dd, self.inv, self.plan, placed, self.issues, p.part_id)
+                    for s_ in self.secs:
+                        if s_.get("fits") and s_["role"] in dd.views:
+                            rects[s_["role"]] = placed[s_["role"]]
+                self.plan["sections"] = [{k: v for k, v in s_.items() if k != "plan"} | {"cut": {k: s_["plan"][k] for k in ("axis", "entry_side", "cut_along", "at_axis", "at_m")}} for s_ in self.secs]
                 for ev in self.extra:
                     if ev["fits"] and ev["role"] in dd.views:
                         r = rects[ev["role"]]
                         lbl = f"VIEW FROM {ev['sw_view'].strip('*').upper()}" + (f"  SCALE {drawing._ratio(ev['scale'])}" if abs(ev["scale"] - base) > 1e-9 else "")
                         dd.note(lbl, r.x0, r.y1 + 0.004)
                 p.stages["drawing"]["warnings"] += dd.warnings
+                _write_json(self.stage_dir / "drawing_plan.json", self.plan)          # now including the sections that were actually created
             self._stage("drawing", draw_stage)
 
             # ---- 6 dimensions
             def dim_stage():
                 dm = dimension.Dimensioner(dd, self.inv, self.plan, part_id=p.part_id)
+                dm.sections = getattr(self, "secs", [])
+                dm.section_cover = {hid for s_ in dm.sections if s_.get("fits") for hid in s_["hole_ids"]}
                 res = dm.run()
                 reg_u = planner.Rect(*self.plan["regions_m"]["usable"])
                 res["layout_repair"] = dm.repair_layout(reg_u)
