@@ -99,7 +99,11 @@ class ReverseService:
         ids = part_ids or [p.part_id for p in job.parts if p.state in ("failed", "canceled")]
         if not ids:
             raise safety.SafetyError("Nothing to retry: no failed or canceled parts.")
+        self.store.clear_cancel(job_id)
         job.cancel_requested = False
+        for p in job.parts:           # the parts being retried show as queued immediately, not as the old failure until the worker reaches them
+            if p.part_id in ids:
+                p.state, p.error, p.stages, p.ended = "queued", "", {}, None
         self.store.save(job)
         self.queue.submit(job_id, ids)
 
@@ -144,8 +148,12 @@ class ReverseService:
     def history(self, limit: int = 100) -> list[dict]:
         rows = []
         for j in self.store.list()[:limit]:
-            rows.append({"job_id": j.job_id, "created": j.created, "state": j.summary_state(), "parts": [{"part_id": p.part_id, "name": p.name, "state": p.state,
-                         "coverage_pct": p.coverage_pct, "material": (p.material or {}).get("name"), "review_status": p.review_status, "seconds": p.seconds} for p in j.parts],
+            def thumb(p):
+                rel = next((r for n, r in p.artifacts.items() if n.endswith("preview/page-001.png")), None)
+                return rel if rel and (self.store.dir(j.job_id) / rel).is_file() else None
+            rows.append({"job_id": j.job_id, "created": j.created, "state": j.summary_state(), "solidworks": j.solidworks,
+                         "parts": [{"part_id": p.part_id, "name": p.name, "state": p.state, "coverage_pct": p.coverage_pct, "material": (p.material or {}).get("name"),
+                                    "review_status": p.review_status, "seconds": p.seconds, "thumbnail": thumb(p)} for p in j.parts],
                          "template_id": j.template_id, "profile": j.profile, "kind": "reverse"})
         return rows
 

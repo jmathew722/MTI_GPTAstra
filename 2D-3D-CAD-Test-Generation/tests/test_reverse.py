@@ -512,3 +512,45 @@ def test_unequal_ring_and_off_circle_holes_are_not_called_a_bolt_circle():
     scatter = [_hole(f"H{i}", "z", "+", True, x, y, ["x", "y"]) for i, (x, y) in enumerate([(0, 0.05), (0.07, 0.0), (0.0, 0.11), (0.12, 0.12)])]
     assert inventory.circular_patterns(scatter) == []
     assert inventory.circular_patterns(ring[:2]) == []                 # fewer than three holes is not a pattern
+
+
+# ------------------------------------------------------------------ store robustness found by the UI integration
+
+def test_a_cancel_survives_a_stale_save_and_only_clear_cancel_removes_it(tmp_path):
+    st = state.JobStore(tmp_path)
+    j = make_job(2)
+    st.save(j)
+    worker_copy = st.load(j.job_id)                    # the running worker's in-memory Job (cancel_requested False)
+    api = st.load(j.job_id)
+    api.cancel_requested = True
+    st.save(api)                                       # the API cancels while the worker is busy
+    worker_copy.parts[0].state = "drawing"
+    st.save(worker_copy)                               # the worker re-saves its stale copy
+    assert st.load(j.job_id).cancel_requested is True  # the cancel was NOT lost
+    st.clear_cancel(j.job_id)
+    assert st.load(j.job_id).cancel_requested is False
+
+
+def test_retry_shows_the_parts_as_queued_at_once_and_clears_the_cancel(svc):
+    j = make_job(2)
+    j.job_id = "r3d_retry"
+    state.finish(j.parts[0], "failed", "boom")
+    state.finish(j.parts[1], "completed")
+    j.cancel_requested = True
+    svc.store.save(j)
+    svc.queue.submit = lambda *a, **k: None            # no CAD worker in this test
+    svc.retry(j.job_id)
+    r = svc.store.load(j.job_id)
+    assert r.parts[0].state == "queued" and r.parts[0].error == "" and r.parts[1].state == "completed" and r.cancel_requested is False
+
+
+def test_history_rows_carry_thumbnail_and_solidworks_info(svc):
+    j, p = seed_job(svc)
+    pv = svc.store.dir(j.job_id) / "p0" / "active" / "preview"
+    pv.mkdir(parents=True)
+    (pv / "page-001.png").write_bytes(b"\x89PNG")
+    p.artifacts["preview/page-001.png"] = "p0/active/preview/page-001.png"
+    j.solidworks = {"revision": "33.5.0"}
+    svc.store.save(j)
+    row = svc.history()[0]
+    assert row["solidworks"]["revision"] == "33.5.0" and row["parts"][0]["thumbnail"].endswith("page-001.png")

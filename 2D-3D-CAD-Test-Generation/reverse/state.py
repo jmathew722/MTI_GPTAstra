@@ -108,20 +108,51 @@ class JobStore:
     def dir(self, job_id: str) -> Path:
         return self.root / job_id
 
+    def _flag(self, job_id: str) -> Path:
+        return self.dir(job_id) / "cancel.flag"
+
+    def clear_cancel(self, job_id: str) -> None:
+        with self._lock:
+            self._flag(job_id).unlink(missing_ok=True)
+
     def save(self, job: Job) -> None:
+        """Atomic write. A cancel request is stored as its own flag file and is NEVER cleared by a save: a worker holding a stale in-memory Job (with
+        cancel_requested False) must not be able to erase a cancel that arrived while it was running (clear it explicitly with clear_cancel)."""
         with self._lock:
             d = self.dir(job.job_id)
             d.mkdir(parents=True, exist_ok=True)
+            if job.cancel_requested:
+                self._flag(job.job_id).write_text("1", encoding="utf-8")
             job.updated = now()
             tmp = d / "job.json.tmp"
             tmp.write_text(json.dumps(_to_json(job), indent=2), encoding="utf-8")
-            os.replace(tmp, d / "job.json")
+            for attempt in range(8):       # a concurrent reader can hold the file for a moment on Windows
+                try:
+                    os.replace(tmp, d / "job.json")
+                    break
+                except PermissionError:
+                    if attempt == 7:
+                        raise
+                    time.sleep(0.05)
 
     def load(self, job_id: str) -> Job:
         p = self.dir(job_id) / "job.json"
-        if not p.is_file():
-            raise KeyError(job_id)
-        return _from_json(json.loads(p.read_text(encoding="utf-8")))
+        with self._lock:                  # never read while the matching save is replacing the file
+            if not p.is_file():
+                raise KeyError(job_id)
+            last: Optional[Exception] = None
+            for _ in range(8):
+                try:
+                    data = json.loads(p.read_text(encoding="utf-8"))
+                    break
+                except (PermissionError, json.JSONDecodeError) as e:
+                    last = e
+                    time.sleep(0.05)
+            else:
+                raise last  # type: ignore[misc]
+            j = _from_json(data)
+            j.cancel_requested = self._flag(job_id).exists()
+            return j
 
     def list(self) -> list[Job]:
         out = []

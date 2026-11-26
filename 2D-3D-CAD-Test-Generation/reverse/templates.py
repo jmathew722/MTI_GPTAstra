@@ -30,17 +30,30 @@ class TemplateCatalog:
 
     # ---- persistence
     def _load(self) -> list[dict]:
-        if self.index_path.is_file():
+        import time as _t
+        for _ in range(8):             # tolerate the moment the index is being replaced (Windows)
+            if not self.index_path.is_file():
+                return []
             try:
                 return json.loads(self.index_path.read_text(encoding="utf-8")).get("templates", [])
-            except (OSError, json.JSONDecodeError):
+            except (PermissionError, json.JSONDecodeError):
+                _t.sleep(0.05)
+            except OSError:
                 return []
         return []
 
     def _save(self, items: list[dict]) -> None:
+        import time as _t
         tmp = self.index_path.with_suffix(".tmp")
         tmp.write_text(json.dumps({"schema_version": 1, "templates": items}, indent=2), encoding="utf-8")
-        os.replace(tmp, self.index_path)
+        for attempt in range(8):
+            try:
+                os.replace(tmp, self.index_path)
+                return
+            except PermissionError:
+                if attempt == 7:
+                    raise
+                _t.sleep(0.05)
 
     # ---- queries
     def list(self) -> list[dict]:
