@@ -130,7 +130,7 @@ def appearance_for(resolution: dict, verification: Optional[dict], stl: Optional
             "per_body": None}
 
 
-def finalize(out: Path, resolution: Optional[dict], sw_report, *, run_id: str = "", settings: Optional[dict] = None) -> dict:
+def finalize(out: Path, resolution: Optional[dict], sw_report, *, run_id: str = "", settings: Optional[dict] = None, sw_app=None) -> dict:
     """After the build: write the native verification, costing and appearance files and fold the final status back into the resolution.
     Returns the summary stored in ir_report.json. Never raises."""
     out = Path(out)
@@ -142,6 +142,17 @@ def finalize(out: Path, resolution: Optional[dict], sw_report, *, run_id: str = 
         status = resolution.get("status")
         if ver and ver.get("status") in ("assigned_verified", "assignment_failed"):
             status = ver["status"]
+        if ver and ver.get("status") == "assigned_verified" and sw_app is not None and getattr(sw_report, "sldprt", None):
+            # the spec's close/reopen proof: read the material back from the SAVED file
+            ch0 = resolution.get("chosen") or {}
+            ro = native.reopen_and_read(sw_app, sw_report.sldprt, ch0.get("sw_database"))
+            ver["reopen"] = ro
+            name = (ro.get("material") or {}).get("name")
+            if not ro.get("opened") or name != ch0.get("sw_material_name"):
+                ver["status"] = status = "assignment_failed"
+                ver.setdefault("errors", []).append(f"the saved file does not carry the material after reopening (read back {name!r})")
+            else:
+                ver["reopen_verified"] = True
         resolution = dict(resolution, status=status)
         _atomic_write(out / "material_resolution.json", resolution)
         _atomic_write(out / "material_native.json", ver or {"status": status, "note": "No native material step ran."})

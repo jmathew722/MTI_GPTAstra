@@ -1,0 +1,21 @@
+{
+  "available": false,
+  "reason": "The material was not verified on the native part (density unverified), so the estimate is unavailable.",
+  "currency": "USD",
+  "price_basis": "quote",
+  "catalog_version": "e76dea342e6d",
+  "label": "Material estimate from the catalog price",
+  "excludes": "Material only: excludes machining, labour, scrap/waste (unless a yield is set), shipping, tax and purchase minimums.",
+  "warnings": [],
+  "inputs": {
+    "volume_m3": 0.00018857055646623777,
+    "density_kg_m3": 8000.0,
+    "native_mass_kg": null,
+    "price_per_kg": null,
+    "yield_fraction": null
+  },
+  "mass_kg": null,
+  "net_material_cost": null,
+  "stock_cost": null,
+  "display": {}
+}

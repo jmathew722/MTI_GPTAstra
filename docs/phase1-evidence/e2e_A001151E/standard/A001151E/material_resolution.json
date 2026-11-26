@@ -1,0 +1,86 @@
+{
+  "status": "assigned_verified",
+  "drawing": {
+    "status": "specified",
+    "raw_text": "MATERIAL: PLAIN CARBON STEEL",
+    "normalized_candidate": "Plain Carbon Steel",
+    "evidence": [
+      {
+        "page": 1,
+        "region": "title_block",
+        "quote": "MATERIAL: PLAIN CARBON STEEL",
+        "bbox_normalized": null
+      }
+    ],
+    "alternatives": [],
+    "confidence": null,
+    "review_reason": null,
+    "specification": null,
+    "condition_or_temper": null,
+    "coating": null,
+    "heat_treatment": null,
+    "finish": null,
+    "hardness": null,
+    "stock_form": null,
+    "body_scope": null
+  },
+  "label": "Plain Carbon Steel",
+  "chosen": {
+    "material_id": "sw-standard:Plain Carbon Steel",
+    "label": "Plain Carbon Steel",
+    "catalog_id": "sw-standard",
+    "catalog_source": "standard",
+    "catalog_path": "C:\\Program Files\\SOLIDWORKS Corp\\SOLIDWORKS\\lang\\english\\sldmaterials\\solidworks materials.sldmat",
+    "catalog_sha256": "636ef75ffb10e8abf7529c910a50dc2cb0d73ce5112c9721e7e4de1824cf57c5",
+    "density_kg_m3": 7800.0,
+    "price_per_kg": null,
+    "currency": "USD",
+    "price_basis": "",
+    "sw_material_name": "Plain Carbon Steel",
+    "sw_database": "C:\\Program Files\\SOLIDWORKS Corp\\SOLIDWORKS\\lang\\english\\sldmaterials\\solidworks materials.sldmat",
+    "appearance": {
+      "color": "#A5ABB4",
+      "metalness": 0.8,
+      "roughness": 0.35
+    },
+    "classification": "Steel"
+  },
+  "selection_source": "drawing",
+  "suggestions": [],
+  "standard_candidates": [],
+  "override": null,
+  "review_required": false,
+  "review_reasons": [],
+  "assignable": true,
+  "catalogs": [
+    {
+      "catalog_id": "solidflow-demo",
+      "source": "demo",
+      "path": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\config\\materials\\solidflow-demo.json",
+      "sha256": "cbfdfc5785e39efb76596e545b662ddb045f57ea929322941664a9fe12de631b",
+      "currency": "USD",
+      "price_basis": "synthetic_demo_usd_per_kg",
+      "entries": 3,
+      "rejected": 0,
+      "files": [
+        "solidflow-demo.json"
+      ]
+    },
+    {
+      "catalog_id": "sw-standard",
+      "source": "standard",
+      "path": "C:\\Program Files\\SOLIDWORKS Corp\\SOLIDWORKS\\lang\\english\\sldmaterials\\solidworks materials.sldmat",
+      "sha256": "636ef75ffb10e8abf7529c910a50dc2cb0d73ce5112c9721e7e4de1824cf57c5",
+      "currency": "USD",
+      "price_basis": "",
+      "entries": 259,
+      "rejected": 0,
+      "files": [
+        "solidworks materials.sldmat"
+      ]
+    }
+  ],
+  "resolved_at": "2026-11-26T02:38:45+00:00",
+  "catalog_warnings": [],
+  "strict_release": false
+}

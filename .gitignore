@@ -238,3 +238,12 @@ graphify-out/cost.json
 
 # Local screen recordings of the SolidWorks build ("Record Pipeline Run"): demo artifacts, never committed (manifest, poster and video go together)
 # recordings are committed on request (small); re-add "**/solidworks_recording*" to ignore them again
+
+# Phase 1 evidence: keep the JSON/markdown/log evidence, never the native binaries or the SOLIDWORKS-seeded demo database
+docs/phase1-evidence/_native/
+docs/phase1-evidence/**/*.SLDPRT
+docs/phase1-evidence/**/*.sldprt
+docs/phase1-evidence/**/*.stl
+docs/phase1-evidence/**/*.png
+docs/phase1-evidence/**/*.step
+docs/phase1-evidence/**/*.sldmat

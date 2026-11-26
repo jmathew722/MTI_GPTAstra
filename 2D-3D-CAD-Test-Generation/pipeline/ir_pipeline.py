@@ -281,7 +281,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
                 rec.caption("Verification complete")
                 rec.stop(outcome="completed")
             res.sw_ok, res.sldprt, res.stl = rep.ok, rep.sldprt or "", rep.stl or ""
-            res.material = _mat.finalize(out, material, rep, run_id=tel.run_id or "")
+            res.material = _mat.finalize(out, material, rep, run_id=tel.run_id or "", sw_app=sw_app)
             res.conventions = [f"origin centered: {rep.origin_ok}"] + rep.conventions
             res.hole_wizard_substitutions = list(rep.hole_wizard_substitutions)
             res.sw_features = {f.fid: f.status + (f" ({f.note})" if f.note else "") for f in rep.features}

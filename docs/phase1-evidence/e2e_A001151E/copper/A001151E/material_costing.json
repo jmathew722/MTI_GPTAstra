@@ -1,0 +1,31 @@
+{
+  "available": true,
+  "reason": null,
+  "currency": "USD",
+  "price_basis": "synthetic_demo_usd_per_kg",
+  "catalog_version": "cbfdfc5785e3",
+  "label": "Illustrative material estimate \u2014 not a supplier quote",
+  "excludes": "Material only: excludes machining, labour, scrap/waste (unless a yield is set), shipping, tax and purchase minimums.",
+  "warnings": [],
+  "inputs": {
+    "volume_m3": 0.0001885705564662378,
+    "density_kg_m3": 8960.0,
+    "native_mass_kg": 1.6895921859374905,
+    "price_per_kg": 10.0,
+    "yield_fraction": null
+  },
+  "mass_kg": 1.6895921859374905,
+  "net_material_cost": 16.895921859374905,
+  "stock_cost": null,
+  "display": {
+    "mass": "1.690 kg",
+    "volume": "188.6 cm\u00b3",
+    "net_material_cost": "16.90 USD"
+  },
+  "mass_crosscheck": {
+    "native_kg": 1.6895921859374905,
+    "volume_x_density_kg": 1.6895921859374907,
+    "relative_gap": 1.3141905293662753e-16,
+    "tolerance": 0.01
+  }
+}

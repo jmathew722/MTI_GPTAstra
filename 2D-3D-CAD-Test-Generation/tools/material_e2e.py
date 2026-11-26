@@ -28,6 +28,8 @@ SCENARIOS = {
     "none": {"status": "not_specified", "raw_text": None, "normalized_candidate": None, "evidence": []},
     "unmatched": {"status": "specified", "raw_text": "MATERIAL: AISI 4140 STEEL", "normalized_candidate": "AISI 4140 steel",
                   "evidence": [{"page": 1, "region": "title_block", "quote": "MATERIAL: AISI 4140 STEEL"}]},
+    "failassign": {"status": "specified", "raw_text": "MATERIAL: COMPANY ALLOY X", "normalized_candidate": "Company Alloy X",
+                   "evidence": [{"page": 1, "region": "title_block", "quote": "MATERIAL: COMPANY ALLOY X"}]},
     "standard": {"status": "specified", "raw_text": "MATERIAL: PLAIN CARBON STEEL", "normalized_candidate": "Plain Carbon Steel",
                  "evidence": [{"page": 1, "region": "title_block", "quote": "MATERIAL: PLAIN CARBON STEEL"}]},
 }
@@ -59,6 +61,18 @@ def main() -> int:
         shutil.copyfile(a.src / a.part / "plan.json", pd / "plan.json")
         t0 = time.time()
         row = {"scenario": name}
+        import os
+        os.environ.pop("SOLIDFLOW_MATERIAL_SETTINGS", None)
+        if name == "failassign":     # a company catalog whose native database does not exist: the assignment must FAIL and the geometry must survive
+            lib = root / "company_lib"
+            lib.mkdir(parents=True, exist_ok=True)
+            (lib / "materials.json").write_text(json.dumps({"schema_version": 1, "catalog_id": "co", "currency": "USD", "price_basis": "quote", "materials": [
+                {"id": "alloy-x", "label": "Company Alloy X", "aliases": [], "density_kg_m3": 8000, "price_per_kg": 5.0,
+                 "sw_database": "missing.sldmat", "sw_material_name": "Alloy X"}]}), encoding="utf-8")
+            (lib / "missing.sldmat").write_bytes(b"")          # present but empty -> the native assignment cannot succeed
+            sf = root / "settings.json"
+            sf.write_text(json.dumps({"catalog_path": str(lib), "use_demo": False, "use_standard": False}), encoding="utf-8")
+            os.environ["SOLIDFLOW_MATERIAL_SETTINGS"] = str(sf)
         try:
             r = run_part(PartSpec(a.part, drawing), root, [root], *( [app] if not isinstance(sw, tuple) else list(sw)), reuse_plan=True)
             row.update(sw_ok=r.sw_ok, sldprt=bool(r.sldprt), stl=bool(r.stl), error=r.error, material=r.material, secs=round(time.time() - t0, 1))

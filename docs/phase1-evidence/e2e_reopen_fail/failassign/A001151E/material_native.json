@@ -1,0 +1,24 @@
+{
+  "requested": {
+    "name": "Alloy X",
+    "database": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\docs\\phase1-evidence\\e2e_reopen_fail\\failassign\\company_lib\\missing.sldmat"
+  },
+  "actual": {
+    "name": "",
+    "database": ""
+  },
+  "status": "assignment_failed",
+  "config": "Default",
+  "density_expected_kg_m3": 8000.0,
+  "errors": [
+    "NativeMaterialError: read-back says '', expected 'Alloy X'"
+  ],
+  "mass": null,
+  "density_kg_m3": null,
+  "density_ok": null,
+  "before": {
+    "name": "",
+    "database": ""
+  },
+  "custom_property_errors": []
+}

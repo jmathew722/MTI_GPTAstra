@@ -1,0 +1,28 @@
+{
+  "requested": {
+    "name": "Plain Carbon Steel",
+    "database": "C:\\Program Files\\SOLIDWORKS Corp\\SOLIDWORKS\\lang\\english\\sldmaterials\\solidworks materials.sldmat"
+  },
+  "actual": {
+    "name": "Plain Carbon Steel",
+    "database": "SOLIDWORKS Materials"
+  },
+  "status": "assigned_verified",
+  "config": "Default",
+  "density_expected_kg_m3": 7800.0,
+  "errors": [],
+  "mass": {
+    "volume_m3": 0.00018857055646623777,
+    "mass_kg": 1.4708503404366546,
+    "density_kg_m3": 7800.0,
+    "surface_area_m2": 0.03149093184919877,
+    "source": "IModelDocExtension.CreateMassProperty2"
+  },
+  "density_kg_m3": 7800.0,
+  "density_ok": true,
+  "before": {
+    "name": "",
+    "database": ""
+  },
+  "custom_property_errors": []
+}

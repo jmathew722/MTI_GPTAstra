@@ -1,0 +1,1 @@
+{"schema_version": 1, "catalog_id": "co", "currency": "USD", "price_basis": "quote", "materials": [{"id": "alloy-x", "label": "Company Alloy X", "aliases": [], "density_kg_m3": 8000, "price_per_kg": 5.0, "sw_database": "missing.sldmat", "sw_material_name": "Alloy X"}]}

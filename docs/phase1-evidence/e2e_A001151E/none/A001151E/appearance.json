@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "artifact": "115 C_ir.stl",
+  "artifact_sha256": "122fc22118ca2495a562a7b6c233384210cc6577c2625d78463821bfc7e674cc",
+  "job_id": "",
+  "configuration": "",
+  "material_id": null,
+  "material_label": null,
+  "status": "not_specified",
+  "verified": false,
+  "color": "#9AA0A8",
+  "metalness": 0.2,
+  "roughness": 0.6,
+  "source": "neutral",
+  "caption": "Preview only: the material is not verified on the native part, so the model is shown in neutral grey.",
+  "per_body": null
+}

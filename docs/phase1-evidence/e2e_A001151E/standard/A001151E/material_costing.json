@@ -1,0 +1,30 @@
+{
+  "available": false,
+  "reason": "The catalog has no price for this material, so the cost is unavailable (not $0).",
+  "currency": "USD",
+  "price_basis": "",
+  "catalog_version": "636ef75ffb10",
+  "label": "Material estimate from the catalog price",
+  "excludes": "Material only: excludes machining, labour, scrap/waste (unless a yield is set), shipping, tax and purchase minimums.",
+  "warnings": [],
+  "inputs": {
+    "volume_m3": 0.00018857055646623777,
+    "density_kg_m3": 7800.0,
+    "native_mass_kg": 1.4708503404366546,
+    "price_per_kg": null,
+    "yield_fraction": null
+  },
+  "mass_kg": 1.4708503404366546,
+  "net_material_cost": null,
+  "stock_cost": null,
+  "display": {
+    "mass": "1.471 kg",
+    "volume": "188.6 cm\u00b3"
+  },
+  "mass_crosscheck": {
+    "native_kg": 1.4708503404366546,
+    "volume_x_density_kg": 1.4708503404366546,
+    "relative_gap": 0.0,
+    "tolerance": 0.01
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "part": "A001151E",
+  "extraction": "reused ..\\docs\\phase1-evidence\\e2e_reopen_fail\\failassign\\A001151E\\A001151E_extraction.json",
+  "plan_attempts": 0,
+  "gate1": "OK",
+  "planned": 6,
+  "questions": [],
+  "flagged": [
+    "F004: ASME Y14.5 blind-drilling convention: 1.12 is full-diameter depth from the entry face. Model a flat bottom; the drill point is cosmetic.",
+    "F006: ASME Y14.5 blind-drilling convention: 2.38 is full-diameter drill depth, with a cosmetic drill point. Thread designation is cosmetic only; drilling depth does not specify thread engagement length."
+  ],
+  "defaults": [
+    "F007: D4 not modelled: edge break with no printed size",
+    "D002: D9 0.44 -> 0.4375 (two-place print of a 1/16 fraction)",
+    "D004: D9 0.94 -> 0.9375 (two-place print of a 1/16 fraction)",
+    "D006: D9 0.44 -> 0.4375 (two-place print of a 1/16 fraction)",
+    "D008: D9 1.88 -> 1.875 (two-place print of a 1/16 fraction)",
+    "D012: D9 1.38 -> 1.375 (two-place print of a 1/16 fraction)",
+    "D015: D9 1.12 -> 1.125 (two-place print of a 1/16 fraction)",
+    "D019: D9 2.38 -> 2.375 (two-place print of a 1/16 fraction)"
+  ],
+  "reference_step": "..\\docs\\phase1-evidence\\e2e_reopen_fail\\failassign\\A001151E\\reference.step",
+  "volume": 11.507281,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\docs\\phase1-evidence\\e2e_reopen_fail\\failassign\\A001151E\\115C_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\docs\\phase1-evidence\\e2e_reopen_fail\\failassign\\A001151E\\115 C_ir.stl",
+  "prevalidation_stl": "..\\docs\\phase1-evidence\\e2e_reopen_fail\\failassign\\A001151E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Up To Next; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (drill + counterbore; one feature for F004, F005)",
+    "F005": "built (in F004 (one feature))",
+    "F006": "built"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 5/5"
+  ],
+  "hole_wizard_substitutions": [],
+  "mti_review": [],
+  "material": {
+    "status": "assignment_failed",
+    "label": "Company Alloy X",
+    "material_id": null,
+    "selection_source": "drawing",
+    "review_required": true,
+    "cost_available": false,
+    "net_material_cost": null,
+    "currency": "USD",
+    "mass_kg": null,
+    "files": [
+      "material_resolution.json",
+      "material_native.json",
+      "material_costing.json",
+      "appearance.json"
+    ]
+  },
+  "cost_usd": 0.0,
+  "error": ""
+}

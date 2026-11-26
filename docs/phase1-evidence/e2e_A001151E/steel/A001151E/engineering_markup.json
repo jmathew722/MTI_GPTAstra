@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "part": "A001151E",
+  "run_id": "run_untracked",
+  "source_pdf": "",
+  "marked_pdf": null,
+  "generated_at": "2026-11-26T02:36:34Z",
+  "generator_version": "engineering_markup/1",
+  "finding_count": 0,
+  "located_count": 0,
+  "unlocated_count": 0,
+  "status": "not_needed",
+  "pages": [],
+  "findings": [],
+  "warnings": [],
+  "report_pages": 0,
+  "generation_key": "f05582b8b7db"
+}

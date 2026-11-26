@@ -1,0 +1,28 @@
+{
+  "requested": {
+    "name": "SolidFlow Generic Copper",
+    "database": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\docs\\phase1-evidence\\_native\\materials\\solidflow-demo.sldmat"
+  },
+  "actual": {
+    "name": "SolidFlow Generic Copper",
+    "database": "solidflow-demo"
+  },
+  "status": "assigned_verified",
+  "config": "Default",
+  "density_expected_kg_m3": 8960.0,
+  "errors": [],
+  "mass": {
+    "volume_m3": 0.00018857055646623777,
+    "mass_kg": 1.6895921859374905,
+    "density_kg_m3": 8960.0,
+    "surface_area_m2": 0.03149093184919877,
+    "source": "IModelDocExtension.CreateMassProperty2"
+  },
+  "density_kg_m3": 8960.0,
+  "density_ok": true,
+  "before": {
+    "name": "",
+    "database": ""
+  },
+  "custom_property_errors": []
+}

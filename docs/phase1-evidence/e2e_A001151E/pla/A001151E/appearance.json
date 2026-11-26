@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "artifact": "115 C_ir.stl",
+  "artifact_sha256": "122fc22118ca2495a562a7b6c233384210cc6577c2625d78463821bfc7e674cc",
+  "job_id": "",
+  "configuration": "Default",
+  "material_id": "demo-pla",
+  "material_label": "Generic PLA plastic",
+  "status": "assigned_verified",
+  "verified": true,
+  "color": "#D1D5DB",
+  "metalness": 0.0,
+  "roughness": 0.65,
+  "source": "catalog",
+  "caption": "Illustrative appearance, not a finish specification.",
+  "per_body": null
+}

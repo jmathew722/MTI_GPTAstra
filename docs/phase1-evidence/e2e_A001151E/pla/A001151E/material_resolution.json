@@ -1,0 +1,88 @@
+{
+  "status": "assigned_verified",
+  "drawing": {
+    "status": "specified",
+    "raw_text": "MATERIAL: PLA",
+    "normalized_candidate": "PLA",
+    "evidence": [
+      {
+        "page": 1,
+        "region": "title_block",
+        "quote": "MATERIAL: PLA",
+        "bbox_normalized": null
+      }
+    ],
+    "alternatives": [],
+    "confidence": null,
+    "review_reason": null,
+    "specification": null,
+    "condition_or_temper": null,
+    "coating": null,
+    "heat_treatment": null,
+    "finish": null,
+    "hardness": null,
+    "stock_form": null,
+    "body_scope": null
+  },
+  "label": "PLA",
+  "chosen": {
+    "material_id": "demo-pla",
+    "label": "Generic PLA plastic",
+    "catalog_id": "solidflow-demo",
+    "catalog_source": "demo",
+    "catalog_path": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\config\\materials\\solidflow-demo.json",
+    "catalog_sha256": "cbfdfc5785e39efb76596e545b662ddb045f57ea929322941664a9fe12de631b",
+    "density_kg_m3": 1240.0,
+    "price_per_kg": 25.0,
+    "currency": "USD",
+    "price_basis": "synthetic_demo_usd_per_kg",
+    "sw_material_name": "SolidFlow Generic PLA",
+    "sw_database": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\docs\\phase1-evidence\\_native\\materials\\solidflow-demo.sldmat",
+    "appearance": {
+      "color": "#D1D5DB",
+      "metalness": 0.0,
+      "roughness": 0.65
+    },
+    "classification": ""
+  },
+  "selection_source": "drawing",
+  "suggestions": [],
+  "standard_candidates": [],
+  "override": null,
+  "review_required": false,
+  "review_reasons": [
+    "Matched a generic demo entry (illustrative prices); not an approved company material."
+  ],
+  "assignable": true,
+  "catalogs": [
+    {
+      "catalog_id": "solidflow-demo",
+      "source": "demo",
+      "path": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\config\\materials\\solidflow-demo.json",
+      "sha256": "cbfdfc5785e39efb76596e545b662ddb045f57ea929322941664a9fe12de631b",
+      "currency": "USD",
+      "price_basis": "synthetic_demo_usd_per_kg",
+      "entries": 3,
+      "rejected": 0,
+      "files": [
+        "solidflow-demo.json"
+      ]
+    },
+    {
+      "catalog_id": "sw-standard",
+      "source": "standard",
+      "path": "C:\\Program Files\\SOLIDWORKS Corp\\SOLIDWORKS\\lang\\english\\sldmaterials\\solidworks materials.sldmat",
+      "sha256": "636ef75ffb10e8abf7529c910a50dc2cb0d73ce5112c9721e7e4de1824cf57c5",
+      "currency": "USD",
+      "price_basis": "",
+      "entries": 259,
+      "rejected": 0,
+      "files": [
+        "solidworks materials.sldmat"
+      ]
+    }
+  ],
+  "resolved_at": "2026-11-26T02:37:07+00:00",
+  "catalog_warnings": [],
+  "strict_release": false
+}

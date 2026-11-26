@@ -1,0 +1,71 @@
+{
+  "status": "assignment_failed",
+  "drawing": {
+    "status": "specified",
+    "raw_text": "MATERIAL: COMPANY ALLOY X",
+    "normalized_candidate": "Company Alloy X",
+    "evidence": [
+      {
+        "page": 1,
+        "region": "title_block",
+        "quote": "MATERIAL: COMPANY ALLOY X",
+        "bbox_normalized": null
+      }
+    ],
+    "alternatives": [],
+    "confidence": null,
+    "review_reason": null,
+    "specification": null,
+    "condition_or_temper": null,
+    "coating": null,
+    "heat_treatment": null,
+    "finish": null,
+    "hardness": null,
+    "stock_form": null,
+    "body_scope": null
+  },
+  "label": "Company Alloy X",
+  "chosen": {
+    "material_id": "alloy-x",
+    "label": "Company Alloy X",
+    "catalog_id": "company_lib",
+    "catalog_source": "company",
+    "catalog_path": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\docs\\phase1-evidence\\e2e_reopen_fail\\failassign\\company_lib",
+    "catalog_sha256": "e76dea342e6d5363b18574e8765d441882e178078200feda9fc993a5b5abf4e3",
+    "density_kg_m3": 8000.0,
+    "price_per_kg": 5.0,
+    "currency": "USD",
+    "price_basis": "quote",
+    "sw_material_name": "Alloy X",
+    "sw_database": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\docs\\phase1-evidence\\e2e_reopen_fail\\failassign\\company_lib\\missing.sldmat",
+    "appearance": {},
+    "classification": ""
+  },
+  "selection_source": "drawing",
+  "suggestions": [],
+  "standard_candidates": [],
+  "override": null,
+  "review_required": false,
+  "review_reasons": [],
+  "assignable": true,
+  "catalogs": [
+    {
+      "catalog_id": "company_lib",
+      "source": "company",
+      "path": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\docs\\phase1-evidence\\e2e_reopen_fail\\failassign\\company_lib",
+      "sha256": "e76dea342e6d5363b18574e8765d441882e178078200feda9fc993a5b5abf4e3",
+      "currency": "USD",
+      "price_basis": "quote",
+      "entries": 1,
+      "rejected": 0,
+      "files": [
+        "materials.json"
+      ]
+    }
+  ],
+  "resolved_at": "2026-11-26T02:41:08+00:00",
+  "catalog_warnings": [
+    "malformed XML: no element found: line 1, column 0"
+  ],
+  "strict_release": false
+}

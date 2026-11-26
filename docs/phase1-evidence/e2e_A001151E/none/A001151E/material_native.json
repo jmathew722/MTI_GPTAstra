@@ -1,0 +1,11 @@
+{
+  "status": "not_specified",
+  "requested": null,
+  "actual": {
+    "name": "",
+    "database": ""
+  },
+  "errors": [],
+  "note": "No material was assigned: No material specified on drawing",
+  "custom_property_errors": []
+}

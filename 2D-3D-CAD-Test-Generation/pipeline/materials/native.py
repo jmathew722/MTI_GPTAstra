@@ -251,6 +251,44 @@ def assign_and_verify(doc, rec_info: dict, config: str = "") -> dict:
     return ver
 
 
+def reopen_and_read(sw_app, sldprt_path, db_path: Optional[str] = None) -> dict:
+    """Open the SAVED part again (silent) and read the material and mass back from disk: proof the assignment survived the save.
+    The file is opened by this call and closed by it; a document the user already had open is never closed."""
+    from pipeline.solidworks_builder import typed
+    out: dict = {"opened": False, "material": None, "mass": None, "errors": []}
+    path = str(Path(sldprt_path).resolve())
+    was_open = None
+    try:
+        was_open = sw_app.GetOpenDocumentByName(path)
+    except Exception:       # noqa: BLE001
+        was_open = None
+    if was_open is not None:
+        out["errors"].append("The file is already open in SOLIDWORKS; not reopened (the user's document is left alone).")
+        return out
+    doc = None
+    try:
+        res = typed(sw_app, "ISldWorks").OpenDoc6(path, 1, 1, "", 0, 0)    # swDocPART, swOpenDocOptions_Silent
+        doc = res[0] if isinstance(res, tuple) else res
+        if doc is None:
+            raise NativeMaterialError(f"could not reopen the saved part (errors={res[1] if isinstance(res, tuple) else '?'})")
+        out["opened"] = True
+        cm = None
+        if db_path and Path(db_path).is_file():
+            cm = registered_database(sw_app, db_path)
+        with (cm if cm is not None else contextlib.nullcontext()):
+            out["material"] = read_material(doc)
+            out["mass"] = mass_properties(doc)
+    except Exception as e:      # noqa: BLE001
+        out["errors"].append(f"{type(e).__name__}: {e}")
+    finally:
+        if doc is not None:
+            try:
+                sw_app.CloseDoc(str(typed(doc, "IModelDoc2").GetTitle()))
+            except Exception as e:      # noqa: BLE001
+                out["errors"].append(f"close: {e}")
+    return out
+
+
 def write_traceability_properties(doc, props: dict, config: str = "") -> list[str]:
     """Custom properties for traceability (SolidFlow_MaterialSource ...). These never replace the real material assignment."""
     errs = []

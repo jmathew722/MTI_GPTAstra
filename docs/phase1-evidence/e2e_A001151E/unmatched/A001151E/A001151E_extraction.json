@@ -1,0 +1,1111 @@
+{
+  "part_name": "CHECK BYPASS",
+  "part_number": "115 C",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "1018 steel",
+  "finish": "GR. FLAT \u2014 grind the port/counterbore face indicated in the lower view; no roughness value specified.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1.03; 3 PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b11\u00b0.",
+  "views": [
+    {
+      "view_type": "Top",
+      "description": "Upper-left primary view: 3.25 by 2.75 port face, four mounting holes, two blind counterbored ports, and rounded external corners. Classified as Top because the thickness elevation is below it and the title block specifies third-angle projection.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008",
+        "D013"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005",
+        "F007",
+        "F009"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Crosshairs identify all six hole centers. Mounting-hole rows and columns are aligned. The two counterbored ports share a horizontal centerline."
+    },
+    {
+      "view_type": "Front",
+      "description": "Lower-left thickness elevation: width 3.25, showing hidden blind-port profiles, shallow counterbores, drill points, and the intersecting passage entering from the right. The upper edge is the face called out GR. FLAT.",
+      "dimensions_shown": [
+        "D009",
+        "D014",
+        "D015",
+        "D016",
+        "D017"
+      ],
+      "visible_features": [
+        "F001"
+      ],
+      "hidden_features": [
+        "F004",
+        "F005",
+        "F006",
+        "F007",
+        "F008"
+      ],
+      "centerline_notes": "Vertical axes of both face ports and the horizontal side-passage axis show the intersecting drilling arrangement. Mounting-hole hidden lines are omitted."
+    },
+    {
+      "view_type": "Right",
+      "description": "Upper-right side/end elevation: 1.50 thickness by 2.75 height, showing one threaded side port. The view is aligned with the primary port-face view.",
+      "dimensions_shown": [
+        "D010",
+        "D011",
+        "D012",
+        "D018",
+        "D019",
+        "D020"
+      ],
+      "visible_features": [
+        "F001",
+        "F006",
+        "F008"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Side-port crosshairs locate its axis .75 from the left thickness edge and 1.38 below the top edge. Thread representation is visible around the port."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 2.75,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_height",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-decimal tolerance."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 0.44,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "top_edge_to_upper_mounting_row",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-decimal tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 1.875,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "mounting_row_spacing",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit \u00b1.005."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 0.94,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "upper_mounting_row_to_face_port_centerline",
+      "feature_ref": "F004",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-decimal tolerance."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 2.375,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "mounting_column_spacing",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit \u00b1.005."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 0.44,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_mounting_column_to_right_edge",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-decimal tolerance."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_face_port_to_right_mounting_column",
+      "feature_ref": "F005",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .50; general two-decimal tolerance."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 1.88,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_face_port_to_right_mounting_column",
+      "feature_ref": "F004",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-decimal tolerance."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 3.25,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_width",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-decimal tolerance."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 1.5,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "block_thickness",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.50; general two-decimal tolerance."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 0.75,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "side_port_axis_from_thickness_edge",
+      "feature_ref": "F006",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-decimal tolerance. Nominally at mid-thickness."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 1.38,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "side_port_axis_below_top_edge",
+      "feature_ref": "F006",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-decimal tolerance. Matches .44 + .94 for the face-port centerline."
+    },
+    {
+      "id": "D013",
+      "type": "diameter",
+      "value": 0.40625,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "mounting_hole_diameter",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "13/32 DR. THRU. (4) PL'S. No fractional-size tolerance specified in the general block."
+    },
+    {
+      "id": "D014",
+      "type": "diameter",
+      "value": 0.578125,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "face_port_drill_diameter",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "37/64 DRILL 1.12 DP.; (2) HLS. No fractional-size tolerance specified."
+    },
+    {
+      "id": "D015",
+      "type": "depth",
+      "value": 1.12,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "face_port_drill_depth",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Two blind holes. General two-decimal tolerance. Drill-point angle and whether depth includes the point are not explicitly stated."
+    },
+    {
+      "id": "D016",
+      "type": "diameter",
+      "value": 1.002,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "unilateral",
+      "applies_to": "counterbore_diameter",
+      "feature_ref": "F007",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.002 +.010/-.000 DIA. C'BORE; two holes."
+    },
+    {
+      "id": "D017",
+      "type": "depth",
+      "value": 0.111,
+      "unit": "inch",
+      "tolerance_plus": 0.002,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "unilateral",
+      "applies_to": "counterbore_depth",
+      "feature_ref": "F007",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".111 +.002/-.000 DP.; two holes."
+    },
+    {
+      "id": "D018",
+      "type": "diameter",
+      "value": 0.578125,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "side_passage_drill_diameter",
+      "feature_ref": "F006",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "37/64 DR. 2.38 DP. No fractional-size tolerance specified."
+    },
+    {
+      "id": "D019",
+      "type": "depth",
+      "value": 2.38,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "side_passage_drill_depth",
+      "feature_ref": "F006",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Blind drilling from right side, intersecting both face ports. General two-decimal tolerance. Drill-point depth convention unspecified."
+    },
+    {
+      "id": "D020",
+      "type": "thread",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_pipe_thread_size",
+      "feature_ref": "F008",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "3/8-18 NPTF THD. Nominal pipe size is not the physical bore diameter. 18 threads per inch; thread engagement length/class not specified."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 1.38,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "face_port_center_spacing",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D008 - D007 = 1.88 - .50. Not independently toleranced."
+    },
+    {
+      "id": "D022",
+      "type": "linear",
+      "value": 0.435,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_edge_to_left_mounting_column",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: 3.25 - .44 - 2.375. Not independently toleranced."
+    },
+    {
+      "id": "D023",
+      "type": "linear",
+      "value": 0.435,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "bottom_edge_to_lower_mounting_row",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: 2.75 - .44 - 1.875. Not independently toleranced."
+    },
+    {
+      "id": "D024",
+      "type": "linear",
+      "value": 0.93,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_edge_to_left_face_port",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: 3.25 - .44 - 1.88. Not independently toleranced."
+    },
+    {
+      "id": "D025",
+      "type": "linear",
+      "value": 2.31,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_edge_to_right_face_port",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: 3.25 - .44 - .50. Not independently toleranced."
+    },
+    {
+      "id": "D026",
+      "type": "linear",
+      "value": 1.37,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "bottom_edge_to_port_centerline",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: 2.75 - .44 - .94 = 2.75 - 1.38. Not independently toleranced."
+    },
+    {
+      "id": "D027",
+      "type": "linear",
+      "value": 2.31,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "bottom_edge_to_upper_mounting_row",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: 2.75 - .44. Not independently toleranced."
+    },
+    {
+      "id": "D028",
+      "type": "linear",
+      "value": 0.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "side_port_axis_to_opposite_thickness_edge",
+      "feature_ref": "F006",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: 1.50 - .75. Not independently toleranced."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 0.40625,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 4,
+      "x_position": 0.435,
+      "y_position": 0.435,
+      "position_known": true,
+      "pattern": "linear",
+      "pattern_spacing": 2.375,
+      "instance_positions": [
+        [
+          0.435,
+          0.435
+        ],
+        [
+          2.81,
+          0.435
+        ],
+        [
+          0.435,
+          2.31
+        ],
+        [
+          2.81,
+          2.31
+        ]
+      ],
+      "feature_ref": "F002",
+      "view": "Top"
+    },
+    {
+      "id": "H002",
+      "type": "counterbore",
+      "diameter": 0.578125,
+      "thru": false,
+      "depth": 1.12,
+      "thread_spec": "",
+      "cbore_diameter": 1.002,
+      "cbore_depth": 0.111,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 2,
+      "x_position": 0.93,
+      "y_position": 1.37,
+      "position_known": true,
+      "pattern": "linear",
+      "pattern_spacing": 1.38,
+      "instance_positions": [
+        [
+          0.93,
+          1.37
+        ],
+        [
+          2.31,
+          1.37
+        ]
+      ],
+      "feature_ref": "F007",
+      "view": "Front callout; positions in Top"
+    },
+    {
+      "id": "H003",
+      "type": "tapped",
+      "diameter": 0.578125,
+      "thru": false,
+      "depth": 2.38,
+      "thread_spec": "3/8-18 NPTF",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 0.75,
+      "y_position": 1.37,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          0.75,
+          1.37
+        ]
+      ],
+      "feature_ref": "F008",
+      "view": "Right"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Rectangular base, 3.25 wide by 2.75 high in the main port-face plane, extruded 1.50 thick. Use main-face lower-left as X/Y origin, with depth measured inward from the ground face.",
+      "related_dimensions": [
+        "D001",
+        "D009",
+        "D010"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D010",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Seed 13/32 through mounting hole, lower-left in the port-face view.",
+      "related_dimensions": [
+        "D013",
+        "D022",
+        "D023"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.435,
+      "offset_y": 0.435,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "pattern",
+      "description": "2 by 2 rectangular mounting-hole pattern, column spacing 2.375 and row spacing 1.875. Four total holes including seed.",
+      "related_dimensions": [
+        "D002",
+        "D003",
+        "D005",
+        "D006",
+        "D027"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    },
+    {
+      "id": "F004",
+      "type": "hole",
+      "description": "Left face-port seed: 37/64 blind drill, 1.12 deep from ground face; drill point shown but angle/depth convention unspecified.",
+      "related_dimensions": [
+        "D004",
+        "D008",
+        "D014",
+        "D015",
+        "D024",
+        "D026"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D015",
+      "parent_feature": "F001",
+      "offset_x": 0.93,
+      "offset_y": 1.37,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F005",
+      "type": "pattern",
+      "description": "Duplicate the blind face-port drill 1.38 to the right; two total holes including seed.",
+      "related_dimensions": [
+        "D007",
+        "D021",
+        "D025"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F004",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F006",
+      "type": "hole",
+      "description": "37/64 blind cross-drill from right side, 2.38 deep, axis .75 into the block thickness and 1.38 below the top edge. Intersects both face-port drills.",
+      "related_dimensions": [
+        "D011",
+        "D012",
+        "D018",
+        "D019",
+        "D028"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D019",
+      "parent_feature": "F001",
+      "offset_x": 0.75,
+      "offset_y": 1.37,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F007",
+      "type": "extrude_cut",
+      "description": "Two coaxial shallow counterbores on the ground port face: diameter 1.002 +.010/-.000, depth .111 +.002/-.000, at the two face-port centers.",
+      "related_dimensions": [
+        "D016",
+        "D017",
+        "D024",
+        "D025",
+        "D026"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D017",
+      "parent_feature": "F004",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F008",
+      "type": "thread",
+      "description": "Internal 3/8-18 NPTF thread at side-passage entrance. Thread depth/engagement and class are not explicitly specified.",
+      "related_dimensions": [
+        "D020"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "",
+      "parent_feature": "F006",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F009",
+      "type": "fillet",
+      "description": "Four rounded external corners visible in the main face view; nominally fillet the four thickness-direction edges. Radius is not dimensioned and must be resolved before an exact model is completed.",
+      "related_dimensions": [],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 4
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Mid-thickness plane, .75 from the ground port face",
+        "feature_ids": [
+          "F001",
+          "F006"
+        ],
+        "description": "Side-passage axis is nominally centered through the 1.50 thickness. This is not a symmetry of the complete part because the blind ports/counterbores enter only one face."
+      },
+      {
+        "plane": "Mounting-pattern center planes X = 1.6225 and Y = 1.3725 in main-face coordinates",
+        "feature_ids": [
+          "F002",
+          "F003"
+        ],
+        "description": "Rectangular mounting pattern is symmetric about its own center planes. Do not force exact envelope centering: explicit .44 edge offsets yield .435 opposite margins."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F004",
+          "F007"
+        ],
+        "description": "Left blind face-port drilling and its counterbore are coaxial."
+      },
+      {
+        "feature_ids": [
+          "F005",
+          "F007"
+        ],
+        "description": "Right patterned face-port drilling and its counterbore are coaxial."
+      },
+      {
+        "feature_ids": [
+          "F006",
+          "F008"
+        ],
+        "description": "Side cross-drill and internal NPTF thread share an axis."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "F003",
+        "qty": 2,
+        "spacing_value": 2.375,
+        "computed_from": "Two columns: directly dimensioned center spacing 2.375."
+      },
+      {
+        "feature_ref": "F003",
+        "qty": 2,
+        "spacing_value": 1.875,
+        "computed_from": "Two rows: directly dimensioned center spacing 1.875."
+      },
+      {
+        "feature_ref": "F005",
+        "qty": 2,
+        "spacing_value": 1.38,
+        "computed_from": "1.88 - .50 = 1.38 between face-port centers."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D009",
+        "component_dimension_ids": [
+          "D022",
+          "D005",
+          "D006"
+        ],
+        "description": "Width = left mounting margin + column spacing + right margin: .435 + 2.375 + .44 = 3.25."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D023",
+          "D003",
+          "D002"
+        ],
+        "description": "Height = bottom mounting margin + row spacing + top margin: .435 + 1.875 + .44 = 2.75."
+      },
+      {
+        "total_dimension_id": "D008",
+        "component_dimension_ids": [
+          "D021",
+          "D007"
+        ],
+        "description": "1.88 = 1.38 port spacing + .50 to right mounting column."
+      },
+      {
+        "total_dimension_id": "D012",
+        "component_dimension_ids": [
+          "D002",
+          "D004"
+        ],
+        "description": "Side-axis top offset equals face-port top offset: 1.38 = .44 + .94."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D012",
+          "D026"
+        ],
+        "description": "2.75 = 1.38 above port axis + 1.37 below."
+      },
+      {
+        "total_dimension_id": "D025",
+        "component_dimension_ids": [
+          "D024",
+          "D021"
+        ],
+        "description": "Right face-port X = left face-port X + port spacing: 2.31 = .93 + 1.38."
+      },
+      {
+        "total_dimension_id": "D009",
+        "component_dimension_ids": [
+          "D025",
+          "D007",
+          "D006"
+        ],
+        "description": "Width = 2.31 + .50 + .44."
+      },
+      {
+        "total_dimension_id": "D009",
+        "component_dimension_ids": [
+          "D024",
+          "D008",
+          "D006"
+        ],
+        "description": "Width = .93 + 1.88 + .44."
+      },
+      {
+        "total_dimension_id": "D027",
+        "component_dimension_ids": [
+          "D026",
+          "D004"
+        ],
+        "description": "Upper mounting-row height = 1.37 + .94 = 2.31."
+      },
+      {
+        "total_dimension_id": "D027",
+        "component_dimension_ids": [
+          "D023",
+          "D003"
+        ],
+        "description": "Upper mounting-row height = .435 + 1.875 = 2.31."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D027",
+          "D002"
+        ],
+        "description": "Overall height = 2.31 + .44."
+      },
+      {
+        "total_dimension_id": "D010",
+        "component_dimension_ids": [
+          "D011",
+          "D028"
+        ],
+        "description": "Thickness = .75 + .75."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D021",
+      "D022",
+      "D023",
+      "D024",
+      "D025",
+      "D026",
+      "D027",
+      "D028"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F008",
+    "F009"
+  ],
+  "warnings": [
+    "No ASME/ISO/DIN standard is explicitly named. The title block explicitly specifies third-angle projection and inches.",
+    "The bottom identifier reads '115 C'; no separately labeled revision field establishes whether C is part of the number or a revision. Preserved the entire identifier as the part number. MODEL NO. reads '90 B'.",
+    "Supplementary title text appears to read 'REPLACES C5G-805 CHECK VALVE'; the replacement identifier is less clear than the dimensional callouts.",
+    "External corner radii are drawn but not dimensioned. Do not estimate them from image scale; human clarification is required for an exact model.",
+    "No numeric flatness tolerance or surface roughness is given. GR. FLAT is a manufacturing instruction, not a GD&T flatness control.",
+    "Thread depth/engagement and NPTF class are not explicitly specified. The 2.38 depth belongs to the drill, not necessarily the thread.",
+    "Blind-drill point angles and the convention for the stated drilling depths are not specified. The lower view depicts drill points.",
+    "Fractional drill diameters have no stated fractional tolerance. Zero tolerance fields for these dimensions mean no tolerance was extracted, not exact manufacture.",
+    "Hole coordinates are calculated from the explicit edge-offset dimension chains, not measured from the image. Main-face positions use its lower-left corner; side-port positions use the Right-view lower-left corner. No GD&T datum origin is specified.",
+    "Mounting-pattern spacing is rectangular: 2.375 horizontally and 1.875 vertically. The single pattern_spacing field in H001 records only horizontal spacing; use its complete instance_positions.",
+    "Rounded decimal edge offsets produce opposite margins .435 versus .44. Preserve the printed dimensions rather than imposing exact symmetry.",
+    "The lower view and upper-left view are classified Front and Top using the stated third-angle projection. They carry no explicit view labels."
+  ],
+  "confidence": 0.9,
+  "material_extraction": {
+    "status": "specified",
+    "raw_text": "MATERIAL: AISI 4140 STEEL",
+    "normalized_candidate": "AISI 4140 steel",
+    "evidence": [
+      {
+        "page": 1,
+        "region": "title_block",
+        "quote": "MATERIAL: AISI 4140 STEEL"
+      }
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "status": "not_specified",
+  "drawing": {
+    "status": "not_specified",
+    "raw_text": null,
+    "normalized_candidate": null,
+    "evidence": [],
+    "alternatives": [],
+    "confidence": null,
+    "review_reason": null,
+    "specification": null,
+    "condition_or_temper": null,
+    "coating": null,
+    "heat_treatment": null,
+    "finish": null,
+    "hardness": null,
+    "stock_form": null,
+    "body_scope": null
+  },
+  "label": "No material specified on drawing",
+  "chosen": null,
+  "selection_source": null,
+  "suggestions": [],
+  "standard_candidates": [],
+  "override": null,
+  "review_required": false,
+  "review_reasons": [],
+  "assignable": false,
+  "catalogs": [
+    {
+      "catalog_id": "solidflow-demo",
+      "source": "demo",
+      "path": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\config\\materials\\solidflow-demo.json",
+      "sha256": "cbfdfc5785e39efb76596e545b662ddb045f57ea929322941664a9fe12de631b",
+      "currency": "USD",
+      "price_basis": "synthetic_demo_usd_per_kg",
+      "entries": 3,
+      "rejected": 0,
+      "files": [
+        "solidflow-demo.json"
+      ]
+    },
+    {
+      "catalog_id": "sw-standard",
+      "source": "standard",
+      "path": "C:\\Program Files\\SOLIDWORKS Corp\\SOLIDWORKS\\lang\\english\\sldmaterials\\solidworks materials.sldmat",
+      "sha256": "636ef75ffb10e8abf7529c910a50dc2cb0d73ce5112c9721e7e4de1824cf57c5",
+      "currency": "USD",
+      "price_basis": "",
+      "entries": 259,
+      "rejected": 0,
+      "files": [
+        "solidworks materials.sldmat"
+      ]
+    }
+  ],
+  "resolved_at": "2026-11-26T02:37:39+00:00",
+  "catalog_warnings": [],
+  "strict_release": false
+}
