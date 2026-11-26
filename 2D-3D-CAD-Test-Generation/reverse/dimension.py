@@ -92,8 +92,10 @@ class ViewCtx:
                     self.edges.append({"ent": e, "kind": "line", "m0": list(p[0:3]), "m1": list(p[3:6]), "s0": a, "s1": b})
                 elif cv.IsCircle():
                     cp = cv.CircleParams
+                    p = te.GetCurveParams2()
+                    closed = math.dist(p[0:3], p[3:6]) < 1e-9          # a half circle is an ARC: SOLIDWORKS dimensions it as a radius
                     self.edges.append({"ent": e, "kind": "circle", "center_m": list(cp[0:3]), "axis": list(cp[3:6]), "radius_m": float(cp[6]),
-                                       "sc": self.to_sheet(cp[0:3])})
+                                       "sc": self.to_sheet(cp[0:3]), "closed": closed})
             except Exception as ex:      # noqa: BLE001 - an edge we cannot read is skipped, not fatal
                 log.debug("edge skipped: %s", ex)
 
@@ -128,7 +130,43 @@ class ViewCtx:
                 best.append(e)
         if not best:
             return None
-        return (min if which == "smallest" else max)(best, key=lambda e: e["radius_m"])
+        want_r = hole["diameter_m"] / 2
+        own = [e for e in best if abs(e["radius_m"] - want_r) < 2e-5]        # the hole's own bore, not a neighbouring step on the same axis line
+        if own:
+            best = own
+        full = [e for e in best if e.get("closed")] or best          # prefer a full circle; fall back to an arc
+        return (min if which == "smallest" else max)(full, key=lambda e: e["radius_m"])
+
+    def find_pair(self, orient: str, extent_m: float) -> Optional[tuple[dict, dict]]:
+        """Two parallel straight edges whose separation in the view equals the part's extent along this direction (used when the outermost straight
+        edges are not the true extremes, e.g. a thin stepped flange seen edge-on)."""
+        try:
+            sc = float(self.v.ScaleDecimal)
+        except Exception:      # noqa: BLE001
+            return None
+        want = extent_m * sc
+        lines = []
+        for e in self.edges:
+            if e["kind"] != "line":
+                continue
+            dx, dy = abs(e["s0"][0] - e["s1"][0]), abs(e["s0"][1] - e["s1"][1])
+            if orient == "horizontal" and dx < 1e-7 and dy > 1e-6:
+                lines.append((e["s0"][0], e))
+            if orient == "vertical" and dy < 1e-7 and dx > 1e-6:
+                lines.append((e["s0"][1], e))
+        best = None
+        for i in range(len(lines)):
+            for j in range(i + 1, len(lines)):
+                d = abs(lines[i][0] - lines[j][0])
+                if abs(d - want) <= max(1e-4 * sc, 2e-6):
+                    cand = (lines[i][1], lines[j][1])
+                    best = cand if best is None else best
+        return best
+
+    def outer_circle(self) -> Optional[dict]:
+        """The largest visible circle edge (a disc / flange outline seen along its axis)."""
+        cs = [e for e in self.edges if e["kind"] == "circle"]
+        return max(cs, key=lambda e: e["radius_m"]) if cs else None
 
     def lane(self, side: str) -> float:
         """Sheet coordinate of the next free dimension lane on this side of the view."""
@@ -153,6 +191,7 @@ class Dimensioner:
         self.annotations: list[dict] = []
         self.units = dd.units
         self._n = 0
+        self._objs: list[dict] = []
 
     # ------------------------------------------------------------ plumbing
     def _id(self, p: str) -> str:
@@ -176,7 +215,7 @@ class Dimensioner:
         except Exception:      # noqa: BLE001
             return None
 
-    def _record(self, dd_obj, ann_id: str, text_hint: str = "") -> Optional[float]:
+    def _record(self, dd_obj, ann_id: str, text_hint: str = "", orient: str = "h") -> Optional[float]:
         prec = 3 if self.units == "inch" else 2          # explicit display precision; exact values stay in the ledger
         try:
             self.T(dd_obj, "IDisplayDimension").SetPrecision3(prec, prec, prec, prec)
@@ -189,6 +228,10 @@ class Dimensioner:
         except Exception:      # noqa: BLE001
             pos = None
         self.annotations.append({"id": ann_id, "text": text_hint, "measured_m": val, "position": pos})
+        try:
+            self._objs.append({"id": ann_id, "an": an, "orient": orient, "chars": len(text_hint) + 7 if "callout" in text_hint else 7, "hint": text_hint})
+        except Exception:      # noqa: BLE001
+            pass
         return val
 
     def view(self, role: str, sw_view: str) -> ViewCtx:
@@ -216,7 +259,87 @@ class Dimensioner:
                        next_action="Check the dimension references; do not release until corrected.")
 
     # ------------------------------------------------------------ overall size
+    def _diameter_dim(self, ctx: "ViewCtx", circ: dict, where: tuple[float, float]):
+        if not self._select([circ["ent"]]):
+            return None
+        return self.dd.mdl.AddDiameterDimension2(where[0], where[1], 0)
+
     def overall(self) -> None:
+        """One annotation per overall extent. A straight-edged view gets linear dimensions between its silhouette edges; a view whose outline is a circle
+        (a disc or flange seen along its axis) gets ONE diameter dimension that covers both of its axes; thickness comes from an edge-on view."""
+        size = self.inv["size_m"]
+        ext = dict(zip("xyz", size))
+        views = self.plan["views"]
+        order = [("front", views["front"]), ("top", views["top"]), ("right", views["right"])]
+        for ex_ in self.plan.get("extra_views", []):
+            if ex_.get("fits") and ex_["role"] in self.dd.views:
+                order.append((ex_["role"], ex_["sw_view"]))
+        covered: set[str] = set()
+        for axis in "xyz":
+            if axis in covered:
+                continue
+            for role, swv in order:
+                if role not in self.dd.views:
+                    continue
+                h_ax, v_ax, _ = VIEWS[swv]
+                if axis not in (h_ax, v_ax):
+                    continue
+                ctx = self.view(role, swv)
+                orient = "horizontal" if axis == h_ax else "vertical"
+                a = ctx.silhouette("left" if orient == "horizontal" else "bottom")
+                b = ctx.silhouette("right" if orient == "horizontal" else "top")
+                span_ok = False
+                if a is not None and b is not None and a is not b:
+                    try:
+                        sc_ = float(ctx.v.ScaleDecimal)
+                        gap_ = abs(a["s0"][0] - b["s0"][0]) if orient == "horizontal" else abs(a["s0"][1] - b["s0"][1])
+                        span_ok = abs(gap_ / sc_ - ext[axis]) < 1e-4          # the extreme straight edges must really be the part's extremes
+                    except Exception:      # noqa: BLE001
+                        span_ok = False
+                if not span_ok:
+                    pr = ctx.find_pair(orient, ext[axis])
+                    if pr is not None:
+                        a, b, span_ok = pr[0], pr[1], True
+                if span_ok:
+                    item = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"body:extent_{axis}", category="size", source="geometry_derived", value=ext[axis], feature_id="BODY"))
+                    try:
+                        if not self._select([a["ent"], b["ent"]]):
+                            raise RuntimeError("could not select the silhouette edges")
+                        x0, y0, x1, y1 = ctx.outline
+                        dd_obj = (self.dd.mdl.AddHorizontalDimension2((x0 + x1) / 2, ctx.lane("top"), 0) if orient == "horizontal"
+                                  else self.dd.mdl.AddVerticalDimension2(ctx.lane("left"), (y0 + y1) / 2, 0))
+                        if dd_obj is None:
+                            raise RuntimeError("SOLIDWORKS returned no dimension")
+                        aid = self._id("D")
+                        self._check(item, self._record(dd_obj, aid, f"extent {axis}", "h" if orient == "horizontal" else "v"), ext[axis], aid, role)
+                    except Exception as e:      # noqa: BLE001
+                        item.status, item.reason = "unresolved", f"{type(e).__name__}: {e}"
+                        self._flag("high", "OVERALL_DIM_FAILED", f"Overall extent along {axis} could not be dimensioned: {e}", view=role, next_action="Dimension this size manually.")
+                    covered.add(axis)
+                    break
+                circ = ctx.outer_circle()
+                if circ is not None and abs(2 * circ["radius_m"] - ext[h_ax]) < 2e-4 and abs(2 * circ["radius_m"] - ext[v_ax]) < 2e-4:
+                    axes_cov = [h_ax, v_ax]
+                    item = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"body:diameter_{h_ax}{v_ax}", category="size", source="geometry_derived", value=2 * circ["radius_m"], feature_id="BODY"))
+                    try:
+                        x0, y0, x1, y1 = ctx.outline
+                        dd_obj = self._diameter_dim(ctx, circ, (x1 + 0.006 + 0.0 * ctx.lane("right"), y1 + 0.006))
+                        if dd_obj is None:
+                            raise RuntimeError("SOLIDWORKS returned no diameter dimension")
+                        aid = self._id("D")
+                        self._check(item, self._record(dd_obj, aid, "overall diameter"), 2 * circ["radius_m"], aid, role)
+                    except Exception as e:      # noqa: BLE001
+                        item.status, item.reason = "unresolved", f"{type(e).__name__}: {e}"
+                        self._flag("high", "OVERALL_DIM_FAILED", f"Overall diameter could not be dimensioned: {e}", view=role, next_action="Dimension the outside diameter manually.")
+                    covered.update(axes_cov)
+                    break
+            else:
+                it = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"body:extent_{axis}", category="size", source="geometry_derived", value=ext[axis], feature_id="BODY",
+                                                status="unresolved", reason="no view shows this extent as straight edges or a circle"))
+                self._flag("high", "OVERALL_DIM_FAILED", f"Overall extent along {axis}: no suitable view", next_action="Dimension this size manually.")
+        self._clear()
+
+    def overall_legacy(self) -> None:
         size = self.inv["size_m"]
         plan_views = self.plan["views"]
         f_name, t_name = plan_views["front"], plan_views["top"]
@@ -285,14 +408,20 @@ class Dimensioner:
                            next_action="Add the view or a section through the hole and dimension it.")
                 continue
             ctx = self.view(role, sw_view)
-            pat = next((p for p in inv["patterns"] if h["id"] in p["ids"] and p["rectangular_grid"]), None)
+            pat = next((p for p in inv["patterns"] if h["id"] in p["ids"] and p["rectangular_grid"] and p["count"] <= 4), None)
+            cpat = None if pat is not None else next((c for c in inv.get("circular_patterns", []) if h["id"] in c["ids"]), None)
+            if pat is None and cpat is not None:
+                pat = cpat
             key = tuple(pat["ids"]) if pat else (h["id"],)
             first_of_pattern = pat is None or key not in done_pattern
             if pat is not None:
                 done_pattern.add(key)
             if first_of_pattern:
                 self._callout(h, ctx, pat, callout_y, [by_id[i] for i in pat["ids"]] if pat else None)
-                self._locate(h, ctx, pat, by_id)
+                if cpat is not None:
+                    self._locate_circular(h, ctx, cpat, by_id)
+                else:
+                    self._locate(h, ctx, pat, by_id)
             elif pat is not None:
                 it = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"{h['id']}:callout", category="feature", source="geometry_derived", feature_id=h["id"],
                                                 status="covered", evidence=f"one callout and one location scheme cover the {pat['count']}-hole pattern ({', '.join(pat['ids'])})"))
@@ -315,9 +444,12 @@ class Dimensioner:
             cx, cy = circ["sc"]
             ly = ys.setdefault(ctx.role, y1 + 0.004)
             lx = ctx.lane("right")
-            co = self.dd.drw.AddHoleCallout2(lx, cy + 0.006, 0)
+            if circ.get("closed", True):
+                co = self.dd.drw.AddHoleCallout2(lx, cy + 0.006, 0)
+            else:
+                co = self.dd.mdl.AddDiameterDimension2(lx, cy + 0.006, 0)     # an arc edge: a hole callout would read a radius
             if co is None:
-                raise RuntimeError("AddHoleCallout2 returned nothing")
+                raise RuntimeError("the hole callout / diameter dimension was not created")
             aid = self._id("C")
             if pat is not None and pat["count"] > 1:
                 try:
@@ -346,6 +478,49 @@ class Dimensioner:
         if h.get("cone"):
             self._flag("low", "CONE_PRESENT", f"{h['id']}: a conical face (drill point or countersink) is present; its size is not dimensioned automatically", view=ctx.role,
                        next_action="Confirm whether the drill point is a requirement or cosmetic.")
+
+    def _locate_circular(self, h: dict, ctx: ViewCtx, cp: dict, by_id: dict) -> None:
+        """Bolt circle: ONE pitch-circle dimension across an opposite pair, an equal-spacing note only when the spacing was verified, and the angular
+        position of the pattern left to review unless a hole sits on a view axis (then the centreline carries it)."""
+        circles = {i: ctx.circle_for(by_id[i], "smallest") for i in cp["ids"]}
+        pair = next(((a, b) for a, b in cp["opposite_pairs"] if circles.get(a) and circles.get(b)), None)
+        item = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"{h['id']}:pitch_circle_diameter", category="location", source="geometry_derived", value=cp["pcd_m"], feature_id=h["id"]))
+        if pair is None:
+            item.status, item.reason = "review_required", "no visible opposite pair of holes to dimension the bolt circle across"
+            self._flag("medium", "BOLT_CIRCLE_REVIEW", f"{h['id']}: {cp['count']}-hole bolt circle (dia {cp['pcd_m'] * 1000:.3f} mm) has no visible opposite pair; dimension it manually", view=ctx.role)
+        else:
+            c1, c2 = circles[pair[0]], circles[pair[1]]
+            try:
+                if not self._select([c1["ent"], c2["ent"]]):
+                    raise RuntimeError("could not select the two hole circles")
+                x0, y0, x1, y1 = ctx.outline
+                dd_obj = self.dd.mdl.AddDimension2((x0 + x1) / 2, ctx.lane("bottom"), 0)
+                if dd_obj is None:
+                    raise RuntimeError("no dimension created")
+                aid = self._id("D")
+                self._check(item, self._record(dd_obj, aid, "bolt circle diameter"), point_distance(c1["center_m"], c2["center_m"], "xyz".index(h["axis"])), aid, ctx.role)
+            except Exception as e:      # noqa: BLE001
+                item.status, item.reason = "unresolved", str(e)
+                self._flag("high", "HOLE_LOCATION_FAILED", f"{h['id']} bolt circle: {e}", view=ctx.role)
+        eq = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"{h['id']}:equal_spacing", category="location", source="geometry_derived", feature_id=h["id"]))
+        if cp["equal_spacing"]:
+            try:
+                x0, y0, x1, y1 = ctx.outline
+                dia = f"{cp['pcd_m'] / 0.0254:.3f}" if self.units == "inch" else f"{cp['pcd_m'] * 1000:.2f}"
+                self.dd.note(f"{cp['count']} HOLES EQ SP ON DIA {dia} B.C.", x0, y0 - 0.026 - 0.0 * ctx.lane("bottom"))
+                eq.status, eq.evidence = "covered", f"angles verified equal ({360.0 / cp['count']:.3f} deg step) from the geometry"
+            except Exception as e:      # noqa: BLE001
+                eq.status, eq.reason = "unresolved", str(e)
+        else:
+            eq.status, eq.reason = "review_required", "the holes on the bolt circle are not equally spaced; each angular position needs a dimension"
+            self._flag("medium", "BOLT_CIRCLE_SPACING", f"{h['id']}: holes are not equally spaced on the bolt circle", view=ctx.role, next_action="Dimension the angular positions.")
+        ph = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"{h['id']}:angular_position", category="location", source="geometry_derived", feature_id=h["id"]))
+        on_axis = any(abs(a % 90.0) < 0.05 or abs(a % 90.0 - 90.0) < 0.05 for a in cp["angles_deg"])
+        if on_axis:
+            ph.status, ph.evidence = "covered", "a hole lies on a view centreline, which fixes the pattern's angular position"
+        else:
+            ph.status, ph.reason = "review_required", "the pattern's angular position is not dimensioned"
+            self._flag("medium", "BOLT_CIRCLE_PHASE", f"{h['id']}: the bolt circle's angular position is not dimensioned", view=ctx.role, next_action="Add an angular dimension from a datum.")
 
     def _dim_between(self, ents: list, orient: str, at: tuple[float, float]):
         if not self._select(ents):
@@ -419,7 +594,7 @@ class Dimensioner:
                 if dd_obj is None:
                     raise RuntimeError("no dimension created")
                 aid = self._id("D")
-                self._check(item, self._record(dd_obj, aid, "hole y from edge"), exp, aid, ctx.role)
+                self._check(item, self._record(dd_obj, aid, "hole y from edge", "v"), exp, aid, ctx.role)
             except Exception as e:      # noqa: BLE001
                 item.status, item.reason = "unresolved", str(e)
                 self._flag("high", "HOLE_LOCATION_FAILED", f"{h['id']} vertical location: {e}", view=ctx.role)
@@ -433,7 +608,7 @@ class Dimensioner:
                 if dd_obj is None:
                     raise RuntimeError("no dimension created")
                 aid = self._id("D")
-                self._check(item, self._record(dd_obj, aid, "hole pitch y"), exp, aid, ctx.role)
+                self._check(item, self._record(dd_obj, aid, "hole pitch y", "v"), exp, aid, ctx.role)
             except Exception as e:      # noqa: BLE001
                 item.status, item.reason = "unresolved", str(e)
                 self._flag("high", "HOLE_LOCATION_FAILED", f"{h['id']} vertical pitch: {e}", view=ctx.role)
@@ -462,6 +637,70 @@ class Dimensioner:
                                        reason=f"{what} are manufacturing intent that geometry cannot supply; not invented"))
         self._flag("info", "DESIGN_INTENT", "Tolerances, surface finish, thread specifications and datum scheme/GD&T are not in the part geometry and were not invented.",
                    next_action="Add them from the source design intent before release.")
+
+    def repair_layout(self, usable, margin: float = 0.008, step: float = 0.011, max_iter: int = 8) -> dict:
+        """Deterministic layout pass over the annotations just created: clamp every one inside the sheet's usable area and push colliding text apart along
+        its own lane (horizontal dimensions move up/down, vertical ones left/right), bounded iterations. Text boxes are estimated from the character count
+        (the PDF check afterwards is the real measurement). Nothing is removed; what cannot be resolved is left for the PDF check to report."""
+        from reverse.planner import Rect
+        H, CW = 0.0045, 0.0026
+        info = {"moved": 0, "clamped": 0, "iterations": 0}
+        box = {}
+
+        def pos(o):
+            p = o["an"].GetPosition()
+            return float(p[0]), float(p[1])
+
+        def mk(o, x, y):
+            w, h = (CW * o["chars"], H) if o["orient"] == "h" else (H, CW * o["chars"])
+            return Rect(x - w / 2, y - h / 2, x + w / 2, y + h / 2)
+        inner = Rect(usable.x0 + margin, usable.y0 + margin, usable.x1 - margin, usable.y1 - margin)
+        cur = {}
+        for o in self._objs:
+            try:
+                cur[o["id"]] = list(pos(o))
+            except Exception:      # noqa: BLE001
+                continue
+        for it in range(max_iter):
+            info["iterations"] = it + 1
+            changed = False
+            for o in self._objs:
+                if o["id"] not in cur:
+                    continue
+                x, y = cur[o["id"]]
+                r = mk(o, x, y)
+                nx = min(max(x, inner.x0 + r.w / 2), inner.x1 - r.w / 2)
+                ny = min(max(y, inner.y0 + r.h / 2), inner.y1 - r.h / 2)
+                if abs(nx - x) > 1e-6 or abs(ny - y) > 1e-6:
+                    cur[o["id"]] = [nx, ny]
+                    info["clamped"] += 1
+                    changed = True
+            objs = [o for o in self._objs if o["id"] in cur]
+            for i in range(len(objs)):
+                for j in range(i + 1, len(objs)):
+                    a, b = objs[i], objs[j]
+                    ra, rb = mk(a, *cur[a["id"]]), mk(b, *cur[b["id"]])
+                    if ra.grow(0.001).overlaps(rb):
+                        mv = b
+                        x, y = cur[mv["id"]]
+                        if mv["orient"] == "h":
+                            y = y + step if y + step + H / 2 <= inner.y1 else y - step
+                        else:
+                            x = x + step if x + step + H / 2 <= inner.x1 else x - step
+                        cur[mv["id"]] = [x, y]
+                        changed = True
+            if not changed:
+                break
+        for o in self._objs:
+            if o["id"] in cur:
+                try:
+                    old = pos(o)
+                    if abs(old[0] - cur[o["id"]][0]) > 1e-6 or abs(old[1] - cur[o["id"]][1]) > 1e-6:
+                        o["an"].SetPosition2(cur[o["id"]][0], cur[o["id"]][1], 0)
+                        info["moved"] += 1
+                except Exception as e:      # noqa: BLE001
+                    log.debug("reposition failed: %s", e)
+        return info
 
     def run(self) -> dict:
         self.overall()

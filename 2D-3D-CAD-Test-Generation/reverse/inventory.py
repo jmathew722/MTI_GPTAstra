@@ -169,6 +169,36 @@ def hole_patterns(holes: list[dict], tol: float = 5e-5) -> list[dict]:
     return out
 
 
+def circular_patterns(holes: list[dict], tol: float = 1e-4) -> list[dict]:
+    """Identical holes equidistant from one centre (a bolt circle). Needs >= 3 holes. Reports the pitch-circle diameter, whether the spacing is equal,
+    and the opposite pairs (the pair across the centre is what a pitch-circle diameter is dimensioned between)."""
+    import math as _m
+    sig: dict[tuple, list[dict]] = {}
+    for h in holes:
+        sig.setdefault((h["axis"], round(h["diameter_m"], 6), bool(h["through"]), round(h["depth_m"], 5), bool(h.get("counterbore"))), []).append(h)
+    out = []
+    for k, hs in sig.items():
+        if len(hs) < 3:
+            continue
+        cx = sum(h["center_m"][0] for h in hs) / len(hs)
+        cy = sum(h["center_m"][1] for h in hs) / len(hs)
+        rs = [_m.hypot(h["center_m"][0] - cx, h["center_m"][1] - cy) for h in hs]
+        if min(rs) < 1e-4 or max(rs) - min(rs) > tol:
+            continue
+        ang = sorted(((_m.degrees(_m.atan2(h["center_m"][1] - cy, h["center_m"][0] - cx)) % 360.0), h["id"]) for h in hs)
+        step = 360.0 / len(hs)
+        diffs = [(ang[(i + 1) % len(ang)][0] - ang[i][0]) % 360.0 for i in range(len(ang))]
+        equal = all(abs(d - step) < 0.05 for d in diffs)
+        opp = []
+        for a in hs:
+            for b in hs:
+                if a["id"] < b["id"] and abs((a["center_m"][0] + b["center_m"][0]) / 2 - cx) < tol and abs((a["center_m"][1] + b["center_m"][1]) / 2 - cy) < tol:
+                    opp.append((a["id"], b["id"]))
+        out.append({"ids": [h["id"] for h in hs], "count": len(hs), "axis": k[0], "diameter_m": k[1], "axes": hs[0]["center_axes"], "center_m": [cx, cy],
+                    "pcd_m": 2 * sum(rs) / len(rs), "equal_spacing": equal, "angles_deg": [round(a, 3) for a, _ in ang], "opposite_pairs": opp})
+    return out
+
+
 def hole_axis_counts(holes: list[dict]) -> dict:
     d = {"x": 0, "y": 0, "z": 0}
     for h in holes:
@@ -202,6 +232,7 @@ def build_inventory(session, doc, config: str = "") -> dict:
            "suppressed_features": [x["name"] for x in feats if x["suppressed"]], "faces": {"planes": len(brep["planes"]), "cylinders": len(brep["cylinders"]),
                                                                                        "cones": len(brep["cones"]), "tori": brep["tori"], "other": brep["others"]},
            "holes": cl["holes"], "bosses": cl["bosses"], "unsupported": cl["unsupported"], "patterns": hole_patterns(cl["holes"]),
+           "circular_patterns": circular_patterns(cl["holes"]),
            "hole_axes": hole_axis_counts(cl["holes"]), "planes": [{"normal": p["normal"], "point": p["point"], "area_m2": p["area_m2"], "box_m": p["box_m"]}
                                                                    for p in brep["planes"]]}
     inv["freeform_or_multibody"] = brep["bodies"] > 1 or brep["others"] > 0

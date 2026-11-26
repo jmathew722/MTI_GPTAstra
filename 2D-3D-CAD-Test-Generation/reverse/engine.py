@@ -169,6 +169,17 @@ class PartRunner:
             if not self.s.info.is_2025:
                 p.stages["preflight"]["warnings"].append(f"SOLIDWORKS {self.s.info.revision} detected; this tool is validated on 2025 (major 33).")
             self.src_hash = safety.sha256_file(self.src)
+            try:     # the source is never opened by us (a hashed working copy is), but a user's open window may hold edits that are not on disk
+                live = self.s.app.GetOpenDocumentByName(str(self.src.resolve()))
+                if live is not None:
+                    dirty = bool(self.s.typed(live, "IModelDoc2").GetSaveFlag())
+                    msg = ("This part is open in SOLIDWORKS" + (" WITH UNSAVED CHANGES" if dirty else "") +
+                           ": the drawing is made from the SAVED file on disk, and your open window was not touched.")
+                    p.stages["preflight"]["warnings"].append(msg)
+                    if dirty:
+                        self.issues.append(qa.issue("high", "SOURCE_UNSAVED", msg, part_id=p.part_id, next_action="Save the part and run again if the edits should be drawn."))
+            except Exception:      # noqa: BLE001
+                pass
             copy.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(self.src, copy)
             copy.chmod(0o444) if os.name != "nt" else None
@@ -280,6 +291,9 @@ class PartRunner:
             def dim_stage():
                 dm = dimension.Dimensioner(dd, self.inv, self.plan, part_id=p.part_id)
                 res = dm.run()
+                reg_u = planner.Rect(*self.plan["regions_m"]["usable"])
+                res["layout_repair"] = dm.repair_layout(reg_u)
+                _write_json(self.stage_dir / "layout_repair.json", res["layout_repair"])
                 self.ledger_json = res["ledger"]
                 self.issues += res["issues"]
                 self.annotations = res["annotations"]
