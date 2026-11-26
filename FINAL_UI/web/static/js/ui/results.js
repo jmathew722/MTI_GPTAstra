@@ -16,7 +16,8 @@
   function fileURL(ctx, rel) { return ctx.kind === 'part' ? McA.api.partFileURL(ctx.session, ctx.part, rel) : McA.api.runDownloadURL(ctx.runId, rel); }
   function toastCopy(ok) { McA.toast.announce(ok ? 'Copied' : 'Copy failed', ok ? 'info' : 'err'); }
 
-  function getData() {
+  function getData() { return withMaterial(rawData()); }
+  function rawData() {
     var s = McA.store.get(), o = s.outputs, ctx = o.ctx, run = s.run;
     var match = !!(run.id && ctx && ((ctx.kind === 'run' && ctx.runId === run.id) ||
       (ctx.kind === 'part' && run.kind === 'part' && run.session === ctx.session && run.part === ctx.part)));
@@ -24,6 +25,11 @@
       demo: !!(ctx && ctx.kind === 'run'),
       extra: match ? { lines: run.lines, runState: run.state, verdict: run.verdict, summary: run.summary, exit: run.exit }
                    : { lines: [], runState: null, verdict: null, summary: null } };
+  }
+  function withMaterial(d) {
+    var m = McA.materials && McA.materials.cached(d.ctx);
+    d.extra = Object.assign({}, d.extra, { materialTone: m ? McA.materialview.sectionTone(m) : null });
+    return d;
   }
   function secState(sec, d) {
     if (!d.ctx) return 'none';
@@ -336,6 +342,8 @@
       McA.run.renderCorr();
     }
   };
+
+  R.material = function (body, tools, d) { if (McA.materials) McA.materials.renderSection(body, tools, d); };
 
   R.flags = function (body, tools, d) {
     if (McA.engFlags) McA.engFlags.renderPanel(body, d);          // automatic drawing flags, linked to the drawing
@@ -804,6 +812,7 @@
       case 'extraction': case 'resolved': case 'build_plan': case 'verification': case 'model_check': return pick(id === 'verification' ? 'verification' : id) || 'not produced';
       case 'overview_analysis': return pick('overview_analysis') || 'overview_analysis.json';
       case 'flags': return 'engineering review in build_plan.json';
+      case 'material': return 'material_resolution.json';
       case 'recording': return 'solidworks_recording.json';
       case 'macros': return ((c.macros && c.macros.files) || []).length + ' .vba files';
       case 'files': return 'outputs listing';
@@ -917,6 +926,7 @@
       St.subscribe(function (s) { return s.run.state + '|' + s.run.verdict + '|' + (s.run.summary ? 1 : 0); }, function () { sched(); }),
       St.subscribe(function (s) { return s.run.lines; }, function () { var id = o.getSection(); if (id === 'console' || id === 'events') sched(); })
     ];
+    if (McA.materials && !m.matSub) { m.matSub = true; McA.materials.onChange(function () { if (!m.destroyed) sched(); }); }
     mounts.push(m);
     return m;
   }

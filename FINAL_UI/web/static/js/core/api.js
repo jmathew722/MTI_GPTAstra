@@ -186,6 +186,24 @@
     runSourceURL: function (id) { return '/api/runs/' + enc(id) + '/source.jpg'; }
   };
 
+  /* ── Materials (Phase 1) ───────────────────────────────────────────────── */
+  var JSONH = { 'Content-Type': 'application/json' };
+  var mat = {
+    materialSettings: function () { return json('/api/materials/settings'); },
+    putMaterialSettings: function (body) { return json('/api/materials/settings', { method: 'PUT', headers: JSONH, body: JSON.stringify(body) }); },
+    materialCatalog: function (params) { return json('/api/materials/catalog' + q(params)); },
+    setMaterialLibraryPath: function (path) { return json('/api/materials/library', { method: 'POST', headers: JSONH, body: JSON.stringify({ path: path }) }); },
+    uploadMaterialLibrary: function (fd) { return json('/api/materials/library', { method: 'POST', body: fd }); },
+    refreshMaterialLibrary: function () { return json('/api/materials/library/refresh', { method: 'POST' }); },
+    clearMaterialLibrary: function () { return json('/api/materials/library', { method: 'DELETE' }); },
+    partMaterial: function (s, p) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/material'); },
+    setMaterialOverride: function (s, p, body) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/material/override', { method: 'POST', headers: JSONH, body: JSON.stringify(body) }); },
+    clearMaterialOverride: function (s, p) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/material/override', { method: 'DELETE' }); },
+    refreshPartMaterial: function (s, p) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/material/refresh', { method: 'POST' }); },
+    partAppearance: function (s, p) { return json('/api/parts/' + enc(s) + '/' + enc(p) + '/appearance'); },
+    materialBatch: function (keys) { return json('/api/materials/batch' + qMulti({}, 'parts', keys)); }
+  };
+
   var api = { ApiError: ApiError, status: status, newSession: newSession, listParts: listParts,
     savePart: savePart, uploadBatch: uploadBatch, saveNotes: saveNotes, getRegions: getRegions,
     saveRegions: saveRegions, saveMarkedView: saveMarkedView, partOutputs: partOutputs, partScoring: partScoring, runPart: runPart, recordingCapability: recordingCapability, estimate: estimate, lastRun: lastRun, preflightPdf: preflightPdf,
@@ -193,5 +211,6 @@
     demo: demo, runOutputs: runOutputs, runFiles: runFiles, cancel: cancel, openLog: openLog,
     runHistory: runHistory, clearHistory: clearHistory, convertCad: convertCad };
   Object.keys(urls).forEach(function (k) { api[k] = urls[k]; });
+  Object.keys(mat).forEach(function (k) { api[k] = mat[k]; });
   return api;
 });

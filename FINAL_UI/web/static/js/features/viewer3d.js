@@ -18,6 +18,10 @@
   var loadedUrl = null, loadingUrl = null, shownCtx = null, failedUrl = null;
   var loadSeq = 0;
   var lastOutputsFetch = null;
+  /* Material appearance (Phase 1). The server compares the sidecar's artifact_sha256 with the STL it is serving and returns
+     viewer_apply; a colour is painted only when that is true (verified AND same file). Anything else stays the default look,
+     labelled "Preview: material not verified". Dropped the moment a part switches or a new STL starts loading. */
+  var appState = null, greyOn = false, appSeq = 0;
 
   var DIRS = {
     Isometric: [1.4, 1.1, 1.8], Front: [0, 0, 1], Top: [0, 1, 0.001], Right: [1, 0, 0]
@@ -122,8 +126,38 @@
     drawTriad();
   }
 
+  function paintMesh() {
+    if (!mesh) return;
+    var d = appState && appState.decision, m = mesh.material;
+    if (d && d.apply && !greyOn) { m.color.set(d.color); m.metalness = d.metalness; m.roughness = d.roughness; }
+    else { m.color.set(new THREE.Color(token('--model-mesh'))); m.metalness = 0.75; m.roughness = 0.36; }
+    m.needsUpdate = true;
+  }
+  function renderLegend() {
+    var lg = $('stl-legend'); if (!lg) return;
+    if (!mesh) { lg.hidden = true; return; }
+    lg.hidden = false;
+    var d = appState && appState.decision, sw = $('stl-legend-sw'), grey = $('stl-legend-grey');
+    var paint = d && d.apply && !greyOn;
+    sw.style.background = paint ? d.color : token('--model-mesh');
+    $('stl-legend-t').textContent = !d ? 'Checking material…' : d.apply ? d.label + ' · ' + d.status : d.label;
+    $('stl-legend-c').textContent = !d ? '' : d.apply ? (greyOn ? 'Showing the default grey.' : d.caption) : d.caption;
+    grey.hidden = !(d && d.apply); grey.setAttribute('aria-pressed', String(greyOn));
+    lg.setAttribute('data-state', !d ? 'checking' : d.apply ? 'verified' : 'unverified');
+  }
+  function resetAppearance() { appSeq++; appState = null; greyOn = false; paintMesh(); renderLegend(); }
+  function fetchAppearance(t) {
+    var c = t.ctx, mine = ++appSeq, MV = McA.materialview;
+    var done = function (a) {
+      if (mine !== appSeq || !mesh || shownCtx !== t.ctxId || loadedUrl !== t.url) return;   // part switched or a newer STL is loading: ignore
+      appState = { decision: MV.appearanceDecision(a) }; paintMesh(); renderLegend();
+    };
+    if (!c || c.kind !== 'part' || !McA.api.partAppearance) { done(null); return; }
+    McA.api.partAppearance(c.session, c.part).then(done, function () { done(null); });
+  }
+
   function disposeMesh() {
-    if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); mesh.material.dispose(); mesh = null; }
+    if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); mesh.material.dispose(); mesh = null; appSeq++; appState = null; greyOn = false; renderLegend(); }
     if (grid) { scene.remove(grid); if (grid.geometry) grid.geometry.dispose(); grid = null; }
   }
 
@@ -172,7 +206,7 @@
     var api = McA.api;
     var url = ctx.kind === 'part' ? api.partStlURL(ctx.session, ctx.part, mt) : api.runStlURL(ctx.runId, mt);
     var id = ctx.kind === 'part' ? 'p|' + ctx.session + '|' + ctx.part : 'r|' + ctx.runId;
-    return { url: url, ctxId: id, source: stl.source || p.stl_source || null, mtime: mt };
+    return { url: url, ctxId: id, ctx: ctx, source: stl.source || p.stl_source || null, mtime: mt };
   }
   function ctxId(s) {
     var c = s.outputs.ctx; if (!c) return null;
@@ -189,6 +223,7 @@
     if (!init()) return;
     var seq = ++loadSeq;
     if (shownCtx !== t.ctxId) { disposeMesh(); loadedUrl = null; shownCtx = null; }
+    resetAppearance();                    // a new STL is on its way: the old colours belong to the old file
     loadingUrl = t.url; failedUrl = null;
     store().dispatch('viewer3d/set', { status: 'loading', url: t.url, error: null });
     new THREE.STLLoader().load(t.url, function (geo) {
@@ -202,6 +237,7 @@
       var d = new THREE.Vector3(1.4, 1.1, 1.8).normalize().multiplyScalar(distance());
       camera.position.copy(d); controls.target.set(0, 0, 0); controls.update(); anim = null;
       loadedUrl = t.url; loadingUrl = null; shownCtx = t.ctxId;
+      paintMesh(); renderLegend(); fetchAppearance(t);
       store().dispatch('viewer3d/set', { status: 'ready', url: t.url, error: null });
     }, undefined, function () {
       if (seq !== loadSeq) return;
@@ -216,6 +252,7 @@
     var cid = ctxId(s);
     if (!t) {
       loadSeq++;                           // drop any in-flight load
+      resetAppearance();
       if (mesh) disposeMesh();
       loadedUrl = loadingUrl = failedUrl = null; shownCtx = null;
       var vs = store().get().viewer3d;
@@ -272,6 +309,7 @@
     });
     if (triad) triad.hidden = !hasMesh;
     if (hasMesh) setWire(wire);
+    renderLegend();
   }
 
   /* Outputs for the selected part: fetched here when nobody else has (same stale-ctx rule). */
@@ -327,6 +365,7 @@
         else if (a === 'zoom-in') dolly(0.8); else if (a === 'zoom-out') dolly(1.25);
         else if (a === 'pan') setPan(!panMode); else if (a === 'wire') setWire(!wire);
       });
+      $('stl-legend-grey').addEventListener('click', function () { greyOn = !greyOn; paintMesh(); renderLegend(); });
       $('vp-3d-view').addEventListener('change', function (e) { setView(e.target.value); });
       wrap.addEventListener('keydown', key);
 

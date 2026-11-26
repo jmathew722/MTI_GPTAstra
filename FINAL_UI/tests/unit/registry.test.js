@@ -16,14 +16,14 @@ test('every categories key maps to exactly one section', () => {
   assert.deepEqual(real.slice().sort(), G.CATEGORY_KEYS.slice().sort());
 });
 
-test('six groups in the required order, seventeen sections with required fields', () => {
+test('six groups in the required order, eighteen sections with required fields', () => {
   assert.deepEqual(G.GROUPS.map((g) => g.label), ['Overview', 'Extraction', 'Build & Verification', 'Automation & Files', 'Diagnostics', 'Scoring Rubric']);
-  assert.equal(G.sections.length, 17);
+  assert.equal(G.sections.length, 18);
   // Must-Meet Specs and Corrections sit in Build & Verification, immediately after Model Check;
   // Scoring Rubric is its own group, adjacent to the rest (Solid Flow brand spec: moved out of
   // the right inspector / fed by the real bench scorer + ir_report.json practices findings).
   assert.deepEqual(G.sections.map((s) => s.id), ['overview', 'extraction', 'resolved', 'overview_analysis', 'build_plan',
-    'verification', 'flags', 'model_check', 'recording', 'must_meet', 'corrections', 'macros', 'files', 'cost', 'console', 'events', 'scoring_rubric']);
+    'verification', 'material', 'flags', 'model_check', 'recording', 'must_meet', 'corrections', 'macros', 'files', 'cost', 'console', 'events', 'scoring_rubric']);
   const order = G.GROUPS.map((g) => g.id);
   let last = -1;
   for (const s of G.sections) {
@@ -33,7 +33,7 @@ test('six groups in the required order, seventeen sections with required fields'
     assert.equal(typeof s.source, 'function'); assert.equal(typeof s.status, 'function');
     assert.equal(s.render, undefined, 'render is added by the UI, not the registry');
   }
-  assert.equal(new Set(G.sections.map((s) => s.id)).size, 17);
+  assert.equal(new Set(G.sections.map((s) => s.id)).size, 18);
   for (const g of G.GROUPS) assert.ok(G.inGroup(g.id).length >= 1);
 });
 

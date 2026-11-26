@@ -43,6 +43,7 @@ import costs as _costs  # noqa: E402  ledger cost scopes (Stage 2)
 import flags as _flags  # noqa: E402  engineering-flag artifacts (Stage 3)
 import estimates as _est  # noqa: E402  run time / cost estimates from finished runs
 import scoring_hub as _sh  # noqa: E402  Scoring tab: methodology, persisted evaluations
+import materials_api as _materials  # noqa: E402  Phase 1 materials: library, review, batch totals
 
 # FINAL_UI/server/app.py. The pipeline repo (main.py + pipeline/ + samples) is
 # external and chosen by the launcher through MCAGENT_REPO.
@@ -109,6 +110,7 @@ VIEW_MAP: dict[str, tuple[int, str]] = {
 }
 
 app = FastAPI(title="MTI 2D->3D Pipeline UI")
+_materials.install(app, sys.modules[__name__])      # Phase 1 materials routes (flat routes: tests that list app.routes keep working)
 
 # Static assets: the verbatim photo app (Tab 1) and the vendored 3D-viewer libs.
 app.mount("/photoapp", StaticFiles(directory=str(WEB_DIR / "photoapp"), html=True), name="photoapp")
@@ -260,6 +262,7 @@ def _start_run(cmd: list[str], output_dir: Path, run_id: str | None = None,
     env.setdefault("COLUMNS", "120")
     env.setdefault("GPTASTRA_STRUCTURED_EVENTS", "1")   # structured progress + cost events
     env.setdefault("GPTASTRA_AUTO_ENGINEERING_FLAGS", "1")   # automatic red flags over the drawing
+    env.update(_materials.env_for_runs())                    # SOLIDFLOW_MATERIAL_SETTINGS: the user's material library choice
 
     def _worker():
         try:

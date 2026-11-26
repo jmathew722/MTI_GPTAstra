@@ -59,6 +59,7 @@
       h('div', { class: 'pcard-m' }, statusChip(p, batch), p.has_output && McA.scorecache ? McA.scorecache.badge(McA.scorecache.get(p.name)) : null, h('span', { class: 'badge-c', text: sheets }),
         p.has_overview ? h('span', { class: 'badge-c', text: 'Overview' }) : null, p.has_marked ? h('span', { class: 'badge-c', text: 'Marked' }) : null,
         p.source_format ? h('span', { class: 'badge-c mono', text: String(p.source_format).toUpperCase() }) : null),
+      p.has_output && McA.materials ? h('div', { class: 'pcard-mat' }, McA.materials.materialCell(sess + '|' + p.name), h('span', { class: 'mat-cell-c' }, h('span', { class: 'k', text: 'Material cost ' }), McA.materials.costCell(sess + '|' + p.name))) : null,
       h('div', { class: 'pcard-a' },
         h('button', { class: 'btn act act-open', type: 'button', text: 'Open', onclick: function () { McA.openPart(sess, p.name); } }),
         p.has_output ? h('button', { class: 'btn act act-gold', type: 'button', text: 'Results', onclick: function () { McA.openPart(sess, p.name, 'results'); } }) : null)));
@@ -71,6 +72,8 @@
         h('td', null, h('strong', { text: r.part })),
         h('td', { class: 'num', text: r.timestamp || McA.dom.fmtTime(r.epoch) }),
         h('td', null, McA.scorecache ? McA.scorecache.badge(McA.scorecache.get(r.part)) : null),
+        h('td', null, McA.materials ? McA.materials.materialCell(r.session + '|' + r.part) : null),
+        h('td', null, McA.materials ? McA.materials.costCell(r.session + '|' + r.part) : null),
         h('td', null, h('span', { class: 'pres', 'aria-label': 'Files present' }, keys.map(function (k) { return h('span', { class: 'p' + (pres[k[0]] ? ' on' : ''), title: pres[k[0]] ? 'Present' : 'Not present', text: k[1] }); }))),
         h('td', null, h('div', { class: 'acts' },
           h('button', { class: 'btn act act-open', type: 'button', text: 'Open', onclick: function () { McA.openPart(r.session, r.part); } }),
@@ -78,7 +81,7 @@
     });
     return h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' },
       h('caption', { class: 'sr-only', text: 'All runs' }),
-      h('thead', null, h('tr', null, ['Part', 'Run time', 'Fidelity score', 'Files', 'Actions'].map(function (t) { return h('th', { scope: 'col', text: t }); }))),
+      h('thead', null, h('tr', null, ['Part', 'Run time', 'Fidelity score', 'Material', 'Material cost (estimate)', 'Files', 'Actions'].map(function (t) { return h('th', { scope: 'col', text: t }); }))),
       h('tbody', null, rows)));
   }
 
@@ -90,6 +93,11 @@
     if (!s.parts.list.length) {
       body.append(empty('folder', 'No parts in this session', 'Upload a drawing from Home, or upload a folder of parts. Parts from earlier sessions that have not been run are not listed.', h('a', { class: 'btn secondary sm', href: '#/home', text: 'Go to Home' })));
     } else body.append(h('ul', { class: 'pgrid' }, McA.projectorder.sortParts(s.parts.list).map(function (p) { return partCard(p, sess, s.batch); })));
+    var mkeys = s.parts.list.filter(function (x) { return x.has_output; }).map(function (x) { return sess + '|' + x.name; })
+      .concat((s.history.runs || []).map(function (r) { return r.session + '|' + r.part; }));
+    mkeys = mkeys.filter(function (k, i) { return mkeys.indexOf(k) === i; });
+    var mline = McA.materials && mkeys.length ? McA.materials.batchLine(mkeys) : '';
+    if (mline) body.append(h('p', { class: 'mat-batch-line', id: 'proj-mat-line', role: 'status', text: mline }));
     body.append(h('h2', { class: 'sec-h', text: 'All runs' }));
     var runs = (s.history.runs || []).slice().sort(function (a, b) { return (b.epoch || 0) - (a.epoch || 0); });
     if (s.history.error) body.append(h('div', { class: 'banner is-err', role: 'alert' }, McA.icons.get('warn', 18), 'Could not load run history: ' + s.history.error));
@@ -151,6 +159,7 @@
       });
       ['parts', 'history', 'batch', 'server'].forEach(function (k) { McA.store.subscribe(function (s) { return s[k]; }, render); });
       if (McA.scorecache) McA.scorecache.onChange(render);
+      if (McA.materials) McA.materials.onChange(function () { if (!$('page-projects').hidden) render(); });
       McA.store.subscribe(function (s) { return s.run.state; }, render);
       render();
     },

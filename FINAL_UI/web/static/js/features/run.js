@@ -254,14 +254,15 @@
     var bad = names.filter(function (n) { return pages[n] && pages[n].error; });
     var body = h('div', null,
       h('p', { text: names.length + ' supported input' + (names.length === 1 ? '' : 's') + '. Each part makes paid API calls and runs one at a time. A failed part does not stop the rest; a cancel or a launch failure stops the queue.' }),
+      McA.materials ? McA.materials.runCatalogNode() : null,
       d ? h('p', { class: 'dlg-est' }, h('strong', { text: d.time }), ' \u00b7 ', h('strong', { text: d.cost }), h('br'), h('span', { class: 'reason', text: d.detail })) : null,
       bad.length ? h('p', { class: 'reason is-warn', text: bad.length + ' input' + (bad.length === 1 ? ' has' : 's have') + ' a problem and will probably fail: ' + bad.map(function (n) { return n + ' (' + pages[n].error + ')'; }).join('; ') }) : null,
       h('ul', { class: 'dlg-list' }, names.map(function (n) {
         var p = pages[n], pg = p && p.pages ? ' \u00b7 ' + p.pages + ' page' + (p.pages === 1 ? '' : 's') + (p.pages > 1 ? ' (page 1 is read; the PDF is kept whole)' : '') : '';
         return h('li', { class: 'mono' + (p && p.error ? ' is-bad' : ''), text: n + pg });
       })));
-    return McA.dialog.open({ title: title, body: body, actions: [{ id: 'cancel', label: 'Cancel' }, { id: 'ok', label: okLabel, kind: 'primary', disabled: !names.length }] })
-      .then(function (r) { return r === 'ok'; });
+    return McA.dialog.open({ title: title, body: body, actions: [{ id: 'cancel', label: 'Cancel' }, { id: 'material', label: 'Change material library' }, { id: 'ok', label: okLabel, kind: 'primary', disabled: !names.length }] })
+      .then(function (r) { if (r === 'material' && McA.materials) McA.materials.focusControl(); return r === 'ok'; });
   }
   function requestBatch() {
     var s = store.get(), why = batchReason(s);

@@ -1,0 +1,293 @@
+
+Running 40 tests using 1 worker
+
+  x   1 [chromium] › tests\01-05-basics.spec.ts:5:3 › Boot, routing, status, upload, run gating › 1 Boot: no console errors, sidebar items, Home heading, one gold button (8.5s)
+  ok  2 [chromium] › tests\01-05-basics.spec.ts:19:3 › Boot, routing, status, upload, run gating › 2 Routing: each hash shows its page with aria-current, unknown hash goes Home (615ms)
+  ok  3 [chromium] › tests\01-05-basics.spec.ts:35:3 › Boot, routing, status, upload, run gating › 3 Status honesty: API chip matches /api/status; never "Connected"; engine not hard-coded (559ms)
+  x   4 [chromium] › tests\01-05-basics.spec.ts:58:3 › Boot, routing, status, upload, run gating › 4 Upload and save a part; it persists across refresh (session reuse) (1.0m)
+  x   5 [chromium] › tests\01-05-basics.spec.ts:74:3 › Boot, routing, status, upload, run gating › 5 Run button gating: reason with no part, API-key reason when live is false (1.0m)
+  ok  6 [chromium] › tests\09-11-workspace.spec.ts:5:3 › Splitter, drawer, focus overlay, markup › 9 Splitter and drawer: keyboard resize, persistence across reload, aria-expanded toggles (1.2s)
+  x   7 [chromium] › tests\09-11-workspace.spec.ts:43:3 › Splitter, drawer, focus overlay, markup › 10 Focus overlay: opens from the 2D toolbar, iframe loaded, Done returns focus, same iframe node (1.0m)
+  x   8 [chromium] › tests\09-11-workspace.spec.ts:67:3 › Splitter, drawer, focus overlay, markup › 11 Markup persistence: draw a region, POST regions saved:1, reload, region drawn again (1.0m)
+  x   9 [chromium] › tests\15-16-responsive-a11y.spec.ts:17:3 › Responsive and accessibility › 15 Responsive: inspector placement, tabs under 1100, no horizontal overflow, screenshots (1.0m)
+  x  10 [chromium] › tests\15-16-responsive-a11y.spec.ts:51:3 › Responsive and accessibility › 16 Accessibility: axe finds no serious or critical violations on Home, Workspace, Results, Projects, Recent, Settings, Help (1.0m)
+  x  11 [chromium] › tests\17-keyboard.spec.ts:6:3 › Keyboard-only Workspace walkthrough › 17 sidebar toggle, run reason, splitter, drawer, inspector accordions, focus overlay, dialogs (1.0m)
+  x  12 [chromium] › tests\18-honesty.spec.ts:5:3 › Honesty rules (ARCH 16) › 18 no "Connected", one gold button, no hard-coded engine, learning loop disabled with reason, demo isolated (1.0m)
+  x  13 [chromium] › tests\19-stale.spec.ts:4:1 › 19 stale responses: a slow outputs reply for the previous part never overwrites the current selection (1.0m)
+  -  14 [chromium] › tests\27-v4-grade-spectrum.spec.ts:44:3 › v4: grading spectrum (0-100) with fixed thresholds › 77 every threshold boundary gets the exact HEX colour, word and an un-rounded number in the Scoring table
+  -  15 [chromium] › tests\27-v4-grade-spectrum.spec.ts:63:3 › v4: grading spectrum (0-100) with fixed thresholds › 78 99.99 is never shown as 100 or coloured Perfect; only exactly 100 is Perfect
+  -  16 [chromium] › tests\27-v4-grade-spectrum.spec.ts:77:3 › v4: grading spectrum (0-100) with fixed thresholds › 79 missing, unavailable and invalid scores are neutral grey, never red
+  -  17 [chromium] › tests\27-v4-grade-spectrum.spec.ts:92:3 › v4: grading spectrum (0-100) with fixed thresholds › 80 the legend shows the six grades with their exact colours and ranges, and a smooth spectrum bar
+  -  18 [chromium] › tests\27-v4-grade-spectrum.spec.ts:113:3 › v4: grading spectrum (0-100) with fixed thresholds › 81 Projects cards and runs, the Workspace header and Pipeline Results use the same grade colours
+  -  19 [chromium] › tests\27-v4-grade-spectrum.spec.ts:154:3 › v4: grading spectrum (0-100) with fixed thresholds › 82 a part with no score shows a neutral grey badge in Projects and the header, never red
+  -  20 [chromium] › tests\27-v4-grade-spectrum.spec.ts:171:3 › v4: grading spectrum (0-100) with fixed thresholds › 83 the Overview distribution, ring and category cards use the grade colours; the narrow layout still fits
+  -  21 [chromium] › tests\28-v4-buttons-and-number-colour.spec.ts:36:3 › v4: numbers and buttons › 84 every number on the Scoring overview takes a grade colour, and so do the worked-example scores and the credit curve
+  -  22 [chromium] › tests\28-v4-buttons-and-number-colour.spec.ts:64:3 › v4: numbers and buttons › 85 the part results table: coloured fidelity scores and larger Details / Re-evaluate buttons that stand out
+  -  23 [chromium] › tests\28-v4-buttons-and-number-colour.spec.ts:93:3 › v4: numbers and buttons › 86 Projects: Open is solid violet like Save part, Results is gold-tinted, both larger; Details and Evaluate-all match
+  -  24 [chromium] › tests\28-v4-buttons-and-number-colour.spec.ts:119:3 › v4: numbers and buttons › 87 the app always loads the latest scripts and styles: versioned URLs, revalidated, never a stale cached copy
+  -  25 [chromium] › tests\29-v4-layout-audit.spec.ts:32:3 › v4: layout audit › 88 no accent line, border or status bar overlaps text on any page, at any window size or sidebar state
+  -  26 [chromium] › tests\29-v4-layout-audit.spec.ts:50:3 › v4: layout audit › 89 Pipeline Results: every section, Engineering Flags included, keeps its accent clear of the text
+  -  27 [chromium] › tests\29-v4-layout-audit.spec.ts:73:3 › v4: layout audit › 90 Scoring tabs and the detail view, and the Workspace with its Results drawer, are clear of overlaps
+  ok 28 [chromium] › tests\30-v5-materials.spec.ts:58:3 › v5: materials › 90 the library control sits directly below Upload folder, in the DOM and on screen (2.9s)
+  ok 29 [chromium] › tests\30-v5-materials.spec.ts:75:3 › v5: materials › 91 catalog preview opens, searches, shows price basis and closes with Escape (3.8s)
+  ok 30 [chromium] › tests\30-v5-materials.spec.ts:95:3 › v5: materials › 92 a company folder: browse upload, rejected count, refresh, demo fallback; files never touched (4.9s)
+  ok 31 [chromium] › tests\30-v5-materials.spec.ts:128:3 › v5: materials › 93 a server-side path can be entered; a bad path explains itself (2.9s)
+  ok 32 [chromium] › tests\30-v5-materials.spec.ts:143:3 › v5: materials › 94 the workspace card shows the verified material, its status and an illustrative cost (6.4s)
+  ok 33 [chromium] › tests\30-v5-materials.spec.ts:159:3 › v5: materials › 95 Results > Material: evidence, catalog, native read-back, mass, cost label, caveats, files (2.1s)
+  ok 34 [chromium] › tests\30-v5-materials.spec.ts:184:3 › v5: materials › 96 not specified, ambiguous, unpriced and not-evaluated states are explicit (7.3s)
+  ok 35 [chromium] › tests\30-v5-materials.spec.ts:211:3 › v5: materials › 97 manual override: reason required, labelled as differing from the drawing, clearable (2.7s)
+  ok 36 [chromium] › tests\30-v5-materials.spec.ts:236:3 › v5: materials › 98 refresh re-reads without SolidWorks or an API call and keeps build values labelled as the last build (964ms)
+  ok 37 [chromium] › tests\30-v5-materials.spec.ts:245:3 › v5: materials › 99 Projects and Recent: material and material cost are their own columns; unknown is never zero (3.2s)
+  ok 38 [chromium] › tests\30-v5-materials.spec.ts:264:3 › v5: materials › 100 Run All Parts dialog names the catalog that will be used and links to change it (625ms)
+  ok 39 [chromium] › tests\30-v5-materials.spec.ts:275:3 › v5: materials › 101 viewer: the verified colour is applied only to the STL it was verified on; part switch and re-run drop it at once (4.2s)
+  ok 40 [chromium] › tests\30-v5-materials.spec.ts:303:3 › v5: materials › 102 layout: no overlaps, no sideways scroll, axe clean at every width, sidebar open and collapsed (1.1m)
+
+
+  1) [chromium] › tests\01-05-basics.spec.ts:5:3 › Boot, routing, status, upload, run gating › 1 Boot: no console errors, sidebar items, Home heading, one gold button 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: locator('#page-home h1')
+    Expected pattern: /What would you like to create/
+    Received string:  "Your vision, Our blueprint"
+    Timeout: 8000ms
+
+    Call log:
+      - Expect "toHaveText" locator('#page-home h1') with timeout 8000ms
+      - waiting for locator('#page-home h1')
+        20 × locator resolved to <h1 tabindex="-1" class="home-h1">Your vision, Our blueprint</h1>
+           - unexpected value "Your vision, Our blueprint"
+
+
+       6 |     const bad = watchConsole(page);
+       7 |     await boot(page);
+    >  8 |     await expect(page.locator('#page-home h1')).toHaveText(/What would you like to create/);
+         |                                                 ^
+       9 |     for (const p of ['home', 'workspace', 'projects', 'results', 'recent', 'help', 'settings']) {
+      10 |       await expect(page.locator(`#sidebar .sb-item[data-page="${p}"]`)).toHaveCount(1);
+      11 |     }
+        at C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\tests\01-05-basics.spec.ts:8:49
+
+    Error Context: test-results\01-05-basics-Boot-routing--60bc1-ome-heading-one-gold-button-chromium\error-context.md
+
+  2) [chromium] › tests\01-05-basics.spec.ts:58:3 › Boot, routing, status, upload, run gating › 4 Upload and save a part; it persists across refresh (session reuse) 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('#orient-gallery select.oselect').first()
+
+
+       at ..\helpers\app.ts:37
+
+      35 |   await expect(page).toHaveURL(/#\/workspace/);
+      36 |   for (let i = 0; i < views.length; i++) {
+    > 37 |     await page.locator('#orient-gallery select.oselect').nth(i).selectOption(views[i][1]);
+         |                                                                 ^
+      38 |   }
+      39 |   await page.fill('#part-name', name);
+      40 |   await expect(page.locator('#save-part-btn')).toBeEnabled();
+        at createPart (C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\helpers\app.ts:37:65)
+        at C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\tests\01-05-basics.spec.ts:61:5
+
+    Error Context: test-results\01-05-basics-Boot-routing--92564-ross-refresh-session-reuse--chromium\error-context.md
+
+  3) [chromium] › tests\01-05-basics.spec.ts:74:3 › Boot, routing, status, upload, run gating › 5 Run button gating: reason with no part, API-key reason when live is false 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('#orient-gallery select.oselect').first()
+
+
+       at ..\helpers\app.ts:37
+
+      35 |   await expect(page).toHaveURL(/#\/workspace/);
+      36 |   for (let i = 0; i < views.length; i++) {
+    > 37 |     await page.locator('#orient-gallery select.oselect').nth(i).selectOption(views[i][1]);
+         |                                                                 ^
+      38 |   }
+      39 |   await page.fill('#part-name', name);
+      40 |   await expect(page.locator('#save-part-btn')).toBeEnabled();
+        at createPart (C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\helpers\app.ts:37:65)
+        at C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\tests\01-05-basics.spec.ts:83:5
+
+    Error Context: test-results\01-05-basics-Boot-routing--197b1-y-reason-when-live-is-false-chromium\error-context.md
+
+  4) [chromium] › tests\09-11-workspace.spec.ts:43:3 › Splitter, drawer, focus overlay, markup › 10 Focus overlay: opens from the 2D toolbar, iframe loaded, Done returns focus, same iframe node 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('#orient-gallery select.oselect').first()
+
+
+       at ..\helpers\app.ts:37
+
+      35 |   await expect(page).toHaveURL(/#\/workspace/);
+      36 |   for (let i = 0; i < views.length; i++) {
+    > 37 |     await page.locator('#orient-gallery select.oselect').nth(i).selectOption(views[i][1]);
+         |                                                                 ^
+      38 |   }
+      39 |   await page.fill('#part-name', name);
+      40 |   await expect(page.locator('#save-part-btn')).toBeEnabled();
+        at createPart (C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\helpers\app.ts:37:65)
+        at C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\tests\09-11-workspace.spec.ts:45:5
+
+    Error Context: test-results\09-11-workspace-Splitter-d-7fd51-urns-focus-same-iframe-node-chromium\error-context.md
+
+  5) [chromium] › tests\09-11-workspace.spec.ts:67:3 › Splitter, drawer, focus overlay, markup › 11 Markup persistence: draw a region, POST regions saved:1, reload, region drawn again 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('#orient-gallery select.oselect').first()
+
+
+       at ..\helpers\app.ts:37
+
+      35 |   await expect(page).toHaveURL(/#\/workspace/);
+      36 |   for (let i = 0; i < views.length; i++) {
+    > 37 |     await page.locator('#orient-gallery select.oselect').nth(i).selectOption(views[i][1]);
+         |                                                                 ^
+      38 |   }
+      39 |   await page.fill('#part-name', name);
+      40 |   await expect(page.locator('#save-part-btn')).toBeEnabled();
+        at createPart (C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\helpers\app.ts:37:65)
+        at C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\tests\09-11-workspace.spec.ts:69:5
+
+    Error Context: test-results\09-11-workspace-Splitter-d-b82e1-1-reload-region-drawn-again-chromium\error-context.md
+
+  6) [chromium] › tests\15-16-responsive-a11y.spec.ts:17:3 › Responsive and accessibility › 15 Responsive: inspector placement, tabs under 1100, no horizontal overflow, screenshots 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('#orient-gallery select.oselect').first()
+
+
+       at ..\helpers\app.ts:37
+
+      35 |   await expect(page).toHaveURL(/#\/workspace/);
+      36 |   for (let i = 0; i < views.length; i++) {
+    > 37 |     await page.locator('#orient-gallery select.oselect').nth(i).selectOption(views[i][1]);
+         |                                                                 ^
+      38 |   }
+      39 |   await page.fill('#part-name', name);
+      40 |   await expect(page.locator('#save-part-btn')).toBeEnabled();
+        at createPart (C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\helpers\app.ts:37:65)
+        at C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\tests\15-16-responsive-a11y.spec.ts:20:5
+
+    Error Context: test-results\15-16-responsive-a11y-Resp-79473-zontal-overflow-screenshots-chromium\error-context.md
+
+  7) [chromium] › tests\15-16-responsive-a11y.spec.ts:51:3 › Responsive and accessibility › 16 Accessibility: axe finds no serious or critical violations on Home, Workspace, Results, Projects, Recent, Settings, Help 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('#orient-gallery select.oselect').first()
+
+
+       at ..\helpers\app.ts:37
+
+      35 |   await expect(page).toHaveURL(/#\/workspace/);
+      36 |   for (let i = 0; i < views.length; i++) {
+    > 37 |     await page.locator('#orient-gallery select.oselect').nth(i).selectOption(views[i][1]);
+         |                                                                 ^
+      38 |   }
+      39 |   await page.fill('#part-name', name);
+      40 |   await expect(page.locator('#save-part-btn')).toBeEnabled();
+        at createPart (C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\helpers\app.ts:37:65)
+        at C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\tests\15-16-responsive-a11y.spec.ts:52:5
+
+    Error Context: test-results\15-16-responsive-a11y-Resp-c8936-ojects-Recent-Settings-Help-chromium\error-context.md
+
+  8) [chromium] › tests\17-keyboard.spec.ts:6:3 › Keyboard-only Workspace walkthrough › 17 sidebar toggle, run reason, splitter, drawer, inspector accordions, focus overlay, dialogs 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('#orient-gallery select.oselect').first()
+
+
+       at ..\helpers\app.ts:37
+
+      35 |   await expect(page).toHaveURL(/#\/workspace/);
+      36 |   for (let i = 0; i < views.length; i++) {
+    > 37 |     await page.locator('#orient-gallery select.oselect').nth(i).selectOption(views[i][1]);
+         |                                                                 ^
+      38 |   }
+      39 |   await page.fill('#part-name', name);
+      40 |   await expect(page.locator('#save-part-btn')).toBeEnabled();
+        at createPart (C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\helpers\app.ts:37:65)
+        at C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\tests\17-keyboard.spec.ts:8:5
+
+    Error Context: test-results\17-keyboard-Keyboard-only--92e0d-dions-focus-overlay-dialogs-chromium\error-context.md
+
+  9) [chromium] › tests\18-honesty.spec.ts:5:3 › Honesty rules (ARCH 16) › 18 no "Connected", one gold button, no hard-coded engine, learning loop disabled with reason, demo isolated 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('#orient-gallery select.oselect').first()
+
+
+       at ..\helpers\app.ts:37
+
+      35 |   await expect(page).toHaveURL(/#\/workspace/);
+      36 |   for (let i = 0; i < views.length; i++) {
+    > 37 |     await page.locator('#orient-gallery select.oselect').nth(i).selectOption(views[i][1]);
+         |                                                                 ^
+      38 |   }
+      39 |   await page.fill('#part-name', name);
+      40 |   await expect(page.locator('#save-part-btn')).toBeEnabled();
+        at createPart (C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\helpers\app.ts:37:65)
+        at C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\tests\18-honesty.spec.ts:7:5
+
+    Error Context: test-results\18-honesty-Honesty-rules-A-8aae1-d-with-reason-demo-isolated-chromium\error-context.md
+
+  10) [chromium] › tests\19-stale.spec.ts:4:1 › 19 stale responses: a slow outputs reply for the previous part never overwrites the current selection 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('#orient-gallery select.oselect').first()
+
+
+       at ..\helpers\app.ts:37
+
+      35 |   await expect(page).toHaveURL(/#\/workspace/);
+      36 |   for (let i = 0; i < views.length; i++) {
+    > 37 |     await page.locator('#orient-gallery select.oselect').nth(i).selectOption(views[i][1]);
+         |                                                                 ^
+      38 |   }
+      39 |   await page.fill('#part-name', name);
+      40 |   await expect(page.locator('#save-part-btn')).toBeEnabled();
+        at createPart (C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\helpers\app.ts:37:65)
+        at C:\Users\joeka\OneDrive\Desktop\UI_Astra\FINAL_UI\tests\e2e\tests\19-stale.spec.ts:6:3
+
+    Error Context: test-results\19-stale-19-stale-response-d8f85-rites-the-current-selection-chromium\error-context.md
+
+  10 failed
+    [chromium] › tests\01-05-basics.spec.ts:5:3 › Boot, routing, status, upload, run gating › 1 Boot: no console errors, sidebar items, Home heading, one gold button 
+    [chromium] › tests\01-05-basics.spec.ts:58:3 › Boot, routing, status, upload, run gating › 4 Upload and save a part; it persists across refresh (session reuse) 
+    [chromium] › tests\01-05-basics.spec.ts:74:3 › Boot, routing, status, upload, run gating › 5 Run button gating: reason with no part, API-key reason when live is false 
+    [chromium] › tests\09-11-workspace.spec.ts:43:3 › Splitter, drawer, focus overlay, markup › 10 Focus overlay: opens from the 2D toolbar, iframe loaded, Done returns focus, same iframe node 
+    [chromium] › tests\09-11-workspace.spec.ts:67:3 › Splitter, drawer, focus overlay, markup › 11 Markup persistence: draw a region, POST regions saved:1, reload, region drawn again 
+    [chromium] › tests\15-16-responsive-a11y.spec.ts:17:3 › Responsive and accessibility › 15 Responsive: inspector placement, tabs under 1100, no horizontal overflow, screenshots 
+    [chromium] › tests\15-16-responsive-a11y.spec.ts:51:3 › Responsive and accessibility › 16 Accessibility: axe finds no serious or critical violations on Home, Workspace, Results, Projects, Recent, Settings, Help 
+    [chromium] › tests\17-keyboard.spec.ts:6:3 › Keyboard-only Workspace walkthrough › 17 sidebar toggle, run reason, splitter, drawer, inspector accordions, focus overlay, dialogs 
+    [chromium] › tests\18-honesty.spec.ts:5:3 › Honesty rules (ARCH 16) › 18 no "Connected", one gold button, no hard-coded engine, learning loop disabled with reason, demo isolated 
+    [chromium] › tests\19-stale.spec.ts:4:1 › 19 stale responses: a slow outputs reply for the previous part never overwrites the current selection 
+  14 skipped
+  16 passed (11.4m)
+finished

@@ -72,6 +72,10 @@
       emptyText: 'No verification report yet.', tools: ['copy', 'download'],
       source: function (p) { return { report: cat(p, 'verification') }; },
       status: function (p) { return present('verification')(p) ? 'present' : 'absent'; } },
+    /* Material: its data is NOT in GET .../outputs; ui/results.js reads it from GET .../material (features/materials.js), so keys is empty. */
+    { id: 'material', group: 'build', label: 'Material', keys: [],
+      emptyText: 'Select a saved part to see its material.', tools: [],
+      source: function () { return {}; }, status: function (p) { return p ? 'present' : 'absent'; } },
     { id: 'flags', group: 'build', label: 'Engineering flags', keys: ['review', 'flags', 'engineering_markup'],
       emptyText: 'No engineering review yet.',
       emptyTextFor: function (p) {

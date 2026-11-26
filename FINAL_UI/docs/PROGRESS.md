@@ -166,3 +166,12 @@ two Projects accessibility fixes. Tests: server stale-UI test, browser `28-v4-bu
 ### 2026-11-25 (last+1): layout audit
 
 Fixed the Pipeline Results accent bar overlapping headings and text (`.rsec` padding), tightened `.res-link`, stopped the Workspace viewer badge being truncated. Added the reusable layout audit (`helpers/layout-audit.ts`, `29-v4-layout-audit.spec.ts`, 3 tests) over every page, section, size and sidebar state.
+
+### 2026-11-25 (Phase 1 UI): materials
+
+Server `server/materials_api.py` (installed from `app.py` with one line; `SOLIDFLOW_MATERIAL_SETTINGS` is now passed to every pipeline run): material settings, read-only catalog preview, company library by server path or folder upload
+(extension/size/count caps, path-traversal safe), per-part material view (stale flag, last-build values), manual override with a required reason, refresh with no SolidWorks and no API call, batch totals reported apart from API run cost, and an
+appearance sidecar guarded by the STL's sha256. Frontend: "Material Library Folder" control directly below Upload folder (Part Setup) with a catalog preview dialog, a material card for the selected part, a Material section in Pipeline Results
+(page and drawer), material and material-cost columns in Projects/Recent with a batch line, the catalog named in the Run All dialog, and the 3D viewer applying the verified colour only when the server confirms the sidecar matches the loaded STL
+(otherwise "Preview: material not verified", with a Default grey toggle). Pure rules live in `logic/materialview.js`. Tests: `tests/server/test_v5_materials.py` (15), `tests/unit/materialview.test.js` (12), browser `30-v5-materials` (13).
+Evidence: `docs/verification/v5/` (screenshots, `MATERIAL_UI_REPORT.md`).

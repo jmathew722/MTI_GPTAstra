@@ -17,7 +17,8 @@
     inspector: 'mca.ui.inspector',
     drawer: 'mca.ui.drawer',
     split: 'mca.ui.split',
-    results: 'mca.ui.results'
+    results: 'mca.ui.results',
+    materialLibrary: 'mca.ui.materialLibrary'
   };
   var CORR_PREFIX = 'mca.corr.';
   var UI_PREFIX = 'mca.ui.';
@@ -56,6 +57,7 @@
   };
   SCHEMA[KEYS.split] = function (v) { return isNum(v) && v >= 0.2 && v <= 0.8; };
   SCHEMA[KEYS.results] = isStr;
+  SCHEMA[KEYS.materialLibrary] = function (v) { return isObj(v) && typeof v.name === 'string' && v.name.length <= 200 && isNum(v.entries); };
 
   function get(key, fallback) {
     var s = store();

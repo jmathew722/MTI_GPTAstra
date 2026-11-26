@@ -92,6 +92,7 @@
       case 'files': return filesTone(payload);
       case 'cost': return costTone(payload);
       case 'console': { var ls = extra.lines && extra.lines.length ? extra.lines : (c.console && typeof c.console.text === 'string' ? c.console.text.split('\n') : []); return consoleTone(ls, levelFn || function () { return 'info'; }); }
+      case 'material': return extra.materialTone ? mk(extra.materialTone.tone, extra.materialTone.word) : mk('none', 'not evaluated yet');
       case 'scoring_rubric': return mk('none', '');
       default: return mk('none', '');
     }

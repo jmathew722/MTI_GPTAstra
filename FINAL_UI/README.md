@@ -95,3 +95,13 @@ as 99.9). To change a threshold or colour, edit `grade.js` and the matching `--g
 
 The server stamps every `/static/...` URL in `index.html` with `?v=<fingerprint>` and sends the UI files with `Cache-Control: no-cache`, so a browser can never run new scripts against an old cached stylesheet. If a colour or
 layout looks old after an update, hard-refresh once (Ctrl+F5). Action buttons use `.btn.act` with `act-open` (solid violet), `act-violet` (violet tint) and `act-gold` (gold tint).
+
+### Phase 1 UI: materials (v5)
+
+- **Material Library Folder** (Workspace > Part Setup, directly below Upload folder): Browse Folder uploads a folder of `materials.json` / `.csv` / `.sldmat` (only those three types, at most 50 files, size-capped; a copy is kept under `<data>/materials/library/`), or enter a folder
+  path that exists on the server machine. Shows the folder name, how many materials loaded and how many records were rejected; Refresh re-reads it; "Use demo catalog" switches back (your files are never touched); "View catalog" is a read-only table.
+  The choice is saved in `<data>/material_settings.json`; every pipeline run gets its path in `SOLIDFLOW_MATERIAL_SETTINGS`.
+- **Pipeline Results > Material** (also in the drawer): what the drawing says (quote, page, region) kept apart from the interpretation, the catalog match and hash, the SolidWorks read-back, mass, and the illustrative cost with its label. Mass, cost and read-back are from the last build.
+  A manual override needs a reason and is always shown as "Manual override - differs from the drawing". Suggestions are never applied automatically. Refresh re-reads the saved extraction only (no SolidWorks, no API call).
+- Parts built before this upgrade show "Not evaluated yet". An unknown cost reads "estimate unavailable", never 0. Material cost is a separate column from API run cost; batch totals say how many parts are unpriced.
+- **3D viewer**: the colour from `appearance.json` is applied only when it is verified and its `artifact_sha256` equals the STL being shown (the server compares them: `GET /api/parts/{s}/{p}/appearance` returns `viewer_apply`). Otherwise "Preview: material not verified".

@@ -171,6 +171,12 @@
               <span class="stl-sep" aria-hidden="true"></span>
               <button type="button" class="ibtn" data-act="wire" disabled aria-pressed="false" title="Display mode: shaded or wireframe" aria-label="Wireframe display"><span data-icon="cube" data-size="18"></span></button>
             </div>
+            <div class="stl-legend" id="stl-legend" hidden>
+              <span class="stl-sw" id="stl-legend-sw" aria-hidden="true"></span>
+              <span class="stl-lg-t" id="stl-legend-t"></span>
+              <span class="stl-lg-c" id="stl-legend-c"></span>
+              <button type="button" class="btn ghost sm" id="stl-legend-grey" aria-pressed="false" hidden>Default grey</button>
+            </div>
             <div class="vp-empty" id="stl-empty">
               <span class="empty-ic" data-icon="cube" data-size="30"></span>
               <p class="empty-t">No model generated yet</p>
@@ -196,6 +202,27 @@
               <input id="intake-file" class="dz-input" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,.bmp,.tif,.tiff,.dwg,.dxf,.edrw,.eprt,.easm">
               <label class="btn secondary sm" for="batch-folder" id="batch-folder-lbl" title="Upload a folder of PDFs and images (each file is one part), or a parts folder with one subfolder per part"><span data-icon="folder" data-size="16"></span>Upload folder</label>
               <input id="batch-folder" class="dz-input" type="file" webkitdirectory multiple>
+            </div>
+            <!-- Phase 1 materials: the library control sits directly below Upload folder (ui: features/materials.js) -->
+            <div class="mat-lib" id="mat-lib" role="group" aria-labelledby="mat-lib-t">
+              <div class="cap-c" id="mat-lib-t">Material Library Folder</div>
+              <div class="row2">
+                <label class="btn secondary sm" for="mat-lib-folder" id="mat-lib-lbl" title="Choose the folder that holds your company's materials.json, .csv or .sldmat files"><span data-icon="folder" data-size="16"></span>Browse Folder</label>
+                <input id="mat-lib-folder" class="dz-input" type="file" webkitdirectory multiple>
+              </div>
+              <p id="mat-lib-line" class="mat-lib-line" role="status" aria-live="polite">Loading material library…</p>
+              <p id="mat-lib-err" class="reason is-warn" role="alert" hidden></p>
+              <div class="row2 mat-lib-acts">
+                <button id="mat-lib-view" class="btn ghost sm" type="button">View catalog</button>
+                <button id="mat-lib-refresh" class="btn ghost sm" type="button" disabled aria-describedby="mat-lib-why">Refresh</button>
+                <button id="mat-lib-clear" class="btn ghost sm" type="button" disabled aria-describedby="mat-lib-why">Use demo catalog</button>
+              </div>
+              <p id="mat-lib-why" class="reason"></p>
+              <details class="more" id="mat-lib-path-box"><summary>Enter a folder path</summary>
+                <div class="fld inline"><label for="mat-lib-path">Folder on the server machine</label><input id="mat-lib-path" class="input-c" type="text" autocomplete="off" spellcheck="false" placeholder="Full path of the folder"></div>
+                <button id="mat-lib-path-go" class="btn secondary sm" type="button" disabled>Use this folder</button>
+              </details>
+              <div id="mat-part" class="mat-part" aria-live="polite"></div>
             </div>
             <p id="req-warn" class="req-warn" role="status"></p>
             <button id="save-part-btn" class="btn" type="button" disabled aria-describedby="save-why">Save part</button>
@@ -378,6 +405,7 @@
 <script defer src="/static/js/logic/grade.js"></script>
 <script defer src="/static/js/logic/scoringview.js"></script>
 <script defer src="/static/js/logic/planview.js"></script>
+<script defer src="/static/js/logic/materialview.js"></script>
 <script defer src="/static/js/logic/resulttone.js"></script>
 <script defer src="/static/js/logic/registry.js"></script>
 <script defer src="/static/js/features/run.js"></script>
@@ -389,6 +417,7 @@
 <script defer src="/static/js/features/recording.js"></script>
 <script defer src="/static/js/features/estimate.js"></script>
 <script defer src="/static/js/features/scorecache.js"></script>
+<script defer src="/static/js/features/materials.js"></script>
 <script defer src="/static/js/features/viewer3d.js"></script>
 <script defer src="/static/js/ui/toast.js"></script>
 <script defer src="/static/js/ui/dialog.js"></script>
