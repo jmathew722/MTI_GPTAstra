@@ -105,3 +105,10 @@ layout looks old after an update, hard-refresh once (Ctrl+F5). Action buttons us
   A manual override needs a reason and is always shown as "Manual override - differs from the drawing". Suggestions are never applied automatically. Refresh re-reads the saved extraction only (no SolidWorks, no API call).
 - Parts built before this upgrade show "Not evaluated yet". An unknown cost reads "estimate unavailable", never 0. Material cost is a separate column from API run cost; batch totals say how many parts are unpriced.
 - **3D viewer**: the colour from `appearance.json` is applied only when it is verified and its `artifact_sha256` equals the STL being shown (the server compares them: `GET /api/parts/{s}/{p}/appearance` returns `viewer_apply`). Otherwise "Preview: material not verified".
+
+### 3D -> 2D drawings (v5)
+
+`#/reverse` turns SOLIDWORKS parts (.SLDPRT: one, many, or a folder) into native drawings through the backend `ReverseService` (one serialized SOLIDWORKS worker). Endpoints live in `server/reverse_api.py` (`/api/reverse/*`).
+Uploaded parts are copied to `<data>/uploads/3d-to-2d/`; a server-local folder is accepted only inside the roots listed in `SOLIDFLOW_REVERSE_ROOTS` (path-separator list). The UI never starts SOLIDWORKS itself and shows
+a drawing or model only when the server lists the file. Drawings are PRELIMINARY / FOR REVIEW; review actions are audited (who, when, note). Browser tests need the server on an isolated `MCAGENT_DATA`
+(`tests/e2e/run31.sh`); fixture jobs are labelled test stand-ins, not native CAD output.

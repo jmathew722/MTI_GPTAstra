@@ -175,3 +175,15 @@ appearance sidecar guarded by the STL's sha256. Frontend: "Material Library Fold
 (page and drawer), material and material-cost columns in Projects/Recent with a batch line, the catalog named in the Run All dialog, and the 3D viewer applying the verified colour only when the server confirms the sidecar matches the loaded STL
 (otherwise "Preview: material not verified", with a Default grey toggle). Pure rules live in `logic/materialview.js`. Tests: `tests/server/test_v5_materials.py` (15), `tests/unit/materialview.test.js` (12), browser `30-v5-materials` (13).
 Evidence: `docs/verification/v5/` (screenshots, `MATERIAL_UI_REPORT.md`).
+
+### 2026-11-25 (v5): 3D -> 2D drawings
+
+New sidebar item "3D -> 2D" (route `#/reverse`, directly under Workspace; Workspace untouched). Server `server/reverse_api.py` (installed from `app.py` with one line, lazily creates the one `ReverseService`,
+starts/stops it with the app lifespan) exposes profiles, templates (list, upload and generate as background tasks polled through GET /templates, preview PDF), estimate, status (SOLIDWORKS revision only from a job that
+connected, otherwise a process probe that never starts SOLIDWORKS), job submit (multipart SLDPRT upload, 500 MB each, safe names, or a JSON server folder inside operator-authorized roots), job list/get/events, cancel, retry,
+delete, artifact download (only listed artifacts, correct media types, inline for pdf/png/stl) and the audited review action (note required to accept/reject). No absolute path leaves the server; errors are scrubbed.
+Frontend `pages/reverse.js` + `logic/reverseview.js` + `css/reverse.css`: header facts (actual revision, deliverables, measured runtime, API usage only as recorded), 8-stage tracker driven only by real stage records, STL viewer
+(three.js, atomic switch with a request token) beside a pdf.js white-sheet viewer (page navigation, zoom, fit, download, fullscreen, separate review overlay), collapsible setup panel (template picker with validation status,
+part/folder picker with recursive toggle and duplicate detection, configuration, profile, estimate, Run selected / Run all disabled only with a concrete reason), batch queue table (mixed success/failure, retry, cancel, delete,
+file links) and a results panel with eight tabs (Engineering Review has severity label+icon, observed/expected, next action, history, who/when). Projects and Recent Files list the runs with a "3D -> 2D" badge, real timestamps
+and the first preview page. Tests: `tests/server/test_v5_reverse.py` (fake engine, NOT native CAD evidence), `tests/unit/reverseview.test.js`, browser `31-v5-reverse`. Report: `docs/verification/v5/REVERSE_UI_REPORT.md`.

@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="/static/css/results.css">
 <link rel="stylesheet" href="/static/css/pages.css">
 <link rel="stylesheet" href="/static/css/features.css">
+<link rel="stylesheet" href="/static/css/reverse.css">
 </head>
 <body class="app" data-sb="expanded">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -26,6 +27,7 @@
   <ul class="sb-nav">
     <li><a class="sb-item" href="#/home" data-page="home" data-tip="Home"><span data-icon="home"></span><span class="sb-label">Home</span></a></li>
     <li><a class="sb-item" href="#/workspace" data-page="workspace" data-tip="Workspace"><span data-icon="workspace"></span><span class="sb-label">Workspace</span><span class="sb-run" hidden aria-hidden="true"></span></a></li>
+    <li><a class="sb-item" href="#/reverse" data-page="reverse" data-tip="3D to 2D drawings"><span data-icon="files"></span><span class="sb-label">3D &rarr; 2D</span></a></li>
     <li><a class="sb-item" href="#/projects" data-page="projects" data-tip="Projects"><span data-icon="projects"></span><span class="sb-label">Projects</span></a></li>
     <li><a class="sb-item" href="#/results" data-page="results" data-tip="Pipeline Results"><span data-icon="results"></span><span class="sb-label">Pipeline Results</span></a></li>
     <li><a class="sb-item" href="#/scoring" data-page="scoring" data-tip="Scoring"><span data-icon="scoring"></span><span class="sb-label">Scoring</span></a></li>
@@ -310,6 +312,9 @@
     </section>
   </section>
 
+  <!-- ============ 3D -> 2D (owner: reverse; built by pages/reverse.js) ============ -->
+  <section id="page-reverse" class="page page-rv" data-page="reverse" hidden></section>
+
   <!-- ============ PROJECTS ============ -->
   <section id="page-projects" class="page page-list" data-page="projects" hidden>
     <header class="pg-head"><h1 tabindex="-1">Projects</h1>
@@ -407,6 +412,7 @@
 <script defer src="/static/js/logic/planview.js"></script>
 <script defer src="/static/js/logic/materialview.js"></script>
 <script defer src="/static/js/logic/resulttone.js"></script>
+<script defer src="/static/js/logic/reverseview.js"></script>
 <script defer src="/static/js/logic/registry.js"></script>
 <script defer src="/static/js/features/run.js"></script>
 <script defer src="/static/js/features/intake.js"></script>
@@ -430,6 +436,7 @@
 <script defer src="/static/js/ui/results.js"></script>
 <script defer src="/static/js/pages/home.js"></script>
 <script defer src="/static/js/pages/workspace.js"></script>
+<script defer src="/static/js/pages/reverse.js"></script>
 <script defer src="/static/js/pages/projects.js"></script>
 <script defer src="/static/js/pages/scoring.js"></script>
 <script defer src="/static/js/pages/resultsPage.js"></script>

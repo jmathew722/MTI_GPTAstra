@@ -2,8 +2,8 @@
 (function () {
   'use strict';
   var McA = (window.McA = window.McA || {});
-  var PAGES = ['home', 'workspace', 'projects', 'results', 'scoring', 'recent', 'help', 'settings'];
-  var TITLES = { home: 'Home', workspace: 'Workspace', projects: 'Projects', results: 'Pipeline Results', scoring: 'Scoring', recent: 'Recent Files', help: 'Help', settings: 'Settings' };
+  var PAGES = ['home', 'workspace', 'reverse', 'projects', 'results', 'scoring', 'recent', 'help', 'settings'];
+  var TITLES = { home: 'Home', workspace: 'Workspace', reverse: '3D → 2D', projects: 'Projects', results: 'Pipeline Results', scoring: 'Scoring', recent: 'Recent Files', help: 'Help', settings: 'Settings' };
   var first = true;
   var current = null;
 

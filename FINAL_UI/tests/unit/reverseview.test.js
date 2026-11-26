@@ -83,6 +83,7 @@ test('estimate text: a range with its basis, or not enough data', () => {
   assert.equal(R.estimateText({ available: false, basis: '1 completed part(s) in history; at least 3 are needed' }), 'Not enough data to estimate (1 completed part(s) in history; at least 3 are needed)');
   assert.equal(R.estimateText({ available: true, low_s: 90, high_s: 300, basis: 'basis X' }), 'About 1.5 min to 5 min (basis X)');
   assert.equal(R.estimateText({ available: true, low_s: 20, high_s: 40, basis: 'b' }), 'About 20 s to 40 s (b)');
+  assert.equal(R.estimateText({ available: true, low_s: 52, high_s: 52, basis: 'b' }), 'About 52 s (b)');
   assert.equal(R.estimateText(null), 'Estimate unavailable');
 });
 

@@ -128,7 +128,8 @@
     if (!e) return 'Estimate unavailable';
     if (!e.available) return 'Not enough data to estimate' + (e.basis ? ' (' + e.basis + ')' : '');
     var f = function (s) { var m = Math.round(s / 60 * 10) / 10; return m < 1 ? Math.round(s) + ' s' : m + ' min'; };
-    return 'About ' + f(e.low_s) + ' to ' + f(e.high_s) + ' (' + e.basis + ')';
+    var lo = f(e.low_s), hi = f(e.high_s);
+    return 'About ' + (lo === hi ? lo : lo + ' to ' + hi) + ' (' + e.basis + ')';
   }
 
   /* severity */
