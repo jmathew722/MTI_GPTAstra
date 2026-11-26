@@ -410,7 +410,7 @@ class Dimensioner:
                            next_action="Add the view or a section through the hole and dimension it.")
                 continue
             ctx = self.view(role, sw_view)
-            pat = next((p for p in inv["patterns"] if h["id"] in p["ids"] and p["rectangular_grid"] and p["count"] <= 4), None)
+            pat = next((p for p in inv["patterns"] if h["id"] in p["ids"] and p["rectangular_grid"]), None)
             cpat = None if pat is not None else next((c for c in inv.get("circular_patterns", []) if h["id"] in c["ids"]), None)
             if pat is None and cpat is not None:
                 pat = cpat
@@ -455,7 +455,14 @@ class Dimensioner:
             aid = self._id("C")
             if pat is not None and pat["count"] > 1:
                 try:
-                    self.T(co, "IDisplayDimension").SetText(SW_TEXT_PREFIX, f"{pat['count']}X <MOD-DIAM>")
+                    tdd = self.T(co, "IDisplayDimension")
+                    cur = str(tdd.GetText(SW_TEXT_PREFIX) or "").strip()
+                    if cur in ("<MOD-DIAM>", ""):          # a plain cut: SOLIDWORKS wrote only the diameter symbol, so the multiplier is ours to add
+                        tdd.SetText(SW_TEXT_PREFIX, f"{pat['count']}X <MOD-DIAM>")
+                    else:                                    # a Hole Wizard callout carries its own text (thread, depth, its own count): never overwrite it
+                        self._flag("medium", "CALLOUT_COUNT_CHECK",
+                                   f"{h['id']}: the callout text comes from the Hole Wizard feature and may count a different number of holes than the {pat['count']}-hole pattern it stands for; verify the multiplier",
+                                   view=ctx.role, next_action="Confirm the hole count in the callout.")
                 except Exception as e:      # noqa: BLE001
                     self.dd.warnings.append(f"hole multiplier text: {e}")
             m = self._record(co, aid, "hole callout")
@@ -524,6 +531,35 @@ class Dimensioner:
             ph.status, ph.reason = "review_required", "the pattern's angular position is not dimensioned"
             self._flag("medium", "BOLT_CIRCLE_PHASE", f"{h['id']}: the bolt circle's angular position is not dimensioned", view=ctx.role, next_action="Add an angular dimension from a datum.")
 
+    def _pitch_chain(self, h: dict, ctx: "ViewCtx", circles: list, orient: str, ax: int, uniform: bool) -> None:
+        """Pitch dimensions between adjacent hole circles. Uniform spacing: ONE pitch, marked '(n-1)X'. Uneven spacing: every adjacent pitch, on ONE
+        lane (a chain), so nothing is left implicit. Each value is verified against the exact centre-to-centre distance."""
+        if len(circles) < 2:
+            return
+        pairs = [(circles[0], circles[1])] if uniform else list(zip(circles[:-1], circles[1:]))
+        lane = ctx.lane("bottom") if orient == "h" else ctx.lane("left")
+        for k, (c1, c2) in enumerate(pairs):
+            exp = point_distance(c1["center_m"], c2["center_m"], ax)
+            item = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"{h['id']}:pitch_{orient}{k + 1}", category="location", source="geometry_derived", value=exp, feature_id=h["id"]))
+            try:
+                at = (((c1["sc"][0] + c2["sc"][0]) / 2, lane) if orient == "h" else (lane, (c1["sc"][1] + c2["sc"][1]) / 2))
+                dd_obj = self._dim_between([c1["ent"], c2["ent"]], orient, at)
+                if dd_obj is None:
+                    raise RuntimeError("no dimension created")
+                if uniform and len(circles) > 2:
+                    try:
+                        self.T(dd_obj, "IDisplayDimension").SetText(SW_TEXT_PREFIX, f"{len(circles) - 1}X ")
+                    except Exception as e:      # noqa: BLE001
+                        self.dd.warnings.append(f"pitch multiplier text: {e}")
+                aid = self._id("D")
+                self._check(item, self._record(dd_obj, aid, f"hole pitch {orient}", "h" if orient == "h" else "v"), exp, aid, ctx.role)
+            except Exception as e:      # noqa: BLE001
+                item.status, item.reason = "unresolved", str(e)
+                self._flag("high", "HOLE_LOCATION_FAILED", f"{h['id']} {'horizontal' if orient == 'h' else 'vertical'} pitch: {e}", view=ctx.role)
+        if uniform and len(circles) > 2:
+            item = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"{h['id']}:pitch_{orient}_equal", category="location", source="geometry_derived", feature_id=h["id"],
+                                              status="covered", evidence=f"{len(circles) - 1} equal pitches verified from the geometry; one marked (n-1)X"))
+
     def _dim_between(self, ents: list, orient: str, at: tuple[float, float]):
         if not self._select(ents):
             return None
@@ -572,19 +608,7 @@ class Dimensioner:
                 item.status, item.reason = "unresolved", str(e)
                 self._flag("high", "HOLE_LOCATION_FAILED", f"{h['id']} horizontal location: {e}", view=ctx.role)
         if len(xs) > 1:
-            cs = sorted(bottom_row, key=lambda c: c["sc"][0])[:2]
-            exp = point_distance(cs[0]["center_m"], cs[1]["center_m"], ax)
-            item = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"{h['id']}:pitch_h", category="location", source="geometry_derived", value=exp,
-                                              feature_id=h["id"]))
-            try:
-                dd_obj = self._dim_between([cs[0]["ent"], cs[1]["ent"]], "h", ((cs[0]["sc"][0] + cs[1]["sc"][0]) / 2, ctx.lane("bottom")))
-                if dd_obj is None:
-                    raise RuntimeError("no dimension created")
-                aid = self._id("D")
-                self._check(item, self._record(dd_obj, aid, "hole pitch x"), exp, aid, ctx.role)
-            except Exception as e:      # noqa: BLE001
-                item.status, item.reason = "unresolved", str(e)
-                self._flag("high", "HOLE_LOCATION_FAILED", f"{h['id']} horizontal pitch: {e}", view=ctx.role)
+            self._pitch_chain(h, ctx, sorted(bottom_row, key=lambda c: c["sc"][0]), "h", ax, bool(pat and pat.get("uniform_u", True)))
         # vertical: bottom edge -> first row (left-most column); pitch between rows
         if bottom is not None:
             c0 = sorted(left_col, key=lambda c: c["sc"][1])[0]
@@ -601,19 +625,7 @@ class Dimensioner:
                 item.status, item.reason = "unresolved", str(e)
                 self._flag("high", "HOLE_LOCATION_FAILED", f"{h['id']} vertical location: {e}", view=ctx.role)
         if len(ys) > 1:
-            cs = sorted(left_col, key=lambda c: c["sc"][1])[:2]
-            exp = point_distance(cs[0]["center_m"], cs[1]["center_m"], ax)
-            item = self.ledger.add(LedgerItem(id=self._id("L"), characteristic=f"{h['id']}:pitch_v", category="location", source="geometry_derived", value=exp,
-                                              feature_id=h["id"]))
-            try:
-                dd_obj = self._dim_between([cs[0]["ent"], cs[1]["ent"]], "v", (ctx.lane("left"), (cs[0]["sc"][1] + cs[1]["sc"][1]) / 2))
-                if dd_obj is None:
-                    raise RuntimeError("no dimension created")
-                aid = self._id("D")
-                self._check(item, self._record(dd_obj, aid, "hole pitch y", "v"), exp, aid, ctx.role)
-            except Exception as e:      # noqa: BLE001
-                item.status, item.reason = "unresolved", str(e)
-                self._flag("high", "HOLE_LOCATION_FAILED", f"{h['id']} vertical pitch: {e}", view=ctx.role)
+            self._pitch_chain(h, ctx, sorted(left_col, key=lambda c: c["sc"][1]), "v", ax, bool(pat and pat.get("uniform_v", True)))
 
     # ------------------------------------------------------------ everything else the inventory knows about
     def residual_review(self) -> None:

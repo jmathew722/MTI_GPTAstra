@@ -177,6 +177,8 @@ class JobQueue:
                 if task is not None:
                     fn, fut = task
                     try:
+                        if getattr(session, "app", None) is None:        # a template task can arrive before any job: connect lazily on the CAD thread
+                            session.connect()
                         fut.set_result(fn(session))
                     except BaseException as e:      # noqa: BLE001
                         fut.set_exception(e)

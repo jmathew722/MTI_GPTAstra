@@ -554,3 +554,32 @@ def test_history_rows_carry_thumbnail_and_solidworks_info(svc):
     svc.store.save(j)
     row = svc.history()[0]
     assert row["solidworks"]["revision"] == "33.5.0" and row["parts"][0]["thumbnail"].endswith("page-001.png")
+
+
+def test_a_cad_task_connects_lazily_on_the_worker_thread(tmp_path, monkeypatch):
+    """A template task can arrive before any job; the worker's session must connect itself (found by the real HTTP end-to-end run)."""
+    import types
+    from reverse import jobs as J
+
+    class FakeSession:
+        def __init__(self, *a, **k):
+            self.app = None
+            self.connected = 0
+
+        def connect(self):
+            self.app = object()
+            self.connected += 1
+            return types.SimpleNamespace(as_dict=lambda: {})
+
+    monkeypatch.setattr(J.worker, "CadSession", FakeSession)
+    try:
+        import pythoncom  # noqa: F401
+    except ImportError:
+        pytest.skip("COM not available")
+    q = J.JobQueue(state.JobStore(tmp_path), lambda tid: {"id": tid})
+    q.start()
+    try:
+        out = q.run_task(lambda s: ("ok", s.app is not None, s.connected), timeout=20)
+        assert out == ("ok", True, 1)
+    finally:
+        q.stop()
