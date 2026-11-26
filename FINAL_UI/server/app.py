@@ -111,6 +111,7 @@ VIEW_MAP: dict[str, tuple[int, str]] = {
 
 app = FastAPI(title="MTI 2D->3D Pipeline UI")
 _materials.install(app, sys.modules[__name__])      # Phase 1 materials routes (flat routes: tests that list app.routes keep working)
+import reverse_api as _reverse; _reverse.install(app, sys.modules[__name__])  # 3D->2D drawing generation routes + service start/stop hooks
 
 # Static assets: the verbatim photo app (Tab 1) and the vendored 3D-viewer libs.
 app.mount("/photoapp", StaticFiles(directory=str(WEB_DIR / "photoapp"), html=True), name="photoapp")
