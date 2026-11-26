@@ -38,3 +38,6 @@ During those adjustments the video holds the previous picture and then jumps to 
 - Pan gains were calibrated on this machine and screen; the loop corrects residual error, but another display size has not been tried.
 - If a selected feature shows the feature breadcrumb in the top-left of the viewport, that area is excluded from the measurement.
 - Playback in the Pipeline Results recording tab was not re-opened in a browser after these changes (manifest/file names are unchanged; new manifest field `camera` and file `camera_log.json` added).
+
+## UI end-to-end (final check)
+One recorded run started through the UI API (`/api/run-part`, record=true) finished with the recording reported ready by `/api/parts/.../recording` (backend printwindow, 15 fps, 1536x816, has_video, has_poster; video endpoint 200). The SolidWorks window and design tree were restored afterwards. Browser playback in the Results recording tab was not driven.
