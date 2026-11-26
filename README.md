@@ -87,6 +87,30 @@ python final_costs.py                                                    # rewri
 
 Copy `output/<Part>/` to any SolidWorks machine and follow `macros/README.md`.
 
+## Bidirectional CAD automation (v5): materials and 3D -> 2D
+
+* **2D -> 3D now reads and assigns the material.** The extraction records the drawing's material with its evidence (or says none is specified), a deterministic resolver matches it
+  against a company library folder, the installed SOLIDWORKS libraries or the demo catalog (steel, copper, PLA; synthetic prices), SOLIDWORKS 2025 assigns it natively and the saved file is
+  reopened to prove it. Mass and an illustrative material cost come from the native part; unknown values are shown as unavailable, never $0.
+* **3D -> 2D (new `3D -> 2D` tab).** Pick a template (a native ANSI B default is generated), pick SLDPRT files or a folder, and the pipeline opens each part read-only, exports and validates an
+  STL, inventories the B-rep, plans views / scale / sheet, builds a native associative SLDDRW with section views where holes need them, dimensions it (every value verified against the
+  native geometry), checks the vector PDF (black ink, overlaps, pages) and reopens the saved drawing. Output is always `PRELIMINARY / FOR REVIEW`; tolerances, finish, threads and datum
+  intent are never invented and become review items.
+* Records: `docs/solidflow-upgrades/` (`IMPLEMENTATION_REPORT.md`, `CHECKLIST.md`, `api_validation.md`, `DEPENDENCY_REGISTER.md`, `PHASE_1_REPORT.md`, `LIVE_PDF_RUN.md`),
+  `docs/test-reports/2026-11-25-v5-report.md`, evidence under `docs/phase1-evidence/` and `docs/phase2-evidence/`.
+
+```powershell
+# launch the UI (opens the 3D -> 2D tab); stops an older copy first
+powershell -ExecutionPolicy Bypass -File FINAL_UI\start-ui.ps1 "#/reverse"
+
+# from 2D-3D-CAD-Test-Generation\   (set PYTHONUTF8=1)
+python -m pytest tests/test_materials.py tests/test_reverse.py -q
+python -m reverse.cli template --out config/drawing_templates --variant solidflow-ansi-b
+python -m reverse.cli fixtures --src <folder of .SLDPRT> --out <dir> --template <abs .DRWDOT> --own-sheet-format
+python tools/material_e2e.py --part A001151E --out ..\docs\phase1-evidence\e2e
+python tools/roundtrip_compare.py --extractions ..\FINAL_OUTPUTs --regen ..\docs\phase2-evidence\batch18 --out ..\docs\phase2-evidence\roundtrip
+```
+
 ## Token & cost tracking
 
 Every model completion (extractor today; planner, auditor and Jev as they're

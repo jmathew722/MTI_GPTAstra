@@ -1,0 +1,2048 @@
+[
+  {
+    "part": "A001151E",
+    "original_total": 31,
+    "matched": [
+      [
+        "D001 linear 2.75 inch",
+        "body:extent_z"
+      ],
+      [
+        "D002 linear 0.44 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D003 linear 1.875 inch",
+        "H002:pitch_v1"
+      ],
+      [
+        "D004 linear 0.94 inch",
+        "H004:location_h_from_edge"
+      ],
+      [
+        "D005 linear 2.375 inch",
+        "H002:pitch_h1"
+      ],
+      [
+        "D006 linear 0.44 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D008 linear 1.88 inch",
+        "H002:pitch_v1"
+      ],
+      [
+        "D009 linear 3.25 inch",
+        "body:extent_x"
+      ],
+      [
+        "D010 linear 1.5 inch",
+        "body:extent_y"
+      ],
+      [
+        "D011 linear 0.75 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D012 linear 1.38 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "D013 diameter 0.40625 inch",
+        "H002:diameter"
+      ],
+      [
+        "D014 diameter 0.578125 inch",
+        "H001:diameter"
+      ],
+      [
+        "D015 depth 1.12 inch",
+        "H004:depth"
+      ],
+      [
+        "D016 diameter 1.002 inch",
+        "H004:counterbore"
+      ],
+      [
+        "D017 depth 0.111 inch",
+        "H004:counterbore_depth"
+      ],
+      [
+        "D018 diameter 0.578125 inch",
+        "H001:diameter"
+      ],
+      [
+        "D019 depth 2.38 inch",
+        "H002:pitch_h1"
+      ],
+      [
+        "D021 linear 1.38 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "D026 linear 1.37 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "D028 linear 0.75 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "H001 hole dia 0.40625 inch (x4)",
+        "H002:diameter"
+      ],
+      [
+        "H002 hole dia 0.578125 inch (x2)",
+        "H001:diameter"
+      ],
+      [
+        "H003 hole dia 0.578125 inch (x1)",
+        "H001:diameter"
+      ]
+    ],
+    "strict_matched": 15,
+    "original_only": [
+      "D007 linear 0.5 inch",
+      "D020 thread 0.375 inch",
+      "D022 linear 0.435 inch",
+      "D023 linear 0.435 inch",
+      "D024 linear 0.93 inch",
+      "D025 linear 2.31 inch",
+      "D027 linear 2.31 inch"
+    ],
+    "regen_only": [
+      "H002:location_v_from_edge",
+      "H004:diameter",
+      "H004:pitch_h1",
+      "H004:location_v_from_edge"
+    ],
+    "material_original_text": "1018 steel",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A001161E",
+    "original_total": 18,
+    "matched": [
+      [
+        "D001 linear 3.25 inch",
+        "body:extent_x"
+      ],
+      [
+        "D002 linear 2.75 inch",
+        "body:extent_z"
+      ],
+      [
+        "D003 linear 1.5 inch",
+        "body:extent_y"
+      ],
+      [
+        "D004 linear 2.38 inch",
+        "H001:pitch_h1"
+      ],
+      [
+        "D005 linear 1.88 inch",
+        "H001:pitch_v1"
+      ],
+      [
+        "D006 linear 0.94 inch",
+        "H003:location_h_from_edge"
+      ],
+      [
+        "D007 linear 0.5 inch",
+        "H003:depth"
+      ],
+      [
+        "D008 linear 1.88 inch",
+        "H001:pitch_v1"
+      ],
+      [
+        "D009 diameter 0.4 inch",
+        "H001:diameter"
+      ],
+      [
+        "D010 diameter 0.58 inch",
+        "H003:diameter"
+      ],
+      [
+        "D011 depth 0.5 inch",
+        "H003:depth"
+      ],
+      [
+        "D012 diameter 1.002 inch",
+        "H003:counterbore"
+      ],
+      [
+        "D013 depth 0.111 inch",
+        "H003:counterbore_depth"
+      ],
+      [
+        "D014 linear 1.38 inch",
+        "H003:pitch_h1"
+      ],
+      [
+        "D015 linear 0.94 inch",
+        "H003:location_h_from_edge"
+      ],
+      [
+        "D016 linear 0.5 inch",
+        "H003:depth"
+      ],
+      [
+        "H001 hole dia 0.4 inch (x4)",
+        "H001:diameter"
+      ],
+      [
+        "H002 hole dia 0.58 inch (x2)",
+        "H003:diameter"
+      ]
+    ],
+    "strict_matched": 16,
+    "original_only": [],
+    "regen_only": [
+      "H001:location_h_from_edge",
+      "H001:location_v_from_edge",
+      "H003:location_v_from_edge"
+    ],
+    "material_original_text": "CRS 1018",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A001171E",
+    "original_total": 51,
+    "matched": [
+      [
+        "D001 linear 4.44 inch",
+        "body:extent_x"
+      ],
+      [
+        "D002 linear 0.625 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D003 linear 3.19 inch",
+        "H001:pitch_h1"
+      ],
+      [
+        "D005 linear 1.81 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "D008 linear 3.81 inch",
+        "body:extent_z"
+      ],
+      [
+        "D009 linear 0.625 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D011 linear 2.56 inch",
+        "H001:pitch_v1"
+      ],
+      [
+        "D014 linear 1.81 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "D016 diameter 0.65625 inch",
+        "H001:diameter"
+      ],
+      [
+        "D017 diameter 0.28125 inch",
+        "H009:diameter"
+      ],
+      [
+        "D018 depth 0.31 inch",
+        "H004:depth"
+      ],
+      [
+        "D019 linear 1.0 inch",
+        "body:extent_y"
+      ],
+      [
+        "D020 linear 0.25 inch",
+        "H002:diameter"
+      ],
+      [
+        "D021 diameter 0.25 inch",
+        "H002:diameter"
+      ],
+      [
+        "D022 linear 0.5 inch",
+        "H006:depth"
+      ],
+      [
+        "D023 diameter 0.25 inch",
+        "H002:diameter"
+      ],
+      [
+        "D024 depth 0.31 inch",
+        "H004:depth"
+      ],
+      [
+        "D025 diameter 0.90625 inch",
+        "H005:diameter"
+      ],
+      [
+        "D026 depth 0.5 inch",
+        "H006:depth"
+      ],
+      [
+        "D027 diameter 0.90625 inch",
+        "H005:diameter"
+      ],
+      [
+        "D028 depth 0.5 inch",
+        "H006:depth"
+      ],
+      [
+        "D029 diameter 1.311 inch",
+        "H006:counterbore"
+      ],
+      [
+        "D030 depth 0.111 inch",
+        "H006:counterbore_depth"
+      ],
+      [
+        "D031 linear 0.625 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D032 linear 0.625 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D033 linear 1.125 inch",
+        "H005:location_h_from_edge"
+      ],
+      [
+        "D035 linear 1.505 inch",
+        "H006:location_h_from_edge"
+      ],
+      [
+        "D037 linear 1.905 inch",
+        "H005:location_v_from_edge"
+      ],
+      [
+        "D038 linear 3.185 inch",
+        "H011:location_v_from_edge"
+      ],
+      [
+        "D039 linear 3.815 inch",
+        "body:extent_z"
+      ],
+      [
+        "D040 linear 0.285 inch",
+        "H004:location_h_from_edge"
+      ],
+      [
+        "D041 linear 2.215 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D042 linear 4.155 inch",
+        "H009:location_h_from_edge"
+      ],
+      [
+        "D043 linear 2.225 inch",
+        "H011:location_h_from_edge"
+      ],
+      [
+        "D046 linear 0.25 inch",
+        "H002:diameter"
+      ],
+      [
+        "H001 hole dia 0.65625 inch (x4)",
+        "H001:diameter"
+      ],
+      [
+        "H002 hole dia 0.28125 inch (x2)",
+        "H009:diameter"
+      ],
+      [
+        "H003 hole dia 0.25 inch (x2)",
+        "H002:diameter"
+      ],
+      [
+        "H004 hole dia 0.90625 inch (x2)",
+        "H005:diameter"
+      ],
+      [
+        "H005 hole dia 0.90625 inch (x2)",
+        "H005:diameter"
+      ]
+    ],
+    "strict_matched": 35,
+    "original_only": [
+      "D004 linear 0.88 inch",
+      "D006 linear 0.34 inch",
+      "D007 linear 1.59 inch",
+      "D010 linear 1.28 inch",
+      "D012 linear 1.59 inch",
+      "D013 linear 0.34 inch",
+      "D015 linear 0.88 inch",
+      "D034 linear 2.935 inch",
+      "D036 linear 3.315 inch",
+      "D044 linear 0.38 inch",
+      "D045 linear 1.28 inch"
+    ],
+    "regen_only": [
+      "H001:location_v_from_edge",
+      "H002:location_v_from_edge",
+      "H004:diameter",
+      "H004:location_v_from_edge",
+      "H006:diameter",
+      "H006:pitch_h1",
+      "H006:location_v_from_edge",
+      "H009:location_v_from_edge",
+      "H011:diameter",
+      "H005:depth"
+    ],
+    "material_original_text": "1018",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A001211E",
+    "original_total": 35,
+    "matched": [
+      [
+        "D003 linear 0.25 inch",
+        "body:extent_y"
+      ],
+      [
+        "D004 linear 5.5 inch",
+        "body:extent_z"
+      ],
+      [
+        "D006 linear 2.938 inch",
+        "H004:location_v_from_edge"
+      ],
+      [
+        "D007 linear 2.75 inch",
+        "H005:location_v_from_edge"
+      ],
+      [
+        "D008 linear 1.938 inch",
+        "H007:location_v_from_edge"
+      ],
+      [
+        "D009 linear 0.375 inch",
+        "H004:location_h_from_edge"
+      ],
+      [
+        "D010 linear 2.25 inch",
+        "H005:location_h_from_edge"
+      ],
+      [
+        "D011 linear 2.5 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "D012 linear 2.875 inch",
+        "H007:location_h_from_edge"
+      ],
+      [
+        "D013 linear 5.375 inch",
+        "H008:location_h_from_edge"
+      ],
+      [
+        "D014 linear 6.88 inch",
+        "body:extent_x"
+      ],
+      [
+        "D015 linear 0.938 inch",
+        "H008:location_v_from_edge"
+      ],
+      [
+        "D019 diameter 0.406 inch",
+        "H005:diameter"
+      ],
+      [
+        "D022 linear 1.531 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D023 linear 5.282 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "D024 linear 4.031 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D025 linear 4.282 inch",
+        "H002:location_v_from_edge"
+      ],
+      [
+        "D026 linear 6.531 inch",
+        "H003:location_h_from_edge"
+      ],
+      [
+        "D027 linear 3.282 inch",
+        "H003:location_v_from_edge"
+      ],
+      [
+        "D028 linear 2.5 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "D029 linear 2.5 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "D032 linear 2.5 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "H001 hole dia 0.406 inch (x2)",
+        "H005:diameter"
+      ]
+    ],
+    "strict_matched": 22,
+    "original_only": [
+      "D001 linear 4.38 inch",
+      "D002 linear 1.88 inch",
+      "D005 linear 4.5 inch",
+      "D016 linear 3.5 inch",
+      "D017 linear 2.344 inch",
+      "D018 linear 1.156 inch",
+      "D020 thread 0.19 inch",
+      "D021 linear 4.75 inch",
+      "D030 linear 1.0 inch",
+      "D031 linear 1.0 inch",
+      "D033 linear 1.0 inch",
+      "H002 hole dia 0.19 inch (x6)"
+    ],
+    "regen_only": [
+      "H001:diameter",
+      "H002:diameter",
+      "H003:diameter",
+      "H004:diameter",
+      "H007:diameter",
+      "H008:diameter"
+    ],
+    "material_original_text": "1018 STEEL",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A001571E",
+    "original_total": 21,
+    "matched": [
+      [
+        "D001 linear 11.0 inch",
+        "body:extent_x"
+      ],
+      [
+        "D002 linear 0.25 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D003 linear 10.5 inch",
+        "H002:pitch_h1"
+      ],
+      [
+        "D004 linear 5.25 inch",
+        "body:extent_z"
+      ],
+      [
+        "D005 diameter 3.062 inch",
+        "H001:diameter"
+      ],
+      [
+        "D006 linear 5.25 inch",
+        "body:extent_z"
+      ],
+      [
+        "D007 linear 4.5 inch",
+        "H002:pitch_v1"
+      ],
+      [
+        "D008 linear 0.375 inch",
+        "H002:location_v_from_edge"
+      ],
+      [
+        "D009 diameter 0.218 inch",
+        "H002:diameter"
+      ],
+      [
+        "D011 linear 5.25 inch",
+        "body:extent_z"
+      ],
+      [
+        "D014 linear 10.5 inch",
+        "H002:pitch_h1"
+      ],
+      [
+        "D015 linear 0.25 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D016 linear 0.375 inch",
+        "H002:location_v_from_edge"
+      ],
+      [
+        "D019 linear 5.5 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D021 linear 0.105 inch",
+        "body:extent_y"
+      ],
+      [
+        "H001 hole dia 0.218 inch (x4)",
+        "H002:diameter"
+      ]
+    ],
+    "strict_matched": 16,
+    "original_only": [
+      "D012 linear 0.5 inch",
+      "D013 linear 0.15625 inch",
+      "D017 linear 10.75 inch",
+      "D018 linear 4.875 inch",
+      "D020 radial 1.531 inch"
+    ],
+    "regen_only": [
+      "H001:location_v_from_edge"
+    ],
+    "material_original_text": "Item 1: 1018 steel, 12 gauge. Item 2: sponge rubber weather stripping with adhesive back.",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A001611E",
+    "original_total": 14,
+    "matched": [
+      [
+        "D001 linear 32.25 inch",
+        "H001:pitch_h1"
+      ],
+      [
+        "D007 linear 4.0 inch",
+        "body:extent_y"
+      ]
+    ],
+    "strict_matched": 2,
+    "original_only": [
+      "D002 linear 14.0 inch",
+      "D003 radial 3.0 inch",
+      "D004 linear 7.0 inch",
+      "D008 linear 0.5 inch",
+      "D009 diameter 0.218 inch",
+      "D010 linear 85.68 inch",
+      "D011 linear 7.0 inch",
+      "D012 linear 38.25 inch",
+      "D013 linear 3.5 inch",
+      "D014 linear 3.183509 inch",
+      "D015 linear 15.849771 inch",
+      "H001 hole dia 0.218 inch (x2)"
+    ],
+    "regen_only": [
+      "body:extent_z",
+      "H001:diameter",
+      "H001:location_v_from_edge"
+    ],
+    "material_original_text": "1020 SHEET STL.",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A001651E",
+    "original_total": 29,
+    "matched": [
+      [
+        "D001 diameter 19.993 inch",
+        "body:diameter_zy"
+      ],
+      [
+        "D002 diameter 17.001 inch",
+        "H009:diameter"
+      ],
+      [
+        "D004 diameter 15.5 inch",
+        "H010:diameter"
+      ],
+      [
+        "D009 diameter 19.25 inch",
+        "H001:pitch_circle_diameter"
+      ],
+      [
+        "D010 diameter 16.25 inch",
+        "H002:pitch_circle_diameter"
+      ],
+      [
+        "D013 diameter 0.312 inch",
+        "H001:diameter"
+      ],
+      [
+        "H003 hole dia 0.312 inch (x1)",
+        "H001:diameter"
+      ]
+    ],
+    "strict_matched": 7,
+    "original_only": [
+      "D003 diameter 18.44 inch",
+      "D005 linear 1.406 inch",
+      "D006 linear 0.6 inch",
+      "D007 radial 0.03 inch",
+      "D008 radial 0.03 inch",
+      "D011 thread 0.375 inch",
+      "D012 linear 0.375 inch",
+      "D014 depth 0.38 inch",
+      "D015 linear 0.38 inch",
+      "D016 linear 0.06 inch",
+      "D018 linear 0.12 inch",
+      "D019 linear 0.25 inch",
+      "D020 diameter 0.01 inch",
+      "D021 diameter 0.01 inch",
+      "D022 linear 0.001 inch",
+      "D023 linear 0.001 inch",
+      "D024 linear 0.001 inch",
+      "D025 linear 0.806 inch",
+      "D026 radial 9.625 inch",
+      "D027 radial 8.125 inch",
+      "H001 hole dia 0.375 inch (x8)",
+      "H002 hole dia 0.375 inch (x8)"
+    ],
+    "regen_only": [
+      "H002:diameter",
+      "H007:diameter",
+      "H007:pitch_v1"
+    ],
+    "material_original_text": "USS-T1",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A001821E",
+    "original_total": 35,
+    "matched": [
+      [
+        "D001 linear 7.0 inch",
+        "body:extent_z"
+      ],
+      [
+        "D004 linear 4.5 inch",
+        "body:extent_x"
+      ],
+      [
+        "D006 linear 0.312 inch",
+        "body:extent_y"
+      ],
+      [
+        "D007 linear 0.75 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D010 linear 0.375 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "D011 linear 6.25 inch",
+        "H001:pitch_v1"
+      ],
+      [
+        "D012 diameter 0.406 inch",
+        "H001:diameter"
+      ],
+      [
+        "D013 diameter 0.203 inch",
+        "H004:diameter"
+      ],
+      [
+        "D015 linear 3.347 inch",
+        "H006:location_h_from_edge"
+      ],
+      [
+        "D023 linear 0.375 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "D025 linear 0.597 inch",
+        "H004:location_h_from_edge"
+      ],
+      [
+        "D026 linear 1.972 inch",
+        "H005:location_h_from_edge"
+      ],
+      [
+        "D027 linear 4.637 inch",
+        "H004:location_v_from_edge"
+      ],
+      [
+        "D028 linear 1.707 inch",
+        "H008:location_v_from_edge"
+      ],
+      [
+        "D029 linear 3.172 inch",
+        "H007:location_v_from_edge"
+      ],
+      [
+        "H001 hole dia 0.406 inch (x6)",
+        "H001:diameter"
+      ],
+      [
+        "H002 hole dia 0.203 inch (x7)",
+        "H004:diameter"
+      ]
+    ],
+    "strict_matched": 17,
+    "original_only": [
+      "D002 linear 2.75 inch",
+      "D003 linear 2.125 inch",
+      "D005 linear 2.75 inch",
+      "D008 linear 2.312 inch",
+      "D009 linear 3.875 inch",
+      "D014 thread 0.25 inch",
+      "D016 linear 2.75 inch",
+      "D017 linear 1.375 inch",
+      "D018 linear 1.988 inch",
+      "D019 linear 2.93 inch",
+      "D020 linear 1.465 inch",
+      "D021 linear 2.125 inch",
+      "D022 linear 4.25 inch",
+      "D024 linear 6.625 inch",
+      "D030 linear 1.375 inch",
+      "D031 linear 1.465 inch",
+      "D032 linear 1.75 inch",
+      "D033 linear 1.332 inch"
+    ],
+    "regen_only": [
+      "H001:pitch_h1",
+      "H005:diameter",
+      "H005:location_v_from_edge",
+      "H006:diameter",
+      "H006:location_v_from_edge",
+      "H007:diameter",
+      "H007:location_h_from_edge",
+      "H008:diameter",
+      "H008:location_h_from_edge",
+      "H009:diameter",
+      "H009:location_h_from_edge",
+      "H009:location_v_from_edge",
+      "H010:diameter",
+      "H010:location_h_from_edge",
+      "H010:location_v_from_edge"
+    ],
+    "material_original_text": "1E357 STL.",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A001831E",
+    "original_total": 28,
+    "matched": [
+      [
+        "D002 linear 0.374 inch",
+        "body:extent_y"
+      ],
+      [
+        "D004 linear 4.055 inch",
+        "body:extent_x"
+      ],
+      [
+        "D007 linear 3.718 inch",
+        "body:extent_z"
+      ],
+      [
+        "D010 diameter 0.281 inch",
+        "H001:diameter"
+      ],
+      [
+        "D013 linear 0.394 inch",
+        "H005:location_v_from_edge"
+      ],
+      [
+        "D019 linear 0.394 inch",
+        "H005:location_v_from_edge"
+      ],
+      [
+        "D020 linear 0.97 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D021 linear 3.72 inch",
+        "H003:location_h_from_edge"
+      ],
+      [
+        "D022 linear 2.345 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D023 linear 3.324 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "D024 linear 1.859 inch",
+        "H004:location_v_from_edge"
+      ],
+      [
+        "H001 hole dia 0.281 inch (x7)",
+        "H001:diameter"
+      ]
+    ],
+    "strict_matched": 12,
+    "original_only": [
+      "D003 linear 0.256 inch",
+      "D005 linear 3.937 inch",
+      "D006 linear 1.181 inch",
+      "D008 linear 1.718 inch",
+      "D009 linear 1.0 inch",
+      "D011 linear 2.93 inch",
+      "D012 linear 1.465 inch",
+      "D014 linear 1.375 inch",
+      "D015 linear 2.75 inch",
+      "D016 linear 0.335 inch",
+      "D017 linear 1.0 inch",
+      "D018 linear 0.118 inch",
+      "D025 linear 2.874 inch",
+      "D026 linear 2.718 inch",
+      "D027 linear 1.375 inch",
+      "D028 linear 1.465 inch"
+    ],
+    "regen_only": [
+      "H002:diameter",
+      "H002:location_v_from_edge",
+      "H003:diameter",
+      "H003:location_v_from_edge",
+      "H004:diameter",
+      "H004:location_h_from_edge",
+      "H005:diameter",
+      "H005:location_h_from_edge",
+      "H006:diameter",
+      "H006:location_h_from_edge",
+      "H006:location_v_from_edge",
+      "H007:diameter",
+      "H007:location_h_from_edge",
+      "H007:location_v_from_edge"
+    ],
+    "material_original_text": "NOTE A: Polyurethane plus 10% moly disulphide; Shore durometer A80-90. Approved supplier: GRINDEX INC.",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A001911E",
+    "original_total": 27,
+    "matched": [
+      [
+        "D001 linear 83.0 inch",
+        "body:extent_x"
+      ],
+      [
+        "D002 linear 1.5 inch",
+        "H005:location_h_from_edge"
+      ],
+      [
+        "D011 linear 1.25 inch",
+        "H005:location_v_from_edge"
+      ],
+      [
+        "D012 linear 3.0 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "D013 diameter 1.062 inch",
+        "H001:diameter"
+      ],
+      [
+        "D016 linear 1.75 inch",
+        "body:extent_y"
+      ],
+      [
+        "D017 linear 7.25 inch",
+        "body:extent_z"
+      ],
+      [
+        "D022 linear 1.5 inch",
+        "H005:location_h_from_edge"
+      ],
+      [
+        "D024 linear 1.75 inch",
+        "body:extent_y"
+      ],
+      [
+        "H001 hole dia 1.062 inch (x9)",
+        "H001:diameter"
+      ]
+    ],
+    "strict_matched": 10,
+    "original_only": [
+      "D003 linear 80.0 inch",
+      "D004 linear 70.0 inch",
+      "D005 linear 60.0 inch",
+      "D006 linear 50.0 inch",
+      "D007 linear 40.0 inch",
+      "D008 linear 30.0 inch",
+      "D009 linear 20.0 inch",
+      "D010 linear 10.0 inch",
+      "D014 diameter 1.562 inch",
+      "D015 depth 1.0 inch",
+      "D018 linear 2.5 inch",
+      "D019 linear 2.5 inch",
+      "D020 radial 0.06 inch",
+      "D021 depth 0.125 inch",
+      "D023 linear 10.0 inch",
+      "D025 linear 0.75 inch",
+      "D026 linear 20.0 inch"
+    ],
+    "regen_only": [
+      "H001:location_h_from_edge",
+      "H002:diameter",
+      "H002:location_h_from_edge",
+      "H002:location_v_from_edge",
+      "H003:diameter",
+      "H003:location_h_from_edge",
+      "H003:location_v_from_edge",
+      "H004:diameter",
+      "H004:location_h_from_edge",
+      "H004:location_v_from_edge",
+      "H005:diameter",
+      "H006:diameter",
+      "H006:location_h_from_edge",
+      "H006:location_v_from_edge",
+      "H007:diameter",
+      "H007:location_h_from_edge",
+      "H007:location_v_from_edge",
+      "H008:diameter",
+      "H008:location_h_from_edge",
+      "H008:location_v_from_edge",
+      "H009:diameter",
+      "H009:location_h_from_edge",
+      "H009:location_v_from_edge"
+    ],
+    "material_original_text": "MPR STD. STL.",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A001921E",
+    "original_total": 22,
+    "matched": [
+      [
+        "D001 linear 13.375 inch",
+        "body:extent_x"
+      ],
+      [
+        "D002 linear 4.0 inch",
+        "body:extent_z"
+      ],
+      [
+        "D003 linear 1.25 inch",
+        "body:extent_y"
+      ],
+      [
+        "D004 linear 1.187 inch",
+        "H003:location_h_from_edge"
+      ],
+      [
+        "D005 linear 5.5 inch",
+        "H003:pitch_h1"
+      ],
+      [
+        "D009 linear 1.5 inch",
+        "H003:location_v_from_edge"
+      ],
+      [
+        "D011 diameter 0.656 inch",
+        "H001:diameter"
+      ],
+      [
+        "D013 diameter 0.781 inch",
+        "H003:diameter"
+      ],
+      [
+        "D014 diameter 1.188 inch",
+        "H003:location_h_from_edge"
+      ],
+      [
+        "D016 linear 5.5 inch",
+        "H003:pitch_h1"
+      ],
+      [
+        "D017 linear 1.188 inch",
+        "H003:location_h_from_edge"
+      ],
+      [
+        "D018 linear 7.0 inch",
+        "H001:pitch_h1"
+      ],
+      [
+        "D020 linear 3.375 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "H001 hole dia 0.656 inch (x2)",
+        "H001:diameter"
+      ],
+      [
+        "H002 hole dia 0.781 inch (x3)",
+        "H003:diameter"
+      ]
+    ],
+    "strict_matched": 15,
+    "original_only": [
+      "D006 linear 11.0 inch",
+      "D007 linear 2.0 inch",
+      "D008 linear 9.0 inch",
+      "D010 linear 1.875 inch",
+      "D012 thread 0.75 inch",
+      "D015 depth 0.12 inch",
+      "D019 linear 0.625 inch"
+    ],
+    "regen_only": [
+      "H001:location_h_from_edge"
+    ],
+    "material_original_text": "1018",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A040501E",
+    "original_total": 31,
+    "matched": [
+      [
+        "D005 radial 0.25 inch",
+        "H009:location_h_from_edge"
+      ],
+      [
+        "D007 linear 3.5 inch",
+        "body:diameter_zy"
+      ],
+      [
+        "D008 linear 1.5 inch",
+        "H010:location_h_from_edge"
+      ],
+      [
+        "D009 depth 0.5 inch",
+        "H009:diameter"
+      ],
+      [
+        "D010 diameter 3.501 inch",
+        "body:diameter_zy"
+      ],
+      [
+        "D011 thread 1.5 inch",
+        "H010:location_h_from_edge"
+      ],
+      [
+        "D015 thread 0.375 inch",
+        "H011:location_v_from_edge"
+      ],
+      [
+        "D018 diameter 0.5 inch",
+        "H009:diameter"
+      ],
+      [
+        "D026 linear 1.768 inch",
+        "H001:pitch_h1"
+      ],
+      [
+        "D027 linear 1.768 inch",
+        "H001:pitch_h1"
+      ],
+      [
+        "H001 hole dia 1.5 inch (x1)",
+        "H010:location_h_from_edge"
+      ],
+      [
+        "H002 hole dia 0.5 inch (x1)",
+        "H009:diameter"
+      ],
+      [
+        "H003 hole dia 0.375 inch (x4)",
+        "H011:location_v_from_edge"
+      ]
+    ],
+    "strict_matched": 13,
+    "original_only": [
+      "D001 linear 8.0 inch",
+      "D002 linear 1.88 inch",
+      "D003 linear 3.44 inch",
+      "D004 linear 1.75 inch",
+      "D006 linear 1.75 inch",
+      "D012 depth 2.5 inch",
+      "D013 linear 0.06 inch",
+      "D016 depth 0.88 inch",
+      "D017 depth 1.25 inch",
+      "D019 linear 0.884 inch",
+      "D020 linear 0.884 inch",
+      "D021 linear 0.001 inch",
+      "D022 linear 0.001 inch",
+      "D023 depth 0.008 inch",
+      "D024 linear 2.75 inch",
+      "D025 linear 2.68 inch",
+      "D028 linear 0.8665 inch",
+      "D029 linear 2.6345 inch"
+    ],
+    "regen_only": [
+      "H001:diameter",
+      "H001:pitch_v1",
+      "H003:diameter",
+      "H004:diameter",
+      "H009:location_v_from_edge",
+      "H010:diameter",
+      "H010:location_v_from_edge",
+      "H011:diameter",
+      "H011:location_h_from_edge",
+      "H012:diameter",
+      "H012:location_h_from_edge",
+      "H012:location_v_from_edge"
+    ],
+    "material_original_text": "4140",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A040691E",
+    "original_total": 54,
+    "matched": [
+      [
+        "D003 linear 3.25 inch",
+        "H001:pitch_v1"
+      ],
+      [
+        "D004 linear 2.25 inch",
+        "body:extent_y"
+      ],
+      [
+        "D006 linear 2.25 inch",
+        "body:extent_y"
+      ],
+      [
+        "D011 linear 5.0 inch",
+        "body:extent_z"
+      ],
+      [
+        "D012 linear 2.0 inch",
+        "H006:location_v_from_edge"
+      ],
+      [
+        "D013 diameter 0.75 inch",
+        "H006:diameter"
+      ],
+      [
+        "D015 depth 0.5 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D017 linear 0.75 inch",
+        "H006:diameter"
+      ],
+      [
+        "D018 linear 0.375 inch",
+        "H010:location_v_from_edge"
+      ],
+      [
+        "D019 linear 1.0 inch",
+        "H010:pitch_h1"
+      ],
+      [
+        "D021 linear 3.0 inch",
+        "H007:location_v_from_edge"
+      ],
+      [
+        "D022 linear 4.38 inch",
+        "body:extent_x"
+      ],
+      [
+        "D025 linear 1.0 inch",
+        "H010:pitch_h1"
+      ],
+      [
+        "D027 linear 0.375 inch",
+        "H010:location_v_from_edge"
+      ],
+      [
+        "D028 linear 0.749 inch",
+        "H006:diameter"
+      ],
+      [
+        "D030 linear 2.25 inch",
+        "body:extent_y"
+      ],
+      [
+        "D032 linear 1.0 inch",
+        "H010:pitch_h1"
+      ],
+      [
+        "D033 linear 0.375 inch",
+        "H010:location_v_from_edge"
+      ],
+      [
+        "D034 thread 0.75 inch",
+        "H006:diameter"
+      ],
+      [
+        "D035 depth 1.25 inch",
+        "H006:location_h_from_edge"
+      ],
+      [
+        "D036 thread 0.375 inch",
+        "H010:location_v_from_edge"
+      ],
+      [
+        "D037 depth 0.75 inch",
+        "H006:diameter"
+      ],
+      [
+        "D038 diameter 0.375 inch",
+        "H010:location_v_from_edge"
+      ],
+      [
+        "D042 linear 3.0 inch",
+        "H007:location_v_from_edge"
+      ],
+      [
+        "D043 linear 1.0 inch",
+        "H010:pitch_h1"
+      ],
+      [
+        "D044 linear 0.75 inch",
+        "H006:diameter"
+      ],
+      [
+        "D045 linear 1.37 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "D047 linear 0.374 inch",
+        "H010:location_v_from_edge"
+      ],
+      [
+        "D048 linear 0.75 inch",
+        "H006:diameter"
+      ],
+      [
+        "D051 linear 0.375 inch",
+        "H010:location_v_from_edge"
+      ],
+      [
+        "H001 hole dia 0.75 inch (x1)",
+        "H006:diameter"
+      ],
+      [
+        "H003 hole dia 0.75 inch (x1)",
+        "H006:diameter"
+      ],
+      [
+        "H004 hole dia 0.375 inch (x2)",
+        "H010:location_v_from_edge"
+      ]
+    ],
+    "strict_matched": 31,
+    "original_only": [
+      "D001 linear 1.75 inch",
+      "D002 linear 1.625 inch",
+      "D005 linear 1.5 inch",
+      "D007 linear 0.88 inch",
+      "D008 radial 0.03 inch",
+      "D009 radial 0.06 inch",
+      "D010 linear 4.0 inch",
+      "D014 thread 0.25 inch",
+      "D016 linear 0.65 inch",
+      "D023 linear 1.75 inch",
+      "D024 linear 0.12 inch",
+      "D026 linear 0.625 inch",
+      "D029 linear 1.125 inch",
+      "D031 linear 2.625 inch",
+      "D039 linear 0.001 inch",
+      "D040 linear 1.26 inch",
+      "D041 linear 4.26 inch",
+      "D046 linear 2.51 inch",
+      "D049 linear 1.625 inch",
+      "D050 linear 1.125 inch",
+      "H002 hole dia 0.25 inch (x3)"
+    ],
+    "regen_only": [
+      "H001:diameter",
+      "H003:diameter",
+      "H003:location_h_from_edge",
+      "H003:location_v_from_edge",
+      "H003:pitch_v1",
+      "H004:diameter",
+      "H007:diameter",
+      "H007:location_h_from_edge",
+      "H010:diameter",
+      "H010:location_h_from_edge"
+    ],
+    "material_original_text": "1020 steel",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "A040711E",
+    "original_total": 41,
+    "matched": [
+      [
+        "D001 diameter 0.531 inch",
+        "H004:diameter"
+      ],
+      [
+        "D005 diameter 1.531 inch",
+        "H006:diameter"
+      ],
+      [
+        "D006 linear 4.0 inch",
+        "body:extent_z"
+      ],
+      [
+        "D007 linear 2.0 inch",
+        "H006:location_v_from_edge"
+      ],
+      [
+        "D008 linear 1.75 inch",
+        "H001:pitch_v1"
+      ],
+      [
+        "D010 linear 1.88 inch",
+        "body:extent_y"
+      ],
+      [
+        "D012 linear 5.75 inch",
+        "body:extent_x"
+      ],
+      [
+        "D014 linear 0.5 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D016 linear 2.05 inch",
+        "H004:pitch_h1"
+      ],
+      [
+        "D019 linear 2.05 inch",
+        "H004:pitch_h1"
+      ],
+      [
+        "D026 linear 1.625 inch",
+        "H006:location_h_from_edge"
+      ],
+      [
+        "D027 linear 0.6 inch",
+        "H004:location_h_from_edge"
+      ],
+      [
+        "D029 linear 0.975 inch",
+        "H004:location_v_from_edge"
+      ],
+      [
+        "D031 linear 0.5 inch",
+        "H001:location_h_from_edge"
+      ],
+      [
+        "D032 linear 3.5 inch",
+        "H010:location_v_from_edge"
+      ],
+      [
+        "D033 linear 4.375 inch",
+        "H003:location_h_from_edge"
+      ],
+      [
+        "D034 linear 3.75 inch",
+        "H007:location_h_from_edge"
+      ],
+      [
+        "D035 linear 1.125 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "H001 hole dia 0.531 inch (x4)",
+        "H004:diameter"
+      ],
+      [
+        "H002 hole dia 1.531 inch (x1)",
+        "H006:diameter"
+      ]
+    ],
+    "strict_matched": 19,
+    "original_only": [
+      "D002 diameter 1.0 inch",
+      "D003 depth 0.56 inch",
+      "D004 diameter 0.375 inch",
+      "D009 linear 0.875 inch",
+      "D011 linear 0.875 inch",
+      "D013 linear 1.0 inch",
+      "D015 radial 0.06 inch",
+      "D017 linear 1.025 inch",
+      "D018 linear 1.025 inch",
+      "D020 linear 3.125 inch",
+      "D021 linear 0.625 inch",
+      "D022 linear 0.375 inch",
+      "D023 linear 1.5 inch",
+      "D024 linear 3.0 inch",
+      "D025 linear 4.75 inch",
+      "D028 linear 2.65 inch",
+      "D030 linear 3.025 inch",
+      "D036 linear 2.875 inch",
+      "D037 linear 1.005 inch",
+      "D038 linear 0.505 inch",
+      "D039 linear 0.315 inch"
+    ],
+    "regen_only": [
+      "H001:diameter",
+      "H003:diameter",
+      "H003:location_v_from_edge",
+      "H004:pitch_v1",
+      "H007:diameter",
+      "H007:location_v_from_edge",
+      "H010:diameter",
+      "H010:location_h_from_edge",
+      "H011:diameter",
+      "H011:location_h_from_edge",
+      "H011:location_v_from_edge"
+    ],
+    "material_original_text": "1020",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "SB10009_SHT_3",
+    "original_total": 54,
+    "matched": [
+      [
+        "D001 linear 16.24 inch",
+        "body:extent_x"
+      ],
+      [
+        "D005 linear 3.0 inch",
+        "H007:location_h_from_edge"
+      ],
+      [
+        "D011 linear 2.838 inch",
+        "H001:pitch_h1"
+      ],
+      [
+        "D013 linear 2.838 inch",
+        "H001:pitch_h1"
+      ],
+      [
+        "D017 diameter 3.25 inch",
+        "H007:diameter"
+      ],
+      [
+        "D027 linear 6.0 inch",
+        "body:extent_z"
+      ],
+      [
+        "D030 linear 0.375 inch",
+        "body:extent_y"
+      ],
+      [
+        "D032 linear 6.0 inch",
+        "body:extent_z"
+      ],
+      [
+        "D033 linear 0.375 inch",
+        "body:extent_y"
+      ],
+      [
+        "D034 linear 0.375 inch",
+        "body:extent_y"
+      ],
+      [
+        "D035 linear 6.0 inch",
+        "body:extent_z"
+      ],
+      [
+        "D036 linear 16.24 inch",
+        "body:extent_x"
+      ],
+      [
+        "D037 linear 0.375 inch",
+        "body:extent_y"
+      ],
+      [
+        "D040 linear 3.0 inch",
+        "H007:location_h_from_edge"
+      ],
+      [
+        "D042 linear 5.12 inch",
+        "H007:pitch_h1"
+      ],
+      [
+        "D045 linear 3.0 inch",
+        "H007:location_h_from_edge"
+      ],
+      [
+        "H001 hole dia 3.25 inch (x3)",
+        "H007:diameter"
+      ]
+    ],
+    "strict_matched": 17,
+    "original_only": [
+      "D002 linear 8.12 inch",
+      "D003 linear 13.24 inch",
+      "D004 linear 5.38 inch",
+      "D006 linear 0.18 inch",
+      "D007 linear 1.25 inch",
+      "D008 linear 0.56 inch",
+      "D009 linear 1.25 inch",
+      "D010 linear 0.56 inch",
+      "D012 linear 1.419 inch",
+      "D014 linear 1.419 inch",
+      "D015 linear 5.5 inch",
+      "D016 thread 0.312 inch",
+      "D018 thread 0.19 inch",
+      "D019 diameter 0.281 inch",
+      "D020 linear 4.5 inch",
+      "D021 linear 0.5 inch",
+      "D022 linear 0.62 inch",
+      "D023 linear 4.5 inch",
+      "D024 linear 0.5 inch",
+      "D025 linear 0.62 inch",
+      "D026 diameter 0.281 inch",
+      "D028 linear 6.24 inch",
+      "D029 linear 9.24 inch",
+      "D038 linear 1.25 inch",
+      "D039 linear 21.5 inch",
+      "D041 linear 8.12 inch",
+      "D043 linear 5.0 inch",
+      "D044 linear 1.0 inch",
+      "D046 linear 5.82 inch",
+      "D047 linear 10.88 inch",
+      "D048 linear 15.68 inch",
+      "D049 linear 15.12 inch",
+      "H002 hole dia 0.312 inch (x12)",
+      "H003 hole dia 0.19 inch (x2)",
+      "H004 hole dia 0.281 inch (x4)",
+      "H005 hole dia 0.281 inch (x2)",
+      "H006 hole dia 0.281 inch (x2)"
+    ],
+    "regen_only": [
+      "H001:diameter",
+      "H001:location_h_from_edge",
+      "H001:pitch_h2",
+      "H001:pitch_h3",
+      "H001:pitch_h4",
+      "H001:pitch_h5",
+      "H001:location_v_from_edge",
+      "H001:pitch_v1",
+      "H007:location_v_from_edge"
+    ],
+    "material_original_text": "1018 M.S. (mild steel), plate and both supports",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "SB10024",
+    "original_total": 62,
+    "matched": [
+      [
+        "D001 linear 3.75 inch",
+        "body:extent_x"
+      ],
+      [
+        "D002 linear 0.38 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D003 linear 3.0 inch",
+        "H002:pitch_h1"
+      ],
+      [
+        "D004 linear 2.12 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "D008 linear 0.88 inch",
+        "H005:location_v_from_edge"
+      ],
+      [
+        "D009 linear 0.38 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D010 linear 4.0 inch",
+        "body:extent_z"
+      ],
+      [
+        "D011 linear 3.25 inch",
+        "H002:pitch_v1"
+      ],
+      [
+        "D012 linear 2.12 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "D016 linear 0.38 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D018 linear 0.5 inch",
+        "H004:diameter"
+      ],
+      [
+        "D020 diameter 0.344 inch",
+        "H002:diameter"
+      ],
+      [
+        "D021 diameter 0.5 inch",
+        "H004:diameter"
+      ],
+      [
+        "D023 thread 0.5 inch",
+        "H004:diameter"
+      ],
+      [
+        "D025 diameter 0.5 inch",
+        "H004:diameter"
+      ],
+      [
+        "D027 diameter 0.28 inch",
+        "H007:diameter"
+      ],
+      [
+        "D029 linear 2.38 inch",
+        "body:extent_y"
+      ],
+      [
+        "D030 linear 0.75 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "D031 diameter 0.44 inch",
+        "H001:diameter"
+      ],
+      [
+        "D034 diameter 0.5 inch",
+        "H004:diameter"
+      ],
+      [
+        "D040 linear 0.37 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D043 linear 0.87 inch",
+        "H005:location_v_from_edge"
+      ],
+      [
+        "D044 linear 2.99 inch",
+        "H002:pitch_h1"
+      ],
+      [
+        "D045 linear 2.06 inch",
+        "H008:location_h_from_edge"
+      ],
+      [
+        "D046 linear 2.12 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "D047 linear 1.12 inch",
+        "H010:location_v_from_edge"
+      ],
+      [
+        "D050 linear 2.5 inch",
+        "H004:location_h_from_edge"
+      ],
+      [
+        "D052 linear 2.28 inch",
+        "H015:location_h_from_edge"
+      ],
+      [
+        "D054 linear 0.37 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "H001 hole dia 0.344 inch (x4)",
+        "H002:diameter"
+      ],
+      [
+        "H002 hole dia 0.5 inch (x4)",
+        "H004:diameter"
+      ],
+      [
+        "H003 hole dia 0.5 inch (x2)",
+        "H004:diameter"
+      ],
+      [
+        "H004 hole dia 0.28 inch (x1)",
+        "H007:diameter"
+      ],
+      [
+        "H007 hole dia 0.5 inch (x2)",
+        "H004:diameter"
+      ]
+    ],
+    "strict_matched": 18,
+    "original_only": [
+      "D005 linear 0.26 inch",
+      "D006 linear 1.06 inch",
+      "D007 linear 0.84 inch",
+      "D013 linear 1.25 inch",
+      "D014 linear 1.19 inch",
+      "D015 linear 0.47 inch",
+      "D017 linear 2.81 inch",
+      "D019 linear 0.25 inch",
+      "D022 depth 1.0 inch",
+      "D024 depth 0.8 inch",
+      "D026 depth 1.8 inch",
+      "D028 depth 0.31 inch",
+      "D032 depth 2.1 inch",
+      "D033 thread 0.25 inch",
+      "D035 depth 1.1 inch",
+      "D036 diameter 1.001 inch",
+      "D037 depth 0.123 inch",
+      "D038 linear 3.38 inch",
+      "D039 linear 3.62 inch",
+      "D041 linear 1.0 inch",
+      "D042 linear 3.12 inch",
+      "D048 linear 0.76 inch",
+      "D049 linear 1.56 inch",
+      "D051 linear 3.18 inch",
+      "D053 linear 1.34 inch",
+      "D055 linear 1.0 inch",
+      "H005 hole dia 0.44 inch (x1)",
+      "H006 hole dia 0.44 inch (x1)"
+    ],
+    "regen_only": [
+      "H001:location_h_from_edge",
+      "H002:location_v_from_edge",
+      "H004:location_v_from_edge",
+      "H005:diameter",
+      "H005:location_h_from_edge",
+      "H005:pitch_v1",
+      "H007:location_h_from_edge",
+      "H007:location_v_from_edge",
+      "H008:diameter",
+      "H008:location_v_from_edge",
+      "H009:diameter",
+      "H009:location_h_from_edge",
+      "H009:location_v_from_edge",
+      "H010:diameter",
+      "H010:location_h_from_edge",
+      "H015:diameter",
+      "H015:location_v_from_edge"
+    ],
+    "material_original_text": "CRS (cold rolled steel)",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "SB10024_1",
+    "original_total": 62,
+    "matched": [
+      [
+        "D001 linear 3.75 inch",
+        "body:extent_x"
+      ],
+      [
+        "D002 linear 0.38 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D003 linear 3.0 inch",
+        "H002:pitch_h1"
+      ],
+      [
+        "D004 linear 2.12 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "D008 linear 0.88 inch",
+        "H005:location_v_from_edge"
+      ],
+      [
+        "D009 linear 0.38 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D010 linear 4.0 inch",
+        "body:extent_z"
+      ],
+      [
+        "D011 linear 3.25 inch",
+        "H002:pitch_v1"
+      ],
+      [
+        "D012 linear 2.12 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "D016 linear 0.38 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D018 linear 0.5 inch",
+        "H004:diameter"
+      ],
+      [
+        "D020 diameter 0.344 inch",
+        "H002:diameter"
+      ],
+      [
+        "D021 diameter 0.5 inch",
+        "H004:diameter"
+      ],
+      [
+        "D023 thread 0.5 inch",
+        "H004:diameter"
+      ],
+      [
+        "D025 diameter 0.5 inch",
+        "H004:diameter"
+      ],
+      [
+        "D027 diameter 0.28 inch",
+        "H007:diameter"
+      ],
+      [
+        "D029 linear 2.38 inch",
+        "body:extent_y"
+      ],
+      [
+        "D030 linear 0.75 inch",
+        "H001:location_v_from_edge"
+      ],
+      [
+        "D031 diameter 0.44 inch",
+        "H001:diameter"
+      ],
+      [
+        "D034 diameter 0.5 inch",
+        "H004:diameter"
+      ],
+      [
+        "D040 linear 0.37 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "D043 linear 0.87 inch",
+        "H005:location_v_from_edge"
+      ],
+      [
+        "D044 linear 2.99 inch",
+        "H002:pitch_h1"
+      ],
+      [
+        "D045 linear 2.06 inch",
+        "H008:location_h_from_edge"
+      ],
+      [
+        "D046 linear 2.12 inch",
+        "H005:pitch_h1"
+      ],
+      [
+        "D047 linear 1.12 inch",
+        "H010:location_v_from_edge"
+      ],
+      [
+        "D050 linear 2.5 inch",
+        "H004:location_h_from_edge"
+      ],
+      [
+        "D052 linear 2.28 inch",
+        "H015:location_h_from_edge"
+      ],
+      [
+        "D054 linear 0.37 inch",
+        "H002:location_h_from_edge"
+      ],
+      [
+        "H001 hole dia 0.344 inch (x4)",
+        "H002:diameter"
+      ],
+      [
+        "H002 hole dia 0.5 inch (x4)",
+        "H004:diameter"
+      ],
+      [
+        "H003 hole dia 0.5 inch (x2)",
+        "H004:diameter"
+      ],
+      [
+        "H004 hole dia 0.28 inch (x1)",
+        "H007:diameter"
+      ],
+      [
+        "H007 hole dia 0.5 inch (x2)",
+        "H004:diameter"
+      ]
+    ],
+    "strict_matched": 18,
+    "original_only": [
+      "D005 linear 0.26 inch",
+      "D006 linear 1.06 inch",
+      "D007 linear 0.84 inch",
+      "D013 linear 1.25 inch",
+      "D014 linear 1.19 inch",
+      "D015 linear 0.47 inch",
+      "D017 linear 2.81 inch",
+      "D019 linear 0.25 inch",
+      "D022 depth 1.0 inch",
+      "D024 depth 0.8 inch",
+      "D026 depth 1.8 inch",
+      "D028 depth 0.31 inch",
+      "D032 depth 2.1 inch",
+      "D033 thread 0.25 inch",
+      "D035 depth 1.1 inch",
+      "D036 diameter 1.001 inch",
+      "D037 depth 0.123 inch",
+      "D038 linear 3.38 inch",
+      "D039 linear 3.62 inch",
+      "D041 linear 1.0 inch",
+      "D042 linear 3.12 inch",
+      "D048 linear 0.76 inch",
+      "D049 linear 1.56 inch",
+      "D051 linear 3.18 inch",
+      "D053 linear 1.34 inch",
+      "D055 linear 1.0 inch",
+      "H005 hole dia 0.44 inch (x1)",
+      "H006 hole dia 0.44 inch (x1)"
+    ],
+    "regen_only": [
+      "H001:location_h_from_edge",
+      "H002:location_v_from_edge",
+      "H004:location_v_from_edge",
+      "H005:diameter",
+      "H005:location_h_from_edge",
+      "H005:pitch_v1",
+      "H007:location_h_from_edge",
+      "H007:location_v_from_edge",
+      "H008:diameter",
+      "H008:location_v_from_edge",
+      "H009:diameter",
+      "H009:location_h_from_edge",
+      "H009:location_v_from_edge",
+      "H010:diameter",
+      "H010:location_h_from_edge",
+      "H015:diameter",
+      "H015:location_v_from_edge"
+    ],
+    "material_original_text": "CRS (cold rolled steel)",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  },
+  {
+    "part": "SB11780",
+    "original_total": 16,
+    "matched": [],
+    "strict_matched": 0,
+    "original_only": [
+      "D001 linear 76.88 inch",
+      "D002 linear 75.125 inch",
+      "D003 linear 0.88 inch",
+      "D004 linear 1.016 inch",
+      "D005 diameter 1.734 inch",
+      "D007 radial 0.06 inch",
+      "D008 linear 0.5 inch",
+      "D009 linear 2.218 inch",
+      "D010 radial 0.125 inch",
+      "D011 linear 0.002 inch",
+      "D012 linear 0.002 inch",
+      "D013 linear 0.002 inch",
+      "D014 linear 73.093 inch",
+      "D015 depth 0.2805 inch",
+      "D016 linear 0.875 inch",
+      "D017 linear 1.016 inch"
+    ],
+    "regen_only": [
+      "body:diameter_zy"
+    ],
+    "material_original_text": "1018 steel; handwritten note MAT'L ~ 1018",
+    "material_regenerated": null,
+    "material_note": "original names a material; the regenerated part carries no assigned material (the part was built by a run without a resolved material, so the title block reads NOT SPECIFIED)"
+  }
+]
