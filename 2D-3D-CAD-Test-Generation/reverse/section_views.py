@@ -78,7 +78,7 @@ def create_sections(dd, inv: dict, plan: dict, placed: dict[str, Rect], issues: 
             LANES = 0.030          # room for the dimension lanes and labels around every view (a section carries its own dimensions too)
             obstacles = [o.grow(LANES) for o in placed.values()]
             for f in (1.0, 0.5, 0.25):
-                free = planner.find_spot(w * f + 2 * LANES, hh * f + 2 * LANES, obstacles, keep, usable, gap)
+                free = planner.find_spot(w * f + 2 * LANES, hh * f + 2 * LANES, obstacles, keep, usable, 0.008)      # the lane allowance is already in the padding
                 if free is not None:
                     spot, sec_scale, moved = Rect(free.x0 + LANES, free.y0 + LANES, free.x1 - LANES, free.y1 - LANES), scale * f, True
                     break
