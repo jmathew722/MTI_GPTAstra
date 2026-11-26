@@ -185,6 +185,9 @@ class SwBuildReport:
     sketches: dict[str, int] = field(default_factory=dict)  # sketch -> swConstrainedStatus_e (3 = fully defined)
     # Hole Wizard features that became a PLAIN CUT: each is {fid, code, detail}. Never reported as Hole Wizard support.
     hole_wizard_substitutions: list[dict] = field(default_factory=list)
+    # Phase 1 material upgrade: the native assignment + read-back (see pipeline.materials.native); None = no material step ran.
+    material: Optional[dict] = None
+    volume_m3: Optional[float] = None      # exact native volume of the finished part, for the material estimate
     hole_wizard_preflight: Optional[dict] = None   # environment gate result (sw_preflight), path-free; None = not run
 
     @property
@@ -1422,7 +1425,7 @@ def origin_centered(bbox: list[float], tol_m: float = 1e-6) -> bool:
 def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: dict[str, Any],
                        out_dir: Path, template: Optional[str] = None,
                        pmap: Optional[PlaneMap] = None, progress=None,
-                       convention: str = "mti", keep_open: bool = False) -> SwBuildReport:
+                       convention: str = "mti", keep_open: bool = False, material: Optional[dict] = None) -> SwBuildReport:
     """Build the plan in SolidWorks, verifying each feature against the CadQuery reference.
 
     ``convention``: ``"mti"`` (centered origin, Top-plane base, Mid Plane, Up To Next) or
@@ -1504,6 +1507,33 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
     sw.doc.SketchManager.AddToDB = False   # hand the part back with normal sketch behaviour
     _close_open_sketch(sw.doc)             # never export mid-sketch-edit (would mesh the sketch plane, not the solid)
     _g(sw.doc, "EditRebuild3")             # the exported mesh must reflect the finished, fully-resolved part
+    from pipeline.solidworks_builder import _total_volume as _tv
+    sw.report.volume_m3 = _tv(sw.doc) or None      # m^3 (sw.volume() is in drawing units)
+    if material is not None:
+        # Phase 1: assign + read back the drawing's material BEFORE the final save. A failed assignment keeps the geometry and marks the
+        # material not verified; a part with no material on the drawing stays unassigned (never a guessed default).
+        try:
+            from pipeline.materials import native as _nm
+            if material.get("assignable") and material.get("chosen"):
+                ver = _nm.assign_and_verify_app(sw_app, sw.doc, material["chosen"])
+            else:
+                ver = {"status": material.get("status"), "requested": None, "actual": _nm.read_material(sw.doc), "errors": [],
+                       "note": "No material was assigned: " + str(material.get("label"))}
+            try:
+                ch = material.get("chosen") or {}
+                props = {"SolidFlow_MaterialStatus": ver.get("status") or material.get("status"),
+                         "SolidFlow_MaterialSource": material.get("selection_source") or "none",
+                         "SolidFlow_MaterialDrawingText": (material.get("drawing") or {}).get("raw_text") or "NOT SPECIFIED ON DRAWING"}
+                if ch:
+                    props["SolidFlow_MaterialCatalog"] = f"{ch.get('catalog_id')}@{str(ch.get('catalog_sha256'))[:12]}"
+                ver["custom_property_errors"] = _nm.write_traceability_properties(sw.doc, props, ver.get("config") or "")
+            except Exception as e:      # noqa: BLE001 - traceability must never fail a build
+                ver.setdefault("errors", []).append(f"custom properties: {e}")
+            sw.report.material = ver
+            log.info("  material: %s (%s)", ver.get("status"), (ver.get("actual") or {}).get("name"))
+        except Exception as e:          # noqa: BLE001 - the geometry is kept regardless
+            sw.report.material = {"status": "assignment_failed", "errors": [f"{type(e).__name__}: {e}"]}
+            log.warning("Material step failed (geometry kept): %s", e)
     sw.report.sldprt = save_model(sw.doc, f"{plan.part}_ir", out_dir)
     try:  # a mesh of the real, finished part, for 3D viewers (best effort; SaveAs3 picks the
         # translator from the extension, exactly as the PNG export below does)

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "catalog_id": "solidflow-demo",
+  "label": "Solid Flow demo catalog (synthetic prices)",
+  "currency": "USD",
+  "price_basis": "synthetic_demo_usd_per_kg",
+  "materials": [
+    {"id":"demo-steel","label":"Generic carbon steel","aliases":["steel","carbon steel"],"density_kg_m3":7850,"price_per_kg":1.50,"sw_database":null,"sw_material_name":null,"appearance":{"color":"#A5ABB4","metalness":0.8,"roughness":0.35}},
+    {"id":"demo-copper","label":"Generic copper","aliases":["copper"],"density_kg_m3":8960,"price_per_kg":10.00,"sw_database":null,"sw_material_name":null,"appearance":{"color":"#B87333","metalness":0.8,"roughness":0.35}},
+    {"id":"demo-pla","label":"Generic PLA plastic","aliases":["PLA","polylactic acid"],"density_kg_m3":1240,"price_per_kg":25.00,"sw_database":null,"sw_material_name":null,"appearance":{"color":"#D1D5DB","metalness":0.0,"roughness":0.65}}
+  ]
+}

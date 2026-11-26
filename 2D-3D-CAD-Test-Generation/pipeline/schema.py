@@ -24,6 +24,7 @@ from enum import Enum
 from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pipeline.materials.extraction import MaterialExtraction
 
 
 class Units(str, Enum):
@@ -441,6 +442,12 @@ class DrawingData(BaseModel):
     units: Units = Field(description="Drawing's declared unit system")
     scale: str = Field(default="", description='e.g. "1:1" or "as shown", or empty if not given')
     material: str = Field(default="", description="Material, or empty if not given")
+    material_extraction: Optional[MaterialExtraction] = Field(
+        default=None,
+        description=("The drawing's base material with the exact text and page it came from. status is specified | not_specified | ambiguous | "
+                     "conflicting | unreadable. If the drawing names no material use not_specified with null text and NO evidence; never infer a "
+                     "material from the geometry, the part name or its use. Keep coating, plating, heat treatment, finish, hardness and stock "
+                     "form in their own fields, and keep the exact grade/temper (6061-T6, not 6061)."))
     finish: str = Field(default="", description="Surface finish, or empty if not given")
     general_tolerance: str = Field(
         default="",

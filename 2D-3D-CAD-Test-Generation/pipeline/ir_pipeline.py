@@ -139,6 +139,7 @@ class IRResult:
     conventions: list[str] = field(default_factory=list)
     hole_wizard_substitutions: list[dict] = field(default_factory=list)   # Hole Wizard -> plain cut, with codes
     mti_review: list[str] = field(default_factory=list)     # advisory MTI modeling-practice findings    # MTI modeling conventions applied / fallen back
+    material: dict = field(default_factory=dict)            # Phase 1: material status, review flag and illustrative cost (files: material_*.json, appearance.json)
     cost_usd: float = 0.0
     error: str = ""
 
@@ -174,6 +175,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
     run_tags = {"run_id": tel.run_id, "run_attempt": tel.attempt} if tel.run_id else {}
     res = IRResult(spec.part)
     spent0 = budget.spent_usd()
+    material = None
     where = "extraction"          # the stage a cost-limit stop is reported against
     try:
         images = images_for(spec)
@@ -196,6 +198,9 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
             tel.complete(Phase.RESOLUTION, Op.RESOLVE_AMBIGUITY, label="Resolved ambiguous references")
             m = DrawingData.model_validate(raw)
             dims, refs = dims_of(m), reference_ids(m)
+            from pipeline.materials import runner as _mat        # Phase 1: resolve the drawing's material (no API call, never fails the build)
+            material = _mat.resolve_for_part(raw, out)
+            log.info("[stage] material: %s (%s)", material.get('status'), material.get('label'))
             saved = out / "plan.json"
             where = "build_plan"
             log.info("[stage] build_plan_start: planning %s%s", spec.part,
@@ -263,7 +268,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
                     rec.after_feature(f.id, f.kind, r.status)
             try:
                 rep = compile_solidworks(sw_app, plan, dims, cq.feature_map, out, template, pmap,
-                                         progress=_on_feature_rec)
+                                         progress=_on_feature_rec, material=material)
             except BaseException as e:   # noqa: BLE001 - close the video, then let the run fail as before
                 if rec is not None:
                     rec.stop(outcome="failed", error=f"{type(e).__name__}: {e}")
@@ -276,6 +281,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
                 rec.caption("Verification complete")
                 rec.stop(outcome="completed")
             res.sw_ok, res.sldprt, res.stl = rep.ok, rep.sldprt or "", rep.stl or ""
+            res.material = _mat.finalize(out, material, rep, run_id=tel.run_id or "")
             res.conventions = [f"origin centered: {rep.origin_ok}"] + rep.conventions
             res.hole_wizard_substitutions = list(rep.hole_wizard_substitutions)
             res.sw_features = {f.fid: f.status + (f" ({f.note})" if f.note else "") for f in rep.features}

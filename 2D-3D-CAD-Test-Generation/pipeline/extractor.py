@@ -133,6 +133,19 @@ TITLE BLOCK & STANDARD:
 - Identify drawing_standard (ASME/ISO/DIN) and units (inch vs mm; fractional inches
   are still "inch").
 
+MATERIAL (material_extraction):
+- Search EVERY page: the title block material field, general notes, any BOM, and detail
+  callouts. Copy the exact text into raw_text and cite it in evidence (page, region, quote).
+- status: specified (one clear material), not_specified (the drawing names none: leave
+  raw_text and normalized_candidate null and evidence empty), ambiguous, conflicting (two
+  notes disagree: list them in alternatives), unreadable (a scan you cannot read - that is
+  NOT the same as absent). A blank, dash or N/A material field means not_specified.
+- Never infer a material from the shape, colour, weight, part name or intended use.
+- Keep the exact grade, condition and temper (4140 vs 1045, 6061-T6 vs 6061). Put coating,
+  plating, anodize, heat treatment, finish, hardness and stock form in their own fields,
+  never in the base material.
+- Also keep the plain `material` string as the title-block text (or empty).
+
 VIEWS:
 - Identify and classify EVERY view (Front/Top/Right/Section/Detail/Auxiliary/...).
 - For each view list which dimension ids are readable in it (dimensions_shown),
