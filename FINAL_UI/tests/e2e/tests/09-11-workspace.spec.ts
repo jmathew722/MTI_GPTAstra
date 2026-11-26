@@ -34,6 +34,9 @@ test.describe('Splitter, drawer, focus overlay, markup', () => {
     await page.reload();
     await page.evaluate(() => { location.hash = '#/workspace'; });
     await expect(page.locator('#splitter')).toHaveAttribute('aria-valuenow', String(moved));
+    // v6: the open/closed flag is never restored (the drawer starts closed on every mount); the dragged height is.
+    await expect(page.locator('#dr-toggle')).toHaveAttribute('aria-expanded', 'false');
+    await page.locator('#dr-toggle').click();
     await expect(page.locator('#dr-toggle')).toHaveAttribute('aria-expanded', 'true');
     await expect(page.locator('#dr-resize')).toHaveAttribute('aria-valuenow', String(h1));
     await page.locator('#dr-toggle').click();

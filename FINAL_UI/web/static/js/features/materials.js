@@ -38,7 +38,7 @@
     S.busy = false; renderLibrary(); emit(); loadSelected(true);
     if (msg) { toast(msg, 'ok'); announce(msg); }
   }
-  function failed(e) { S.busy = false; S.error = err(e); renderLibrary(); announce('Material library: ' + S.error); }
+  function failed(e) { S.busy = false; S.error = err(e); renderLibrary(); emit(); announce('Material library: ' + S.error); }
 
   function ext(n) { var m = /\.[^./\\]+$/.exec(n || ''); return m ? m[0].toLowerCase() : ''; }
   function pickFolder(files) {
@@ -398,6 +398,7 @@
     cached: cached, entry: entry, load: loadPart, onChange: function (fn) { listeners.push(fn); }, batchFor: batchFor, compactOf: compactOf, renderSection: renderSection,
     openCatalog: openCatalog, materialCell: materialCell, costCell: costCell, batchLine: batchLine, runCatalogNode: runCatalogNode, focusControl: focusControl, settings: function () { return S.settings; }, statusChip: statusChip,
     reloadSettings: loadSettings,
+    libError: function () { var l = S.settings && S.settings.library; return S.error || (l && l.error) || ''; },
     init: function () {
       var rem = McA.persist.get(McA.persist.KEYS.materialLibrary, null);
       if (rem && rem.name) $('mat-lib-line').textContent = rem.name + ' · ' + rem.entries + ' material' + (rem.entries === 1 ? '' : 's');

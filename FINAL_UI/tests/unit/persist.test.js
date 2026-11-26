@@ -47,7 +47,7 @@ test('ui defaults, save and load, reset clears only mca.ui.* keys', () => {
   P.saveUi(ui);
   P.set(P.KEYS.session, 'keepme');
   const back = P.loadUi();
-  assert.deepEqual(back, ui);
+  assert.deepEqual(back, Object.assign({}, ui, { drawerOpen: false }), 'drawer open flag is never restored (v6)');
   P.resetUi();
   assert.deepEqual(P.loadUi(), P.uiDefaults());
   assert.equal(P.get(P.KEYS.session, null), 'keepme');

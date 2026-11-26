@@ -1,0 +1,20 @@
+Multi-view build: 1 part(s)
+[STAGE] Overview analysis 117C
+[OVERVIEW] Overview image classified: front, side
+[STAGE] Extracting 117C
+[STAGE] Spec reconciliation 117C
+[SPEC] HIGH: hole diameter differs between views
+[STAGE] Resolving ambiguities 117C
+[STAGE] Verifying extracted data 117C
+[PREVAL] PASS: CadQuery pre-validation
+[STAGE] Building macros 117C
+[STAGE] Pre-validating (CadQuery) 117C
+[PREVAL] PASS: volume within tolerance
+[STAGE] Building .sldprt 117C
+[STAGE] Verifying must-meet constraints 117C
+[MM] MM1 PASS: required 4, measured 4
+[STAGE] Final checks 117C
+[STAGE] Exporting 117C
+[delivered outputs to] output/117C
+[delivered outputs to] FINAL_OUTPUTs/117C
+[STAGE] Done

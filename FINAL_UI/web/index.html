@@ -206,25 +206,29 @@
               <input id="batch-folder" class="dz-input" type="file" webkitdirectory multiple>
             </div>
             <!-- Phase 1 materials: the library control sits directly below Upload folder (ui: features/materials.js) -->
-            <div class="mat-lib" id="mat-lib" role="group" aria-labelledby="mat-lib-t">
-              <div class="cap-c" id="mat-lib-t">Material Library Folder</div>
-              <div class="row2">
-                <label class="btn secondary sm" for="mat-lib-folder" id="mat-lib-lbl" title="Choose the folder that holds your company's materials.json, .csv or .sldmat files"><span data-icon="folder" data-size="16"></span>Browse Folder</label>
-                <input id="mat-lib-folder" class="dz-input" type="file" webkitdirectory multiple>
+            <div class="mat-lib msec" id="mat-lib" role="group" aria-labelledby="mat-acc-btn" data-open="false">
+              <h3 class="msec-h"><button type="button" class="msec-btn" id="mat-acc-btn" aria-expanded="false" aria-controls="mat-acc-body"><span class="msec-t">Material Selection</span><span class="msec-sum" id="mat-acc-sum" data-tone="none">No material specified</span><span class="msec-chev" data-icon="chevron-down" data-size="16"></span></button></h3>
+              <p class="msec-warn" id="mat-acc-warn" role="status" hidden></p>
+              <div class="msec-body" id="mat-acc-body" role="region" aria-labelledby="mat-acc-btn" hidden>
+                <div class="cap-c" id="mat-lib-t">Material Library Folder</div>
+                <div class="row2">
+                  <label class="btn secondary sm" for="mat-lib-folder" id="mat-lib-lbl" title="Choose the folder that holds your company's materials.json, .csv or .sldmat files"><span data-icon="folder" data-size="16"></span>Browse Folder</label>
+                  <input id="mat-lib-folder" class="dz-input" type="file" webkitdirectory multiple>
+                </div>
+                <p id="mat-lib-line" class="mat-lib-line" role="status" aria-live="polite">Loading material library…</p>
+                <p id="mat-lib-err" class="reason is-warn" role="alert" hidden></p>
+                <div class="row2 mat-lib-acts">
+                  <button id="mat-lib-view" class="btn ghost sm" type="button">View catalog</button>
+                  <button id="mat-lib-refresh" class="btn ghost sm" type="button" disabled aria-describedby="mat-lib-why">Refresh</button>
+                  <button id="mat-lib-clear" class="btn ghost sm" type="button" disabled aria-describedby="mat-lib-why">Use demo catalog</button>
+                </div>
+                <p id="mat-lib-why" class="reason"></p>
+                <details class="more" id="mat-lib-path-box"><summary>Enter a folder path</summary>
+                  <div class="fld inline"><label for="mat-lib-path">Folder on the server machine</label><input id="mat-lib-path" class="input-c" type="text" autocomplete="off" spellcheck="false" placeholder="Full path of the folder"></div>
+                  <button id="mat-lib-path-go" class="btn secondary sm" type="button" disabled>Use this folder</button>
+                </details>
+                <div id="mat-part" class="mat-part" aria-live="polite"></div>
               </div>
-              <p id="mat-lib-line" class="mat-lib-line" role="status" aria-live="polite">Loading material library…</p>
-              <p id="mat-lib-err" class="reason is-warn" role="alert" hidden></p>
-              <div class="row2 mat-lib-acts">
-                <button id="mat-lib-view" class="btn ghost sm" type="button">View catalog</button>
-                <button id="mat-lib-refresh" class="btn ghost sm" type="button" disabled aria-describedby="mat-lib-why">Refresh</button>
-                <button id="mat-lib-clear" class="btn ghost sm" type="button" disabled aria-describedby="mat-lib-why">Use demo catalog</button>
-              </div>
-              <p id="mat-lib-why" class="reason"></p>
-              <details class="more" id="mat-lib-path-box"><summary>Enter a folder path</summary>
-                <div class="fld inline"><label for="mat-lib-path">Folder on the server machine</label><input id="mat-lib-path" class="input-c" type="text" autocomplete="off" spellcheck="false" placeholder="Full path of the folder"></div>
-                <button id="mat-lib-path-go" class="btn secondary sm" type="button" disabled>Use this folder</button>
-              </details>
-              <div id="mat-part" class="mat-part" aria-live="polite"></div>
             </div>
             <p id="req-warn" class="req-warn" role="status"></p>
             <button id="save-part-btn" class="btn" type="button" disabled aria-describedby="save-why">Save part</button>
@@ -241,12 +245,26 @@
             <button id="run-btn" class="btn gold run-main" type="button" aria-disabled="true" aria-describedby="run-reason"><span data-icon="play" data-size="16"></span><span class="run-lbl">Run Pipeline</span></button>
             <button id="cancel-btn" class="btn danger sm" type="button" hidden>Cancel</button>
             <span id="run-reason" class="reason trk-reason">Select or create a part.</span>
-            <div id="run-estimate" class="run-est" role="group" aria-label="Run estimate" aria-live="off" data-state="loading">
-              <p class="est-line" id="est-time">Estimated time: calculating</p>
-              <p class="est-line" id="est-cost">Estimated cost: calculating</p>
-              <p class="est-live" id="est-live" hidden></p>
-              <p class="est-detail" id="est-detail"></p>
-            </div>
+            <section class="rt-acc msec" id="rt-acc" data-open="false">
+              <h3 class="msec-h"><button type="button" class="msec-btn" id="rt-acc-btn" aria-expanded="false" aria-controls="run-estimate"><span class="msec-t">Runtime &amp; cost</span><span class="msec-sum" id="rt-acc-sum" data-tone="none">Idle</span><span class="msec-chev" data-icon="chevron-down" data-size="16"></span></button></h3>
+              <div id="run-estimate" class="run-est msec-body" role="group" aria-label="Runtime and cost" aria-live="off" data-state="loading" hidden>
+                <p class="rt-h">Run</p>
+                <div class="rt-row"><span class="k">Status</span><span class="v" id="rt-status">Not running</span></div>
+                <div class="rt-row" id="est-time"><span class="k">Estimated time:</span> <span class="v">calculating</span></div>
+                <p class="rt-h">OpenAI execution cost <span class="rt-note">(model calls only)</span></p>
+                <div class="rt-row" id="est-cost"><span class="k">Estimated cost:</span> <span class="v">calculating</span></div>
+                <div class="rt-live" id="rt-live" hidden>
+                  <div class="rt-row"><span class="k">Elapsed</span><span class="v" id="rt-elapsed">N/A</span></div>
+                  <div class="rt-row"><span class="k">Time left</span><span class="v" id="rt-left">N/A</span></div>
+                  <div class="rt-row"><span class="k">Cost so far</span><span class="v" id="rt-sofar">N/A</span></div>
+                  <div class="rt-row" id="rt-batch-row" hidden><span class="k">Part</span><span class="v" id="rt-batch">N/A</span></div>
+                </div>
+                <p class="rt-h">Material cost <span class="rt-note">(separate, not OpenAI)</span></p>
+                <div class="rt-row"><span class="k">Selected part</span><span class="v" id="rt-material">N/A</span></div>
+                <p class="est-live" id="est-live" hidden></p>
+                <p class="est-detail" id="est-detail"></p>
+              </div>
+            </section>
             <div class="row2 row-actions">
               <button id="run-all-btn" class="btn secondary" type="button" disabled aria-describedby="runall-why"><span data-icon="play-all" data-size="16"></span>Run All Parts</button>
             </div>
@@ -411,6 +429,7 @@
 <script defer src="/static/js/logic/scoringview.js"></script>
 <script defer src="/static/js/logic/planview.js"></script>
 <script defer src="/static/js/logic/materialview.js"></script>
+<script defer src="/static/js/logic/collapsibles.js"></script>
 <script defer src="/static/js/logic/resulttone.js"></script>
 <script defer src="/static/js/logic/reverseview.js"></script>
 <script defer src="/static/js/logic/registry.js"></script>
@@ -430,6 +449,7 @@
 <script defer src="/static/js/ui/sidebar.js"></script>
 <script defer src="/static/js/ui/tracker.js"></script>
 <script defer src="/static/js/ui/cost-key.js"></script>
+<script defer src="/static/js/ui/accordions.js"></script>
 <script defer src="/static/js/ui/split.js"></script>
 <script defer src="/static/js/ui/inspector.js"></script>
 <script defer src="/static/js/ui/drawer.js"></script>

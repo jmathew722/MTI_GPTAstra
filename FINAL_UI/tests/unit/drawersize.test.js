@@ -61,3 +61,14 @@ test('sanitize drops stale collapsed/tiny/junk persisted heights', () => {
   assert.equal(D.sanitize(NaN, 320), 320);
   assert.equal(D.sanitize(undefined, 320), 320);
 });
+
+test('v6 autoHeight: unsized drawer takes the space the canvas can spare, never below the default', () => {
+  assert.equal(D.autoHeight(880), 880 - D.CANVAS_MIN);
+  assert.equal(D.autoHeight(560), 560 - Math.round(560 * 0.4));          // small window: the canvas keeps 40%, not a fixed 300px
+  assert.equal(D.autoHeight(100), D.MIN);
+  assert.ok(D.autoHeight(380) >= D.MIN && 380 - D.autoHeight(380) >= 150);
+  // resolve uses it only when the user never resized; a remembered height still wins
+  assert.equal(D.resolve({ size: 'remembered', remembered: null, auto: 580, fit: 400, min: 160, max: 880 }), 580);
+  assert.equal(D.resolve({ size: 'remembered', remembered: 250, auto: 580, fit: 400, min: 160, max: 880 }), 250);
+  assert.equal(D.resolve({ size: 'remembered', remembered: null, auto: 2000, fit: 400, min: 160, max: 880 }), 880);
+});

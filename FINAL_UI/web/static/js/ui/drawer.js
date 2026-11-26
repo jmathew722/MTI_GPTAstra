@@ -46,8 +46,8 @@
     });
     if (!el.page.offsetParent) return;                       // workspace page not shown: nothing to measure
     var size = sizeState(), max = maxH();
-    var remembered = DS.rememberedFor(u.drawerHeights, DS.viewportClass(window.innerWidth), DS.sanitize(u.drawerHeight, DEF));
-    var h = DS.resolve({ size: size, remembered: remembered, fit: open ? fitH() : DEF, min: MIN, max: max });
+    var remembered = DS.rememberedFor(u.drawerHeights, DS.viewportClass(window.innerWidth), null);   // null: the user never resized here
+    var h = DS.resolve({ size: size, remembered: remembered, auto: DS.autoHeight(max), fit: open ? fitH() : DEF, min: MIN, max: max });
     curH = h;
     el.drawer.style.setProperty('--dr-h', h + 'px');
     el.page.setAttribute('data-dr-max', String(open && h >= max - 1));
@@ -172,10 +172,8 @@
       McA.store.subscribe(function (s) { return s.route; }, function () { setTimeout(renderLayout, 0); });
       McA.store.subscribe(function (s) { return s.run; }, function (run) {
         renderSummary();
-        var prev = lastRunState; lastRunState = run && run.state;
-        if ((prev === 'running' || prev === 'queued') && (lastRunState === 'failed' || lastRunState === 'succeeded_with_warnings') && !ui().drawerOpen) {
-          McA.dom.setUi({ drawerOpen: true, drawerMode: 'results' });
-        }
+        /* v6: a finished or failed run never expands the drawer by itself. */
+        lastRunState = run && run.state;
       });
       McA.store.subscribe(function (s) { return s.outputs && s.outputs.payload; }, renderSummary);
       lastRunState = (McA.store.get().run || {}).state;

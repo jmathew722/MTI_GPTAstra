@@ -6,6 +6,12 @@
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
   var MIN = 160, DEFAULT = 320, SIZES = ['remembered', 'fit', 'max'];
+  /* Until the user drags the handle, an opened drawer takes the space the viewers can spare: the canvas keeps CANVAS_MIN px. */
+  var CANVAS_MIN = 300;
+
+  /** Default expanded height when the user has not resized: the available maximum minus the canvas share. The canvas keeps
+   *  CANVAS_MIN px, or 40% of the available space when that is less (small windows, high zoom), so neither side collapses. */
+  function autoHeight(max) { max = max || 0; return Math.max(MIN, max - Math.min(CANVAS_MIN, Math.round(max * 0.4))); }
 
   /** Available drawer height. Grid layout: page minus the rows above it and their gaps (header | tracker |
    *  canvas collapsed to 0 | drawer = three gaps). Flow layout (narrow): the visible scroll area. */
@@ -20,6 +26,7 @@
     var size = SIZES.indexOf(o.size) >= 0 ? o.size : 'remembered';
     if (size === 'max') return max;
     if (size === 'fit') return clamp(typeof o.fit === 'number' ? o.fit : DEFAULT, min, max);
+    if (typeof o.remembered !== 'number' && typeof o.auto === 'number') return clamp(o.auto, min, max);
     return clamp(typeof o.remembered === 'number' ? o.remembered : DEFAULT, min, max);
   }
   function viewportClass(width) { return width < 1100 ? 'narrow' : width < 1440 ? 'medium' : 'wide'; }
@@ -31,6 +38,6 @@
   function sanitize(v, fallback) { return typeof v === 'number' && isFinite(v) && v >= MIN ? v : fallback; }
   function toggleMax(size) { return size === 'max' ? 'remembered' : 'max'; }
 
-  return { MIN: MIN, DEFAULT: DEFAULT, SIZES: SIZES, maxHeight: maxHeight, resolve: resolve, clamp: clamp,
+  return { MIN: MIN, DEFAULT: DEFAULT, CANVAS_MIN: CANVAS_MIN, autoHeight: autoHeight, SIZES: SIZES, maxHeight: maxHeight, resolve: resolve, clamp: clamp,
            viewportClass: viewportClass, rememberedFor: rememberedFor, sanitize: sanitize, toggleMax: toggleMax };
 });

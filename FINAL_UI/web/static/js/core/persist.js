@@ -121,7 +121,8 @@
     if (ins) { d.inspectorCollapsed = ins.collapsed; d.inspectorOpen = ins.open; }
     var dr = get(KEYS.drawer, null);
     if (dr) {
-      d.drawerOpen = dr.open; d.drawerHeight = dr.height; d.drawerSection = dr.section;
+      /* The open/closed flag is never restored: every workspace mount starts with the drawer closed (v6). */
+      d.drawerOpen = false; d.drawerHeight = dr.height; d.drawerSection = dr.section;
       if (dr.size === 'fit' || dr.size === 'max' || dr.size === 'remembered') d.drawerSize = dr.size;
       if (dr.heights && typeof dr.heights === 'object') {
         ['narrow', 'medium', 'wide'].forEach(function (c) {

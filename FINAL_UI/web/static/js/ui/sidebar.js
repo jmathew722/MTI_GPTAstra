@@ -32,6 +32,8 @@
     var go = function () {
       McA.dom.dispatch('intake/reset');
       McA.dom.dispatch('parts/select', null);
+      McA.dom.setUi({ drawerOpen: false });
+      if (McA.accordions) McA.accordions.reset();
       McA.router.go('home');
     };
     closeTransient();

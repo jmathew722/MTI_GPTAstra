@@ -45,13 +45,23 @@
 
   /* ── render ───────────────────────────────────────────────────────────── */
   function set(id, text, hide) { var e = $(id); if (!e) return; e.textContent = text || ''; if (hide !== undefined) e.hidden = !!hide; }
+  /* "Estimated time: 2-4 min" as an aligned label/value row. textContent stays the full sentence (tests, screen readers). */
+  function setRow(id, text) {
+    var e = $(id); if (!e) return;
+    var i = String(text || '').indexOf(': '), k = i < 0 ? '' : text.slice(0, i + 1), v = i < 0 ? (text || '') : text.slice(i + 2);
+    e.replaceChildren(); var ks = document.createElement('span'), vs = document.createElement('span');
+    ks.className = 'k'; ks.textContent = k; vs.className = 'v'; vs.textContent = v;
+    if (k) e.append(ks, document.createTextNode(' ')); e.append(vs);
+  }
+  function setText(id, text) { var e = $(id); if (e) e.textContent = text; }
+  var STATE_WORD = { succeeded: 'Completed', succeeded_with_warnings: 'Completed with warnings', failed: 'Failed', cancelled: 'Cancelled', idle: 'Not running' };
   function render() {
     var box = $('run-estimate'); if (!box || !V) return;
     var s = S(), sl = selected(s), isRun = running(s);
     var d = V.describe(sl ? single : (single && single.inputs ? single : { inputs: 0 }), err);
     box.setAttribute('data-state', d.state);
-    set('est-time', d.time);
-    set('est-cost', d.cost);
+    setRow('est-time', d.time);
+    setRow('est-cost', d.cost);
     var detail = d.detail;
     if (batch && batch.inputs > 1) {
       var bd = V.describe(batch);
@@ -62,24 +72,42 @@
     if (rc && rc.checked) detail += (detail ? ' · ' : '') + 'Recording adds a short pause after each feature.';
     set('est-detail', detail);
     var live = $('est-live'), a = V.actual(s.run, lastKey === (sl ? s.session.id + '|' + sl.part : '') ? last : null, Date.now());
+    var C = McA.collapsibles, ck = McA.selectors && McA.selectors.costKey ? McA.selectors.costKey(s) : null;
+    var rows = $('rt-live');
+    setText('rt-status', isRun ? (s.run.state === 'queued' ? 'Queued' : 'Run in progress') : (STATE_WORD[s.run && s.run.state] || 'Not running'));
     if (isRun && a && a.kind === 'live') {
       var rem = V.remaining(single, Date.now() - s.run.startedAt);
-      var ck = McA.selectors && McA.selectors.costKey ? McA.selectors.costKey(s) : null;
-      var cost = ck && ck.runText ? ck.runText : '';
-      var txt = 'Running: ' + a.elapsed + ' elapsed' + (rem ? ' · ' + rem.text : '') + ' · cost so far ' + (cost || 'unavailable');
-      if (s.batch && s.batch.active) txt += ' · part ' + (s.batch.index + 1) + ' of ' + s.batch.queue.length;
-      set('est-live', txt, false); live.setAttribute('data-kind', 'live');
-    } else if (a && (a.kind === 'final' || a.kind === 'unknown') && a.elapsed) {
-      var ck2 = McA.selectors && McA.selectors.costKey ? McA.selectors.costKey(s) : null;
-      var costTxt = a.cost || (a.kind === 'final' && ck2 && ck2.state !== 'empty' && ck2.status !== 'unpriced' && ck2.runText ? ck2.runText : '');
-      var costPart = costTxt ? 'cost ' + costTxt + ' (measured)' : (a.costStatus === 'none' ? 'cost not recorded' : 'cost unavailable');
-      set('est-live', 'Last run' + (a.state ? ' (' + String(a.state).replace(/_/g, ' ') + ')' : '') + ': actual ' + a.elapsed + ' · ' + costPart, false);
-      live.setAttribute('data-kind', 'final');
-    } else set('est-live', '', true);
+      var cost = ck && ck.runText && !/^[–—-]$/.test(ck.runText) ? ck.runText : '';
+      setText('rt-elapsed', a.elapsed || 'N/A'); setText('rt-left', C ? C.leftText(rem) : 'N/A'); setText('rt-sofar', cost || 'N/A');
+      var br = $('rt-batch-row'), inBatch = !!(s.batch && s.batch.active);
+      if (br) br.hidden = !inBatch; if (inBatch) setText('rt-batch', (s.batch.index + 1) + ' of ' + s.batch.queue.length);
+      if (rows) rows.hidden = false;
+      set('est-live', '', true);                       // the rows above replace the one-line text while running: no duplicate
+    } else {
+      if (rows) rows.hidden = true;
+      if (a && (a.kind === 'final' || a.kind === 'unknown') && a.elapsed) {
+        var costTxt = a.cost || (a.kind === 'final' && ck && ck.state !== 'empty' && ck.status !== 'unpriced' && ck.runText ? ck.runText : '');
+        var costPart = costTxt ? 'cost ' + costTxt + ' (measured)' : (a.costStatus === 'none' ? 'cost not recorded' : 'cost unavailable');
+        set('est-live', 'Last run' + (a.state ? ' (' + String(a.state).replace(/_/g, ' ') + ')' : '') + ': actual ' + a.elapsed + ' · ' + costPart, false);
+        live.setAttribute('data-kind', 'final');
+      } else set('est-live', '', true);
+    }
+    renderMaterialRow(sl);
+    if (McA.accordions) McA.accordions.refreshRuntime();
     if (isRun) startTimer(); else stopTimer();
   }
   function startTimer() { if (!timer) timer = setInterval(render, 1000); }
   function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+
+  /* Material cost of the selected part: its own row, never merged with the OpenAI figures above. */
+  function renderMaterialRow(sl) {
+    var M = McA.materials, MV = McA.materialview, t = 'N/A';
+    if (sl && M && MV) {
+      var d = M.cached({ kind: 'part', session: sl.session, part: sl.part });
+      if (d && d.evaluated) { var c = MV.costInfo(d.costing); t = c.available ? c.text + (c.illustrative ? ' (illustrative)' : '') : MV.UNAVAILABLE; }
+    }
+    setText('rt-material', t);
+  }
 
   McA.estimate = {
     refresh: refresh,
@@ -98,7 +126,8 @@
           setTimeout(function () { refreshLast(); refresh(); }, 1200);                // let the server flush the run's final events/ledger
         }
       });
-      st.subscribe(function (s) { return s.outputs; }, render);                        // measured cost arrives with the outputs payload
+      st.subscribe(function (s) { return s.outputs; }, render);
+      if (McA.materials && McA.materials.onChange) McA.materials.onChange(render);                        // measured cost arrives with the outputs payload
       ['no-cache', 'record-run'].forEach(function (id) { var e = $(id); if (e) e.addEventListener('change', function () { refresh(); }); });
       refresh(); refreshLast();
     },

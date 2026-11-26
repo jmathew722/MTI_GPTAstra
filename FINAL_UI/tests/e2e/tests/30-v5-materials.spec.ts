@@ -31,6 +31,8 @@ async function useSession(page: Page, sid: string, part?: string, hash = '#/work
   await page.goto('/' + hash);
   await page.reload();
   await page.waitForFunction(() => !!(window as any).McA && (window as any).McA.store.get().session.id);
+  // v6: Material Selection is a collapsed-by-default accordion; these tests exercise its body.
+  if (hash.startsWith('#/workspace')) await page.evaluate(() => (window as any).McA.accordions && (window as any).McA.accordions.open('mat'));
 }
 async function clearLibrary(request: any) { await request.delete('/api/materials/library'); }
 async function resultsMaterial(page: Page, sid: string, part: string) {
@@ -101,6 +103,8 @@ test.describe('v5: materials', () => {
     await shot(page, 'part-setup-library-loaded-1440x900.png');
     // persists across a reload (server settings)
     await page.reload();
+    await page.waitForFunction(() => !!(window as any).McA && !!(window as any).McA.accordions);
+    await page.evaluate(() => (window as any).McA.accordions.open('mat'));          // v6: collapsed again after a reload
     await expect(page.locator('#mat-lib-line')).toHaveText(/2 materials · 1 rejected/, { timeout: 15_000 });
     // preview shows the company library first, with its rejection reason
     await page.click('#mat-lib-view');

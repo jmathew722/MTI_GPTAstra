@@ -286,3 +286,38 @@
 #hdr-cost[data-status="unpriced"]:not([data-state="empty"]) .chip-v { color: var(--ink-3); font-style: italic; }
 #hdr-cost[data-state="running"] { border-color: color-mix(in srgb, var(--gold) 45%, transparent); }
 @media (max-width: 760px) { #hdr-cost .chip-v { min-width: 0; white-space: normal; } }
+
+/* ── v6: workspace accordions (Material Selection, Runtime & cost) ─────────────────────────────────
+   One header row: label | concise status | chevron. The status truncates with an ellipsis (full text in the
+   title); nothing is clipped or scrolls sideways. No coloured edge line anywhere: tone is text colour only. */
+.msec-h { margin: 0; font-size: inherit; }
+.msec-btn { width: 100%; min-height: 36px; display: flex; align-items: center; gap: var(--sp-2); padding: 4px 2px; background: none; border: 0; color: var(--ink); text-align: left; font: inherit; border-radius: var(--r-sm); cursor: pointer; }
+.msec-btn:hover { background: var(--surface-2); }
+.msec-btn:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.msec-t { flex: none; font-weight: 600; font-size: 14px; }
+.msec-sum { flex: 1 1 0; min-width: 0; text-align: right; font-size: var(--fs-small); color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.msec-sum[data-tone="green"], .msec-sum[data-tone="ok"] { color: var(--ok-text); }
+.msec-sum[data-tone="amber"], .msec-sum[data-tone="warn"] { color: var(--warn); }
+.msec-sum[data-tone="orange"] { color: var(--warn); }
+.msec-sum[data-tone="red"], .msec-sum[data-tone="err"] { color: var(--err-text); }
+.msec-sum[data-tone="run"] { color: var(--gold); font-variant-numeric: tabular-nums; }
+.msec-chev { flex: none; color: var(--ink-3); display: grid; transition: transform .15s; }
+.msec-btn[aria-expanded="false"] .msec-chev { transform: rotate(-90deg); }
+@media (prefers-reduced-motion: reduce) { .msec-chev { transition: none; } }
+.msec-body { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; padding-top: var(--sp-2); border-top: 1px solid var(--line-soft); margin-top: 2px; }
+.msec-body[hidden] { display: none; }
+.msec-warn { margin: 0; font-size: var(--fs-small); color: var(--warn); overflow-wrap: anywhere; }
+.msec-warn[hidden] { display: none; }
+.mat-lib.msec { gap: 0; padding: var(--sp-2) var(--sp-3); }
+.rt-acc.msec { margin: var(--sp-2) 0 var(--sp-1); padding: var(--sp-1) var(--sp-3); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.rt-acc .run-est.msec-body { margin: 0; padding: var(--sp-2) 0 0; border-radius: 0; border-width: 1px 0 0; background: none; gap: 4px; }
+.rt-h { margin: var(--sp-1) 0 0; font-size: var(--fs-caption); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); }
+.rt-h:first-child { margin-top: 0; }
+.rt-note { text-transform: none; letter-spacing: 0; }
+.rt-row { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: var(--sp-3); font-size: var(--fs-small); min-width: 0; font-variant-numeric: tabular-nums; }
+.rt-row .k { color: var(--ink-3); }
+.rt-row .v { color: var(--ink); text-align: right; overflow-wrap: anywhere; min-width: 0; }
+.rt-live { display: flex; flex-direction: column; gap: 4px; padding-top: var(--sp-1); border-top: 1px dashed var(--line); }
+.rt-live[hidden] { display: none; }
+.rt-live .v { color: var(--gold); }
+.rt-row[hidden] { display: none; }

@@ -147,6 +147,8 @@ test.describe('v4: Run Pipeline estimates', () => {
     await page.evaluate(([sid]: string[]) => { const McA = (window as any).McA; McA.persist.set(McA.persist.KEYS.selected, { session: sid, part: 'EstA' }); }, [session]);
     await page.goto('/#/workspace'); await page.reload();
     const box = page.locator('#run-estimate');
+    await expect(box).toBeHidden();                         // v6: Runtime & cost is collapsed by default
+    await page.click('#rt-acc-btn');
     await expect(box).toBeVisible();
     await expect(page.locator('#est-time')).toHaveText(/^Estimated time: .*min/, { timeout: 15_000 });
     await expect(page.locator('#est-cost')).toHaveText(/^Estimated cost: \$\d+\.\d\d.\$\d+\.\d\d$/);
@@ -188,6 +190,7 @@ test.describe('v4: Run Pipeline estimates', () => {
     await page.evaluate(([sid, p]: string[]) => { const McA = (window as any).McA; McA.persist.set(McA.persist.KEYS.selected, { session: sid, part: p }); }, [session, part]);
     await page.goto('/#/workspace'); await page.reload();
     const live = page.locator('#est-live');
+    await page.click('#rt-acc-btn');                        // v6: expand Runtime & cost
     await expect(live).toBeVisible({ timeout: 15_000 });
     await expect(live).toContainText('Last run');
     await expect(live).toContainText('actual 4 min');                                       // the newest seeded run took 240 s

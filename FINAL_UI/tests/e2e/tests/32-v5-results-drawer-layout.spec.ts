@@ -114,7 +114,7 @@ test.describe('v5: Pipeline Results drawer layout', () => {
     await page.locator('#dr-resize').focus(); await page.keyboard.press('ArrowUp'); await page.waitForTimeout(250);
     const g2 = await geo(page); expect(g2.drawerH).toBeGreaterThanOrEqual(g.drawerH);
     await page.reload(); await page.waitForTimeout(1000);
-    const g3 = await geo(page); expect(g3.expanded).toBe('true'); expect(g3.mainScroll).toBeLessThanOrEqual(1);
+    const g3 = await geo(page); expect(g3.expanded, 'v6: the open flag is never restored on reload').toBe('false'); expect(g3.mainScroll).toBeLessThanOrEqual(1);
   });
 
   test('96 navigation and content scroll independently; every section keeps the layout bounded; Open full page works', async ({ page, request }) => {

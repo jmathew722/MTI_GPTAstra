@@ -191,3 +191,7 @@ and the first preview page. Tests: `tests/server/test_v5_reverse.py` (fake engin
 ### 2026-11-26: Results drawer layout fix
 
 Expanded Workspace "Pipeline Results" drawer looked like a shallow strip over a large empty dark area. Root cause (traced in Chromium): `.sr-only` status spans inside the drawer nav (`.res-link .res-st`, `position:absolute`) had no positioned ancestor inside the nav's scroll box, so they escaped its clipping and stretched `#main`'s scrollable area by about 390px of dead space under the drawer (scrollHeight 1289 vs 900). Fix: `.res-link`, `.dr-secs`, `.dr-pane`, `.dr-tools` are `position: relative`; `.page-ws` is `overflow: clip` on desktop (>=800px) so nothing can widen the scroll area; stale persisted heights go through new pure `drawerSize.sanitize`. Tests: `tests/unit/drawersize.test.js` (+1), browser `32-v5-results-drawer-layout` (7). Report: `docs/verification/v5/DRAWER_LAYOUT_REPORT.md`.
+
+### 2026-11-26: Workspace collapsibles (v6)
+
+Material Selection (inside Part Setup) and Runtime & cost (under Pipeline Actions) are now collapsed-by-default accordions with one-line summaries (`logic/collapsibles.js`, `ui/accordions.js`, `.msec-*` in `workspace.css`). The Pipeline Results drawer always starts closed (the persisted open flag is no longer restored, a finished run no longer opens it) and, until the user drags the handle, opens to the space the viewers can spare (`DS.autoHeight`). New spec `33-v6-workspace-collapsibles`, unit tests `collapsibles.test.js`. Report: `docs/verification/v6/WORKSPACE_REPORT.md`.
