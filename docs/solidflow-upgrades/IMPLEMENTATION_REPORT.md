@@ -29,7 +29,7 @@ Phase 1 detail: `PHASE_1_REPORT.md`. API proof: `api_validation.md`. Dependencie
 ## 2. Gate status (test plan `06_TEST_AND_ACCEPTANCE.md`)
 | Gate | Result |
 |---|---|
-| A Static / unit | **Done.** `tests/test_materials.py` 59, `tests/test_reverse.py` 58 (+1 skipped: symlinks not permitted), full Python suite 1506+ tests, exit 0. |
+| A Static / unit | **Done.** `tests/test_materials.py` 59, `tests/test_reverse.py` 58 (+1 skipped: symlinks not permitted), full Python suite 1448 passed / 67 skipped / 0 failed. |
 | B Installed API | **Done.** `api_validation.md`: revision `33.5.0` recorded, every member proven by a live call, gotchas listed. No mock was used as evidence of live CAD. |
 | C Integration | **Done for the generated fixture set** (section 3); **not done** for customer-supplied parts or engineer-prepared reference drawings. |
 | D Visual | Sheets rasterised and inspected (`docs/phase2-evidence/`); UI screenshots at 1280 / 1440 / 1920 in `FINAL_UI/docs/verification/v5/`. Layout audit (accent clearance, truncated labels, clipped text, sideways scroll) passes on every page including the new Material section, at 1920 / 1440 / 1366 / 1100 / 800 / 390 with the sidebar open and collapsed. |
