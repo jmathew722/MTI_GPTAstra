@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import time
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -200,3 +201,35 @@ def test_run_part_accepts_record_and_clears_stale_recordings():
     from pipeline import ir_pipeline
     sig = inspect.signature(ir_pipeline.run_part)
     assert "record" in sig.parameters and sig.parameters["record"].default is None
+
+
+# ------------------------------------------------------------------ window-only capture guarantees (v5 recording fixes)
+
+def test_no_desktop_capture_code_remains():
+    src = Path(rec.__file__).read_text(encoding="utf-8")
+    for banned in ("GdiSource", "BitBlt", "GetDesktopWindow", "ImageGrab", "mss(", "SRCCOPY", "GetDC(0)"):
+        assert banned not in src, banned
+
+
+def test_is_occluded_fails_closed_for_a_non_window():
+    assert rec.is_occluded(0) is True
+    assert rec.is_occluded(123456789) is True
+
+
+def test_validate_window_rejects_non_window_and_reports_reason():
+    v = rec.validate_window(0)
+    assert v["ok"] is False and v["reason"]
+
+
+def test_window_state_lost_for_missing_handle():
+    assert rec.window_state(987654321, 1) == "lost"
+
+
+def test_capability_has_no_desktop_backend():
+    cap = rec.capability()
+    assert cap["backend"] in (None, "printwindow", "wgc")
+
+
+def test_frame_sources_are_window_only():
+    assert rec.PrintWindowSource.name == "printwindow"
+    assert rec.WgcSource.name == "wgc"

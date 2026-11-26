@@ -1425,7 +1425,8 @@ def origin_centered(bbox: list[float], tol_m: float = 1e-6) -> bool:
 def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: dict[str, Any],
                        out_dir: Path, template: Optional[str] = None,
                        pmap: Optional[PlaneMap] = None, progress=None,
-                       convention: str = "mti", keep_open: bool = False, material: Optional[dict] = None) -> SwBuildReport:
+                       convention: str = "mti", keep_open: bool = False, material: Optional[dict] = None,
+                       on_ready=None, on_built=None) -> SwBuildReport:
     """Build the plan in SolidWorks, verifying each feature against the CadQuery reference.
 
     ``convention``: ``"mti"`` (centered origin, Top-plane base, Mid Plane, Up To Next) or
@@ -1439,6 +1440,11 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         raise ValueError(f"convention must be one of {CONVENTIONS}")
     pmap = pmap or probe_plane_map(sw_app, template)
     sw = _SW(sw_app, plan, dims, fmap, pmap, template, convention)
+    if on_ready is not None:       # the new part document exists and is active: a recording may start now, before the first feature
+        try:
+            on_ready(sw.doc)
+        except Exception as e:     # noqa: BLE001 - a recording problem never fails the build
+            log.warning("on_ready hook failed: %s", e)
     skipped = fmap.get("skipped", {})
     features = list(plan.features)
     i = 0
@@ -1535,6 +1541,11 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
             sw.report.material = {"status": "assignment_failed", "errors": [f"{type(e).__name__}: {e}"]}
             log.warning("Material step failed (geometry kept): %s", e)
     sw.report.sldprt = save_model(sw.doc, f"{plan.part}_ir", out_dir)
+    if on_built is not None:       # saved and rebuilt: the recording shows the final model, holds it, and ends BEFORE the STL export / document close
+        try:
+            on_built(sw.doc)
+        except Exception as e:     # noqa: BLE001
+            log.warning("on_built hook failed: %s", e)
     try:  # a mesh of the real, finished part, for 3D viewers (best effort; SaveAs3 picks the
         # translator from the extension, exactly as the PNG export below does)
         stl_path = (Path(out_dir) / f"{plan.part}_ir.stl").resolve()

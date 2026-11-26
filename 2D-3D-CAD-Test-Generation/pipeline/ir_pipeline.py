@@ -260,7 +260,7 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
                 rec = swrec.SolidWorksRecorder(out, part=spec.part, run_id=tel.run_id or _tracker_run_id(_tracker),
                                                source_sha256=sha256_file(spec.views) if spec.views.is_file() else "",
                                                sw_app=sw_app, total_features=len(plan.features))
-                rec.start()                                                 # never raises; failure goes to the manifest
+                # the recording starts from compile_solidworks' on_ready hook (new part open, before the first feature) and ends from its on_built hook
 
             def _on_feature_rec(f, r):
                 _on_feature(f, r)
@@ -268,7 +268,9 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
                     rec.after_feature(f.id, f.kind, r.status)
             try:
                 rep = compile_solidworks(sw_app, plan, dims, cq.feature_map, out, template, pmap,
-                                         progress=_on_feature_rec, material=material)
+                                         progress=_on_feature_rec, material=material,
+                                         on_ready=(lambda d: rec.start()) if rec is not None else None,
+                                         on_built=(lambda d: rec.finish_build()) if rec is not None else None)
             except BaseException as e:   # noqa: BLE001 - close the video, then let the run fail as before
                 if rec is not None:
                     rec.stop(outcome="failed", error=f"{type(e).__name__}: {e}")

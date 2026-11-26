@@ -1,0 +1,95 @@
+{
+  "status": "ready",
+  "run_id": "run_untracked",
+  "part": "A001151E",
+  "source_sha256": "bd55705bb60d4bdbb8607b06d5f9d2b703b546aee53520a09b860fd6a119bf10",
+  "video": "solidworks_recording.mp4",
+  "poster": "solidworks_recording_poster.jpg",
+  "backend": "printwindow",
+  "capture_method": "printwindow-window (PrintWindow PW_RENDERFULLCONTENT of one validated window; unaffected by covering windows; no desktop capture)",
+  "target": {
+    "pid": 26448,
+    "hwnd": 721112,
+    "exe": "SLDWORKS.exe",
+    "window_class": "Afx:0000000140000000:8:0000000000010003:0000000000000000:00000000031F1273",
+    "title_prefix": "SOLIDWORKS",
+    "identity_ok": true,
+    "identity_checks": {
+      "visible": true,
+      "top_level": true,
+      "unowned": true,
+      "solidworks_exe": true,
+      "same_session": true,
+      "main_window_class": true
+    }
+  },
+  "session": {
+    "sw_pid": 26448,
+    "doc_at_start": "",
+    "docs_open": null
+  },
+  "started_at": "2026-11-26T04:53:04-0500",
+  "ended_at": "2026-11-26T04:53:33-0500",
+  "captured_frames": 40,
+  "held_frames": 246,
+  "occluded_seconds": 0.0,
+  "privacy_gate": "off",
+  "minimized_events": 0,
+  "resize_events": 0,
+  "verified": true,
+  "probe": {
+    "ok": true,
+    "frames": 285,
+    "fps": 10.0,
+    "duration_s": 28.5,
+    "first_frame": true,
+    "last_frame": true,
+    "reason": ""
+  },
+  "fps": 10,
+  "width": 780,
+  "height": 822,
+  "frames": 285,
+  "dropped_frames": 0,
+  "duration_s": 28.5,
+  "bytes": 357224,
+  "paced": true,
+  "build_outcome": "completed",
+  "build_error": "",
+  "chapters": [
+    {
+      "id": "F001",
+      "label": "F001 prism: built",
+      "status": "built",
+      "t": 1.95
+    },
+    {
+      "id": "F002",
+      "label": "F002 hole: built",
+      "status": "built",
+      "t": 7.26
+    },
+    {
+      "id": "F004",
+      "label": "F004 hole: built",
+      "status": "built",
+      "t": 18.27
+    },
+    {
+      "id": "F006",
+      "label": "F006 hole: built",
+      "status": "built",
+      "t": 24.09
+    },
+    {
+      "id": "final",
+      "label": "Final model",
+      "status": "built",
+      "t": 26.5
+    }
+  ],
+  "code": "",
+  "reason": "",
+  "schema_version": 1,
+  "generation_key": "3e3f466d9d8b"
+}

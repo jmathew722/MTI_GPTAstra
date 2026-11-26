@@ -4,12 +4,14 @@ Design: docs/superpowers/specs/2026-11-19-solidworks-recording-design.md
 
 * Only the SolidWorks window is captured, only for the SolidWorks build (``SolidWorksRecorder`` wraps ``compile_solidworks``).
 * The recorder NEVER raises into the build. Every failure becomes a manifest ``status`` + ``code`` (the UI shows it).
-* Backends: Windows Graphics Capture (records that one window even when covered) first; a screen-rectangle copy with a privacy gate
-  (a covered frame is dropped, the last good frame is held) as the fallback.
+* Backend: Windows Graphics Capture of ONE validated top-level SolidWorks window (records that window even when other applications cover it).
+  There is NO desktop, monitor, screen-rectangle or foreground-window fallback: if Windows Graphics Capture cannot deliver frames of the SolidWorks
+  window, the recording FAILS with an explicit code (the part build is unaffected).
 * Win32 / OpenCV / encoder imports are lazy, so this module imports on any OS and the tests run without SolidWorks.
 """
 from __future__ import annotations
 
+import collections
 import json
 import os
 import sys
@@ -35,6 +37,8 @@ MAX_SECONDS = 20 * 60
 MAX_BYTES = 500 * 1024 * 1024
 MAX_W, MAX_H = 1600, 1000
 HOLD_S = 0.6                       # paced build: let the viewport show each feature
+FINAL_HOLD_S = 1.5                 # the finished model stays on screen this long before the recording stops (env GPTASTRA_RECORD_HOLD_S)
+FIRST_FRAME_S = 10.0               # how long to wait for the first real frame, nudging a repaint through the COM API (no input simulation)
 BLACK_AFTER_S = 4.0                # all-black frames for this long = REC_CAPTURE_BLACK
 
 CODES = {
@@ -47,6 +51,11 @@ CODES = {
     "REC_LIMIT_REACHED": "The recording hit its time or size limit and stopped.",
     "REC_WRITE_FAILED": "The video could not be written.",
     "REC_NOT_REACHED": "The run never reached the SolidWorks build.",
+    "REC_NO_WGC": "Windows Graphics Capture could not capture the SolidWorks window (no desktop fallback is used).",
+    "REC_WINDOW_IDENTITY": "The window is not the main window of the SolidWorks session that is building the part.",
+    "REC_WINDOW_LOST": "The SolidWorks window was closed or replaced during the recording; the recording stopped (no other window is captured).",
+    "REC_MINIMIZED": "SolidWorks was minimized during the recording; frames are missing for that time.",
+    "REC_UNVERIFIED": "The finished video could not be read back.",
 }
 
 
@@ -57,20 +66,21 @@ def wanted() -> bool:
 # ----------------------------------------------------------------------------------------------- capability
 
 def capability() -> dict:
-    """What this machine can do, without needing SolidWorks to be running. Shape: {available, backend, encoder, reason}."""
+    """What this machine can do, without needing SolidWorks to be running. Shape: {available, backend, encoder, reason}.
+    The only backend is Windows Graphics Capture of a single window; there is deliberately no desktop-capture fallback."""
     import importlib.util as u
     if sys.platform != "win32":
         return {"available": False, "backend": None, "encoder": None, "reason": CODES["REC_UNAVAILABLE"]}
     have = lambda m: u.find_spec(m) is not None    # noqa: E731
     if not (have("numpy") and have("cv2")):
-        return {"available": False, "backend": None, "encoder": None,
-                "reason": "Recording needs numpy and opencv-python."}
+        return {"available": False, "backend": None, "encoder": None, "reason": "Recording needs numpy and opencv-python."}
     encoder = "imageio-ffmpeg" if have("imageio_ffmpeg") else "opencv-webm"
-    backend = "wgc" if have("windows_capture") else ("gdi" if have("win32gui") and have("win32ui") else None)
-    if backend is None:
+    if have("win32gui") and have("win32ui") and have("win32process"):
+        return {"available": True, "backend": "printwindow", "encoder": encoder, "reason": ""}
+    if not (have("windows_capture") and have("win32gui") and have("win32process")):
         return {"available": False, "backend": None, "encoder": encoder,
-                "reason": "No window-capture backend (pip install windows-capture, or pywin32)."}
-    return {"available": True, "backend": backend, "encoder": encoder, "reason": ""}
+                "reason": "Window-only recording needs Windows Graphics Capture: pip install windows-capture pywin32 (no desktop fallback is used)."}
+    return {"available": True, "backend": "wgc", "encoder": encoder, "reason": ""}
 
 
 # ----------------------------------------------------------------------------------------------- files
@@ -150,14 +160,132 @@ def find_solidworks_window(sw_app=None) -> Optional[int]:
 
 
 def _restore_if_minimised(hwnd: int) -> None:
+    """Restore a minimized window WITHOUT activating it (no focus theft)."""
     try:
         import win32con
         import win32gui
         if win32gui.IsIconic(hwnd):
-            win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+            win32gui.ShowWindow(hwnd, win32con.SW_SHOWNOACTIVATE)
             time.sleep(0.8)
     except Exception:                                   # noqa: BLE001
         pass
+
+
+def _exe_name(pid: int) -> str:
+    """Base name of the executable of a process ('' when it cannot be read)."""
+    try:
+        import ctypes
+        from ctypes import wintypes
+        k32 = ctypes.windll.kernel32
+        h = k32.OpenProcess(0x1000, False, pid)             # PROCESS_QUERY_LIMITED_INFORMATION
+        if not h:
+            return ""
+        try:
+            buf = ctypes.create_unicode_buffer(1024)
+            n = wintypes.DWORD(1024)
+            if k32.QueryFullProcessImageNameW(h, 0, buf, ctypes.byref(n)):
+                return os.path.basename(buf.value)
+        finally:
+            k32.CloseHandle(h)
+    except Exception:                                   # noqa: BLE001
+        pass
+    return ""
+
+
+def validate_window(hwnd: int, sw_app=None) -> dict:
+    """Prove that ``hwnd`` is the main modeling window of the SolidWorks session that is building the part. Window titles are never used to choose
+    the window; the title is only reported (first word) as evidence. Returns {ok, reason, hwnd, pid, exe, class, title_prefix, checks}."""
+    out: dict = {"ok": False, "reason": "", "hwnd": int(hwnd or 0), "pid": None, "exe": "", "class": "", "title_prefix": "", "checks": {}}
+    try:
+        import win32con
+        import win32gui
+        import win32process
+    except Exception as e:                              # noqa: BLE001
+        out["reason"] = f"window APIs unavailable: {e}"
+        return out
+    if not hwnd or not win32gui.IsWindow(hwnd):
+        out["reason"] = "not a window"
+        return out
+    pid = win32process.GetWindowThreadProcessId(hwnd)[1]
+    exp = None
+    if sw_app is not None:
+        for getter in (lambda: int(sw_app.GetProcessID()), lambda: int(sw_app.GetProcessID)):
+            try:
+                exp = getter()
+                break
+            except Exception:                           # noqa: BLE001
+                continue
+    cls = win32gui.GetClassName(hwnd)
+    exe = _exe_name(pid)
+    title = win32gui.GetWindowText(hwnd) or ""
+    checks = {"visible": bool(win32gui.IsWindowVisible(hwnd)), "top_level": not win32gui.GetParent(hwnd),
+              "unowned": not win32gui.GetWindow(hwnd, win32con.GW_OWNER), "solidworks_exe": exe.lower() == "sldworks.exe",
+              "same_session": (exp is None) or pid == exp, "main_window_class": cls.startswith("Afx:")}
+    out.update(pid=pid, exe=exe, **{"class": cls}, title_prefix=(title.split(" ")[0] if title else "")[:20], checks=checks)
+    failed = [k for k, v in checks.items() if not v]
+    out["ok"] = not failed
+    out["reason"] = "" if not failed else "failed checks: " + ", ".join(failed)
+    return out
+
+
+def is_occluded(hwnd: int) -> bool:
+    """True when ANY other application's visible window sits above ``hwnd`` in the z-order and overlaps it.
+
+    Why this exists: Windows Graphics Capture of a window is correct for the window's own surface, but SolidWorks' OpenGL model viewport is composed from the
+    screen, so a window dragged over it shows up INSIDE the capture (verified live: a Notepad/VS Code window appeared in the viewport region of the video).
+    The recorder therefore never encodes a frame that was captured while another application overlapped the window. Fails CLOSED: an error means occluded."""
+    try:
+        import ctypes
+        from ctypes import wintypes
+        import win32con
+        import win32gui
+        import win32process
+        if not win32gui.IsWindow(hwnd):
+            return True
+        own_pid = win32process.GetWindowThreadProcessId(hwnd)[1]
+        dwm = ctypes.windll.dwmapi
+
+        def rect(h):
+            r = wintypes.RECT()
+            if dwm.DwmGetWindowAttribute(h, 9, ctypes.byref(r), ctypes.sizeof(r)) == 0:       # DWMWA_EXTENDED_FRAME_BOUNDS
+                return r.left, r.top, r.right, r.bottom
+            return win32gui.GetWindowRect(h)
+        l, t, rr, b = rect(hwnd)
+        h = win32gui.GetWindow(hwnd, win32con.GW_HWNDPREV)
+        guard = 0
+        while h and guard < 2000:
+            guard += 1
+            nxt = win32gui.GetWindow(h, win32con.GW_HWNDPREV)
+            try:
+                if win32gui.IsWindowVisible(h) and not win32gui.IsIconic(h):
+                    cloaked = ctypes.c_int(0)
+                    dwm.DwmGetWindowAttribute(h, 14, ctypes.byref(cloaked), ctypes.sizeof(cloaked))      # DWMWA_CLOAKED
+                    ex = win32gui.GetWindowLong(h, win32con.GWL_EXSTYLE)
+                    click_through = bool(ex & win32con.WS_EX_TRANSPARENT) and bool(ex & win32con.WS_EX_LAYERED)
+                    if not cloaked.value and not click_through and win32process.GetWindowThreadProcessId(h)[1] != own_pid:
+                        a, c, d, e = rect(h)
+                        if min(rr, d) - max(l, a) > 0 and min(b, e) - max(t, c) > 0:
+                            return True
+            except Exception:                           # noqa: BLE001
+                return True
+            h = nxt
+        return False
+    except Exception:                                   # noqa: BLE001
+        return True
+
+
+def window_state(hwnd: int, expected_pid: Optional[int]) -> str:
+    """'ok' | 'minimized' | 'lost' (closed, or the handle now belongs to another process)."""
+    try:
+        import win32gui
+        import win32process
+        if not win32gui.IsWindow(hwnd):
+            return "lost"
+        if expected_pid and win32process.GetWindowThreadProcessId(hwnd)[1] != expected_pid:
+            return "lost"
+        return "minimized" if win32gui.IsIconic(hwnd) else "ok"
+    except Exception:                                   # noqa: BLE001
+        return "lost"
 
 
 # ----------------------------------------------------------------------------------------------- frame sources
@@ -171,6 +299,10 @@ class FrameSource:
     def latest(self) -> tuple[Any, bool]:
         return None, False
 
+    def history(self) -> list:
+        """[(arrival time, frame)] newest last; the base class has no history."""
+        return []
+
 
 class WgcSource(FrameSource):
     """Windows Graphics Capture of one window. Delivers a frame only when the window changes; the recorder resamples."""
@@ -178,9 +310,13 @@ class WgcSource(FrameSource):
 
     def __init__(self, hwnd: int):
         self.hwnd, self._lock, self._frame, self._ctl = hwnd, threading.Lock(), None, None
+        self.count = 0                                   # frames actually delivered by Windows Graphics Capture
+        self.closed = False
+        self._hist: collections.deque = collections.deque(maxlen=8)      # (arrival time, frame): lets the privacy gate judge a frame after the fact
 
     def start(self) -> None:
         from windows_capture import WindowsCapture
+        # cursor_capture False: the mouse pointer (possibly over another app) is never drawn; draw_border False: no yellow capture border
         cap = WindowsCapture(cursor_capture=False, draw_border=False, window_hwnd=self.hwnd)
 
         @cap.event
@@ -190,12 +326,14 @@ class WgcSource(FrameSource):
                 bgr = buf[..., :3].copy()
                 with self._lock:
                     self._frame = bgr
+                    self.count += 1
+                    self._hist.append((time.time(), bgr))
             except Exception:                            # noqa: BLE001
                 pass
 
         @cap.event
         def on_closed():                                 # noqa: ANN202
-            return None
+            self.closed = True
 
         self._ctl = cap.start_free_threaded()
 
@@ -210,91 +348,90 @@ class WgcSource(FrameSource):
         with self._lock:
             return self._frame, False
 
+    def history(self) -> list:
+        with self._lock:
+            return list(self._hist)
 
-class GdiSource(FrameSource):
-    """Copy the window rectangle from the screen. Fallback: needs SolidWorks on top, so a covered frame is DROPPED (privacy gate)."""
-    name = "gdi"
 
-    def __init__(self, hwnd: int):
-        self.hwnd = hwnd
-        try:
-            import ctypes
-            ctypes.windll.user32.SetProcessDPIAware()
-        except Exception:                                # noqa: BLE001
-            pass
-        self._pid = None
-        try:
-            import win32process
-            self._pid = win32process.GetWindowThreadProcessId(hwnd)[1]
-        except Exception:                                # noqa: BLE001
-            pass
+class PrintWindowSource(FrameSource):
+    """Window-only capture with ``PrintWindow(hwnd, PW_RENDERFULLCONTENT)``: Windows asks the SolidWorks window to paint ITSELF (model viewport included)
+    into a private bitmap. Unlike a screen copy it never contains another application, and, verified live, it is unaffected by other windows covering
+    SolidWorks (Windows Graphics Capture of SolidWorks' OpenGL viewport shows the covering window inside the viewport, so it is only the fallback)."""
+    name = "printwindow"
 
-    def _rect(self) -> tuple[int, int, int, int]:
+    def __init__(self, hwnd: int, hz: float = 15.0):
+        self.hwnd, self.hz = hwnd, hz
+        self._lock, self._frame, self._stop = threading.Lock(), None, threading.Event()
+        self.count = 0
+        self.closed = False
+        self._thread: Optional[threading.Thread] = None
+        self._last_small = None
+
+    def _grab(self):
         import ctypes
-        from ctypes import wintypes
-        r = wintypes.RECT()
-        try:   # DWMWA_EXTENDED_FRAME_BOUNDS: the visible frame, without the invisible resize border
-            if ctypes.windll.dwmapi.DwmGetWindowAttribute(wintypes.HWND(self.hwnd), 9, ctypes.byref(r), ctypes.sizeof(r)) == 0:
-                return r.left, r.top, r.right, r.bottom
-        except Exception:                                # noqa: BLE001
-            pass
-        import win32gui
-        return win32gui.GetWindowRect(self.hwnd)
-
-    def _covered(self, l: int, t: int, r: int, b: int) -> bool:
-        import win32con
-        import win32gui
-        import win32process
-        if win32gui.IsIconic(self.hwnd):
-            return True
-        pad = 12
-        pts = [((l + r) // 2, (t + b) // 2), (l + pad, t + pad), (r - pad, t + pad), (l + pad, b - pad), (r - pad, b - pad)]
-        for x, y in pts:
-            h = win32gui.WindowFromPoint((x, y))
-            if not h:
-                return True
-            root = win32gui.GetAncestor(h, win32con.GA_ROOT)
-            if root == self.hwnd:
-                continue
-            try:
-                if self._pid and win32process.GetWindowThreadProcessId(root)[1] == self._pid:
-                    continue                                # a SolidWorks dialog/popup is still SolidWorks
-            except Exception:                            # noqa: BLE001
-                pass
-            return True
-        return False
-
-    def latest(self):
         import numpy as np
-        import win32con
         import win32gui
         import win32ui
-        l, t, r, b = self._rect()
-        w, h = r - l, b - t
-        if w < 32 or h < 32:
-            return None, True
-        covered = self._covered(l, t, r, b)
-        if covered:
-            return None, True
-        hdesk = win32gui.GetDesktopWindow()
-        wdc = win32gui.GetWindowDC(hdesk)
-        src = win32ui.CreateDCFromHandle(wdc)
-        mem = src.CreateCompatibleDC()
+        l, t_, r, b = win32gui.GetWindowRect(self.hwnd)
+        w, h = r - l, b - t_
+        if w < 64 or h < 64 or win32gui.IsIconic(self.hwnd):
+            return None
+        hdc = win32gui.GetWindowDC(self.hwnd)
+        mdc = win32ui.CreateDCFromHandle(hdc)
+        mem = mdc.CreateCompatibleDC()
         bmp = win32ui.CreateBitmap()
         try:
-            bmp.CreateCompatibleBitmap(src, w, h)
+            bmp.CreateCompatibleBitmap(mdc, w, h)
             mem.SelectObject(bmp)
-            mem.BitBlt((0, 0), (w, h), src, (l, t), win32con.SRCCOPY)
-            arr = np.frombuffer(bmp.GetBitmapBits(True), np.uint8).reshape(h, w, 4)[..., :3].copy()
+            if not ctypes.windll.user32.PrintWindow(self.hwnd, mem.GetSafeHdc(), 2):       # 2 = PW_RENDERFULLCONTENT
+                return None
+            raw = bmp.GetBitmapBits(True)
+            return np.frombuffer(raw, dtype=np.uint8).reshape(h, w, 4)[..., :3].copy()
         finally:
             try:
                 win32gui.DeleteObject(bmp.GetHandle())
+                mem.DeleteDC()
+                mdc.DeleteDC()
+                win32gui.ReleaseDC(self.hwnd, hdc)
             except Exception:                            # noqa: BLE001
                 pass
-            mem.DeleteDC()
-            src.DeleteDC()
-            win32gui.ReleaseDC(hdesk, wdc)
-        return arr, False
+
+    def _run(self) -> None:
+        import numpy as np
+        while not self._stop.is_set():
+            try:
+                import win32gui
+                if not win32gui.IsWindow(self.hwnd):
+                    self.closed = True
+                    break
+                f = self._grab()
+                if f is not None:
+                    small = f[::16, ::16]
+                    changed = self._last_small is None or small.shape != self._last_small.shape or not np.array_equal(small, self._last_small)
+                    with self._lock:
+                        self._frame = f
+                        if changed:
+                            self.count += 1               # a frame that differs from the previous one (a repeated picture is a 'held' frame)
+                    self._last_small = small
+            except Exception:                            # noqa: BLE001
+                pass
+            self._stop.wait(1.0 / self.hz)
+
+    def start(self) -> None:
+        self._thread = threading.Thread(target=self._run, name="sw-printwindow", daemon=True)
+        self._thread.start()
+
+    def stop(self) -> None:
+        self._stop.set()
+        if self._thread:
+            self._thread.join(timeout=3)
+
+    def latest(self):
+        with self._lock:
+            return self._frame, False
+
+
+# (There is intentionally no GDI / screen-rectangle / desktop frame source: capturing a rectangle of the screen shows whatever application is on top.)
 
 
 # ----------------------------------------------------------------------------------------------- encoders
@@ -391,6 +528,20 @@ class SolidWorksRecorder:
         self._hwnd: Optional[int] = None
         self._count = 0
         self._iso_done = False
+        self._identity: dict = {}
+        self._pid: Optional[int] = None
+        self._started_at = self._ended_at = ""
+        self._occ_times: collections.deque = collections.deque(maxlen=4000)   # times at which another application overlapped the window
+        self._occ_stop = threading.Event()
+        self._occluded_ticks = 0
+        self._occ_fn: Optional[Callable[[int], bool]] = None
+        self._held = 0                       # encoded frames that repeated the previous capture (WGC sends a frame only when the window repaints)
+        self._minimized = 0
+        self._resizes = 0
+        self._last_shape: Optional[tuple] = None
+        self._final_held = False
+        self._verify: dict = {}
+        self._session: dict = {}
 
     # ---- lifecycle
     def __enter__(self):
@@ -402,10 +553,12 @@ class SolidWorksRecorder:
         return False
 
     def start(self) -> bool:
+        """Start recording once the target SolidWorks window and the initial part document are ready. Never raises. Refuses (with an explicit code)
+        when the window cannot be proven to be the SolidWorks session's main window; never captures anything else."""
         try:
             cap = capability() if self._source_factory is None else {"available": True}
             if not cap["available"]:
-                return self._fail("REC_UNAVAILABLE", cap.get("reason", ""))
+                return self._fail("REC_NO_WGC" if "Graphics Capture" in str(cap.get("reason", "")) else "REC_UNAVAILABLE", cap.get("reason", ""))
             self.out.mkdir(parents=True, exist_ok=True)
             clear_stale(self.out)
             hwnd = None
@@ -413,41 +566,89 @@ class SolidWorksRecorder:
                 hwnd = self._finder(self.sw_app)
                 if not hwnd:
                     return self._fail("REC_NO_WINDOW")
+                ident = validate_window(hwnd, self.sw_app)
+                self._identity = ident
+                if not ident["ok"]:
+                    return self._fail("REC_WINDOW_IDENTITY", f"{ident['reason']} (pid {ident.get('pid')}, exe {ident.get('exe')})")
+                self._pid = ident["pid"]
                 _restore_if_minimised(hwnd)
             self._hwnd = hwnd
+            self._session = self._session_snapshot()
             self._source = self._open_source(hwnd)
             if self._source is None:
-                return self._fail(self._code or "REC_NO_WINDOW", self._reason)
+                return self._fail(self._code or "REC_NO_WGC", self._reason)
             self._t0 = time.time()
+            self._started_at = time.strftime("%Y-%m-%dT%H:%M:%S%z")
             self._started = True
             self._manifest("recording")
+            if self._occ_fn is None and isinstance(self._source, WgcSource):
+                self._occ_fn = is_occluded                                    # the privacy gate guards every real Windows Graphics Capture recording
+            if self._occ_fn is not None:
+                threading.Thread(target=self._occ_loop, name="sw-recorder-occlusion", daemon=True).start()
             self._thread = threading.Thread(target=self._loop, name="sw-recorder", daemon=True)
             self._thread.start()
-            log.info("[stage] recording_start: recording the SolidWorks window (%s) for %s", self._source.name, self.part)
+            log.info("[stage] recording_start: recording ONE window (%s, pid %s) for %s", self._source.name, self._pid, self.part)
             return True
         except Exception as e:                           # noqa: BLE001 - recording must never fail the build
             return self._fail("REC_WRITE_FAILED", f"{type(e).__name__}: {e}")
+
+    def _session_snapshot(self) -> dict:
+        """Evidence of ONE continuous session: SolidWorks pid and the active document when recording began (compared again at the end)."""
+        snap: dict = {"sw_pid": self._pid, "doc_at_start": "", "docs_open": None}
+        try:
+            if self.sw_app is not None:
+                d = self.sw_app.ActiveDoc
+                snap["doc_at_start"] = str(d.GetTitle()) if d is not None else ""
+        except Exception:                                # noqa: BLE001
+            pass
+        return snap
+
+    def _nudge(self) -> None:
+        """Ask SolidWorks for a repaint through the API (no keystrokes, no focus change) so Windows Graphics Capture has a frame to deliver."""
+        try:
+            doc = self.sw_app.ActiveDoc if self.sw_app is not None else None
+            if doc is not None:
+                doc.GraphicsRedraw2()
+        except Exception:                                # noqa: BLE001
+            pass
 
     def _open_source(self, hwnd) -> Optional[FrameSource]:
         if self._source_factory is not None:
             s = self._source_factory(hwnd)
             s.start()
             return s
-        order = ["wgc", "gdi"] if self._backend_pref == "auto" else [self._backend_pref]
-        for b in order:
+        pref = (os.environ.get("GPTASTRA_RECORD_BACKEND") or self._backend_pref or "auto").lower()
+        if pref in ("auto", "printwindow"):
             try:
-                s = WgcSource(hwnd) if b == "wgc" else GdiSource(hwnd)
+                s = PrintWindowSource(hwnd)
                 s.start()
-                deadline = time.time() + 3.0              # a backend that gives no first frame is not usable
-                while time.time() < deadline:
-                    if b == "gdi" or s.latest()[0] is not None:
-                        return s
+                t_end = time.time() + 4.0
+                while time.time() < t_end:
+                    f = s.latest()[0]
+                    if f is not None and 2.0 < float(f.mean()) < 253.0 and float(f.std()) > 3.0:
+                        return s                                  # a real, non-blank picture of the window
                     time.sleep(0.1)
                 s.stop()
-                log.warning("recording backend %s produced no frame; trying the next one", b)
+                log.warning("PrintWindow did not return a usable picture; trying Windows Graphics Capture (with the overlap privacy gate)")
             except Exception as e:                       # noqa: BLE001
-                log.warning("recording backend %s unavailable: %s", b, e)
-        self._code, self._reason = "REC_NO_FRAMES", "No capture backend produced a frame."
+                log.warning("PrintWindow capture unavailable: %s", e)
+        try:
+            s = WgcSource(hwnd)
+            s.start()
+            deadline = time.time() + FIRST_FRAME_S
+            nudged = 0.0
+            while time.time() < deadline:
+                if s.latest()[0] is not None:
+                    return s
+                if time.time() - nudged > 1.0:
+                    nudged = time.time()
+                    self._nudge()
+                time.sleep(0.1)
+            s.stop()
+            self._code, self._reason = "REC_NO_FRAMES", f"Windows Graphics Capture delivered no frame in {int(FIRST_FRAME_S)} s (no desktop fallback is used)."
+        except Exception as e:                           # noqa: BLE001
+            self._code, self._reason = "REC_NO_WGC", f"{type(e).__name__}: {e}"
+            log.warning("Windows Graphics Capture unavailable: %s", e)
         return None
 
     def _fail(self, code: str, reason: str = "") -> bool:
@@ -456,6 +657,7 @@ class SolidWorksRecorder:
         try:
             self._done = True
             write_manifest(self.out, {"status": "failed", "run_id": self.run_id, "part": self.part, "source_sha256": self.sha,
+                                      "capture_method": "wgc-window", "target": self._target(),
                                       "code": self._code, "reason": self._reason[:300], "frames": 0, "dropped_frames": 0,
                                       "duration_s": 0, "bytes": 0, "chapters": []})
         except Exception:                                # noqa: BLE001
@@ -498,6 +700,26 @@ class SolidWorksRecorder:
         except Exception:                                # noqa: BLE001
             pass
 
+    def finish_build(self, hold_s: Optional[float] = None) -> dict:
+        """The part is built, rebuilt and saved: show the final isometric model, hold it, then stop the recording. Called BEFORE any document is closed,
+        exported or re-opened, so the video ends on the finished model."""
+        if self._done or not self._started:
+            return self.read_manifest()
+        try:
+            h = hold_s if hold_s is not None else float(os.environ.get("GPTASTRA_RECORD_HOLD_S", FINAL_HOLD_S))
+        except ValueError:
+            h = FINAL_HOLD_S
+        try:
+            self.caption("Final model")
+            self._iso_done = False
+            self._redraw()
+            self.chapters.append({"id": "final", "label": "Final model", "status": "built", "t": round(max(0.0, time.time() - self._t0), 2)})
+            time.sleep(max(0.0, h))
+            self._final_held = True
+        except Exception:                                # noqa: BLE001
+            pass
+        return self.stop(outcome="completed")
+
     # ---- capture loop
     def _compose(self, frame):
         import cv2
@@ -529,10 +751,36 @@ class SolidWorksRecorder:
         cv2.putText(canvas, stamp, (ow - tw - 10, oh - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (107, 175, 214), 1, cv2.LINE_AA)
         return canvas
 
+    OCC_DELAY_S = 0.15        # a frame is judged this long after it arrived, so an overlap that began just after it is still caught
+    OCC_MARGIN_S = 0.20       # ... and a frame is rejected when an overlap was seen this long before it arrived
+
+    def _occ_loop(self) -> None:
+        while not self._occ_stop.is_set() and self._hwnd:
+            try:
+                if self._occ_fn(self._hwnd):
+                    self._occ_times.append(time.time())
+            except Exception:                                # noqa: BLE001
+                self._occ_times.append(time.time())          # fail closed
+            self._occ_stop.wait(0.02)
+
+    def _clean_frame(self, now: float):
+        """The newest frame that arrived at least OCC_DELAY_S ago and was never overlapped by another application; None when there is none."""
+        hist = self._source.history()
+        occ = list(self._occ_times)
+        for ts, fr in reversed(hist):
+            if ts > now - self.OCC_DELAY_S:
+                continue
+            if not any(ts - self.OCC_MARGIN_S <= o <= ts + self.OCC_DELAY_S for o in occ):
+                return fr
+            return None                                          # the newest judged frame was overlapped: keep the last clean one
+        return None
+
     def _loop(self) -> None:
         period = 1.0 / self.fps
         written = 0
-        last_size_check = 0.0
+        last_size_check = last_win_check = 0.0
+        last_restore = 0.0
+        prev_count = -1
         try:
             while not self._stop_evt.is_set():
                 now = time.time()
@@ -540,12 +788,39 @@ class SolidWorksRecorder:
                 if t > self.max_seconds:
                     self._code, self._reason = "REC_LIMIT_REACHED", f"stopped after {int(self.max_seconds)} s"
                     break
-                frame, covered = self._source.latest()
+                if self._hwnd and now - last_win_check > 0.5:       # the target must stay the SAME SolidWorks window; never retarget another one
+                    last_win_check = now
+                    st = window_state(self._hwnd, self._pid)
+                    if st == "lost" or getattr(self._source, "closed", False):
+                        self._code, self._reason = "REC_WINDOW_LOST", CODES["REC_WINDOW_LOST"]
+                        break
+                    if st == "minimized":
+                        self._dropped += 1
+                        if self._code == "":
+                            self._code, self._reason = "REC_MINIMIZED", CODES["REC_MINIMIZED"]
+                        if now - last_restore > 2.0:
+                            last_restore = now
+                            self._minimized += 1
+                            try:
+                                import win32con
+                                import win32gui
+                                win32gui.ShowWindowAsync(self._hwnd, win32con.SW_SHOWNOACTIVATE)      # restore WITHOUT taking focus
+                            except Exception:                        # noqa: BLE001
+                                pass
+                if self._occ_fn is not None:
+                    frame, covered = self._clean_frame(now), False
+                    if frame is None and any(o >= now - 0.5 for o in list(self._occ_times)[-5:]):
+                        self._occluded_ticks += 1
+                else:
+                    frame, covered = self._source.latest()
                 if covered:
                     self._dropped += 1
                     if self._code == "":
                         self._code, self._reason = "REC_COVERED", CODES["REC_COVERED"]
                 if frame is not None and not covered:
+                    if self._last_shape is not None and tuple(frame.shape) != self._last_shape:
+                        self._resizes += 1                           # window resized: the new frames are letterboxed into the fixed output size
+                    self._last_shape = tuple(frame.shape)
                     self._last_good = self._compose(frame)
                     self._poster_frame = self._last_good
                     if float(frame.mean()) < 2.0:                          # black window?
@@ -553,12 +828,16 @@ class SolidWorksRecorder:
                     else:
                         self._black_since = None
                 if self._last_good is not None:
-                    target = int(t * self.fps) + 1                         # catch up: repeat the held frame for any gap
+                    target = int(t * self.fps) + 1                         # constant frame rate: a frame without a new capture repeats the previous one
+                    cnt = getattr(self._source, "count", None)
                     while written < target:
                         if self._enc is None:
                             h, w = self._last_good.shape[:2]
                             self._enc = (self._encoder_factory or make_encoder)(self.out, (w, h), self.fps)
                         self._enc.write(self._overlay(self._last_good.copy(), written / self.fps))
+                        if cnt is not None and cnt == prev_count:
+                            self._held += 1
+                        prev_count = cnt if cnt is not None else prev_count
                         written += 1
                     self._frames = written
                 if now - last_size_check > 3.0:
@@ -580,8 +859,11 @@ class SolidWorksRecorder:
         try:
             if not self._started:
                 return self.read_manifest()
-            time.sleep(min(1.0, self.hold_s))                 # a short tail so the final feature is on screen
+            if not self._final_held:
+                time.sleep(min(1.0, self.hold_s))             # a short tail so the final feature is on screen
+            self._ended_at = time.strftime("%Y-%m-%dT%H:%M:%S%z")
             self._stop_evt.set()
+            self._occ_stop.set()
             if self._thread:
                 self._thread.join(timeout=10)
             try:
@@ -608,9 +890,17 @@ class SolidWorksRecorder:
                 self._code, self._reason = "REC_WRITE_FAILED", f"{type(e).__name__}: {e}"
             part_path = Path(self._enc.path)
             if part_path.exists() and part_path.stat().st_size > 0 and self._code != "REC_WRITE_FAILED":
-                final = self.out / f"{VIDEO_STEM}{self._enc.ext}"
-                os.replace(part_path, final)
-                video, size = final.name, final.stat().st_size
+                self._verify = self._probe(part_path)                  # read the finished file back BEFORE it is published
+                if self._verify.get("ok"):
+                    final = self.out / f"{VIDEO_STEM}{self._enc.ext}"
+                    os.replace(part_path, final)                       # atomic publish
+                    video, size = final.name, final.stat().st_size
+                else:
+                    self._code, self._reason = "REC_UNVERIFIED", f"{CODES['REC_UNVERIFIED']} {self._verify.get('reason', '')}"
+                    try:
+                        os.replace(part_path, self.out / f"{VIDEO_STEM}.unverified{self._enc.ext}")    # kept as diagnostic evidence, never shown as the recording
+                    except OSError:
+                        pass
             else:
                 try:
                     part_path.unlink()
@@ -639,12 +929,50 @@ class SolidWorksRecorder:
         log.info("[stage] recording_%s: %s (%d frames, %d dropped)", status, video or self._code, self._frames, self._dropped)
         return self.read_manifest()
 
+    def _probe(self, path: Path) -> dict:
+        """Independent read-back with OpenCV: frame count, fps, duration, first and last frame readable, duration close to what was written."""
+        try:
+            import cv2
+            cap = cv2.VideoCapture(str(path))
+            n, fps = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0), float(cap.get(cv2.CAP_PROP_FPS) or 0)
+            ok1, _ = cap.read()
+            if n > 1:
+                cap.set(cv2.CAP_PROP_POS_FRAMES, n - 1)
+            ok2, _ = cap.read()
+            cap.release()
+            dur = (n / fps) if fps else 0.0
+            expect = self._frames / self.fps if self.fps else 0.0
+            good = bool(ok1 and ok2 and n > 0 and abs(dur - expect) <= max(1.0, 0.15 * expect))
+            return {"ok": good, "frames": n, "fps": round(fps, 2), "duration_s": round(dur, 2), "first_frame": bool(ok1), "last_frame": bool(ok2),
+                    "reason": "" if good else f"frames={n} duration={dur:.2f}s expected={expect:.2f}s"}
+        except Exception as e:                           # noqa: BLE001
+            return {"ok": False, "reason": f"{type(e).__name__}: {e}"}
+
+    def _target(self) -> dict:
+        i = self._identity or {}
+        return {"pid": i.get("pid"), "hwnd": i.get("hwnd"), "exe": i.get("exe"), "window_class": i.get("class"), "title_prefix": i.get("title_prefix"),
+                "identity_ok": i.get("ok"), "identity_checks": i.get("checks")}
+
     def _manifest(self, status: str, *, video: str = "", size: int = 0, outcome: str = "", error: str = "") -> None:
         w, h = self._size or (0, 0)
+        captured = getattr(self._source, "count", None)
+        session = dict(self._session)
+        try:
+            if self.sw_app is not None:
+                d = self.sw_app.ActiveDoc
+                session["doc_at_end"] = str(d.GetTitle()) if d is not None else ""
+                session["same_document"] = bool(session.get("doc_at_start")) and session.get("doc_at_start") == session["doc_at_end"]
+                session["same_session"] = (self._pid is None) or window_state(self._hwnd, self._pid) != "lost"
+        except Exception:                                # noqa: BLE001
+            pass
         write_manifest(self.out, {
             "status": status, "run_id": self.run_id, "part": self.part, "source_sha256": self.sha,
             "video": video, "poster": POSTER if (self.out / POSTER).exists() else "",
-            "backend": self._source.name if self._source else "", "fps": self.fps, "width": w, "height": h,
+            "backend": self._source.name if self._source else "", "capture_method": (("printwindow-window (PrintWindow PW_RENDERFULLCONTENT of one validated window; unaffected by covering windows; no desktop capture)" if (self._source and self._source.name == "printwindow") else "wgc-window (Windows Graphics Capture, one validated window, overlap privacy gate; no desktop capture)")),
+            "target": self._target(), "session": session, "started_at": self._started_at, "ended_at": self._ended_at,
+            "captured_frames": captured, "held_frames": self._held, "occluded_seconds": round(self._occluded_ticks / max(self.fps, 1), 1),
+            "privacy_gate": "overlap-by-other-windows frames are never encoded" if self._occ_fn is not None else "off", "minimized_events": self._minimized, "resize_events": self._resizes,
+            "verified": bool(self._verify.get("ok")), "probe": self._verify, "fps": self.fps, "width": w, "height": h,
             "frames": self._frames, "dropped_frames": self._dropped,
             "duration_s": round(self._frames / self.fps, 2) if self.fps else 0, "bytes": size,
             "paced": self.paced, "build_outcome": outcome, "build_error": error[:300],

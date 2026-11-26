@@ -1,0 +1,110 @@
+{
+ "opened": {
+  "chrome": 15992578,
+  "vscode": 267972,
+  "explorer": 13111186,
+  "notepad": 44569464
+ },
+ "events": [
+  {
+   "event": "recording_seen",
+   "t": 1795686784.9971385
+  },
+  {
+   "event": "cover",
+   "app": "chrome",
+   "hwnd": 15992578,
+   "cycle": 0,
+   "t_start": 1795686784.9971385,
+   "mode": "maximized",
+   "t_end": 1795686787.5509753
+  },
+  {
+   "event": "cover",
+   "app": "vscode",
+   "hwnd": 267972,
+   "cycle": 0,
+   "t_start": 1795686788.1773376,
+   "mode": "maximized",
+   "t_end": 1795686790.696256
+  },
+  {
+   "event": "cover",
+   "app": "explorer",
+   "hwnd": 13111186,
+   "cycle": 0,
+   "t_start": 1795686791.320075,
+   "mode": "maximized",
+   "t_end": 1795686793.9191191
+  },
+  {
+   "event": "cover",
+   "app": "notepad",
+   "hwnd": 44569464,
+   "cycle": 0,
+   "t_start": 1795686794.5941458,
+   "mode": "maximized",
+   "t_end": 1795686797.287951
+  },
+  {
+   "event": "partial_overlap",
+   "app": "notepad",
+   "hwnd": 44569464,
+   "cycle": 0,
+   "t_start": 1795686798.0042644,
+   "mode": "moved over the viewport",
+   "t_end": 1795686800.867778
+  },
+  {
+   "event": "cover",
+   "app": "chrome",
+   "hwnd": 15992578,
+   "cycle": 1,
+   "t_start": 1795686800.873056,
+   "mode": "maximized",
+   "t_end": 1795686803.4450674
+  },
+  {
+   "event": "cover",
+   "app": "vscode",
+   "hwnd": 267972,
+   "cycle": 1,
+   "t_start": 1795686804.072017,
+   "mode": "maximized",
+   "t_end": 1795686806.5947874
+  },
+  {
+   "event": "cover",
+   "app": "explorer",
+   "hwnd": 13111186,
+   "cycle": 1,
+   "t_start": 1795686807.210499,
+   "mode": "maximized",
+   "t_end": 1795686809.7788377
+  },
+  {
+   "event": "cover",
+   "app": "notepad",
+   "hwnd": 44569464,
+   "cycle": 1,
+   "t_start": 1795686810.43556,
+   "mode": "maximized",
+   "t_end": 1795686813.0280786
+  },
+  {
+   "event": "partial_overlap",
+   "app": "notepad",
+   "hwnd": 44569464,
+   "cycle": 1,
+   "t_start": 1795686813.7453258,
+   "mode": "moved over the viewport",
+   "t_end": 1795686816.3379025
+  },
+  {
+   "event": "recording_finished",
+   "t": 1795686816.3437,
+   "status": "ready"
+  }
+ ],
+ "tmp": "C:\\Users\\joeka\\AppData\\Local\\Temp\\sf_chaos_a7kgqtl6"
+}
