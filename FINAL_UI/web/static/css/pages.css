@@ -146,8 +146,6 @@
 .sc-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .sc-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--sp-3); margin-bottom: var(--sp-4); }
 .sc-stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: var(--sp-4); min-width: 0; }
-.sc-stat.band-green, .sc-stat.band-amber, .sc-stat.band-orange, .sc-stat.band-red { border-color: color-mix(in srgb, var(--b) 50%, transparent); background: linear-gradient(var(--bw), var(--bw)), var(--surface); }
-.sc-stat.band-green .sc-stat-v, .sc-stat.band-amber .sc-stat-v, .sc-stat.band-orange .sc-stat-v, .sc-stat.band-red .sc-stat-v { color: var(--b); }
 .sc-stat-l { font-size: var(--fs-small); color: var(--ink-3); margin-bottom: var(--sp-1); }
 .sc-stat-v { font-size: 22px; font-weight: 600; color: var(--ink); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
 .sc-stat-s { margin-top: var(--sp-1); font-size: 12px; color: var(--ink-3); }
@@ -203,8 +201,6 @@
 .sc-det > summary { cursor: pointer; padding: var(--sp-3) 0; display: flex; gap: var(--sp-3); align-items: center; }
 .sc-det[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: var(--sp-2); }
 .cr { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.cr-green { color: var(--band-green); background: var(--band-green-wash); } .cr-amber { color: var(--band-amber); background: var(--band-amber-wash); }
-.cr-orange { color: var(--band-orange); background: var(--band-orange-wash); } .cr-red { color: var(--band-red); background: var(--band-red-wash); } .cr-none { color: var(--ink-3); }
 .sc-ex-s { font-size: 18px; color: var(--b); font-variant-numeric: tabular-nums; }
 .sc-formula { background: var(--well); border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--sp-3); font-size: 13px; color: var(--ink-2); overflow-x: auto; }
 .sc-kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px var(--sp-4); }
@@ -213,18 +209,8 @@
 @media (max-width: 799.98px) { .sc-stats { grid-template-columns: 1fr 1fr; } .sc-kv { grid-template-columns: 1fr; } .sc-ring { width: 108px; height: 108px; } .sc-ring-in { width: 82px; height: 82px; } .sc-ring-n { font-size: 26px; } }
 
 /* ── v4: more colour in the Scoring tab ─────────────────────────────────────────────────────────────────────────── */
-.sc-tbl tbody tr[data-band="green"]  td:first-child { box-shadow: inset 4px 0 0 var(--band-green-fill); }
-.sc-tbl tbody tr[data-band="amber"]  td:first-child { box-shadow: inset 4px 0 0 var(--band-amber-fill); }
-.sc-tbl tbody tr[data-band="orange"] td:first-child { box-shadow: inset 4px 0 0 var(--band-orange-fill); }
-.sc-tbl tbody tr[data-band="red"]    td:first-child { box-shadow: inset 4px 0 0 var(--band-red-fill); }
-.sc-tbl tbody tr[data-band="red"]    { background: linear-gradient(90deg, var(--band-red-wash), transparent 55%); }
-.sc-tbl tbody tr[data-band="orange"] { background: linear-gradient(90deg, var(--band-orange-wash), transparent 55%); }
 .sc-tbl tbody tr[data-state="incomplete"] td:first-child { box-shadow: inset 4px 0 0 var(--band-amber-fill); }
 .sc-tbl tbody tr[data-state="no_model"] td:first-child, .sc-tbl tbody tr[data-state="scoring_failed"] td:first-child { box-shadow: inset 4px 0 0 var(--band-red-fill); }
-.sc-items tbody tr.row-green  td:first-child { box-shadow: inset 3px 0 0 var(--band-green-fill); }
-.sc-items tbody tr.row-amber  { background: var(--band-amber-wash); } .sc-items tbody tr.row-amber  td:first-child { box-shadow: inset 3px 0 0 var(--band-amber-fill); }
-.sc-items tbody tr.row-orange { background: var(--band-orange-wash); } .sc-items tbody tr.row-orange td:first-child { box-shadow: inset 3px 0 0 var(--band-orange-fill); }
-.sc-items tbody tr.row-red    { background: var(--band-red-wash); }    .sc-items tbody tr.row-red    td:first-child { box-shadow: inset 3px 0 0 var(--band-red-fill); }
 .sc-iss-e .sc-code { font-weight: 600; padding: 0 6px; border-radius: 4px; border: 1px solid; }
 .sc-iss.sev-critical .sc-code { color: var(--band-red);    background: var(--band-red-wash);    border-color: color-mix(in srgb, var(--band-red) 45%, transparent); }
 .sc-iss.sev-high .sc-code     { color: var(--band-orange); background: var(--band-orange-wash); border-color: color-mix(in srgb, var(--band-orange) 45%, transparent); }
@@ -243,7 +229,6 @@
 .sc-wbar { display: flex; height: 22px; border-radius: 6px; overflow: hidden; gap: 2px; margin: var(--sp-2) 0 var(--sp-3); }
 .sc-wbar-s { background: var(--ck); color: #0D0E11; font-size: 11px; font-weight: 700; display: grid; place-items: center; min-width: 22px; }
 .sc-m-cat { display: inline-flex; align-items: center; font-weight: 600; }
-.sc-bandrow td:first-child { box-shadow: inset 4px 0 0 var(--bf); }
 .sc-hole-t { display: inline-block; padding: 1px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid; }
 .sc-hole-t.thru  { color: var(--band-blue);   background: var(--band-blue-wash);   border-color: color-mix(in srgb, var(--band-blue) 45%, transparent); }
 .sc-hole-t.blind { color: var(--band-violet); background: var(--band-violet-wash); border-color: color-mix(in srgb, var(--band-violet) 45%, transparent); }
@@ -252,3 +237,53 @@
 .sc-attn li { border-left: 4px solid var(--bf, var(--line)); }
 .sc-ex-row td:first-child { box-shadow: inset 4px 0 0 var(--bf); }
 .sc-stat.band-blue { border-color: color-mix(in srgb, var(--b) 45%, transparent); }
+
+/* ── v4: grading spectrum classes (one per grade; muted washes, no glow) ─────────────────────────────────────────── */
+.grade-poor,      .band-poor      { --b: var(--grade-poor);      --bf: var(--grade-poor);      --bw: transparent; }   /* no fill behind Poor: #D95763 is 4.51:1 on the card surface, any tint would fail AA */
+.grade-below,     .band-below     { --b: var(--grade-below);     --bf: var(--grade-below);     --bw: color-mix(in srgb, var(--grade-below) 14%, transparent); }
+.grade-fair,      .band-fair      { --b: var(--grade-fair);      --bf: var(--grade-fair);      --bw: color-mix(in srgb, var(--grade-fair) 14%, transparent); }
+.grade-good,      .band-good      { --b: var(--grade-good);      --bf: var(--grade-good);      --bw: color-mix(in srgb, var(--grade-good) 14%, transparent); }
+.grade-excellent, .band-excellent { --b: var(--grade-excellent); --bf: var(--grade-excellent); --bw: color-mix(in srgb, var(--grade-excellent) 14%, transparent); }
+.grade-perfect,   .band-perfect   { --b: var(--grade-perfect);   --bf: var(--grade-perfect);   --bw: color-mix(in srgb, var(--grade-perfect) 16%, transparent); }
+.grade-none,      .band-none      { --b: var(--grade-none);      --bf: var(--line-strong);     --bw: transparent; }
+.grade-spectrum { height: 10px; border-radius: 5px; background: var(--grade-spectrum); position: relative; }
+.grade-scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-3); margin-top: 4px; font-variant-numeric: tabular-nums; }
+.grade-badge { display: inline-flex; align-items: center; gap: 6px; padding: 1px 9px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--b) 55%, transparent); background: var(--bw); color: var(--b); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.grade-num { color: var(--b); font-weight: 700; font-variant-numeric: tabular-nums; }
+.score-chip { display: inline-flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
+.score-chip .grade-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--b); flex: none; }
+
+/* ── v4: scoring tables, stats and credit chips on the grading spectrum ───────────────────────────────────────────── */
+.sc-stat[class*="band-"]:not(.band-none) { border-color: color-mix(in srgb, var(--b) 50%, transparent); background: linear-gradient(var(--bw), var(--bw)), var(--surface); }
+.sc-stat[class*="band-"]:not(.band-none) .sc-stat-v { color: var(--b); }
+.cr { color: var(--b, var(--ink-3)); background: var(--bw, transparent); }
+.cr-poor { --b: var(--grade-poor); --bw: transparent; } .cr-below { --b: var(--grade-below); --bw: color-mix(in srgb, var(--grade-below) 14%, transparent); }
+.cr-fair { --b: var(--grade-fair); --bw: color-mix(in srgb, var(--grade-fair) 14%, transparent); } .cr-good { --b: var(--grade-good); --bw: color-mix(in srgb, var(--grade-good) 14%, transparent); }
+.cr-excellent { --b: var(--grade-excellent); --bw: color-mix(in srgb, var(--grade-excellent) 14%, transparent); } .cr-perfect { --b: var(--grade-perfect); --bw: color-mix(in srgb, var(--grade-perfect) 16%, transparent); }
+.cr-none { --b: var(--grade-none); --bw: transparent; }
+.sc-tbl tbody tr[data-band="poor"]      td:first-child { box-shadow: inset 4px 0 0 var(--grade-poor); }
+.sc-tbl tbody tr[data-band="below"]     td:first-child { box-shadow: inset 4px 0 0 var(--grade-below); }
+.sc-tbl tbody tr[data-band="fair"]      td:first-child { box-shadow: inset 4px 0 0 var(--grade-fair); }
+.sc-tbl tbody tr[data-band="good"]      td:first-child { box-shadow: inset 4px 0 0 var(--grade-good); }
+.sc-tbl tbody tr[data-band="excellent"] td:first-child { box-shadow: inset 4px 0 0 var(--grade-excellent); }
+.sc-tbl tbody tr[data-band="perfect"]   td:first-child { box-shadow: inset 4px 0 0 var(--grade-perfect); }
+.sc-tbl tbody tr[data-band="below"] { background: linear-gradient(90deg, color-mix(in srgb, var(--grade-below) 11%, transparent), transparent 50%); }
+.sc-tbl tbody tr[data-band="none"] td:first-child { box-shadow: inset 4px 0 0 var(--grade-none); }
+.sc-items tbody tr.row-poor  td:first-child { box-shadow: inset 3px 0 0 var(--grade-poor); }
+.sc-items tbody tr.row-below { background: color-mix(in srgb, var(--grade-below) 11%, transparent); } .sc-items tbody tr.row-below td:first-child { box-shadow: inset 3px 0 0 var(--grade-below); }
+.sc-items tbody tr.row-fair  { background: color-mix(in srgb, var(--grade-fair) 10%, transparent); }  .sc-items tbody tr.row-fair  td:first-child { box-shadow: inset 3px 0 0 var(--grade-fair); }
+.sc-items tbody tr.row-good  td:first-child { box-shadow: inset 3px 0 0 var(--grade-good); }
+.sc-items tbody tr.row-excellent td:first-child { box-shadow: inset 3px 0 0 var(--grade-excellent); }
+.sc-items tbody tr.row-perfect td:first-child { box-shadow: inset 3px 0 0 var(--grade-perfect); }
+.sc-spectrum { margin: var(--sp-2) 0 var(--sp-4); max-width: 520px; }
+.sc-spectrum .grade-spectrum { position: relative; }
+.sc-spec-mark { position: absolute; top: -4px; width: 2px; height: 18px; background: var(--ink); transform: translateX(-1px); border-radius: 1px; }
+
+/* Workspace header: the fidelity score of the selected part, on the grading spectrum (muted, no glow). */
+#hdr-score .chip-v { white-space: nowrap; font-variant-numeric: tabular-nums; }
+#hdr-score[data-grade]:not([data-grade="none"]) { border-color: color-mix(in srgb, var(--b) 45%, transparent); background: linear-gradient(var(--bw), var(--bw)), var(--surface); }
+#hdr-score[data-grade]:not([data-grade="none"]) .chip-ic { color: var(--b); }
+#hdr-score .grade-num { font-weight: 700; color: var(--b); }
+#hdr-score .chip-g { color: var(--b); font-size: 12px; }
+#hdr-score[data-grade="none"] .chip-v { color: var(--grade-none); }
+#hdr-score:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

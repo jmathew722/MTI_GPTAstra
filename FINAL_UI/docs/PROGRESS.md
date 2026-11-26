@@ -152,3 +152,8 @@ Root cause of the empty Build Plan: the viewer only knew the v1 `steps` plan and
 and an IR renderer (kind chips, SolidWorks status per operation, resolved numbers, flags, dimensions). Also fixed the run list's Plan presence check
 (`plan.json`). Added section health tones (`logic/resulttone.js`) to Pipeline Results and more colour to the Scoring tab (row accents, item tints, severity
 code chips, category accents). Tests: planview 8, resulttone 6, browser `26-v4-color-and-build-plan` 5.
+
+### 2026-11-25 (later): standardized grading spectrum
+
+Added `logic/grade.js` + `--grade-*` tokens and moved the Scoring tab, Projects (badge + Score column), a new Workspace header "Fidelity score" chip and Pipeline Results (fidelity section, graded
+macro-readiness style metrics) onto it. Fixed thresholds, no rounding up, neutral grey for missing, Poor has no fill (AA). Also serialised server-side PyMuPDF calls (crash under parallel PDF requests).

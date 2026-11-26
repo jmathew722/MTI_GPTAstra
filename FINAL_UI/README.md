@@ -84,3 +84,9 @@ The Build Plan section reads the Feature-IR `plan.json` (`{dims, plan:{features}
 SolidWorks reported for it (`ir_report.sw_features`), its numbers resolved from the dimension table, its drawing callouts, flags and defaults. Pipeline
 Results sections carry a health colour (navigation dot, status chip with a word, accent bar) computed by `logic/resulttone.js`; the Scoring tab uses band
 colours plus six category accents. Colour is never the only cue: every verdict has a word or glyph.
+
+### Grading spectrum (v4)
+
+All 0-100 scores use one grading utility (`web/static/js/logic/grade.js`, tokens `--grade-*`): 0-39 Poor `#D95763`, 40-59 Below Average `#D98B55`, 60-79 Fair `#D6AF6B`,
+80-89 Good `#B5C76B`, 90-99 Excellent `#8DD49A`, 100 Perfect `#4CB782`; missing scores are neutral grey `#92949E`. The colour follows the actual number (99.99 is Excellent and shows
+as 99.9). To change a threshold or colour, edit `grade.js` and the matching `--grade-*` token (a test fails if they differ).

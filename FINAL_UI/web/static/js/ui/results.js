@@ -719,7 +719,7 @@
       var rec = ev.rec, SV = McA.scoringview;
       var stt = rec ? SV.statusOf({ state: rec.state, reason: rec.reason, band: rec.band, score: rec.score }) : { label: 'Not evaluated yet', tone: 'none', glyph: SV.DASH };
       body.append(h('p', { class: 'verdict' }, h('span', { class: 'cap-c', text: 'Score ' }),
-        h('span', { class: 'band-pill band-' + stt.tone }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: SV.sym(stt.glyph) }),
+        h('span', { class: 'band-pill band-' + stt.tone }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: stt.glyph }),
           h('span', { text: (rec && rec.state === 'scored' ? SV.scoreFull({ state: 'scored', score: rec.score }) + ' · ' : '') + stt.label }))));
       body.append(note(!rec ? 'Open the Scoring tab and press Evaluate. Nothing is assumed.' : rec.state === 'scored' ? 'How closely the real SolidWorks part matches the drawing’s extraction (rubric ' + ((rec.rubric && rec.rubric.fingerprint) || '?') + ').'
         : (rec.explanation || rec.error || 'Not scored.') + ' Missing evidence is never scored as 0.', 'hint'));
@@ -769,7 +769,14 @@
     if (sm.state === 'loading') match.append(note('Loading summary…', 'hint'));
     else if (row) {
       match.append(line('Summary status', String(row.status || ''), row.status === 'READY' ? 'is-ok' : 'is-warn'));
-      ['macro_readiness', 'geometry_completeness', 'dimension_completeness', 'consistency', 'feature_confidence'].forEach(function (k) { if (row[k] !== undefined) match.append(line(k.replace(/_/g, ' '), String(row[k]) + ' (as reported)')); });
+      ['macro_readiness', 'geometry_completeness', 'dimension_completeness', 'consistency', 'feature_confidence'].forEach(function (k) {
+        if (row[k] === undefined) return;
+        var v = parseFloat(row[k]), sc = isFinite(v) && v >= 0 && v <= 1 ? v * 100 : null;     // the pipeline reports these as 0..1 fractions
+        if (sc === null) { match.append(line(k.replace(/_/g, ' '), String(row[k]) + ' (as reported)')); return; }
+        var g = McA.grade.gradeOf(sc);
+        match.append(h('div', { class: 'ov-line' }, h('span', { class: 'k', text: k.replace(/_/g, ' ') }), h('span', { class: 'v' },
+          h('span', { class: 'grade-badge grade-' + g.id, title: g.label + ' (as reported ' + row[k] + ')' }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: g.glyph }), h('span', { text: McA.grade.format(sc) + ' \u00b7 ' + g.label })))));
+      });
     } else if (d.demo) match.append(note('Demo runs produce no summary.', 'hint'));
     else if (d.ctx) match.append(note('No multiview_summary.csv was found for this output.', 'hint'));
     /* attention */

@@ -1704,7 +1704,7 @@ def part_preview(session: str, part: str):
         try:
             if src.suffix.lower() == ".pdf":
                 import fitz
-                with fitz.open(str(src)) as doc:
+                with _est.FITZ_LOCK, fitz.open(str(src)) as doc:          # MuPDF is not thread-safe: one PDF at a time in this process
                     if doc.page_count < 1:
                         raise ValueError("the PDF has no pages")
                     pg = doc.load_page(0)

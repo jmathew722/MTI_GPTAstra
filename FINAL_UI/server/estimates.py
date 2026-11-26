@@ -16,6 +16,7 @@ Units: seconds (float) and USD as a string with 6 decimals (Decimal arithmetic, 
 from __future__ import annotations
 
 import json
+import threading
 from datetime import datetime
 from decimal import Decimal
 from pathlib import Path
@@ -152,6 +153,11 @@ def build(final_dir: Path, ledger_rows: Iterable[dict], n_inputs: int) -> dict:
     return estimate(n_inputs, [d["seconds"] for d in durs], cost_vals)
 
 
+# MuPDF is not thread-safe: FastAPI runs sync endpoints on a thread pool, and the browser asks for many previews and page counts at once.
+# Two threads inside MuPDF (especially on a malformed PDF) can crash the whole server process, so every PyMuPDF call in the server holds this lock.
+FITZ_LOCK = threading.RLock()
+
+
 def pdf_pages(path: Path) -> tuple[Optional[int], Optional[str]]:
     """(page count, error). A corrupt or encrypted PDF gives (None, reason)."""
     try:
@@ -159,7 +165,7 @@ def pdf_pages(path: Path) -> tuple[Optional[int], Optional[str]]:
     except Exception:
         return None, "PyMuPDF is not installed, so the page count is unknown."
     try:
-        with fitz.open(str(path)) as doc:
+        with FITZ_LOCK, fitz.open(str(path)) as doc:
             if doc.needs_pass:
                 return None, "The PDF is password protected."
             if doc.page_count < 1:

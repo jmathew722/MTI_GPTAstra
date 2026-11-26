@@ -294,3 +294,16 @@ html { -webkit-font-smoothing: antialiased; }
   --band-violet: #BDB1FF;  --band-violet-fill: #8F7CF2;  --band-violet-wash: rgba(189,177,255,0.14);
   --cat-1: #86B7FF; --cat-2: #BDB1FF; --cat-3: #5ED1C4; --cat-4: #E8C07A; --cat-5: #F08FD2; --cat-6: #9FB0C8;
 }
+
+/* Grading spectrum (0-100): fixed colour per grade for every number, bar, badge, chart and table cell. Mirrors McA.grade (logic/grade.js); a unit test keeps them identical.
+   0-39 Poor, 40-59 Below Average, 60-79 Fair, 80-89 Good, 90-99 Excellent, 100 Perfect. A missing score is neutral grey, never red. */
+:root {
+  --grade-poor:      #D95763;
+  --grade-below:     #D98B55;
+  --grade-fair:      #D6AF6B;
+  --grade-good:      #B5C76B;
+  --grade-excellent: #8DD49A;
+  --grade-perfect:   #4CB782;
+  --grade-none:      #92949E;
+  --grade-spectrum:  linear-gradient(to right, #D95763 19.5%, #D98B55 49.5%, #D6AF6B 69.5%, #B5C76B 84.5%, #8DD49A 94.5%, #4CB782 100%);
+}

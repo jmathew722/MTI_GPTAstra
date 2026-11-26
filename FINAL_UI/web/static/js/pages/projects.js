@@ -55,7 +55,7 @@
     return h('li', { class: 'pcard' }, th, h('div', { class: 'pcard-b' },
       h('div', { class: 'pcard-n', title: p.name, text: p.name }),
       whenEl(p),
-      h('div', { class: 'pcard-m' }, statusChip(p, batch), h('span', { class: 'badge-c', text: sheets }),
+      h('div', { class: 'pcard-m' }, statusChip(p, batch), p.has_output && McA.scorecache ? McA.scorecache.badge(McA.scorecache.get(p.name)) : null, h('span', { class: 'badge-c', text: sheets }),
         p.has_overview ? h('span', { class: 'badge-c', text: 'Overview' }) : null, p.has_marked ? h('span', { class: 'badge-c', text: 'Marked' }) : null,
         p.source_format ? h('span', { class: 'badge-c mono', text: String(p.source_format).toUpperCase() }) : null),
       h('div', { class: 'pcard-a' },
@@ -69,6 +69,7 @@
       return h('tr', null,
         h('td', null, h('strong', { text: r.part })),
         h('td', { class: 'num', text: r.timestamp || McA.dom.fmtTime(r.epoch) }),
+        h('td', null, McA.scorecache ? McA.scorecache.badge(McA.scorecache.get(r.part)) : null),
         h('td', null, h('span', { class: 'pres', 'aria-label': 'Files present' }, keys.map(function (k) { return h('span', { class: 'p' + (pres[k[0]] ? ' on' : ''), title: pres[k[0]] ? 'Present' : 'Not present', text: k[1] }); }))),
         h('td', null, h('div', { class: 'acts' },
           h('button', { class: 'btn secondary sm', type: 'button', text: 'Open', onclick: function () { McA.openPart(r.session, r.part); } }),
@@ -76,7 +77,7 @@
     });
     return h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' },
       h('caption', { class: 'sr-only', text: 'All runs' }),
-      h('thead', null, h('tr', null, ['Part', 'Run time', 'Files', 'Actions'].map(function (t) { return h('th', { scope: 'col', text: t }); }))),
+      h('thead', null, h('tr', null, ['Part', 'Run time', 'Fidelity score', 'Files', 'Actions'].map(function (t) { return h('th', { scope: 'col', text: t }); }))),
       h('tbody', null, rows)));
   }
 
@@ -148,6 +149,7 @@
         McA.dom.dispatch('batch/request');
       });
       ['parts', 'history', 'batch', 'server'].forEach(function (k) { McA.store.subscribe(function (s) { return s[k]; }, render); });
+      if (McA.scorecache) McA.scorecache.onChange(render);
       McA.store.subscribe(function (s) { return s.run.state; }, render);
       render();
     },

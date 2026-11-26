@@ -393,3 +393,27 @@ def test_methodology_endpoint_describes_the_fidelity_rubric_and_its_example():
     assert ex["illustrative"] is True and "not a measured part" in ex["label"]
     assert ex["cases"][0]["score"] == 100
     assert m["benchmark"] is None or m["benchmark"]["methodology"]["total_possible"] == 100
+
+
+def test_many_parallel_pdf_requests_never_crash_the_server_process():
+    """The browser asks for a preview and a page count of every part at once. MuPDF is not thread-safe, so the server serialises it;
+    without that a burst over malformed PDFs killed the whole process (found by the browser tests)."""
+    from concurrent.futures import ThreadPoolExecutor
+    names = []
+    for i in range(6):
+        n = f"Par{i}"
+        add_part(n, pdf_pages=2)
+        names.append(n)
+    for i in range(6):
+        n = f"Bad{i}"
+        add_part(n)
+        (appmod._session_dir(SESSION) / appmod.ORIGINALS_DIRNAME / f"{n}.pdf").write_bytes(b"%PDF-1.4 x" if i % 2 else b"%PDF-1.4 corrupt " + bytes(range(60)))
+        names.append(n)
+
+    def hit(n):
+        a = client.get(f"/api/parts/{SESSION}/{n}/preview.png").status_code
+        b = client.get("/api/estimate", params={"session": SESSION, "parts": [n]}).status_code
+        return a, b
+    with ThreadPoolExecutor(max_workers=16) as ex:
+        results = list(ex.map(hit, names * 4))
+    assert all(a in (200, 204) and b == 200 for a, b in results)

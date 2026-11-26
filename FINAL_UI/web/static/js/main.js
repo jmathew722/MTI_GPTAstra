@@ -3,7 +3,7 @@
   'use strict';
   var McA = (window.McA = window.McA || {});
   var $ = function () { return McA.store; };
-  var OWNED = ['estimate', 'tracker', 'costKey', 'results', 'resultsPage', 'run', 'intake', 'markup', 'cropper', 'viewer2d', 'engFlags', 'viewer3d'];
+  var OWNED = ['estimate', 'scorecache', 'tracker', 'costKey', 'results', 'resultsPage', 'run', 'intake', 'markup', 'cropper', 'viewer2d', 'engFlags', 'viewer3d'];
 
   function refreshStatus() {
     return McA.api.status().then(function (r) { McA.store.dispatch('server/status', r || {}); },

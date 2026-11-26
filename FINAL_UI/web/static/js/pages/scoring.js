@@ -1,6 +1,6 @@
 /* Scoring tab: Extraction-to-Model Fidelity (EMF). Overview, part results, methodology, worked example, part detail.
    The score grades what the drawing's EXTRACTION asked for against the ACTUAL SolidWorks part (measured on the STL that
-   SolidWorks exported from the SLDPRT). The engine (bench.fidelity, free) decides every number, band and issue; this page
+   SolidWorks exported from the SLDPRT). The engine (bench.fidelity, free) decides every number and issue; colours come only from McA.grade (fixed grade thresholds); this page
    only shows what the server stored. A failed build, an incomplete input and a failed scorer are different states; a
    missing score is a dash, never 0; every colour also has a word and a glyph. The worked example is labelled illustrative. */
 (function () {
@@ -9,7 +9,7 @@
   McA.pages = McA.pages || {};
   var $ = function (id) { return document.getElementById(id); };
   var h = function () { return McA.dom.h.apply(null, arguments); };
-  var SV;
+  var SV, G;
   var TABS = [['overview', 'Overview'], ['results', 'Part results'], ['method', 'Scoring methodology'], ['example', 'Worked example']];
   var st = { tab: 'overview', ov: null, meth: null, methErr: '', err: '', q: '', detail: null, detailRec: null, busy: {}, benchmark: false, loading: false };
 
@@ -18,7 +18,7 @@
   function empty(icon, title, text) { return h('div', { class: 'empty' }, h('span', { class: 'empty-ic' }, McA.icons.get(icon, 30)), h('p', { class: 'empty-t', text: title }), h('p', { class: 'empty-d', text: text })); }
   function fmtTime(iso) { try { return iso ? new Date(iso).toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : SV.DASH; } catch (e) { return SV.DASH; } }
   /* A coloured pill: band colour + glyph + word, so colour is never the only cue. */
-  function pill(tone, glyph, label, extra) { return h('span', { class: 'band-pill band-' + tone + (extra ? ' ' + extra : ''), 'data-band': tone }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: SV.sym(glyph) }), h('span', { text: label })); }
+  function pill(tone, glyph, label, extra) { return h('span', { class: 'band-pill band-' + tone + (extra ? ' ' + extra : ''), 'data-band': tone }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: glyph }), h('span', { text: label })); }
   function sevPill(sev) { var m = SV.severityMeta(sev); return h('span', { class: 'sev-pill sev-' + sev }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: m.glyph }), h('span', { text: m.label })); }
   function bar(pct, tone, label) {
     var w = typeof pct === 'number' ? Math.max(0, Math.min(100, pct)) : 0;
@@ -48,7 +48,7 @@
       var bad = res.filter(function (x) { return x.state === 'scoring_failed'; }).length;
       McA.toast.show('Scored ' + ok + ' of ' + names.length + (inc ? ', ' + inc + ' incomplete' : '') + (bad ? ', ' + bad + ' failed' : '') + '.', bad ? 'warn' : 'ok');
     }, function (e) { McA.toast.show('Scoring could not run: ' + errText(e), 'err'); })
-      .then(function () { names.forEach(function (p) { delete st.busy[p]; }); return load(); })
+      .then(function () { names.forEach(function (p) { delete st.busy[p]; }); if (McA.scorecache) McA.scorecache.load(); return load(); })
       .then(function () { if (st.detail) openDetail(st.detail); });
   }
 
@@ -69,26 +69,33 @@
   }
 
   /* ── shared pieces ────────────────────────────────────────────────────── */
-  function legend(bands) {
-    return h('ul', { class: 'sc-legend', 'aria-label': 'Score colour bands' }, (bands || SV.BANDS).map(function (b, i, a) {
-      var hi = i === 0 ? 100 : a[i - 1].min - 1;
-      return h('li', null, pill(b.id, b.glyph, b.label), h('span', { class: 'sc-legend-r', text: (b.min === 0 ? '0' : b.min) + (b.min === hi ? '' : '–' + hi) }));
+  function legend() {
+    return h('ul', { class: 'sc-legend', 'aria-label': 'Score grades' }, G.GRADES.map(function (g) {
+      return h('li', null, pill(g.id, g.glyph, g.label), h('span', { class: 'sc-legend-r', text: G.rangeText(g) }));
     }));
+  }
+  /* A smooth gradient across 0..100 (spectrum visualisation only; every individual number uses its fixed grade colour). */
+  function spectrum(score) {
+    var wrap = h('div', { class: 'sc-spectrum', role: 'img', 'aria-label': 'Grading spectrum from 0 to 100' }, h('div', { class: 'grade-spectrum', style: 'background:' + G.gradientCSS() }));
+    var pos = G.spectrumPos(score);
+    if (pos !== null) wrap.firstChild.append(h('span', { class: 'sc-spec-mark', style: 'left:' + pos + '%', title: 'Average ' + G.format(score) }));
+    wrap.append(h('div', { class: 'grade-scale', 'aria-hidden': 'true' }, [0, 40, 60, 80, 90, 100].map(function (n) { return h('span', { text: String(n) }); })));
+    return wrap;
   }
   function stat(label, value, sub, tone) { return h('div', { class: 'sc-stat' + (tone ? ' band-' + tone : '') }, h('div', { class: 'sc-stat-l', text: label }), h('div', { class: 'sc-stat-v', text: value }), sub ? h('div', { class: 'sc-stat-s', text: sub }) : null); }
   function scoreChip(row) {
     var s = SV.statusOf(row);
-    if (row.state !== 'scored') return h('span', { class: 'sc-score-none', text: SV.DASH, title: s.label });
+    if (row.state !== 'scored' || !G.valid(row.score)) return h('span', { class: 'sc-score-none', text: SV.DASH, title: s.label });
     return h('span', { class: 'sc-score band-' + s.tone }, h('span', { class: 'sc-score-n', text: SV.scoreText(row) }), pill(s.tone, s.glyph, s.label));
   }
   function catStrip(row) {
     var order = ['model_integrity', 'envelope', 'feature_coverage', 'hole_accuracy', 'placement', 'extraction_trust'];
     var names = { model_integrity: 'Build integrity', envelope: 'Overall size', feature_coverage: 'Feature coverage', hole_accuracy: 'Hole accuracy', placement: 'Placement', extraction_trust: 'Extraction reliability' };
     var cats = row.categories || {};
-    return h('span', { class: 'sc-strip', role: 'img', 'aria-label': order.map(function (k) { var c = cats[k]; return names[k] + ' ' + (c && c.checked && typeof c.score === 'number' ? Math.round(c.score) : 'not checked'); }).join(', ') },
+    return h('span', { class: 'sc-strip', role: 'img', 'aria-label': order.map(function (k) { var c = cats[k]; return names[k] + ' ' + (c && c.checked && typeof c.score === 'number' ? G.format(c.score, 0) : 'not checked'); }).join(', ') },
       order.map(function (k) {
-        var c = cats[k], tone = c && c.checked ? SV.bandOf(c.score).id : 'none';
-        return h('span', { class: 'sc-strip-c band-' + tone, title: names[k] + ': ' + (c && c.checked && typeof c.score === 'number' ? Math.round(c.score) + ' / 100' : 'not checked') });
+        var c = cats[k], tone = c && c.checked ? SV.gradeOf(c.score).id : 'none';
+        return h('span', { class: 'sc-strip-c band-' + tone, title: names[k] + ': ' + (c && c.checked && typeof c.score === 'number' ? G.format(c.score, 0) + ' / 100' : 'not checked') });
       }));
   }
   function issueBadges(counts) {
@@ -99,29 +106,29 @@
 
   /* ── overview ─────────────────────────────────────────────────────────── */
   function renderOverview() {
-    var o = st.ov, s = o.summary || {}, avgB = SV.bandOf(s.average, o.bands);
+    var o = st.ov, s = o.summary || {}, avgB = SV.gradeOf(s.average), eligible = (o.parts || []).filter(function (r) { return r.has_output; }), weak = eligible.filter(function (r) { return r.state === 'scored' && r.score < 60; }).length;
     var attention = SV.byAttention((o.parts || []).filter(function (r) { return r.has_output; })).filter(function (r) { return r.score < 90 || (r.counts && r.counts.critical); }).slice(0, 8);
     var wrap = h('div', null,
       h('div', { class: 'sc-stats' },
         stat('Parts scored', String(s.scored || 0), 'of ' + (s.parts || 0) + ' with output'),
-        stat('Average fidelity', SV.avgText(s.average), s.scored ? avgB.label : 'no scored parts yet', s.scored ? avgB.id : ''),
-        stat('Need attention', String((s.distribution && ((s.distribution.orange || 0) + (s.distribution.red || 0))) || 0), (s.parts_with_critical || 0) + ' with a critical issue', (s.parts_with_critical ? 'red' : '')),
+        stat('Average fidelity', SV.avgText(s.average), s.scored ? avgB.label : 'no scored parts yet', s.scored ? avgB.id : 'none'),
+        stat('Need attention', String(weak), 'scored below 60 \u00b7 ' + (s.parts_with_critical || 0) + ' with a critical issue', weak ? 'poor' : 'none'),
         stat('Not scored', String((s.incomplete || 0) + (s.no_model || 0) + (s.pending || 0) + (s.scoring_failed || 0)), (s.pending || 0) + ' pending · ' + (s.incomplete || 0) + ' incomplete · ' + (s.no_model || 0) + ' no part' + (s.scoring_failed ? ' · ' + s.scoring_failed + ' failed' : '')),
         stat('Rubric', o.version || SV.DASH, o.rubric || '')),
       h('p', { class: 'sc-note', text: 'The score grades what the drawing’s extraction asked for against the real SolidWorks part. It needs no answer key and costs nothing to run.' }));
-    var dist = SV.distribution(s, o.bands);
+    var dist = SV.distribution(eligible);
     if (s.scored) {
       wrap.append(h('h3', { class: 'sec-h', text: 'Score distribution' }),
         h('div', { class: 'sc-dist', role: 'img', 'aria-label': dist.map(function (d) { return d.count + ' ' + d.label; }).join(', ') },
           dist.filter(function (d) { return d.count; }).map(function (d) { return h('div', { class: 'sc-dist-s band-' + d.id, style: 'flex:' + d.count, title: d.count + ' · ' + d.label }, h('span', { text: String(d.count) })); })),
-        legend(o.bands));
-    } else wrap.append(legend(o.bands));
+        legend(), spectrum(s.average));
+    } else wrap.append(legend());
     if ((s.incomplete || 0) + (s.no_model || 0) > 0) wrap.append(h('div', { class: 'banner is-warn', role: 'note' }, McA.icons.get('info', 18),
       ((s.incomplete || 0) + (s.no_model || 0)) + ' part(s) could not be scored: the SolidWorks part or its exported STL is missing. They are listed as Incomplete, never as 0.'));
     wrap.append(h('h3', { class: 'sec-h', text: 'Parts that need attention' }));
-    if (!attention.length) wrap.append(h('p', { class: 'reason', text: s.scored ? 'Every scored part is in the green band.' : 'Nothing scored yet. Open Part results and press Evaluate.' }));
+    if (!attention.length) wrap.append(h('p', { class: 'reason', text: s.scored ? 'Every scored part is Excellent or Perfect.' : 'Nothing scored yet. Open Part results and press Evaluate.' }));
     else wrap.append(h('ul', { class: 'sc-attn' }, attention.map(function (r) {
-      return h('li', { class: 'band-' + ((r.band && r.band.id) || 'none') }, h('div', { class: 'sc-attn-h' }, h('strong', { text: r.part }), scoreChip(r), issueBadges(r.counts)),
+      return h('li', { class: 'band-' + SV.gradeOf(r.score).id }, h('div', { class: 'sc-attn-h' }, h('strong', { text: r.part }), scoreChip(r), issueBadges(r.counts)),
         r.top_issue ? h('p', { class: 'sc-attn-t', text: r.top_issue }) : null,
         h('button', { class: 'btn ghost sm', type: 'button', text: 'Details', onclick: function () { openDetail(r.part); } }));
     })));
@@ -137,17 +144,17 @@
     var rows = found.filter(function (r) { return r.has_output; }).concat(found.filter(function (r) { return !r.has_output; }));   // parts with output first
     var wrap = h('div', null, h('div', { class: 'sc-tools' }, q,
       h('label', { class: 'chk' }, h('input', { type: 'checkbox', id: 'sc-bench', checked: st.benchmark ? 'checked' : null, onchange: function (e) { st.benchmark = e.target.checked; } }),
-        h('span', { text: 'Also run the answer-key benchmark when a signed key exists' }))), legend(o.bands));
+        h('span', { text: 'Also run the answer-key benchmark when a signed key exists' }))), legend());
     if (!rows.length) { wrap.append(empty('search', (o.parts || []).length ? 'No matches' : 'No parts yet', (o.parts || []).length ? 'No part matches that search.' : 'Parts appear here once they are created and run.')); return wrap; }
     var body = rows.map(function (r) {
       var bs = s.batch && s.batch.results ? s.batch.results[r.part] : undefined, status = SV.statusOf(r, bs), block = SV.evalBlocker(r);
       var evalBtn = h('button', { class: 'btn secondary sm', type: 'button', text: st.busy[r.part] ? 'Scoring…' : (r.state === 'pending' || r.state === 'no_output' ? 'Evaluate' : 'Re-evaluate'), disabled: (block || st.busy[r.part]) ? 'disabled' : null, title: block || '' });
       evalBtn.addEventListener('click', function () { evaluate([r.part]); });
-      return h('tr', { 'data-part': r.part, 'data-state': r.state, 'data-band': (r.band && r.band.id) || 'none' },
+      return h('tr', { 'data-part': r.part, 'data-state': r.state, 'data-band': status.kind === 'scored' ? SV.gradeOf(r.score).id : 'none' },
         h('td', null, h('strong', { text: r.part })),
         h('td', { class: 'num', text: McA.projectorder ? McA.projectorder.fmtWhen(r.last_activity) : '' }),
-        h('td', null, r.state === 'scored' ? scoreChip(r) : pill(status.tone, status.glyph, status.label, 'is-quiet')),
-        h('td', null, r.state === 'scored' ? catStrip(r) : h('span', { class: 'reason', text: SV.DASH })),
+        h('td', null, status.kind === 'scored' ? scoreChip(r) : pill(status.tone, status.glyph, status.label, 'is-quiet')),
+        h('td', null, status.kind === 'scored' ? catStrip(r) : h('span', { class: 'reason', text: SV.DASH })),
         h('td', null, h('div', { class: 'sc-badges' }, r.counts ? issueBadges(r.counts) : [h('span', { class: 'reason', text: SV.DASH })])),
         h('td', null, r.stale_rubric ? pill('amber', '!', 'Rubric changed', 'is-quiet') : null, r.benchmark && r.benchmark.state === 'scored' ? h('span', { class: 'badge-c', title: 'Answer-key benchmark score', text: 'Benchmark ' + r.benchmark.score.toFixed(0) }) : null),
         h('td', null, h('div', { class: 'acts' }, h('button', { class: 'btn ghost sm', type: 'button', text: 'Details', onclick: function () { openDetail(r.part); } }), evalBtn)));
@@ -159,15 +166,15 @@
 
   /* ── part detail ──────────────────────────────────────────────────────── */
   function ring(rec) {
-    var b = rec.band || SV.bandOf(rec.score), pct = Math.max(0, Math.min(100, rec.score || 0));
+    var b = SV.gradeOf(rec.score), pct = Math.max(0, Math.min(100, rec.score || 0));
     return h('div', { class: 'sc-ring band-' + b.id, style: '--pct:' + pct, role: 'img', 'aria-label': 'Fidelity score ' + SV.scoreFull({ state: 'scored', score: rec.score }) + ', ' + b.label },
       h('div', { class: 'sc-ring-in' }, h('div', { class: 'sc-ring-n', text: SV.scoreText({ state: 'scored', score: rec.score }) }), h('div', { class: 'sc-ring-d', text: 'out of 100' })));
   }
   function catCard(c) {
-    var tone = c.checked ? c.band.id : 'none';
+    var tone = c.grade.id;
     return h('div', { class: 'sc-cat band-' + tone, 'data-cat': c.id },
       h('div', { class: 'sc-cat-h' }, h('strong', null, h('span', { class: 'sc-cat-k', 'aria-hidden': 'true' }), c.label), h('span', { class: 'sc-cat-w', text: c.weight + ' pts' })),
-      h('div', { class: 'sc-cat-s' }, h('span', { class: 'sc-cat-n', text: c.checked ? Math.round(c.score) : SV.DASH }), h('span', { class: 'sc-cat-of', text: c.checked ? ' / 100' : ' not checkable' }), c.checked ? pill(c.band.id, c.band.glyph, c.band.label, 'is-quiet') : null),
+      h('div', { class: 'sc-cat-s' }, h('span', { class: 'sc-cat-n', text: c.checked ? G.format(c.score, 0) : SV.DASH }), h('span', { class: 'sc-cat-of', text: c.checked ? ' / 100' : ' not checkable' }), c.checked ? pill(c.grade.id, c.grade.glyph, c.grade.label, 'is-quiet') : null),
       bar(c.checked ? c.score : null, tone),
       h('div', { class: 'sc-cat-m', text: c.checked ? (c.earned.toFixed(1) + ' of ' + c.max.toFixed(1) + ' points · ' + c.n) : c.n }),
       h('div', { class: 'sc-cat-q', text: c.question }));
@@ -177,8 +184,8 @@
     if (!rows.length) return h('p', { class: 'reason', text: 'Nothing in this category could be checked for this part.' });
     return h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl sc-items' }, h('caption', { class: 'sr-only', text: cat.label + ' checks' }),
       h('thead', null, h('tr', null, ['Check', 'Drawing / expected', 'Real part / measured', 'Error', 'Credit', 'Note'].map(function (t) { return h('th', { scope: 'col', text: t }); }))),
-      h('tbody', null, rows.map(function (r) { return h('tr', { class: 'row-' + r.band.id }, h('td', { text: r.label }), h('td', { class: 'mono', text: r.expected }), h('td', { class: 'mono', text: r.measured }), h('td', { class: 'mono', text: r.error }),
-        h('td', null, h('span', { class: 'cr cr-' + r.band.id, title: r.band.label }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: SV.sym(r.band.glyph) }), h('span', { text: r.credit }))), h('td', { text: r.note })); }))));
+      h('tbody', null, rows.map(function (r) { return h('tr', { class: 'row-' + r.grade.id }, h('td', { text: r.label }), h('td', { class: 'mono', text: r.expected }), h('td', { class: 'mono', text: r.measured }), h('td', { class: 'mono', text: r.error }),
+        h('td', null, h('span', { class: 'cr cr-' + r.grade.id, title: r.grade.label }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: r.grade.glyph }), h('span', { text: r.credit }))), h('td', { text: r.note })); }))));
   }
   function issuesBlock(rec) {
     var groups = SV.groupIssues(rec.issues || []);
@@ -200,7 +207,7 @@
     var rec = d.latest, row = ((st.ov && st.ov.parts) || []).filter(function (r) { return r.part === part; })[0] || {};
     var evalBtn = h('button', { class: 'btn secondary sm', type: 'button', text: st.busy[part] ? 'Scoring…' : (rec ? 'Re-evaluate' : 'Evaluate'), disabled: (!row.has_output || st.busy[part]) ? 'disabled' : null, onclick: function () { evaluate([part]); } });
     if (!rec) { wrap.append(empty('scoring', 'Not evaluated yet', 'Press Evaluate to score this part. Nothing is assumed.'), evalBtn); return wrap; }
-    var stt = SV.statusOf({ state: rec.state, reason: rec.reason, band: rec.band, score: rec.score });
+    var stt = SV.statusOf({ state: rec.state, reason: rec.reason, score: rec.score });
     var head = h('div', { class: 'sc-head' });
     if (rec.state === 'scored') head.append(ring(rec));
     head.append(h('div', { class: 'sc-head-b' },
@@ -217,7 +224,7 @@
     if ((rec.issues || []).length || rec.state === 'scored') wrap.append(h('h3', { class: 'sec-h', text: 'Issues and warnings' }), issuesBlock(rec));
     if (cats.length) {
       wrap.append(h('h3', { class: 'sec-h', text: 'What was checked' }));
-      cats.forEach(function (c) { wrap.append(h('details', { class: 'sc-det', open: c.checked && c.score !== null && c.score < 90 ? 'open' : null }, h('summary', null, h('span', { text: c.label }), c.checked ? pill(c.band.id, c.band.glyph, Math.round(c.score) + ' / 100', 'is-quiet') : h('span', { class: 'reason', text: 'not checkable' })), itemTable(c))); });
+      cats.forEach(function (c) { var cg = c.checked ? SV.gradeOf(c.score) : G.NONE; wrap.append(h('details', { class: 'sc-det', open: c.checked && c.score !== null && c.score < 90 ? 'open' : null }, h('summary', null, h('span', { text: c.label }), c.checked ? pill(cg.id, cg.glyph, G.format(c.score, 0) + ' / 100', 'is-quiet') : h('span', { class: 'reason', text: 'not checkable' })), itemTable(c))); });
     }
     var m = rec.measured || {};
     if (m.stl_dims) {
@@ -234,7 +241,7 @@
     wrap.append(h('h3', { class: 'sec-h', text: 'Answer-key benchmark (optional)' }),
       h('p', { class: 'sc-note', text: b && b.state === 'scored' ? 'Benchmark score ' + b.score.toFixed(1) + ' / 100 against a signed answer key (separate from the fidelity score above).' : 'No signed answer key for this drawing, so there is no benchmark score. The fidelity score above does not need one.' }));
     if ((d.history || []).length > 1) wrap.append(h('h3', { class: 'sec-h', text: 'Evaluation history (kept, never overwritten)' }), h('ul', { class: 'dlg-list sc-hist' }, d.history.slice().reverse().map(function (x) {
-      var hb = x.state === 'scored' ? SV.bandOf(x.score) : null; return h('li', null, h('span', { text: fmtTime(x.evaluated_at) }), hb ? pill(hb.id, hb.glyph, SV.scoreFull({ state: 'scored', score: x.score }) + ' \u00b7 ' + hb.label, 'is-quiet') : pill('amber', '!', x.state, 'is-quiet'), h('span', { class: 'reason mono', text: x.fingerprint || '' })); })));
+      var hb = x.state === 'scored' ? SV.gradeOf(x.score) : null; return h('li', null, h('span', { text: fmtTime(x.evaluated_at) }), hb ? pill(hb.id, hb.glyph, SV.scoreFull({ state: 'scored', score: x.score }) + ' \u00b7 ' + hb.label, 'is-quiet') : pill('none', SV.DASH, x.state, 'is-quiet'), h('span', { class: 'reason mono', text: x.fingerprint || '' })); })));
     return wrap;
   }
 
@@ -247,7 +254,8 @@
     return h('div', { class: 'sc-method' },
       h('p', { class: 'sc-note', text: m.name + ', version ' + m.version + ' (' + m.fingerprint + '). Total possible: ' + m.total_possible + ' points. Free: no API calls. It grades the extraction against the real SolidWorks part, measured on the STL SolidWorks exported from the SLDPRT.' }),
       h('h3', { class: 'sec-h', text: 'Formula' }), h('p', { class: 'mono sc-formula', text: m.formula }), h('p', { class: 'mono sc-formula', text: m.credit_formula }),
-      h('h3', { class: 'sec-h', text: 'Colour bands out of 100' }), legend(m.bands),
+      h('h3', { class: 'sec-h', text: 'Grading spectrum out of 100' }), legend(), spectrum(null),
+      h('p', { class: 'sc-note', text: 'Each number, bar and badge takes its grade colour from the actual score at these fixed thresholds; a score below 100 is never shown as Perfect. A missing score is neutral grey.' }),
       h('h3', { class: 'sec-h', text: 'Categories' }),
       h('div', { class: 'sc-wbar', role: 'img', 'aria-label': 'Points per category: ' + m.categories.map(function (c) { return c.label + ' ' + c.weight; }).join(', ') }, m.categories.map(function (c) { return h('div', { class: 'sc-wbar-s cat-m-' + c.id, style: 'flex:' + c.weight, title: c.label + ': ' + c.weight + ' points', text: String(c.weight) }); })),
       tbl('Rubric categories', ['Category', 'Points', 'Question it answers', 'How it is measured'], m.categories.map(function (c) { return h('tr', null, h('td', null, h('span', { class: 'sc-m-cat cat-m-' + c.id }, h('span', { class: 'sc-cat-k', 'aria-hidden': 'true' }), c.label)), h('td', { class: 'num', text: String(c.weight) }), h('td', { text: c.question }), h('td', { text: c.how || '' })); })),
@@ -260,7 +268,7 @@
       tbl('Tier weights', ['Feature type', 'Weight'], Object.keys(m.tiers).map(function (k) { return h('tr', null, h('td', { text: k.replace(/_/g, ' ') }), h('td', { class: 'num', text: String(m.tiers[k]) })); })),
       h('h3', { class: 'sec-h', text: 'Gates, tolerances and thresholds' }),
       h('ul', { class: 'dlg-list' }, [
-        'A critical issue caps the score at ' + m.gates.critical_cap + ' (red): a polished breakdown cannot hide a wrong model.',
+        'A critical issue caps the score at ' + m.gates.critical_cap + ' (Below Average at best): a polished breakdown cannot hide a wrong model.',
         'Overall size off by more than ' + Math.round(m.gates.envelope_off_fraction * 100) + '% is critical. A mesh that differs from the build record by more than ' + Math.round(m.gates.mesh_vs_build_fraction * 100) + '% (or is older than the SLDPRT) is a stale or wrong export and is critical.',
         'Tolerance: the drawing’s own; if none, ±' + m.fallback_tol.inch + ' in / ±' + m.fallback_tol.mm + ' mm. Nothing is judged tighter than the mesh floor (' + m.mesh_floor.inch + ' in / ' + m.mesh_floor.mm + ' mm).',
         'A category with nothing checkable is dropped and the rest are rescaled. Below ' + Math.round(m.min_coverage * 100) + '% checkable, no score is given.',
@@ -280,9 +288,9 @@
       h('p', { class: 'sc-note', text: x.assumptions }),
       tbl('Worked example cases', ['Scenario', 'Score', 'Band', 'Build', 'Size', 'Features', 'Holes', 'Placement', 'Extraction'], x.cases.map(function (c) {
         var by = {}; c.categories.forEach(function (k) { by[k.id] = k; });
-        var cell = function (id) { var k = by[id]; return h('td', null, k && k.score !== null ? h('span', { class: 'cr cr-' + k.band.id }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: SV.sym(k.band.glyph) }), h('span', { text: Math.round(k.score) })) : SV.DASH); };
-        return h('tr', { class: 'sc-ex-row band-' + c.band.id }, h('td', null, c.case, c.caps && c.caps.length ? h('div', { class: 'reason', text: c.caps[0] }) : null), h('td', null, h('strong', { class: 'sc-ex-s band-' + c.band.id, text: c.score.toFixed(1) })),
-          h('td', null, pill(c.band.id, c.band.glyph, c.band.label, 'is-quiet')), cell('model_integrity'), cell('envelope'), cell('feature_coverage'), cell('hole_accuracy'), cell('placement'), cell('extraction_trust'));
+        var cell = function (id) { var k = by[id], g = k && k.score !== null ? SV.gradeOf(k.score) : null; return h('td', null, g ? h('span', { class: 'cr cr-' + g.id }, h('span', { class: 'bp-g', 'aria-hidden': 'true', text: g.glyph }), h('span', { text: G.format(k.score, 0) })) : SV.DASH); };
+        var cg = SV.gradeOf(c.score); return h('tr', { class: 'sc-ex-row band-' + cg.id }, h('td', null, c.case, c.caps && c.caps.length ? h('div', { class: 'reason', text: c.caps[0] }) : null), h('td', null, h('strong', { class: 'sc-ex-s band-' + cg.id, text: G.format(c.score) })),
+          h('td', null, pill(cg.id, cg.glyph, cg.label, 'is-quiet')), cell('model_integrity'), cell('envelope'), cell('feature_coverage'), cell('hole_accuracy'), cell('placement'), cell('extraction_trust'));
       })));
   }
 
@@ -309,7 +317,7 @@
 
   McA.pages.scoring = {
     init: function () {
-      SV = McA.scoringview;
+      SV = McA.scoringview; G = McA.grade;
       var all = $('sc-eval-all');
       if (all) all.addEventListener('click', function () {
         if (all.getAttribute('aria-disabled') === 'true') return;

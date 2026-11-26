@@ -692,3 +692,8 @@ run's STL belongs to its SLDPRT (the rubric flags it as a critical `STL_NOT_THIS
 
 The Build Plan tab was empty for every IR build because the viewer only understood the legacy `steps` plan (fixed: `planview.js`). Pipeline Results sections
 now carry health colours and the Scoring tab has more colour coding. See `docs/test-reports/2026-11-25-v4-report.md` (Addendum 2).
+
+## v4: grading spectrum (2026-11-25, branch `Improvementsv4`)
+
+One grading utility (`McA.grade`) colours every 0-100 score in the UI: 0-39 Poor, 40-59 Below Average, 60-79 Fair, 80-89 Good, 90-99 Excellent, 100 Perfect; missing is neutral grey. Scoring methodology unchanged.
+See `docs/test-reports/2026-11-25-v4-report.md` (Addendum 3).

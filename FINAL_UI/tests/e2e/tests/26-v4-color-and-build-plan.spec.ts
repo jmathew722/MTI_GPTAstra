@@ -156,7 +156,7 @@ test.describe('v4: colour coding throughout', () => {
     await row.getByRole('button', { name: 'Evaluate' }).click();
     await expect(row.locator('.sc-score-n')).toBeVisible({ timeout: 60_000 });
     const band = await row.getAttribute('data-band');
-    expect(['amber', 'orange', 'red']).toContain(band);
+    expect(['good', 'fair', 'below', 'poor']).toContain(band);
     expect(await row.locator('td').first().evaluate((e: HTMLElement) => getComputedStyle(e).boxShadow)).not.toBe('none');   // coloured band accent on the row
     await row.getByRole('button', { name: 'Details' }).click();
     const det = page.locator('.sc-detail');
@@ -164,7 +164,7 @@ test.describe('v4: colour coding throughout', () => {
     const keys = await det.locator('.sc-cat-k').evaluateAll((els) => els.map((e) => getComputedStyle(e).backgroundColor));
     expect(new Set(keys).size).toBe(6);                                                                         // six categories, six colours
     await det.locator('.sc-det', { hasText: 'Hole and bore accuracy' }).evaluate((e: HTMLDetailsElement) => { e.open = true; });      // categories scoring under 90 open by themselves
-    await expect(det.locator('.sc-items tbody tr.row-red, .sc-items tbody tr.row-orange, .sc-items tbody tr.row-amber').first()).toBeVisible();
+    await expect(det.locator('.sc-items tbody tr.row-poor, .sc-items tbody tr.row-below, .sc-items tbody tr.row-fair').first()).toBeVisible();
     const code = det.locator('.sc-iss .sc-code', { hasText: 'HOLE_DIAMETER' }).first();
     await expect(code).toBeVisible();
     expect(await code.evaluate((e: HTMLElement) => getComputedStyle(e).backgroundColor)).not.toBe('rgba(0, 0, 0, 0)');

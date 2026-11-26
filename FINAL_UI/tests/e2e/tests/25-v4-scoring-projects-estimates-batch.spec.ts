@@ -217,19 +217,19 @@ test.describe('v4: Scoring tab (Extraction-to-Model Fidelity)', () => {
     await expect(page.locator('#page-scoring h1')).toHaveText('Scoring');
     await expect(page.locator('.sc-stat')).toHaveCount(5, { timeout: 15_000 });
     await expect(page.locator('.sc-stat', { hasText: 'Rubric' }).last()).toContainText('emf-');
-    await expect(page.locator('.sc-legend .band-pill')).toHaveCount(4);                       // green, amber, orange, red, each with a word
+    await expect(page.locator('.sc-legend .band-pill')).toHaveCount(6);                       // Poor to Perfect, each with a word
     await expect(page.locator('.sc-dist')).toBeVisible();
     await expect(page.locator('.sc-attn li', { hasText: bad })).toBeVisible();
     await shot(page, 'scoring-overview-1440x900.png');
 
     await page.getByRole('tab', { name: 'Part results' }).click();
     const gRow = page.locator('.sc-tbl tr', { hasText: good }), bRow = page.locator('.sc-tbl tr', { hasText: bad }), pRow = page.locator('.sc-tbl tr', { hasText: pending });
-    await expect(gRow).toHaveAttribute('data-band', 'green');
+    await expect(gRow).toHaveAttribute('data-band', /^(excellent|perfect)$/);
     await expect(gRow.locator('.sc-score-n')).toHaveText(/^(9\d|100)(\.\d)?$/);
-    await expect(gRow.locator('.band-pill').first()).toContainText('Matches the drawing');
-    await expect(bRow).toHaveAttribute('data-band', 'red');
+    await expect(gRow.locator('.band-pill').first()).toContainText(/Excellent|Perfect/);
+    await expect(bRow).toHaveAttribute('data-band', /^(poor|below)$/);
     await expect(bRow.locator('.sev-pill.sev-critical')).toBeVisible();
-    await expect(bRow.locator('.band-pill').first()).toContainText('Does not match');
+    await expect(bRow.locator('.band-pill').first()).toContainText(/Poor|Below Average/);
     await expect(gRow.locator('.sc-strip-c')).toHaveCount(6);
     await expect(pRow).toContainText('Pending evaluation');
     await expect(pRow.locator('.sc-score-n')).toHaveCount(0);                                  // not evaluated: no number, never 0
@@ -245,16 +245,16 @@ test.describe('v4: Scoring tab (Extraction-to-Model Fidelity)', () => {
     await expect(page.locator('.sc-method')).toContainText('Extraction-to-Model Fidelity');
     await expect(page.locator('.sc-method table').first()).toContainText('Overall size');
     await expect(page.locator('.sc-method')).toContainText('exp(-(e - 1) /');
-    await expect(page.locator('.sc-method')).toContainText('Colour bands out of 100');
+    await expect(page.locator('.sc-method')).toContainText('Grading spectrum out of 100');
     await shot(page, 'scoring-methodology-1440x900.png');
 
     await page.getByRole('tab', { name: 'Worked example' }).click();
     const ex = page.locator('.sc-example');
     await expect(ex).toContainText('Illustrative example, not a measured part', { timeout: 15_000 });
     await expect(ex.locator('tr', { hasText: 'Everything matches the drawing' })).toContainText('100.0');
-    await expect(ex.locator('tr', { hasText: 'Everything matches the drawing' }).locator('.band-pill')).toContainText('Matches the drawing');
+    await expect(ex.locator('tr', { hasText: 'Everything matches the drawing' }).locator('.band-pill')).toContainText('Perfect');
     await expect(ex.locator('tr', { hasText: 'critical gate' })).toContainText('49.9');
-    await expect(ex.locator('tr', { hasText: 'critical gate' }).locator('.band-pill')).toContainText('Does not match');
+    await expect(ex.locator('tr', { hasText: 'critical gate' }).locator('.band-pill')).toContainText('Below Average');
     await shot(page, 'scoring-example-1440x900.png');
     expect(serious(await new AxeBuilder({ page }).include('#page-scoring').analyze())).toEqual([]);
   });
@@ -274,8 +274,8 @@ test.describe('v4: Scoring tab (Extraction-to-Model Fidelity)', () => {
     await expect(det.locator('.sc-ring')).toBeVisible({ timeout: 15_000 });
     await expect(det.locator('.sc-cat')).toHaveCount(6);
     await expect(det.locator('.sc-cat[data-cat="envelope"] .sc-cat-n')).toHaveText('100');
-    await expect(det.locator('.sc-cat[data-cat="envelope"]')).toHaveClass(/band-green/);
-    await expect(det.locator('.sc-cat[data-cat="hole_accuracy"]')).not.toHaveClass(/band-green/);       // the oversize hole costs points
+    await expect(det.locator('.sc-cat[data-cat="envelope"]')).toHaveClass(/band-perfect/);
+    await expect(det.locator('.sc-cat[data-cat="hole_accuracy"]')).not.toHaveClass(/band-(perfect|excellent)/);       // the oversize hole costs points
     await expect(det.locator('.sc-iss-g .sev-pill.sev-medium, .sc-iss-g .sev-pill.sev-high').first()).toBeVisible();
     await expect(det).toContainText('HOLE_DIAMETER');
     await expect(det).toContainText('PATTERN_SPACING');
@@ -301,7 +301,7 @@ test.describe('v4: Scoring tab (Extraction-to-Model Fidelity)', () => {
     await expect(page.locator('.sc-tbl tr', { hasText: nopart })).toContainText('Build failed or no part');
     await page.locator('.sc-tbl tr', { hasText: stale }).getByRole('button', { name: 'Details' }).click();
     const det = page.locator('.sc-detail');
-    await expect(det.locator('.sc-ring')).toHaveClass(/band-red/, { timeout: 15_000 });
+    await expect(det.locator('.sc-ring')).toHaveClass(/band-(poor|below)/, { timeout: 15_000 });
     await expect(det.locator('.sc-head')).toContainText('critical');                       // the header names the critical issue; a cap banner appears only when the raw score was above the cap
     const stl = det.locator('.sc-iss.sev-critical', { hasText: 'STL_NOT_THIS_BUILD' });
     await expect(stl).toContainText('not the model that was built');
