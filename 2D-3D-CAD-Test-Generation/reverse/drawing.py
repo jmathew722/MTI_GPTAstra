@@ -36,7 +36,7 @@ class DrawingDoc:
         self.s = s
         self.part = Path(part_path).resolve()
         self.plan = plan
-        self.template = Path(template)
+        self.template = Path(template).resolve()      # SOLIDWORKS resolves relative paths against ITS OWN working directory
         self.units = units
         self.config = config
         self.own_sheet_format = own_sheet_format     # True for our generated template: its sheet format (border, title block) is kept as is

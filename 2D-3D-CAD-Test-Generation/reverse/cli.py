@@ -34,11 +34,19 @@ def main(argv=None) -> int:
     r.add_argument("--profile", default="us_third_angle_inch")
     r.add_argument("--template")
     r.add_argument("--own-sheet-format", action="store_true", help="the template is a Solid Flow generated one (keep its sheet format)")
+    f = sub.add_parser("fixtures")
+    f.add_argument("--src", required=True, help="folder of authorized .SLDPRT fixtures")
+    f.add_argument("--out", required=True)
+    f.add_argument("--profile", default="us_third_angle_inch")
+    f.add_argument("--template")
+    f.add_argument("--own-sheet-format", action="store_true")
     g = sub.add_parser("template")
     g.add_argument("--out", required=True)
     g.add_argument("--variant", default="solidflow-ansi-b")
     r.add_argument("--config", default="")
     a = ap.parse_args(argv)
+    if a.cmd == "fixtures":
+        a.cmd, a.parts, a.folder, a.recursive, a.config = "run", [], a.src, False, ""
     if a.cmd == "run":
         paths = [Path(p) for p in a.parts]
         if a.folder:
@@ -51,6 +59,11 @@ def main(argv=None) -> int:
                  "seconds": p.seconds, "artifacts": sorted(p.artifacts)} for p in job.parts]
         summ = {"job_id": job.job_id, "state": job.state, "solidworks": job.solidworks, "parts": rows}
         (store.dir(job.job_id) / "summary.json").write_text(json.dumps(summ, indent=2), encoding="utf-8")
+        lines = ["| part | state | coverage % | issues | seconds | note |", "|---|---|---|---|---|---|"]
+        for r in rows:
+            cov = "n/a" if r["coverage_pct"] is None else f"{r['coverage_pct']:.1f}"
+            lines.append(f"| {r['part']} | {r['state']} | {cov} | {r['issues']} | {r['seconds']} | {(r['error'] or '')[:80]} |")
+        (store.dir(job.job_id) / "summary.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
         print(json.dumps(summ, indent=2))
         return 0 if all(p.state in ("completed", "review_required") for p in job.parts) else 1
     if a.cmd == "template":

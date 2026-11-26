@@ -21,17 +21,29 @@ def create_job(store: state.JobStore, *, template: dict, part_paths: list[Path],
     from reverse.planner import PROFILES
     if profile not in PROFILES:
         raise safety.SafetyError(f"Unknown drawing profile {profile!r}.")
+    template = dict(template, path=str(Path(template["path"]).resolve())) if template.get("path") else template
     job = state.Job(job_id=safety.new_job_id(), template_id=template["id"], profile=profile, output_root=str(store.root), options=dict(options or {}))
     rejected = []
-    pairs = safety.dedupe_ids(list(part_paths))
-    for path, pid in pairs:
+    entries = []
+    for path in part_paths:
+        sp = str(path)
+        cfg = (configs or {}).get(sp, "") or ""
+        real = Path(sp.rsplit("::", 1)[0]) if (cfg and sp.endswith("::" + cfg)) else Path(path)
+        entries.append((real, cfg, sp))
+    ids = []
+    seen: dict[str, int] = {}
+    for real, cfg, sp in entries:
+        base = safety.safe_id(real.stem) + (("__" + safety.safe_id(cfg)) if cfg else "")
+        n = seen.get(base.lower(), 0) + 1
+        seen[base.lower()] = n
+        ids.append(base if n == 1 else f"{base}-{n}")
+    for (real, cfg, sp), pid in zip(entries, ids):
         try:
-            p = safety.authorize(path, authorized_roots) if authorized_roots else Path(path).resolve()
+            p = safety.authorize(real, authorized_roots) if authorized_roots else Path(real).resolve()
             safety.check_part_file(p)
-            cfg = (configs or {}).get(str(path), "") or ""
             job.parts.append(state.PartState(part_id=pid, source=str(p), name=p.name, config=cfg))
         except safety.SafetyError as e:
-            rejected.append({"name": Path(path).name, "reason": str(e)})
+            rejected.append({"name": Path(real).name, "reason": str(e)})
     job.options["rejected"] = rejected
     if not job.parts:
         raise safety.SafetyError("No valid SOLIDWORKS parts to process: " + "; ".join(f"{r['name']}: {r['reason']}" for r in rejected))
@@ -90,9 +102,31 @@ class JobQueue:
         self._t: Optional[threading.Thread] = None
         self.current: Optional[str] = None
 
+    WATCHDOG_S = 900.0        # a part that stays in one stage this long is flagged (a hung COM call cannot be killed from here without killing a SOLIDWORKS session that may be the user's)
+
+    def _watchdog(self) -> None:
+        import time as _t
+        while not self._stop:
+            _t.sleep(5.0)
+            jid = self.current
+            if not jid:
+                continue
+            try:
+                j = self.store.load(jid)
+                for p in j.parts:
+                    st = p.stages.get(p.state) if p.state in state.STAGES else None
+                    if st and st.get("status") == "running" and _t.time() - st.get("t0", _t.time()) > self.WATCHDOG_S and not j.cancel_requested:
+                        j.cancel_requested = True
+                        self.store.save(j)
+                        self.store.event(jid, "watchdog_timeout", p.part_id, stage=p.state, seconds=self.WATCHDOG_S,
+                                         note="The stage exceeded the time limit. Cancellation was requested; if SOLIDWORKS is hung, close it (the job will then fail and can be retried).")
+            except Exception:      # noqa: BLE001
+                continue
+
     def start(self) -> None:
         if self._t and self._t.is_alive():
             return
+        threading.Thread(target=self._watchdog, name="reverse-watchdog", daemon=True).start()
         self.store.recover()
         self._t = threading.Thread(target=self._loop, name="reverse-cad-worker", daemon=True)
         self._t.start()

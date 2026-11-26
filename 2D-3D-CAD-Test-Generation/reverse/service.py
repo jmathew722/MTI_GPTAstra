@@ -48,6 +48,20 @@ class ReverseService:
                 return t
         return self.generate_template_async(templates.DEFAULT_ID)
 
+    # ---- configurations
+    def configurations(self, path: Path) -> list[str]:
+        """The saved configuration names of a part (opens it read-only on the CAD thread, closes it again)."""
+        p = safety.authorize(path, self.roots + [self.upload_dir]) if self.roots else Path(path).resolve()
+        safety.check_part_file(p)
+
+        def fn(s):
+            doc = s.open_part(p)
+            try:
+                return s.configurations(doc)
+            finally:
+                s.close_part(p)
+        return self.queue.run_task(fn, timeout=180)
+
     # ---- submission
     def profiles(self) -> list[dict]:
         return [{"id": k, "projection": v["projection"], "sheet": v["sheet"], "units": v["units"], "paper": planner.SHEETS[v["sheet"]]["paper"]} for k, v in planner.PROFILES.items()]
@@ -55,10 +69,30 @@ class ReverseService:
     def submit(self, *, part_paths: list[Path], template_id: Optional[str] = None, profile: str = "us_third_angle_inch", configs: Optional[dict] = None,
                options: Optional[dict] = None, authorized: bool = True) -> state.Job:
         tpl = self.templates.get(template_id) if template_id else self.templates.default()
+        options = dict(options or {})
+        if options.get("all_configs"):
+            part_paths, configs = self._expand_configs(part_paths, configs)
         job = jobs.create_job(self.store, template=tpl, part_paths=part_paths, profile=profile, configs=configs, options=options,
                               authorized_roots=(self.roots + [self.upload_dir]) if authorized else None)
         self.queue.submit(job.job_id)
         return job
+
+    def _expand_configs(self, part_paths: list[Path], configs: Optional[dict]):
+        """One entry per saved configuration; each gets its own output folder and its own drawing, all referencing the same source part."""
+        paths, cfgs = [], dict(configs or {})
+        for p in part_paths:
+            try:
+                names = self.configurations(p)
+            except Exception:      # noqa: BLE001 - a part whose configurations cannot be read runs with its active configuration
+                names = []
+            if len(names) <= 1:
+                paths.append(p)
+                continue
+            for n in names:
+                key = f"{p}::{n}"
+                paths.append(Path(key))
+                cfgs[key] = n
+        return paths, cfgs
 
     def retry(self, job_id: str, part_ids: Optional[list[str]] = None) -> None:
         job = self.store.load(job_id)
