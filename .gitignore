@@ -247,3 +247,6 @@ docs/phase1-evidence/**/*.stl
 docs/phase1-evidence/**/*.png
 docs/phase1-evidence/**/*.step
 docs/phase1-evidence/**/*.sldmat
+
+# upstream reference repos, inspected only (never vendored)
+reference-repos/
