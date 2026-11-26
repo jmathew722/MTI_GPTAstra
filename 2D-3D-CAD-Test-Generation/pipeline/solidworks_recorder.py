@@ -32,7 +32,7 @@ SCHEMA_VERSION = 1
 STATUSES = ("recording", "ready", "partial", "failed", "skipped")
 ENV_FLAG = "GPTASTRA_RECORD_SOLIDWORKS"
 
-DEFAULT_FPS = int(os.environ.get("GPTASTRA_RECORD_FPS", "30"))   # 30 fps; set GPTASTRA_RECORD_FPS=10 for smaller files
+DEFAULT_FPS = int(os.environ.get("GPTASTRA_RECORD_FPS", "15"))   # 15 fps = the measured ceiling of PrintWindow on SolidWorks (~63 ms per grab); higher only repeats frames
 MAX_SECONDS = 20 * 60
 MAX_BYTES = 500 * 1024 * 1024
 MAX_W, MAX_H = 1600, 1000
@@ -359,7 +359,7 @@ class PrintWindowSource(FrameSource):
     SolidWorks (Windows Graphics Capture of SolidWorks' OpenGL viewport shows the covering window inside the viewport, so it is only the fallback)."""
     name = "printwindow"
 
-    def __init__(self, hwnd: int, hz: float = 30.0):
+    def __init__(self, hwnd: int, hz: float = 15.0):
         self.hwnd, self.hz = hwnd, hz
         self._lock, self._frame, self._stop = threading.Lock(), None, threading.Event()
         self.count = 0

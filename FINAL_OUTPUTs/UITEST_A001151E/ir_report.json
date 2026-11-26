@@ -1,0 +1,55 @@
+{
+  "part": "UITEST_A001151E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\UITEST_A001151E\\UITEST_A001151E_extraction.json",
+  "plan_attempts": 1,
+  "gate1": "OK",
+  "planned": 5,
+  "questions": [],
+  "flagged": [
+    "F002: The top view shows equal opposite edge margins and a centered rectangular mounting pattern. Locate its columns and rows symmetrically within the block envelope; absolute margins are derived, not printed.",
+    "F004: Use the extracted lower limits D010 and D011 as the CAD target within the printed diameter and depth ranges. The .111/.113 depth limits are printed in reversed order; retain the numerical range and flag for manufacturing verification. The .50 drill depth is full-diameter depth per ASME Y14.5 drafting convention; model a flat bottom and omit the cosmetic drill point. Position follows the printed offset from the right mounting column and the upper mounting row."
+  ],
+  "defaults": [
+    "F006: D4 not modelled: edge break with no printed size"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\UITEST_A001151E\\reference.step",
+  "volume": 12.271657,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\UITEST_A001151E\\116-C_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\UITEST_A001151E\\116-C_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\UITEST_A001151E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Up To Next; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (drill + counterbore; one feature for F004, F005)",
+    "F005": "built (in F004 (one feature))"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 4/4"
+  ],
+  "hole_wizard_substitutions": [],
+  "mti_review": [],
+  "material": {
+    "status": "unmatched",
+    "label": "CRS 1018",
+    "material_id": null,
+    "selection_source": null,
+    "review_required": true,
+    "cost_available": false,
+    "net_material_cost": null,
+    "currency": "USD",
+    "mass_kg": null,
+    "files": [
+      "material_resolution.json",
+      "material_native.json",
+      "material_costing.json",
+      "appearance.json"
+    ]
+  },
+  "cost_usd": 0.1729,
+  "error": ""
+}

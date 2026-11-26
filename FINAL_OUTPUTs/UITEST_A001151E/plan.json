@@ -1,0 +1,188 @@
+{
+  "dims": {
+    "D001": 2.38,
+    "D002": 2.75,
+    "D003": 1.88,
+    "D004": 0.94,
+    "D005": 0.5,
+    "D006": 1.88,
+    "D007": 0.4,
+    "D008": 0.58,
+    "D009": 0.5,
+    "D010": 1.002,
+    "D011": 0.111,
+    "D012": 1.5,
+    "D013": 3.25,
+    "D014": 1.38,
+    "D015": 0.5,
+    "D016": 0.94
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "116-C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "Top": "+Z",
+        "Front": "-Y",
+        "Section A-A": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular block envelope; undimensioned corner rounds are tracked separately.",
+        "source_callouts": [
+          "3.25",
+          "2.75",
+          "1.5"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D013",
+          "h": "D002",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D012",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Lower-left through mounting hole in the symmetric four-hole layout.",
+        "source_callouts": [
+          ".40 DIA. THRU 4 PLACES",
+          "2.38",
+          "1.88"
+        ],
+        "status": "planned",
+        "justification": "The top view shows equal opposite edge margins and a centered rectangular mounting pattern. Locate its columns and rows symmetrically within the block envelope; absolute margins are derived, not printed.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "(D013 - D001) / 2",
+        "v": "(D002 - D003) / 2",
+        "spec": {
+          "type": "thru",
+          "d": "D007",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Complete the four through holes with the printed horizontal and vertical center spacings.",
+        "source_callouts": [
+          ".40 DIA. THRU 4 PLACES",
+          "2.38",
+          "1.88"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D001",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D003",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Left blind drilled bore and concentric shallow counterbore, opening on the top face.",
+        "source_callouts": [
+          "DRILL .58 DIA. X .50 DP.",
+          "C'BORE 1.012/1.002 DIA.",
+          "X .111/.113 DEEP",
+          "2 PLACES",
+          "1.88",
+          ".94"
+        ],
+        "status": "planned",
+        "justification": "Use the extracted lower limits D010 and D011 as the CAD target within the printed diameter and depth ranges. The .111/.113 depth limits are printed in reversed order; retain the numerical range and flag for manufacturing verification. The .50 drill depth is full-diameter depth per ASME Y14.5 drafting convention; model a flat bottom and omit the cosmetic drill point. Position follows the printed offset from the right mounting column and the upper mounting row.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "(D013 + D001) / 2 - D006",
+        "v": "(D002 + D003) / 2 - D004",
+        "spec": {
+          "type": "cbore",
+          "d": "D008",
+          "depth": "D009",
+          "cbore_d": "D010",
+          "cbore_depth": "D011",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Repeat the complete blind bore and counterbore at the right-hand center.",
+        "source_callouts": [
+          "2 PLACES",
+          "1.88",
+          ".50"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F004",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D006 - D005",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F006",
+        "rationale": "What radius is required for the four shown outside corner rounds, and do they extend through the entire thickness?",
+        "source_callouts": [
+          "Top-view rounded outside corners; no radius callout."
+        ],
+        "status": "unresolved",
+        "justification": "Size 0 is an inactive placeholder only; no radius is specified and this unresolved feature must not be executed.",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "0",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-X),face(F001,-Y))",
+          "edge_between(face(F001,+X),face(F001,-Y))",
+          "edge_between(face(F001,+X),face(F001,+Y))",
+          "edge_between(face(F001,-X),face(F001,+Y))"
+        ]
+      }
+    ],
+    "notes": [
+      "Material: CRS 1018. Heat treatment: NONE. Title: CHK. VALVE ELIM.; model 90 B.",
+      "Top drawing view is mapped to XY; thickness is +Z. Mounting pattern centering is grounded in the depicted symmetry and requires review because edge offsets are not printed.",
+      "Counterbore sizes follow the printed limits, not the nonproportional illustration. CAD targets are diameter 1.002 and depth .111 inch; confirm reversed printed depth-limit ordering before manufacture.",
+      "The 63 surface-finish indication is a manufacturing annotation, not additional geometry.",
+      "No numerical general tolerances are readable. Extraction default zero tolerances are not manufacturing requirements.",
+      "Outside corner radius remains unresolved; the planned solid retains square corners until that feature is resolved."
+    ]
+  }
+}

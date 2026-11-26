@@ -1,0 +1,11 @@
+{
+  "status": "unmatched",
+  "requested": null,
+  "actual": {
+    "name": "",
+    "database": ""
+  },
+  "errors": [],
+  "note": "No material was assigned: CRS 1018",
+  "custom_property_errors": []
+}
