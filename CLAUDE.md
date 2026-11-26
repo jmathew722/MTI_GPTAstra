@@ -264,3 +264,27 @@ Rules that already apply to new code:
 - **Model IDs are pinned in `config/models.json`** (`gpt-6-astra`), never hard-coded
   at call sites. **Decision 2026-10-04: GPT-6 Astra only.** No Anthropic/Opus path and no
   model benchmark.
+
+## v5 additions (2026-11-25): materials and 3D -> 2D
+
+New commands (run from `2D-3D-CAD-Test-Generation/`, `PYTHONUTF8=1`):
+
+```bash
+python tools/material_e2e.py --part A001151E --out <dir> [--scenarios steel copper pla none unmatched standard failassign]   # real SOLIDWORKS, no API cost
+python -m reverse.cli template --out config/drawing_templates --variant solidflow-ansi-b|solidflow-ansi-c|solidflow-a3     # native .drwdot + .slddrt
+python -m reverse.cli run --parts a.SLDPRT ... --out <dir> --template <abs .drwdot> --own-sheet-format                      # parts -> SLDDRW + PDF + STL
+python -m reverse.cli fixtures --src <folder of .SLDPRT> --out <dir> --template <abs .drwdot> --own-sheet-format           # every fixture + summary.json/md
+python -m pytest tests/test_materials.py tests/test_reverse.py -q                                                          # offline tests (no SOLIDWORKS)
+```
+
+Hard rules learned (see `docs/solidflow-upgrades/api_validation.md`):
+
+14. **Material assignment**: `SetMaterialPropertyName2` needs the ACTIVE CONFIGURATION'S REAL NAME (not `""`) and only honours databases in a registered
+    "Material Databases" folder; register the folder temporarily and restore the user's list (`pipeline/materials/native.registered_database`). Read back after
+    save + reopen. Unknown density/price/material => the cost is *unavailable*, never $0. Demo prices are always labelled
+    "Illustrative material estimate - not a supplier quote". Never guess a grade or temper; fuzzy matches are suggestions only.
+15. **Reverse pipeline**: the native part is the geometry authority (never the STL). The source SLDPRT is only opened silently and never saved (hash before/after);
+    never close a document the user opened; pass ABSOLUTE paths to SOLIDWORKS (it resolves relative ones against its own cwd); set view scale per view
+    (`IView.ScaleDecimal`); build sketch geometry with `SketchManager.AddToDB = True`; clear the selection before `InsertNote`; re-read the title before closing a
+    document that was saved as a template. A dimension is `covered` only after its read-back value matches the exact model-space geometry in the view plane.
+    Tolerances, finish, threads and datum intent are never invented: they become `review_required` items. Output is always `PRELIMINARY / FOR REVIEW`.

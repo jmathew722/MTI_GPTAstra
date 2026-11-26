@@ -705,3 +705,15 @@ Static UI files are versioned and revalidated; all scoring numbers are grade-col
 ## v4: layout audit (2026-11-25, branch `Improvementsv4`)
 
 Accent bars, borders and status indicators are kept 8px+ clear of text across the UI and guarded by an automated crawl (`29-v4-layout-audit.spec.ts`). See `docs/test-reports/2026-11-25-v4-report.md` (Addendum 5).
+
+## v5: material upgrade (2D->3D) and the 3D->2D drawing pipeline (2026-11-25, branch `ImprovementsV5`)
+
+**Phase 1 - materials.** `pipeline/materials/` (extraction contract, catalogs, deterministic resolver, native SOLIDWORKS assignment + read-back, costing,
+appearance sidecar). Verified live on SOLIDWORKS 2025 SP5 (33.5.0) with no API cost: steel / copper / PLA assign natively, read back after save+reopen, and cost
+2.22 / 16.90 / 5.85 USD for the 188.57 cm3 probe part; no material and unmatched alloys stay unassigned with the cost shown as unavailable (never $0); an injected
+assignment failure keeps the geometry. Evidence: `docs/phase1-evidence/`, tool `tools/material_e2e.py`, 59 unit tests (`tests/test_materials.py`).
+
+**Phase 2 - 3D->2D.** `reverse/` (safety, durable job/state machine, B-rep inventory, view/sheet planner, native drawing, feature-aware dimensioning with a coverage
+ledger and read-back verification, PDF/QA checks, serialized CAD queue, template generator, service). Native `.drwdot` + `.slddrt` for ANSI B / ANSI C / metric A3 in
+`2D-3D-CAD-Test-Generation/config/drawing_templates/`. Run: `python -m reverse.cli run|fixtures|template` (from `2D-3D-CAD-Test-Generation/`). Every output is
+`PRELIMINARY / FOR REVIEW`; software QA is never engineering approval. Records: `docs/solidflow-upgrades/` (api_validation, dependency register, reports).
