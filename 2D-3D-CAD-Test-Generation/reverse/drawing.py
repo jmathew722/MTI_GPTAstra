@@ -70,6 +70,25 @@ class DrawingDoc:
         self._document_options()
         self._black_layer()
 
+    def set_properties(self, props: dict) -> list[str]:
+        """Drawing custom properties the title block links to ($PRP:"SF_*"). Values are facts from the part or NOT SPECIFIED; never a guess."""
+        errs = []
+        mgr = self.ext.CustomPropertyManager("")
+        for k, v in props.items():
+            try:
+                mgr.Add3(k, 30, str(v), 2)       # swCustomInfoText, swCustomPropertyReplaceValue
+            except Exception as e:      # noqa: BLE001
+                errs.append(f"{k}: {e}")
+        return errs
+
+    def set_sheet_scale(self) -> None:
+        """The title block's SCALE field reads the sheet scale (views carry their own scale)."""
+        sc = self.plan["scale"]
+        try:
+            self.s.typed(self.drw.GetCurrentSheet(), "ISheet").SetScale(sc["num"], sc["den"], False, False)
+        except Exception as e:      # noqa: BLE001
+            self.warnings.append(f"sheet scale: {e}")
+
     def _has_sheet_format(self) -> bool:
         try:
             return bool(T_sheet_format(self))

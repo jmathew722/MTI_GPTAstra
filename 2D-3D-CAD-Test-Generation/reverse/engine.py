@@ -241,6 +241,18 @@ class PartRunner:
         try:
             def draw_stage():
                 dd.create()
+                import datetime
+                nsp = "NOT SPECIFIED"
+                mat = self.material.get("name") if self.material.get("status") == "assigned" else None
+                perrs = dd.set_properties({
+                    "SF_Company": str(self.job.options.get("company") or nsp), "SF_PartName": self.src.stem, "SF_PartNumber": self.src.stem,
+                    "SF_Material": mat or nsp, "SF_Finish": nsp, "SF_Revision": nsp,
+                    "SF_Units": "INCH" if self.plan["units"] == "inch" else "MILLIMETERS",
+                    "SF_Projection": "THIRD ANGLE" if self.plan["projection"] == "third" else "FIRST ANGLE",
+                    "SF_Status": "PRELIMINARY / FOR REVIEW", "SF_DrawnBy": nsp, "SF_CheckedBy": nsp, "SF_Date": datetime.date.today().isoformat(),
+                    "SF_Source": self.src.name, "SF_Config": self.config_used})
+                p.stages["drawing"]["warnings"] += perrs
+                dd.set_sheet_scale()
                 outlines = dd.build_plan_views([e for e in self.extra if e["fits"]])
                 self.outlines = outlines
                 # real view outlines must not overlap each other (hard fail, not silently accepted)

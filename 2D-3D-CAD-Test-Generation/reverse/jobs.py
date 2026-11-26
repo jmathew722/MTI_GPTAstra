@@ -84,6 +84,7 @@ class JobQueue:
         self.store = store
         self.lookup = template_lookup
         self._q: list[tuple[str, Optional[list[str]]]] = []
+        self._tasks: list = []
         self._cv = threading.Condition()
         self._stop = False
         self._t: Optional[threading.Thread] = None
@@ -95,6 +96,15 @@ class JobQueue:
         self.store.recover()
         self._t = threading.Thread(target=self._loop, name="reverse-cad-worker", daemon=True)
         self._t.start()
+
+    def run_task(self, fn: Callable, timeout: float = 300.0):
+        """Run ``fn(session)`` on the CAD worker thread (the only thread allowed to touch COM) and return its result; exceptions propagate."""
+        import concurrent.futures
+        fut: concurrent.futures.Future = concurrent.futures.Future()
+        with self._cv:
+            self._tasks.append((fn, fut))
+            self._cv.notify()
+        return fut.result(timeout=timeout)
 
     def submit(self, job_id: str, only: Optional[list[str]] = None) -> None:
         with self._cv:
@@ -117,11 +127,19 @@ class JobQueue:
             session = worker.CadSession()
             while True:
                 with self._cv:
-                    while not self._q and not self._stop:
+                    while not self._q and not self._tasks and not self._stop:
                         self._cv.wait(timeout=1.0)
                     if self._stop:
                         return
-                    job_id, only = self._q.pop(0)
+                    task = self._tasks.pop(0) if self._tasks else None
+                    job_id, only = (self._q.pop(0) if (task is None and self._q) else (None, None))
+                if task is not None:
+                    fn, fut = task
+                    try:
+                        fut.set_result(fn(session))
+                    except BaseException as e:      # noqa: BLE001
+                        fut.set_exception(e)
+                    continue
                 self.current = job_id
                 try:
                     j = self.store.load(job_id)

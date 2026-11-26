@@ -33,6 +33,10 @@ def main(argv=None) -> int:
     r.add_argument("--out", required=True)
     r.add_argument("--profile", default="us_third_angle_inch")
     r.add_argument("--template")
+    r.add_argument("--own-sheet-format", action="store_true", help="the template is a Solid Flow generated one (keep its sheet format)")
+    g = sub.add_parser("template")
+    g.add_argument("--out", required=True)
+    g.add_argument("--variant", default="solidflow-ansi-b")
     r.add_argument("--config", default="")
     a = ap.parse_args(argv)
     if a.cmd == "run":
@@ -40,7 +44,7 @@ def main(argv=None) -> int:
         if a.folder:
             paths += safety.discover_parts(Path(a.folder), a.recursive)
         store = state.JobStore(Path(a.out))
-        tpl = ({"id": "cli-template", "name": Path(a.template).name, "path": a.template, "own_sheet_format": False} if a.template else stock_template())
+        tpl = ({"id": "cli-template", "name": Path(a.template).name, "path": a.template, "own_sheet_format": a.own_sheet_format} if a.template else stock_template())
         job = jobs.create_job(store, template=tpl, part_paths=paths, profile=a.profile, configs={str(p): a.config for p in paths})
         job = jobs.run_job(store, job.job_id, tpl)
         rows = [{"part": p.part_id, "state": p.state, "coverage_pct": p.coverage_pct, "error": p.error, "issues": len(p.issues),
@@ -49,6 +53,13 @@ def main(argv=None) -> int:
         (store.dir(job.job_id) / "summary.json").write_text(json.dumps(summ, indent=2), encoding="utf-8")
         print(json.dumps(summ, indent=2))
         return 0 if all(p.state in ("completed", "review_required") for p in job.parts) else 1
+    if a.cmd == "template":
+        from reverse import template_gen, worker
+        s = worker.CadSession()
+        s.connect()
+        e = template_gen.generate(s, Path(a.out), a.variant)
+        print(json.dumps({k: e[k] for k in ("id", "path", "sheet_format_path", "preview_pdf", "slddrt_saved", "warnings", "validation")}, indent=2, default=str))
+        return 0
     return 2
 
 

@@ -29,6 +29,25 @@ class ReverseService:
     def stop(self) -> None:
         self.queue.stop()
 
+    # ---- templates (they need SOLIDWORKS, so they run on the CAD worker thread)
+    def generate_template_async(self, key: str = templates.DEFAULT_ID) -> dict:
+        from reverse import template_gen
+        if key not in template_gen.VARIANTS:
+            raise safety.SafetyError("Unknown template variant.")
+        out = self.data / "templates" / "generated"
+        entry = self.queue.run_task(lambda s: template_gen.generate(s, out, key), timeout=600)
+        return self.templates.register(entry)
+
+    def validate_template_async(self, path: Path, name: Optional[str] = None) -> dict:
+        return self.queue.run_task(lambda s: self.templates.add_uploaded(s, path, name), timeout=300)
+
+    def ensure_default_template(self) -> dict:
+        """The generated default if it exists and is on disk, else generate it now (first run)."""
+        for t in self.templates.list():
+            if t["id"] == templates.DEFAULT_ID and t.get("available"):
+                return t
+        return self.generate_template_async(templates.DEFAULT_ID)
+
     # ---- submission
     def profiles(self) -> list[dict]:
         return [{"id": k, "projection": v["projection"], "sheet": v["sheet"], "units": v["units"], "paper": planner.SHEETS[v["sheet"]]["paper"]} for k, v in planner.PROFILES.items()]

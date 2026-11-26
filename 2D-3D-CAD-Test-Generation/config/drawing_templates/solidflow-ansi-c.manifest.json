@@ -1,0 +1,47 @@
+{
+  "id": "solidflow-ansi-c",
+  "name": "Solid Flow ANSI C landscape (22x17 in), third angle",
+  "path": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\config\\drawing_templates\\solidflow-ansi-c.drwdot",
+  "sheet_format_path": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\config\\drawing_templates\\solidflow-ansi-c.slddrt",
+  "preview_pdf": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\config\\drawing_templates\\solidflow-ansi-c_preview.pdf",
+  "sha256": "b8976313954623b68d872610de6f475441e3f8992182a3f80aae9d90d02393a4",
+  "own_sheet_format": true,
+  "source": "generated",
+  "sheet": "ANSI_C",
+  "paper": "ANSI C (22x17 in)",
+  "properties": [
+    "SF_Company",
+    "SF_PartName",
+    "SF_PartNumber",
+    "SF_Material",
+    "SF_Finish",
+    "SF_Revision",
+    "SF_Units",
+    "SF_Projection",
+    "SF_Status",
+    "SF_DrawnBy",
+    "SF_CheckedBy",
+    "SF_Date",
+    "SF_Source",
+    "SF_Config"
+  ],
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "sheet_format": true,
+    "views": 0,
+    "paper": {
+      "paper_size": 3.0,
+      "width_m": 0.5588,
+      "height_m": 0.43179999999999996
+    }
+  },
+  "warnings": [],
+  "solidworks": {
+    "revision": "33.5.0",
+    "major": 33,
+    "service_pack": "SP5.0",
+    "is_2025": true
+  },
+  "slddrt_saved": true
+}
