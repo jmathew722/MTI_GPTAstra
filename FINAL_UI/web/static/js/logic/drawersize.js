@@ -27,8 +27,10 @@
     var v = map && typeof map === 'object' ? map[cls] : undefined;
     return typeof v === 'number' && isFinite(v) && v >= MIN ? v : fallback;
   }
+  /** A persisted/legacy height is usable only when it is a finite number at least MIN (a stale collapsed-header or tiny value is dropped). */
+  function sanitize(v, fallback) { return typeof v === 'number' && isFinite(v) && v >= MIN ? v : fallback; }
   function toggleMax(size) { return size === 'max' ? 'remembered' : 'max'; }
 
   return { MIN: MIN, DEFAULT: DEFAULT, SIZES: SIZES, maxHeight: maxHeight, resolve: resolve, clamp: clamp,
-           viewportClass: viewportClass, rememberedFor: rememberedFor, toggleMax: toggleMax };
+           viewportClass: viewportClass, rememberedFor: rememberedFor, sanitize: sanitize, toggleMax: toggleMax };
 });

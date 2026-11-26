@@ -52,3 +52,12 @@ test('nextSize cycles sensibly and Enter on the handle toggles maximum', () => {
   assert.equal(D.toggleMax('fit'), 'max');
   assert.equal(D.toggleMax('max'), 'remembered');
 });
+
+test('sanitize drops stale collapsed/tiny/junk persisted heights', () => {
+  assert.equal(D.sanitize(500, 320), 500);
+  assert.equal(D.sanitize(62, 320), 320);       // a collapsed-header height must never be restored on expand
+  assert.equal(D.sanitize(0, 320), 320);
+  assert.equal(D.sanitize('400', 320), 320);
+  assert.equal(D.sanitize(NaN, 320), 320);
+  assert.equal(D.sanitize(undefined, 320), 320);
+});

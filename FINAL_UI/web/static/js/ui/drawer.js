@@ -46,7 +46,7 @@
     });
     if (!el.page.offsetParent) return;                       // workspace page not shown: nothing to measure
     var size = sizeState(), max = maxH();
-    var remembered = DS.rememberedFor(u.drawerHeights, DS.viewportClass(window.innerWidth), u.drawerHeight || DEF);
+    var remembered = DS.rememberedFor(u.drawerHeights, DS.viewportClass(window.innerWidth), DS.sanitize(u.drawerHeight, DEF));
     var h = DS.resolve({ size: size, remembered: remembered, fit: open ? fitH() : DEF, min: MIN, max: max });
     curH = h;
     el.drawer.style.setProperty('--dr-h', h + 'px');
