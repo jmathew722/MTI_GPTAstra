@@ -21,6 +21,7 @@ from pathlib import Path
 from typing import Any, Callable, Optional
 
 from utils.logger import get_logger
+from pipeline.solidworks_camera import CameraController, mdi_viewport, show_async
 
 log = get_logger()
 
@@ -36,8 +37,8 @@ DEFAULT_FPS = int(os.environ.get("GPTASTRA_RECORD_FPS", "15"))   # 15 fps = the 
 MAX_SECONDS = 20 * 60
 MAX_BYTES = 500 * 1024 * 1024
 MAX_W, MAX_H = 1600, 1000
-HOLD_S = 0.6                       # paced build: let the viewport show each feature
-FINAL_HOLD_S = 1.5                 # the finished model stays on screen this long before the recording stops (env GPTASTRA_RECORD_HOLD_S)
+HOLD_S = 0.4                       # paced build: let the viewport show each feature
+FINAL_HOLD_S = 3.2                 # the finished model stays on screen this long before the recording stops (env GPTASTRA_RECORD_HOLD_S)
 FIRST_FRAME_S = 10.0               # how long to wait for the first real frame, nudging a repaint through the COM API (no input simulation)
 BLACK_AFTER_S = 4.0                # all-black frames for this long = REC_CAPTURE_BLACK
 
@@ -272,6 +273,27 @@ def is_occluded(hwnd: int) -> bool:
         return False
     except Exception:                                   # noqa: BLE001
         return True
+
+
+def doc_viewport(hwnd: int, doc) -> Optional[tuple]:
+    """Rectangle (left, top, right, bottom) of the active document's window inside a picture of the SolidWorks main window, or None."""
+    try:
+        import win32gui
+        title = str(doc.GetTitle()).rstrip(" *")
+        wl, wt, wr, wb = win32gui.GetWindowRect(hwnd)
+        best = []
+
+        def cb(c, _):
+            if win32gui.IsWindowVisible(c) and win32gui.GetClassName(c).startswith("Afx:") and win32gui.GetWindowText(c).rstrip(" *") == title:
+                r = win32gui.GetWindowRect(c)
+                best.append((r,))
+        win32gui.EnumChildWindows(hwnd, cb, None)
+        if not best:
+            return None
+        r = max(best, key=lambda x: (x[0][2] - x[0][0]) * (x[0][3] - x[0][1]))[0]
+        return (r[0] - wl, r[1] - wt + 26, r[2] - wl, r[3] - wt)     # + 26: the document window's own caption band
+    except Exception:                                   # noqa: BLE001
+        return None
 
 
 def window_state(hwnd: int, expected_pid: Optional[int]) -> str:
@@ -528,6 +550,9 @@ class SolidWorksRecorder:
         self._hwnd: Optional[int] = None
         self._count = 0
         self._iso_done = False
+        self._cam: Optional[CameraController] = None
+        self._freeze = False                  # True while the camera is being adjusted: the video holds the previous picture, then jumps to the settled one
+        self._camera_on = os.environ.get("GPTASTRA_RECORD_CAMERA", "1") != "0"
         self._identity: dict = {}
         self._pid: Optional[int] = None
         self._started_at = self._ended_at = ""
@@ -572,6 +597,7 @@ class SolidWorksRecorder:
                     return self._fail("REC_WINDOW_IDENTITY", f"{ident['reason']} (pid {ident.get('pid')}, exe {ident.get('exe')})")
                 self._pid = ident["pid"]
                 _restore_if_minimised(hwnd)
+                self._setup_camera(hwnd)                        # maximise (no activation), hide the design tree, isometric + fit, BEFORE capture opens
             self._hwnd = hwnd
             self._session = self._session_snapshot()
             self._source = self._open_source(hwnd)
@@ -591,6 +617,28 @@ class SolidWorksRecorder:
             return True
         except Exception as e:                           # noqa: BLE001 - recording must never fail the build
             return self._fail("REC_WRITE_FAILED", f"{type(e).__name__}: {e}")
+
+    def _setup_camera(self, hwnd) -> None:
+        """Camera/workspace presentation (pipeline/solidworks_camera.py). Never raises: a camera problem is reported, the build goes on."""
+        if not (self._camera_on and self.sw_app is not None and hwnd):
+            return
+        try:
+            doc = self.sw_app.ActiveDoc
+            if doc is None:
+                return
+            grabber = PrintWindowSource(hwnd)
+            self._cam = CameraController(self.sw_app, hwnd, grab=grabber._grab, out_dir=self.out,
+                                         viewport_finder=lambda d, f: mdi_viewport(hwnd))
+            self._cam.prepare(doc)
+        except Exception as e:                           # noqa: BLE001
+            log.warning("camera setup failed: %s", e)
+
+    def _restore_camera(self) -> None:
+        try:
+            if self._cam is not None:
+                self._cam.restore()
+        except Exception:                                # noqa: BLE001
+            pass
 
     def _session_snapshot(self) -> dict:
         """Evidence of ONE continuous session: SolidWorks pid and the active document when recording began (compared again at the end)."""
@@ -652,6 +700,7 @@ class SolidWorksRecorder:
         return None
 
     def _fail(self, code: str, reason: str = "") -> bool:
+        self._restore_camera()
         self._code, self._reason = code, reason or CODES.get(code, code)
         self._started = False
         try:
@@ -679,18 +728,29 @@ class SolidWorksRecorder:
             label = f"{fid} {kind}: {status}"
             with self._lock:
                 self._caption = _ascii(f"{label} | step {self._count}")
-                self.chapters.append({"id": str(fid), "label": str(label)[:80], "status": str(status),
-                                      "t": round(max(0.0, time.time() - self._t0), 2)})
+            t_commit = round(max(0.0, time.time() - self._t0), 2)
             if self.paced and self._started:
-                self._redraw()
+                self._redraw(label=str(fid))
+            self.chapters.append({"id": str(fid), "label": str(label)[:80], "status": str(status), "t": t_commit,
+                                  "t_settled": round(max(0.0, time.time() - self._t0), 2)})
+            if self.paced and self._started:
                 time.sleep(self.hold_s)
         except Exception:                                # noqa: BLE001
             pass
 
-    def _redraw(self) -> None:
+    def _redraw(self, label: str = "", final: bool = False) -> None:
         try:
             doc = self.sw_app.ActiveDoc if self.sw_app is not None else None
             if doc is None:
+                return
+            if self._cam is not None:
+                self._freeze = True
+                try:
+                    self._cam.frame(doc, label or "model", final=final)  # isometric + fit + margin + redraw, verified on a settled frame
+                    self._cam.write_log()
+                finally:
+                    time.sleep(0.2)
+                    self._freeze = False
                 return
             if not self._iso_done:
                 doc.ShowNamedView2("*Isometric", 7)
@@ -712,8 +772,9 @@ class SolidWorksRecorder:
         try:
             self.caption("Final model")
             self._iso_done = False
-            self._redraw()
-            self.chapters.append({"id": "final", "label": "Final model", "status": "built", "t": round(max(0.0, time.time() - self._t0), 2)})
+            self._redraw(label="final", final=True)
+            self.chapters.append({"id": "final", "label": "Final model", "status": "built", "t": round(max(0.0, time.time() - self._t0), 2),
+                                  "t_settled": round(max(0.0, time.time() - self._t0), 2)})
             time.sleep(max(0.0, h))
             self._final_held = True
         except Exception:                                # noqa: BLE001
@@ -804,7 +865,7 @@ class SolidWorksRecorder:
                             try:
                                 import win32con
                                 import win32gui
-                                win32gui.ShowWindowAsync(self._hwnd, win32con.SW_SHOWNOACTIVATE)      # restore WITHOUT taking focus
+                                show_async(self._hwnd, win32con.SW_SHOWNOACTIVATE)      # restore WITHOUT taking focus
                             except Exception:                        # noqa: BLE001
                                 pass
                 if self._occ_fn is not None:
@@ -817,7 +878,7 @@ class SolidWorksRecorder:
                     self._dropped += 1
                     if self._code == "":
                         self._code, self._reason = "REC_COVERED", CODES["REC_COVERED"]
-                if frame is not None and not covered:
+                if frame is not None and not covered and not self._freeze:
                     if self._last_shape is not None and tuple(frame.shape) != self._last_shape:
                         self._resizes += 1                           # window resized: the new frames are letterboxed into the fixed output size
                     self._last_shape = tuple(frame.shape)
@@ -858,6 +919,7 @@ class SolidWorksRecorder:
         self._done = True
         try:
             if not self._started:
+                self._restore_camera()
                 return self.read_manifest()
             if not self._final_held:
                 time.sleep(min(1.0, self.hold_s))             # a short tail so the final feature is on screen
@@ -871,6 +933,7 @@ class SolidWorksRecorder:
                     self._source.stop()
             except Exception:                            # noqa: BLE001
                 pass
+            self._restore_camera()                       # design tree + window back exactly as found (completion, failure and cancellation alike)
             return self._finalize(outcome, error)
         except Exception as e:                           # noqa: BLE001
             self._code, self._reason = "REC_WRITE_FAILED", f"{type(e).__name__}: {e}"
@@ -975,6 +1038,7 @@ class SolidWorksRecorder:
             "verified": bool(self._verify.get("ok")), "probe": self._verify, "fps": self.fps, "width": w, "height": h,
             "frames": self._frames, "dropped_frames": self._dropped,
             "duration_s": round(self._frames / self.fps, 2) if self.fps else 0, "bytes": size,
+            "camera": (self._cam.summary() if self._cam is not None else {"ok": False, "reason": "camera control not active"}),
             "paced": self.paced, "build_outcome": outcome, "build_error": error[:300],
             "chapters": list(self.chapters), "code": self._code, "reason": (self._reason or "")[:300]})
 

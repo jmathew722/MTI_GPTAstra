@@ -1,0 +1,632 @@
+{
+ "summary": {
+  "ok": true,
+  "frames_checked": 8,
+  "iso_verified": 8,
+  "fit_verified": 8,
+  "margin_corrections": 7,
+  "failures": [],
+  "target_margin": 0.1,
+  "log": "camera_log.json"
+ },
+ "entries": [
+  {
+   "event": "prepare",
+   "t": 1795725989.2698395,
+   "window_error": "AttributeError: module 'win32gui' has no attribute 'IsZoomed'",
+   "tree_visible_before": true,
+   "tree_command_result": true,
+   "tree_visible_after": false
+  },
+  {
+   "event": "initial",
+   "feature": "initial",
+   "t": 1795725991.3537354,
+   "ops": {
+    "isometric": "issued",
+    "zoom_to_fit": "issued",
+    "redraw": "issued"
+   },
+   "settled_frame": true,
+   "settle_wait_s": 0.59,
+   "isometric_error": 0.0001,
+   "isometric_verified": true,
+   "fit": {
+    "ok": true,
+    "margins": {},
+    "touches_edge": false,
+    "empty": true
+   },
+   "margin_corrected": false,
+   "geometry_visible": true,
+   "empty_model": true,
+   "camera_ok": true
+  },
+  {
+   "event": "feature",
+   "feature": "F001",
+   "t": 1795725999.1510518,
+   "ops": {
+    "isometric": "issued",
+    "zoom_to_fit": "issued",
+    "redraw": "issued",
+    "margin_zoom_factors": [
+     0.84,
+     0.9,
+     0.877
+    ],
+    "pan_px": [
+     [
+      -198,
+      -14
+     ],
+     [
+      -33,
+      -33
+     ],
+     [
+      -18,
+      -25
+     ]
+    ]
+   },
+   "settled_frame": true,
+   "settle_wait_s": 0.57,
+   "isometric_error": 0.0001,
+   "isometric_verified": true,
+   "fit": {
+    "ok": true,
+    "margins": {
+     "left": 0.2843,
+     "right": 0.0014,
+     "top": 0.0479,
+     "bottom": 0.0
+    },
+    "touches_edge": true,
+    "empty": false,
+    "bbox": [
+     426,
+     98,
+     1426,
+     654
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "fit_after_margin": {
+    "ok": true,
+    "margins": {
+     "left": 0.2764,
+     "right": 0.2457,
+     "top": 0.0856,
+     "bottom": 0.0993
+    },
+    "touches_edge": false,
+    "empty": false,
+    "bbox": [
+     415,
+     120,
+     1084,
+     596
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "margin_corrected": true,
+   "geometry_visible": true,
+   "empty_model": false,
+   "camera_ok": true
+  },
+  {
+   "event": "feature",
+   "feature": "F002",
+   "t": 1795726029.4934227,
+   "ops": {
+    "isometric": "issued",
+    "zoom_to_fit": "issued",
+    "redraw": "issued",
+    "margin_zoom_factors": [
+     0.84,
+     0.9,
+     0.875
+    ],
+    "pan_px": [
+     [
+      -199,
+      -14
+     ],
+     [
+      -32,
+      -34
+     ],
+     [
+      -18,
+      -25
+     ]
+    ]
+   },
+   "settled_frame": true,
+   "settle_wait_s": 0.37,
+   "isometric_error": 0.0001,
+   "isometric_verified": true,
+   "fit": {
+    "ok": true,
+    "margins": {
+     "left": 0.285,
+     "right": 0.0014,
+     "top": 0.0479,
+     "bottom": 0.0
+    },
+    "touches_edge": true,
+    "empty": false,
+    "bbox": [
+     427,
+     98,
+     1426,
+     654
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "fit_after_margin": {
+    "ok": true,
+    "margins": {
+     "left": 0.2779,
+     "right": 0.2471,
+     "top": 0.0873,
+     "bottom": 0.0993
+    },
+    "touches_edge": false,
+    "empty": false,
+    "bbox": [
+     417,
+     121,
+     1082,
+     596
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "margin_corrected": true,
+   "geometry_visible": true,
+   "empty_model": false,
+   "camera_ok": true
+  },
+  {
+   "event": "feature",
+   "feature": "F004",
+   "t": 1795726045.2289803,
+   "ops": {
+    "isometric": "issued",
+    "zoom_to_fit": "issued",
+    "redraw": "issued",
+    "margin_zoom_factors": [
+     0.84,
+     0.9,
+     0.875
+    ],
+    "pan_px": [
+     [
+      -199,
+      -14
+     ],
+     [
+      -32,
+      -34
+     ],
+     [
+      -18,
+      -25
+     ]
+    ]
+   },
+   "settled_frame": true,
+   "settle_wait_s": 0.29,
+   "isometric_error": 0.0001,
+   "isometric_verified": true,
+   "fit": {
+    "ok": true,
+    "margins": {
+     "left": 0.285,
+     "right": 0.0014,
+     "top": 0.0479,
+     "bottom": 0.0
+    },
+    "touches_edge": true,
+    "empty": false,
+    "bbox": [
+     427,
+     98,
+     1426,
+     654
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "fit_after_margin": {
+    "ok": true,
+    "margins": {
+     "left": 0.2779,
+     "right": 0.2471,
+     "top": 0.0873,
+     "bottom": 0.0993
+    },
+    "touches_edge": false,
+    "empty": false,
+    "bbox": [
+     417,
+     121,
+     1082,
+     596
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "margin_corrected": true,
+   "geometry_visible": true,
+   "empty_model": false,
+   "camera_ok": true
+  },
+  {
+   "event": "feature",
+   "feature": "F006",
+   "t": 1795726066.852523,
+   "ops": {
+    "isometric": "issued",
+    "zoom_to_fit": "issued",
+    "redraw": "issued",
+    "margin_zoom_factors": [
+     0.84,
+     0.9,
+     0.875
+    ],
+    "pan_px": [
+     [
+      -199,
+      -14
+     ],
+     [
+      -32,
+      -34
+     ],
+     [
+      -18,
+      -25
+     ]
+    ]
+   },
+   "settled_frame": true,
+   "settle_wait_s": 0.32,
+   "isometric_error": 0.0001,
+   "isometric_verified": true,
+   "fit": {
+    "ok": true,
+    "margins": {
+     "left": 0.285,
+     "right": 0.0014,
+     "top": 0.0479,
+     "bottom": 0.0
+    },
+    "touches_edge": true,
+    "empty": false,
+    "bbox": [
+     427,
+     98,
+     1426,
+     654
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "fit_after_margin": {
+    "ok": true,
+    "margins": {
+     "left": 0.2779,
+     "right": 0.2471,
+     "top": 0.0873,
+     "bottom": 0.0993
+    },
+    "touches_edge": false,
+    "empty": false,
+    "bbox": [
+     417,
+     121,
+     1082,
+     596
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "margin_corrected": true,
+   "geometry_visible": true,
+   "empty_model": false,
+   "camera_ok": true
+  },
+  {
+   "event": "feature",
+   "feature": "F008",
+   "t": 1795726079.7070544,
+   "ops": {
+    "isometric": "issued",
+    "zoom_to_fit": "issued",
+    "redraw": "issued",
+    "margin_zoom_factors": [
+     0.84,
+     0.9,
+     0.875
+    ],
+    "pan_px": [
+     [
+      -199,
+      -14
+     ],
+     [
+      -32,
+      -34
+     ],
+     [
+      -18,
+      -25
+     ]
+    ]
+   },
+   "settled_frame": true,
+   "settle_wait_s": 0.34,
+   "isometric_error": 0.0001,
+   "isometric_verified": true,
+   "fit": {
+    "ok": true,
+    "margins": {
+     "left": 0.285,
+     "right": 0.0014,
+     "top": 0.0479,
+     "bottom": 0.0
+    },
+    "touches_edge": true,
+    "empty": false,
+    "bbox": [
+     427,
+     98,
+     1426,
+     654
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "fit_after_margin": {
+    "ok": true,
+    "margins": {
+     "left": 0.2779,
+     "right": 0.2471,
+     "top": 0.0873,
+     "bottom": 0.0993
+    },
+    "touches_edge": false,
+    "empty": false,
+    "bbox": [
+     417,
+     121,
+     1082,
+     596
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "margin_corrected": true,
+   "geometry_visible": true,
+   "empty_model": false,
+   "camera_ok": true
+  },
+  {
+   "event": "feature",
+   "feature": "F010",
+   "t": 1795726091.6451764,
+   "ops": {
+    "isometric": "issued",
+    "zoom_to_fit": "issued",
+    "redraw": "issued",
+    "margin_zoom_factors": [
+     0.84,
+     0.9,
+     0.875
+    ],
+    "pan_px": [
+     [
+      -199,
+      -14
+     ],
+     [
+      -32,
+      -34
+     ],
+     [
+      -18,
+      -25
+     ]
+    ]
+   },
+   "settled_frame": true,
+   "settle_wait_s": 0.25,
+   "isometric_error": 0.0001,
+   "isometric_verified": true,
+   "fit": {
+    "ok": true,
+    "margins": {
+     "left": 0.285,
+     "right": 0.0014,
+     "top": 0.0479,
+     "bottom": 0.0
+    },
+    "touches_edge": true,
+    "empty": false,
+    "bbox": [
+     427,
+     98,
+     1426,
+     654
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "fit_after_margin": {
+    "ok": true,
+    "margins": {
+     "left": 0.2779,
+     "right": 0.2471,
+     "top": 0.0873,
+     "bottom": 0.0993
+    },
+    "touches_edge": false,
+    "empty": false,
+    "bbox": [
+     417,
+     121,
+     1082,
+     596
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "margin_corrected": true,
+   "geometry_visible": true,
+   "empty_model": false,
+   "camera_ok": true
+  },
+  {
+   "event": "final",
+   "feature": "final",
+   "t": 1795726096.037555,
+   "ops": {
+    "isometric": "issued",
+    "zoom_to_fit": "issued",
+    "redraw": "issued",
+    "margin_zoom_factors": [
+     0.84,
+     0.9,
+     0.875
+    ],
+    "pan_px": [
+     [
+      -199,
+      -14
+     ],
+     [
+      -32,
+      -34
+     ],
+     [
+      -18,
+      -25
+     ]
+    ]
+   },
+   "settled_frame": true,
+   "settle_wait_s": 0.32,
+   "isometric_error": 0.0001,
+   "isometric_verified": true,
+   "fit": {
+    "ok": true,
+    "margins": {
+     "left": 0.285,
+     "right": 0.0014,
+     "top": 0.0479,
+     "bottom": 0.0
+    },
+    "touches_edge": true,
+    "empty": false,
+    "bbox": [
+     427,
+     98,
+     1426,
+     654
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "fit_after_margin": {
+    "ok": true,
+    "margins": {
+     "left": 0.2779,
+     "right": 0.2471,
+     "top": 0.0873,
+     "bottom": 0.0993
+    },
+    "touches_edge": false,
+    "empty": false,
+    "bbox": [
+     417,
+     121,
+     1082,
+     596
+    ],
+    "usable": [
+     28,
+     70,
+     1428,
+     654
+    ]
+   },
+   "margin_corrected": true,
+   "geometry_visible": true,
+   "empty_model": false,
+   "camera_ok": true
+  },
+  {
+   "event": "restore",
+   "t": 1795726101.777926,
+   "tree_restored": true
+  }
+ ]
+}

@@ -1,0 +1,100 @@
+{
+ "opened": {
+  "chrome": 15926562,
+  "vscode": 10293020,
+  "explorer": 6231814
+ },
+ "events": [
+  {
+   "event": "recording_seen",
+   "t": 1795725993.084062
+  },
+  {
+   "event": "cover",
+   "app": "chrome",
+   "hwnd": 15926562,
+   "cycle": 0,
+   "t_start": 1795725993.084062,
+   "mode": "maximized",
+   "t_end": 1795725995.6977677
+  },
+  {
+   "event": "cover",
+   "app": "vscode",
+   "hwnd": 10293020,
+   "cycle": 0,
+   "t_start": 1795725996.3352587,
+   "mode": "maximized",
+   "t_end": 1795725998.8882577
+  },
+  {
+   "event": "cover",
+   "app": "explorer",
+   "hwnd": 6231814,
+   "cycle": 0,
+   "t_start": 1795725999.5242655,
+   "mode": "maximized",
+   "t_end": 1795726002.1953757
+  },
+  {
+   "event": "cover",
+   "app": "chrome",
+   "hwnd": 15926562,
+   "cycle": 1,
+   "t_start": 1795726002.8808124,
+   "mode": "maximized",
+   "t_end": 1795726005.4844923
+  },
+  {
+   "event": "cover",
+   "app": "vscode",
+   "hwnd": 10293020,
+   "cycle": 1,
+   "t_start": 1795726006.1745303,
+   "mode": "maximized",
+   "t_end": 1795726008.7167716
+  },
+  {
+   "event": "cover",
+   "app": "explorer",
+   "hwnd": 6231814,
+   "cycle": 1,
+   "t_start": 1795726009.3312666,
+   "mode": "maximized",
+   "t_end": 1795726012.1011343
+  },
+  {
+   "event": "cover",
+   "app": "chrome",
+   "hwnd": 15926562,
+   "cycle": 2,
+   "t_start": 1795726012.9130907,
+   "mode": "maximized",
+   "t_end": 1795726015.5301585
+  },
+  {
+   "event": "cover",
+   "app": "vscode",
+   "hwnd": 10293020,
+   "cycle": 2,
+   "t_start": 1795726016.239371,
+   "mode": "maximized",
+   "t_end": 1795726018.7904413
+  },
+  {
+   "event": "cover",
+   "app": "explorer",
+   "hwnd": 6231814,
+   "cycle": 2,
+   "t_start": 1795726019.4080808,
+   "mode": "maximized",
+   "t_end": 1795726022.103802
+  },
+  {
+   "event": "recording_finished",
+   "t": 1795726104.363455,
+   "status": "ready"
+  }
+ ],
+ "tmp": "C:\\Users\\joeka\\AppData\\Local\\Temp\\sf_chaos_0qphvj6b"
+}
