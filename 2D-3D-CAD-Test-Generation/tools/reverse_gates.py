@@ -39,7 +39,7 @@ def main() -> int:
     a = ap.parse_args()
     out = a.out
     shutil.rmtree(out, ignore_errors=True)
-    out.mkdir(parents=True)
+    out.mkdir(parents=True, exist_ok=True)
     src = Path(a.part).resolve()
     sess = worker.CadSession()
     sess.connect()

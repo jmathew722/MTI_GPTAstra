@@ -1,0 +1,62 @@
+[
+  {
+    "scenario": "unicode_and_spaces_in_path",
+    "expected": "part completes or needs review, files exist",
+    "passed": true,
+    "actual": "review_required; artifacts=['dimension_coverage.json', 'drawing.pdf', 'drawing.slddrw', 'drawing_plan.json']"
+  },
+  {
+    "scenario": "duplicate_basenames",
+    "expected": "two distinct ids, both processed, outputs in separate folders",
+    "passed": true,
+    "actual": "ids=['Dup', 'Dup-2']"
+  },
+  {
+    "scenario": "corrupt_file_and_assembly_and_one_failure_in_a_batch",
+    "expected": "assembly rejected up front; corrupt part fails with a clear message; the good parts still complete",
+    "passed": true,
+    "actual": "states={'Dup': 'review_required', 'corrupt': 'failed', 'Dup-2': 'review_required'}; rejected=['thing.SLDASM']; corrupt_error=CadError: SOLIDWORKS could not open corrupt.SLDPRT (error code 2097152)."
+  },
+  {
+    "scenario": "sldworks_still_healthy_after_a_corrupt_file",
+    "expected": "the same session still builds a drawing",
+    "passed": true,
+    "actual": "33.5.0"
+  },
+  {
+    "scenario": "unwritable_output_folder",
+    "expected": "the part fails with an output-folder message, nothing half-published",
+    "passed": true,
+    "actual": "failed: CadError: The output folder for this part could not be created or written (FileExistsError). Check the output location and its permissions."
+  },
+  {
+    "scenario": "cancellation_between_parts",
+    "expected": "the first part is published; the rest are canceled; nothing corrupt",
+    "passed": true,
+    "actual": "states=['review_required', 'canceled', 'canceled']"
+  },
+  {
+    "scenario": "profile_metric_a3_third_angle",
+    "expected": "drawing created on A3 with the right projection and units",
+    "passed": true,
+    "actual": "review_required; projection=third; units=mm; scale=1:1"
+  },
+  {
+    "scenario": "profile_iso_first_angle_a3",
+    "expected": "drawing created on A3 with the right projection and units",
+    "passed": true,
+    "actual": "review_required; projection=first; units=mm; scale=1:1"
+  },
+  {
+    "scenario": "part_already_open_by_the_user",
+    "expected": "the job runs on a hashed working copy, records a warning, and the user's document stays open and untouched",
+    "passed": false,
+    "actual": "failed; warned=True; still_open=True"
+  },
+  {
+    "scenario": "source_hash_unchanged",
+    "expected": "the source part is byte-identical after the job and the manifest says so",
+    "passed": true,
+    "actual": "sha256=d04499e690cd2022..."
+  }
+]

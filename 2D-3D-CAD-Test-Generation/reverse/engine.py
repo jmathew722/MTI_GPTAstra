@@ -157,8 +157,14 @@ class PartRunner:
         p = self.part
         out = self.out
         shutil.rmtree(out, ignore_errors=True)
-        self.stage_dir.mkdir(parents=True, exist_ok=True)
-        copy = self.stage_dir / "source" / (safety.safe_id(self.src.stem) + ".SLDPRT")
+        try:
+            self.stage_dir.mkdir(parents=True, exist_ok=True)
+        except OSError as e:
+            raise worker.CadError(f"The output folder for this part could not be created or written ({type(e).__name__}). Check the output location and its permissions.") from None
+        base = safety.safe_id(self.src.stem)
+        if base.lower() in self.s.open_titles():
+            base = f"{base}__sf{self.job.job_id[-6:]}"        # the user has a part with this title open: a same-titled copy could not be opened
+        copy = self.stage_dir / "source" / (base + ".SLDPRT")
 
         # ---- 1 preflight
         def preflight():

@@ -68,6 +68,9 @@ def run_job(store: state.JobStore, job_id: str, template: dict, *, cancel: Optio
         store.save(job)
         store.event(job_id, "solidworks_unavailable", error=str(e))
         return job
+    stale = s.close_docs_under(store.root)
+    if stale:
+        store.event(job_id, "closed_stale_documents", documents=stale)
     job.state = "running"
     store.save(job)
     for part in job.parts:

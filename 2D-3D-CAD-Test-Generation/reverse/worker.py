@@ -114,6 +114,42 @@ class CadSession:
         except Exception as e:      # noqa: BLE001
             log.warning("CloseDoc(%s) failed: %s", title, e)
 
+    def open_titles(self) -> set[str]:
+        """Lower-case titles of every document currently open (SOLIDWORKS cannot open a second document with the same title)."""
+        out: set[str] = set()
+        try:
+            T = self.typed
+            d = T(self.app, "ISldWorks").GetFirstDocument()
+            while d is not None:
+                td = T(d, "IModelDoc2")
+                out.add(str(td.GetTitle()).lower().rsplit(".", 1)[0] if str(td.GetTitle()).lower().endswith((".sldprt", ".sldasm", ".slddrw")) else str(td.GetTitle()).lower())
+                d = td.GetNext()
+        except Exception as e:      # noqa: BLE001
+            log.warning("could not list open documents: %s", e)
+        return out
+
+    def close_docs_under(self, root: Path) -> list[str]:
+        """Close open documents whose file lives inside ``root`` (this tool's own job store). After a crash or kill, a job's working copy and drawing can be
+        left open and lock their files; only documents inside our own folder are touched, never anything the user opened from elsewhere."""
+        closed: list[str] = []
+        rootp = str(Path(root).resolve()).lower()
+        try:
+            T = self.typed
+            d = T(self.app, "ISldWorks").GetFirstDocument()
+            todo = []
+            while d is not None:
+                td = T(d, "IModelDoc2")
+                path = str(td.GetPathName() or "")
+                if path and str(Path(path).resolve()).lower().startswith(rootp):
+                    todo.append(str(td.GetTitle()))
+                d = td.GetNext()
+            for title in todo:
+                self._close_title(title)
+                closed.append(title)
+        except Exception as e:      # noqa: BLE001
+            log.warning("stale-document sweep failed: %s", e)
+        return closed
+
     def close_all_owned(self) -> None:
         for n, t in list(self.opened.items()):
             self._close_title(t)
