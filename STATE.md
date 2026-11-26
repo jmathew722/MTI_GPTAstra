@@ -697,3 +697,7 @@ now carry health colours and the Scoring tab has more colour coding. See `docs/t
 
 One grading utility (`McA.grade`) colours every 0-100 score in the UI: 0-39 Poor, 40-59 Below Average, 60-79 Fair, 80-89 Good, 90-99 Excellent, 100 Perfect; missing is neutral grey. Scoring methodology unchanged.
 See `docs/test-reports/2026-11-25-v4-report.md` (Addendum 3).
+
+## v4: always-fresh UI and action buttons (2026-11-25, branch `Improvementsv4`)
+
+Static UI files are versioned and revalidated; all scoring numbers are grade-coloured; Open/Results/Details/Evaluate buttons are larger with violet and gold treatments. See `docs/test-reports/2026-11-25-v4-report.md` (Addendum 4).

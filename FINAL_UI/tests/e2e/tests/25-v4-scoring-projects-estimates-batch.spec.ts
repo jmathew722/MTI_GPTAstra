@@ -118,6 +118,7 @@ test.describe('v4: Projects previews and order', () => {
     expect(res.status()).toBe(200); expect(res.headers()['content-type']).toBe('image/png');
     await shot(page, 'projects-previews-1440x900.png');
     await page.reload();
+    await expect(page.locator('#proj-body .pcard .pcard-n')).toHaveCount(3, { timeout: 15_000 });                 // wait for the cards before reading their order
     const again = await page.locator('#proj-body .pcard .pcard-n').allTextContents();
     expect(again.slice(0, 3)).toEqual(['PrevNew', 'PrevMid', 'PrevOld']);               // order survives a reload
     await card('PrevMid').locator('.pcard-th').click();                                   // clicking the preview opens that project

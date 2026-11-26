@@ -82,7 +82,7 @@
     wrap.append(h('div', { class: 'grade-scale', 'aria-hidden': 'true' }, [0, 40, 60, 80, 90, 100].map(function (n) { return h('span', { text: String(n) }); })));
     return wrap;
   }
-  function stat(label, value, sub, tone) { return h('div', { class: 'sc-stat' + (tone ? ' band-' + tone : '') }, h('div', { class: 'sc-stat-l', text: label }), h('div', { class: 'sc-stat-v', text: value }), sub ? h('div', { class: 'sc-stat-s', text: sub }) : null); }
+  function stat(label, value, sub, tone) { return h('div', { class: 'sc-stat' + (tone ? ' band-' + tone : '') }, h('div', { class: 'sc-stat-l', text: label }), h('div', { class: 'sc-stat-v' + (tone ? ' grade-num band-' + tone : ''), text: value }), sub ? h('div', { class: 'sc-stat-s', text: sub }) : null); }
   function scoreChip(row) {
     var s = SV.statusOf(row);
     if (row.state !== 'scored' || !G.valid(row.score)) return h('span', { class: 'sc-score-none', text: SV.DASH, title: s.label });
@@ -110,10 +110,10 @@
     var attention = SV.byAttention((o.parts || []).filter(function (r) { return r.has_output; })).filter(function (r) { return r.score < 90 || (r.counts && r.counts.critical); }).slice(0, 8);
     var wrap = h('div', null,
       h('div', { class: 'sc-stats' },
-        stat('Parts scored', String(s.scored || 0), 'of ' + (s.parts || 0) + ' with output'),
+        stat('Parts scored', String(s.scored || 0), 'of ' + (s.parts || 0) + ' with output', s.parts ? SV.gradeOf(Math.floor(100 * (s.scored || 0) / s.parts)).id : 'none'),
         stat('Average fidelity', SV.avgText(s.average), s.scored ? avgB.label : 'no scored parts yet', s.scored ? avgB.id : 'none'),
-        stat('Need attention', String(weak), 'scored below 60 \u00b7 ' + (s.parts_with_critical || 0) + ' with a critical issue', weak ? 'poor' : 'none'),
-        stat('Not scored', String((s.incomplete || 0) + (s.no_model || 0) + (s.pending || 0) + (s.scoring_failed || 0)), (s.pending || 0) + ' pending · ' + (s.incomplete || 0) + ' incomplete · ' + (s.no_model || 0) + ' no part' + (s.scoring_failed ? ' · ' + s.scoring_failed + ' failed' : '')),
+        stat('Need attention', String(weak), 'scored below 60 \u00b7 ' + (s.parts_with_critical || 0) + ' with a critical issue', s.scored ? SV.gradeOf(Math.floor(100 * (s.scored - weak) / s.scored)).id : 'none'),
+        stat('Not scored', String((s.incomplete || 0) + (s.no_model || 0) + (s.pending || 0) + (s.scoring_failed || 0)), (s.pending || 0) + ' pending · ' + (s.incomplete || 0) + ' incomplete · ' + (s.no_model || 0) + ' no part' + (s.scoring_failed ? ' \u00b7 ' + s.scoring_failed + ' failed' : ''), (s.incomplete || 0) + (s.no_model || 0) + (s.pending || 0) + (s.scoring_failed || 0) ? 'none' : 'perfect'),
         stat('Rubric', o.version || SV.DASH, o.rubric || '')),
       h('p', { class: 'sc-note', text: 'The score grades what the drawing’s extraction asked for against the real SolidWorks part. It needs no answer key and costs nothing to run.' }));
     var dist = SV.distribution(eligible);
@@ -130,7 +130,7 @@
     else wrap.append(h('ul', { class: 'sc-attn' }, attention.map(function (r) {
       return h('li', { class: 'band-' + SV.gradeOf(r.score).id }, h('div', { class: 'sc-attn-h' }, h('strong', { text: r.part }), scoreChip(r), issueBadges(r.counts)),
         r.top_issue ? h('p', { class: 'sc-attn-t', text: r.top_issue }) : null,
-        h('button', { class: 'btn ghost sm', type: 'button', text: 'Details', onclick: function () { openDetail(r.part); } }));
+        h('button', { class: 'btn act act-violet', type: 'button', text: 'Details', onclick: function () { openDetail(r.part); } }));
     })));
     return wrap;
   }
@@ -148,7 +148,7 @@
     if (!rows.length) { wrap.append(empty('search', (o.parts || []).length ? 'No matches' : 'No parts yet', (o.parts || []).length ? 'No part matches that search.' : 'Parts appear here once they are created and run.')); return wrap; }
     var body = rows.map(function (r) {
       var bs = s.batch && s.batch.results ? s.batch.results[r.part] : undefined, status = SV.statusOf(r, bs), block = SV.evalBlocker(r);
-      var evalBtn = h('button', { class: 'btn secondary sm', type: 'button', text: st.busy[r.part] ? 'Scoring…' : (r.state === 'pending' || r.state === 'no_output' ? 'Evaluate' : 'Re-evaluate'), disabled: (block || st.busy[r.part]) ? 'disabled' : null, title: block || '' });
+      var evalBtn = h('button', { class: 'btn act act-gold', type: 'button', text: st.busy[r.part] ? 'Scoring…' : (r.state === 'pending' || r.state === 'no_output' ? 'Evaluate' : 'Re-evaluate'), disabled: (block || st.busy[r.part]) ? 'disabled' : null, title: block || '' });
       evalBtn.addEventListener('click', function () { evaluate([r.part]); });
       return h('tr', { 'data-part': r.part, 'data-state': r.state, 'data-band': status.kind === 'scored' ? SV.gradeOf(r.score).id : 'none' },
         h('td', null, h('strong', { text: r.part })),
@@ -157,7 +157,7 @@
         h('td', null, status.kind === 'scored' ? catStrip(r) : h('span', { class: 'reason', text: SV.DASH })),
         h('td', null, h('div', { class: 'sc-badges' }, r.counts ? issueBadges(r.counts) : [h('span', { class: 'reason', text: SV.DASH })])),
         h('td', null, r.stale_rubric ? pill('amber', '!', 'Rubric changed', 'is-quiet') : null, r.benchmark && r.benchmark.state === 'scored' ? h('span', { class: 'badge-c', title: 'Answer-key benchmark score', text: 'Benchmark ' + r.benchmark.score.toFixed(0) }) : null),
-        h('td', null, h('div', { class: 'acts' }, h('button', { class: 'btn ghost sm', type: 'button', text: 'Details', onclick: function () { openDetail(r.part); } }), evalBtn)));
+        h('td', null, h('div', { class: 'acts' }, h('button', { class: 'btn act act-violet', type: 'button', text: 'Details', onclick: function () { openDetail(r.part); } }), evalBtn)));
     });
     wrap.append(h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl sc-tbl' }, h('caption', { class: 'sr-only', text: 'Part results' }),
       h('thead', null, h('tr', null, ['Part', 'Last run', 'Fidelity score', 'Categories', 'Issues', 'Notes', 'Actions'].map(function (t) { return h('th', { scope: 'col', text: t }); }))), h('tbody', null, body))));
@@ -205,7 +205,7 @@
     if (!d) { wrap.append(h('p', { class: 'reason', text: 'Loading the stored evaluation…' })); return wrap; }
     if (d.error) { wrap.append(h('div', { class: 'banner is-err', role: 'alert' }, McA.icons.get('warn', 18), 'Could not load the evaluation: ' + d.error)); return wrap; }
     var rec = d.latest, row = ((st.ov && st.ov.parts) || []).filter(function (r) { return r.part === part; })[0] || {};
-    var evalBtn = h('button', { class: 'btn secondary sm', type: 'button', text: st.busy[part] ? 'Scoring…' : (rec ? 'Re-evaluate' : 'Evaluate'), disabled: (!row.has_output || st.busy[part]) ? 'disabled' : null, onclick: function () { evaluate([part]); } });
+    var evalBtn = h('button', { class: 'btn act act-gold', type: 'button', text: st.busy[part] ? 'Scoring…' : (rec ? 'Re-evaluate' : 'Evaluate'), disabled: (!row.has_output || st.busy[part]) ? 'disabled' : null, onclick: function () { evaluate([part]); } });
     if (!rec) { wrap.append(empty('scoring', 'Not evaluated yet', 'Press Evaluate to score this part. Nothing is assumed.'), evalBtn); return wrap; }
     var stt = SV.statusOf({ state: rec.state, reason: rec.reason, score: rec.score });
     var head = h('div', { class: 'sc-head' });
@@ -263,7 +263,7 @@
       tbl('Check weights', ['Category', 'Check', 'Points'], Object.keys(m.integrity_checks).map(function (k) { return h('tr', null, h('td', { text: 'Build integrity' }), h('td', { text: k.replace(/_/g, ' ') }), h('td', { class: 'num', text: String(m.integrity_checks[k]) })); })
         .concat(Object.keys(m.trust_checks).map(function (k) { return h('tr', null, h('td', { text: 'Extraction reliability' }), h('td', { text: k.replace(/_/g, ' ') }), h('td', { class: 'num', text: String(m.trust_checks[k]) })); }))),
       h('h3', { class: 'sec-h', text: 'Credit within and past tolerance (e = error / tolerance)' }),
-      tbl('Credit curve', ['e', 'Credit'], m.credit_curve.map(function (c) { return h('tr', null, h('td', { class: 'num', text: String(c.e) }), h('td', { class: 'num', text: c.credit.toFixed(3) })); })),
+      tbl('Credit curve', ['e', 'Credit'], m.credit_curve.map(function (c) { var cg = G.gradeOfCredit(c.credit); return h('tr', null, h('td', { class: 'num', text: String(c.e) }), h('td', { class: 'num' }, h('span', { class: 'cr-curve band-' + cg.id, text: G.format(c.credit, 3) }))); })),
       h('h3', { class: 'sec-h', text: 'Feature importance (Feature coverage)' }),
       tbl('Tier weights', ['Feature type', 'Weight'], Object.keys(m.tiers).map(function (k) { return h('tr', null, h('td', { text: k.replace(/_/g, ' ') }), h('td', { class: 'num', text: String(m.tiers[k]) })); })),
       h('h3', { class: 'sec-h', text: 'Gates, tolerances and thresholds' }),

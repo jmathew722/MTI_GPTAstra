@@ -157,3 +157,8 @@ code chips, category accents). Tests: planview 8, resulttone 6, browser `26-v4-c
 
 Added `logic/grade.js` + `--grade-*` tokens and moved the Scoring tab, Projects (badge + Score column), a new Workspace header "Fidelity score" chip and Pipeline Results (fidelity section, graded
 macro-readiness style metrics) onto it. Fixed thresholds, no rounding up, neutral grey for missing, Poor has no fill (AA). Also serialised server-side PyMuPDF calls (crash under parallel PDF requests).
+
+### 2026-11-25 (last): always-fresh UI, coloured numbers, action buttons
+
+Versioned asset URLs and `no-cache` headers (the likely reason new colours did not show), every overview/example/credit-curve number graded, larger violet/gold action buttons (Open, Results, Details, Evaluate, Re-evaluate),
+two Projects accessibility fixes. Tests: server stale-UI test, browser `28-v4-buttons-and-number-colour` 4.

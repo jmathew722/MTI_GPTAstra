@@ -352,9 +352,36 @@ def _cancel_run(run_id: str) -> None:
         state["lines"].append(f"[cancel error] {type(e).__name__}: {e}")
 
 
+def _ui_version() -> str:
+    """A short fingerprint of every UI file (name, size, mtime): changes whenever any script or stylesheet changes."""
+    import hashlib
+    h = hashlib.sha1()
+    for p in sorted((WEB_DIR / "static").rglob("*")):
+        if p.is_file():
+            st = p.stat()
+            h.update(f"{p.relative_to(WEB_DIR)}{st.st_size}{st.st_mtime_ns}".encode())
+    h.update(str((WEB_DIR / "index.html").stat().st_mtime_ns).encode())
+    return h.hexdigest()[:10]
+
+
+@app.middleware("http")
+async def _always_fresh_ui(request: Request, call_next):
+    """The UI's own scripts and styles are always revalidated (ETag), so a browser can never keep showing an old version of the app
+    next to new data (a heuristically cached old stylesheet made every new colour disappear)."""
+    resp = await call_next(request)
+    p = request.url.path
+    if p == "/" or p.startswith(("/static/", "/photoapp/")) or p in ("/bridge.js", "/pdf.min.js"):
+        resp.headers["Cache-Control"] = "no-cache"
+    return resp
+
+
 @app.get("/")
 def index():
-    return FileResponse(WEB_DIR / "index.html")
+    """index.html with every /static asset URL stamped ?v=<fingerprint>: a changed file is a new URL, never a stale cached copy."""
+    html = (WEB_DIR / "index.html").read_text(encoding="utf-8")
+    ver = _ui_version()
+    html = re.sub(r'((?:src|href)="/static/[^"?]+)"', lambda m: f'{m.group(1)}?v={ver}"', html)
+    return Response(html, media_type="text/html; charset=utf-8", headers={"Cache-Control": "no-cache"})
 
 
 @app.get("/bridge.js")

@@ -417,3 +417,18 @@ def test_many_parallel_pdf_requests_never_crash_the_server_process():
     with ThreadPoolExecutor(max_workers=16) as ex:
         results = list(ex.map(hit, names * 4))
     assert all(a in (200, 204) and b == 200 for a, b in results)
+
+
+def test_the_ui_is_never_served_stale():
+    """Every script and stylesheet URL carries a version stamp and is revalidated, so an old cached stylesheet can never hide new colours."""
+    r = client.get("/")
+    assert r.status_code == 200 and r.headers["cache-control"] == "no-cache"
+    import re as _re
+    tags = _re.findall(r'(?:src|href)="(/static/[^"]+)"', r.text)
+    assert len(tags) > 20 and all("?v=" in t for t in tags)
+    ver = {t.split("?v=")[1] for t in tags}
+    assert len(ver) == 1 and len(next(iter(ver))) == 10
+    for path in ("/static/js/pages/scoring.js", "/static/css/pages.css", "/static/design-tokens.css", "/static/js/logic/grade.js"):
+        g = client.get(path)
+        assert g.status_code == 200 and g.headers["cache-control"] == "no-cache", path
+        assert client.get(path, headers={"If-None-Match": g.headers["etag"]}).status_code == 304      # revalidation is cheap

@@ -90,3 +90,8 @@ colours plus six category accents. Colour is never the only cue: every verdict h
 All 0-100 scores use one grading utility (`web/static/js/logic/grade.js`, tokens `--grade-*`): 0-39 Poor `#D95763`, 40-59 Below Average `#D98B55`, 60-79 Fair `#D6AF6B`,
 80-89 Good `#B5C76B`, 90-99 Excellent `#8DD49A`, 100 Perfect `#4CB782`; missing scores are neutral grey `#92949E`. The colour follows the actual number (99.99 is Excellent and shows
 as 99.9). To change a threshold or colour, edit `grade.js` and the matching `--grade-*` token (a test fails if they differ).
+
+### Always-fresh UI and action buttons (v4)
+
+The server stamps every `/static/...` URL in `index.html` with `?v=<fingerprint>` and sends the UI files with `Cache-Control: no-cache`, so a browser can never run new scripts against an old cached stylesheet. If a colour or
+layout looks old after an update, hard-refresh once (Ctrl+F5). Action buttons use `.btn.act` with `act-open` (solid violet), `act-violet` (violet tint) and `act-gold` (gold tint).

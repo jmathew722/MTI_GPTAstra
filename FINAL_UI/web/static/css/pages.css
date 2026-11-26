@@ -60,8 +60,8 @@
 .tbl .acts { display: flex; gap: var(--sp-2); justify-content: flex-end; white-space: nowrap; }
 .tbl .num { font-family: var(--mono); }
 .pres { display: inline-flex; gap: 4px; flex-wrap: wrap; }
-.pres .p { font-size: var(--fs-caption); padding: 1px 6px; border-radius: var(--r-sm); border: 1px solid var(--line); color: var(--ink-4); }
-.pres .p.on { color: var(--ok-text); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+.pres .p { font-size: var(--fs-caption); padding: 1px 6px; border-radius: var(--r-sm); border: 1px dashed var(--line-strong); color: var(--ink-3); }   /* absent: dashed outline, still AA-readable (ink-4 was 3.4:1) */
+.pres .p.on { color: var(--ok-text); border-style: solid; border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
 .banner { display: flex; gap: var(--sp-3); align-items: center; padding: var(--sp-3) var(--sp-4); border: 1px solid var(--line-strong); border-radius: var(--r-md); background: var(--surface); margin-bottom: var(--sp-4); }
 .banner.is-err { border-color: color-mix(in srgb, var(--err) 55%, transparent); color: var(--err-text); }
 
@@ -287,3 +287,26 @@
 #hdr-score .chip-g { color: var(--b); font-size: 12px; }
 #hdr-score[data-grade="none"] .chip-v { color: var(--grade-none); }
 #hdr-score:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── v4: action buttons that pop (Open, Results, Details, Evaluate, Re-evaluate) ──────────────────────────────────── */
+.btn.act { min-height: 38px; padding: 0 18px; font-size: 14px; font-weight: 600; letter-spacing: .01em; border-radius: 9px; border: 1px solid transparent;
+  transition: background .15s ease, border-color .15s ease, transform .12s ease, box-shadow .15s ease; }
+.btn.act svg { width: 16px; height: 16px; }
+.btn.act:hover:not(:disabled):not([aria-disabled="true"]) { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,.35); }
+.btn.act:active:not(:disabled) { transform: none; box-shadow: none; }
+.btn.act:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 2px; }
+/* Open: solid violet, like Save part */
+.btn.act-open { background: var(--accent); color: #101114; border-color: var(--accent); }
+.btn.act-open:hover:not(:disabled):not([aria-disabled="true"]) { background: var(--accent-bright); border-color: var(--accent-bright); }
+/* Details: violet tint with a violet border */
+.btn.act-violet { background: color-mix(in srgb, var(--accent) 18%, var(--surface)); color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 60%, transparent); }
+.btn.act-violet:hover:not(:disabled):not([aria-disabled="true"]) { background: color-mix(in srgb, var(--accent) 30%, var(--surface)); border-color: var(--accent); color: #fff; }
+/* Results, Evaluate, Re-evaluate: champagne-gold tint, in the Run Pipeline family but quieter so it never competes with the one gold call to action */
+.btn.act-gold { background: color-mix(in srgb, var(--gold) 17%, var(--surface)); color: var(--gold-bright); border-color: color-mix(in srgb, var(--gold) 65%, transparent); }
+.btn.act-gold:hover:not(:disabled):not([aria-disabled="true"]) { background: color-mix(in srgb, var(--gold) 30%, var(--surface)); border-color: var(--gold); color: #fff3d6; }
+.btn.act:disabled, .btn.act[aria-disabled="true"] { opacity: .45; transform: none; box-shadow: none; }
+.acts { gap: var(--sp-2); }
+.pcard-a .btn.act { flex: 1 1 auto; justify-content: center; }
+/* overview numbers carry their grade colour */
+.sc-stat-v.grade-num, .sc-stat-v[class*="band-"] { color: var(--b); }
+.cr-curve { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--b); }

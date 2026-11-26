@@ -22,8 +22,8 @@
         h('td', null, h('strong', { text: r.part })),
         h('td', { class: 'num', text: r.timestamp || McA.dom.fmtTime(r.epoch) }),
         h('td', null, h('div', { class: 'acts' },
-          h('button', { class: 'btn secondary sm', type: 'button', text: 'Open in Workspace', onclick: function () { McA.openPart(r.session, r.part); } }),
-          h('button', { class: 'btn ghost sm', type: 'button', text: 'Open results', onclick: function () { McA.openPart(r.session, r.part, 'results'); } }),
+          h('button', { class: 'btn act act-open', type: 'button', text: 'Open in Workspace', onclick: function () { McA.openPart(r.session, r.part); } }),
+          h('button', { class: 'btn act act-gold', type: 'button', text: 'Open results', onclick: function () { McA.openPart(r.session, r.part, 'results'); } }),
           pres.stl ? h('a', { class: 'btn ghost sm', href: McA.api.partStlURL(r.session, r.part), download: r.part + '.stl' }, McA.icons.get('download', 14), 'Download STL') : null)));
     });
     body.append(h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' }, h('caption', { class: 'sr-only', text: 'Recent runs, newest first' }),

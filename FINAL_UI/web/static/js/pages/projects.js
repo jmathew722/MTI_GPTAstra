@@ -29,6 +29,7 @@
       if (tried >= urls.length) {
         th.classList.remove('is-loading'); th.setAttribute('data-state', 'unavailable');
         th.replaceChildren(McA.icons.get('file', 30), h('span', { class: 'pcard-nopv', text: 'Preview unavailable' }));
+        th.setAttribute('aria-label', 'Preview unavailable. Open ' + p.name);        // the accessible name must contain the visible text
         return;
       }
       var img = h('img', { alt: 'Drawing preview of ' + p.name, decoding: 'async' });
@@ -59,8 +60,8 @@
         p.has_overview ? h('span', { class: 'badge-c', text: 'Overview' }) : null, p.has_marked ? h('span', { class: 'badge-c', text: 'Marked' }) : null,
         p.source_format ? h('span', { class: 'badge-c mono', text: String(p.source_format).toUpperCase() }) : null),
       h('div', { class: 'pcard-a' },
-        h('button', { class: 'btn sm', type: 'button', text: 'Open', onclick: function () { McA.openPart(sess, p.name); } }),
-        p.has_output ? h('button', { class: 'btn secondary sm', type: 'button', text: 'Results', onclick: function () { McA.openPart(sess, p.name, 'results'); } }) : null)));
+        h('button', { class: 'btn act act-open', type: 'button', text: 'Open', onclick: function () { McA.openPart(sess, p.name); } }),
+        p.has_output ? h('button', { class: 'btn act act-gold', type: 'button', text: 'Results', onclick: function () { McA.openPart(sess, p.name, 'results'); } }) : null)));
   }
   function runsTable(runs) {
     var keys = [['extraction', 'Extraction'], ['build_plan', 'Plan'], ['macros', 'VBA'], ['sldprt', 'SLDPRT'], ['stl', 'STL']];
@@ -72,8 +73,8 @@
         h('td', null, McA.scorecache ? McA.scorecache.badge(McA.scorecache.get(r.part)) : null),
         h('td', null, h('span', { class: 'pres', 'aria-label': 'Files present' }, keys.map(function (k) { return h('span', { class: 'p' + (pres[k[0]] ? ' on' : ''), title: pres[k[0]] ? 'Present' : 'Not present', text: k[1] }); }))),
         h('td', null, h('div', { class: 'acts' },
-          h('button', { class: 'btn secondary sm', type: 'button', text: 'Open', onclick: function () { McA.openPart(r.session, r.part); } }),
-          h('button', { class: 'btn ghost sm', type: 'button', text: 'Results', onclick: function () { McA.router.go('results', { run: r.session + '|' + r.part }); } }))));
+          h('button', { class: 'btn act act-open', type: 'button', text: 'Open', onclick: function () { McA.openPart(r.session, r.part); } }),
+          h('button', { class: 'btn act act-gold', type: 'button', text: 'Results', onclick: function () { McA.router.go('results', { run: r.session + '|' + r.part }); } }))));
     });
     return h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' },
       h('caption', { class: 'sr-only', text: 'All runs' }),
