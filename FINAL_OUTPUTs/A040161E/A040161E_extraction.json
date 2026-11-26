@@ -1,0 +1,795 @@
+{
+  "part_name": "ADJUSTING BLOCK",
+  "part_number": "4016-B",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1\" = 1\"",
+  "material": "1020",
+  "material_extraction": {
+    "status": "specified",
+    "raw_text": "1020",
+    "normalized_candidate": "1020",
+    "evidence": [
+      {
+        "page": 1,
+        "region": "title_block",
+        "quote": "1020",
+        "bbox_normalized": null
+      }
+    ],
+    "alternatives": [],
+    "confidence": 0.99,
+    "review_reason": null,
+    "specification": null,
+    "condition_or_temper": null,
+    "coating": null,
+    "heat_treatment": null,
+    "finish": "125 surface texture callouts",
+    "hardness": null,
+    "stock_form": null,
+    "body_scope": null
+  },
+  "finish": "125 surface texture: bottom face in front view and both side faces in right view. Parameter and units not explicitly stated; conventionally microinch roughness.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1 .02; 3 PLACE DIM. \u00b1 .010; ANGULAR DIM. \u00b1 1\u00b0",
+  "views": [
+    {
+      "view_type": "Top",
+      "description": "Upper-left: length versus thickness; two counterbored vertical mounting holes.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F007"
+      ],
+      "hidden_features": [
+        "F004",
+        "F005",
+        "F006"
+      ],
+      "centerline_notes": "Two mounting-hole axes share a horizontal centerline. Cross-hole axes project perpendicular to mounting-hole axes."
+    },
+    {
+      "view_type": "Front",
+      "description": "Lower-left: length versus height; left tapped and right drilled cross holes, with vertical mounting holes hidden.",
+      "dimensions_shown": [
+        "D006",
+        "D007",
+        "D008",
+        "D009",
+        "D010"
+      ],
+      "visible_features": [
+        "F001",
+        "F004",
+        "F005",
+        "F006",
+        "F007"
+      ],
+      "hidden_features": [
+        "F002",
+        "F003"
+      ],
+      "centerline_notes": "Cross holes share center height 1.250 above bottom. Vertical mounting axes provide the reference for the 3.000 horizontal dimension."
+    },
+    {
+      "view_type": "Right",
+      "description": "Lower-right: thickness versus height; overall dimensions, chamfer and surface texture.",
+      "dimensions_shown": [
+        "D011",
+        "D012",
+        "D013",
+        "D014"
+      ],
+      "visible_features": [
+        "F001",
+        "F007"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Vertical thickness centerline and horizontal projected cross-hole centerline; internal hole outlines omitted."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 5.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_length",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Tilde-like mark below number apparently denotes approximate size; not explicitly REF. General two-place tolerance listed subject to confirmation of approximate notation."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 0.62,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_mounting_axis_offset_from_left_end",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Tilde-like mark below number apparently denotes approximate size; not explicitly REF. Confirm applicability of general tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 4.0,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "mounting_hole_spacing",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "4.000 \u00b1 .005."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 0.625,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "mounting_centerline_from_upper_top_view_edge",
+      "feature_ref": "F002",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Common centerline of both mounting holes; do not replace with exact half-thickness."
+    },
+    {
+      "id": "D005",
+      "type": "diameter",
+      "value": 0.625,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_cap_screw_size_not_hole_diameter",
+      "feature_ref": "F003",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DR & C'BORE FOR .625 SOC. HD. CAP SCR. 2 HLS. Neither actual clearance-hole diameter nor counterbore diameter/depth is dimensioned."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 3.0,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "right_cross_hole_from_left_mounting_axis",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "3.000 \u00b1 .005."
+    },
+    {
+      "id": "D007",
+      "type": "diameter",
+      "value": 0.812,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "cross_hole_diameter",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".812 DR. THRU; general three-place tolerance."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 1.25,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "both_cross_hole_center_heights",
+      "feature_ref": "F004",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.250 \u00b1 .005 from bottom; also locates F005/F006."
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 2.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "cross_hole_spacing",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "2.00; general two-place tolerance."
+    },
+    {
+      "id": "D010",
+      "type": "thread",
+      "value": 0.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_thread_diameter",
+      "feature_ref": "F006",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".750-16 TAP THRU; 16 TPI, derived pitch .0625 inch. Series, fit class and tap drill not specified; no plain diameter tolerance assigned."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 1.88,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_height",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-place tolerance."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 1.249,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.002,
+      "tolerance_type": "unilateral",
+      "applies_to": "overall_thickness",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.249 +.000/-.002; limits 1.247\u20131.249."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 0.06,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "chamfer_leg",
+      "feature_ref": "F007",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".06 x 45\u00b0 6 PL.; general two-place tolerance. Exact six-edge selection requires confirmation."
+    },
+    {
+      "id": "D014",
+      "type": "angular",
+      "value": 45.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "chamfer_angle",
+      "feature_ref": "F007",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Angle and tolerance are in degrees; schema offers only length units. General angular tolerance \u00b11\u00b0; 6 places."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 4.62,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_mounting_x",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal .62 + 4.000; inherits approximate offset uncertainty."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 0.63,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_mounting_end_margin",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal 5.25 - 4.62; do not force symmetry."
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 3.62,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "drilled_cross_hole_x",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal .62 + 3.000."
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 1.62,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "tapped_cross_hole_x",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal 3.62 - 2.00."
+    },
+    {
+      "id": "D019",
+      "type": "linear",
+      "value": 0.624,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "mounting_y_from_lower_top_view_edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal 1.249 - .625."
+    },
+    {
+      "id": "D020",
+      "type": "linear",
+      "value": 0.63,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "cross_hole_top_margin",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal 1.88 - 1.250."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H002",
+      "type": "thru",
+      "diameter": 0.812,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 3.62,
+      "y_position": 1.25,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          3.62,
+          1.25
+        ]
+      ],
+      "feature_ref": "F004",
+      "view": "Front"
+    },
+    {
+      "id": "H003",
+      "type": "tapped",
+      "diameter": 0.75,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": ".750-16 TAP THRU",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 1.62,
+      "y_position": 1.25,
+      "position_known": true,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [
+        [
+          1.62,
+          1.25
+        ]
+      ],
+      "feature_ref": "F006",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Rectangular base 5.25 long x 1.88 high, extruded 1.249 thick. Front lower-left corner is coordinate origin.",
+      "related_dimensions": [
+        "D001",
+        "D011",
+        "D012"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D012",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Two top-entry mounting clearance holes for .625 socket-head cap screws. Actual diameter unspecified. Top-view edge-referenced centers [[.62,.624],[4.62,.624]], spacing 4.000. Through condition inferred from front hidden lines.",
+      "related_dimensions": [
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D015",
+        "D019"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.62,
+      "offset_y": 0.624,
+      "position_known": true,
+      "quantity": 2
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Two counterbores for .625 socket-head cap screws, coaxial with F002, at top-view centers [[.62,.624],[4.62,.624]]. Counterbore diameter and depth unspecified; must be resolved, not scaled.",
+      "related_dimensions": [
+        "D005"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F002",
+      "offset_x": 0.62,
+      "offset_y": 0.624,
+      "position_known": true,
+      "quantity": 2
+    },
+    {
+      "id": "F004",
+      "type": "hole",
+      "description": "Right .812 drilled cross hole through thickness.",
+      "related_dimensions": [
+        "D006",
+        "D007",
+        "D008",
+        "D017"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 3.62,
+      "offset_y": 1.25,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F005",
+      "type": "hole",
+      "description": "Left through pilot/minor-diameter bore for .750-16 internal thread. Tap drill not specified; do not use .750 as pilot diameter.",
+      "related_dimensions": [
+        "D008",
+        "D009",
+        "D010",
+        "D018"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 1.62,
+      "offset_y": 1.25,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F006",
+      "type": "thread",
+      "description": "Internal .750-16 through thread in F005. Series and fit class unspecified.",
+      "related_dimensions": [
+        "D010"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D012",
+      "parent_feature": "F005",
+      "offset_x": 1.62,
+      "offset_y": 1.25,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F007",
+      "type": "chamfer",
+      "description": ".06 x 45\u00b0, 6 places. Leader points to lower-left corner of right view. Confirm exact six edges against projected bevel outlines before modeling.",
+      "related_dimensions": [
+        "D013",
+        "D014"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 6
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Rectangular base envelope midplanes",
+        "feature_ids": [
+          "F001"
+        ],
+        "description": "Base envelope symmetry only. Hole positions are not exactly symmetric: end margins .62/.63 and thickness offsets .625/.624 nominal."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F002",
+          "F003"
+        ],
+        "description": "Each mounting hole shares its axis with its own counterbore, not with the other mounting hole."
+      },
+      {
+        "feature_ids": [
+          "F005",
+          "F006"
+        ],
+        "description": "Thread and pilot bore coaxial."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "F002",
+        "qty": 2,
+        "spacing_value": 4.0,
+        "computed_from": "Directly dimensioned 4.000, one interval between two mounting axes."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D015",
+        "component_dimension_ids": [
+          "D002",
+          "D003"
+        ],
+        "description": "Right mounting x = left offset + spacing."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D002",
+          "D003",
+          "D016"
+        ],
+        "description": "5.25 = .62 + 4.000 + derived .63."
+      },
+      {
+        "total_dimension_id": "D017",
+        "component_dimension_ids": [
+          "D002",
+          "D006"
+        ],
+        "description": "Right cross-hole x = .62 + 3.000."
+      },
+      {
+        "total_dimension_id": "D017",
+        "component_dimension_ids": [
+          "D018",
+          "D009"
+        ],
+        "description": "Right cross-hole x = left cross-hole x + 2.00."
+      },
+      {
+        "total_dimension_id": "D012",
+        "component_dimension_ids": [
+          "D004",
+          "D019"
+        ],
+        "description": "1.249 = .625 + derived .624."
+      },
+      {
+        "total_dimension_id": "D011",
+        "component_dimension_ids": [
+          "D008",
+          "D020"
+        ],
+        "description": "1.88 = 1.250 + derived .63."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D015",
+      "D016",
+      "D017",
+      "D018",
+      "D019",
+      "D020"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F004",
+    "F005",
+    "F003",
+    "F006",
+    "F007"
+  ],
+  "warnings": [
+    "Mounting callout H001 cannot be represented faithfully in the hole_callouts array because its actual diameter is unspecified and the reporting schema requires a positive diameter. Fully preserved in D005 and F002/F003: DR & C'BORE FOR .625 SOC. HD. CAP SCR. 2 HLS.; quantity 2, top-view centers [[.62,.624],[4.62,.624]], linear spacing 4.000. Clearance diameter, counterbore diameter/depth unknown. Never use .625 as the clearance-hole diameter without engineering confirmation.",
+    "Drawing explicitly specifies inches and third-angle projection; no ASME/ISO/DIN standard named.",
+    "4016-B is the complete drawing/part number; do not infer a revision B. Separate revision unpopulated. Model No. 180V.",
+    "Tilde-like marks below 5.25 and .62 apparently denote approximate size. Confirm their manufacturing status and applicability of general tolerances; numeric values are readable.",
+    "Mounting through condition inferred from front hidden lines; mounting note does not explicitly say THRU.",
+    "Coordinates use lower-left corners of named views; Top and Front y refer to different physical directions. Calculated x coordinates inherit the approximate .62 offset.",
+    "Chamfer quantity is six; exact edge selection requires confirmation. Do not automatically chamfer all twelve box edges.",
+    "Thread series, fit class and tap-drill diameter unspecified; resolve before detailed thread manufacture.",
+    "125 surface texture is not a size dimension; roughness parameter, units and cutoff not expressly given. Microinch is conventional for this inch drawing.",
+    "No GD&T frames or datum symbols. Heat-treatment field blank.",
+    "Derived dimension loops verify nominal arithmetic, not independent measured dimensions; derived tolerances not independently assigned."
+  ],
+  "confidence": 0.88
+}

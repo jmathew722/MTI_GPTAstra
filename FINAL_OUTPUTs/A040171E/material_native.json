@@ -1,0 +1,11 @@
+{
+  "status": "unmatched",
+  "requested": null,
+  "actual": {
+    "name": "",
+    "database": ""
+  },
+  "errors": [],
+  "note": "No material was assigned: 1020 STEEL",
+  "custom_property_errors": []
+}

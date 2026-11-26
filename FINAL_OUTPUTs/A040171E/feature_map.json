@@ -1,0 +1,97 @@
+{
+  "part": "4017-A",
+  "units": "inch",
+  "origin_kind": "corner",
+  "bbox": [
+    0.0,
+    0.0,
+    0.0,
+    4.25,
+    0.75,
+    0.875
+  ],
+  "volume": 2.256923,
+  "volume_mm3": 36984.342,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004"
+  ],
+  "skipped": {
+    "F005": "unresolved: What nominal radius should be used at the two tongue roots? Only a maximum is specified."
+  },
+  "holes": {
+    "F003": [
+      {
+        "planned_center": [
+          0.25,
+          0.375
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          0.25,
+          0.375
+        ],
+        "d": 0.281,
+        "depth": 0.437,
+        "axis": "Z"
+      }
+    ],
+    "F004": [
+      {
+        "planned_center": [
+          4.0,
+          0.375
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          4.0,
+          0.375
+        ],
+        "d": 0.281,
+        "depth": 0.437,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {},
+  "starts": {
+    "F001": {
+      "axis": "Y",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F003": {
+      "axis": "Z",
+      "coord": 0.687,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 2.203711797,
+    "F002": 2.386461797,
+    "F003": 2.321692401,
+    "F004": 2.256923004
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      0.0,
+      0.0,
+      0.125,
+      4.25,
+      0.75,
+      0.875
+    ]
+  }
+}

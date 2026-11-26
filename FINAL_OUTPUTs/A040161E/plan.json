@@ -1,0 +1,190 @@
+{
+  "dims": {
+    "D001": 5.25,
+    "D002": 0.62,
+    "D003": 4.0,
+    "D004": 0.625,
+    "D005": 0.625,
+    "D006": 3.0,
+    "D007": 0.812,
+    "D008": 1.25,
+    "D009": 2.0,
+    "D010": 0.75,
+    "D011": 1.88,
+    "D012": 1.249,
+    "D013": 0.06,
+    "D014": 45.0,
+    "D015": 4.62,
+    "D016": 0.63,
+    "D017": 3.62,
+    "D018": 1.62,
+    "D019": 0.624,
+    "D020": 0.63
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "4016-B",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "top": "+Y",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Rectangular block with length X, height Y, and thickness Z.",
+        "source_callouts": [
+          "5.25",
+          "1.88",
+          "1.249 +.000/-.002"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D011",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D012",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Left top-entry counterbored mounting hole; front hidden lines establish through clearance bore.",
+        "source_callouts": [
+          "DR & C'BORE FOR .625 SOC. HD. CAP SCR. 2 HLS.",
+          ".62",
+          ".625 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Supplied ASME B18.3 normal-fit SHCS chart for D005 specifies .656 drill, 1.000 counterbore diameter, and .625 counterbore depth. D001 drilling depth overshoots the full block height. The upper top-view edge is Z=D012; center Z is D012-D004.",
+        "kind": "hole",
+        "on": "face(F001,+Y)",
+        "u": "D002",
+        "v": "D012 - D004",
+        "spec": {
+          "type": "cbore",
+          "d": "0.656",
+          "depth": "D001",
+          "cbore_d": "1.000",
+          "cbore_depth": "D005",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Repeat the mounting hole at the printed spacing without forcing equal end margins.",
+        "source_callouts": [
+          "DR & C'BORE FOR .625 SOC. HD. CAP SCR. 2 HLS.",
+          "4.000 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D003",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Right cross-drilled through hole, located from the left mounting axis and bottom.",
+        "source_callouts": [
+          ".812 DR. THRU",
+          "3.000 \u00b1.005",
+          "1.250 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D002 + D006",
+        "v": "D008",
+        "spec": {
+          "type": "thru",
+          "d": "D007",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Left tapped cross hole, represented by a tap-drill bore and cosmetic thread.",
+        "source_callouts": [
+          ".750-16 TAP THRU",
+          "2.00",
+          "1.250 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "Standard tap-drill chart for D010 nominal 3/4-16 UNF specifies 11/16 inch (.6875) drill. Shared front-view centerline establishes D008 height. D001 depth overshoots the thickness for through drilling. No unspecified thread class is assigned.",
+        "kind": "hole",
+        "on": "face(F001,-Z)",
+        "u": "D002 + D006 - D009",
+        "v": "D008",
+        "spec": {
+          "type": "tapped",
+          "d": "0.6875",
+          "depth": "D001",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ".750-16 UNF THRU"
+        }
+      },
+      {
+        "id": "F006",
+        "rationale": "Chamfer the four vertical corner edges and the two long bottom edges.",
+        "source_callouts": [
+          ".06 x 45\u00b0 6 PL."
+        ],
+        "status": "planned",
+        "justification": "Front view shows inset bevel boundaries at both ends and bottom, not top. Right view shows inset vertical boundaries and both bottom corners clipped. Top view shows four clipped corners. These projections identify four Y-directed corner edges and two X-directed bottom edges, totaling six places.",
+        "kind": "edge_op",
+        "operation": "chamfer",
+        "size": "D013",
+        "angle": "D014",
+        "edges": [
+          "edge_between(face(F001,-X),face(F001,-Z))",
+          "edge_between(face(F001,-X),face(F001,+Z))",
+          "edge_between(face(F001,+X),face(F001,-Z))",
+          "edge_between(face(F001,+X),face(F001,+Z))",
+          "edge_between(face(F001,-Y),face(F001,-Z))",
+          "edge_between(face(F001,-Y),face(F001,+Z))"
+        ]
+      }
+    ],
+    "notes": [
+      "Material: 1020. Title: ADJUSTING BLOCK. Model No. 180V.",
+      "Nominal geometry retains the printed 5.25 and .62 values despite the marks beneath them.",
+      "125 surface texture callouts are manufacturing requirements, not geometric dimensions.",
+      "Verify supplied SHCS chart dimensions against MTI shop standard.",
+      "Threads are cosmetic; through cuts extend beyond the material."
+    ]
+  }
+}

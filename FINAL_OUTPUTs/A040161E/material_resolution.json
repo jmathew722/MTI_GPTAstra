@@ -1,0 +1,100 @@
+{
+  "status": "unmatched",
+  "drawing": {
+    "status": "specified",
+    "raw_text": "1020",
+    "normalized_candidate": "1020",
+    "evidence": [
+      {
+        "page": 1,
+        "region": "title_block",
+        "quote": "1020",
+        "bbox_normalized": null
+      }
+    ],
+    "alternatives": [],
+    "confidence": 0.99,
+    "review_reason": null,
+    "specification": null,
+    "condition_or_temper": null,
+    "coating": null,
+    "heat_treatment": null,
+    "finish": "125 surface texture callouts",
+    "hardness": null,
+    "stock_form": null,
+    "body_scope": null
+  },
+  "label": "1020",
+  "chosen": null,
+  "selection_source": null,
+  "suggestions": [
+    {
+      "id": "sw-standard:AISI 1020",
+      "label": "AISI 1020",
+      "catalog_id": "sw-standard",
+      "source": "standard",
+      "similarity": 0.615,
+      "different_grade": false,
+      "different_temper_or_condition": false,
+      "auto_assignable": false
+    },
+    {
+      "id": "sw-standard:AISI 1020 Steel, Cold Rolled",
+      "label": "AISI 1020 Steel, Cold Rolled",
+      "catalog_id": "sw-standard",
+      "source": "standard",
+      "similarity": 0.25,
+      "different_grade": false,
+      "different_temper_or_condition": false,
+      "auto_assignable": false
+    },
+    {
+      "id": "sw-standard:1060-O (SS)",
+      "label": "1060-O (SS)",
+      "catalog_id": "sw-standard",
+      "source": "standard",
+      "similarity": 0.6,
+      "different_grade": true,
+      "different_temper_or_condition": false,
+      "auto_assignable": false
+    }
+  ],
+  "standard_candidates": [],
+  "override": null,
+  "review_required": true,
+  "review_reasons": [
+    "No catalog entry matches this material exactly; fuzzy candidates are suggestions only."
+  ],
+  "assignable": false,
+  "catalogs": [
+    {
+      "catalog_id": "solidflow-demo",
+      "source": "demo",
+      "path": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\config\\materials\\solidflow-demo.json",
+      "sha256": "cbfdfc5785e39efb76596e545b662ddb045f57ea929322941664a9fe12de631b",
+      "currency": "USD",
+      "price_basis": "synthetic_demo_usd_per_kg",
+      "entries": 3,
+      "rejected": 0,
+      "files": [
+        "solidflow-demo.json"
+      ]
+    },
+    {
+      "catalog_id": "sw-standard",
+      "source": "standard",
+      "path": "C:\\Program Files\\SOLIDWORKS Corp\\SOLIDWORKS\\lang\\english\\sldmaterials\\solidworks materials.sldmat",
+      "sha256": "636ef75ffb10e8abf7529c910a50dc2cb0d73ce5112c9721e7e4de1824cf57c5",
+      "currency": "USD",
+      "price_basis": "",
+      "entries": 259,
+      "rejected": 0,
+      "files": [
+        "solidworks materials.sldmat"
+      ]
+    }
+  ],
+  "resolved_at": "2026-11-26T19:20:56+00:00",
+  "catalog_warnings": [],
+  "strict_release": false
+}

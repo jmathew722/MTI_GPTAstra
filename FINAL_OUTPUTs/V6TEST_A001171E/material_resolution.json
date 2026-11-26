@@ -1,0 +1,85 @@
+{
+  "status": "unmatched",
+  "drawing": {
+    "status": "specified",
+    "raw_text": "1018",
+    "normalized_candidate": "1018",
+    "evidence": [
+      {
+        "page": 1,
+        "region": "title_block",
+        "quote": "1018",
+        "bbox_normalized": [
+          0.785,
+          0.724,
+          0.822,
+          0.749
+        ]
+      }
+    ],
+    "alternatives": [],
+    "confidence": 0.99,
+    "review_reason": null,
+    "specification": null,
+    "condition_or_temper": null,
+    "coating": null,
+    "heat_treatment": null,
+    "finish": "GR. FLAT",
+    "hardness": null,
+    "stock_form": null,
+    "body_scope": null
+  },
+  "label": "1018",
+  "chosen": null,
+  "selection_source": null,
+  "suggestions": [
+    {
+      "id": "sw-standard:1060-H18",
+      "label": "1060-H18",
+      "catalog_id": "sw-standard",
+      "source": "standard",
+      "similarity": 0.667,
+      "different_grade": true,
+      "different_temper_or_condition": false,
+      "auto_assignable": false
+    }
+  ],
+  "standard_candidates": [],
+  "override": null,
+  "review_required": true,
+  "review_reasons": [
+    "No catalog entry matches this material exactly; fuzzy candidates are suggestions only."
+  ],
+  "assignable": false,
+  "catalogs": [
+    {
+      "catalog_id": "solidflow-demo",
+      "source": "demo",
+      "path": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\2D-3D-CAD-Test-Generation\\config\\materials\\solidflow-demo.json",
+      "sha256": "cbfdfc5785e39efb76596e545b662ddb045f57ea929322941664a9fe12de631b",
+      "currency": "USD",
+      "price_basis": "synthetic_demo_usd_per_kg",
+      "entries": 3,
+      "rejected": 0,
+      "files": [
+        "solidflow-demo.json"
+      ]
+    },
+    {
+      "catalog_id": "sw-standard",
+      "source": "standard",
+      "path": "C:\\Program Files\\SOLIDWORKS Corp\\SOLIDWORKS\\lang\\english\\sldmaterials\\solidworks materials.sldmat",
+      "sha256": "636ef75ffb10e8abf7529c910a50dc2cb0d73ce5112c9721e7e4de1824cf57c5",
+      "currency": "USD",
+      "price_basis": "",
+      "entries": 259,
+      "rejected": 0,
+      "files": [
+        "solidworks materials.sldmat"
+      ]
+    }
+  ],
+  "resolved_at": "2026-11-26T21:06:08+00:00",
+  "catalog_warnings": [],
+  "strict_release": false
+}

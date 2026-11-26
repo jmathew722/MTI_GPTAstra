@@ -1,0 +1,410 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "A040161E",
+  "evaluated_at": "2026-11-26T19:22:35+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "4016-B_ir.SLDPRT",
+    "stl": "4016-B_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "scored",
+  "score": 94.6,
+  "raw_score": 94.6,
+  "caps": [],
+  "coverage": 0.85,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 17.65,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "6 planned",
+          "measured": "6 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "no fallbacks",
+          "measured": "0 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "closed mesh",
+          "measured": "100.0% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "[1.249, 1.875, 5.25] in",
+          "measured": "[1.249, 1.875, 5.25] in",
+          "note": "matches the build record"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 17.65
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 23.53,
+      "items": [
+        {
+          "id": "D001",
+          "label": "overall length",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 5.25,
+          "measured": 5.25,
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.02,
+          "e": 0.0
+        },
+        {
+          "id": "D011",
+          "label": "overall height",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 1.88,
+          "measured": 1.875,
+          "unit": "inch",
+          "error": -0.005,
+          "tol": 0.02,
+          "e": 0.25
+        },
+        {
+          "id": "D012",
+          "label": "overall thickness",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 1.249,
+          "measured": 1.249,
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.002,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 23.53
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 96.8,
+      "pct": 96.8,
+      "earned": 22.78,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Rectangular base 5.25 long x 1.88 high, extruded 1.249 thick. Front lower-left corner is coordinate origin."
+        },
+        {
+          "id": "F002",
+          "label": "F002 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two top-entry mounting clearance holes for .625 socket-head cap screws. Actual diameter unspecified. Top-view edge-refer"
+        },
+        {
+          "id": "F003",
+          "label": "F003 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two counterbores for .625 socket-head cap screws, coaxial with F002, at top-view centers [[.62,.624],[4.62,.624]]. Count"
+        },
+        {
+          "id": "F004",
+          "label": "F004 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Right .812 drilled cross hole through thickness."
+        },
+        {
+          "id": "F005",
+          "label": "F005 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Left through pilot/minor-diameter bore for .750-16 internal thread. Tap drill not specified; do not use .750 as pilot di"
+        },
+        {
+          "id": "F007",
+          "label": "F007 chamfer",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "missing",
+          "note": ".06 x 45\u00b0, 6 places. Leader points to lower-left corner of right view. Confirm exact six edges against projected bevel o"
+        }
+      ],
+      "n_checked": 6,
+      "n_total": 6,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 23.53
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 90.0,
+      "pct": 90.0,
+      "earned": 21.18,
+      "items": [
+        {
+          "id": "H002#1",
+          "label": "H002 thru hole",
+          "weight": 1.0,
+          "credit": 0.9,
+          "expected": "d 0.812 in through",
+          "measured": "d 0.812 in, through",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H003#1",
+          "label": "H003 tapped hole",
+          "weight": 1.0,
+          "credit": 0.9,
+          "expected": "d 0.75 in through",
+          "measured": "d 0.656 in, through, cbore d 1 in",
+          "unit": "inch",
+          "error": -0.094,
+          "tol": 0.005
+        }
+      ],
+      "n_checked": 2,
+      "n_total": 2,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 23.53
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": false,
+      "score": null,
+      "pct": null,
+      "earned": null,
+      "items": [],
+      "n_checked": 0,
+      "n_total": 0,
+      "band": {
+        "id": "none",
+        "label": "Not scored",
+        "glyph": "dash"
+      },
+      "max": 0.0
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 80.3,
+      "pct": 80.3,
+      "earned": 9.45,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 0.8444,
+          "expected": ">= 95%",
+          "measured": "88%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "none",
+          "measured": "0 unclear dimension(s), 0 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 0.55,
+          "expected": "none",
+          "measured": "0 assumed, 3 default(s), 0 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "amber",
+        "label": "Review recommended",
+        "glyph": "alert"
+      },
+      "max": 11.76
+    }
+  ],
+  "band": {
+    "id": "green",
+    "label": "Matches the drawing",
+    "glyph": "check"
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_MISSING",
+      "message": "F007 (chamfer) is in the extraction but no build status exists for it.",
+      "evidence": ".06 x 45\u00b0, 6 places. Leader points to lower-left corner of right view. Confirm exact six edges against projected bevel outlines before model",
+      "points": 0.76,
+      "ref": "F007"
+    },
+    {
+      "severity": "medium",
+      "category": "hole_accuracy",
+      "code": "HOLE_EXTRA",
+      "message": "2 hole(s) in the real part match no hole callout on the drawing.",
+      "evidence": "d 0.6875 in, d 0.656 in",
+      "points": 2.35,
+      "ref": ""
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "DEFAULTS_APPLIED",
+      "message": "3 default value(s) were applied where the drawing was vague.",
+      "evidence": "D002: D9 0.62 -> 0.625 (two-place print of a 1/16 fraction); D011: D9 1.88 -> 1.875 (two-place print of a 1/16 fraction); D013: D9 0.06 -> 0.0625 (two-place print of a 1/16 fraction)",
+      "points": 1.59,
+      "ref": ""
+    }
+  ],
+  "notes": [],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      1.249,
+      1.875,
+      5.25
+    ],
+    "stl_volume": 9.3377,
+    "triangles": 908,
+    "closed_fraction": 1.0,
+    "holes": [
+      {
+        "axis": "Y",
+        "d": 0.812,
+        "depth": 1.249,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.6875,
+        "depth": 1.249,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Z",
+        "d": 0.656,
+        "depth": 1.25,
+        "through": true,
+        "cbore": {
+          "d": 1.0,
+          "depth": 0.625
+        }
+      },
+      {
+        "axis": "Z",
+        "d": 0.656,
+        "depth": 1.25,
+        "through": true,
+        "cbore": {
+          "d": 1.0,
+          "depth": 0.625
+        }
+      }
+    ]
+  },
+  "counts": {
+    "critical": 0,
+    "high": 1,
+    "medium": 1,
+    "low": 1,
+    "info": 0
+  }
+}

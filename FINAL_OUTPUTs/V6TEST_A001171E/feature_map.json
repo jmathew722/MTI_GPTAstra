@@ -1,0 +1,184 @@
+{
+  "part": "115 C",
+  "units": "inch",
+  "origin_kind": "corner",
+  "bbox": [
+    0.0,
+    0.0,
+    0.0,
+    3.25,
+    2.75,
+    1.5
+  ],
+  "volume": 11.507281,
+  "volume_mm3": 188570.556,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006"
+  ],
+  "skipped": {},
+  "holes": {
+    "F002": [
+      {
+        "planned_center": [
+          0.4375,
+          0.4375
+        ],
+        "planned_d": 0.40625,
+        "measured": true,
+        "center": [
+          0.4375,
+          0.4375
+        ],
+        "d": 0.40625,
+        "depth": 1.5,
+        "axis": "Z"
+      }
+    ],
+    "F003": [
+      {
+        "planned_center": [
+          2.8125,
+          0.4375
+        ],
+        "planned_d": 0.40625,
+        "measured": true,
+        "center": [
+          2.8125,
+          0.4375
+        ],
+        "d": 0.40625,
+        "depth": 1.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          0.4375,
+          2.3125
+        ],
+        "planned_d": 0.40625,
+        "measured": true,
+        "center": [
+          0.4375,
+          2.3125
+        ],
+        "d": 0.40625,
+        "depth": 1.5,
+        "axis": "Z"
+      },
+      {
+        "planned_center": [
+          2.8125,
+          2.3125
+        ],
+        "planned_d": 0.40625,
+        "measured": true,
+        "center": [
+          2.8125,
+          2.3125
+        ],
+        "d": 0.40625,
+        "depth": 1.5,
+        "axis": "Z"
+      }
+    ],
+    "F004": [
+      {
+        "planned_center": [
+          0.9375,
+          1.375
+        ],
+        "planned_d": 0.578125,
+        "measured": true,
+        "center": [
+          0.9375,
+          1.375
+        ],
+        "d": 0.578125,
+        "depth": 1.014,
+        "axis": "Z"
+      }
+    ],
+    "F005": [
+      {
+        "planned_center": [
+          2.3125,
+          1.375
+        ],
+        "planned_d": 0.578125,
+        "measured": true,
+        "center": [
+          2.3125,
+          1.375
+        ],
+        "d": 0.578125,
+        "depth": 0.375,
+        "axis": "Z"
+      }
+    ],
+    "F006": [
+      {
+        "planned_center": [
+          1.375,
+          0.75
+        ],
+        "planned_d": 0.578125,
+        "measured": true,
+        "center": [
+          1.375,
+          0.75
+        ],
+        "d": 0.578125,
+        "depth": 0.9375,
+        "axis": "X"
+      }
+    ]
+  },
+  "edge_points": {},
+  "starts": {
+    "F001": {
+      "axis": "Z",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 1.5,
+      "dir": -1
+    },
+    "F004": {
+      "axis": "Z",
+      "coord": 1.5,
+      "dir": -1
+    },
+    "F006": {
+      "axis": "X",
+      "coord": 3.25,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 13.40625,
+    "F002": 13.211817935,
+    "F003": 12.628521741,
+    "F004": 12.274815982,
+    "F005": 11.921110224,
+    "F006": 11.507281377
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      0.0,
+      0.0,
+      0.0,
+      3.25,
+      2.75,
+      1.5
+    ]
+  }
+}

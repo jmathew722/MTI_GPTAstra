@@ -1,0 +1,449 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "A040171E",
+  "evaluated_at": "2026-11-26T19:56:33+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "4017-A_ir.SLDPRT",
+    "stl": "4017-A_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "scored",
+  "score": 94.3,
+  "raw_score": 94.3,
+  "caps": [],
+  "coverage": 1.0,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 94.7,
+      "pct": 94.7,
+      "earned": 14.21,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 0.8,
+          "expected": "5 planned",
+          "measured": "4 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "no fallbacks",
+          "measured": "0 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "closed mesh",
+          "measured": "100.0% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "[0.75, 0.875, 4.25] in",
+          "measured": "[0.75, 0.875, 4.25] in",
+          "note": "matches the build record"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "D004",
+          "label": "overall length",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 4.25,
+          "measured": 4.25,
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.02,
+          "e": 0.0
+        },
+        {
+          "id": "D014",
+          "label": "overall height including bottom tongue",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 0.88,
+          "measured": 0.875,
+          "unit": "inch",
+          "error": -0.005,
+          "tol": 0.02,
+          "e": 0.25
+        },
+        {
+          "id": "D005",
+          "label": "overall width",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 0.75,
+          "measured": 0.75,
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.02,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 80.6,
+      "pct": 80.6,
+      "earned": 16.12,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Base envelope 4.25 long \u00d7 .75 wide \u00d7 .88 high. Model coordinate convention: X along length, Y across width, Z height; or"
+        },
+        {
+          "id": "F002",
+          "label": "F002 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Cut upper end regions across full width. End lands are .188 below the high plateau; left ramp starts at X=.50, right ram"
+        },
+        {
+          "id": "F003",
+          "label": "F003 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Cut two longitudinal underside edge rebates, .125 high, leaving a .344-wide continuous downward tongue. Right rebate wid"
+        },
+        {
+          "id": "F004",
+          "label": "F004 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two vertical \u00d8.281 through holes at plan coordinates (.25,.375) and (4.00,.375), drilled from the low end lands through "
+        },
+        {
+          "id": "F005",
+          "label": "F005 extrude cut",
+          "weight": 5.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "skipped",
+          "note": "Two \u00d8.438 counterbores concentric with the through holes; .25 deep from the local low end-land top surfaces, not the rai"
+        },
+        {
+          "id": "F006",
+          "label": "F006 fillet",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "missing",
+          "note": "Two longitudinal internal tongue-root edges: radius .015 maximum. Actual production radius is not fixed by the drawing."
+        }
+      ],
+      "n_checked": 6,
+      "n_total": 6,
+      "band": {
+        "id": "amber",
+        "label": "Review recommended",
+        "glyph": "alert"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "H001#1",
+          "label": "H001 counterbore hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.281 in through",
+          "measured": "d 0.281 in, through, cbore d 0.438 in",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#2",
+          "label": "H001 counterbore hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.281 in through",
+          "measured": "d 0.281 in, through, cbore d 0.438 in",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        }
+      ],
+      "n_checked": 2,
+      "n_total": 2,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 15.0,
+      "items": [
+        {
+          "id": "H001-spacing",
+          "label": "H001 pattern spacing",
+          "weight": 2.0,
+          "credit": 1.0,
+          "expected": "nearest-neighbour [3.75, 3.75]",
+          "measured": "[3.75, 3.75]",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005,
+          "e": 0.0
+        },
+        {
+          "id": "H001-concentric",
+          "label": "H001 counterbore concentric with its hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "0",
+          "measured": "1.094e-07 in",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.0025
+        },
+        {
+          "id": "H001-concentric",
+          "label": "H001 counterbore concentric with its hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "0",
+          "measured": "1.094e-07 in",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.0025
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 89.2,
+      "pct": 89.2,
+      "earned": 8.92,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 0.9556,
+          "expected": ">= 95%",
+          "measured": "93%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "none",
+          "measured": "0 unclear dimension(s), 0 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 0.7,
+          "expected": "none",
+          "measured": "0 assumed, 1 default(s), 1 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "amber",
+        "label": "Review recommended",
+        "glyph": "alert"
+      },
+      "max": 10.0
+    }
+  ],
+  "band": {
+    "id": "green",
+    "label": "Matches the drawing",
+    "glyph": "check"
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_SKIPPED",
+      "message": "F005 (extrude_cut) was in the extraction but is not in the model: unresolved: What nominal radius should be used at the two tongue roots? Only a maximum is specified..",
+      "evidence": "Two \u00d8.438 counterbores concentric with the through holes; .25 deep from the local low end-land top surfaces, not the raised central plateau.",
+      "points": 3.23,
+      "ref": "F005"
+    },
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F005 was planned but not built: skipped (unresolved: What nominal radius should be used at the two tongue roots? Only a maximum is specified.).",
+      "evidence": "skipped (unresolved: What nominal radius should be used at the two tongue roots? Only a maximum is specified.)",
+      "points": 0.8,
+      "ref": "F005"
+    },
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_MISSING",
+      "message": "F006 (fillet) is in the extraction but no build status exists for it.",
+      "evidence": "Two longitudinal internal tongue-root edges: radius .015 maximum. Actual production radius is not fixed by the drawing.",
+      "points": 0.65,
+      "ref": "F006"
+    },
+    {
+      "severity": "medium",
+      "category": "extraction_trust",
+      "code": "OPEN_QUESTIONS",
+      "message": "1 question(s) were left open for a person to answer.",
+      "evidence": "F005: What nominal radius should be used at the two tongue roots? Only a maximum is specif",
+      "points": 0.45,
+      "ref": ""
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "DEFAULTS_APPLIED",
+      "message": "1 default value(s) were applied where the drawing was vague.",
+      "evidence": "D014: D9 0.88 -> 0.875 (two-place print of a 1/16 fraction)",
+      "points": 0.45,
+      "ref": ""
+    }
+  ],
+  "notes": [],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      0.75,
+      0.875,
+      4.25
+    ],
+    "stl_volume": 2.2576,
+    "triangles": 628,
+    "closed_fraction": 1.0,
+    "holes": [
+      {
+        "axis": "X",
+        "d": 0.281,
+        "depth": 0.437,
+        "through": true,
+        "cbore": {
+          "d": 0.438,
+          "depth": 0.25
+        }
+      },
+      {
+        "axis": "X",
+        "d": 0.281,
+        "depth": 0.437,
+        "through": true,
+        "cbore": {
+          "d": 0.438,
+          "depth": 0.25
+        }
+      }
+    ]
+  },
+  "counts": {
+    "critical": 0,
+    "high": 3,
+    "medium": 1,
+    "low": 1,
+    "info": 0
+  }
+}

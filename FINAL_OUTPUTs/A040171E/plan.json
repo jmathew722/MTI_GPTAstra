@@ -1,0 +1,202 @@
+{
+  "dims": {
+    "D001": 0.25,
+    "D002": 3.75,
+    "D003": 0.375,
+    "D004": 4.25,
+    "D005": 0.75,
+    "D006": 0.281,
+    "D007": 0.438,
+    "D008": 0.25,
+    "D009": 3.75,
+    "D010": 0.5,
+    "D011": 60.0,
+    "D012": 60.0,
+    "D013": 0.188,
+    "D014": 0.88,
+    "D015": 0.125,
+    "D016": 0.203,
+    "D017": 0.344,
+    "D018": 0.015,
+    "D019": 0.25,
+    "D020": 0.5,
+    "D021": 0.203,
+    "D022": 0.692,
+    "D023": 0.755,
+    "D024": 0.375
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "4017-A",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Y",
+        "top": "+Z",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Extrude the longitudinal body profile across the width, including both low end lands and the ramps to the central plateau.",
+        "source_callouts": [
+          "4.25",
+          ".75",
+          ".88",
+          ".188",
+          ".50",
+          "3.75",
+          "60\u00b0",
+          "60\u00b0"
+        ],
+        "status": "planned",
+        "justification": "Both ramp angles D011 and D012 are printed as 60 degrees to vertical. The coefficient 1.7320508075688772 is tan(60 degrees), evaluated to floating-point precision; multiplying by D013 gives the horizontal ramp run. The .88 height spans plateau to tongue bottom, and the underside shoulders are .125 above that bottom.",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "0",
+              "D015"
+            ],
+            [
+              "D004",
+              "D015"
+            ],
+            [
+              "D004",
+              "D014 - D013"
+            ],
+            [
+              "D009",
+              "D014 - D013"
+            ],
+            [
+              "D009 - D013 * 1.7320508075688772",
+              "D014"
+            ],
+            [
+              "D010 + D013 * 1.7320508075688772",
+              "D014"
+            ],
+            [
+              "D010",
+              "D014 - D013"
+            ],
+            [
+              "0",
+              "D014 - D013"
+            ]
+          ]
+        },
+        "depth": "D005",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Add the continuous bottom tongue between the two underside shoulders.",
+        "source_callouts": [
+          ".125",
+          ".344",
+          ".203"
+        ],
+        "status": "planned",
+        "justification": "The front view shows the tongue extending uninterrupted for the full part length. Locate its left flank by subtracting the right shoulder width and tongue width from the overall width.",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D004",
+          "h": "D017",
+          "anchor": "corner",
+          "u": "0",
+          "v": "D005 - D016 - D017"
+        },
+        "depth": "D015",
+        "op": "add"
+      },
+      {
+        "id": "F003",
+        "rationale": "Make the first counterbored hole from the left low end land, with its small bore extending past the tongue bottom.",
+        "source_callouts": [
+          ".281 \u2300 \u2013",
+          ".438 \u2300 CBORE .25 DEEP",
+          "2 HOLES",
+          ".25",
+          ".375"
+        ],
+        "status": "planned",
+        "justification": "End-view hidden lines show the small bore passing through the tongue bottom. D014 exceeds the local end-land height, so the bore depth safely overshoots the bottom. Counterbore depth is measured from the local low end land.",
+        "kind": "hole",
+        "on": "face(F001,+Z,D014 - D013)",
+        "u": "D001",
+        "v": "D005 - D003",
+        "spec": {
+          "type": "cbore",
+          "d": "D006",
+          "depth": "D014",
+          "cbore_d": "D007",
+          "cbore_depth": "D008",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F004",
+        "rationale": "Repeat the complete counterbored hole at the specified center spacing on the opposite end land.",
+        "source_callouts": [
+          "3.750 \u00b1.005",
+          "2 HOLES"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F003",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D002",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F005",
+        "rationale": "What nominal radius should be used at the two tongue roots? Only a maximum is specified.",
+        "source_callouts": [
+          ".015 MAX R.",
+          "2 PLACES"
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D018",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z),face(F002,-Y))",
+          "edge_between(face(F001,-Z),face(F002,+Y))"
+        ]
+      }
+    ],
+    "notes": [
+      "Material: 1020 STEEL. Units: inches. Model dimensions are nominal.",
+      "View break lines do not interrupt the body or tongue; both extend the full 4.25-inch length.",
+      "CFS and K are legacy surface annotations without supplied numerical finish definitions. Obtain the applicable company convention before manufacturing.",
+      "The mark beneath .88 has no supplied definition; the readable overall-height value is retained.",
+      "The unresolved root-radius feature does not authorize applying .015 as a nominal radius; select an actual compliant radius before finalizing the manufacturing model.",
+      "General tolerances: three-place dimensions \u00b1.010, two-place dimensions \u00b1.020, angular dimensions \u00b11 degree. The 3.750 hole spacing has an explicit \u00b1.005 tolerance."
+    ]
+  }
+}

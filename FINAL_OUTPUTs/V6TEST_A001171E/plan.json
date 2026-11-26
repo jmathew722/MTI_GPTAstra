@@ -1,0 +1,229 @@
+{
+  "dims": {
+    "D001": 3.25,
+    "D002": 2.75,
+    "D003": 1.5,
+    "D004": 0.44,
+    "D005": 0.44,
+    "D006": 2.375,
+    "D007": 1.875,
+    "D008": 0.94,
+    "D009": 1.88,
+    "D010": 0.5,
+    "D011": 0.75,
+    "D012": 1.38,
+    "D013": 0.40625,
+    "D014": 0.578125,
+    "D015": 1.12,
+    "D016": 1.002,
+    "D017": 0.111,
+    "D018": 0.578125,
+    "D019": 2.38,
+    "D020": 0.375,
+    "D021": 0.435,
+    "D022": 0.435,
+    "D023": 2.81,
+    "D024": 2.31,
+    "D025": 0.93,
+    "D026": 2.31,
+    "D027": 1.37,
+    "D028": 1.38,
+    "D029": 1.37,
+    "D030": 0.935,
+    "D031": 0.75
+  },
+  "reference_ids": [],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "115 C",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "Top": "+Z",
+        "Front": "-Y",
+        "Right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Block envelope with counterbored ground face at +Z and cross-passage entry at +X.",
+        "source_callouts": [
+          "3.25",
+          "2.75",
+          "1.50",
+          "GR. FLAT"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D002",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D003",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Lower-left mounting hole located using explicit edge and spacing chains.",
+        "source_callouts": [
+          "13/32 DR. THRU. (4) PL'S.",
+          ".44",
+          "2.375 \u00b1.005",
+          "1.875 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D001 - D004 - D006",
+        "v": "D002 - D005 - D007",
+        "spec": {
+          "type": "thru",
+          "d": "D013",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F003",
+        "rationale": "Dimensioned rectangular mounting-hole grid; retain the unequal nominal edge margins.",
+        "source_callouts": [
+          "13/32 DR. THRU. (4) PL'S.",
+          "2.375 \u00b1.005",
+          "1.875 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F002",
+        "mode": "grid",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D006",
+        "dir2": "+Y",
+        "count2": "2",
+        "pitch2": "D007",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F004",
+        "rationale": "Left blind fluid bore with concentric shallow counterbore at the ground face.",
+        "source_callouts": [
+          "37/64 DRILL 1.12 DP. &",
+          "1.002 +.010/-.000 DIA. C'BORE",
+          ".111 +.002/-.000 DP. (2) HLS.",
+          "1.88",
+          ".94"
+        ],
+        "status": "planned",
+        "justification": "Per standard blind-hole drafting convention (ASME Y14.5), 1.12 is entrance-face-to-full-diameter depth. Model a flat bottom; the drill point is cosmetic.",
+        "kind": "hole",
+        "on": "face(F001,+Z)",
+        "u": "D001 - D004 - D009",
+        "v": "D002 - D005 - D008",
+        "spec": {
+          "type": "cbore",
+          "d": "D014",
+          "depth": "D015",
+          "cbore_d": "D016",
+          "cbore_depth": "D017",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F005",
+        "rationale": "Repeat the complete counterbored blind hole at the right bore center.",
+        "source_callouts": [
+          ".50",
+          "1.88",
+          ".111 +.002/-.000 DP. (2) HLS."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F004",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D009 - D010",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F006",
+        "rationale": "Right-end blind cross passage intersects both fluid bores; entry pipe thread is cosmetic.",
+        "source_callouts": [
+          "37/64 DR. 2.38 DP.",
+          "3/8-18 NPTF THD.",
+          ".75",
+          "1.38"
+        ],
+        "status": "planned",
+        "justification": "Use the explicitly printed 37/64 drill, not nominal pipe size D020. Per standard blind-hole drafting convention (ASME Y14.5), 2.38 is full-diameter drilling depth, not thread engagement. Model a flat-bottom passage with cosmetic thread; do not infer physical thread length or taper.",
+        "kind": "hole",
+        "on": "face(F001,+X)",
+        "u": "D002 - D012",
+        "v": "D003 - D011",
+        "spec": {
+          "type": "tapped",
+          "d": "D018",
+          "depth": "D019",
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": "3/8-18 NPTF"
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "What radius applies to the four rounded broad-face perimeter corners? No radius is dimensioned.",
+        "source_callouts": [],
+        "status": "unresolved",
+        "justification": "Size 0 is a non-executable placeholder for this unresolved feature, not an inferred corner radius. Rounded corners are shown without a numerical callout.",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "0",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-X),face(F001,-Y))",
+          "edge_between(face(F001,-X),face(F001,+Y))",
+          "edge_between(face(F001,+X),face(F001,-Y))",
+          "edge_between(face(F001,+X),face(F001,+Y))"
+        ]
+      }
+    ],
+    "notes": [
+      "Material: 1018. Title: CHECK BYPASS; model 90 B.",
+      "Broad-face drawing coordinates map to global XY, with the bottom-left envelope corner at x=y=0. Thickness spans z=0 to z=D003. Counterbores enter at z=D003.",
+      "Right-face hole coordinates are global (y,z), not local right-view drawing coordinates.",
+      "GR. FLAT applies to the counterbored broad face; no numerical flatness or surface roughness is specified.",
+      "Do not execute F007 until its corner radius is supplied; the provisional solid has sharp corners.",
+      "Pipe thread is cosmetic only. Confirm thread engagement and applicable NPTF manufacturing specification before detailed thread manufacture. Drill depth is not tapping depth.",
+      "Preserve explicit dimension chains rather than forcing symmetry. Drawing tolerances remain manufacturing requirements, not offsets to nominal CAD geometry."
+    ]
+  }
+}

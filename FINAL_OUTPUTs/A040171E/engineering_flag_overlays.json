@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "source_pdf_sha256": "b8b9a2536d466d092a385d848d58779cf1635401d35595c723c95343fa15b581",
+  "source_name": "A040171E.pdf",
+  "run_id": "run_bf841ed3d70049359c63",
+  "pages": [
+    {
+      "page_index": 0,
+      "width": 794.0,
+      "height": 605.0,
+      "rotation": 0,
+      "text_source": "ocr"
+    }
+  ],
+  "overlays": [
+    {
+      "finding_id": "flag_22702ec784c9",
+      "number": 1,
+      "severity": "error",
+      "label": "1: Feature F005 was not built",
+      "overlay_id": "ov_flag_22702ec784c9_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.143879,
+        "y": 0.77276,
+        "width": 0.134811,
+        "height": 0.030149
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8876,
+      "matched_text": ".015 MAX R",
+      "rotation_degrees": 0,
+      "source_callout": ".015 MAX R.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.28269,
+        "y": 0.77276
+      }
+    },
+    {
+      "finding_id": "flag_f8f45b1eff1a",
+      "number": 2,
+      "severity": "warning",
+      "label": "2: Feature F005 needs an engineer's answer",
+      "overlay_id": "ov_flag_f8f45b1eff1a_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.143879,
+        "y": 0.77276,
+        "width": 0.134811,
+        "height": 0.030149
+      },
+      "mapping_method": "normalized",
+      "mapping_confidence": 0.8876,
+      "matched_text": ".015 MAX R",
+      "rotation_degrees": 0,
+      "source_callout": ".015 MAX R.",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.28269,
+        "y": 0.79276
+      }
+    },
+    {
+      "finding_id": "flag_22702ec784c9",
+      "number": 1,
+      "severity": "error",
+      "label": "1: Feature F005 was not built",
+      "overlay_id": "ov_flag_22702ec784c9_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.151738,
+        "y": 0.805289,
+        "width": 0.119093,
+        "height": 0.029355
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9617,
+      "matched_text": "2 PLACES",
+      "rotation_degrees": 0,
+      "source_callout": "2 PLACES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.274831,
+        "y": 0.825289
+      }
+    },
+    {
+      "finding_id": "flag_f8f45b1eff1a",
+      "number": 2,
+      "severity": "warning",
+      "label": "2: Feature F005 needs an engineer's answer",
+      "overlay_id": "ov_flag_f8f45b1eff1a_2",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.151738,
+        "y": 0.805289,
+        "width": 0.119093,
+        "height": 0.029355
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9617,
+      "matched_text": "2 PLACES",
+      "rotation_degrees": 0,
+      "source_callout": "2 PLACES",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.274831,
+        "y": 0.865289
+      }
+    }
+  ],
+  "unlocated_findings": []
+}

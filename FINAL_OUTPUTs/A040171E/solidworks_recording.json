@@ -1,0 +1,89 @@
+{
+  "status": "ready",
+  "run_id": "run_bf841ed3d70049359c63",
+  "part": "A040171E",
+  "source_sha256": "b8b9a2536d466d092a385d848d58779cf1635401d35595c723c95343fa15b581",
+  "video": "solidworks_recording.mp4",
+  "poster": "solidworks_recording_poster.jpg",
+  "backend": "printwindow",
+  "capture_method": "printwindow-window (PrintWindow PW_RENDERFULLCONTENT of one validated window; unaffected by covering windows; no desktop capture)",
+  "target": {
+    "pid": 26448,
+    "hwnd": 721112,
+    "exe": "SLDWORKS.exe",
+    "window_class": "Afx:0000000140000000:8:0000000000010003:0000000000000000:00000000031F1273",
+    "title_prefix": "SOLIDWORKS",
+    "identity_ok": true,
+    "identity_checks": {
+      "visible": true,
+      "top_level": true,
+      "unowned": true,
+      "solidworks_exe": true,
+      "same_session": true,
+      "main_window_class": true
+    }
+  },
+  "session": {
+    "sw_pid": 26448,
+    "doc_at_start": "",
+    "docs_open": null
+  },
+  "started_at": "2026-11-26T14:55:34-0500",
+  "ended_at": "2026-11-26T14:56:06-0500",
+  "captured_frames": 27,
+  "held_frames": 442,
+  "occluded_seconds": 0.0,
+  "privacy_gate": "off",
+  "minimized_events": 0,
+  "resize_events": 0,
+  "verified": true,
+  "probe": {
+    "ok": true,
+    "frames": 469,
+    "fps": 15.0,
+    "duration_s": 31.27,
+    "first_frame": true,
+    "last_frame": true,
+    "reason": ""
+  },
+  "fps": 15,
+  "width": 1536,
+  "height": 822,
+  "frames": 469,
+  "dropped_frames": 0,
+  "duration_s": 31.27,
+  "bytes": 422628,
+  "paced": true,
+  "build_outcome": "completed",
+  "build_error": "",
+  "chapters": [
+    {
+      "id": "F001",
+      "label": "F001 prism: built",
+      "status": "built",
+      "t": 2.43
+    },
+    {
+      "id": "F002",
+      "label": "F002 prism: built",
+      "status": "built",
+      "t": 8.95
+    },
+    {
+      "id": "F003",
+      "label": "F003 hole: built",
+      "status": "built",
+      "t": 27.93
+    },
+    {
+      "id": "final",
+      "label": "Final model",
+      "status": "built",
+      "t": 29.79
+    }
+  ],
+  "code": "",
+  "reason": "",
+  "schema_version": 1,
+  "generation_key": "9177a6ef90a1"
+}

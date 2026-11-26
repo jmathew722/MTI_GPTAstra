@@ -1,0 +1,110 @@
+{
+  "status": "ready",
+  "run_id": "run_d20b2b9402cf4d9f869a",
+  "part": "V6TEST_A001171E",
+  "source_sha256": "19466ae0017339545a79034cf59622e5b91fdc8f273cbd6e6b3631cfc909d291",
+  "video": "solidworks_recording.mp4",
+  "poster": "solidworks_recording_poster.jpg",
+  "backend": "printwindow",
+  "capture_method": "printwindow-window (PrintWindow PW_RENDERFULLCONTENT of one validated window; unaffected by covering windows; no desktop capture)",
+  "target": {
+    "pid": 26448,
+    "hwnd": 721112,
+    "exe": "SLDWORKS.exe",
+    "window_class": "Afx:0000000140000000:8:0000000000010003:0000000000000000:00000000031F1273",
+    "title_prefix": "SOLIDWORKS",
+    "identity_ok": true,
+    "identity_checks": {
+      "visible": true,
+      "top_level": true,
+      "unowned": true,
+      "solidworks_exe": true,
+      "same_session": true,
+      "main_window_class": true
+    }
+  },
+  "session": {
+    "sw_pid": 26448,
+    "doc_at_start": "",
+    "docs_open": null
+  },
+  "started_at": "2026-11-26T16:06:57-0500",
+  "ended_at": "2026-11-26T16:07:31-0500",
+  "captured_frames": 59,
+  "held_frames": 456,
+  "occluded_seconds": 0.0,
+  "privacy_gate": "off",
+  "minimized_events": 0,
+  "resize_events": 0,
+  "verified": true,
+  "probe": {
+    "ok": true,
+    "frames": 515,
+    "fps": 15.0,
+    "duration_s": 34.33,
+    "first_frame": true,
+    "last_frame": true,
+    "reason": ""
+  },
+  "fps": 15,
+  "width": 1536,
+  "height": 816,
+  "frames": 515,
+  "dropped_frames": 0,
+  "duration_s": 34.33,
+  "bytes": 572046,
+  "camera": {
+    "ok": true,
+    "frames_checked": 6,
+    "iso_verified": 6,
+    "fit_verified": 6,
+    "margin_corrections": 5,
+    "failures": [],
+    "target_margin": 0.1,
+    "log": "camera_log.json"
+  },
+  "paced": true,
+  "build_outcome": "completed",
+  "build_error": "",
+  "chapters": [
+    {
+      "id": "F001",
+      "label": "F001 prism: built",
+      "status": "built",
+      "t": 1.98,
+      "t_settled": 3.75
+    },
+    {
+      "id": "F002",
+      "label": "F002 hole: built",
+      "status": "built",
+      "t": 8.27,
+      "t_settled": 10.21
+    },
+    {
+      "id": "F004",
+      "label": "F004 hole: built",
+      "status": "built",
+      "t": 18.74,
+      "t_settled": 20.71
+    },
+    {
+      "id": "F006",
+      "label": "F006 hole: built",
+      "status": "built",
+      "t": 25.75,
+      "t_settled": 27.76
+    },
+    {
+      "id": "final",
+      "label": "Final model",
+      "status": "built",
+      "t": 31.11,
+      "t_settled": 31.11
+    }
+  ],
+  "code": "",
+  "reason": "",
+  "schema_version": 1,
+  "generation_key": "d00d8e80470f"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "part": "V6TEST_A001171E",
+  "run_id": "run_d20b2b9402cf4d9f869a",
+  "source_pdf": "",
+  "marked_pdf": null,
+  "generated_at": "2026-11-26T21:08:35Z",
+  "generator_version": "engineering_markup/1",
+  "finding_count": 0,
+  "located_count": 0,
+  "unlocated_count": 0,
+  "status": "not_needed",
+  "pages": [],
+  "findings": [],
+  "warnings": [],
+  "report_pages": 0,
+  "generation_key": "6c128166eb01"
+}

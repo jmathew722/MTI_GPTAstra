@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "part": "A040171E",
+  "run_id": "run_bf841ed3d70049359c63",
+  "source_pdf": "A040171E.pdf",
+  "source_sha256": "b8b9a2536d466d092a385d848d58779cf1635401d35595c723c95343fa15b581",
+  "marked_pdf": "A040171E_engineering_markup.pdf",
+  "generated_at": "2026-11-26T19:56:33Z",
+  "generator_version": "engineering_markup/1",
+  "finding_count": 2,
+  "located_count": 2,
+  "unlocated_count": 0,
+  "status": "ready",
+  "warnings": [],
+  "report_pages": 1,
+  "pages": [
+    {
+      "page": 1,
+      "width_pt": 1084.73,
+      "height_pt": 605.0,
+      "drawing_width_pt": 794.0,
+      "rail_width_pt": 290.73,
+      "source_rotation": 0,
+      "finding_ids": [
+        "EF-001",
+        "EF-002"
+      ],
+      "preview": "engineering_markup_pages/page-0001.png",
+      "preview_dpi": 110
+    }
+  ],
+  "findings": [
+    {
+      "id": "EF-001",
+      "number": 1,
+      "finding_id": "flag_22702ec784c9",
+      "severity": "ERROR",
+      "code": "feature_not_built",
+      "title": "Feature F005 was not built",
+      "explanation": "Expected: .015 MAX R.; 2 PLACES. Actual: skipped: unresolved: What nominal radius should be used at the two tongue roots? Only a maximum is specified.. The model is missing this feature.",
+      "expected": ".015 MAX R.; 2 PLACES",
+      "actual": "skipped: unresolved: What nominal radius should be used at the two tongue roots? Only a maximum is specified.",
+      "consequence": "The model is missing this feature.",
+      "manual_action": "Review the callout for F005 against the drawing, then add the feature or correct the plan.",
+      "location_status": "located",
+      "source_callout": ".015 MAX R.; 2 PLACES",
+      "feature_ids": [
+        "F005"
+      ],
+      "page": 1,
+      "location_method": "normalized",
+      "confidence": 0.8876,
+      "rect_pdf_points": [
+        114.24,
+        467.52,
+        221.28,
+        485.76
+      ],
+      "rect_normalized": [
+        0.143879,
+        0.77276,
+        0.134811,
+        0.030149
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8876,
+          "rect_normalized": [
+            0.143879,
+            0.77276,
+            0.134811,
+            0.030149
+          ],
+          "rect_pdf_points": [
+            114.24,
+            467.52,
+            221.28,
+            485.76
+          ],
+          "rect_marked_pt": [
+            114.24,
+            467.52,
+            221.28,
+            485.76
+          ]
+        },
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9617,
+          "rect_normalized": [
+            0.151738,
+            0.805289,
+            0.119093,
+            0.029355
+          ],
+          "rect_pdf_points": [
+            120.48,
+            487.2,
+            215.04,
+            504.96
+          ],
+          "rect_marked_pt": [
+            120.48,
+            487.2,
+            215.04,
+            504.96
+          ]
+        }
+      ],
+      "card": {
+        "page": 1,
+        "rect": [
+          802.02,
+          8.02,
+          1076.71,
+          74.39
+        ]
+      }
+    },
+    {
+      "id": "EF-002",
+      "number": 2,
+      "finding_id": "flag_f8f45b1eff1a",
+      "severity": "WARNING",
+      "code": "feature_unresolved",
+      "title": "Feature F005 needs an engineer's answer",
+      "explanation": "Expected: .015 MAX R.; 2 PLACES. Actual: What nominal radius should be used at the two tongue roots? Only a maximum is specified.. The feature was not built: the pipeline asks instead of guessing.",
+      "expected": ".015 MAX R.; 2 PLACES",
+      "actual": "What nominal radius should be used at the two tongue roots? Only a maximum is specified.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "manual_action": "Answer the open question on the drawing, then re-run.",
+      "location_status": "located",
+      "source_callout": ".015 MAX R.; 2 PLACES",
+      "feature_ids": [
+        "F005"
+      ],
+      "page": 1,
+      "location_method": "normalized",
+      "confidence": 0.8876,
+      "rect_pdf_points": [
+        114.24,
+        467.52,
+        221.28,
+        485.76
+      ],
+      "rect_normalized": [
+        0.143879,
+        0.77276,
+        0.134811,
+        0.030149
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "normalized",
+          "confidence": 0.8876,
+          "rect_normalized": [
+            0.143879,
+            0.77276,
+            0.134811,
+            0.030149
+          ],
+          "rect_pdf_points": [
+            114.24,
+            467.52,
+            221.28,
+            485.76
+          ],
+          "rect_marked_pt": [
+            114.24,
+            467.52,
+            221.28,
+            485.76
+          ]
+        },
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9617,
+          "rect_normalized": [
+            0.151738,
+            0.805289,
+            0.119093,
+            0.029355
+          ],
+          "rect_pdf_points": [
+            120.48,
+            487.2,
+            215.04,
+            504.96
+          ],
+          "rect_marked_pt": [
+            120.48,
+            487.2,
+            215.04,
+            504.96
+          ]
+        }
+      ],
+      "card": {
+        "page": 1,
+        "rect": [
+          802.02,
+          80.4,
+          1076.71,
+          148.17
+        ]
+      }
+    }
+  ],
+  "generation_key": "c01bb214e86f"
+}

@@ -1,0 +1,858 @@
+{
+  "part_name": "DOG",
+  "part_number": "4017-A",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "1020 STEEL",
+  "material_extraction": {
+    "status": "specified",
+    "raw_text": "1020 STEEL",
+    "normalized_candidate": "1020 STEEL",
+    "evidence": [
+      {
+        "page": 1,
+        "region": "title_block",
+        "quote": "1020 STEEL",
+        "bbox_normalized": [
+          0.597,
+          0.451,
+          0.775,
+          0.491
+        ]
+      }
+    ],
+    "alternatives": [],
+    "confidence": 0.99,
+    "review_reason": null,
+    "specification": null,
+    "condition_or_temper": null,
+    "coating": null,
+    "heat_treatment": null,
+    "finish": "CFS and K surface symbols; definitions not supplied on this sheet.",
+    "hardness": null,
+    "stock_form": null,
+    "body_scope": null
+  },
+  "finish": "Local surface symbols marked CFS and K. No numerical surface roughness is given.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED\nTHIRD ANGLE PROJECTION\nDIMENSIONS IN INCHES\n3 PLACE DIM. \u00b1.010\n2 PLACE DIM. \u00b1.020\nANGULAR DIM. \u00b1 1\u00b0",
+  "views": [
+    {
+      "view_type": "Top",
+      "description": "Upper-left broken longitudinal plan: rectangular envelope, two concentric counterbored end holes, and transverse boundaries of the raised central top profile.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007",
+        "D008"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F004",
+        "F005"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Crosshairs identify both hole axes. Hole centers are on the width midline. The longitudinal break shortens the display, not the part."
+    },
+    {
+      "view_type": "Front",
+      "description": "Lower-left broken longitudinal elevation: low end lands, two rising ramps, high central plateau, and continuous bottom tongue/shoulder.",
+      "dimensions_shown": [
+        "D009",
+        "D010",
+        "D011",
+        "D012",
+        "D013"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Vertical centerlines locate the two end holes. Hole wall hidden lines are not depicted in this view. Break lines interrupt the long central region."
+    },
+    {
+      "view_type": "Right",
+      "description": "Lower-middle end elevation: full-width upper body, narrower downward-projecting longitudinal tongue, projected upper plateau and end land, and hidden stepped hole.",
+      "dimensions_shown": [
+        "D014",
+        "D015",
+        "D016",
+        "D017",
+        "D018"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F006"
+      ],
+      "hidden_features": [
+        "F004",
+        "F005"
+      ],
+      "centerline_notes": "Vertical centerline passes through the hidden counterbored hole and centered tongue. Third-angle placement establishes this as the right-side view."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "left end to first hole center",
+      "feature_ref": "F004",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .25; general two-place tolerance."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 3.75,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "hole center spacing",
+      "feature_ref": "F004",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 3.750 with explicit \u00b1.005; overrides general tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "top plan edge to hole centerline",
+      "feature_ref": "F004",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 4.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall length",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 0.75,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall width",
+      "feature_ref": "F001",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "CFS symbols point to the two longitudinal side surfaces."
+    },
+    {
+      "id": "D006",
+      "type": "diameter",
+      "value": 0.281,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "through hole diameter, two holes",
+      "feature_ref": "F004",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Callout .281 \u00d8 \u2013 .438 \u00d8 CBORE .25 DEEP / 2 HOLES. Through condition interpreted from right view."
+    },
+    {
+      "id": "D007",
+      "type": "diameter",
+      "value": 0.438,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "counterbore diameter, two places",
+      "feature_ref": "F005",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D008",
+      "type": "depth",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "counterbore depth from local end land",
+      "feature_ref": "F005",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D009",
+      "type": "linear",
+      "value": 3.75,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "left end to right ramp/end-land intersection",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 3.75, distinct from the 3.750 \u00b1.005 hole spacing."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "left end land length to ramp start",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .50."
+    },
+    {
+      "id": "D011",
+      "type": "angular",
+      "value": 60.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "left ramp angle to vertical",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Degrees, not inches: schema has no angular unit. Arc is between vertical extension and ramp; equivalent to 30\u00b0 to horizontal."
+    },
+    {
+      "id": "D012",
+      "type": "angular",
+      "value": 60.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "right ramp angle to vertical",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Degrees, not inches: schema has no angular unit. Equivalent to 30\u00b0 to horizontal."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 0.188,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "central plateau rise above end lands",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Dimension is between the upper plateau level and lower end-land level, not overall body height."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 0.88,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall height including bottom tongue",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .88 with a wavy underline/mark. Dimension line is broken for drafting space; value is not marked REF."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 0.125,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "tongue projection below underside shoulders",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 0.203,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "right outer side to right tongue flank",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 0.344,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "bottom tongue width",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ""
+    },
+    {
+      "id": "D018",
+      "type": "radial",
+      "value": 0.015,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "limit",
+      "applies_to": "maximum tongue root radius, two places",
+      "feature_ref": "F006",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Exact callout .015 MAX R. / 2 PLACES. Upper bound only, not a mandatory nominal .015 radius; general \u00b1.010 is not applied."
+    },
+    {
+      "id": "D019",
+      "type": "linear",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right hole center to right end",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D004 - D001 - D002 = 4.25 - .25 - 3.750. No independent printed tolerance."
+    },
+    {
+      "id": "D020",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right end land length",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D004 - D009 = 4.25 - 3.75. No independent printed tolerance."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 0.203,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left side to left tongue flank",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D005 - D017 - D016 = .75 - .344 - .203. No independent printed tolerance."
+    },
+    {
+      "id": "D022",
+      "type": "linear",
+      "value": 0.692,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "end land height above tongue bottom",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D014 - D013 = .88 - .188. No independent printed tolerance."
+    },
+    {
+      "id": "D023",
+      "type": "linear",
+      "value": 0.755,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "central plateau height above underside shoulders",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D014 - D015 = .88 - .125. No independent printed tolerance."
+    },
+    {
+      "id": "D024",
+      "type": "linear",
+      "value": 0.375,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "lower plan edge to hole centerline",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D005 - D003 = .75 - .375. Used for lower-left edge-referenced hole coordinates."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "counterbore",
+      "diameter": 0.281,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.438,
+      "cbore_depth": 0.25,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 2,
+      "x_position": 0.25,
+      "y_position": 0.375,
+      "position_known": true,
+      "pattern": "linear",
+      "pattern_spacing": 3.75,
+      "instance_positions": [
+        [
+          0.25,
+          0.375
+        ],
+        [
+          4.0,
+          0.375
+        ]
+      ],
+      "feature_ref": "F004",
+      "view": "Top"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Base envelope 4.25 long \u00d7 .75 wide \u00d7 .88 high. Model coordinate convention: X along length, Y across width, Z height; origin at lower-left plan corner on the tongue-bottom plane.",
+      "related_dimensions": [
+        "D004",
+        "D005",
+        "D014"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D014",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_cut",
+      "description": "Cut upper end regions across full width. End lands are .188 below the high plateau; left ramp starts at X=.50, right ramp ends at X=3.75. Ramps are 60\u00b0 to vertical, 30\u00b0 to horizontal. End lands are nominally .50 long each.",
+      "related_dimensions": [
+        "D005",
+        "D009",
+        "D010",
+        "D011",
+        "D012",
+        "D013",
+        "D020",
+        "D022"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D005",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Cut two longitudinal underside edge rebates, .125 high, leaving a .344-wide continuous downward tongue. Right rebate width .203; left rebate width derives as .203.",
+      "related_dimensions": [
+        "D004",
+        "D005",
+        "D015",
+        "D016",
+        "D017",
+        "D021",
+        "D023"
+      ],
+      "sketch_plane": "Right",
+      "depth_dimension_id": "D004",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F004",
+      "type": "hole",
+      "description": "Two vertical \u00d8.281 through holes at plan coordinates (.25,.375) and (4.00,.375), drilled from the low end lands through the bottom tongue.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D003",
+        "D006",
+        "D019",
+        "D024"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.25,
+      "offset_y": 0.375,
+      "position_known": true,
+      "quantity": 2
+    },
+    {
+      "id": "F005",
+      "type": "extrude_cut",
+      "description": "Two \u00d8.438 counterbores concentric with the through holes; .25 deep from the local low end-land top surfaces, not the raised central plateau.",
+      "related_dimensions": [
+        "D007",
+        "D008"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D008",
+      "parent_feature": "F004",
+      "offset_x": 0.25,
+      "offset_y": 0.375,
+      "position_known": true,
+      "quantity": 2
+    },
+    {
+      "id": "F006",
+      "type": "fillet",
+      "description": "Two longitudinal internal tongue-root edges: radius .015 maximum. Actual production radius is not fixed by the drawing.",
+      "related_dimensions": [
+        "D018"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Longitudinal vertical plane Y=.375",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006"
+        ],
+        "description": "Nominal width symmetry: .375 hole center offset in .75 width and .203+.344+.203 tongue cross section. Not a separate GD&T symmetry requirement."
+      },
+      {
+        "plane": "Transverse vertical plane X=2.125",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006"
+        ],
+        "description": "Nominal end-to-end symmetry: holes .25 from both ends, lands .50 at both ends, equal ramp angles. Derived symmetry does not impose additional tolerances."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F004",
+          "F005"
+        ],
+        "description": "Each counterbore is coaxial with its own through hole; the two separate hole axes are not coaxial with each other."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "H001",
+        "qty": 2,
+        "spacing_value": 3.75,
+        "computed_from": "Directly dimensioned 3.750 \u00b1.005 between centers; second X=.25+3.750=4.000."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D001",
+          "D002",
+          "D019"
+        ],
+        "description": "Length = left hole setback + center spacing + right hole setback: 4.25=.25+3.75+.25."
+      },
+      {
+        "total_dimension_id": "D004",
+        "component_dimension_ids": [
+          "D009",
+          "D020"
+        ],
+        "description": "Length = right ramp endpoint from left end + right land: 4.25=3.75+.50."
+      },
+      {
+        "total_dimension_id": "D005",
+        "component_dimension_ids": [
+          "D021",
+          "D017",
+          "D016"
+        ],
+        "description": "Width = left rebate + tongue + right rebate: .75=.203+.344+.203."
+      },
+      {
+        "total_dimension_id": "D005",
+        "component_dimension_ids": [
+          "D003",
+          "D024"
+        ],
+        "description": "Width = top-edge hole offset + bottom-edge hole offset: .75=.375+.375."
+      },
+      {
+        "total_dimension_id": "D014",
+        "component_dimension_ids": [
+          "D013",
+          "D022"
+        ],
+        "description": "Overall height = plateau rise + end-land height: .88=.188+.692."
+      },
+      {
+        "total_dimension_id": "D014",
+        "component_dimension_ids": [
+          "D015",
+          "D023"
+        ],
+        "description": "Overall height = tongue projection + plateau-to-shoulder height: .88=.125+.755."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D019",
+      "D020",
+      "D021",
+      "D022",
+      "D023",
+      "D024"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006"
+  ],
+  "warnings": [
+    "Drawing explicitly specifies inches and third-angle projection, but does not name ASME, ISO, or DIN; drawing_standard is intentionally empty.",
+    "4017-A is copied as the full drawing/part number. No separate revision entry establishes whether its suffix A is a revision.",
+    "CFS and K are local legacy surface annotations, not GD&T datum letters. Their definitions and numerical finish requirements are absent; obtain the applicable company drafting/finish convention before manufacturing.",
+    "The .88 height has a wavy underline/mark whose significance is not explained. The value itself is readable.",
+    "Angular dimensions D011 and D012 and their tolerances are in degrees. Their unit fields use inch only because the required schema provides no degree option.",
+    "The two .015 MAX root radii specify a maximum, not an exact modeling radius. Select a compliant actual radius if a fully resolved manufacturing model is required.",
+    "Through-hole condition is inferred from the end-view hidden geometry; the text callout does not explicitly include THRU.",
+    "Derived nominal dimensions carry no independent tolerance. Zero tolerance defaults on those entries must not be interpreted as zero allowable variation.",
+    "No heat treatment, coating, hardness, thread, or numerical geometric tolerance is specified."
+  ],
+  "confidence": 0.93
+}

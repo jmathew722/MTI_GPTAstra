@@ -1,0 +1,60 @@
+{
+  "part": "A040171E",
+  "extraction": "reused C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040171E\\A040171E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 4,
+  "questions": [
+    "F005: What nominal radius should be used at the two tongue roots? Only a maximum is specified."
+  ],
+  "flagged": [
+    "F001: Both ramp angles D011 and D012 are printed as 60 degrees to vertical. The coefficient 1.7320508075688772 is tan(60 degrees), evaluated to floating-point precision; multiplying by D013 gives the horizontal ramp run. The .88 height spans plateau to tongue bottom, and the underside shoulders are .125 above that bottom.",
+    "F002: The front view shows the tongue extending uninterrupted for the full part length. Locate its left flank by subtracting the right shoulder width and tongue width from the overall width.",
+    "F003: End-view hidden lines show the small bore passing through the tongue bottom. D014 exceeds the local end-land height, so the bore depth safely overshoots the bottom. Counterbore depth is measured from the local low end land."
+  ],
+  "defaults": [
+    "D014: D9 0.88 -> 0.875 (two-place print of a 1/16 fraction)"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040171E\\reference.step",
+  "volume": 2.256923,
+  "cq_skipped": {
+    "F005": "unresolved: What nominal radius should be used at the two tongue roots? Only a maximum is specified."
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040171E\\4017-A_ir.SLDPRT",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040171E\\4017-A_ir.STL",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040171E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built",
+    "F003": "built (drill + counterbore; one feature for F003, F004)",
+    "F004": "built (in F003 (one feature))",
+    "F005": "skipped (unresolved: What nominal radius should be used at the two tongue roots? Only a maximum is specified.)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 4/4"
+  ],
+  "hole_wizard_substitutions": [],
+  "mti_review": [],
+  "material": {
+    "status": "unmatched",
+    "label": "1020 STEEL",
+    "material_id": null,
+    "selection_source": null,
+    "review_required": true,
+    "cost_available": false,
+    "net_material_cost": null,
+    "currency": "USD",
+    "mass_kg": null,
+    "files": [
+      "material_resolution.json",
+      "material_native.json",
+      "material_costing.json",
+      "appearance.json"
+    ]
+  },
+  "cost_usd": 0.381,
+  "error": ""
+}

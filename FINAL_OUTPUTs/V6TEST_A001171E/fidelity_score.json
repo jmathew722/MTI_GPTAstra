@@ -1,0 +1,539 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "V6TEST_A001171E",
+  "evaluated_at": "2026-11-26T21:08:35+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "115C_ir.SLDPRT",
+    "stl": "115 C_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "scored",
+  "score": 93.1,
+  "raw_score": 93.1,
+  "caps": [],
+  "coverage": 1.0,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 15.0,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "6 planned",
+          "measured": "6 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "no fallbacks",
+          "measured": "0 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "closed mesh",
+          "measured": "100.0% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "[1.5, 2.75, 3.25] in",
+          "measured": "[1.5, 2.75, 3.25] in",
+          "note": "matches the build record"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "D001",
+          "label": "overall length",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 3.25,
+          "measured": 3.25,
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.03,
+          "e": 0.0
+        },
+        {
+          "id": "D002",
+          "label": "overall width",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 2.75,
+          "measured": 2.75,
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.03,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 2,
+      "n_total": 2,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 96.8,
+      "pct": 96.8,
+      "earned": 19.36,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Rectangular base 3.25 by 2.75, extruded 1.50. Broad-face lower-left is coordinate origin for top-face hole positions."
+        },
+        {
+          "id": "F002",
+          "label": "F002 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Four 13/32 through mounting holes in rectangular arrangement, 2.375 horizontal by 1.875 vertical spacing. Use explicit e"
+        },
+        {
+          "id": "F003",
+          "label": "F003 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two 37/64 blind drilled bores, 1.12 deep from broad ground face, at H002 positions. Preserve drill-point shape only afte"
+        },
+        {
+          "id": "F004",
+          "label": "F004 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "37/64 cross passage drilled 2.38 inward from right end. Axis centered across 1.50 thickness and at broad-face y=1.37; in"
+        },
+        {
+          "id": "F005",
+          "label": "F005 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two coaxial counterbores, diameter 1.002 +.010/-.000, depth .111 +.002/-.000, at entrances to F003."
+        },
+        {
+          "id": "F007",
+          "label": "F007 fillet",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "missing",
+          "note": "Four rounded corners of broad-face perimeter, extending through thickness. Radius not dimensioned; cannot construct exac"
+        }
+      ],
+      "n_checked": 6,
+      "n_total": 6,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 86.0,
+      "pct": 86.0,
+      "earned": 17.2,
+      "items": [
+        {
+          "id": "H002#1",
+          "label": "H002 counterbore hole",
+          "weight": 1.0,
+          "credit": 0.7514,
+          "expected": "d 0.5781 in depth 1.12",
+          "measured": "d 0.5781 in, blind 1.014, cbore d 1.002 in",
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H002#2",
+          "label": "H002 counterbore hole",
+          "weight": 1.0,
+          "credit": 0.7514,
+          "expected": "d 0.5781 in depth 1.12",
+          "measured": "d 0.5786 in, blind 1.014, cbore d 1.002 in",
+          "unit": "inch",
+          "error": 0.0004,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#1",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.4062 in through",
+          "measured": "d 0.4062 in, through",
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#2",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.4062 in through",
+          "measured": "d 0.4062 in, through",
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#3",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.4062 in through",
+          "measured": "d 0.4062 in, through",
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#4",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.4062 in through",
+          "measured": "d 0.4062 in, through",
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H003#1",
+          "label": "H003 tapped hole",
+          "weight": 1.0,
+          "credit": 0.5154,
+          "expected": "d 0.5781 in depth 2.38",
+          "measured": "d 0.5781 in, blind 2.312",
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.005
+        }
+      ],
+      "n_checked": 7,
+      "n_total": 7,
+      "band": {
+        "id": "amber",
+        "label": "Review recommended",
+        "glyph": "alert"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 15.0,
+      "items": [
+        {
+          "id": "H002-spacing",
+          "label": "H002 pattern spacing",
+          "weight": 2.0,
+          "credit": 1.0,
+          "expected": "nearest-neighbour [1.38, 1.38]",
+          "measured": "[1.3752, 1.3752]",
+          "unit": "inch",
+          "error": 0.0048,
+          "tol": 0.005,
+          "e": 0.96
+        },
+        {
+          "id": "H002-concentric",
+          "label": "H002 counterbore concentric with its hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "0",
+          "measured": "1.573e-07 in",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.0025
+        },
+        {
+          "id": "H002-concentric",
+          "label": "H002 counterbore concentric with its hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "0",
+          "measured": "0.0001872 in",
+          "unit": "inch",
+          "error": 0.0002,
+          "tol": 0.0025
+        },
+        {
+          "id": "H001-spacing",
+          "label": "H001 pattern spacing",
+          "weight": 4.0,
+          "credit": 1.0,
+          "expected": "nearest-neighbour [1.875, 1.875, 1.875]",
+          "measured": "[1.875, 1.875, 1.875]",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 4,
+      "n_total": 4,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 65.6,
+      "pct": 65.6,
+      "earned": 6.56,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 0.8889,
+          "expected": ">= 95%",
+          "measured": "90%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "none",
+          "measured": "0 unclear dimension(s), 0 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 0.0,
+          "expected": "none",
+          "measured": "0 assumed, 8 default(s), 0 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "orange",
+        "label": "Significant deviations",
+        "glyph": "warn"
+      },
+      "max": 10.0
+    }
+  ],
+  "band": {
+    "id": "green",
+    "label": "Matches the drawing",
+    "glyph": "check"
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_DEPTH",
+      "message": "H002 depth is 1.014 in, drawing 1.12 in.",
+      "evidence": "",
+      "points": 1.43,
+      "ref": "H002"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_DEPTH",
+      "message": "H002 depth is 1.014 in, drawing 1.12 in.",
+      "evidence": "",
+      "points": 1.43,
+      "ref": "H002"
+    },
+    {
+      "severity": "high",
+      "category": "hole_accuracy",
+      "code": "HOLE_DEPTH",
+      "message": "H003 depth is 2.312 in, drawing 2.38 in.",
+      "evidence": "",
+      "points": 1.37,
+      "ref": "H003"
+    },
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_MISSING",
+      "message": "F007 (fillet) is in the extraction but no build status exists for it.",
+      "evidence": "Four rounded corners of broad-face perimeter, extending through thickness. Radius not dimensioned; cannot construct exact corners without cl",
+      "points": 0.65,
+      "ref": "F007"
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "DEFAULTS_APPLIED",
+      "message": "8 default value(s) were applied where the drawing was vague.",
+      "evidence": "F007: D4 not modelled: edge break with no printed size; D004: D9 0.44 -> 0.4375 (two-place print of a 1/16 fraction); D005: D9 0.44 -> 0.4375 (two-place print of a 1/16 fraction)",
+      "points": 3.6,
+      "ref": ""
+    }
+  ],
+  "notes": [],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      1.5,
+      2.75,
+      3.25
+    ],
+    "stl_volume": 11.5157,
+    "triangles": 1666,
+    "closed_fraction": 1.0,
+    "holes": [
+      {
+        "axis": "X",
+        "d": 0.5781,
+        "depth": 2.3125,
+        "through": false,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.5781,
+        "depth": 1.014,
+        "through": false,
+        "cbore": {
+          "d": 1.002,
+          "depth": 0.111
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.4062,
+        "depth": 1.5,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.4062,
+        "depth": 1.5,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.4062,
+        "depth": 1.5,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.4062,
+        "depth": 1.5,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.5786,
+        "depth": 1.014,
+        "through": false,
+        "cbore": {
+          "d": 1.002,
+          "depth": 0.111
+        }
+      }
+    ]
+  },
+  "counts": {
+    "critical": 0,
+    "high": 4,
+    "medium": 0,
+    "low": 1,
+    "info": 0
+  }
+}

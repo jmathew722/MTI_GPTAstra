@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "run_id": "run_bf841ed3d70049359c63",
+  "part": "A040171E",
+  "findings": [
+    {
+      "finding_id": "flag_22702ec784c9",
+      "part": "A040171E",
+      "run_id": "run_bf841ed3d70049359c63",
+      "severity": "error",
+      "category": "feature_not_built",
+      "title": "Feature F005 was not built",
+      "expected": ".015 MAX R.; 2 PLACES",
+      "actual": "skipped: unresolved: What nominal radius should be used at the two tongue roots? Only a maximum is specified.",
+      "consequence": "The model is missing this feature.",
+      "recommended_action": "Review the callout for F005 against the drawing, then add the feature or correct the plan.",
+      "feature_ids": [
+        "F005"
+      ],
+      "source_callouts": [
+        ".015 MAX R.",
+        "2 PLACES"
+      ],
+      "evidence_ids": [
+        "ir_report:cq_skipped:F005",
+        "plan:F005"
+      ],
+      "schema_version": 1
+    },
+    {
+      "finding_id": "flag_f8f45b1eff1a",
+      "part": "A040171E",
+      "run_id": "run_bf841ed3d70049359c63",
+      "severity": "warning",
+      "category": "feature_unresolved",
+      "title": "Feature F005 needs an engineer's answer",
+      "expected": ".015 MAX R.; 2 PLACES",
+      "actual": "What nominal radius should be used at the two tongue roots? Only a maximum is specified.",
+      "consequence": "The feature was not built: the pipeline asks instead of guessing.",
+      "recommended_action": "Answer the open question on the drawing, then re-run.",
+      "feature_ids": [
+        "F005"
+      ],
+      "source_callouts": [
+        ".015 MAX R.",
+        "2 PLACES"
+      ],
+      "evidence_ids": [
+        "ir_report:questions:F005",
+        "plan:F005"
+      ],
+      "schema_version": 1
+    }
+  ]
+}

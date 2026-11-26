@@ -1,0 +1,60 @@
+{
+  "part": "A040161E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040161E\\A040161E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 6,
+  "questions": [],
+  "flagged": [
+    "F002: Supplied ASME B18.3 normal-fit SHCS chart for D005 specifies .656 drill, 1.000 counterbore diameter, and .625 counterbore depth. D001 drilling depth overshoots the full block height. The upper top-view edge is Z=D012; center Z is D012-D004.",
+    "F005: Standard tap-drill chart for D010 nominal 3/4-16 UNF specifies 11/16 inch (.6875) drill. Shared front-view centerline establishes D008 height. D001 depth overshoots the thickness for through drilling. No unspecified thread class is assigned.",
+    "F006: Front view shows inset bevel boundaries at both ends and bottom, not top. Right view shows inset vertical boundaries and both bottom corners clipped. Top view shows four clipped corners. These projections identify four Y-directed corner edges and two X-directed bottom edges, totaling six places."
+  ],
+  "defaults": [
+    "D002: D9 0.62 -> 0.625 (two-place print of a 1/16 fraction)",
+    "D011: D9 1.88 -> 1.875 (two-place print of a 1/16 fraction)",
+    "D013: D9 0.06 -> 0.0625 (two-place print of a 1/16 fraction)"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040161E\\reference.step",
+  "volume": 9.322853,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040161E\\4016-B_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040161E\\4016-B_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040161E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (drill + counterbore; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (Up To Next)",
+    "F005": "built (Hole Wizard 3/4-16 tapped, cosmetic thread, Up To Next, 1 hole(s))",
+    "F006": "built (6 edges selected by nearest point)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "F005: Hole Wizard 3/4-16 tapped, cosmetic thread, Up To Next, 1 hole(s)",
+    "sketches fully defined: 5/5"
+  ],
+  "hole_wizard_substitutions": [],
+  "mti_review": [],
+  "material": {
+    "status": "unmatched",
+    "label": "1020",
+    "material_id": null,
+    "selection_source": null,
+    "review_required": true,
+    "cost_available": false,
+    "net_material_cost": null,
+    "currency": "USD",
+    "mass_kg": null,
+    "files": [
+      "material_resolution.json",
+      "material_native.json",
+      "material_costing.json",
+      "appearance.json"
+    ]
+  },
+  "cost_usd": 1.0521,
+  "error": ""
+}
