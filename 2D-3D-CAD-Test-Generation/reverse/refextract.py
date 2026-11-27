@@ -441,6 +441,13 @@ def extract_reference(pdf: Path, *, cache_root: Path, prior: Optional[list[dict]
         hit = load_cached(cache_root, v_sha)
         if hit is not None:
             say("cached reference extraction reused (no model call)")
+            try:
+                from pipeline.token_tracker import record_cache_hit, scope
+                prov_ = hit.get("provenance", {})
+                with scope(gate="reference_layout"):
+                    record_cache_hit(model=prov_.get("model") or "", provider=prov_.get("provider") or "openai", role="extractor", note="local reference-extraction cache hit")
+            except Exception:      # noqa: BLE001 - accounting never stops a run
+                pass
             return {"extraction": hit, "cache": "hit", "usage": _zero_usage(hit.get("provenance", {})), "warnings": warnings}
     import fitz
     with fitz.open(str(pdf)) as d:

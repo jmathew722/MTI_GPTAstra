@@ -219,11 +219,19 @@ class JobStore:
         return fixed
 
 
+_PART_MONO: dict = {}      # (id(part)) -> monotonic start, in-process only (durations must not follow wall-clock adjustments)
+
+
+def mark_started(part: "PartState") -> None:
+    part.started = now()
+    _PART_MONO[id(part)] = time.monotonic()
+
+
 def begin_stage(part: PartState, stage: str) -> None:
     if not can_move(part.state, stage):
         raise StateError(f"cannot move {part.part_id} from {part.state} to {stage}")
     part.state = stage
-    part.stages[stage] = {"status": "running", "started": now(), "t0": time.time(), "warnings": [], "errors": []}
+    part.stages[stage] = {"status": "running", "started": now(), "t0": time.monotonic(), "warnings": [], "errors": []}
 
 
 def mark_not_applicable(part: PartState, stage: str, why: str = "") -> None:
@@ -232,10 +240,10 @@ def mark_not_applicable(part: PartState, stage: str, why: str = "") -> None:
 
 
 def end_stage(part: PartState, stage: str, status: str = "succeeded", *, warnings=(), errors=()) -> None:
-    st = part.stages.setdefault(stage, {"started": now(), "t0": time.time(), "warnings": [], "errors": []})
+    st = part.stages.setdefault(stage, {"started": now(), "t0": time.monotonic(), "warnings": [], "errors": []})
     st["status"] = status
     st["ended"] = now()
-    st["seconds"] = round(time.time() - st.pop("t0", time.time()), 2)
+    st["seconds"] = round(time.monotonic() - st.pop("t0", time.monotonic()), 2)
     st["warnings"] = list(st.get("warnings", [])) + list(warnings)
     st["errors"] = list(st.get("errors", [])) + list(errors)
 
@@ -246,7 +254,10 @@ def finish(part: PartState, state: str, error: str = "") -> None:
     part.state = state
     part.error = error
     part.ended = now()
-    if part.started:
+    t0m = _PART_MONO.pop(id(part), None)
+    if t0m is not None:
+        part.seconds = round(time.monotonic() - t0m, 1)
+    elif part.started:
         try:
             part.seconds = round((datetime.fromisoformat(part.ended) - datetime.fromisoformat(part.started)).total_seconds(), 1)
         except ValueError:

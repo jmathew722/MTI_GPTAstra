@@ -128,7 +128,7 @@ def _convert_response(resp: Any) -> Any:
             else "max_tokens" if reason == "max_output_tokens" else "end_turn")
     # usage stays the raw object: token_tracker.normalize_usage reads input_tokens /
     # output_tokens / input_tokens_details.cached_tokens.
-    return SimpleNamespace(content=blocks, stop_reason=stop, usage=resp.usage, stop_details=refusal)
+    return SimpleNamespace(content=blocks, stop_reason=stop, usage=resp.usage, stop_details=refusal, id=getattr(resp, "id", None))
 
 
 class _Messages:

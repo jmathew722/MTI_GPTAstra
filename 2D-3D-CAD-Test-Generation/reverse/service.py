@@ -10,7 +10,9 @@ import shutil
 from pathlib import Path
 from typing import Optional
 
-from reverse import jobs, planner, qa, reference as refmod, safety, state, templates
+from pipeline import budget as budget_mod
+
+from reverse import costs, jobs, planner, qa, reference as refmod, safety, state, templates
 
 
 class ReverseService:
@@ -115,8 +117,86 @@ class ReverseService:
             part_paths, configs = self._expand_configs(part_paths, configs)
         job = jobs.create_job(self.store, template=tpl, part_paths=part_paths, profile=profile, configs=configs, options=options, reference=reference,
                               refs=self.refs, authorized_roots=(self.roots + [self.upload_dir]) if authorized else None)
+        try:        # the estimate shown before submit is frozen with the job so it can be compared with what actually happened
+            job.options["estimates"] = {p.part_id: self._estimate_part_state(p) for p in job.parts if not (p.reference or {}).get("_blocked")}
+            self.store.save(job)
+        except Exception as e:      # noqa: BLE001 - an estimate must never stop a submit
+            job.options["estimates_error"] = f"{type(e).__name__}: {e}"[:200]
         self.queue.submit(job.job_id)
         return job
+
+    # ---- estimates (v8: SolidFlow_API_Cost.md)
+    def _model_id(self) -> str:
+        try:
+            cfg = json.loads((Path(__file__).resolve().parent.parent / "config" / "models.json").read_text(encoding="utf-8"))
+            return cfg["reference_extractor"]["openai"]
+        except (OSError, KeyError, ValueError):
+            return "gpt-6-astra"
+
+    def _history(self, mode: str):
+        jobs_ = self.store.list()
+        rows = costs.history_rows([self.store.dir(j.job_id) for j in jobs_])
+        return costs.token_history(rows), costs.duration_history(jobs_, mode)
+
+    def _estimate_ref(self, ref: dict, options: Optional[dict]) -> tuple[dict, dict]:
+        """(Estimate, reference summary) from a resolved reference dict (``_pdf`` is a server path)."""
+        options = options or {}
+        mode = "match" if (ref.get("mode") == "match" and ref.get("status") in ("resolved", "pending") and ref.get("_pdf")) else "standard"
+        rate = costs.load_rate(self._model_id())
+        tok_h, dur_h = self._history(mode)
+        facts, cache, pages = None, "none", 0
+        if mode == "match":
+            pdf = Path(ref["_pdf"])
+            facts = costs.page_facts(pdf)
+            pages = facts["page_count"]
+            sha = ref.get("sha256") or safety.sha256_file(pdf)
+            from reverse import refextract
+            cache = "hit" if (not options.get("refresh_reference") and refextract.load_cached(self.refs.cache_root, sha)) else "fresh"
+        est = costs.estimate_part(mode=mode, facts=facts, rate=rate, cache=cache, token_hist=tok_h, dur_hist=dur_h,
+                                  tiles_per_page=int(options.get("tiles_per_page") or 0), pages_for_time=max(1, pages))
+        return est, {"status": ref.get("status") or "none", "pages": pages, "extraction_cache": cache}
+
+    def _estimate_part_state(self, part: state.PartState, options: Optional[dict] = None) -> dict:
+        est, _ = self._estimate_ref(part.reference or refmod.blank_reference("standard"), options)
+        return est
+
+    def estimate_run(self, part_paths, reference: Optional[dict] = None, options: Optional[dict] = None) -> dict:
+        """Pre-run estimate for the UI (V8_CONTRACT.md section 1). No COM, no model call, no network. Never raises for a bad path."""
+        req = refmod.normalize_request(reference)
+        options = dict(options or {})
+        parts, ests = [], []
+        for path in part_paths:
+            sp = str(path)
+            row = {"part": sp, "name": Path(sp.rsplit("::", 1)[0]).name, "reference": {"status": "none", "pages": 0, "extraction_cache": "none"}, "estimate": None}
+            try:
+                real = Path(sp.rsplit("::", 1)[0])
+                p = safety.authorize(real, self.roots + [self.upload_dir]) if self.roots else real.resolve()
+                safety.check_part_file(p)
+                if req["mode"] == "match":
+                    spec = req["per_part"].get(sp) or req["per_part"].get(str(real)) or {"source": "auto"}
+                    ref = self.refs.resolver.resolve(p, "", spec, req)
+                else:
+                    ref = refmod.blank_reference("standard")
+                if ref.get("_blocked"):
+                    row["reference"]["status"] = "blocked"
+                    row["warning"] = str(ref.get("error") or "REFERENCE_BLOCKED")
+                else:
+                    est, summ = self._estimate_ref(ref, options)
+                    row["reference"], row["estimate"] = summ, est
+                    ests.append(est)
+            except (safety.SafetyError, OSError) as e:
+                row["reference"]["status"] = "blocked"
+                row["warning"] = str(e)
+            parts.append(row)
+        cap, spent = budget_mod.cap_usd(), budget_mod.spent_usd()
+        total = costs.sum_estimates(ests)
+        reserve = None
+        if total and total["cost"]["high"] is not None:
+            reserve = total["cost"]["high"]
+        return {"schema_version": costs.SCHEMA_VERSION, "mode": req["mode"], "model": self._model_id(), "parts": parts, "total": total,
+                "budget": {"cap_usd": cap, "spent_usd": round(spent, 4), "remaining_usd": round(cap - spent, 4),
+                           "would_block": bool(reserve is not None and reserve > cap - spent),
+                           "note": "A new call is refused when projected spend exceeds the remaining budget; an in-flight request can exceed its estimate."}}
 
     def _expand_configs(self, part_paths: list[Path], configs: Optional[dict]):
         """One entry per saved configuration; each gets its own output folder and its own drawing, all referencing the same source part."""
@@ -166,8 +246,31 @@ class ReverseService:
             pj["files_availability"] = self.files_availability(pj["files"])
             pj["reference"] = refmod.public_reference(p.reference) if p.reference else refmod.blank_reference("standard")
             pj["verification"] = p.verification or {"status": "not_run"}
+        self._add_accounting(j, d)
         d.pop("output_root", None)
         return d
+
+    def _add_accounting(self, j: state.Job, d: dict) -> None:
+        """estimate / usage / timing / estimate_vs_actual per part and for the job (V8_CONTRACT.md section 2)."""
+        ledger = costs.read_rows(self.store.dir(j.job_id) / "usage" / "usage_ledger.jsonl")
+        ests = (j.options or {}).get("estimates") or {}
+        usages, timings, estl = [], [], []
+        for p, pj in zip(j.parts, d["parts"]):
+            est = ests.get(p.part_id)
+            u = costs.aggregate(ledger, part=p.part_id)
+            hu = ((p.reference or {}).get("api_usage") or {}).get("historical_usd")
+            u["historical_usd"] = hu
+            t = costs.timing_for(j, p, estimate=est)
+            pj["estimate"], pj["usage"], pj["timing"] = est, u, t
+            pj["estimate_vs_actual"] = costs.estimate_vs_actual(est, u, t)
+            usages.append(u)
+            timings.append(t)
+            if est:
+                estl.append(est)
+        d["usage"] = costs.merge_usage(usages)
+        d["timing"] = costs.merge_timing(timings)
+        d["estimate"] = costs.sum_estimates(estl)
+        d["estimate_vs_actual"] = costs.estimate_vs_actual(d["estimate"], d["usage"], d["timing"])
 
     ALIASES = {"slddrw": "drawing.slddrw", "pdf": "drawing.pdf", "source_pdf": "reference/source.pdf", "stl": "model.stl", "qa_json": "qa.json"}
 

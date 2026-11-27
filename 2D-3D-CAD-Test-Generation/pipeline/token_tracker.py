@@ -314,6 +314,15 @@ def record_completion(response: Any, *, model: str, provider: str, role: Optiona
     tracker, ctx = _CTX.get()
     if tracker is None:
         return None
+    rid = getattr(response, "id", None) if not isinstance(response, dict) else response.get("id")
+    if isinstance(rid, str) and rid and "response_id" not in fields:
+        fields["response_id"] = rid          # provider response identity: lets cost aggregation dedupe replayed events
+    if isinstance(response, dict):
+        u = response.get("usage") or (response if any(k in response for k in ("input_tokens", "output_tokens", "prompt_tokens", "inputTokens")) else None)
+    else:
+        u = getattr(response, "usage", None)
+    if u is None:
+        fields["usage_missing"] = True       # unknown, never free: cost aggregation reports it as unknown usage
     return tracker.record(normalize_usage(response), role=role or ctx.get("role") or "other",
                           model=model, provider=provider, latency_ms=latency_ms, ok=ok,
                           note=note, **fields)

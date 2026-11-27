@@ -143,7 +143,7 @@ class PartRunner:
     # ------------------------------------------------------------ the run
     def run(self) -> None:
         p = self.part
-        p.started = state.now()
+        state.mark_started(p)
         p.attempts += 1
         try:
             self._run_once()
