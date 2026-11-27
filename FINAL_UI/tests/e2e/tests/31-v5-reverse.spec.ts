@@ -73,15 +73,15 @@ test.describe('v5: 3D -> 2D', () => {
     await expect(page.locator('#rv-chip-cost .chip-v')).toHaveText('—');
     await expect(page.locator('#rv-run-sel')).toBeDisabled();
     await expect(page.locator('#rv-run-why')).toContainText('Choose one or more');
-    await expect(page.locator('.rv-tracker .trk-step[data-state="pending"]')).toHaveCount(8);
+    await expect(page.locator('.rv-tracker .trk-step[data-state="pending"]')).toHaveCount(10);              // v7 vocabulary (was 8 before the reference stages)
     for (const w of [1280, 1440, 1920]) { await page.setViewportSize({ width: w, height: w === 1920 ? 1080 : 900 }); await page.waitForTimeout(250); await shot(page, `default-${w}.png`); }
   });
 
   test('92 processing: tracker follows real stage states, STL shows as soon as it exists, drawing does not', async ({ page }) => {
     await open(page, J_RUN, 'bracket-run');
     const states = await page.locator('.rv-tracker .trk-step').evaluateAll((els) => els.map((e) => e.getAttribute('data-state')));
-    expect(states).toEqual(['succeeded', 'succeeded', 'succeeded', 'succeeded', 'succeeded', 'running', 'pending', 'pending']);
-    await expect(page.locator('.rv-tracker .trk-stage')).toContainText('Dimensions (running)');
+    expect(states).toEqual(['succeeded', 'succeeded', 'succeeded', 'succeeded', 'succeeded', 'running', 'pending', 'pending', 'pending', 'pending']);
+    await expect(page.locator('.rv-tracker .trk-stage')).toContainText('Native drawing (running)');
     const prog = page.locator('.rv-bar');
     await expect(prog).toHaveAttribute('role', 'progressbar');
     expect(Number(await prog.getAttribute('aria-valuenow'))).toBeLessThan(100);
@@ -154,7 +154,7 @@ test.describe('v5: 3D -> 2D', () => {
     await expect(page.locator('#rv-chip-cost .chip-v')).toHaveText('$0.00 API usage (CAD automation; licence/compute excluded)');
     await expect(page.locator('#rv-chip-runtime .chip-v')).toContainText('52');
     await expect(page.locator('#rv-chip-deliv .dv.is-present')).toHaveText(['PDF', 'SLDDRW', 'STL']);
-    await expect(page.locator('.rv-tracker .trk-step[data-state="succeeded"]')).toHaveCount(8);
+    await expect(page.locator('.rv-tracker .trk-step[data-state="succeeded"]')).toHaveCount(10);
     await expect(page.locator('#rv-2d .rv-draft')).toContainText(/Draft: for review/);
     await page.locator('#rv-tab-coverage').click();
     await expect(page.locator('.rv-covt')).toHaveText('12 of 12 applicable characteristics verified');
@@ -191,7 +191,7 @@ test.describe('v5: 3D -> 2D', () => {
     await expect(page.locator('#rv-2d .rv-draft')).toContainText('the run failed');
     await stlReady(page);
     await expect(page.locator('.rv-tracker .trk-step[data-state="failed"]')).toHaveCount(1);
-    await expect(page.locator('.rv-tracker .trk-stage')).toContainText('View planning failed');
+    await expect(page.locator('.rv-tracker .trk-stage')).toContainText('Extraction failed');
     // back to a completed part: drawing returns
     await page.locator('.rv-pname', { hasText: 'plate.SLDPRT' }).click();
     await pdfReady(page); await stlReady(page);

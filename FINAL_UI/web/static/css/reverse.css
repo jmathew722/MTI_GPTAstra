@@ -27,9 +27,15 @@
 @media (prefers-reduced-motion: reduce) { .rv-bar i { transition: none; } }
 
 /* split: 3D | drawing, plus the setup panel */
-.rv-main { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 12px; align-items: start; }
-.page-rv[data-setup="closed"] .rv-main { grid-template-columns: minmax(0, 1fr); }
-.page-rv[data-setup="closed"] .rv-setup { display: none; }
+/* v7 layout: viewers, then the batch queue directly under them (one 12px gap, no spacer), the setup rail spanning both rows. The rail cell has no
+   intrinsic height of its own (the aside is absolutely placed inside it), so the rail can never be taller than the viewers + queue and can no longer
+   push the queue down and leave a blank band under the viewers (v5 and v6 had exactly that: rail 876px high next to 504px viewers). It scrolls itself. */
+.rv-main { display: grid; grid-template-columns: minmax(0, 1fr) 340px; grid-template-areas: "split rail" "queue rail"; grid-template-rows: auto auto; gap: 12px; align-items: start; }
+.rv-split { grid-area: split; }
+.rv-queue { grid-area: queue; }
+.rv-railcell { grid-area: rail; position: relative; align-self: stretch; min-width: 0; min-height: 0; contain: size; }
+.page-rv[data-setup="closed"] .rv-main { grid-template-columns: minmax(0, 1fr); grid-template-areas: "split" "queue"; }
+.page-rv[data-setup="closed"] .rv-railcell { display: none; }
 .rv-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; min-width: 0; }
 .rv-panel { height: clamp(400px, 56vh, 640px); }
 .rv-panel .vp-head { min-height: 52px; }
@@ -71,14 +77,88 @@
 .rv-sev-low, .rv-sev-info { color: var(--sev-low); border-color: color-mix(in srgb, var(--sev-low) 55%, transparent); }
 .rv-st { display: inline-flex; align-items: center; gap: 5px; }
 .rv-st[data-state="succeeded"] { color: var(--ok-text); } .rv-st[data-state="warning"] { color: var(--warn); } .rv-st[data-state="failed"] { color: var(--err-text); }
-.rv-st[data-state="running"] { color: var(--accent-text); } .rv-st[data-state="pending"], .rv-st[data-state="skipped"] { color: var(--ink-3); }
+.rv-st[data-state="running"] { color: var(--accent-text); } .rv-st[data-state="pending"], .rv-st[data-state="skipped"], .rv-st[data-state="na"] { color: var(--ink-3); }
 
 /* setup panel */
-.rv-setup { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; max-height: calc(100vh - 24px); overflow: auto; min-width: 0; }
+/* The aside is sticky inside the (size-contained) cell: its height is the part of the cell that is on screen, set by pages/reverse.js (--rv-rail-h), so Run
+   and Export at the bottom of the rail stay in view without scrolling the page, and the rail scrolls its own content. */
+.rv-setup { position: sticky; top: 12px; height: var(--rv-rail-h, 560px); max-height: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; min-width: 0; min-height: 0; }
 .rv-setup-h { display: flex; align-items: center; justify-content: space-between; }
 .rv-setup-h h2 { font-size: var(--fs-h2); }
 .rv-setup-x { display: none; }
-.rv-setup-body { display: flex; flex-direction: column; gap: 10px; }
+.rv-setup-scroll { flex: 1 1 auto; min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 2px; scrollbar-gutter: stable; }
+.rv-setup-foot { flex: none; border-top: 1px solid var(--line); padding-top: 8px; display: flex; flex-direction: column; gap: 8px; }
+.rv-inputs { position: absolute; width: 1px; height: 1px; overflow: hidden; }
+.rv-fs-t { margin: 0; font-size: var(--fs-small); font-weight: 600; color: var(--ink-2); }
+.rv-rec-l { align-items: center; }
+.rv-help { display: inline-grid; place-items: center; color: var(--ink-3); cursor: help; border-radius: 50%; }
+.rv-help:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.rv-help:hover { color: var(--ink); }
+
+/* accordions: a real button (aria-expanded / aria-controls); toggling only flips `hidden`, so nothing re-renders and no state is lost */
+.rv-acc { border: 1px solid var(--line-soft); border-radius: 8px; background: transparent; min-width: 0; }
+.rv-acc-h { width: 100%; display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 6px 10px; background: transparent; border: 0; border-radius: 8px; color: var(--ink); cursor: pointer; text-align: left; font: inherit; font-weight: 600; font-size: 14px; }
+.rv-acc-h:hover { background: var(--surface-2); }
+.rv-acc-h:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px; }
+.rv-acc-t { flex: none; }
+.rv-acc-s { flex: 1 1 0; min-width: 0; color: var(--ink-3); font-size: 12px; font-weight: 400; text-align: right; line-height: 1.3; overflow-wrap: anywhere; }
+.rv-acc-a { flex: none; color: var(--accent-text); font-size: 12px; font-weight: 600; }
+.rv-acc-h > svg { flex: none; transition: transform .15s; color: var(--ink-3); }
+.rv-acc-h[aria-expanded="true"] > svg { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) { .rv-acc-h > svg { transition: none; } }
+.rv-acc-b { padding: 2px 10px 10px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.rv-acc .rv-acc { border-color: transparent; background: var(--bg-raised); }
+.rv-tpls { display: flex; flex-direction: column; gap: 6px; }
+.rv-seg-c { display: flex; width: 100%; }
+.rv-seg-c > button { flex: 1 1 0; min-height: 32px; font-size: 13px; padding: 4px 6px; }
+.rv-seg-c > button:focus-visible { outline: 2px solid var(--ring); outline-offset: 1px; }
+.rv-seg-c > button[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+.rv-ref-line { display: flex; flex-direction: column; gap: 4px; }
+.rv-ref-status { color: var(--ink-2); }
+.rv-rrows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.rv-rrow { border: 1px solid var(--line-soft); border-radius: 8px; padding: 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0; background: var(--bg-raised); }
+.rv-rrow[data-status="needs_confirmation"], .rv-rrow[data-status="unmatched"] { border-color: color-mix(in srgb, var(--warn) 50%, transparent); }
+.rv-rrow-n { font-weight: 600; font-size: 13px; overflow-wrap: anywhere; }
+.rv-rrow-s { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; color: var(--ink-2); line-height: 1.35; }
+.rv-rrow-s > span:first-child { flex: none; display: inline-grid; place-items: center; margin-top: 1px; }
+.rv-rrow-s[data-tone="ready"] { color: var(--ok-text); }
+.rv-rrow-s[data-tone="needs_confirmation"], .rv-rrow-s[data-tone="unmatched"] { color: var(--warn); }
+.rv-rrow-l { min-width: 0; overflow-wrap: anywhere; }
+.rv-rrow-sel { height: 32px; font-size: 12px; }
+.rv-rrow-a { display: flex; gap: 4px; flex-wrap: wrap; }
+.rv-rrow-err { color: var(--err-text); margin: 0; font-size: 12px; }
+.rv-cost { display: flex; flex-direction: column; gap: 2px; }
+.rv-cost-h { margin: 0; font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.rv-prov-kv { grid-template-columns: minmax(80px, max-content) minmax(0, 1fr); font-size: 12px; }
+.rv-run-row .btn { flex: 1 1 0; }
+.rv-run-live { margin: 0; color: var(--accent-text); }
+
+/* export (bottom of the rail) */
+.rv-export { display: flex; flex-direction: column; gap: 6px; }
+.rv-exp-h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rv-exp-h .rv-draft { white-space: normal; text-align: left; line-height: 1.25; }
+.rv-exp-b { display: flex; gap: 6px; flex-wrap: wrap; }
+.rv-exp-b .btn { flex: 1 1 auto; justify-content: center; }
+.rv-exp-ack { align-items: flex-start; font-size: 12px; line-height: 1.35; }
+.rv-exp-ack input { margin-top: 1px; }
+.rv-qref { display: flex; align-items: center; gap: 4px; margin-top: 2px; font-size: 12px; color: var(--ink-3); }
+.rv-qref[data-tone="green"] { color: var(--ok-text); } .rv-qref[data-tone="amber"] { color: var(--warn); } .rv-qref[data-tone="red"] { color: var(--err-text); }
+.rv-cmp { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.rv-cmp-a { display: flex; flex-direction: column; gap: 4px; text-decoration: none; }
+.rv-cmp-a img { width: 100%; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+
+/* left viewer: 3D Model | Source PDF */
+.rv-leftseg { flex: none; }
+.rv-leftseg > button { font-size: 12px; padding: 4px 9px; min-height: 28px; }
+.rv-leftseg > button[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+.rv-leftseg > button:focus-visible { outline: 2px solid var(--ring); outline-offset: 1px; }
+.rv-leftlayer { position: absolute; inset: 0; }
+.rv-pdfpane { position: absolute; inset: 0; background: var(--well); }
+.rv-prov-line { margin: 0; padding: 4px 14px; font-size: 12px; color: var(--ink-3); border-bottom: 1px solid var(--line-soft); background: var(--surface); overflow-wrap: anywhere; }
+.rv-lbl { flex: none; }
+.rv-pan { cursor: grab; } .rv-pan.is-panning { cursor: grabbing; user-select: none; }
+.rv-src-tools .ibtn[aria-pressed="true"] { background: var(--accent-dim); color: var(--accent-text); border-color: var(--line-strong); }
+.rv-src-tools .ibtn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
 .rv-fs { border: 1px solid var(--line-soft); border-radius: 8px; padding: 10px 12px 12px; margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
 .rv-fs legend { font-size: var(--fs-small); font-weight: 600; color: var(--ink-2); padding: 0 6px; }
 .rv-row { display: flex; gap: var(--sp-2); flex-wrap: wrap; align-items: center; }
@@ -107,6 +187,9 @@
 .rv-jobsel { max-width: min(100%, 420px); }
 .rv-qsum { color: var(--ink-3); font-size: var(--fs-small); flex: 1 1 200px; min-width: 0; }
 .rv-qacts { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-left: auto; }
+.rv-qbody { max-height: max(220px, 36vh); overflow: auto; }
+.rv-qbody .rv-tbl thead th { position: sticky; top: 0; background: var(--surface); z-index: 1; }
+.rv-qhead { margin-bottom: 8px; }
 .rv-tbl td { vertical-align: top; }
 .rv-tbl tr.is-sel td { background: var(--accent-dim); }
 .rv-pname { font-weight: 600; text-align: left; overflow-wrap: anywhere; }
@@ -114,7 +197,7 @@
 .rv-seg { display: inline-flex; gap: 2px; vertical-align: middle; margin-right: 6px; }
 .rv-seg i { width: 9px; height: 9px; border-radius: 2px; background: var(--line-strong); display: block; }
 .rv-seg i[data-state="succeeded"] { background: var(--ok); } .rv-seg i[data-state="warning"] { background: var(--warn); } .rv-seg i[data-state="failed"] { background: var(--err); }
-.rv-seg i[data-state="running"] { background: var(--accent); } .rv-seg i[data-state="skipped"] { background: transparent; border: 1px dashed var(--ink-4); }
+.rv-seg i[data-state="running"] { background: var(--accent); } .rv-seg i[data-state="skipped"], .rv-seg i[data-state="na"] { background: transparent; border: 1px dashed var(--ink-4); }
 .rv-segn { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
 .rv-flinks { display: inline-flex; gap: 10px; flex-wrap: wrap; }
 .rv-score { font-weight: 600; }
@@ -152,8 +235,9 @@
 
 /* responsive */
 @media (max-width: 1099.98px) {
-  .rv-main { grid-template-columns: minmax(0, 1fr); }
-  .rv-setup { position: fixed; top: 0; right: 0; bottom: 0; width: min(400px, 100vw); max-height: none; z-index: 40; border-radius: 0; box-shadow: -8px 0 24px rgba(0, 0, 0, .5); padding-bottom: 24px; }
+  .rv-main { grid-template-columns: minmax(0, 1fr); grid-template-areas: "split" "queue"; }
+  .rv-railcell { display: contents; }
+  .rv-setup { position: fixed; inset: 0 0 0 auto; width: min(400px, 100vw); height: auto; max-height: none; z-index: 40; border-radius: 0; box-shadow: -8px 0 24px rgba(0, 0, 0, .5); padding-bottom: 16px; }
   .page-rv[data-setup="closed"] .rv-setup { display: none; }
   .rv-setup-x { display: inline-grid; }
 }
@@ -180,5 +264,11 @@
 .rv-tracker .trk-step[data-state="succeeded"] .trk-node { box-shadow: inset 0 0 0 2px var(--ok); }
 .rv-tracker .trk-step[data-state="warning"] .trk-node { box-shadow: inset 0 0 0 2px var(--warn); }
 .rv-tracker .trk-step[data-state="failed"] .trk-node { box-shadow: inset 0 0 0 2px var(--err); }
-.rv-tracker .trk-step[data-state="skipped"] .trk-node { box-shadow: inset 0 0 0 2px var(--ink-4); }
+.rv-tracker .trk-step[data-state="skipped"] .trk-node, .rv-tracker .trk-step[data-state="na"] .trk-node { box-shadow: inset 0 0 0 2px var(--ink-4); }
+.rv-tracker .trk-step[data-state="na"] .trk-label { color: var(--ink-3); }
 .rv-tracker .trk-label { white-space: normal; overflow: visible; text-overflow: clip; text-align: center; line-height: 1.25; }
+
+/* v7: ten stages fit the strip (labels wrap inside their column; "na" stages are drawn as dashed, not as failures) */
+.rv-tracker .trk-step { padding-left: 2px; padding-right: 2px; }
+.rv-tracker .trk-label { font-size: 12.5px; }
+.rv-tracker { grid-template-columns: auto minmax(0, 1fr) minmax(120px, 200px) 90px; }

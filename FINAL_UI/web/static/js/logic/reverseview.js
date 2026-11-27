@@ -63,8 +63,7 @@
   function isActive(summary) { return summary === 'running' || summary === 'queued'; }
   function summaryLabel(s) { return SUMMARY[s] || 'Unknown'; }
 
-  /** Which stage list applies to this part: the legacy eight when its records use legacy-only keys, otherwise the job's stage_order (v7), else the v7 default
-      when its records use v7-only keys, else the legacy eight (an old job with nothing recorded yet). */
+  /** Which stage list applies to this part: the legacy eight when its records use legacy-only keys, otherwise the job's stage_order (v7), else the v7 default. */
   function resolveStages(part, job) {
     var keys = Object.keys((part && part.stages) || {});
     var st = part && part.state;
@@ -75,8 +74,7 @@
     if (job && Array.isArray(job.stage_order) && job.stage_order.length && !keys.some(function (k) { return job.stage_order.indexOf(k) < 0; })) {
       return job.stage_order.map(function (id) { return { id: id, label: known[id] || labels[id] || id }; });
     }
-    if (keys.some(function (k) { return V7_ONLY.indexOf(k) >= 0; }) || V7_ONLY.indexOf(st) >= 0) return STAGES_V7;
-    return STAGES;
+    return STAGES_V7;                         // the backend is v7: with nothing recorded yet the current vocabulary applies (only legacy records select the legacy eight)
   }
   /** Tracker nodes for one part: state is one of pending running succeeded warning failed skipped na (not applicable in this mode). Only real stage
       records count; no time guesses. A canceled part shows its interrupted stage as skipped, not failed. */

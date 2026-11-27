@@ -137,22 +137,22 @@ def make_part(job: state.Job, name: str, kind: str, job_dir: Path) -> state.Part
         if running:
             p.stages[running] = {"status": "running", "started": t, "warnings": [], "errors": []}
     if kind == "completed":
-        stages_to(8); p.state = "completed"; p.seconds = 52.0; p.coverage_pct = 100.0; p.started = t; p.ended = t
+        stages_to(len(STAGE_ORDER)); p.state = "completed"; p.seconds = 52.0; p.coverage_pct = 100.0; p.started = t; p.ended = t
         write_part_files(job_dir, p, issues=[], coverage={"covered": 12, "applicable": 12, "percent": 100.0, "by_status": {"covered": 12}, "excluded": [], "note": "Diagnostic only."})
         p.material = {"name": "Generic steel (fixture)"}
     elif kind == "review":
-        stages_to(8); p.stages["verification"]["status"] = "warning"; p.stages["verification"]["warnings"] = ["2 issues need review"]
+        stages_to(len(STAGE_ORDER)); p.stages["verification"]["status"] = "warning"; p.stages["verification"]["warnings"] = ["2 issues need review"]
         p.state = "review_required"; p.review_status = "required"; p.seconds = 61.5; p.coverage_pct = 91.7; p.started = t; p.ended = t
         write_part_files(job_dir, p, issues=ISSUES, pages=2)
         p.issues = json.loads((job_dir / pid / "active" / "qa.json").read_text())["issues"]
     elif kind == "processing":
-        stages_to(5, running="dimensioning"); p.state = "dimensioning"; p.started = t
+        stages_to(5, running=STAGE_ORDER[5]); p.state = STAGE_ORDER[5]; p.started = t
         write_part_files(job_dir, p, pdf=False, qa=False)
     elif kind == "stl_only":
-        stages_to(3, running="planning"); p.state = "planning"; p.started = t
+        stages_to(3, running=STAGE_ORDER[3]); p.state = STAGE_ORDER[3]; p.started = t
         write_part_files(job_dir, p, pdf=False, qa=False)
     elif kind == "failed":
-        stages_to(3); p.stages["planning"] = {"status": "failed", "started": t, "ended": t, "warnings": [], "errors": ["RuntimeError: view layout does not fit the sheet"], "seconds": 1.0}
+        stages_to(3); p.stages[STAGE_ORDER[3]] = {"status": "failed", "started": t, "ended": t, "warnings": [], "errors": ["RuntimeError: view layout does not fit the sheet"], "seconds": 1.0}
         p.state = "failed"; p.error = "RuntimeError: view layout does not fit the sheet"; p.started = t; p.ended = t; p.seconds = 12.0
         write_part_files(job_dir, p, pdf=False, qa=False)
     elif kind == "canceled":

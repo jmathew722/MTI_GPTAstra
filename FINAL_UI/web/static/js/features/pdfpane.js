@@ -72,7 +72,7 @@
       paper.width = paper.height = 0;
     }
     function message(kind, title, text, retry) {
-      wrap.hidden = kind === 'ready'; box.hidden = kind === 'ready';
+      wrap.hidden = kind !== 'ready'; box.hidden = kind === 'ready';
       box.replaceChildren();
       if (kind === 'ready') { labels(); return; }
       if (kind === 'loading') box.append(h('span', { class: 'rv-spin' }, icon('spinner', 24)), h('p', { class: 'empty-t', text: title || 'Loading...' }));

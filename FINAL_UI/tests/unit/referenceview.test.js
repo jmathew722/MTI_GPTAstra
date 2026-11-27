@@ -151,6 +151,6 @@ test('stage vocabulary: legacy eight, v7 order from the job, not_applicable is i
   assert.equal(R.stageCaption(v7), 'Native drawing (running)');
   const order = ['preflight', 'stl_export', 'verification', 'publish'];
   assert.deepEqual(R.stageStates({ state: 'queued', stages: {} }, { stage_order: order, stage_labels: { publish: 'Publish X' } }).map((x) => x.id), order);
-  assert.equal(R.stageStates({ state: 'queued', stages: {} }).length, 8, 'no job order and nothing recorded: the legacy eight');
+  assert.equal(R.stageStates({ state: 'queued', stages: {} }).length, 10, 'nothing recorded: the current (v7) vocabulary');
   ['reference_resolution', 'extraction', 'view_planning', 'native_drawing', 'dimensioning_layout', 'comparison_correction', 'stl_export', 'publish'].forEach((s) => assert.ok(R.partStateInfo(s).label !== 'Unknown', s));
 });

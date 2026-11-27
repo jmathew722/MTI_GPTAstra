@@ -13,11 +13,13 @@
   var S = {
     status: null, profiles: [], templates: [], defaultId: null, task: null, estimate: null, jobs: [], jobId: '', partId: '', job: null, loadErr: '', loading: false,
     picked: [], recursive: false, templateId: '', profile: 'us_third_angle_inch', config: '', submitting: false, setupOpen: true, resultsOpen: true, tab: 'overview',
-    events: [], eventsNext: 0, sessionJobs: [], notice: null, review: {}, artifacts: {}, logScope: 'part', overlay: false, inited: false, visible: false
+    events: [], eventsNext: 0, sessionJobs: [], notice: null, review: {}, artifacts: {}, logScope: 'part', overlay: false, inited: false, visible: false,
+    view: {}, sync: false, caps: null
   };
   var R = {};                     // element refs
+  var rail = null;                // McA.reverseRail (setup rail, reference flow, export)
   var timer = null, taskTimer = null, lastSummary = {}, guard = null;
-  var viewKey = '', loadedStl = '', loadedPdf = '', stlState = { status: 'empty', msg: '' }, pdfState = { status: 'empty', msg: '' };
+  var viewKey = '', loadedStl = '', loadedPdf = '', loadedSrc = '', stlState = { status: 'empty', msg: '' }, pdfState = { status: 'empty', msg: '' };
 
   /* ───────────────────────── API ───────────────────────── */
   function call(url, init) {
@@ -48,7 +50,14 @@
     submitFolder: function (o) { return call('/api/reverse/jobs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(o) }); },
     uploadTemplate: function (file) { var fd = new FormData(); fd.append('file', file, file.name); return call('/api/reverse/templates', { method: 'POST', body: fd }); },
     generateTemplate: function (key) { return call('/api/reverse/templates/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: key }) }); },
-    artifact: function (jobId, rel, bytes) { return call(fileURL(jobId, rel, bytes)); }
+    artifact: function (jobId, rel, bytes) { return call(fileURL(jobId, rel, bytes)); },
+    caps: function () { return call('/api/reverse/capabilities'); },
+    stage: function (fd) { return call('/api/reverse/stage', { method: 'POST', body: fd }); },
+    dropStage: function (id) { return call('/api/reverse/stage/' + enc(id), { method: 'DELETE' }); },
+    candidates: function (o) { return call('/api/reverse/reference/candidates', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(o) }); },
+    confirm: function (o) { return call('/api/reverse/reference/confirm', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(o) }); },
+    uploadReference: function (file) { var fd = new FormData(); fd.append('file', file, file.name); return call('/api/reverse/reference/upload', { method: 'POST', body: fd }); },
+    exportInfo: function (jobId, partId) { return call('/api/reverse/jobs/' + enc(jobId) + '/parts/' + enc(partId) + '/export'); }
   };
   function errText(e) { return (e && (e.detail || e.message)) || 'Something went wrong.'; }
   function announce(t) { var n = document.getElementById('status-live'); if (n) n.textContent = t; }
@@ -70,6 +79,8 @@
   function fmtBytes(n) { return McA.util && McA.util.fmtBytes ? McA.util.fmtBytes(n) : n + ' B'; }
   function fmtWhen(iso) { var d = new Date(iso); return isNaN(d) ? '' : d.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }); }
   function part() { return S.job && S.job.parts ? S.job.parts.filter(function (p) { return p.part_id === S.partId; })[0] || null : null; }
+  function renderSetup() { if (rail) rail.render(); }
+  function renderRunButtons() { if (rail) rail.renderRunButtons(); }
   function reasonBtn(btn, reason, reasonEl) {
     btn.disabled = !!reason; btn.title = reason || '';
     if (reasonEl) { reasonEl.textContent = reason || ''; reasonEl.hidden = !reason; }
@@ -79,6 +90,7 @@
   function loadStatic() {
     API.status().then(function (s) { S.status = s; renderHeader(); renderSetup(); }, function () { S.status = null; });
     API.profiles().then(function (r) { S.profiles = r.profiles || []; renderSetup(); }, function () { /* the select stays empty with a visible note */ renderSetup(); });
+    API.caps().then(function (c) { S.caps = c; renderSetup(); }, function () { S.caps = { reference: false, candidates: false, upload: false, confirm: false, export: true }; renderSetup(); });
     loadTemplates();
     refreshJobs();
   }
@@ -164,9 +176,9 @@
     setChip('rv-chip-runtime', j ? (V().runtimeText(j.parts) || 'Not measured yet') : '—');
     setChip('rv-chip-cost', j ? V().costText(j) : '—');
   }
-  var STATE_ICON = { succeeded: 'check', warning: 'warn', failed: 'x', skipped: 'dash' };
+  var STATE_ICON = { succeeded: 'check', warning: 'warn', failed: 'x', skipped: 'dash', na: 'dash' };
   function renderTracker() {
-    var p = part(), j = S.job, nodes = V().stageStates(p);
+    var p = part(), j = S.job, nodes = V().stageStates(p, j);
     R.steps.replaceChildren();
     nodes.forEach(function (n) {
       var li = h('li', { class: 'trk-step', 'data-stage': n.id, 'data-state': n.state }, h('span', { class: 'trk-node', 'aria-hidden': 'true' }, STATE_ICON[n.state] ? icon(STATE_ICON[n.state], 14) : null),
@@ -174,7 +186,7 @@
       if (n.errors.length || n.warnings.length) li.title = n.errors.concat(n.warnings).join('; ');
       R.steps.append(li);
     });
-    R.stage.textContent = p ? V().stageCaption(p) : (j ? 'No part selected' : 'Not started');
+    R.stage.textContent = p ? V().stageCaption(p, j) : (j ? 'No part selected' : 'Not started');
     var pc = j ? V().percent(j.progress, j.summary_state) : null;
     R.progText.textContent = j ? V().progressText(j.progress, j.summary_state) : '';
     R.bar.hidden = pc === null;
@@ -289,7 +301,7 @@
     lib.getDocument(url).promise.then(function (doc) {
       if (!guard.isCurrent(tokn) || viewKey !== key.split('#')[0]) { doc.destroy && doc.destroy(); return; }
       if (P.doc && P.doc.destroy) P.doc.destroy();
-      P.doc = doc; P.page = 1; P.zoom = 1; loadedPdf = key; setPdf('ready'); renderPage();
+      P.doc = doc; P.page = 1; P.zoom = 1; loadedPdf = key; setPdf('ready'); renderPage(); updateSyncBtn();
     }, function (e) { if (guard.isCurrent(tokn)) { loadedPdf = ''; setPdf('error', 'The PDF could not be read (' + ((e && e.message) || 'unknown error') + ').'); } });
   }
   function clearPdf() {
@@ -340,8 +352,9 @@
     var key = j && p ? j.job_id + '|' + p.part_id : '';
     var src = V().viewerSources(p);
     if (key !== viewKey) {
-      viewKey = key; guard.next(); loadedStl = ''; loadedPdf = '';
-      clear3d(); clearPdf(); stlState = { status: 'empty', msg: '' }; pdfState = { status: 'empty', msg: '' };
+      if (viewKey && S.view[viewKey] && R.srcPane.isReady()) S.view[viewKey].src = R.srcPane.getView();      // remember this part's source page / zoom, then reset everything
+      viewKey = key; guard.next(); loadedStl = ''; loadedPdf = ''; loadedSrc = '';
+      clear3d(); clearPdf(); R.srcPane.clear(); stlState = { status: 'empty', msg: '' }; pdfState = { status: 'empty', msg: '' };
     }
     var tokn = guard.current();
     var sk = V().viewerKey(j && j.job_id, p && p.part_id, src.stl), pk = V().viewerKey(j && j.job_id, p && p.part_id, src.pdf);
@@ -361,6 +374,7 @@
     if (src.pdf && pk !== loadedPdf && pdfState.status !== 'loading') loadPdf(fileURL(j.job_id, src.pdf.rel, src.pdf.bytes), tokn, key + '#' + pk);
     else if (!src.pdf && pdfState.status !== 'empty') setPdf('empty');
     else renderPdfOverlay();
+    syncLeft();
     // panel headers
     var prev = j && V().isPreviousRun(j, S.sessionJobs) && V().isTerminal(p ? p.state : '');
     R.stlBadges.replaceChildren.apply(R.stlBadges, [
@@ -369,8 +383,65 @@
     var ds = V().drawingStatus(p);
     R.pdfBadges.replaceChildren.apply(R.pdfBadges, [h('span', { class: 'badge-c rv-draft', 'data-tone': ds.tone, title: V().DRAFT_NOTICE }, icon(ds.tone === 'red' ? 'x' : 'info', 13), h('span', { text: ds.label })),
       prev && src.pdf ? h('span', { class: 'badge-c steel', text: 'Previous run' }) : null].filter(Boolean));
+    R.root.querySelector('#rv-gen-lbl').hidden = !src.pdf;
     R.pdfDl.href = src.pdf && j ? fileURL(j.job_id, src.pdf.rel) : '#';
     R.pdfDl.setAttribute('download', p ? p.part_id + '-drawing.pdf' : 'drawing.pdf');
+  }
+
+  /* ───────────────────────── left viewer: 3D model | source PDF ───────────────────────── */
+  function leftKey() { var j = S.job, p = part(); return j && p ? j.job_id + '|' + p.part_id : ''; }
+  function viewFor(key) { return S.view[key] || (S.view[key] = { mode: '3d', src: null }); }
+  function leftMode() { var k = leftKey(); return k && viewFor(k).mode === 'source' && McA.referenceview.sourceView(part()).available ? 'source' : '3d'; }
+  function setLeftMode(mode) {
+    var k = leftKey(); if (!k) return;
+    if (mode === 'source' && !McA.referenceview.sourceView(part()).available) return;
+    viewFor(k).mode = mode;
+    syncViewers(); T.resize = true;
+    var b = document.getElementById(mode === 'source' ? 'rv-left-src' : 'rv-left-3d'); if (b) b.focus();
+  }
+  /** Brings the left panel in line with the selected part + mode: which layer shows, which tools, which label, and (only when needed) loads the source PDF. */
+  function syncLeft() {
+    var F = McA.referenceview, p = part(), j = S.job, sv = F.sourceView(p), mode = leftMode(), key = leftKey();
+    var seg3 = document.getElementById('rv-left-3d'), segS = document.getElementById('rv-left-src');
+    seg3.className = mode === '3d' ? 'on' : ''; seg3.setAttribute('aria-pressed', String(mode === '3d'));
+    segS.className = mode === 'source' ? 'on' : ''; segS.setAttribute('aria-pressed', String(mode === 'source'));
+    segS.setAttribute('aria-disabled', sv.available ? 'false' : 'true');
+    segS.title = sv.available ? 'Show the original reference drawing (' + sv.filename + ')' : sv.reason;
+    R.stlLayer.hidden = mode === 'source'; R.srcLayer.hidden = mode !== 'source';
+    R.stlTools.hidden = mode === 'source'; R.stlBadges.hidden = mode === 'source'; R.srcTools.hidden = mode !== 'source';
+    R.leftTitle.textContent = mode === 'source' ? 'Source PDF (Original)' : '3D Model (STL)';
+    R.srcProv.hidden = mode !== 'source'; R.srcProv.textContent = mode === 'source' ? 'Original reference. ' + (sv.provenance || sv.filename || '') : '';
+    if (mode === 'source') {
+      var sk = sv.rel ? key + '|src|' + sv.rel + '|' + sv.bytes : '';
+      if (sk !== loadedSrc) { loadedSrc = sk; R.srcPane.load(fileURL(j.job_id, sv.rel, sv.bytes), sk, viewFor(key).src).then(function () { updateSyncBtn(); }); }
+    } else if (loadedSrc && !sv.available) { loadedSrc = ''; R.srcPane.clear(); }
+    updateSyncBtn();
+  }
+  function updateSyncBtn() {
+    if (!R.syncBtn) return;
+    var ok = R.srcPane.isReady() && !!P.doc, same = ok && R.srcPane.numPages() === P.doc.numPages;
+    var disabled = !ok || !same;
+    R.syncBtn.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+    R.syncBtn.setAttribute('aria-pressed', String(!!S.sync && !disabled));
+    R.syncBtn.title = !ok ? 'Both drawings must be loaded to synchronise them.' : !same ? 'The sheets do not correspond (' + R.srcPane.numPages() + ' source vs ' + P.doc.numPages + ' generated), so they are not synchronised.' : 'Keep page and zoom in step with the generated drawing';
+  }
+  function syncFromRight() { if (S.sync && R.srcPane.isReady() && P.doc && R.srcPane.numPages() === P.doc.numPages) R.srcPane.setView({ page: P.page, zoom: P.zoom }); }
+  function syncFromLeft(v) { if (S.sync && P.doc && R.srcPane.numPages() === P.doc.numPages) { P.page = Math.max(1, Math.min(P.doc.numPages, v.page)); P.zoom = v.zoom; renderPage(); } }
+
+  /** Reference-match verification (V7_CONTRACT 4): shown in the Verification tab only when the backend supplied it. */
+  function verificationBlock(wrap, p, j) {
+    var F = McA.referenceview, v = p.verification, info = F.verificationInfo(v);
+    wrap.append(h('h3', { class: 'sub-h', text: 'Reference and drawing verification' }));
+    wrap.append(h('div', { class: 'rv-card' }, h('span', { class: 'rv-st', 'data-state': info.tone === 'green' ? 'succeeded' : info.tone === 'red' ? 'failed' : info.tone === 'amber' ? 'warning' : 'pending' }, icon(info.icon, 13), info.label),
+      p.reference && p.reference.mode === 'match' ? h('p', { class: 'reason', text: F.refStatusInfo(p.reference).label + (p.reference.filename ? ': ' + p.reference.filename : '') }) : h('p', { class: 'reason', text: 'No reference drawing was used (Standard mode).' })));
+    var lines = F.verificationLines(v);
+    if (lines.length) wrap.append(h('dl', { class: 'rv-kv' }, lines.map(function (x) { return [h('dt', { text: x[0] }), h('dd', { text: x[1] })]; })));
+    var un = (v && v.coverage && v.coverage.unresolved) || [];
+    if (un.length) wrap.append(h('h3', { class: 'sub-h', text: 'Unresolved items (' + un.length + ')' }), kv(un));
+    var imgs = F.comparisonImages(p);
+    if (imgs.length) wrap.append(h('h3', { class: 'sub-h', text: 'Comparison with the source' }), h('div', { class: 'rv-cmp' }, imgs.map(function (x) {
+      return h('a', { class: 'rv-cmp-a', href: fileURL(j.job_id, x.rel, x.bytes), target: '_blank', rel: 'noopener', 'aria-label': 'Open comparison ' + x.name }, h('img', { src: fileURL(j.job_id, x.rel, x.bytes), alt: 'Comparison of the source and generated drawing: ' + x.name, loading: 'lazy', decoding: 'async' }), h('span', { class: 'reason', text: x.name }));
+    })));
   }
 
   /* ───────────────────────── queue (batch table) ───────────────────────── */
@@ -397,7 +468,7 @@
     var rej = (j.options && j.options.rejected) || [];
     if (rej.length) box.append(banner('warn', rej.length + ' file' + (rej.length === 1 ? ' was' : 's were') + ' not run: ' + rej.map(function (r) { return r.reason; }).join(' ')));
     var rows = j.parts.map(function (p) {
-      var info = V().partStateInfo(p.state), nodes = V().stageStates(p), done = nodes.filter(function (n) { return n.state === 'succeeded' || n.state === 'warning'; }).length;
+      var info = V().partStateInfo(p.state), nodes = V().stageStates(p, j), sp = V().stageProgress(nodes), done = sp.done;
       var open = V().openIssueCount(p.issues), files = (p.files || {});
       var links = [['drawing.pdf', 'PDF'], ['drawing.slddrw', 'SLDDRW'], ['model.stl', 'STL']].filter(function (x) { return files[x[0]]; }).map(function (x) {
         return h('a', { class: 'linkbtn rv-flink', href: fileURL(j.job_id, files[x[0]].url_path), download: p.part_id + '-' + x[0], 'aria-label': 'Download ' + x[1] + ' for ' + p.name, text: x[1] });
@@ -407,7 +478,7 @@
         h('td', null, h('button', { class: 'linkbtn rv-pname', type: 'button', 'aria-current': p.part_id === S.partId ? 'true' : null, title: 'Show this part in both viewers', text: p.name,
           onclick: function () { selectPart(p.part_id); } })),
         h('td', null, badge(info)),
-        h('td', null, h('span', { class: 'rv-seg', role: 'img', 'aria-label': done + ' of ' + nodes.length + ' stages done' }, nodes.map(function (n) { return h('i', { 'data-state': n.state }); })), h('span', { class: 'rv-segn', text: done + '/' + nodes.length })),
+        h('td', null, h('span', { class: 'rv-seg', role: 'img', 'aria-label': done + ' of ' + sp.total + ' stages done' }, nodes.map(function (n) { return h('i', { 'data-state': n.state }); })), h('span', { class: 'rv-segn', text: done + '/' + sp.total })),
         h('td', { class: 'num', text: typeof p.seconds === 'number' ? p.seconds + ' s' : '—' }),
         h('td', { class: 'num' }, sc === null ? h('span', { class: 'reason', text: 'not available' }) : h('span', { class: 'rv-score', style: 'color:' + McA.grade.colorOf(sc), title: McA.grade.gradeOf(sc).label, text: McA.grade.format(sc, 1) + '%' })),
         h('td', { text: p.state === 'queued' || !p.issues ? '—' : open ? open + ' open' : (p.issues.length ? 'All dispositioned' : 'None') }),
@@ -415,6 +486,7 @@
         h('td', null, h('div', { class: 'acts' },
           p.state === 'review_required' || (p.issues && p.issues.length) ? h('button', { class: 'btn secondary sm', type: 'button', text: 'Review', 'aria-label': 'Review ' + p.name, onclick: function () { selectPart(p.part_id); setTab('review'); } }) : null,
           (p.state === 'failed' || p.state === 'canceled') ? h('button', { class: 'btn secondary sm', type: 'button', text: 'Retry', disabled: active ? true : null, title: active ? 'Wait for the run to finish.' : '', 'aria-label': 'Retry ' + p.name, onclick: function () { doRetry([p.part_id]); } }) : null)));
+      if (p.reference && p.reference.mode === 'match') { var ri = McA.referenceview.refStatusInfo(p.reference); tr.firstChild.append(h('div', { class: 'rv-qref', 'data-tone': ri.tone }, icon(ri.icon, 12), h('span', { text: ri.label }))); }
       if (p.error) tr.firstChild.append(h('div', { class: 'rv-perr', role: 'note', text: p.error }));
       return tr;
     });
@@ -425,7 +497,7 @@
   function doRetry(ids) {
     API.retry(S.jobId, ids).then(function () { announce('Retry queued'); schedulePoll(); return selectJob(S.jobId, ''); }, function (e) { toast(errText(e), true); });
   }
-  function toast(msg, bad) { if (McA.toast && McA.toast.show) McA.toast.show(msg, bad ? 'error' : 'info'); else announce(msg); }
+  function toast(msg, kind) { var k = kind === true ? 'err' : (kind || 'info'); if (McA.toast && McA.toast.show) McA.toast.show(msg, k); else announce(msg); }
 
   /* ───────────────────────── results panel ───────────────────────── */
   function setTab(id) { S.tab = id; S.resultsOpen = true; renderResultsHead(); renderResults(); if (id === 'logs') pollEvents(); }
@@ -505,7 +577,7 @@
       h('div', { class: 'rv-card' }, h('span', { class: 'chip-k', text: 'Material' }), h('strong', { text: (p.material && p.material.name) || 'Not recorded' }))));
     wrap.append(h('p', { class: 'rv-note', role: 'note' }, icon('info', 14), h('span', { text: V().DRAFT_NOTICE + '. ' + V().QA_NOTE })));
     if (p.error) wrap.append(banner('err', p.error));
-    var nodes = V().stageStates(p);
+    var nodes = V().stageStates(p, j);
     wrap.append(h('h3', { class: 'sub-h', text: 'Stages' }), h('div', { class: 'tbl-wrap', tabindex: '0', role: 'region', 'aria-label': 'Table (scrolls sideways when narrow)' }, h('table', { class: 'tbl' }, h('caption', { class: 'sr-only', text: 'Stage results' }),
       h('thead', null, h('tr', null, ['Stage', 'Status', 'Seconds', 'Warnings and errors'].map(function (t) { return h('th', { scope: 'col', text: t }); }))),
       h('tbody', null, nodes.map(function (n) { return h('tr', null, h('td', { text: n.label }), h('td', null, h('span', { class: 'rv-st', 'data-state': n.state }, STATE_ICON[n.state] ? icon(STATE_ICON[n.state], 13) : null, V().stateWord(n.state))),
@@ -538,11 +610,12 @@
     wrap.append(items);
     return wrap;
   }
-  function tabVerification(p) {
+  function tabVerification(p, j) {
     var wrap = h('div', { class: 'rv-sec' });
-    var vs = V().stageStates(p).filter(function (n) { return n.id === 'verification' || n.id === 'publishing'; });
+    var vs = V().stageStates(p, j).filter(function (n) { return n.id === 'verification' || n.id === 'publishing' || n.id === 'publish'; });
     wrap.append(h('p', { class: 'rv-note', role: 'note' }, icon('info', 14), h('span', { text: V().QA_NOTE + ' Verification here means the drawing was checked by software; an engineer still reviews it.' })));
     wrap.append(h('div', { class: 'rv-ovg' }, vs.map(function (n) { return h('div', { class: 'rv-card' }, h('span', { class: 'chip-k', text: n.label }), h('span', { class: 'rv-st', 'data-state': n.state }, STATE_ICON[n.state] ? icon(STATE_ICON[n.state], 13) : null, V().stateWord(n.state)), h('p', { class: 'reason', text: n.errors.concat(n.warnings).join('; ') || (n.seconds === null ? '' : n.seconds + ' s') })); })));
+    verificationBlock(wrap, p, j);
     [['pdf_check.json', 'PDF check'], ['reopen_check.json', 'Reopen check'], ['stl_validation.json', 'STL validation']].forEach(function (x) {
       wrap.append(h('h3', { class: 'sub-h', text: x[1] }));
       fetchArtifact(x[0], function (d, err) {
@@ -622,146 +695,6 @@
     return card;
   }
 
-  /* ───────────────────────── setup panel ───────────────────────── */
-  function renderSetup() {
-    if (!R.setupBody) return;
-    var b = R.setupBody, keepScroll = R.setup.scrollTop;
-    b.replaceChildren();
-    /* template */
-    var running = S.task && S.task.state === 'running';
-    var tplBox = h('fieldset', { class: 'rv-fs' }, h('legend', { text: 'Drawing template' }));
-    if (S.tplErr) tplBox.append(banner('err', S.tplErr));
-    if (!S.templates.length && !S.tplErr) tplBox.append(h('p', { class: 'reason', text: 'No template is available yet. Generate the default template (it is validated in SOLIDWORKS).' }));
-    S.templates.forEach(function (t) {
-      var st = V().templateStatus(t), id = 'rv-tpl-' + t.id;
-      var radio = h('input', { type: 'radio', name: 'rv-tpl', id: id, value: t.id, disabled: t.available === false ? true : null, onchange: function () { S.templateId = t.id; renderSetup(); } });
-      radio.checked = S.templateId === t.id;
-      tplBox.append(h('div', { class: 'rv-tpl' + (S.templateId === t.id ? ' is-sel' : '') }, h('label', { class: 'chk rv-tpl-l', for: id }, radio, h('span', { class: 'rv-tpl-n', text: t.name || t.id })),
-        h('div', { class: 'rv-tpl-m' }, h('span', { class: 'badge-c', text: V().sourceWord(t.source) }), h('span', { class: 'badge-c rv-badge', 'data-tone': st.tone }, icon(st.icon, 13), h('span', { text: st.label })),
-          t.paper ? h('span', { class: 'reason', text: typeof t.paper === 'string' ? t.paper : (t.paper.paper_size !== undefined ? 'Paper ' + t.paper.paper_size : '') }) : null,
-          t.has_preview ? h('a', { class: 'linkbtn', href: '/api/reverse/templates/' + enc(t.id) + '/preview', target: '_blank', rel: 'noopener', text: 'Preview' }) : null),
-        t.validation && t.validation.errors && t.validation.errors.length ? h('p', { class: 'reason rv-tpl-err', text: t.validation.errors.join('; ') }) : null));
-    });
-    var up = h('input', { type: 'file', id: 'rv-tpl-file', class: 'dz-input', accept: '.drwdot', onchange: function () {
-      var f = up.files && up.files[0]; up.value = '';
-      if (!f) return;
-      if (!/\.drwdot$/i.test(f.name)) { S.tplErr = 'Only .drwdot templates are accepted.'; renderSetup(); return; }
-      S.tplErr = '';
-      API.uploadTemplate(f).then(function (r) { S.task = r.task; announce('Template validation started'); loadTemplates(); }, function (e) { S.tplErr = errText(e); renderSetup(); });
-    } });
-    var upLbl = h('label', { class: 'btn secondary sm' + (running ? ' is-disabled' : ''), for: 'rv-tpl-file', 'aria-disabled': running ? 'true' : 'false', title: running ? 'A template task is running.' : 'Upload a .drwdot template; SOLIDWORKS validates it' }, icon('upload', 14), 'Upload .drwdot');
-    if (running) up.disabled = true;
-    var gen = h('button', { class: 'btn secondary sm', type: 'button', disabled: running ? true : null, title: running ? 'A template task is running.' : 'Create the default ANSI B template in SOLIDWORKS (takes a few minutes)', onclick: function () {
-      S.tplErr = ''; API.generateTemplate('solidflow-ansi-b').then(function (r) { S.task = r.task; loadTemplates(); }, function (e) { S.tplErr = errText(e); renderSetup(); });
-    } }, icon('layers', 14), 'Generate default');
-    tplBox.append(h('div', { class: 'rv-row' }, up, upLbl, gen));
-    if (S.task) tplBox.append(h('p', { class: 'reason rv-task', role: 'status', 'data-state': S.task.state, text: S.task.state === 'running' ? (S.task.label || 'Working') + '... (uses the CAD worker; this can take several minutes)' : S.task.state === 'done' ? 'Template ready.' : 'Template task failed: ' + (S.task.error || 'unknown error') }));
-    else if (running) tplBox.append(h('p', { class: 'reason', text: 'A template task is running.' }));
-    b.append(tplBox);
-
-    /* parts */
-    var pk = h('fieldset', { class: 'rv-fs' }, h('legend', { text: 'Parts' }));
-    var fileIn = h('input', { type: 'file', id: 'rv-files', class: 'dz-input', multiple: true, accept: '.sldprt,.SLDPRT', onchange: function () { addPicked(Array.prototype.slice.call(fileIn.files), false); fileIn.value = ''; } });
-    var dirIn = h('input', { type: 'file', id: 'rv-dir', class: 'dz-input', multiple: true, webkitdirectory: true, onchange: function () { addPicked(Array.prototype.slice.call(dirIn.files), true); dirIn.value = ''; } });
-    pk.append(h('div', { class: 'rv-row' }, fileIn, dirIn,
-      h('label', { class: 'btn secondary sm', for: 'rv-files' }, icon('file-up', 14), 'Choose SLDPRT files'), h('label', { class: 'btn secondary sm', for: 'rv-dir' }, icon('folder-up', 14), 'Choose folder')));
-    var rec = h('input', { type: 'checkbox', id: 'rv-rec', onchange: function () { S.recursive = rec.checked; refilterPicked(); } }); rec.checked = S.recursive;
-    pk.append(h('label', { class: 'chk', for: 'rv-rec' }, rec, h('span', { text: 'Include subfolders (applies to a chosen folder)' })));
-    if (S.picked.length) {
-      pk.append(h('p', { class: 'reason', role: 'status', text: V().pickedSummary(S.picked, S.ignored || 0) }));
-      pk.append(h('ul', { class: 'rv-picked', 'aria-label': 'Selected parts' }, S.picked.map(function (it, idx) {
-        var cb = h('input', { type: 'checkbox', id: 'rv-pk-' + idx, onchange: function () { it.on = cb.checked; renderRunButtons(); } }); cb.checked = it.on !== false;
-        return h('li', null, h('label', { class: 'chk', for: 'rv-pk-' + idx }, cb, h('span', { class: 'rv-pk-n', title: it.rel || it.name, text: it.name })),
-          it.dup ? h('span', { class: 'badge-c warn', title: it.dup + ' files share this name; they run as separate parts', text: 'Duplicate name' }) : null,
-          h('button', { class: 'ibtn', type: 'button', 'aria-label': 'Remove ' + it.name, onclick: function () { S.picked.splice(idx, 1); S.picked = V().markDuplicates(S.picked); renderSetup(); } }, icon('x', 14)));
-      })));
-      pk.append(h('button', { class: 'btn ghost sm', type: 'button', text: 'Clear list', onclick: function () { S.picked = []; S.ignored = 0; renderSetup(); } }));
-    } else pk.append(h('p', { class: 'reason', text: S.ignored ? S.ignored + ' file(s) were ignored because they are not .SLDPRT parts.' : 'No parts chosen. A browser cannot read a folder path, so the chosen files are uploaded to the server (500 MB each).' }));
-    var sf = h('details', { class: 'rv-sf' }, h('summary', { text: 'Run a folder on the server' }));
-    var sfIn = h('input', { class: 'input-c', id: 'rv-sf-in', type: 'text', placeholder: 'Absolute path inside an authorized folder', 'aria-label': 'Server folder', autocomplete: 'off' });
-    var sfBtn = h('button', { class: 'btn secondary sm', type: 'button', text: 'Run folder', onclick: function () { runFolder(sfIn.value); } });
-    sfBtn.disabled = true; sfIn.addEventListener('input', function () { sfBtn.disabled = !sfIn.value.trim(); sfBtn.title = sfBtn.disabled ? 'Enter a folder path first.' : ''; }); sfBtn.title = 'Enter a folder path first.';
-    sf.append(h('p', { class: 'reason', text: 'Only folders the server operator authorized (SOLIDFLOW_REVERSE_ROOTS) are accepted; anything else is refused.' }), sfIn, sfBtn);
-    pk.append(sf);
-    b.append(pk);
-
-    /* run */
-    var run = h('div', { class: 'rv-run' });
-    R.estimateLine = h('p', { class: 'reason', id: 'rv-est' });
-    R.runSel = h('button', { class: 'btn gold', type: 'button', id: 'rv-run-sel', 'aria-describedby': 'rv-run-why', onclick: function () { runPicked(false); } }, icon('play', 16), 'Run selected');
-    R.runAll = h('button', { class: 'btn secondary', type: 'button', id: 'rv-run-all', 'aria-describedby': 'rv-run-why', onclick: function () { runPicked(true); } }, icon('play-all', 16), 'Run all');
-    R.runWhy = h('p', { class: 'reason', id: 'rv-run-why', role: 'status' });
-    run.append(R.estimateLine, h('div', { class: 'rv-row' }, R.runSel, R.runAll), R.runWhy);
-    b.append(run);
-    /* options */
-    var op = h('fieldset', { class: 'rv-fs' }, h('legend', { text: 'Options' }));
-    var cfg = h('input', { class: 'input-c', id: 'rv-cfg', type: 'text', maxlength: '80', placeholder: 'Active configuration', value: S.config, oninput: function () { S.config = cfg.value; } });
-    op.append(h('div', { class: 'fld' }, h('label', { for: 'rv-cfg', text: 'Configuration (blank = active saved one)' }), cfg));
-    var ps = h('select', { class: 'input-c', id: 'rv-prof', onchange: function () { S.profile = ps.value; renderSetup(); } });
-    if (!S.profiles.length) ps.append(h('option', { value: S.profile, text: 'Profiles unavailable' }));
-    S.profiles.forEach(function (p) { ps.append(h('option', { value: p.id, text: p.id.replace(/_/g, ' ') })); });
-    ps.value = S.profile;
-    var cur = S.profiles.filter(function (p) { return p.id === S.profile; })[0];
-    op.append(h('div', { class: 'fld' }, h('label', { for: 'rv-prof', text: 'Drawing profile' }), ps)); if (cur) op.append(h('p', { class: 'reason', text: cur.projection.replace(/_/g, ' ') + ' projection, ' + cur.units + ', ' + cur.paper }));
-    op.append(h('p', { class: 'reason', text: 'Output: each run is stored with the app data under outputs/3d-to-2d/<run>/<part>/. Download from the Files tab. Nothing is written into your part folder.' }));
-    b.append(op);
-
-    renderRunButtons();
-    R.setup.scrollTop = keepScroll;
-  }
-  function selectedPicked(all) { return S.picked.filter(function (i) { return all || i.on !== false; }); }
-  function renderRunButtons() {
-    if (!R.runSel) return;
-    var tpl = S.templates.filter(function (t) { return t.id === S.templateId; })[0];
-    var base = { templateId: S.templateId, templateReason: S.templateId ? V().templateBlock(tpl) : '', taskRunning: !!(S.task && S.task.state === 'running'), submitting: S.submitting };
-    var rs = V().runBlock(Object.assign({ count: selectedPicked(false).length }, base)), ra = V().runBlock(Object.assign({ count: S.picked.length }, base));
-    R.runSel.disabled = !!rs; R.runSel.title = rs; R.runAll.disabled = !!ra; R.runAll.title = ra;
-    R.runWhy.textContent = rs && ra ? rs : (rs && !ra ? 'Run selected: ' + rs : '');
-    R.runWhy.hidden = !R.runWhy.textContent;
-    var n = selectedPicked(false).length || S.picked.length || 1;
-    R.estimateLine.textContent = 'Estimated runtime for ' + n + ' part' + (n === 1 ? '' : 's') + ': ' + (S.estimate && S.estimateN === n ? V().estimateText(S.estimate) : 'checking...');
-    if (!(S.estimate && S.estimateN === n)) {
-      var want = n; API.estimate(n).then(function (e) { S.estimate = e; S.estimateN = want; renderRunButtons(); }, function () { S.estimate = null; S.estimateN = want; R.estimateLine.textContent = 'Estimated runtime: unavailable'; });
-    }
-  }
-  var raw = [];                          // everything chosen, before the recursive filter
-  function addPicked(files, fromFolder) {
-    files.forEach(function (f) { raw.push({ file: f, name: f.name, rel: fromFolder ? (f.webkitRelativePath || f.name) : '' }); });
-    refilterPicked();
-  }
-  function refilterPicked() {
-    var seen = {};
-    var ok = V().filterPicked(raw.map(function (r) { return { name: r.name, rel: r.rel, file: r.file }; }), S.recursive).filter(function (i) { var k = (i.rel || '') + '|' + i.name + '|' + (i.file && i.file.size) + '|' + (i.file && i.file.lastModified); if (seen[k]) return false; seen[k] = 1; return true; });
-    S.ignored = raw.filter(function (r) { return !V().isSldprt(r.name) || /^~\$/.test(r.name); }).length;
-    var prevOff = {}; S.picked.forEach(function (i) { if (i.on === false) prevOff[(i.rel || '') + '|' + i.name] = true; });
-    S.picked = V().markDuplicates(ok.map(function (i) { i.on = !prevOff[(i.rel || '') + '|' + i.name]; return i; }));
-    renderSetup();
-  }
-  function afterSubmit(r) {
-    S.submitting = false;
-    S.sessionJobs.push(r.job_id);
-    S.notice = r.rejected && r.rejected.length ? r.rejected.length + ' file(s) were not run: ' + r.rejected.map(function (x) { return x.reason; }).join(' ') : null;
-    raw = []; S.picked = []; S.ignored = 0;
-    announce('Run started with ' + r.parts.length + ' part(s)');
-    renderSetup();
-    S.jobId = ''; S.job = null;
-    return refreshJobs().then(function () { return selectJob(r.job_id, ''); });
-  }
-  function submitFail(e) { S.submitting = false; S.notice = null; S.submitErr = errText(e); renderSetup(); renderNotice(); }
-  function runPicked(all) {
-    var items = selectedPicked(all);
-    if (!items.length || S.submitting) return;
-    var fd = new FormData();
-    items.forEach(function (i) { fd.append('files', i.file, i.name); });
-    fd.append('template_id', S.templateId); fd.append('profile', S.profile); if (S.config.trim()) fd.append('config', S.config.trim());
-    S.submitting = true; S.submitErr = ''; renderRunButtons(); renderNotice();
-    API.submit(fd).then(afterSubmit, submitFail);
-  }
-  function runFolder(path) {
-    if (!path.trim() || S.submitting) return;
-    S.submitting = true; S.submitErr = ''; renderRunButtons();
-    API.submitFolder({ folder: path.trim(), recursive: S.recursive, template_id: S.templateId, profile: S.profile, config: S.config.trim() }).then(afterSubmit, submitFail);
-  }
   function renderNotice() {
     R.notice.replaceChildren();
     if (S.submitErr) R.notice.append(banner('err', S.submitErr));
@@ -772,10 +705,13 @@
   function renderAll() {
     if (!R.root) return;
     renderHeader(); renderTracker(); renderQueue(); renderResultsHead(); renderResults(); syncViewers(); renderNotice();
+    if (rail) rail.refreshExport();
+    fitRail();
     var empty_ = !S.jobs.length && !S.job && !S.loading;
     R.root.setAttribute('data-empty', empty_ ? 'true' : 'false');
     R.root.setAttribute('data-run-state', S.job ? S.job.summary_state : 'none');
     renderRunButtons();
+    if (rail) { rail.renderProvenance(); rail.renderRuntime(); }
   }
   function toolBtn(attrs, ic, label, fn) {
     return h('button', Object.assign({ class: 'ibtn', type: 'button', title: label, 'aria-label': label, onclick: fn }, attrs || {}), icon(ic, 18));
@@ -811,9 +747,21 @@
       toolBtn({ 'data-act': 'fit' }, 'fit', 'Fit to view', function () { if (T.mesh) { var d = T.camera.position.clone().sub(T.controls.target); moveCamera([d.x, d.y, d.z]); } }),
       toolBtn({ 'data-act': 'fullscreen', 'data-always': '' }, 'fullscreen', 'Fullscreen 3D', function () { fs(R.p3d); }));
     R.stlBadges = h('div', { class: 'vp-meta' });
+    R.srcPane = McA.pdfpane.create({ label: 'Source PDF', icon: icon, onView: function (v) { var k = leftKey(); if (k) viewFor(k).src = v; syncFromLeft(v); } });
+    R.syncBtn = h('button', { class: 'ibtn', type: 'button', id: 'rv-sync', title: 'Keep page and zoom in step with the generated drawing', 'aria-label': 'Synchronise page and zoom with the generated drawing', 'aria-pressed': 'false',
+      onclick: function () { if (R.syncBtn.getAttribute('aria-disabled') === 'true') return; S.sync = !S.sync; updateSyncBtn(); if (S.sync) syncFromRight(); } }, icon('refresh', 18));
+    R.srcTools = h('div', { class: 'vp-tools rv-src-tools', role: 'toolbar', 'aria-label': 'Source PDF tools', hidden: true }, R.srcPane.tools, R.syncBtn,
+      toolBtn({ 'data-always': '', id: 'rv-src-fs' }, 'fullscreen', 'Fullscreen source PDF', function () { fs(R.p3d); }));
+    R.leftTitle = h('h2', { id: 'rv-3d-t', text: '3D Model (STL)' });
+    R.leftSeg = h('div', { class: 'seg-c rv-leftseg', id: 'rv-left-seg', role: 'group', 'aria-label': 'Left viewer content' },
+      h('button', { type: 'button', id: 'rv-left-3d', class: 'on', 'aria-pressed': 'true', text: '3D Model', onclick: function () { setLeftMode('3d'); } }),
+      h('button', { type: 'button', id: 'rv-left-src', 'aria-pressed': 'false', 'aria-disabled': 'true', title: 'Select a part first.', text: 'Source PDF', onclick: function () { setLeftMode('source'); } }));
+    R.srcProv = h('p', { class: 'rv-prov-line', id: 'rv-src-prov', hidden: true });
+    R.stlLayer = h('div', { class: 'rv-leftlayer', id: 'rv-stl-layer' }, R.canvasWrap, R.stlEmpty);
+    R.srcLayer = h('div', { class: 'rv-leftlayer', id: 'rv-src-layer', hidden: true }, R.srcPane.el);
     R.p3d = h('section', { class: 'vpanel rv-panel', id: 'rv-3d', 'aria-labelledby': 'rv-3d-t' },
-      h('header', { class: 'vp-head' }, h('span', { class: 'vp-ic' }, icon('cube', 20)), h('h2', { id: 'rv-3d-t', text: '3D Model (STL)' }), R.stlBadges, R.stlTools),
-      h('div', { class: 'vp-body rv-stage' }, R.canvasWrap, R.stlEmpty));
+      h('header', { class: 'vp-head' }, h('span', { class: 'vp-ic' }, icon('cube', 20)), R.leftTitle, R.leftSeg, R.stlBadges, R.stlTools, R.srcTools),
+      R.srcProv, h('div', { class: 'vp-body rv-stage' }, R.stlLayer, R.srcLayer));
     R.canvasWrap.addEventListener('keydown', function (e) {
       if (!T.mesh) return;
       if (e.key === '+' || e.key === '=') { e.preventDefault(); dolly(0.8); } else if (e.key === '-') { e.preventDefault(); dolly(1.25); }
@@ -824,23 +772,26 @@
     R.pdfEmpty = h('div', { class: 'vp-empty rv-vempty' });
     R.overlayBox = h('div', { class: 'rv-overlay', hidden: true, 'aria-live': 'polite' });
     R.pageLbl = h('span', { class: 'rv-pagelbl', 'aria-live': 'polite' }); R.zoomLbl = h('span', { class: 'rv-zoomlbl' });
-    R.prevBtn = toolBtn({}, 'chevron-left', 'Previous sheet', function () { if (P.doc && P.page > 1) { P.page--; renderPage(); } });
-    R.nextBtn = toolBtn({}, 'chevron-right', 'Next sheet', function () { if (P.doc && P.page < P.doc.numPages) { P.page++; renderPage(); } });
+    R.prevBtn = toolBtn({}, 'chevron-left', 'Previous sheet', function () { if (P.doc && P.page > 1) { P.page--; renderPage(); syncFromRight(); } });
+    R.nextBtn = toolBtn({}, 'chevron-right', 'Next sheet', function () { if (P.doc && P.page < P.doc.numPages) { P.page++; renderPage(); syncFromRight(); } });
     R.pdfDl = h('a', { class: 'ibtn', href: '#', title: 'Download PDF', 'aria-label': 'Download PDF', 'aria-disabled': 'true', onclick: function (e) { if (R.pdfDl.getAttribute('aria-disabled') === 'true') e.preventDefault(); } }, icon('download', 18));
     R.pdfOverlayBtn = h('button', { class: 'ibtn', type: 'button', title: 'Show issues for this sheet next to the drawing (the PDF stays clean)', 'aria-label': 'Review overlay', 'aria-pressed': 'false', onclick: function () { S.overlay = !S.overlay; R.pdfOverlayBtn.setAttribute('aria-pressed', String(S.overlay)); renderOverlay(); } }, icon('mark', 18));
     R.pdfTools = h('div', { class: 'vp-tools', role: 'toolbar', 'aria-label': 'Drawing tools' }, R.prevBtn, R.pageLbl, R.nextBtn,
-      toolBtn({}, 'zoom-out', 'Zoom out', function () { P.zoom = Math.max(0.25, Math.round((P.zoom - 0.25) * 100) / 100); renderPage(); }), R.zoomLbl,
-      toolBtn({}, 'zoom-in', 'Zoom in', function () { P.zoom = Math.min(6, Math.round((P.zoom + 0.25) * 100) / 100); renderPage(); }),
-      toolBtn({}, 'fit', 'Fit sheet to view', function () { P.zoom = 1; renderPage(); }), R.pdfOverlayBtn, R.pdfDl,
+      toolBtn({}, 'zoom-out', 'Zoom out', function () { P.zoom = Math.max(0.25, Math.round((P.zoom - 0.25) * 100) / 100); renderPage(); syncFromRight(); }), R.zoomLbl,
+      toolBtn({}, 'zoom-in', 'Zoom in', function () { P.zoom = Math.min(6, Math.round((P.zoom + 0.25) * 100) / 100); renderPage(); syncFromRight(); }),
+      toolBtn({}, 'fit', 'Fit sheet to view', function () { P.zoom = 1; renderPage(); syncFromRight(); }), R.pdfOverlayBtn, R.pdfDl,
       toolBtn({ 'data-always': '' }, 'fullscreen', 'Fullscreen drawing', function () { fs(R.p2d); }));
     R.pdfBadges = h('div', { class: 'vp-meta' });
     R.p2d = h('section', { class: 'vpanel rv-panel', id: 'rv-2d', 'aria-labelledby': 'rv-2d-t' },
-      h('header', { class: 'vp-head' }, h('span', { class: 'vp-ic' }, icon('file', 20)), h('h2', { id: 'rv-2d-t', text: 'Drawing (PDF)' }), R.pdfBadges, R.pdfTools),
+      h('header', { class: 'vp-head' }, h('span', { class: 'vp-ic' }, icon('file', 20)), h('h2', { id: 'rv-2d-t', text: 'Drawing (PDF)' }), h('span', { class: 'badge-c steel rv-lbl', id: 'rv-gen-lbl', title: 'Generated by this run (not the original)', text: 'Generated' }), R.pdfBadges, R.pdfTools),
       h('div', { class: 'vp-body rv-sheetbody' }, R.paperWrap, R.pdfEmpty), R.overlayBox);
-    R.setupBody = h('div', { class: 'rv-setup-body' });
+    rail = McA.reverseRail;
+    var rp = rail.init({ S: S, R: R, API: API, errText: errText, toast: toast, announce: announce, banner: banner, part: part, loadTemplates: loadTemplates, refreshJobs: refreshJobs, selectJob: selectJob,
+      renderNotice: function () { renderNotice(); } });
     R.setup = h('aside', { class: 'rv-setup', id: 'rv-setup', 'aria-label': 'Setup and actions' },
-      h('div', { class: 'rv-setup-h' }, h('h2', { text: 'Setup' }), h('button', { class: 'ibtn rv-setup-x', type: 'button', 'aria-label': 'Close setup', onclick: function () { toggleSetup(false); } }, icon('x', 16))), R.setupBody);
-    R.root.append(h('div', { class: 'rv-main' }, h('div', { class: 'rv-split' }, R.p3d, R.p2d), R.setup), h('div', { class: 'rv-scrim', id: 'rv-scrim', hidden: true, onclick: function () { toggleSetup(false); } }));
+      h('div', { class: 'rv-setup-h' }, h('h2', { text: 'Setup' }), h('button', { class: 'ibtn rv-setup-x', type: 'button', 'aria-label': 'Close setup', onclick: function () { toggleSetup(false); } }, icon('x', 16))), rp.scroll, rp.foot, rp.inputs);
+    R.mainEl = h('div', { class: 'rv-main' }, h('div', { class: 'rv-split' }, R.p3d, R.p2d), h('div', { class: 'rv-railcell' }, R.setup));
+    R.root.append(R.mainEl, h('div', { class: 'rv-scrim', id: 'rv-scrim', hidden: true, onclick: function () { toggleSetup(false); } }));
     /* queue */
     R.jobSel = h('select', { class: 'input-c vp-sel rv-jobsel', 'aria-label': 'Run', onchange: function () { if (R.jobSel.value) selectJob(R.jobSel.value, ''); } });
     R.queueSummary = h('span', { class: 'rv-qsum', role: 'status' });
@@ -852,7 +803,7 @@
       });
     } }, icon('trash', 14), 'Delete run');
     R.queueBody = h('div', { class: 'rv-qbody' });
-    R.root.append(h('section', { class: 'rv-queue', 'aria-labelledby': 'rv-q-t' }, h('div', { class: 'rv-qhead' }, h('h2', { id: 'rv-q-t', text: 'Batch queue' }), R.jobSel, R.queueSummary,
+    R.mainEl.append(h('section', { class: 'rv-queue', id: 'rv-queue', 'aria-labelledby': 'rv-q-t' }, h('div', { class: 'rv-qhead' }, h('h2', { id: 'rv-q-t', text: 'Batch queue' }), R.jobSel, R.queueSummary,
       h('div', { class: 'rv-qacts' }, R.cancelBtn, R.retryAllBtn, R.deleteBtn)), R.queueBody));
     /* results */
     R.tabs = h('div', { class: 'rv-tabs', role: 'tablist', 'aria-label': 'Results' });
@@ -868,6 +819,20 @@
     T.camera.position.copy(T.controls.target).add(off);
   }
   function fs(el) { if (document.fullscreenElement) document.exitFullscreen(); else if (el.requestFullscreen) el.requestFullscreen().catch(function () { toast('Fullscreen is not available here.', true); }); }
+  /** Height of the part of the rail cell that is on screen (the rail is sticky inside it). Pure layout: never touches state. */
+  var fitQueued = false;
+  function fitRail() {
+    if (fitQueued) return;
+    fitQueued = true;
+    requestAnimationFrame(function () {
+      fitQueued = false;
+      var cell = R.setup && R.setup.parentNode; if (!cell || !cell.offsetParent) return;
+      var c = cell.getBoundingClientRect(), vh = window.innerHeight || document.documentElement.clientHeight;
+      var avail = Math.max(320, Math.min(c.height, vh - Math.max(c.top, 12) - 12));
+      var v = Math.round(avail) + 'px';
+      if (cell.style.getPropertyValue('--rv-rail-h') !== v) cell.style.setProperty('--rv-rail-h', v);
+    });
+  }
   function toggleSetup(open) {
     S.setupOpen = open === undefined ? !S.setupOpen : open;
     R.root.setAttribute('data-setup', S.setupOpen ? 'open' : 'closed');
@@ -877,6 +842,7 @@
     if (narrow && S.setupOpen) { var f = R.setup.querySelector('input,button,select'); if (f) f.focus(); }
     if (!S.setupOpen) { var b = document.getElementById('rv-setup-btn'); if (b && document.activeElement && R.setup.contains(document.activeElement)) b.focus(); }
     T.resize = true; if (P.doc) setTimeout(renderPage, 50);
+    fitRail();
   }
 
   /* ───────────────────────── Projects / Recent Files ───────────────────────── */
@@ -930,10 +896,13 @@
       S.setupOpen = !narrow; toggleSetup(S.setupOpen);
       window.matchMedia('(max-width: 1099.98px)').addEventListener('change', function (m) { S.setupOpen = !m.matches; toggleSetup(S.setupOpen); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && S.visible && window.matchMedia('(max-width: 1099.98px)').matches && S.setupOpen && !McA.dialog.isOpen()) { toggleSetup(false); document.getElementById('rv-setup-btn').focus(); } });
-      renderAll(); renderSetup(); renderResultsHead(); renderPdfOverlay(); renderStlOverlay();
+      renderAll(); renderSetup(); renderResultsHead(); renderPdfOverlay(); renderStlOverlay(); rail.renderExport();
       window.addEventListener('hashchange', function () { setTimeout(renderLists, 0); });
       setTimeout(renderLists, 0);
       window.addEventListener('resize', McA.util.debounce(function () { if (S.visible && P.doc) renderPage(); }, 150));
+      window.addEventListener('resize', fitRail);
+      var scroller = document.getElementById('main'); if (scroller) scroller.addEventListener('scroll', fitRail, { passive: true });
+      if (typeof ResizeObserver !== 'undefined') new ResizeObserver(fitRail).observe(R.setup.parentNode);
     },
     enter: function (params) {
       S.visible = true;

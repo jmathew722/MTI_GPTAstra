@@ -16,7 +16,7 @@ test('stage tracker maps real stage records only (no time guesses)', () => {
   assert.deepEqual(n.map((x) => x.state), ['succeeded', 'succeeded', 'warning', 'succeeded', 'succeeded', 'running', 'pending', 'pending']);
   assert.equal(R.stageCaption(part), 'Dimensions (running)');
   assert.ok(n.every((x) => R.stateWord(x.state)));
-  assert.deepEqual(R.stageStates(null).map((x) => x.state), Array(8).fill('pending'));
+  assert.deepEqual(R.stageStates(null).map((x) => x.state), Array(10).fill('pending'));
   assert.equal(R.stageCaption({ state: 'queued', stages: {} }), 'Waiting in the queue');
 });
 
