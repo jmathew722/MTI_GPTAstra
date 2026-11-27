@@ -93,12 +93,12 @@
       else if (k.slice(0, 2) === 'on' && typeof v === 'function') el.addEventListener(k.slice(2), v);
       else el.setAttribute(k, v === true ? '' : v);
     });
-    for (var i = 2; i < arguments.length; i++) {
-      var c = arguments[i];
-      if (c == null || c === false) continue;
-      if (Array.isArray(c)) c.forEach(function (x) { if (x != null) el.append(x); });
+    function add(c) {
+      if (c == null || c === false) return;
+      if (Array.isArray(c)) c.forEach(add);            /* nested arrays (e.g. [dt, dd] pairs) are flattened, never printed as "[object HTMLElement]" */
       else el.append(c);
     }
+    for (var i = 2; i < arguments.length; i++) add(arguments[i]);
     return el;
   }
   var persist = {

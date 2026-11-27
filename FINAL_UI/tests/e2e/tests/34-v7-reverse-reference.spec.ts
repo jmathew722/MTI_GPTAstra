@@ -25,10 +25,15 @@ test.beforeAll(() => {
   execFileSync(process.env.PYTHON || 'python', [path.resolve(__dirname, '../helpers/make_v7_fixture.py'), DATA, 'reset'], { encoding: 'utf-8', env: { ...process.env, PYTHONUTF8: '1' } });
 });
 
-async function open(page: Page, job: string, partId = '', w = 1440, h = 900, o: { zoom?: number; rail?: boolean } = {}) {
+// 100% zoom uses Playwright's own viewport (screenshots keep their size); other zooms use CDP device metrics (CSS viewport = size / zoom,
+// deviceScaleFactor = zoom), which is what browser zoom does to layout. A screenshot drops a CDP override, so evidence shots are taken at zoom 1.
+async function open(page: Page, job: string, partId = '', w = 1440, h = 900, o: { zoom?: number; rail?: boolean; cdp?: boolean } = {}) {
   const zoom = o.zoom || 1;
-  const cdp = await page.context().newCDPSession(page);
-  await cdp.send('Emulation.setDeviceMetricsOverride', { width: Math.round(w / zoom), height: Math.round(h / zoom), deviceScaleFactor: zoom, mobile: false });
+  if (zoom === 1 && !o.cdp) await page.setViewportSize({ width: w, height: h });
+  else {
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send('Emulation.setDeviceMetricsOverride', { width: Math.round(w / zoom), height: Math.round(h / zoom), deviceScaleFactor: zoom, mobile: false });
+  }
   await page.goto('about:blank');
   await page.goto(`/#/reverse${job ? '?job=' + job + (partId ? '&part=' + partId : '') : ''}`);
   await page.waitForFunction(() => !!(window as any).McA && !!(window as any).McA.pages.reverse);
@@ -54,7 +59,7 @@ test.describe('v7: layout', () => {
     const sizes: Array<[number, number]> = [[1280, 720], [1440, 900], [1920, 1080], [2560, 1100]];
     const seen: string[] = [];
     for (const [w, h] of sizes) for (const zoom of [0.8, 1, 1.25]) for (const rail of [false, true]) {
-      await open(page, J1, 'flange', w, h, { zoom, rail });
+      await open(page, J1, 'flange', w, h, { zoom, rail, cdp: true });
       const m = await page.evaluate(() => {
         const r = (s: string) => { const e = document.querySelector(s) as HTMLElement | null; if (!e) return null; const b = e.getBoundingClientRect(); return { top: b.top, bottom: b.bottom, left: b.left, right: b.right, h: b.height }; };
         return { p3d: r('#rv-3d'), p2d: r('#rv-2d'), queue: r('#rv-queue'), rail: r('#rv-setup'), run: r('#rv-run-sel'), exp: r('#rv-export'), docW: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
@@ -349,7 +354,7 @@ test.describe('v7: export', () => {
     // flange: verified draft, both artifacts: everything enabled, no acknowledgement control
     await expect(page.locator('#rv-exp-status')).toContainText('Draft: for review (not approved for manufacture)');
     expect(await states()).toEqual([true, true, true]); await expect(page.locator('#rv-exp-ack')).toHaveCount(0);
-    for (const [k, l] of [['slddrw', 'Download SLDDRW'], ['pdf', 'Download PDF'], ['zip', 'Download both (ZIP)']]) await expect(page.locator(`#rv-exp-${k}`)).toHaveAttribute('title', new RegExp(l));
+    for (const [k, l] of [['slddrw', 'Download SLDDRW'], ['pdf', 'Download PDF'], ['zip', 'Download both (ZIP)']]) expect(await page.locator(`#rv-exp-${k}`).getAttribute('title')).toContain(l);
     // bracket: review required: disabled until the explicit acknowledgement; reasons are visible
     await sel(page, 'bracket');
     await expect(page.locator('#rv-exp-status')).toContainText('Draft: review required');
@@ -443,12 +448,12 @@ test.describe('v7: left viewer toggle', () => {
     const painted = (sel_: string) => page.evaluate((s) => { const c = document.querySelector(s) as HTMLCanvasElement; if (!c || !c.width) return false; const d = c.getContext('2d')!.getImageData(0, 0, c.width, c.height).data; let dark = 0; for (let i = 0; i < d.length; i += 4 * 5) if (d[i] < 120) dark++; return dark > 5; }, sel_);
     expect(await painted('#rv-src-layer canvas.rv-paper')).toBe(true); expect(await painted('#rv-2d canvas.rv-paper')).toBe(true);
     // pages, zoom, fit
-    await page.locator('#rv-3d button[aria-label^="Next page"]').click(); await expect(page.locator('#rv-3d .rv-pagelbl')).toHaveText('Page 2 of 2');
-    await page.locator('#rv-3d button[aria-label^="Zoom in"]').click(); await expect(page.locator('#rv-3d .rv-zoomlbl')).toHaveText('125%');
-    await page.locator('#rv-3d button[aria-label^="Fit"]').click(); await expect(page.locator('#rv-3d .rv-zoomlbl')).toHaveText('100%');
+    await page.locator('#rv-3d .rv-src-tools button[aria-label^="Next page"]').click(); await expect(page.locator('#rv-3d .rv-pagelbl')).toHaveText('Page 2 of 2');
+    await page.locator('#rv-3d .rv-src-tools button[aria-label^="Zoom in"]').click(); await expect(page.locator('#rv-3d .rv-zoomlbl')).toHaveText('125%');
+    await page.locator('#rv-3d .rv-src-tools button[aria-label^="Fit"]').click(); await expect(page.locator('#rv-3d .rv-zoomlbl')).toHaveText('100%');
     await expect(page.locator('#rv-2d .rv-pagelbl')).toHaveText('Sheet 1 of 1');                  // the right viewer did not move
     // pan: drag a zoomed sheet
-    await page.locator('#rv-3d button[aria-label^="Zoom in"]').click(); await page.locator('#rv-3d button[aria-label^="Zoom in"]').click(); await page.locator('#rv-3d button[aria-label^="Zoom in"]').click();
+    await page.locator('#rv-3d .rv-src-tools button[aria-label^="Zoom in"]').click(); await page.locator('#rv-3d .rv-src-tools button[aria-label^="Zoom in"]').click(); await page.locator('#rv-3d .rv-src-tools button[aria-label^="Zoom in"]').click();
     const wrap = page.locator('#rv-src-layer .rv-paperwrap'); const bb = (await wrap.boundingBox())!;
     const before = await wrap.evaluate((e) => [e.scrollLeft, e.scrollTop]);
     await page.mouse.move(bb.x + bb.width / 2, bb.y + bb.height / 2); await page.mouse.down(); await page.mouse.move(bb.x + bb.width / 2 - 60, bb.y + bb.height / 2 - 40, { steps: 4 }); await page.mouse.up();
@@ -483,8 +488,8 @@ test.describe('v7: left viewer toggle', () => {
   test('126 view state is kept per part and mode: switching part resets the viewers (no stale sheet), returning restores that part\'s mode, page and zoom', async ({ page }) => {
     await open(page, J1, 'flange'); await pdfReady(page);
     await page.locator('#rv-left-src').click(); await srcReady(page);
-    await page.locator('#rv-3d button[aria-label^="Next page"]').click(); await expect(page.locator('#rv-3d .rv-pagelbl')).toHaveText('Page 2 of 2');
-    await page.locator('#rv-3d button[aria-label^="Zoom in"]').click();
+    await page.locator('#rv-3d .rv-src-tools button[aria-label^="Next page"]').click(); await expect(page.locator('#rv-3d .rv-pagelbl')).toHaveText('Page 2 of 2');
+    await page.locator('#rv-3d .rv-src-tools button[aria-label^="Zoom in"]').click();
     await sel(page, 'bracket');
     await expect(page.locator('#rv-3d-t')).toHaveText('3D Model (STL)');                          // bracket has its own (default) mode
     await page.locator('#rv-left-src').click(); await srcReady(page);
@@ -507,7 +512,7 @@ test.describe('v7: left viewer toggle', () => {
     await expect(page.locator('#rv-sync')).toHaveAttribute('aria-disabled', 'false');
     await page.locator('#rv-sync').click(); await expect(page.locator('#rv-sync')).toHaveAttribute('aria-pressed', 'true');
     await page.locator('#rv-2d button[aria-label="Zoom in"]').click(); await expect(page.locator('#rv-3d .rv-zoomlbl')).toHaveText('125%');     // right drives left
-    await page.locator('#rv-3d button[aria-label^="Zoom in"]').click(); await expect(page.locator('#rv-2d .rv-zoomlbl')).toHaveText('150%');       // left drives right
+    await page.locator('#rv-3d .rv-src-tools button[aria-label^="Zoom in"]').click(); await expect(page.locator('#rv-2d .rv-zoomlbl')).toHaveText('150%');       // left drives right
     await page.locator('#rv-sync').click(); await expect(page.locator('#rv-sync')).toHaveAttribute('aria-pressed', 'false');
     await page.locator('#rv-2d button[aria-label="Fit sheet to view"]').click(); await expect(page.locator('#rv-3d .rv-zoomlbl')).toHaveText('150%');  // independent again
   });
@@ -538,11 +543,11 @@ test.describe('v7: stages, keyboard and accessibility', () => {
     await sel(page, 'cover'); await expect(page.locator('.rv-tracker .trk-step[data-state="failed"]')).toHaveCount(1);
     await expect(page.locator('.rv-tracker .trk-stage')).toContainText('Reference failed');
     await open(page, J1, 'bracket'); await page.locator('#rv-tab-verification').click();
-    await expect(page.locator('#rv-results-body')).toContainText('Review required'); await expect(page.locator('#rv-results-body')).toContainText('9 of 10 (1 unresolved)');
+    await expect(page.locator('#rv-results-body')).toContainText('Review required'); await expect(page.locator('#rv-results-body')).toContainText('9 of 10 (1 unresolved)'); expect(await page.locator('#rv-results-body').innerText()).not.toContain('[object');
     await expect(page.locator('#rv-results-body')).toContainText('R12 not found in the model'); await expect(page.locator('#rv-results-body')).toContainText('Correction passes'); await expect(page.locator('.rv-cmp img')).toHaveCount(1);
   });
 
-  test('130 keyboard and ARIA: radiogroups with arrow keys, labelled controls, visible focus, Escape closes the drawer rail at narrow widths, no axe serious violations', async ({ page }) => {
+  test('130 keyboard and ARIA: radiogroups with arrow keys, labelled controls, visible focus, no axe serious violations', async ({ page }) => {
     await open(page, J1, 'flange');
     for (const k of ['tpl', 'ref', 'adv', 'rt', 'prov']) await openAcc(page, k);
     // ref radiogroups
@@ -568,11 +573,17 @@ test.describe('v7: stages, keyboard and accessibility', () => {
     const res = await new AxeBuilder({ page }).include('#page-reverse').analyze();
     const serious = res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
     expect(serious.map((v) => v.id + ': ' + v.nodes.slice(0, 2).map((n) => n.target.join(' ')).join(' | '))).toEqual([]);
+  });
+
+  test('131 narrow widths: the rail is a drawer with Run and Export inside it; Escape closes it and focus returns to Setup', async ({ page }) => {
     // narrow: the rail is a drawer, Escape closes it and focus returns to Setup
     await open(page, J1, 'flange', 1000, 800);
     await page.locator('#rv-setup-btn').click(); await expect(page.locator('#rv-setup')).toBeVisible();
     await expect(page.locator('#rv-run-sel')).toBeVisible(); await expect(page.locator('#rv-export')).toBeVisible();
     await shot(page, 'after-narrow-rail-1000x800.png');
+    // (a screenshot briefly resizes the emulated viewport, which can flip the rail's media-query state: open it again before testing Escape)
+    if (!(await page.locator('#rv-setup').isVisible())) await page.locator('#rv-setup-btn').click();
+    await expect(page.locator('#rv-setup')).toBeVisible();
     await page.keyboard.press('Escape'); await expect(page.locator('#rv-setup')).toBeHidden(); await expect(page.locator('#rv-setup-btn')).toBeFocused();
   });
 });

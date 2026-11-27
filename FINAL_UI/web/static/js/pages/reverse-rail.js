@@ -139,7 +139,7 @@
           var k = e.key, n = k === 'ArrowRight' || k === 'ArrowDown' ? i + 1 : k === 'ArrowLeft' || k === 'ArrowUp' ? i - 1 : -1;
           if (n < 0) return; e.preventDefault();
           for (var t = 0; t < items.length; t++) { n = (n + items.length) % items.length; if (!items[n].disabled) break; n += (k === 'ArrowRight' || k === 'ArrowDown') ? 1 : -1; }
-          if (!items[n].disabled) onPick(items[n].value);
+          if (!items[n].disabled) { onPick(items[n].value); var nb = $(id + '-' + items[n].value); if (nb) nb.focus(); }      /* focus follows the selection (radio group behaviour) */
         }, text: it.label });
       wrap.append(b);
     });
@@ -166,8 +166,8 @@
       if (S.stageErr) body.push(C.banner('err', S.stageErr));
       if (!rows.length) body.push(note('Choose parts to find their reference drawings.'));
       else body.push(h('ul', { class: 'rv-rrows', 'aria-label': 'Reference per part' }, rows.map(rowNode)));
-      body.push(provenanceNode());
     }
+    body.push(provenanceNode());
     var sum = match ? F().referenceLine({ mode: 'match', rows: rows }) : 'Standard';
     var sec = accordion('ref', 'Reference drawing', sum, body);
     return sec;

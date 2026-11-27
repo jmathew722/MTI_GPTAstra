@@ -195,3 +195,11 @@ Expanded Workspace "Pipeline Results" drawer looked like a shallow strip over a 
 ### 2026-11-26: Workspace collapsibles (v6)
 
 Material Selection (inside Part Setup) and Runtime & cost (under Pipeline Actions) are now collapsed-by-default accordions with one-line summaries (`logic/collapsibles.js`, `ui/accordions.js`, `.msec-*` in `workspace.css`). The Pipeline Results drawer always starts closed (the persisted open flag is no longer restored, a finished run no longer opens it) and, until the user drags the handle, opens to the space the viewers can spare (`DS.autoHeight`). New spec `33-v6-workspace-collapsibles`, unit tests `collapsibles.test.js`. Report: `docs/verification/v6/WORKSPACE_REPORT.md`.
+
+### 2026-11-27: 3D -> 2D reference upgrade, UI half (v7)
+
+Setup rail rebuilt (`pages/reverse-rail.js`): Drawing template (selected + Change), Part selection, Reference drawing (Standard | Match reference; Auto-find / Upload PDF / Select saved source; per-part rows with
+explicit upload, confirm and Standard choices), Advanced settings, Runtime and cost (OpenAI vs local CAD time), Run controls and Export (SLDDRW, PDF, ZIP) pinned at the bottom. Left viewer has a `3D Model | Source PDF`
+toggle (`features/pdfpane.js`). The batch queue now sits one 12px gap under the viewers: the rail used to be the tallest grid item and made the row taller than the viewers; it is now a sticky, size-contained
+cell that scrolls itself. Server: `server/reverse_v7.py` (capabilities, stage, candidates, confirm, reference upload, run/part/artifact-bound export downloads). Pure logic: `logic/referenceview.js`. Tests: `tests/server/test_v7_reverse.py`,
+`tests/unit/referenceview.test.js`, browser `34-v7-reverse-reference` (`tests/e2e/run_v7_all.sh`). Report: `docs/verification/v7/WORKSPACE_V7_REPORT.md`.
