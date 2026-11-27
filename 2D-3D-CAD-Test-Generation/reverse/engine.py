@@ -9,7 +9,9 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import shutil
+import statistics
 import time
 from pathlib import Path
 from typing import Callable, Optional
@@ -91,6 +93,17 @@ class PartRunner:
         self.s, self.store, self.job, self.part, self.template = session, store, job, part, template
         self.refs = refs
         self.ref_ex: Optional[dict] = None
+        self.ref_pages: list = []
+        self.replicating = False
+        self.frame = None
+        self.note_recs: list = []
+        self.source_notes: set = set()
+        self.note_text_ids: set = set()
+        self.sheet_segments: list = []
+        self.displacements: list = []
+        self.rep_state: dict = {}
+        self.replication: dict = {}
+        self.spec: Optional[dict] = None
         self.ref_pdf: Optional[Path] = None
         self.ref_sha = ""
         self.ref_applied = False
@@ -295,7 +308,7 @@ class PartRunner:
         # ---- 4 planning
         def plan_stage():
             self.plan = refrun.plan_with_reference(self)
-            self.extra = extra_views_needed(self.inv, self.plan)
+            self.extra = [] if self.plan.get("replication") else extra_views_needed(self.inv, self.plan)       # replication: only the source's views
             self.plan["extra_views"] = self.extra
             for ev in self.extra:
                 if not ev["fits"]:
@@ -305,6 +318,8 @@ class PartRunner:
                 self.issues.append(qa.issue("high", "NO_SCALE_FITS", "No standard scale fits the views on this sheet.", part_id=p.part_id, next_action="Choose a larger sheet profile."))
             _write_json(self.stage_dir / "drawing_plan.json", self.plan)
         self._stage("view_planning", plan_stage)
+        from reverse import replicate
+        self.replicating = bool(self.ref_applied and replicate.active(self) and (self.plan.get("replication") is not None))
 
         # ---- 5 drawing
         dd = drawing.DrawingDoc(self.s, copy, self.plan, Path(self.template["path"]), units=self.plan["units"], config=self.config_used,
@@ -312,6 +327,10 @@ class PartRunner:
         try:
             def draw_stage():
                 dd.create()
+                if self.plan.get("replication") and self.sheet_segments:
+                    # BEFORE any view exists: with a view active a sketch is created in the VIEW's frame (scaled and offset), not on the sheet
+                    n_lines = dd.sheet_lines(self.sheet_segments)
+                    p.stages["native_drawing"]["sheet_geometry"] = {"segments_drawn": n_lines, "segments_planned": len(self.sheet_segments), **self.sheet_seg_report}
                 import datetime
                 nsp = "NOT SPECIFIED"
                 mat = self.material.get("name") if self.material.get("status") == "assigned" else None
@@ -323,7 +342,6 @@ class PartRunner:
                     "SF_Status": "PRELIMINARY / FOR REVIEW", "SF_DrawnBy": nsp, "SF_CheckedBy": nsp, "SF_Date": datetime.date.today().isoformat(),
                     "SF_Source": self.src.name, "SF_Config": self.config_used})
                 p.stages["native_drawing"]["warnings"] += perrs
-                dd.set_sheet_scale()
                 outlines = dd.build_plan_views([e for e in self.extra if e["fits"]])
                 self.outlines = outlines
                 # real view outlines must not overlap each other (hard fail, not silently accepted)
@@ -338,9 +356,10 @@ class PartRunner:
                 for k, r in rects.items():
                     if r.overlaps(reg["title_block"]) or r.overlaps(reg["notes"]):
                         self.issues.append(qa.issue("high", "VIEW_IN_TITLE_BLOCK", f"View {k} intrudes into the title block or notes area.", part_id=p.part_id))
+                dd.set_sheet_scale()          # AFTER the views exist: creating a view resets the sheet scale (title block SCALE field)
                 base = self.plan["scale"]["num"] / self.plan["scale"]["den"]
                 self.secs = []
-                if self.job.options.get("sections", True):
+                if self.job.options.get("sections", True) and not self.plan.get("replication"):
                     placed = dict(rects)
                     self.secs = section_views.create_sections(dd, self.inv, self.plan, placed, self.issues, p.part_id)
                     for s_ in self.secs:
@@ -389,7 +408,10 @@ class PartRunner:
                 for bid in blk["failed"]:
                     self.issues.append(qa.issue("medium", "ANNOTATION_NOT_BLACK", f"Annotation {bid} was not black.", part_id=p.part_id))
                 self.inv_before_layout = self.std.inventory()
-                self.carried = refrun.add_reference_notes(self, dd) if self.ref_applied else set()
+                if self.replicating:
+                    self.carried = refrun.place_source_notes(self, dd, self.std)
+                else:
+                    self.carried = refrun.add_reference_notes(self, dd) if self.ref_applied else set()
                 self.layout_rep = refrun.layout_loop(self, dd, self.std)
                 _write_json(self.stage_dir / "layout_report.json", self.layout_rep)
                 for c in self.layout_rep.get("unresolved", []):
@@ -400,7 +422,7 @@ class PartRunner:
 
             # ---- 7 comparison + bounded correction (reference mode only)
             if self.ref_applied:
-                self._stage("comparison_correction", lambda: self._comparison(dd))
+                self._stage("comparison_correction", (lambda: self._replication(dd)) if self.replicating else (lambda: self._comparison(dd)))
             else:
                 state.mark_not_applicable(p, "comparison_correction", "Standard mode: nothing to compare against" if p.reference.get("mode") != "match" else
                                           "No reference was applied to this part")
@@ -425,7 +447,9 @@ class PartRunner:
                                                     next_action="Print is monochrome: review line colours."))
                 _write_json(self.stage_dir / "pdf_check.json", {k: v for k, v in pdfq.items() if k != "previews"} | {"previews": pdfq["previews"]})
                 self._final_measure(dd, self.stage_dir / "drawing.pdf")
-                self._reopen_check(self.stage_dir / "drawing.slddrw", copy)
+                self.reopen_info = self._reopen_check(self.stage_dir / "drawing.slddrw", copy)
+                if self.replicating:
+                    self._replication_report(dd, self.stage_dir / "drawing.pdf")
                 if safety.sha256_file(self.src) != self.src_hash:
                     raise worker.CadError("The source part changed while the job ran (hash mismatch).")
                 p.stages["verification"]["warnings"] += dd.warnings
@@ -511,6 +535,156 @@ class PartRunner:
         for dev in (self.plan.get("reference_layout") or {}).get("deviations", []):
             self.issues.append(qa.issue("low", "REFERENCE_LAYOUT_DEVIATION", dev, part_id=p.part_id))
 
+    def _replication(self, dd) -> None:
+        """Closed loop in replication mode: source-coordinate placement, measured correction (default 3 iterations), evidence. See reverse/replicate.py."""
+        p, st = self.part, self.std
+        hist = refrun.replication_loop(self, dd, st)
+        led = self.comparison["semantic"]
+        cdir = self.stage_dir / "comparison"
+        _write_json(cdir / "comparison.json", {"semantic": led, "spatial": self.comparison["spatial"], "iterations": self.comparison["iterations"], "reference_layout": self.plan.get("reference_layout"),
+                                               "displacements": self.displacements})
+        p.stages["comparison_correction"]["iterations"] = {k: hist.get(k) for k in ("used", "max", "best", "stop_reason")}
+        for e in led["ledger"]:
+            if e.get("required") and e["status"] in ("value_differs",):
+                self.issues.append(qa.issue("high", "REFERENCE_VALUE_DIFFERS", f"{e['text']}: {e['reason']}", part_id=p.part_id, source_ref=e.get("ref_id", ""), expected=e.get("expected") or "",
+                                            observed=e.get("observed") or "", next_action="The drawing shows the model's true value. Confirm which is right (the model or the reference)."))
+        miss = [e for e in led["ledger"] if e.get("required") and e["status"] in ("missing", "unit_unknown")]
+        if miss:
+            self.issues.append(qa.issue("high", "REFERENCE_ITEMS_UNRESOLVED", f"{len(miss)} required source item(s) are not on the generated drawing; see comparison/comparison.json.", part_id=p.part_id,
+                                        next_action="Review the ledger; add the missing dimensions manually or confirm they are not needed."))
+        srcn = [e for e in led["ledger"] if e["status"] == "source_note" and e.get("severity") in ("medium", "high")]
+        if srcn:
+            self.issues.append(qa.issue("medium", "SOURCE_ONLY_CALLOUTS", f"{len(srcn)} source callout(s) were reproduced as editable non-associative notes (hole / GD&T / finish / unmatched dimensions); "
+                                        "an engineer must confirm them against the model.", part_id=p.part_id, next_action="Review comparison/comparison.json (status source_note)."))
+        if any(e["status"] == "tolerance_not_applied" for e in led["ledger"]):
+            self.issues.append(qa.issue("medium", "REFERENCE_TOLERANCES_NOT_APPLIED", "The source prints tolerances; tolerances are never invented or applied automatically (the printed text is on the sheet as a note).",
+                                        part_id=p.part_id, next_action="An engineer applies tolerances deliberately."))
+        if led["material"]["status"] == "mismatch":
+            self.issues.append(qa.issue("high", "REFERENCE_MATERIAL_MISMATCH", led["material"].get("note", "Material mismatch"), part_id=p.part_id))
+        elif led["material"]["status"] == "reference_only":
+            self.issues.append(qa.issue("medium", "REFERENCE_MATERIAL_UNASSIGNED", led["material"].get("note", ""), part_id=p.part_id))
+        for dev in (self.plan.get("reference_layout") or {}).get("deviations", []):
+            self.issues.append(qa.issue("low", "REFERENCE_LAYOUT_DEVIATION", dev, part_id=p.part_id))
+
+    def _replication_report(self, dd, pdf: Path) -> None:
+        """Measured replication report on the EXPORTED pdf and the reopened drawing: scales, view centres, annotation anchors, verbatim notes, clipping, sheets,
+        evidence images, and the status decision (verified only from measured evidence)."""
+        from reverse import replicate
+        from reverse.reflayout import parse_scale
+        p, ex = self.part, self.ref_ex
+        th = replicate.thresholds({"replication_thresholds": self.job.options.get("replication_thresholds")})
+        pages = layout.measure_pdf(pdf)
+        rs = self.rep_state or {}
+        vdev, adev = rs.get("vdev", []), rs.get("adev", [])
+        col = rs.get("col", [])
+        med = lambda xs: round(statistics.median(xs), 2) if xs else None
+        # ---- scales
+        src_sheet = parse_scale(ex.get("sheet", {}).get("scale_text", ""))
+        rec_ = dd.sheet_scale_record or {}
+        gen_sheet = tuple(rec_.get("readback") or ()) or None
+        reop = getattr(self, "reopen_info", {}) or {}
+        if reop.get("sheet_scale"):
+            gen_sheet = (reop["sheet_scale"][0], reop["sheet_scale"][1])            # the REOPENED drawing's value is the evidence
+        tb_text = replicate.title_block_scale_from_pdf(pdf)
+        scale_note = next((x for x in self.note_recs if re.search(r"\bSCALE\b", x["text"], re.I)), None)
+        tb_scale = (re.sub(r"\s+", "", scale_note["text"].split("SCALE", 1)[-1]) if scale_note else None) or tb_text
+        tb_parsed = parse_scale(tb_scale or "")
+        exact = None
+        if src_sheet and gen_sheet:
+            exact = abs(gen_sheet[0] - src_sheet[0]) < 1e-9 and abs(gen_sheet[1] - src_sheet[1]) < 1e-9 and (tb_parsed is None or tb_parsed == src_sheet)
+        vscales = replicate.view_scale_checks(ex, dd, self.plan)
+        # ---- views present
+        want = [v for v in ex.get("views", [])]
+        rv = (self.plan.get("reference_layout") or {}).get("views", {})
+        have = {i.get("reference_view") for i in rv.values() if i.get("reference_view")}
+        missing_views = [{"id": v["id"], "type": v["type"]} for v in want if v["id"] not in have]
+        mism_types = []
+        for role, i in rv.items():
+            vv = next((x for x in want if x["id"] == i.get("reference_view")), None)
+            native_t = "Isometric" if role == "iso" else (self.plan["views"].get(role) or "").strip("*")
+            if vv and vv["type"] != native_t:
+                mism_types.append({"role": role, "source_type": vv["type"], "generated_type": native_t})
+        # ---- notes verbatim (from the exported PDF)
+        nv = replicate.note_verbatim_check(self.note_recs, pages)
+        clip = [c for c in col if c.kind == "clipped"]
+        led = (self.comparison or {}).get("semantic", {}).get("ledger", [])
+        crit = [e for e in led if e.get("required") and e["kind"] in replicate.CRITICAL_KINDS and e["status"] in ("value_differs", "missing", "unit_unknown")]
+        unresolved_src = [e for e in led if e["status"] in ("source_note", "missing", "value_differs", "unit_unknown") and e.get("required")]
+        n_pages = int((ex.get("source") or {}).get("pages") or 1)
+        done_pages = len(self.ref_pages) if self.ref_pages else 1
+        built = int(reop.get("sheets") or 1)
+        pages_missing = [i for i in range(built + 1, n_pages + 1)]
+        metrics = {"sheet_scale_exact": exact, "view_scales": vscales, "view_center_dev_mm": {"median": med([v["distance_mm"] for v in vdev]), "max": max((v["distance_mm"] for v in vdev), default=None), "items": vdev},
+                   "annotation_anchor_dev_mm": {"median": med([a["distance_mm"] for a in adev]), "max": max((a["distance_mm"] for a in adev), default=None), "n": len(adev)},
+                   "notes_verbatim": nv, "unintended_clipping": len(clip), "critical_mismatches": len(crit), "missing_views": missing_views, "view_type_mismatches": mism_types,
+                   "pages_missing": pages_missing, "unresolved_source_items": len(unresolved_src)}
+        status, reason = replicate.decide_status(metrics, th)
+        if reop and not reop.get("opened", True):
+            status, reason = "failed", "the saved drawing could not be reopened"
+        # ---- issues
+        issues = []
+        def add(kind, sev, text, detail="", page=1):
+            issues.append({"id": f"R{len(issues) + 1:03d}", "kind": kind, "severity": sev, "page": page, "text": text, "detail": detail})
+        if exact is not True:
+            add("scale_mismatch", "critical", f"sheet scale {gen_sheet} vs source {src_sheet}", f"title block prints {tb_scale!r}")
+        for v in vscales:
+            if v.get("match") is False:
+                add("scale_mismatch", "critical", f"view {v['role']} scale {v['generated_decimal']:g} vs source {v['source_scale']}")
+        for m_ in missing_views:
+            add("view_missing", "high", f"source view {m_['id']} ({m_['type']}) was not reproduced", "the pipeline creates standard projected views; section / detail views of the source are not rebuilt")
+        for m_ in mism_types:
+            add("view_missing", "medium", f"source {m_['source_type']} view stands in as a plain {m_['generated_type']} view", "orientation matches; the cut / detail is not reproduced")
+        for b in nv["mismatched"]:
+            add("text_mismatch", "high", f"note not verbatim in the export: {b.get('text')!r}", b.get("why", ""))
+        for d in (rs.get("adev") or []):
+            if d["distance_mm"] > th["annotation_anchor_mm"]:
+                add("position_deviation", "low", f"{d['text'][:30]!r} is {d['distance_mm']:.1f} mm from its source position")
+        for e in unresolved_src:
+            add({"source_note": "unresolved_source_item", "value_differs": "value_mismatch"}.get(e["status"], "missing_annotation"), "medium" if e["status"] == "source_note" else "high",
+                f"{e['text'][:40]!r}: {e['status']}", e.get("reason", ""))
+        for c in clip:
+            add("clipping", "high", f"clipped / off-sheet text: {c.a_text}")
+        for pg in pages_missing:
+            add("page_missing", "high", f"source page {pg} was not reconstructed", "multi-sheet reconstruction", page=pg)
+        # ---- evidence
+        cdir = self.stage_dir / "comparison"
+        imgs = {"side_by_side": [], "overlay": [], "difference": []}
+        pix_sim = None
+        try:
+            ev = replicate.render_evidence(self.ref_pdf, pdf, self.frame, cdir, 0, 0, tag="page-001")
+            for k in imgs:
+                imgs[k].append("comparison/" + Path(ev["paths"][k]).name)
+            pix_sim = ev["pixel_similarity"]
+        except Exception as e:      # noqa: BLE001
+            p.stages["verification"]["warnings"].append(f"evidence images: {type(e).__name__}: {e}")
+        self.replication = {"schema": "ReplicationReport/1", "status": status, "status_label": replicate.STATUS_LABEL[status], "reason": reason,
+                            "spec": {"schema": (self.spec or {}).get("schema_version"), "pages": n_pages, "pages_extracted": done_pages, "extraction_reuse": p.reference.get("extraction_cache"),
+                                     "completeness": (self.spec or {}).get("completeness")},
+                            "sheets": [{"page": 1, "source": {"width_mm": self.sheet_target.get("page_w_mm"), "height_mm": self.sheet_target.get("page_h_mm"),
+                                                              "rotation": ex["sheet"].get("rotation", 0), "scale": ex["sheet"].get("scale_text") or None},
+                                        "generated": {"width_mm": round(self.frame.sheet_w_m * 1000, 2), "height_mm": round(self.frame.sheet_h_m * 1000, 2), "name": self.sheet_target.get("name"),
+                                                      "scale": f"{gen_sheet[0]:g}:{gen_sheet[1]:g}" if gen_sheet else None, "title_block_scale": tb_scale},
+                                        "view_count": {"source": len(want), "generated": len(self.outlines or {})},
+                                        "annotations": {"source": len(ex.get("annotations", [])), "generated": sum(1 for e in led if e["status"] in ("matched", "matched_shared")),
+                                                        "matched": sum(1 for e in led if e["status"] in ("matched", "matched_shared")), "source_notes": sum(1 for e in led if e["status"] == "source_note"),
+                                                        "missing": sum(1 for e in led if e["status"] in ("missing", "unit_unknown")), "extra": 0,
+                                                        "mismatched": sum(1 for e in led if e["status"] == "value_differs")}}],
+                            "scales": {"sheet": {"source": f"{src_sheet[0]}:{src_sheet[1]}" if src_sheet else None, "generated": f"{gen_sheet[0]:g}:{gen_sheet[1]:g}" if gen_sheet else None,
+                                                 "title_block": tb_scale, "match": exact, "basis": (self.plan.get("scale") or {}).get("basis")}, "views": vscales},
+                            "iterations": {k: (self.comparison or {}).get("iterations", {}).get(k) for k in ("used", "max", "best", "stop_reason")}, "thresholds": th,
+                            "metrics": {"view_center_dev_mm": {"median": metrics["view_center_dev_mm"]["median"], "max": metrics["view_center_dev_mm"]["max"]},
+                                        "annotation_anchor_dev_mm": {"median": metrics["annotation_anchor_dev_mm"]["median"], "max": metrics["annotation_anchor_dev_mm"]["max"]},
+                                        "notes_verbatim": {"matched": nv["matched"], "total": nv["total"]}, "unintended_clipping": len(clip), "critical_mismatches": len(crit),
+                                        "pixel_similarity_diagnostic_only": pix_sim},
+                            "displacements": len(self.displacements), "displacement_records": self.displacements[:200], "issues": issues, "images": imgs,
+                            "sheet_geometry": (p.stages.get("native_drawing") or {}).get("sheet_geometry"), "reopen": {k: reop.get(k) for k in ("opened", "sheets", "sheet_scale", "notes", "dimensions")},
+                            "view_center_items": vdev, "annotation_items": adev[:200], "note_records": [{k: v for k, v in x.items() if k != "_an"} for x in self.note_recs],
+                            "fidelity_diagnostics_separate_from_scoring": True,
+                            "note": "Drawing-fidelity diagnostics only. scoring.MD (if present) remains the authoritative score; nothing here is a score. PRELIMINARY / FOR REVIEW."}
+        _write_json(self.stage_dir / "replication" / "report.json", self.replication)
+        for x in self.note_recs:
+            x.pop("_an", None)
+
     def _final_measure(self, dd, pdf: Path) -> None:
         """Measure the EXPORTED drawing.pdf: collisions on the real deliverable, shading evidence for the isometric, black text and lines, licence watermark."""
         st = self.std
@@ -556,7 +730,7 @@ class PartRunner:
         except Exception:      # noqa: BLE001
             pass
 
-    def _reopen_check(self, slddrw: Path, model_copy: Path) -> None:
+    def _reopen_check(self, slddrw: Path, model_copy: Path) -> dict:
         """Reopen the saved drawing: it must open, its views must reference the model (not dangling), and dimensions must still be attached."""
         T = self.s.typed
         res = T(self.s.app, "ISldWorks").OpenDoc6(str(slddrw), drawing.SW_DOC_DRW if hasattr(drawing, "SW_DOC_DRW") else 3, 1, "", 0, 0)
@@ -566,7 +740,7 @@ class PartRunner:
             self.issues.append(qa.issue("critical", "REOPEN_FAILED", "The saved drawing could not be reopened.", part_id=self.part.part_id,
                                         next_action="Do not use this drawing; rerun."))
             _write_json(self.stage_dir / "reopen_check.json", info)
-            return
+            return info
         try:
             title = str(T(d, "IModelDoc2").GetTitle())
             self.s.opened[str(slddrw.resolve()).lower()] = title
@@ -576,7 +750,15 @@ class PartRunner:
             while v is not None:
                 tv = T(v, "IView")
                 ref = str(tv.GetReferencedModelName() or "")
-                info["views"].append({"name": str(tv.GetName2()), "references": Path(ref).name, "ok": Path(ref).name.lower() == model_copy.name.lower()})
+                try:
+                    sc_ = float(tv.ScaleDecimal)
+                except Exception:      # noqa: BLE001
+                    sc_ = None
+                info["views"].append({"name": str(tv.GetName2()), "references": Path(ref).name, "ok": Path(ref).name.lower() == model_copy.name.lower(), "scale_decimal": sc_})
+                try:
+                    info["notes"] = info.get("notes", 0) + len(tv.GetNotes() or ())
+                except Exception:      # noqa: BLE001
+                    pass
                 try:
                     dds = tv.GetDisplayDimensions() or ()
                     info["dimensions"] += len(dds)
@@ -586,6 +768,14 @@ class PartRunner:
             if not info["views"] or not all(x["ok"] for x in info["views"]):
                 self.issues.append(qa.issue("critical", "DANGLING_VIEW", "A view does not reference the part after reopening.", part_id=self.part.part_id))
             info["sheets"] = int(drw.GetSheetCount())
+            try:
+                sh_ = T(drw.GetCurrentSheet(), "ISheet")
+                pr_ = sh_.GetProperties2()
+                info["sheet_scale"] = [pr_[2], pr_[3]]
+                info["sheet_size_m"] = [pr_[5], pr_[6]]
+                info["sheet_notes"] = len(T(drw.GetFirstView(), "IView").GetNotes() or ())      # sheet-level notes live on the views they were created in (see "notes")
+            except Exception as e_:      # noqa: BLE001
+                info["errors"].append(f"sheet read-back: {e_}")
         except Exception as e:      # noqa: BLE001
             info["errors"].append(f"{type(e).__name__}: {e}")
         finally:
@@ -595,6 +785,7 @@ class PartRunner:
                 pass
             self.s.opened.pop(str(slddrw.resolve()).lower(), None)
         _write_json(self.stage_dir / "reopen_check.json", info)
+        return info
 
     def _verification(self, hard: list, review: bool) -> dict:
         """The QA gate: never a pass while anything unresolved remains. ``failed`` only when the deliverable could not be produced or verified."""
@@ -620,6 +811,8 @@ class PartRunner:
             status = "review_required"
         else:
             status = "passed"
+        if self.replication and status == "passed" and self.replication.get("status") != "verified":
+            status = "review_required"
         iso = (p.stages.get("native_drawing") or {}).get("iso", {})
         std = (self.std.report if self.std else {})
         arr = self.layout_rep.get("arrange") or {}
@@ -634,6 +827,7 @@ class PartRunner:
                                                  "not_applicable": len((std.get("leaders") or {}).get("not_applicable", [])), "note": (std.get("notes") or {}).get("note")},
                               "arrange": {k: arr.get(k) for k in ("accepted", "decision", "moved", "integrity", "collisions_before", "collisions_after")} if arr else None,
                               "licence_watermark": fm.get("licence_watermark")},
+                "replication": self.replication or None,
                 "issues_by_severity": {s_: sev.count(s_) for s_ in sorted(set(sev))}, "hard_failures": [h["code"] for h in hard],
                 "note": "Software QA is not engineering approval. A reference match is not an approval either; the drawing stays PRELIMINARY / FOR REVIEW."}
 
@@ -659,7 +853,7 @@ class PartRunner:
         if (sd / "preview").is_dir():
             shutil.rmtree(out / "preview", ignore_errors=True)
             os.replace(sd / "preview", out / "preview")
-        for sub in ("reference", "comparison"):
+        for sub in ("reference", "comparison", "replication"):
             if (sd / sub).is_dir():
                 shutil.rmtree(out / sub, ignore_errors=True)
                 os.replace(sd / sub, out / sub)
@@ -681,7 +875,16 @@ class PartRunner:
                 files[n] = {"bytes": fp.stat().st_size, "sha256": safety.sha256_file(fp)}
         if getattr(self, "linked_model", None) and (out / self.linked_model).is_file():
             files[self.linked_model] = {"bytes": (out / self.linked_model).stat().st_size, "sha256": safety.sha256_file(out / self.linked_model)}
-        for sub in ("reference", "comparison"):
+        try:        # this part's rows of the per-request usage ledger travel with it (secrets-free: tokens, ids, cost)
+            from reverse import costs as _costs
+            rows = [r_ for r_ in _costs.read_rows(self.store.dir(self.job.job_id) / "usage" / "usage_ledger.jsonl") if r_.get("part") == p.part_id]
+            if rows:
+                (out / "usage").mkdir(parents=True, exist_ok=True)
+                (out / "usage" / "usage_ledger.jsonl").write_text(chr(10).join(json.dumps(r_) for r_ in rows) + chr(10), encoding="utf-8")
+                files["usage/usage_ledger.jsonl"] = {"bytes": (out / "usage" / "usage_ledger.jsonl").stat().st_size, "sha256": safety.sha256_file(out / "usage" / "usage_ledger.jsonl")}
+        except Exception as e_:      # noqa: BLE001
+            log.warning("usage log copy failed: %s", e_)
+        for sub in ("reference", "comparison", "replication"):
             for fp in sorted((out / sub).rglob("*")) if (out / sub).is_dir() else []:
                 if fp.is_file() and not fp.name.endswith(".tmp"):
                     files[f"{sub}/{fp.relative_to(out / sub).as_posix()}"] = {"bytes": fp.stat().st_size, "sha256": safety.sha256_file(fp)}

@@ -151,7 +151,7 @@ class ReverseService:
             pages = facts["page_count"]
             sha = ref.get("sha256") or safety.sha256_file(pdf)
             from reverse import refextract
-            cache = "hit" if (not options.get("refresh_reference") and refextract.load_cached(self.refs.cache_root, sha)) else "fresh"
+            cache = "hit" if (not options.get("refresh_reference") and refextract.load_cached(self.refs.cache_root, sha, pages)) else "fresh"
         est = costs.estimate_part(mode=mode, facts=facts, rate=rate, cache=cache, token_hist=tok_h, dur_hist=dur_h,
                                   tiles_per_page=int(options.get("tiles_per_page") or 0), pages_for_time=max(1, pages))
         return est, {"status": ref.get("status") or "none", "pages": pages, "extraction_cache": cache}
@@ -246,6 +246,7 @@ class ReverseService:
             pj["files_availability"] = self.files_availability(pj["files"])
             pj["reference"] = refmod.public_reference(p.reference) if p.reference else refmod.blank_reference("standard")
             pj["verification"] = p.verification or {"status": "not_run"}
+            pj["replication"] = (p.verification or {}).get("replication")
         self._add_accounting(j, d)
         d.pop("output_root", None)
         return d
@@ -272,7 +273,8 @@ class ReverseService:
         d["estimate"] = costs.sum_estimates(estl)
         d["estimate_vs_actual"] = costs.estimate_vs_actual(d["estimate"], d["usage"], d["timing"])
 
-    ALIASES = {"slddrw": "drawing.slddrw", "pdf": "drawing.pdf", "source_pdf": "reference/source.pdf", "stl": "model.stl", "qa_json": "qa.json"}
+    ALIASES = {"usage_log": "usage/usage_ledger.jsonl", "slddrw": "drawing.slddrw", "pdf": "drawing.pdf", "source_pdf": "reference/source.pdf", "stl": "model.stl", "qa_json": "qa.json",
+               "drawing_spec": "reference/drawing_spec.json", "replication_report": "replication/report.json"}
 
     def part_files(self, job: state.Job, part: state.PartState) -> dict:
         """Only files that exist, with their sizes: the UI must never advertise an absent file. v7 adds stable aliases (slddrw, pdf, source_pdf, stl,
@@ -293,7 +295,7 @@ class ReverseService:
 
     @staticmethod
     def files_availability(files: dict) -> dict:
-        return {k: (k in files) for k in ("slddrw", "pdf", "source_pdf", "stl", "qa_json", "comparison_images")}
+        return {k: (k in files) for k in ("slddrw", "pdf", "source_pdf", "stl", "qa_json", "comparison_images", "drawing_spec", "replication_report", "usage_log")}
 
     def artifact_path(self, job_id: str, rel: str) -> Path:
         """A downloadable artifact: must be a listed artifact of a part of this job, inside the job folder, a regular file."""

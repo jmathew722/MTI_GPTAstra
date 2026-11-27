@@ -17,6 +17,8 @@ IN = 0.0254
 # swDwgPaperSizes_e (type library): A=0 B=2 C=3 ... A3=8 ; swDwgTemplateNone = 13
 PAPER = {"ANSI_B": (2, 17 * IN, 11 * IN), "ANSI_C": (3, 22 * IN, 17 * IN), "A3": (8, 0.420, 0.297)}
 TEMPLATE_NONE = 13
+CRLF, LF = chr(13) + chr(10), chr(10)
+SW_PAPER_USER_DEFINED = 12                # swDwgPapersUserDefined
 SW_PREF_LINEAR_DIM_PRECISION = 24          # swDetailingLinearDimPrecision
 SW_PREF_ANGULAR_DIM_PRECISION = 28         # swDetailingAngularDimPrecision
 SW_DISP_HIDDEN_REMOVED = 2                 # swViewDisplayMode_HiddenLinesRemoved
@@ -46,6 +48,7 @@ class DrawingDoc:
         self.title = ""
         self.views: dict[str, object] = {}        # role -> typed IView
         self.warnings: list[str] = []
+        self.sheet_scale_record: dict = {}
         self.note_boxes: list[tuple[float, float, float, float]] = []      # (x0, y0, x1, y1) of every label we placed
 
     # ------------------------------------------------------------ lifecycle
@@ -54,6 +57,9 @@ class DrawingDoc:
         if not self.template.is_file():
             raise CadError("The drawing template was not found. Generate or select a template first.")
         paper, w, h = PAPER[self.plan["sheet_size"]]
+        if self.plan.get("sheet_custom"):         # replication: the sheet has the SOURCE page's physical size (standard size when it matches one), not the nearest template size
+            paper, w, h = SW_PAPER_USER_DEFINED, float(self.plan["sheet_custom"]["w_m"]), float(self.plan["sheet_custom"]["h_m"])
+        self.paper_args = (paper, w, h)
         model = T(self.s.app, "ISldWorks").NewDocument(str(self.template), paper, w, h)
         if model is None:
             raise CadError("SOLIDWORKS could not create a drawing from the template.")
@@ -82,13 +88,26 @@ class DrawingDoc:
                 errs.append(f"{k}: {e}")
         return errs
 
-    def set_sheet_scale(self) -> None:
-        """The title block's SCALE field reads the sheet scale (views carry their own scale)."""
+    def set_sheet_scale(self) -> dict:
+        """The title block's SCALE field reads the SHEET scale (views carry their own). Root cause of the v7 "2:1 on a 1:2 sheet" defect, found live in v8:
+        ISheet.SetScale(num, den) drives the field correctly, but creating a drawing view afterwards silently resets the sheet scale (observed: 1:2 -> 1:5), so it
+        must be (re)applied AFTER the views exist and again just before every save / export. The value is read back with ISheet.GetProperties2 (items 2, 3)."""
         sc = self.plan["scale"]
+        want = (float(sc["num"]), float(sc["den"]))
+        rec = {"wanted": [sc["num"], sc["den"]], "applied": False, "readback": None}
         try:
-            self.s.typed(self.drw.GetCurrentSheet(), "ISheet").SetScale(sc["num"], sc["den"], False, False)
+            sh = self.s.typed(self.drw.GetCurrentSheet(), "ISheet")
+            sh.SetScale(sc["num"], sc["den"], False, False)
+            props = sh.GetProperties2()
+            rec["readback"] = [props[2], props[3]]
+            rec["applied"] = (abs(props[2] - want[0]) < 1e-9 and abs(props[3] - want[1]) < 1e-9)
+            if not rec["applied"]:
+                self.warnings.append(f"sheet scale read back {props[2]:g}:{props[3]:g}, wanted {want[0]:g}:{want[1]:g}")
         except Exception as e:      # noqa: BLE001
             self.warnings.append(f"sheet scale: {e}")
+            rec["error"] = str(e)
+        self.sheet_scale_record = rec
+        return rec
 
     def _has_sheet_format(self) -> bool:
         try:
@@ -155,8 +174,9 @@ class DrawingDoc:
             return ((x0 + x1) / 2, (y0 + y1) / 2)
 
         self.add_base("front", views["front"], ctr("front"), sc)
-        self.add_projected("top", "front", ctr("top"), sc)
-        self.add_projected("right", "front", ctr("right"), sc)
+        for role in ("top", "right"):
+            if role in r:                    # replication: a projected view the source does not show is not created
+                self.add_projected(role, "front", ctr(role), sc)
         if "iso" in r and views.get("iso"):
             iso_sc = float(self.plan.get("iso_scale") or sc)
             self.add_base("iso", views["iso"], ctr("iso"), iso_sc)
@@ -185,8 +205,46 @@ class DrawingDoc:
         self.note_boxes.append((x, y - 0.002, x + 0.0026 * len(text) + 0.004, y + 0.007))
         return an
 
+    def add_note(self, text: str, x: float, y: float, height_pt: Optional[float] = None, bold: bool = False):
+        """A native, editable note (verbatim text; newline becomes a line break) on the black layer at a sheet position. Returns the IAnnotation or None."""
+        self.mdl.ClearSelection2(True)            # a note made while geometry is selected grows a leader to it
+        n = self.mdl.InsertNote(CRLF.join(text.replace(CRLF, LF).split(LF)))
+        if n is None:
+            return None
+        tn = self.s.typed(n, "INote")
+        an = self.s.typed(tn.GetAnnotation(), "IAnnotation")
+        if height_pt:
+            try:
+                tf = an.GetTextFormat(0)
+                tf.CharHeightInPts = float(height_pt)
+                an.SetTextFormat(0, False, tf)
+            except Exception as e:      # noqa: BLE001
+                self.warnings.append(f"note text height: {e}")
+        an.SetPosition2(x, y, 0)
+        return an
+
+    def sheet_lines(self, segments: list[tuple[float, float, float, float]]) -> int:
+        """Native sheet geometry (border / title-block grid): straight sketch segments on the sheet at exact coordinates (no inference). Returns the count drawn."""
+        n = 0
+        # measured live (v8): sketch geometry on the sheet is multiplied by the SHEET SCALE when it is displayed (1:2 drew everything at half size and half the
+        # offset), so coordinates are divided by the scale to land on the requested sheet position. Verified by registered overlay.
+        sc = self.plan["scale"]["num"] / self.plan["scale"]["den"]
+        segments = [(a / sc, b / sc, c / sc, d / sc) for a, b, c, d in segments]
+        self.mdl.ClearSelection2(True)
+        self.mdl.SketchManager.InsertSketch(True)
+        self.mdl.SketchManager.AddToDB = True
+        try:
+            for x1, y1, x2, y2 in segments:
+                if self.mdl.CreateLine2(x1, y1, 0, x2, y2, 0) is not None:
+                    n += 1
+        finally:
+            self.mdl.SketchManager.AddToDB = False
+            self.mdl.SketchManager.InsertSketch(True)
+        return n
+
     # ------------------------------------------------------------ outputs
     def save_drawing(self, path: Path) -> None:
+        self.set_sheet_scale()          # a view created since the last call may have reset it
         path = Path(path).resolve()
         path.parent.mkdir(parents=True, exist_ok=True)
         path.unlink(missing_ok=True)
@@ -198,6 +256,7 @@ class DrawingDoc:
 
     def export_pdf(self, path: Path) -> None:
         """Vector PDF of ALL sheets."""
+        self.set_sheet_scale()
         path = Path(path).resolve()
         path.parent.mkdir(parents=True, exist_ok=True)
         path.unlink(missing_ok=True)

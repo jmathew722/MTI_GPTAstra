@@ -30,7 +30,7 @@ log = logging.getLogger(__name__)
 
 SCHEMA = "ref/1"
 PROMPT_VERSION = "reflayout-3"
-MAX_PAGES_EXTRACTED = 4
+MAX_PAGES_EXTRACTED = 12
 TOOL_NAME = "report_reference_layout"
 
 # ------------------------------------------------------------------ the model's structured answer (validated, non-strict like the forward extractor)
@@ -141,17 +141,22 @@ def page_geometry(pdf: Path, page_index: int = 0) -> dict:
 
 
 def text_evidence(pdf: Path, page_index: int = 0, cache_dir: Optional[Path] = None) -> dict:
-    """Text items with boxes (points, top-left origin, as displayed). Text layer first; local OCR for scans. Returns {source, items:[{id,text,rect,conf}]}."""
+    """Text items with boxes (points, top-left origin, DISPLAYED space: rotation applied). Text layer first (with font and size); local OCR for scans.
+    Returns {source, items:[{id,text,rect,conf,font?,size?}]}."""
     import fitz
+    from reverse import srcmap
     doc = fitz.open(str(pdf))
     try:
         pg = doc.load_page(page_index)
         items = []
         for blk in pg.get_text("dict")["blocks"]:
             for line in blk.get("lines", []):
-                txt = "".join(s["text"] for s in line.get("spans", [])).strip()
+                spans = line.get("spans", [])
+                txt = "".join(s["text"] for s in spans).strip()
                 if txt:
-                    items.append({"text": txt, "rect": [round(x, 2) for x in line["bbox"]], "conf": 1.0})
+                    sp = max(spans, key=lambda s: len(s.get("text", "")))
+                    items.append({"text": txt, "rect": [round(x, 2) for x in srcmap.fitz_displayed_rect(pg, line["bbox"])], "conf": 1.0,
+                                  "font": sp.get("font"), "size": round(float(sp.get("size", 0)), 2)})
         if len(items) >= 8:
             for i, it in enumerate(items, 1):
                 it["id"] = f"T{i:03d}"
@@ -194,6 +199,11 @@ def text_evidence(pdf: Path, page_index: int = 0, cache_dir: Optional[Path] = No
     return {"source": "ocr", "items": items}
 
 
+def srcmap_rect(pg, r):
+    from reverse import srcmap
+    return srcmap.fitz_displayed_rect(pg, r)
+
+
 def vector_clusters(pdf: Path, page_index: int = 0, gap_pt: float = 18.0) -> list[list[float]]:
     """Clusters of stroked vector geometry (candidate view regions) in points; empty for scans. Used only as hints."""
     import fitz
@@ -203,8 +213,10 @@ def vector_clusters(pdf: Path, page_index: int = 0, gap_pt: float = 18.0) -> lis
         rects = []
         for d in pg.get_drawings():
             r = d.get("rect")
-            if r is not None and not r.is_empty and r.width < pg.rect.width * 0.95:
-                rects.append(fitz.Rect(r))
+            if r is not None and not r.is_empty:
+                rr = fitz.Rect(*srcmap_rect(pg, r))
+                if rr.width < pg.rect.width * 0.95:
+                    rects.append(rr)
         if len(rects) < 5:
             return []
         clusters: list[fitz.Rect] = []
@@ -402,7 +414,14 @@ def cache_path(cache_root: Path, pdf_sha: str) -> Path:
     return Path(cache_root) / pdf_sha[:32] / "reference_extraction.json"
 
 
-def load_cached(cache_root: Path, pdf_sha: str) -> Optional[dict]:
+def _page_list(d: dict) -> list[dict]:
+    """The ref/1 page dicts held by a cache entry: page 1 is the entry itself, later pages are in ``more_pages`` (legacy single-page entries have none)."""
+    base = {k: v for k, v in d.items() if k != "more_pages"}
+    return [base] + list(d.get("more_pages") or [])
+
+
+def load_partial(cache_root: Path, pdf_sha: str) -> Optional[dict]:
+    """A stored extraction for this exact PDF/schema/prompt, whatever pages it covers (the caller decides whether to supplement)."""
     p = cache_path(cache_root, pdf_sha)
     if not p.is_file():
         return None
@@ -417,6 +436,15 @@ def load_cached(cache_root: Path, pdf_sha: str) -> Optional[dict]:
     return d
 
 
+def load_cached(cache_root: Path, pdf_sha: str, pages_wanted: Optional[int] = None) -> Optional[dict]:
+    """A COMPLETE cached extraction (hash + schema + prompt version + every wanted page present), else None. ``pages_wanted`` None = 1 (legacy callers)."""
+    d = load_partial(cache_root, pdf_sha)
+    if d is None:
+        return None
+    want = min(pages_wanted or 1, MAX_PAGES_EXTRACTED)
+    return d if len(_page_list(d)) >= want else None
+
+
 def _store(cache_root: Path, ex: dict) -> None:
     p = cache_path(cache_root, ex["source"]["sha256"])
     p.parent.mkdir(parents=True, exist_ok=True)
@@ -425,41 +453,124 @@ def _store(cache_root: Path, ex: dict) -> None:
     os.replace(tmp, p)
 
 
-def extract_reference(pdf: Path, *, cache_root: Path, prior: Optional[list[dict]] = None, refresh: bool = False, client=None, part: str = "",
-                      progress: Optional[Callable[[str], None]] = None) -> dict:
-    """Return {extraction, cache: hit|supplemented|fresh, usage, warnings}. ``prior`` = ReferenceIndex.prior_extractions() for this drawing.
+def _sum_usage(a: dict, b: dict) -> dict:
+    for k in ("input_tokens", "output_tokens", "cache_read_tokens", "calls"):
+        a[k] = a.get(k, 0) + b.get(k, 0)
+    a["usd"] = a.get("usd", 0.0) + b.get("usd", 0.0)
+    a["model"] = b.get("model") or a.get("model")
+    return a
 
-    * hit: a ref/1 extraction for this PDF hash exists with this prompt version and acceptable quality -> no evidence pass, no model call;
-    * supplemented: a forward extraction belonging to this exact drawing exists (semantic content, no positions) -> deterministic text + one layout call;
-    * fresh: no usable prior -> deterministic text + one full call.
+
+def _extract_page(pdf: Path, page_index: int, v_sha: str, pages: int, cache_root: Path, base_ctx, base_meta, prov_origin: str, *, client, part: str, say,
+                  tiles: int = 0) -> tuple[dict, dict, dict]:
+    """(ref/1 page dict, usage, evidence) for one page: deterministic evidence first, then the budgeted structured call (plus optional tile passes)."""
+    geom = page_geometry(pdf, page_index)
+    say(f"page {page_index + 1}: reading text from the drawing (text layer / local OCR)")
+    ev = text_evidence(pdf, page_index, cache_dir=Path(cache_root) / v_sha[:32])
+    ev["clusters"] = vector_clusters(pdf, page_index)
+    from utils.image_prep import prepare_image
+    pi = prepare_image(pdf, page_index + 1, return_details=True)
+    say(f"page {page_index + 1}: asking the configured model to classify views and annotations on the rendered page")
+    layout, usage = call_model(pi.base64, ev["items"], (geom["width_pt"], geom["height_pt"]), base_ctx, client=client, part=part)
+    provider, model, _ = _model()
+    prov = {"origin": prov_origin, "model": model, "provider": provider, "prompt_version": PROMPT_VERSION, "schema_version": SCHEMA,
+            "page_render": {"max_long_edge_px": max(pi.width, pi.height), "width_px": pi.width, "height_px": pi.height, "dpi_source": "PDF rasterized at 300 dpi, long edge capped"},
+            "text_source": ev.get("source"), "usage": {k: usage[k] for k in ("input_tokens", "output_tokens", "usd", "calls")},
+            "created": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+    ex = assemble(layout, geom, ev, v_sha, pdf.name, pages, prov, base_meta)
+    ex["warnings"] += [w_ for w_ in pi.warnings if "nearly blank" not in w_]          # a mostly white drawing sheet is normal
+    if tiles:
+        ex, tstats, tusage = tile_pass(pdf, page_index, ex, ev, tiles, client=client, part=part, say=say)
+        usage = _sum_usage(usage, tusage)
+        ex["tile_pass"] = tstats
+    return ex, usage, ev
+
+
+def tile_pass(pdf: Path, page_index: int, ex: dict, ev: dict, n_tiles: int, *, client, part: str, say) -> tuple[dict, dict, dict]:
+    """Overlapping tile reads for small callouts: each tile is rendered at higher magnification, read by the same structured call, and the results are merged
+    by COORDINATES into the page (existing items are never altered). Cost is real: every tile is a separate recorded, budgeted call."""
+    import base64
+    import fitz
+    from reverse import drawingspec
+    from pipeline.token_tracker import scope
+    w, h = ex["sheet"]["width_pt"], ex["sheet"]["height_pt"]
+    cols = 2 if n_tiles <= 4 else 3
+    rows = max(1, (n_tiles + cols - 1) // cols)
+    tiles = drawingspec.make_tiles(w, h, cols, rows)[:n_tiles]
+    usage = {"input_tokens": 0, "output_tokens": 0, "cache_read_tokens": 0, "usd": 0.0, "calls": 0}
+    new_anns: list[dict] = []
+    doc = fitz.open(str(pdf))
+    try:
+        pg = doc.load_page(page_index)
+        for t in tiles:
+            r = fitz.Rect(*t["rect"]) * pg.derotation_matrix                 # displayed -> unrotated for the clip
+            r.normalize()
+            pix = pg.get_pixmap(clip=r, dpi=300)
+            b64 = base64.b64encode(pix.tobytes("png")).decode()
+            tr = t["rect"]
+            items = [i for i in ev.get("items", []) if i["rect"][0] >= tr[0] - 1 and i["rect"][2] <= tr[2] + 1 and i["rect"][1] >= tr[1] - 1 and i["rect"][3] <= tr[3] + 1]
+            tw, th = tr[2] - tr[0], tr[3] - tr[1]
+            local = [{"id": i["id"], "text": i["text"], "rect": [i["rect"][0] - tr[0], i["rect"][1] - tr[1], i["rect"][2] - tr[0], i["rect"][3] - tr[1]]} for i in items]
+            with scope(gate="reference_tile"):
+                lay, u = call_model(b64, local, (tw, th), None, client=client, part=part)
+            usage = _sum_usage(usage, u)
+            for a in lay.annotations:
+                bb = a.bbox_norm
+                if not bb or len(bb) != 4:
+                    continue
+                pb = drawingspec.tile_box_to_page(bb, tr, w, h)
+                new_anns.append({"id": f"{t['id']}_{a.id}", "kind": a.kind, "text": a.text, "nominal": a.nominal_value, "unit": a.unit, "tol_upper": a.tol_upper, "tol_lower": a.tol_lower,
+                                 "tol_text": a.tol_text, "quantity": a.quantity, "view_id": a.view_id, "bbox_norm": pb,
+                                 "bbox_pt": [round(pb[0] * w, 2), round(pb[1] * h, 2), round(pb[2] * w, 2), round(pb[3] * h, 2)],
+                                 "anchor_norm": None, "position_source": "model_estimate", "ocr_ids": [], "bound_ids": [], "required": a.required, "uncertain": a.uncertain,
+                                 "note": a.note, "evidence": f"tile {t['id']}"})
+            say(f"tile {t['id']} read")
+    finally:
+        doc.close()
+    merged, stats = drawingspec.merge_annotations(ex["annotations"], new_anns)
+    ex = dict(ex)
+    ex["annotations"] = merged
+    ex["quality"] = quality(ex)
+    return ex, {**stats, "tiles": [t["id"] for t in tiles]}, usage
+
+
+def extract_reference(pdf: Path, *, cache_root: Path, prior: Optional[list[dict]] = None, refresh: bool = False, client=None, part: str = "",
+                      progress: Optional[Callable[[str], None]] = None, tiles: int = 0) -> dict:
+    """Return {extraction (page 1, ``more_pages`` holds the rest), pages: [ref/1 per page], cache: hit|supplemented|fresh, usage, warnings, spec}.
+
+    * hit: every page of this PDF is already extracted for this hash / schema / prompt version -> no evidence pass, no model call;
+    * supplemented: some pages are cached, or a forward extraction belonging to this exact drawing exists -> only the missing pages are read;
+    * fresh: no usable prior -> deterministic text + one call per page.
+    A paid extraction is never lost: the cache is written after EVERY page.
     """
     pdf = Path(pdf)
     v_sha = safety.sha256_file(pdf)
     warnings: list[str] = []
     say = progress or (lambda m: None)
+    import fitz
+    with fitz.open(str(pdf)) as d:
+        pages = d.page_count
+    n_do = min(pages, MAX_PAGES_EXTRACTED)
+    if pages > MAX_PAGES_EXTRACTED:
+        warnings.append(f"The reference has {pages} pages; only the first {MAX_PAGES_EXTRACTED} were extracted (page_not_reconstructed for the rest).")
+    done: list[dict] = []
+    part_ex = None
     if not refresh:
-        hit = load_cached(cache_root, v_sha)
-        if hit is not None:
+        part_ex = load_partial(cache_root, v_sha)
+        if part_ex is not None:
+            done = _page_list(part_ex)[:n_do]
+        if part_ex is not None and len(done) >= n_do:
             say("cached reference extraction reused (no model call)")
             try:
                 from pipeline.token_tracker import record_cache_hit, scope
-                prov_ = hit.get("provenance", {})
+                prov_ = part_ex.get("provenance", {})
                 with scope(gate="reference_layout"):
                     record_cache_hit(model=prov_.get("model") or "", provider=prov_.get("provider") or "openai", role="extractor", note="local reference-extraction cache hit")
             except Exception:      # noqa: BLE001 - accounting never stops a run
                 pass
-            return {"extraction": hit, "cache": "hit", "usage": _zero_usage(hit.get("provenance", {})), "warnings": warnings}
-    import fitz
-    with fitz.open(str(pdf)) as d:
-        pages = d.page_count
-    if pages > MAX_PAGES_EXTRACTED:
-        warnings.append(f"The reference has {pages} pages; only the first {MAX_PAGES_EXTRACTED} were extracted.")
-    geom = page_geometry(pdf, 0)
-    say("reading text from the drawing (text layer / local OCR)")
-    ev = text_evidence(pdf, 0, cache_dir=Path(cache_root) / v_sha[:32])
-    ev["clusters"] = vector_clusters(pdf, 0)
+            return _result(done, pages, "hit", _zero_usage(part_ex.get("provenance", {})), warnings, pdf, v_sha)
     base_ctx, base_meta = None, None
-    for p in prior or []:
+    for p in ([] if done else (prior or [])):
         try:
             raw = json.loads(Path(p["path"]).read_text(encoding="utf-8", errors="replace"))
             if raw.get("dimensions"):
@@ -469,19 +580,33 @@ def extract_reference(pdf: Path, *, cache_root: Path, prior: Optional[list[dict]
                 break
         except (OSError, ValueError):
             continue
-    from utils.image_prep import prepare_image
-    pi = prepare_image(pdf, 1, return_details=True)
-    say("asking the configured model to classify views and annotations on the rendered page")
-    layout, usage = call_model(pi.base64, ev["items"], (geom["width_pt"], geom["height_pt"]), base_ctx, client=client, part=part)
-    provider, model, _ = _model()
-    prov = {"origin": "supplemented" if base_ctx else "fresh", "model": model, "provider": provider, "prompt_version": PROMPT_VERSION, "schema_version": SCHEMA,
-            "page_render": {"max_long_edge_px": max(pi.width, pi.height), "width_px": pi.width, "height_px": pi.height, "dpi_source": "PDF rasterized at 300 dpi, long edge capped"},
-            "text_source": ev.get("source"), "usage": {k: usage[k] for k in ("input_tokens", "output_tokens", "usd", "calls")},
-            "created": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
-    ex = assemble(layout, geom, ev, v_sha, pdf.name, pages, prov, base_meta)
-    ex["warnings"] += warnings + [w_ for w_ in pi.warnings if "nearly blank" not in w_]          # a mostly white drawing sheet is normal
-    _store(cache_root, ex)
-    return {"extraction": ex, "cache": "supplemented" if base_ctx else "fresh", "usage": usage, "warnings": ex["warnings"]}
+    usage = {"input_tokens": 0, "output_tokens": 0, "cache_read_tokens": 0, "usd": 0.0, "calls": 0, "model": None}
+    evs: dict[int, dict] = {}
+    pages_ex = list(done)
+    origin = "supplemented" if (base_ctx or done) else "fresh"
+    for i in range(len(done), n_do):
+        ex_i, u_i, ev_i = _extract_page(pdf, i, v_sha, pages, cache_root, base_ctx if i == 0 else None, base_meta if i == 0 else None, origin, client=client, part=part, say=say,
+                                        tiles=tiles)
+        usage = _sum_usage(usage, u_i)
+        if i == 0:
+            ex_i["warnings"] += warnings
+        pages_ex.append(ex_i)
+        evs[i] = ev_i
+        head = dict(pages_ex[0])
+        head["more_pages"] = pages_ex[1:]
+        _store(cache_root, head)                         # after every page: a paid page is never lost
+    return _result(pages_ex, pages, origin, usage, warnings, pdf, v_sha, evs)
+
+
+def _result(pages_ex: list[dict], pages: int, cache: str, usage: dict, warnings: list[str], pdf: Path, sha: str, evs: Optional[dict] = None) -> dict:
+    from reverse import drawingspec
+    head = dict(pages_ex[0])
+    head["more_pages"] = pages_ex[1:]
+    for w_ in warnings:
+        if w_ not in head["warnings"]:
+            head["warnings"].append(w_)
+    spec = drawingspec.build_spec([dict(p) for p in pages_ex], sha, pdf.name, pages, evs, {"cache": cache, "model": head.get("provenance", {}).get("model")})
+    return {"extraction": head, "pages": pages_ex, "cache": cache, "usage": usage, "warnings": head["warnings"], "spec": spec}
 
 
 def _zero_usage(prov: dict) -> dict:

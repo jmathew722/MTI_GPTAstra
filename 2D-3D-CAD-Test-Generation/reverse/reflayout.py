@@ -29,6 +29,8 @@ def parse_scale(text: str) -> Optional[tuple[int, int]]:
         if re.search(r"\b" + word + r"\b", t) and not re.search(r"\d\s*[:/]\s*\d", t):
             return sc
     m = re.search(r"(\d+(?:\.\d+)?)\s*[:/]\s*(\d+(?:\.\d+)?)", text or "")
+    if not m:       # imperial notation: 1"=2" / 1 IN = 2 IN / 1"= 2": drawing length = model length (printed 1 inch stands for 2 inches -> 1:2)
+        m = re.search(r"(\d+(?:\.\d+)?)\s*(?:\"|''|”|IN(?:CH(?:ES)?)?\.?|MM)?\s*=\s*(\d+(?:\.\d+)?)\s*(?:\"|''|”|IN(?:CH(?:ES)?)?\.?|MM)?", t)
     if not m:
         return None
     a, b = float(m.group(1)), float(m.group(2))
@@ -84,7 +86,7 @@ def _type_of(sw_view: str) -> str:
     return (sw_view or "").strip("*")
 
 
-def apply_reference(plan: dict, ref: dict, ext: dict) -> dict:
+def apply_reference(plan: dict, ref: dict, ext: dict, frame=None, replicate: bool = False) -> dict:
     ext = dict(ext)
     """Mutate ``plan`` in place: view rects moved to the reference centres where safe. Returns the ``reference_layout`` record (also stored in the plan)."""
     W = plan["regions_m"]["sheet"][2]
@@ -104,7 +106,7 @@ def apply_reference(plan: dict, ref: dict, ext: dict) -> dict:
     # which reference view corresponds to which role. The reference may call the big face "Top" while this model's own Front is that face, so the type name is only a
     # tie-breaker: orthographic views are matched by the shape of what they show (width / height of the part's silhouette), isometric by type.
     wanted: dict[str, dict] = {}
-    ortho_types = ("Front", "Top", "Right", "Left", "Back", "Bottom", "Auxiliary", "Other")
+    ortho_types = ("Front", "Top", "Right", "Left", "Back", "Bottom", "Auxiliary", "Other") + (("Section",) if replicate else ())
     pw, ph = float(ref.get("sheet", {}).get("width_pt") or 1), float(ref.get("sheet", {}).get("height_pt") or 1)
     ortho_refs = [v for v in refviews if v["type"] in ortho_types and v.get("bbox_norm")]
     roles = [r_ for r_ in ("front", "top", "right") if r_ in rects and plan["views"].get(r_)]
@@ -135,12 +137,22 @@ def apply_reference(plan: dict, ref: dict, ext: dict) -> dict:
             if c > 0.35:
                 c += 5.0                          # an obviously different shape is never accepted
             cost += c
+            if replicate and role in ("top", "right") and "front" in roles:
+                # two roles can have the SAME silhouette (a thin ring seen from two sides): projection geometry decides. In third angle the view to the RIGHT of
+                # the front (same band) is the right view and the one ABOVE it is the top; first angle mirrors both. Position, never the label, resolves it.
+                fid = perm[roles.index("front")]
+                if fid:
+                    fc, vc = byid[fid]["center_norm"], byid[vid]["center_norm"]
+                    dx, dy = vc[0] - fc[0], vc[1] - fc[1]
+                    third = plan.get("projection", "third") == "third"
+                    ok = (abs(dy) <= abs(dx) and (dx > 0) == third) if role == "right" else (abs(dx) < abs(dy) and (dy < 0) == third)
+                    cost += 0.0 if ok else 2.0
         if cost < best_cost - 1e-9:
             best_cost, best_assign, runner = cost, perm, best_cost
         elif cost < runner:
             runner = cost
     if best_assign is not None:
-        ambiguous = (runner - best_cost) < 0.03 and len(roles) > 1 and len({role_aspect(r_) for r_ in roles}) < len(roles)
+        ambiguous = (runner - best_cost) < 0.03 and len(roles) > 1 and len({role_aspect(r_) for r_ in roles}) < len(roles) and not replicate
         for role, vid in zip(roles, best_assign):
             if vid is None or ambiguous:
                 rec["views"][role] = {"status": "no_reference_view" if not ambiguous else "ambiguous_shape",
@@ -150,9 +162,19 @@ def apply_reference(plan: dict, ref: dict, ext: dict) -> dict:
             wanted[role] = byid[vid]
             rec["views"].setdefault(role, {})["matched_by"] = "silhouette proportions" + (" and type" if byid[vid]["type"] == _type_of(plan["views"][role]) else "")
     iso_cands = [v for v in refviews if v["type"] == "Isometric" and v.get("bbox_norm")]
+    if replicate:
+        # replication: only the views the source shows are created (no added isometric, no projected view without a source counterpart)
+        for role in ("top", "right"):
+            if role in rects and role not in wanted:
+                rec["views"][role] = {"status": "omitted_not_in_source", "note": f"the source drawing shows no view matching this model's {plan['views'].get(role)} silhouette; not created in replication mode"}
+                rects.pop(role)
+        if "iso" in rects and not iso_cands:
+            rects.pop("iso")
+            rec["views"]["iso"] = {"status": "omitted_not_in_source", "note": "the source drawing has no isometric view; none is added in replication mode"}
+        plan["rects_m"] = {k: v.as_list() for k, v in rects.items()}
     if "iso" in rects and iso_cands:
         wanted["iso"] = max(iso_cands, key=lambda v: (v.get("confidence") or 0))
-    elif "iso" in rects:
+    elif "iso" in rects and not replicate:
         rec["views"]["iso"] = {"status": "no_reference_view", "type": "Isometric", "note": "The reference has no isometric view (this pipeline always adds one, Shaded With Edges); placed by the planner."}
     new = dict(rects)
     moved: dict[str, list] = {}
@@ -164,7 +186,7 @@ def apply_reference(plan: dict, ref: dict, ext: dict) -> dict:
         v = wanted.get(role)
         if not v:
             return None
-        cx, cy = to_sheet_m(tuple(v["center_norm"]), W, H)
+        cx, cy = frame.norm_to_sheet(*v["center_norm"]) if frame is not None else to_sheet_m(tuple(v["center_norm"]), W, H)
         rec["views"].setdefault(role, {}).update({"reference_view": v["id"], "type": v["type"], "reference_center_m": [round(cx, 6), round(cy, 6)]})
         rec["views"][role].pop("note", None)
         return cx, cy

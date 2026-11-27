@@ -91,7 +91,8 @@ class LedgerEntry:
         return {k: v for k, v in self.__dict__.items() if v not in (None, "")}
 
 
-def semantic(ref: dict, native_dims: list[dict], *, default_unit: Optional[str], notes_carried: set[str], native_material: Optional[str], native_views: dict) -> dict:
+def semantic(ref: dict, native_dims: list[dict], *, default_unit: Optional[str], notes_carried: set[str], native_material: Optional[str], native_views: dict,
+             source_notes: Optional[set] = None, replicate: bool = False) -> dict:
     """Per-item semantic comparison. ``native_dims`` = standards.Standards.inventory() rows (true model values, metres)."""
     ledger: list[LedgerEntry] = []
     used: dict[str, str] = {}
@@ -160,7 +161,9 @@ def semantic(ref: dict, native_dims: list[dict], *, default_unit: Optional[str],
         req = n.get("kind", "general_note") in GENERAL_NOTE_KINDS
         e = LedgerEntry(f"L{len(ledger) + 1:03d}", n.get("id", "?"), "note:" + n.get("kind", "general_note"), n.get("text", ""), req, "not_applicable")
         if n.get("id") in notes_carried:
-            e.status, e.reason = "preserved_note", "carried verbatim into the reference-note block with provenance (not engineering approval)"
+            e.status = "preserved_note"
+            e.reason = ("reproduced verbatim as an editable native note at its source position (not engineering approval)" if replicate else
+                        "carried verbatim into the reference-note block with provenance (not engineering approval)")
         elif req:
             e.status, e.severity, e.reason = "unresolved_requirement", "medium", "this note could not be placed on the sheet; see the QA ledger for its text"
         else:
@@ -179,7 +182,16 @@ def semantic(ref: dict, native_dims: list[dict], *, default_unit: Optional[str],
         else:
             mat["status"] = "mismatch"
             mat["note"] = "The reference material text does not match the material assigned to the model."
-    if pages > 1:
+    for e in ledger:       # source-only callouts reproduced as editable, NON-associative notes: present on the sheet, but they need an engineer's eye
+        if source_notes and e.ref_id in source_notes and e.kind != "tolerance":
+            if e.status in ("missing", "unresolved_requirement", "unit_unknown", "not_applicable"):
+                e.status = "source_note"
+                e.reason = ("reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must "
+                            "confirm it against the model")
+                e.severity = "medium" if e.kind in ("linear", "diameter", "radius", "hole_callout", "chamfer", "angular", "thread", "gdt", "finish") else "info"
+            elif e.status == "value_differs":
+                e.reason += "; the printed text is also reproduced verbatim as a source note"
+    if pages > 1 and not replicate:
         ledger.append(LedgerEntry(f"L{len(ledger) + 1:03d}", "pages", "sheet", f"{pages} reference pages", True, "page_not_reconstructed",
                                   reason=f"the reference has {pages} pages; only sheet 1 content was extracted and reconstructed", severity="high"))
     req_items = [e for e in ledger if e.required and e.kind != "tolerance"]

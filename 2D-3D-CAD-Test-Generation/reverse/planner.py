@@ -183,7 +183,7 @@ def _projected_names(front: str) -> tuple[str, str]:
 
 
 def plan_views(bbox_m: tuple[float, float, float], profile: str = "us_third_angle_inch", hole_axes: Optional[dict] = None,
-               front_override: Optional[str] = None, needs_section: bool = False, scale_override: Optional[tuple[int, int]] = None) -> dict:
+               front_override: Optional[str] = None, needs_section: bool = False, scale_override: Optional[tuple[int, int]] = None, force_scale: bool = False) -> dict:
     """The complete view/sheet plan. Never silently crowds: if nothing fits at an acceptable scale, the isometric (and any section/detail) moves
     to an additional sheet; if even the orthographic block does not fit at the smallest scale, the plan says so and the job needs review."""
     if profile not in PROFILES:
@@ -208,9 +208,15 @@ def plan_views(bbox_m: tuple[float, float, float], profile: str = "us_third_angl
         notes.append("No standard scale fits the orthographic views on one sheet; needs a larger sheet or a manual layout.")
         num, den = scales[-1]
         lay = {"rects": {}, "views": {}}
+        if force_scale and scale_override:
+            # replication mode: the SOURCE scale is authoritative. Build the arrangement at that scale even though this profile's sheet cannot hold it;
+            # the source positions are applied afterwards and any overlap is reported there, never hidden by rescaling.
+            top_view, right_view = _projected_names(front)
+            r0 = _ortho_rects(front, ext, num / den, prof["projection"], regions["usable"].x0 + GAP_MIN * 0.8, regions["usable"].y0 + GAP_MIN * 0.8, GAP_MIN)
+            lay = {"rects": r0, "views": {"front": front, "top": top_view, "right": right_view, "iso": None}, "iso_on_sheet": 2, "iso_scale": num / den}
         chosen = ((num, den), lay)
     (num, den), lay = chosen
-    if lay.get("iso_on_sheet") == 2:
+    if lay.get("iso_on_sheet") == 2 and not (force_scale and not scale_fit):
         sheets = [{"index": 1, "name": "Sheet1", "contents": ["front", "top", "right"]}, {"index": 2, "name": "Sheet2", "contents": ["iso"]}]
         notes.append("The isometric view does not fit beside the orthographic views at this scale; it is placed on a second sheet instead of crowding sheet 1.")
     iso_scale = lay.get("iso_scale", num / den)

@@ -11,6 +11,7 @@ import logging
 import math
 import os
 import shutil
+import statistics
 import time
 from pathlib import Path
 from typing import Optional
@@ -74,12 +75,15 @@ def stage_extraction(r) -> None:
     try:
         with tracker.activate(part=r.part.part_id, arm="reverse-reference"):
             res = refextract.extract_reference(r.ref_pdf, cache_root=refs.cache_root, prior=prior, refresh=bool(r.job.options.get("refresh_reference")),
-                                               client=refs.client, part=r.part.part_id, progress=msgs.append)
+                                               client=refs.client, part=r.part.part_id, progress=msgs.append,
+                                               tiles=int(r.job.options.get("tiles_per_page") or 0))
     except budget.BudgetExceeded:
         raise
     ex = res["extraction"]
     use = res["usage"]
     r.ref_ex = ex
+    r.ref_pages = res.get("pages") or [ex]
+    r.spec = res.get("spec")
     ref["extraction_cache"] = res["cache"]
     ref["extraction_id"] = ex.get("extraction_id", "")
     ref["extraction_schema"] = ex.get("schema_version", "")
@@ -94,6 +98,9 @@ def stage_extraction(r) -> None:
         r.part.stages["extraction"]["note"] = "cached reference extraction reused: zero incremental API calls"
     ex_path = r.stage_dir / "reference" / "reference_extraction.json"
     _w(ex_path, ex)
+    if r.spec:
+        _w(r.stage_dir / "reference" / "drawing_spec.json", r.spec)
+        ref["spec"] = {"schema": r.spec["schema_version"], "pages": r.spec["pages_extracted"], "completeness": r.spec["completeness"], "pages_missing": r.spec["pages_missing"]}
 
 
 # ------------------------------------------------------------------ geometry compatibility (unrelated / wrong reference detection)
@@ -171,6 +178,12 @@ def plan_with_reference(r) -> dict:
     dev: list[str] = []
     scale_override = None
     ref_active = r.ref_applied
+    if ref_active:
+        from reverse import replicate as _rep
+        if _rep.active(r):
+            rp = plan_replication(r)
+            if rp is not None:
+                return rp
     if ref_active:
         prof2, d1 = reflayout.pick_profile(r.ref_ex, prof, inv_units(r))
         dev += d1
@@ -550,14 +563,15 @@ def native_views_info(r, dd) -> tuple[dict, dict]:
     return typ, centers
 
 
-def run_comparison(r, dd, st, pages, notes_carried: set) -> dict:
+def run_comparison(r, dd, st, pages, notes_carried: set, source_notes: Optional[set] = None) -> dict:
     """Semantic + spatial comparison of the generated drawing against the reference extraction (all in sheet metres / mm)."""
     ex = r.ref_ex
     W, H = sheet_dims(r)
     dims = [i for i in st.inventory() if "error" not in i]
     typ, centers = native_views_info(r, dd)
     default_unit = "inch" if r.plan.get("units") == "inch" else "mm"
-    sem = compare.semantic(ex, dims, default_unit=default_unit, notes_carried=notes_carried, native_material=(r.material or {}).get("name"), native_views=typ)
+    sem = compare.semantic(ex, dims, default_unit=default_unit, notes_carried=notes_carried, native_material=(r.material or {}).get("name"), native_views=typ,
+                       source_notes=source_notes, replicate=source_notes is not None)
     texts = pages[0].texts if pages else []
     ann_text = {}
     t2a = getattr(r, "best_t2a", None) or layout.map_text_to_annotations(texts, {i["id"]: tuple(i["position_m"]) for i in dims})
@@ -610,3 +624,356 @@ def reposition_toward_reference(r, dd, st, sem: dict, sp: dict, pages) -> dict:
         else:
             rep["skipped"].append({"annotation": aid, "ref": item["ref_id"], "why": "the reference position would collide with other text, a view or the title block; relocated placement kept"})
     return rep
+
+
+# ------------------------------------------------------------------ replication mode (v8)
+
+def infer_scale(ex: dict, ext: dict, units_hint: str = "") -> Optional[dict]:
+    """Scale from MEASURABLE geometry when the source states none: a source view's drawn size vs the model's extents, snapped to a standard ratio within 3 %.
+    Returns {num, den, basis:'inferred', error_pct} or None. An inferred scale is always labelled; it is never silently treated as explicit."""
+    from reverse import srcmap
+    sheet = ex.get("sheet", {})
+    w_pt, h_pt = float(sheet.get("width_pt") or 0), float(sheet.get("height_pt") or 0)
+    if not (w_pt and h_pt):
+        return None
+    dims = sorted(ext.values())
+    cands = []
+    for v in ex.get("views", []):
+        bb = v.get("bbox_norm")
+        if not bb or v.get("type") in ("Isometric", "Detail"):
+            continue
+        bw, bh = (bb[2] - bb[0]) * w_pt * srcmap.PT_TO_M, (bb[3] - bb[1]) * h_pt * srcmap.PT_TO_M
+        for d in dims:
+            for side in (bw, bh):
+                if d > 0 and side > 0:
+                    cands.append(side / d)
+    best = None
+    for num, den in planner.SCALES_INCH + planner.SCALES_METRIC:
+        s = num / den
+        hits = sum(1 for c in cands if abs(c - s) / s <= 0.03)
+        if hits >= 2 and (best is None or hits > best[0]):
+            best = (hits, num, den, statistics.fmean(abs(c - s) / s for c in cands if abs(c - s) / s <= 0.03) * 100)
+    return {"num": best[1], "den": best[2], "basis": "inferred", "error_pct": round(best[3], 2), "evidence_pairs": best[0]} if best else None
+
+
+def plan_replication(r) -> Optional[dict]:
+    """Plan the sheet from the SOURCE: physical size, scale, view centres, keep-outs and title block. Returns None when replication cannot start (the caller
+    then runs the standard reference path and says so)."""
+    from reverse import replicate, templates
+    ex, inv = r.ref_ex, r.inv
+    dev: list[str] = []
+    tgt = replicate.sheet_target(ex["sheet"])
+    if not tgt.get("ok"):
+        r.part.reference["warnings"].append(f"Replication could not size the sheet ({tgt.get('reason')}); the reference layout path was used.")
+        return None
+    stock = templates.stock_entry()
+    if not stock:
+        r.part.reference["warnings"].append("The stock SOLIDWORKS drawing template is not installed, so a blank sheet for replication cannot be created; the reference layout path was used.")
+        return None
+    prof, d1 = reflayout.pick_profile(ex, r.job.profile, "")
+    dev += d1
+    ss = reflayout.reference_scale(ex)
+    basis = "explicit"
+    ext = dict(zip("xyz", inv["size_m"]))
+    if ss is None:
+        inf = infer_scale(ex, ext)
+        if inf:
+            ss, basis = (inf["num"], inf["den"]), "inferred"
+            dev.append(f"The source states no scale; {inf['num']}:{inf['den']} was INFERRED from measured view sizes (error {inf['error_pct']} %). Confirm it.")
+        else:
+            dev.append("The source states no scale and none could be inferred from its views; the largest standard scale that fits was used (needs review).")
+    plan = planner.plan_views(tuple(inv["size_m"]), prof, hole_axes=inv["hole_axes"], scale_override=ss, force_scale=ss is not None)
+    plan["scale_basis"] = basis if ss is not None else "planner_default"
+    plan["scale"]["basis"] = plan["scale_basis"]
+    frame = replicate.make_frame(ex["sheet"], tgt)
+    try:
+        lines = replicate.detect_lines(r.ref_pdf, 0)
+    except Exception as e:      # noqa: BLE001
+        lines = None
+        dev.append(f"Sheet linework could not be detected ({type(e).__name__}); no border / title block geometry was drawn.")
+    tb = replicate.title_block_bbox(ex, lines)
+    segs, srep = replicate.sheet_segments(lines, tb, frame, ex)
+    replicate.override_regions(plan, frame, tgt, tb)
+    r.template = dict(stock, own_sheet_format=False)
+    r.frame, r.sheet_target, r.sheet_segments, r.sheet_seg_report, r.tb_pt = frame, tgt, segs, srep, tb
+    r.profile_used = prof
+    dev.append(f"Blank stock sheet used (not a Solid Flow template): {tgt['note']}.")
+    rec = reflayout.apply_reference(plan, ex, ext, frame=frame, replicate=True)
+    rec["sheet_deviations"] = dev
+    rec["deviations"] = dev + rec["deviations"]
+    rec["replicate"] = True
+    return plan
+
+
+def place_source_notes(r, dd, st) -> set:
+    """Replication: every source text that is not an associative dimension, verbatim and editable, at its source position (no placeholder / heading text)."""
+    from reverse import replicate
+    ex = r.ref_ex
+    dims = [i for i in st.inventory() if "error" not in i]
+    default_unit = "inch" if r.plan.get("units") == "inch" else "mm"
+    sem0 = compare.semantic(ex, dims, default_unit=default_unit, notes_carried=set(), native_material=(r.material or {}).get("name"), native_views={}, replicate=True)
+    notes = replicate.collect_notes(ex, sem0["ledger"])
+    recs = replicate.place_notes(r, dd, r.frame, notes)
+    r.note_recs = recs
+    r.source_notes = {x["id"] for x in recs if x.get("placed") and x["source"] == "annotation"}
+    r.carried = {x["id"] for x in recs if x.get("placed") and x["source"] == "note"}
+    failed = [x for x in recs if not x.get("placed")]
+    for x in failed:
+        r.issues.append(qa.issue("high", "SOURCE_NOTE_NOT_PLACED", f"The source text could not be placed as a note: {x['text'][:60]!r}", part_id=r.part.part_id, source_ref=x["id"],
+                                 next_action="Add this text manually; it is preserved in drawing_spec.json."))
+    return r.carried
+
+
+def _view_positions(dd) -> dict:
+    return {role: [float(v) for v in dd.s.typed(tv, "IView").Position] for role, tv in dd.views.items()}
+
+
+def _restore_views(dd, pos: dict) -> None:
+    from reverse.drawing import com_doubles
+    for role, p in pos.items():
+        try:
+            dd.s.typed(dd.views[role], "IView").Position = com_doubles(*p)
+        except Exception:      # noqa: BLE001
+            pass
+
+
+def view_center_deviation(r, dd) -> list[dict]:
+    """Native outline centre vs the matched source view's centre, in sheet mm (frame-registered)."""
+    out = []
+    ex = r.ref_ex
+    for role, info in ((r.plan.get("reference_layout") or {}).get("views") or {}).items():
+        rv = info.get("reference_view")
+        if not rv or role not in dd.views:
+            continue
+        v = next((x for x in ex.get("views", []) if x["id"] == rv), None)
+        if not v:
+            continue
+        tx, ty = r.frame.norm_to_sheet(*v["center_norm"])
+        try:
+            o = dd.view_outline(role)
+        except Exception:      # noqa: BLE001
+            continue
+        cx, cy = (o[0] + o[2]) / 2, (o[1] + o[3]) / 2
+        d = math.hypot(cx - tx, cy - ty) * 1000
+        out.append({"role": role, "ref_view": rv, "target_m": [round(tx, 6), round(ty, 6)], "actual_m": [round(cx, 6), round(cy, 6)], "dx_mm": round((cx - tx) * 1000, 2),
+                    "dy_mm": round((cy - ty) * 1000, 2), "distance_mm": round(d, 2)})
+    return out
+
+
+def correct_view_centres(r, dd, th: dict) -> dict:
+    """Move each view so its measured outline centre sits on the source centre (base first: projected views keep their alignment, so only their free axis can
+    move). Verified by outline read-back; a move that SOLIDWORKS refuses or that leaves the sheet is undone and reported."""
+    from reverse.drawing import com_doubles
+    rep = {"moves": [], "locked": []}
+    order = [x for x in ("front", "top", "right", "iso") if x in dd.views] + [x for x in dd.views if x not in ("front", "top", "right", "iso")]
+    for role in order:
+        dev = {d["role"]: d for d in view_center_deviation(r, dd)}.get(role)
+        if not dev or dev["distance_mm"] <= th["view_center_mm"] * 0.5:
+            continue
+        tv = dd.s.typed(dd.views[role], "IView")
+        p0 = [float(v) for v in tv.Position]
+        dx, dy = -dev["dx_mm"] / 1000.0, -dev["dy_mm"] / 1000.0
+        tv.Position = com_doubles(p0[0] + dx, p0[1] + dy)
+        after = {d["role"]: d for d in view_center_deviation(r, dd)}.get(role)
+        if after and after["distance_mm"] < dev["distance_mm"] - 0.05:
+            rep["moves"].append({"role": role, "from_mm": dev["distance_mm"], "to_mm": after["distance_mm"], "delta_mm": [round(dx * 1000, 2), round(dy * 1000, 2)], "reason": "source centre"})
+        else:
+            tv.Position = com_doubles(*p0)
+            rep["locked"].append({"role": role, "distance_mm": dev["distance_mm"], "why": "SOLIDWORKS keeps this view aligned to its parent (or the move did not reduce the deviation)"})
+    return rep
+
+
+def annotation_pairs(r, snap, pages, sem) -> list[dict]:
+    """Matched (reference annotation, native dimension, measured text box) triples with the source target centre in sheet metres."""
+    byt = {t.id: t for t in pages[0].texts} if pages else {}
+    t2a = map_all(pages[0].texts, snap) if pages else {}
+    a2t = {aid: tid for aid, tid in t2a.items()}
+    by_ref = {a["id"]: a for a in r.ref_ex.get("annotations", [])}
+    inv = {i["id"]: i for i in snap if i.get("kind") == "dimension"}
+    out = []
+    for e in sem["ledger"]:
+        if e.get("status") not in ("matched", "matched_shared") or not e.get("native_id"):
+            continue
+        a = by_ref.get(e["ref_id"])
+        rec = inv.get(e["native_id"])
+        tb = byt.get(a2t.get(e["native_id"])) if rec else None
+        if not a or not a.get("bbox_pt") or rec is None or tb is None:
+            continue
+        cx, cy = r.frame.to_sheet((a["bbox_pt"][0] + a["bbox_pt"][2]) / 2, (a["bbox_pt"][1] + a["bbox_pt"][3]) / 2)
+        out.append({"ref_id": e["ref_id"], "native_id": e["native_id"], "text": e.get("text", ""), "tbox": tb, "tid": tb.id, "rec": rec, "target": (cx, cy),
+                    "position_source": a.get("position_source"), "dev_mm": math.hypot(tb.center[0] - cx, tb.center[1] - cy) * 1000})
+    return out
+
+
+def place_annotations_from_source(r, dd, st, pages, sem, outl, th) -> dict:
+    """Source-coordinate placement: every matched dimension text is moved to the centre of its source annotation (hard preference), then ONLY measured
+    collisions displace an item, by the smallest free offset; every displacement and its reason is recorded. The result is accepted only when the measured
+    collision score is no worse than the layout it started from."""
+    rep = {"applied": [], "displaced": [], "kept": [], "skipped": []}
+    snap0 = snapshot(st)
+    pairs = [p for p in annotation_pairs(r, snap0, pages, sem)]
+    base_col = detect_now(r, dd, st, pages, outl, set(map_all(pages[0].texts, snap0).values()) | getattr(r, "note_text_ids", set()))
+    base_score = layout.score(base_col)
+    rep["baseline"] = {"collisions": len(base_col), "score": base_score}
+    moved = []
+    for p in sorted(pairs, key=lambda x: -x["dev_mm"]):
+        if p["position_source"] == "model_estimate":
+            rep["skipped"].append({"ref_id": p["ref_id"], "why": "the source position is a model estimate (no text evidence); not chased"})
+            continue
+        dx, dy = p["target"][0] - p["tbox"].center[0], p["target"][1] - p["tbox"].center[1]
+        if math.hypot(dx, dy) < 0.0003:
+            rep["kept"].append({"ref_id": p["ref_id"], "deviation_mm": round(p["dev_mm"], 2)})
+            continue
+        rec = p["rec"]
+        if move_annotation(dd, st, rec["select_name"], rec["view_name"], (rec["position_m"][0] + dx, rec["position_m"][1] + dy)):
+            moved.append(p)
+            rep["applied"].append({"ref_id": p["ref_id"], "native": p["native_id"], "delta_mm": [round(dx * 1000, 1), round(dy * 1000, 1)], "from_mm": round(p["dev_mm"], 1)})
+    if not moved:
+        return rep
+    pdf1, pages1, err1 = export_measure(r, dd, st, "rep_src")
+    snap1 = snapshot(st)
+    t2a1 = map_all(pages1[0].texts, snap1)
+    ours1 = set(t2a1.values()) | getattr(r, "note_text_ids", set())
+    col1 = detect_now(r, dd, st, pages1, outl, ours1)
+    # minimal displacement for the colliding ones only
+    byt = {t.id: t for t in pages1[0].texts}
+    a2t = {aid: tid for aid, tid in t2a1.items()}
+    strokes = _model_strokes(pages1[0], outl)
+    reg = {k: planner.Rect(*v) for k, v in r.plan["regions_m"].items()}
+    usable = reg["usable"]
+    keep = {"title_block": (reg["title_block"].x0, reg["title_block"].y0, reg["title_block"].x1, reg["title_block"].y1)}
+    cl = float(r.job.options.get("clearance_mm", layout.DEFAULT_CLEARANCE_MM)) / 1000.0
+    inv1 = {i["id"]: i for i in snap1 if i.get("kind") == "dimension"}
+    by_native = {p["native_id"]: p for p in moved}
+    why_for: dict[str, str] = {}
+    for c in col1:
+        for tid in (c.a, c.b):
+            aid = next((a for a, t in a2t.items() if t == tid), None)
+            if aid in by_native and aid not in why_for:
+                why_for[aid] = f"{c.kind} collision (measured) at the source position: {c.a_text} / {c.b_text}".strip(" /")
+    moved_boxes: dict[str, layout.TBox] = {}
+    for aid, why in why_for.items():
+        tid = a2t[aid]
+        tb = byt.get(tid)
+        rec = inv1.get(aid)
+        if tb is None or rec is None:
+            continue
+        others = [b for k, b in byt.items() if k != tid and k not in moved_boxes] + list(moved_boxes.values())
+        for dx, dy in layout.propose_offsets(tb, tb.horizontal):
+            if layout.free_at(tb, dx, dy, others, strokes, {k: v for k, v in outl.items() if k != rec["view"]}, (usable.x0, usable.y0, usable.x1, usable.y1), keep, cl, rec["view"]):
+                if move_annotation(dd, st, rec["select_name"], rec["view_name"], (rec["position_m"][0] + dx, rec["position_m"][1] + dy)):
+                    moved_boxes[tid] = layout.TBox(tb.id, tb.text, tb.x0 + dx, tb.y0 + dy, tb.x1 + dx, tb.y1 + dy)
+                    rep["displaced"].append({"native": aid, "ref_id": by_native[aid]["ref_id"], "text": by_native[aid]["text"], "displacement_mm": round(math.hypot(dx, dy) * 1000, 1),
+                                             "delta_mm": [round(dx * 1000, 1), round(dy * 1000, 1)], "reason": why})
+                break
+    pdf2, pages2, err2 = export_measure(r, dd, st, "rep_src2")
+    snap2 = snapshot(st)
+    t2a2 = map_all(pages2[0].texts, snap2)
+    col2 = detect_now(r, dd, st, pages2, outl, set(t2a2.values()) | getattr(r, "note_text_ids", set()))
+    s2 = layout.score(col2)
+    rep["after"] = {"collisions": len(col2), "score": s2}
+    if s2 <= base_score and not err2:
+        rep["accepted"] = True
+        r.best_t2a, r.best_ours = t2a2, set(t2a2.values())
+    else:
+        rep["accepted"] = False
+        rep["decision"] = (f"source positions rejected: measured collision score {s2} would be worse than the generated layout's {base_score}; positions restored. "
+                           "Every annotation keeps its generated position and is reported as a position deviation.")
+        restore_snapshot(dd, st, snap0)
+    return rep
+
+
+def annotation_anchor_deviation(r, st, pages, sem) -> list[dict]:
+    """Final measured distance (mm) of each matched dimension text from its source box centre."""
+    snap = snapshot(st)
+    return [{"ref_id": p["ref_id"], "native": p["native_id"], "text": p["text"], "distance_mm": round(p["dev_mm"], 2), "position_source": p["position_source"]}
+            for p in annotation_pairs(r, snap, pages, sem)]
+
+
+def replication_loop(r, dd, st) -> dict:
+    """Bounded closed loop (default 3 iterations): measure -> correct views, note offsets, annotation positions -> re-export -> compare; keep the best candidate.
+    Stops on pass, no improvement, the iteration cap or a budget stop (no model call is made here, so the budget cannot be the stop in practice)."""
+    from reverse import replicate
+    th = replicate.thresholds(r.job.options.get("replication_thresholds") and {"replication_thresholds": r.job.options["replication_thresholds"]})
+    max_iter = int(r.job.options.get("max_iterations", DEFAULT_ITERATIONS))
+    hist: list[dict] = []
+    stop = "iteration_cap"
+    best = None
+    sem_final = None
+    pages = None
+    for it in range(0, max_iter + 1):
+        r._check_cancel()
+        pdf, pages, err = export_measure(r, dd, st, f"rep{it}")
+        if err:
+            raise worker.CadError(err)
+        if it == 0 or True:
+            note_rep = replicate.refine_note_positions(r, dd, r.note_recs, pages, r.frame)
+            if note_rep["shifted"]:
+                pdf, pages, err = export_measure(r, dd, st, f"rep{it}n")
+        r.note_text_ids = _note_text_ids(r, pages)
+        outl = outlines(r, dd)
+        cmp_ = run_comparison(r, dd, st, pages, r.carried, source_notes=r.source_notes)
+        vdev = view_center_deviation(r, dd)
+        adev = annotation_anchor_deviation(r, st, pages, cmp_["semantic"])
+        col = detect_now(r, dd, st, pages, outl, set(map_all(pages[0].texts, snapshot(st)).values()) | r.note_text_ids)
+        obj = sum(v["distance_mm"] for v in vdev) * 3 + sum(a["distance_mm"] for a in adev) + layout.score(col) * 20
+        entry = {"iteration": it, "view_dev_max_mm": max((v["distance_mm"] for v in vdev), default=None), "annotation_dev_median_mm": round(statistics.median([a["distance_mm"] for a in adev]), 2) if adev else None,
+                 "annotation_dev_max_mm": max((a["distance_mm"] for a in adev), default=None), "collisions": len(col), "objective": round(obj, 2), "notes_shifted": note_rep["shifted"]}
+        hist.append(entry)
+        cur = {"obj": obj, "views": _view_positions(dd), "snap": snapshot(st), "pages": pages, "pdf": pdf, "cmp": cmp_, "vdev": vdev, "adev": adev, "col": col, "it": it}
+        improved = best is None or obj < best["obj"] - 0.05
+        if improved:
+            best = cur
+        else:
+            entry["rejected"] = "no measured improvement; the best earlier revision was restored"
+            _restore_views(dd, best["views"])
+            restore_snapshot(dd, st, best["snap"])
+            stop = "no_improvement"
+            break
+        within = (not vdev or max(v["distance_mm"] for v in vdev) <= th["view_center_mm"]) and (not adev or max(a["distance_mm"] for a in adev) <= th["annotation_anchor_mm"]) \
+            and not [c for c in col if c.severity != "low"]
+        if within:
+            stop = "passed"
+            break
+        if it == max_iter:
+            break
+        vrep = correct_view_centres(r, dd, th)
+        entry["views_moved"] = vrep["moves"]
+        entry["views_locked"] = vrep["locked"]
+        pdf1, pages1, err1 = export_measure(r, dd, st, f"rep{it}v")
+        outl1 = outlines(r, dd)
+        cmp1 = run_comparison(r, dd, st, pages1, r.carried, source_notes=r.source_notes)
+        arep = place_annotations_from_source(r, dd, st, pages1, cmp1["semantic"], outl1, th)
+        entry["annotation_placement"] = {k: arep.get(k) for k in ("baseline", "after", "accepted", "decision")} | {"moved": len(arep["applied"]), "displaced": len(arep["displaced"]), "skipped": len(arep["skipped"])}
+        r.displacements = getattr(r, "displacements", []) + arep["displaced"]
+        r.placement_reports = getattr(r, "placement_reports", []) + [arep]
+    # final state = the best candidate
+    _restore_views(dd, best["views"])
+    restore_snapshot(dd, st, best["snap"])
+    pdf_f, pages_f, err_f = export_measure(r, dd, st, "rep_final")
+    r.note_text_ids = _note_text_ids(r, pages_f)
+    t2a_f = map_all(pages_f[0].texts, snapshot(st))
+    r.best_t2a, r.best_ours = t2a_f, set(t2a_f.values())
+    outl_f = outlines(r, dd)
+    cmp_f = run_comparison(r, dd, st, pages_f, r.carried, source_notes=r.source_notes)
+    r.comparison = cmp_f
+    r.comparison["iterations"] = {"used": max(0, len(hist) - 1), "max": max_iter, "best": best["it"], "history": hist, "stop_reason": stop}
+    r.rep_state = {"vdev": view_center_deviation(r, dd), "adev": annotation_anchor_deviation(r, st, pages_f, cmp_f["semantic"]), "pages": pages_f, "pdf": pdf_f,
+                   "col": detect_now(r, dd, st, pages_f, outl_f, set(t2a_f.values()) | r.note_text_ids)}
+    return r.comparison["iterations"]
+
+
+def _note_text_ids(r, pages) -> set:
+    """Text boxes of the source notes that are NOT inside the source title block (title-block text is intentionally inside its keep-out)."""
+    if not pages:
+        return set()
+    from reverse import replicate
+    tb = r.plan["regions_m"]["title_block"]
+    ids: set = set()
+    for rec in getattr(r, "note_recs", []):
+        tx, ty = rec.get("target_center_m") or (None, None)
+        if tx is None or (tb[0] <= tx <= tb[2] and tb[1] <= ty <= tb[3]):
+            continue
+        lines = {replicate.norm_text(t) for t in rec["text"].split("\n") if replicate.norm_text(t)}
+        ids.update(t.id for t in pages[0].texts if replicate.norm_text(t.text) in lines and math.hypot(t.center[0] - tx, t.center[1] - ty) <= 0.25)
+    return ids
