@@ -13,6 +13,15 @@
     { id: 'planning', label: 'View planning' }, { id: 'drawing', label: 'Native drawing' }, { id: 'dimensioning', label: 'Dimensions' },
     { id: 'verification', label: 'Verification' }, { id: 'publishing', label: 'Publish' }
   ];
+  /* v7 stage vocabulary (backend: V7_CONTRACT section 5). Old jobs keep the legacy keys above; the order is read from the job when it says so. */
+  var STAGES_V7 = [
+    { id: 'preflight', label: 'Preflight' }, { id: 'stl_export', label: 'STL export' }, { id: 'reference_resolution', label: 'Reference' },
+    { id: 'extraction', label: 'Extraction' }, { id: 'view_planning', label: 'View planning' }, { id: 'native_drawing', label: 'Native drawing' },
+    { id: 'dimensioning_layout', label: 'Dimension layout' }, { id: 'comparison_correction', label: 'Compare and correct' }, { id: 'verification', label: 'Verification' },
+    { id: 'publish', label: 'Publish' }
+  ];
+  var LEGACY_ONLY = ['mesh_export', 'inventory', 'planning', 'drawing', 'dimensioning', 'publishing'];
+  var V7_ONLY = ['stl_export', 'reference_resolution', 'extraction', 'view_planning', 'native_drawing', 'dimensioning_layout', 'comparison_correction', 'publish'];
   var TERMINAL = ['completed', 'review_required', 'failed', 'canceled'];
   var DRAFT_NOTICE = 'PRELIMINARY / FOR REVIEW - not approved for manufacture';
   var NO_API_COST = '$0.00 API usage (CAD automation; licence/compute excluded)';
@@ -21,6 +30,14 @@
   /* part state -> label, icon (McA.icons name), tone (green amber red blue violet none), badge class */
   var PART_STATE = {
     queued: { label: 'Queued', icon: 'recent', tone: 'none', kind: '' },
+    stl_export: { label: 'Exporting STL', icon: 'spinner', tone: 'violet', kind: 'steel' },
+    reference_resolution: { label: 'Finding reference', icon: 'spinner', tone: 'violet', kind: 'steel' },
+    extraction: { label: 'Reading reference', icon: 'spinner', tone: 'violet', kind: 'steel' },
+    view_planning: { label: 'Planning views', icon: 'spinner', tone: 'violet', kind: 'steel' },
+    native_drawing: { label: 'Creating drawing', icon: 'spinner', tone: 'violet', kind: 'steel' },
+    dimensioning_layout: { label: 'Laying out dimensions', icon: 'spinner', tone: 'violet', kind: 'steel' },
+    comparison_correction: { label: 'Comparing and correcting', icon: 'spinner', tone: 'violet', kind: 'steel' },
+    publish: { label: 'Publishing', icon: 'spinner', tone: 'violet', kind: 'steel' },
     preflight: { label: 'Preflight', icon: 'spinner', tone: 'violet', kind: 'steel' },
     mesh_export: { label: 'Exporting STL', icon: 'spinner', tone: 'violet', kind: 'steel' },
     inventory: { label: 'Reading geometry', icon: 'spinner', tone: 'violet', kind: 'steel' },
@@ -46,12 +63,27 @@
   function isActive(summary) { return summary === 'running' || summary === 'queued'; }
   function summaryLabel(s) { return SUMMARY[s] || 'Unknown'; }
 
-  /** Tracker nodes for one part: state is one of pending running succeeded warning failed skipped. Only real stage records count;
-      no time guesses. A canceled part shows its interrupted stage as skipped, not failed. */
-  function stageStates(part) {
+  /** Which stage list applies to this part: the legacy eight when its records use legacy-only keys, otherwise the job's stage_order (v7), else the v7 default
+      when its records use v7-only keys, else the legacy eight (an old job with nothing recorded yet). */
+  function resolveStages(part, job) {
+    var keys = Object.keys((part && part.stages) || {});
+    var st = part && part.state;
+    var legacy = keys.some(function (k) { return LEGACY_ONLY.indexOf(k) >= 0; }) || LEGACY_ONLY.indexOf(st) >= 0;
+    if (legacy) return STAGES;
+    var labels = (job && job.stage_labels) || {};
+    var known = {}; STAGES_V7.concat(STAGES).forEach(function (s0) { known[s0.id] = s0.label; });
+    if (job && Array.isArray(job.stage_order) && job.stage_order.length && !keys.some(function (k) { return job.stage_order.indexOf(k) < 0; })) {
+      return job.stage_order.map(function (id) { return { id: id, label: known[id] || labels[id] || id }; });
+    }
+    if (keys.some(function (k) { return V7_ONLY.indexOf(k) >= 0; }) || V7_ONLY.indexOf(st) >= 0) return STAGES_V7;
+    return STAGES;
+  }
+  /** Tracker nodes for one part: state is one of pending running succeeded warning failed skipped na (not applicable in this mode). Only real stage
+      records count; no time guesses. A canceled part shows its interrupted stage as skipped, not failed. */
+  function stageStates(part, job) {
     var stages = (part && part.stages) || {};
     var canceled = part && part.state === 'canceled';
-    return STAGES.map(function (s) {
+    return resolveStages(part, job).map(function (s) {
       var rec = stages[s.id];
       var st = 'pending', seconds = null, warnings = [], errors = [];
       if (rec) {
@@ -61,17 +93,23 @@
         else if (rec.status === 'running') st = canceled ? 'skipped' : 'running';
         else if (rec.status === 'failed') st = (canceled || errors.indexOf('canceled') >= 0) ? 'skipped' : 'failed';
         else if (rec.status === 'skipped') st = 'skipped';
+        else if (rec.status === 'not_applicable') st = 'na';
       } else if (part && part.state === s.id) st = 'running';
       return { id: s.id, label: s.label, state: st, seconds: seconds, warnings: warnings, errors: errors };
     });
   }
-  var STATE_WORD = { pending: 'Pending', running: 'Running', succeeded: 'Done', warning: 'Done with warnings', failed: 'Failed', skipped: 'Skipped' };
+  /** Done / total for the stage strip; stages that do not apply in this mode are in neither count. */
+  function stageProgress(nodes) {
+    var applicable = nodes.filter(function (n) { return n.state !== 'na'; });
+    return { done: applicable.filter(function (n) { return n.state === 'succeeded' || n.state === 'warning'; }).length, total: applicable.length };
+  }
+  var STATE_WORD = { na: 'Not applicable', pending: 'Pending', running: 'Running', succeeded: 'Done', warning: 'Done with warnings', failed: 'Failed', skipped: 'Skipped' };
   function stateWord(s) { return STATE_WORD[s] || 'Pending'; }
 
   /** Caption under the tracker: the current / failing stage and the part's state. */
-  function stageCaption(part) {
+  function stageCaption(part, job) {
     if (!part) return 'No part selected';
-    var nodes = stageStates(part);
+    var nodes = stageStates(part, job);
     var cur = nodes.filter(function (n) { return n.state === 'running'; })[0];
     if (cur) return cur.label + ' (' + stateWord('running').toLowerCase() + ')';
     var bad = nodes.filter(function (n) { return n.state === 'failed'; })[0];
@@ -304,5 +342,5 @@
            coverageText: coverageText, coverageScore: coverageScore, viewerSources: viewerSources, viewerKey: viewerKey, fileLabel: fileLabel, fileList: fileList,
            drawingStatus: drawingStatus, runBlock: runBlock, templateBlock: templateBlock, templateStatus: templateStatus, sourceWord: sourceWord, isSldprt: isSldprt,
            filterPicked: filterPicked, markDuplicates: markDuplicates, pickedSummary: pickedSummary, makeGuard: makeGuard, isPreviousRun: isPreviousRun, eventLine: eventLine,
-           mergeEvents: mergeEvents };
+           mergeEvents: mergeEvents, STAGES_V7: STAGES_V7, resolveStages: resolveStages, stageProgress: stageProgress };
 });
