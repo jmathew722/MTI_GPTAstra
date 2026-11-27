@@ -112,7 +112,7 @@ def band(samples: list) -> Optional[dict]:
         limited = False
     else:
         lo, hi, limited = vals[0], vals[-1], True
-    return {"low": lo, "high": hi, "n": len(vals), "limited": limited}
+    return {"low": lo, "high": hi, "n": len(vals), "limited": limited, "median": _quantile(vals, 0.5)}
 
 
 def _money(d: Decimal) -> str:
@@ -125,13 +125,13 @@ def estimate(n_inputs: int, durations: list[float], costs: list[Decimal]) -> dic
     tb, cb = band(durations), band(costs)
     time = {"available": bool(tb and n), "unit": "seconds"}
     if tb and n:
-        time.update(low=round(tb["low"] * n, 1), high=round(tb["high"] * n, 1), per_input_low=round(tb["low"], 1),
+        time.update(low=round(tb["low"] * n, 1), high=round(tb["high"] * n, 1), expected=round(tb["median"] * n, 1), per_input_low=round(tb["low"], 1),
                     per_input_high=round(tb["high"], 1), n_runs=tb["n"], limited=tb["limited"])
     else:
         time["reason"] = "No finished runs to estimate from yet." if not tb else "No inputs selected."
     cost = {"available": bool(cb and n), "unit": "USD"}
     if cb and n:
-        cost.update(low=_money(cb["low"] * n), high=_money(cb["high"] * n), per_input_low=_money(cb["low"]),
+        cost.update(low=_money(cb["low"] * n), high=_money(cb["high"] * n), expected=_money(cb["median"] * n), per_input_low=_money(cb["low"]),
                     per_input_high=_money(cb["high"]), n_runs=cb["n"], limited=cb["limited"])
     else:
         cost["reason"] = ("No priced runs to estimate from yet (cost is unavailable, not zero)."

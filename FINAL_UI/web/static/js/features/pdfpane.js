@@ -1,8 +1,11 @@
 /* McA.pdfpane.create(opts): a reusable PDF sheet viewer (pdf.js) with pages, zoom, fit, drag-to-pan and its own loading / error / empty states.
    Used by the 3D -> 2D page for the left "Source PDF" view (the right generated-drawing viewer keeps its own code). It owns its pdf.js document and
    destroys it on clear/load, so nothing from a previous part is ever shown after a switch.
-   opts: { label, icon(name,size), onView(view) }   (onView fires only for user-driven page / zoom changes, so a synchronised pane never echoes)
-   pane:  { el, tools, load(url, key), clear(), message(kind, title, text, retry), getView(), setView({page,zoom}), numPages(), resize(), isReady(), key() } */
+   opts: { label, icon(name,size), onView(view), onRendered() }   (onView fires only for user-driven page / zoom / pan changes, so a synchronised pane never echoes;
+          view = {page, zoom, sx, sy} where sx, sy are the scroll position as fractions 0..1 of the scrollable range)
+   pane:  { el, tools, load(url, key), clear(), message(kind, title, text, retry), getView(), setView({page,zoom,sx,sy}), numPages(), resize(), isReady(), key(),
+            canvas(), wrap(), isIdle(), mark(box|null), markBox(), locate(page, text), doc() }
+   McA.pdfpane.attachMark(wrap, paper) / locateIn(doc, page, text) are the same helpers for a viewer that is not a pdfpane (the generated sheet). */
 (function () {
   'use strict';
   var McA = (window.McA = window.McA || {});
@@ -11,7 +14,7 @@
   function create(opts) {
     opts = opts || {};
     var icon = opts.icon || function (n, s) { return McA.icons.get(n, s || 16); };
-    var P = { doc: null, page: 1, zoom: 1, task: null, rendering: false, again: false, key: '', ready: false, token: 0 };
+    var P = { doc: null, page: 1, zoom: 1, task: null, rendering: false, again: false, key: '', ready: false, token: 0, pend: null, mute: 0 };
     var paper = h('canvas', { class: 'rv-paper', 'aria-label': (opts.label || 'PDF') + ' sheet' });
     var wrap = h('div', { class: 'rv-paperwrap rv-pan', tabindex: '0', role: 'region', 'aria-label': (opts.label || 'PDF') + ' sheet (scrollable; drag to pan)', hidden: true }, paper);
     var box = h('div', { class: 'vp-empty rv-pempty' });
@@ -26,7 +29,15 @@
     var tools = h('div', { class: 'vp-tools', role: 'toolbar', 'aria-label': (opts.label || 'PDF') + ' tools' }, prev, pageLbl, next, zout, zoomLbl, zin, fit);
     var btns = [prev, next, zout, zin, fit];
 
-    function view() { return { page: P.page, zoom: P.zoom }; }
+    var marker = McA.pdfpane.attachMark(wrap, paper);
+    function frac() { var C = McA.compareview; return C ? { sx: C.scrollFraction(wrap.scrollLeft, wrap.scrollWidth, wrap.clientWidth), sy: C.scrollFraction(wrap.scrollTop, wrap.scrollHeight, wrap.clientHeight) } : { sx: 0, sy: 0 }; }
+    function view() { var f = frac(); return { page: P.page, zoom: P.zoom, sx: f.sx, sy: f.sy }; }
+    function applyScroll(v) {
+      var C = McA.compareview; if (!C || !v) return;
+      P.mute = performance.now() + 120;
+      if (typeof v.sx === 'number') wrap.scrollLeft = C.scrollFromFraction(v.sx, wrap.scrollWidth, wrap.clientWidth);
+      if (typeof v.sy === 'number') wrap.scrollTop = C.scrollFromFraction(v.sy, wrap.scrollHeight, wrap.clientHeight);
+    }
     function emit() { if (opts.onView) opts.onView(view()); }
     function go(n, user) {
       if (!P.doc) return;
@@ -62,7 +73,13 @@
         P.task = pg.render({ canvasContext: ctx, viewport: vp });
         return P.task.promise.then(function () { P.task = null; });
       }).catch(function (e) { if (e && e.name === 'RenderingCancelledException') return; message('error', 'The page could not be drawn', (e && e.message) || ''); })
-        .then(function () { P.rendering = false; labels(); if (P.again) { P.again = false; render(); } });
+        .then(function () {
+          P.rendering = false; labels();
+          if (P.again) { P.again = false; render(); return; }
+          if (P.pend) { var pv = P.pend; P.pend = null; applyScroll(pv); }
+          marker.reposition();
+          if (opts.onRendered) opts.onRendered();
+        });
     }
     function release() {
       if (P.task) { try { P.task.cancel(); } catch (e) { /* ignore */ } P.task = null; }
@@ -82,7 +99,7 @@
       box.setAttribute('data-kind', kind);
       labels();
     }
-    function clear() { P.token++; release(); P.key = ''; P.page = 1; P.zoom = 1; message('empty', 'Nothing to show', ''); }
+    function clear() { P.token++; release(); P.key = ''; P.page = 1; P.zoom = 1; P.pend = null; marker.set(null); message('empty', 'Nothing to show', ''); }
     function load(url, key, start) {
       var lib = typeof pdfjsLib !== 'undefined' ? pdfjsLib : null;
       var tokn = ++P.token;
@@ -93,7 +110,7 @@
       var task = lib.getDocument(url);
       return task.promise.then(function (doc) {
         if (tokn !== P.token) { try { doc.destroy(); } catch (e) { /* ignore */ } return false; }     // a newer load or clear won: this document is stale
-        P.doc = doc; P.key = key || url; P.ready = true;
+        P.doc = doc; P.key = key || url; P.ready = true; P.pend = null; marker.set(null);
         P.page = start && start.page ? Math.max(1, Math.min(doc.numPages, start.page)) : 1;
         P.zoom = start && start.zoom ? Math.max(0.25, Math.min(6, start.zoom)) : 1;
         message('ready'); render();
@@ -114,6 +131,12 @@
     });
     wrap.addEventListener('pointermove', function (e) { if (!drag) return; wrap.scrollLeft = drag.l - (e.clientX - drag.x); wrap.scrollTop = drag.t - (e.clientY - drag.y); });
     function endDrag() { if (drag) { drag = null; wrap.classList.remove('is-panning'); } }
+    var scrollQ = false;
+    wrap.addEventListener('scroll', function () {
+      if (!opts.onView || performance.now() < P.mute || scrollQ || !P.doc) return;
+      scrollQ = true;
+      requestAnimationFrame(function () { scrollQ = false; if (performance.now() >= P.mute && P.doc) emit(); });
+    }, { passive: true });
     wrap.addEventListener('pointerup', endDrag); wrap.addEventListener('pointercancel', endDrag);
     wrap.addEventListener('keydown', function (e) {
       if (!P.doc || e.altKey || e.ctrlKey || e.metaKey) return;
@@ -126,9 +149,48 @@
     return {
       el: el, tools: tools, load: load, clear: clear, message: message, getView: view, numPages: function () { return P.doc ? P.doc.numPages : 0; }, isReady: function () { return P.ready; },
       key: function () { return P.key; }, resize: function () { if (P.doc) render(); },
-      setView: function (v) { if (!P.doc || !v) return; var pg = Math.max(1, Math.min(P.doc.numPages, Math.round(v.page) || 1)); var z = Math.max(0.25, Math.min(6, v.zoom || 1)); if (pg === P.page && z === P.zoom) return; P.page = pg; P.zoom = z; render(); },
+      setView: function (v) {
+        if (!P.doc || !v) return;
+        var pg = Math.max(1, Math.min(P.doc.numPages, Math.round(v.page) || 1)); var z = Math.max(0.25, Math.min(6, v.zoom || 1));
+        var hasScroll = typeof v.sx === 'number' || typeof v.sy === 'number';
+        if (pg === P.page && z === P.zoom) { if (hasScroll) applyScroll(v); return; }
+        P.page = pg; P.zoom = z; if (hasScroll) P.pend = { sx: v.sx, sy: v.sy }; render();
+      },
+      canvas: function () { return paper; }, wrap: function () { return wrap; }, isIdle: function () { return !!P.doc && !P.rendering && !P.again; }, doc: function () { return P.doc; },
+      mark: function (box, label) { marker.set(box, label); }, markBox: function () { return marker.box(); },
+      locate: function (page, text) { return McA.pdfpane.locateIn(P.doc, page, text); },
       destroy: function () { P.token++; release(); if (ro) ro.disconnect(); }
     };
   }
-  McA.pdfpane = { create: create };
+  /** A highlight rectangle over a sheet canvas, inside its scrolling wrapper (so it scrolls with the sheet and follows zoom). box = {x0,y0,x1,y1} page fractions. */
+  function attachMark(wrap, paper) {
+    var el = h('div', { class: 'rv-mark', 'aria-hidden': 'true', hidden: true }), cur = null;
+    wrap.appendChild(el);
+    function reposition() {
+      if (!cur) { el.hidden = true; return; }
+      var w = paper.offsetWidth, hh = paper.offsetHeight;
+      if (!w || !hh) { el.hidden = true; return; }
+      el.hidden = false;
+      el.style.left = Math.round(paper.offsetLeft + cur.x0 * w - 3) + 'px'; el.style.top = Math.round(paper.offsetTop + cur.y0 * hh - 3) + 'px';
+      el.style.width = Math.max(10, Math.round((cur.x1 - cur.x0) * w + 6)) + 'px'; el.style.height = Math.max(10, Math.round((cur.y1 - cur.y0) * hh + 6)) + 'px';
+    }
+    return {
+      el: el, reposition: reposition, box: function () { return cur; },
+      set: function (box, scroll) {
+        cur = box || null; reposition();
+        if (cur && scroll && !el.hidden) { try { el.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' }); } catch (e) { /* ignore */ } }
+      }
+    };
+  }
+  /** Where `text` sits on page `page` of a pdf.js document, as page fractions, or null (not found, or the page has no text layer). */
+  function locateIn(doc, page, text) {
+    if (!doc || !text || !McA.compareview) return Promise.resolve(null);
+    var n = Math.max(1, Math.min(doc.numPages, Math.round(page) || 1));
+    return doc.getPage(n).then(function (pg) {
+      var vp = pg.getViewport({ scale: 1 });
+      if (vp.rotation) return null;
+      return pg.getTextContent().then(function (tc) { return McA.compareview.locateText(tc.items, { width: vp.width, height: vp.height, scale: 1, transform: vp.transform }, text); });
+    }).catch(function () { return null; });
+  }
+  McA.pdfpane = { create: create, attachMark: attachMark, locateIn: locateIn };
 })();

@@ -46,15 +46,16 @@
     var n = est.inputs || 0;
     if (!n) return { state: 'empty', time: 'Estimated time: ' + DASH, cost: 'Estimated cost: ' + DASH, detail: 'Select a part to see an estimate.', inputs: 0 };
     var t = est.time || {}, c = est.cost || {};
-    var time = t.available ? 'Estimated time: ' + fmtRange(t.low, t.high) : 'Estimated time: insufficient history';
-    var cost = c.available ? 'Estimated cost: ' + usdRange(c.low, c.high) : 'Estimated cost: unavailable';
+    var time = t.available ? 'Estimated time: ' + fmtRange(t.low, t.high) + (typeof t.expected === 'number' ? ' (expected ' + fmtDur(t.expected) + ')' : '') : 'Estimated time: insufficient history';
+    var cost = c.available ? 'Estimated cost: ' + usdRange(c.low, c.high) + (c.expected !== undefined && usd(c.expected) ? ' (expected ' + usd(c.expected) + ')' : '') : 'Estimated cost: unavailable';
+    var modelLine = est.model ? 'Model ' + est.model + (est.rate_version ? ' \u00b7 rates of ' + est.rate_version : '') : '';
     var bits = [n + ' input' + (n === 1 ? '' : 's')];
     if (n > 1 && (t.available || c.available)) bits.push('one at a time');
     if (t.available) bits.push('based on ' + t.n_runs + ' finished run' + (t.n_runs === 1 ? '' : 's') + (t.limited ? ' (limited history)' : ''));
     var detail = bits.join(' · ');
     if (!t.available && t.reason) detail += ' · ' + t.reason;
     if (!c.available && c.reason) detail += ' · ' + c.reason;
-    return { state: t.available || c.available ? 'ready' : 'unavailable', time: time, cost: cost, detail: detail, inputs: n,
+    return { state: t.available || c.available ? 'ready' : 'unavailable', time: time, cost: cost, detail: detail, inputs: n, modelLine: c.available ? modelLine : '',
              serialized: est.serialized_reason || '' };
   }
 

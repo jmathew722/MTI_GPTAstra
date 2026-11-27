@@ -256,6 +256,124 @@
     return accordion('adv', 'Advanced settings', 'Configuration, profile, server folder', body);
   }
 
+  /* ---- v8: pre-run estimate (POST /estimate) and the cost / runtime panel */
+  var est8Seq = 0, est8Key = '', est8Timer = null;
+  function CV() { return McA.costview; }
+  function estimatePayload() {
+    var rows = rowsFor(false), n = selectedPicked(false).length || S.picked.length || 1, body = { count: n, reference: { mode: 'standard' } };
+    if (S.refMode === 'match') {
+      var per = {};
+      rows.forEach(function (r) {
+        if (r.source === 'upload' && r.upload) per[r.key] = { source: 'upload', upload_id: r.upload.upload_id };
+        else if (r.source === 'artifact' && r.artifactId) per[r.key] = { source: 'artifact', artifact_id: r.artifactId };
+        else if (r.source === 'none') per[r.key] = { source: 'none' };
+        else per[r.key] = { source: 'auto' };
+      });
+      body.reference = { mode: 'match', per_part: per };
+      if (S.stage && S.stage.id && rows.length) { body.stage_id = S.stage.id; body.keys = rows.map(function (r) { return r.key; }); }
+    }
+    return body;
+  }
+  /** Recomputed whenever the selection, mode, source choices, template or profile change (the key says when). Never starts a run or a model call. */
+  function refreshEstimate8() {
+    if (!C.API.estimate8) return;
+    var body = estimatePayload(), key = JSON.stringify([body, S.templateId, S.profile]);
+    if (key === est8Key) return;
+    est8Key = key; S.est8State = 'loading'; var my = ++est8Seq;
+    clearTimeout(est8Timer);
+    est8Timer = setTimeout(function () {
+      C.API.estimate8(body).then(function (r) { if (my !== est8Seq) return; S.est8 = r; S.est8State = 'ready'; S.est8Err = ''; renderRuntime(); renderEstLine(); },
+        function (e) { if (my !== est8Seq) return; S.est8 = null; S.est8State = 'error'; S.est8Err = C.errText(e); renderRuntime(); renderEstLine(); });
+    }, 200);
+  }
+  function preView() { return S.est8 && S.est8.total ? CV().estimateView(S.est8.total) : null; }
+  /** One line under the Run buttons: what this run is expected to take and cost, before it starts. */
+  function estLineText() {
+    if (S.est8State === 'error') return 'Estimate unavailable: ' + (S.est8Err || 'the server could not compute it.');
+    var pv = preView();
+    if (!pv) return S.est8State === 'loading' ? 'Estimating time and cost...' : '';
+    var bits = [pv.duration ? pv.duration.text : 'Time estimate unavailable (no run history yet)'];
+    bits.push(pv.cost.state === 'ready' ? 'about ' + pv.cost.text + ' OpenAI (' + (pv.model || 'model') + ')' : pv.cost.state === 'none' ? 'no OpenAI cost' : 'cost unavailable');
+    return 'Estimate: ' + bits.join(' \u00b7 ');
+  }
+  function renderEstLine() { if (R.runEst) { var t = estLineText(); if (R.runEst.textContent !== t) R.runEst.textContent = t; R.runEst.hidden = !t; } }
+  function kvRow(dl, k, v, tone, id) { dl.append(h('dt', { text: k }), h('dd', { text: v, 'data-tone': tone || null, id: id || null })); }
+  function stageTable(rows, kind, id) {
+    var head = kind === 'usage' ? ['Stage', 'Calls', 'Input', 'Cached', 'Output', 'Cost'] : ['Stage', 'Calls', 'Time', 'Cost'];
+    var body = rows.map(function (r) {
+      var cells = kind === 'usage' ? [r.label + (r.local ? ' (no token cost)' : ''), r.calls === null ? '\u2014' : String(r.calls), CV().count(r.input), CV().count(r.cached), CV().count(r.output), r.cost]
+        : [r.label + (r.local ? ' (no token cost)' : ''), r.calls || '\u2014', r.duration || '\u2014', r.local ? 'no token cost' : r.cost];
+      return h('tr', null, cells.map(function (c, i) { return h(i === 0 ? 'th' : 'td', { class: i ? 'n' : '', scope: i === 0 ? 'row' : null, text: c }); }));
+    });
+    return h('div', { class: 'rv-rc-scroll', tabindex: '0', role: 'region', 'aria-label': 'Stage breakdown (scrolls sideways when narrow)' }, h('table', { class: 'rv-rc-tbl', id: id || null },
+      h('thead', null, h('tr', null, head.map(function (t, i) { return h('th', { class: i ? 'n' : '', scope: 'col', text: t }); }))), h('tbody', null, body)));
+  }
+  function estimateBlock() {
+    var blk = h('section', { class: 'rv-rc-blk', id: 'rv-cost-est', 'aria-label': 'Estimate before the run' }), n = estimatePayload().count;
+    blk.append(h('h4', { text: 'Estimate for ' + n + ' part' + (n === 1 ? '' : 's') + ' (before the run)' }));
+    if (S.est8State === 'error') { blk.append(h('p', { class: 'reason is-warn', id: 'rv-est8-err', text: 'Estimate unavailable: ' + (S.est8Err || 'the server could not compute it.') })); return blk; }
+    var pv = preView();
+    if (!pv) { blk.append(h('p', { class: 'reason', id: 'rv-est8-loading', text: 'Estimating...' })); return blk; }
+    var dl = h('dl', { class: 'rv-rc-kv' });
+    kvRow(dl, 'Time', pv.duration ? pv.duration.text : 'unavailable: no finished runs to estimate from yet', pv.duration ? (pv.duration.rough ? 'warn' : null) : 'none', 'rv-est8-time');
+    var cost = pv.cost.state === 'ready' ? pv.cost.range : pv.cost.state === 'none' ? pv.cost.text + (pv.cost.reason ? ' (' + pv.cost.reason + ')' : '') : 'unavailable' + (pv.cost.reason ? ': ' + pv.cost.reason : '');
+    kvRow(dl, 'Cost', cost, pv.cost.state === 'unknown' ? 'warn' : null, 'rv-est8-cost');
+    if (pv.modelLine && pv.cost.state !== 'none') kvRow(dl, 'Model and rates', pv.modelLine, null, 'rv-est8-model');
+    if (pv.tokens) kvRow(dl, 'Tokens', pv.tokens, null, 'rv-est8-tokens');
+    var bud = S.est8 && S.est8.budget;
+    if (bud && typeof bud.remaining_usd === 'number') kvRow(dl, 'Budget', CV().money(bud.remaining_usd) + ' left of the ' + CV().money(bud.cap_usd) + ' cap' + (bud.would_block ? '. This run would exceed it: a new call is refused when the projected spend exceeds the remaining budget.' : '. A new call is refused when the projected spend exceeds it; a request already in flight can exceed its estimate.'), bud.would_block ? 'warn' : null, 'rv-est8-budget');
+    blk.append(dl);
+    var hits = ((S.est8 && S.est8.parts) || []).filter(function (x) { return x && x.reference && x.reference.extraction_cache === 'hit'; }).length;
+    if (hits) blk.append(h('p', { class: 'reason', id: 'rv-est8-reuse', text: 'Saved extraction confirmed for ' + hits + ' part' + (hits === 1 ? '' : 's') + ': no new extraction cost is expected for ' + (hits === 1 ? 'it' : 'them') + '.' }));
+    if (pv.labels.length) blk.append(h('p', { class: 'reason is-warn', id: 'rv-est8-labels', text: 'Rough figures used for: ' + pv.labels.map(function (x) { return String(x).replace(/_/g, ' '); }).join(', ') + '.' }));
+    if (pv.stages.length) blk.append(stageTable(pv.stages, 'estimate', 'rv-est8-stages'));
+    if (pv.assumptions.length) blk.append(h('details', { class: 'rv-rc-note' }, h('summary', { text: 'Assumptions (' + pv.assumptions.length + ')' }), h('ul', null, pv.assumptions.map(function (a) { return h('li', { text: a }); }))));
+    blk.append(h('p', { class: 'rv-rc-note', text: 'Local CAD processing time carries no token cost. Estimates are not quotes.' }));
+    return blk;
+  }
+  function runBlock() {
+    var j = S.job; if (!j) return null;
+    var m = CV().runModel({ job: j, now: performance.now(), fetchedAt: S.jobFetchedAt }), p = C.part();
+    var blk = h('section', { class: 'rv-rc-blk', id: 'rv-cost-run', 'aria-label': 'Selected run' });
+    blk.append(h('h4', { text: (m.active ? 'Run in progress' : 'Run result') + ' (' + V().summaryLabel(j.summary_state) + ')' }));
+    var dl = h('dl', { class: 'rv-rc-kv' });
+    kvRow(dl, 'Parts', m.parts.done + ' of ' + m.parts.total + ' done', null, 'rv-run8-parts');
+    if (m.active && p) kvRow(dl, 'Stage', V().stageCaption(p, j), null, 'rv-run8-stage');
+    kvRow(dl, 'Elapsed', m.elapsed || (m.active ? 'measuring...' : 'not recorded'), m.elapsed ? null : 'none', 'rv-run8-elapsed');
+    if (m.queued) kvRow(dl, 'Queued', m.queued + ' (separate from elapsed)', null, 'rv-run8-queued');
+    if (m.remaining) kvRow(dl, 'Remaining', m.remaining, null, 'rv-run8-remaining');
+    var u = m.usage;
+    if (u.present) {
+      kvRow(dl, 'OpenAI cost', u.cost.text + (u.cost.status === 'priced' || u.cost.status === 'partial' ? ' (calculated from token usage, not an invoice)' : u.cost.note ? ' (' + u.cost.note + ')' : ''), u.cost.status === 'unpriced' ? 'warn' : null, 'rv-run8-cost');
+      if (u.tokens) kvRow(dl, 'Tokens', u.tokens, null, 'rv-run8-tokens');
+      if (u.calls || u.cacheHits) kvRow(dl, 'Calls', u.calls + ' model call' + (u.calls === 1 ? '' : 's') + (u.cacheHits ? ', ' + u.cacheHits + ' local cache hit' + (u.cacheHits === 1 ? '' : 's') : '') + (u.retries ? ', ' + u.retries + ' retr' + (u.retries === 1 ? 'y' : 'ies') : ''), null, 'rv-run8-calls');
+      if (u.model) kvRow(dl, 'Model and rates', 'Model ' + u.model + (u.rate ? ' \u00b7 rates of ' + u.rate : ''), null, 'rv-run8-model');
+      if (u.saved) kvRow(dl, 'Reuse', u.saved, null, 'rv-run8-saved');
+      u.notes.forEach(function (x) { kvRow(dl, 'Note', x, 'warn'); });
+    } else kvRow(dl, 'OpenAI cost', 'Usage was not recorded for this run.', 'none', 'rv-run8-cost');
+    blk.append(dl);
+    if (m.compare.length) blk.append(h('div', { id: 'rv-run8-compare' }, h('p', { class: 'rv-rc-note', text: 'Actual vs estimate' }), h('ul', null, m.compare.map(function (x) { return h('li', { text: x }); }))));
+    if (u.stages.length) blk.append(stageTable(u.stages, 'usage', 'rv-run8-stages'));
+    if (m.timingStages.length) blk.append(h('p', { class: 'rv-rc-note', id: 'rv-run8-local', text: 'Local CAD time by stage (no token cost): ' + m.timingStages.map(function (x) { return x.key.replace(/_/g, ' ') + ' ' + x.text; }).join(', ') }));
+    if (m.keptNote) blk.append(h('p', { class: 'rv-rc-note', id: 'rv-run8-kept', text: m.keptNote }));
+    if (m.batch) {
+      blk.append(h('div', { class: 'rv-rc-scroll', tabindex: '0', role: 'region', 'aria-label': 'Per-part usage (scrolls sideways when narrow)' }, h('table', { class: 'rv-rc-tbl', id: 'rv-run8-perpart' },
+        h('thead', null, h('tr', null, ['Part', 'State', 'OpenAI cost', 'Elapsed'].map(function (t) { return h('th', { scope: 'col', text: t }); }))),
+        h('tbody', null, m.perPart.map(function (r) { return h('tr', { 'data-part': r.id, 'aria-current': p && p.part_id === r.id ? 'true' : null }, h('th', { scope: 'row', text: r.name }), h('td', { text: V().partStateInfo(r.state).label }), h('td', { class: 'n', text: r.cost }), h('td', { class: 'n', text: r.elapsed || '\u2014' })); })))));
+    }
+    blk.append(h('p', { class: 'rv-rc-note', text: m.localNote }));
+    return blk;
+  }
+  function costPanelNodes() { return [estimateBlock(), runBlock()].filter(Boolean); }
+  function renderLive() {
+    var j = S.job, active = j && V().isActive(j.summary_state);
+    if (!R.runLive) return;
+    var t = active ? V().progressText(j.progress, j.summary_state) + ' \u00b7 ' + CV().liveLine(CV().runModel({ job: j, now: performance.now(), fetchedAt: S.jobFetchedAt })) : '';
+    t = t.replace(/ \u00b7 $/, '');
+    if (R.runLive.textContent !== t) R.runLive.textContent = t;
+    R.runLive.hidden = !active;
+  }
+
   /* ---- E. runtime and cost */
   function runtimeTexts() {
     var j = S.job, n = selectedPicked(false).length || S.picked.length || 1;
@@ -268,6 +386,7 @@
   function runtimeSection() {
     var t = runtimeTexts();
     var body = [
+      h('div', { class: 'rv-runcost', id: 'rv-cost-panel' }, costPanelNodes()),
       h('div', { class: 'rv-cost' }, h('h4', { class: 'rv-cost-h', text: 'Local CAD time (no token cost)' }), h('p', { class: 'reason', id: 'rv-est', text: t.est }),
         h('p', { class: 'reason', id: 'rv-measured', text: t.measured, hidden: t.measured ? null : true })),
       h('div', { class: 'rv-cost' }, h('h4', { class: 'rv-cost-h', text: 'OpenAI (reference extraction only)' }), h('p', { class: 'reason', id: 'rv-openai', text: t.openai }))
@@ -278,6 +397,12 @@
   function renderRuntime() {
     var t = runtimeTexts(), set = function (id, txt, hide) { var e = $(id); if (e) { e.textContent = txt; if (hide !== undefined) e.hidden = hide; } };
     set('rv-est', t.est); set('rv-measured', t.measured, !t.measured); set('rv-openai', t.openai);
+    var cp = $('rv-cost-panel');
+    if (cp) {      // rebuilt only when the words changed, so a focused table or an open <details> survives the once-a-second tick
+      var nodes = costPanelNodes(), sig = nodes.map(function (n) { return n.textContent; }).join('|');
+      if (cp.getAttribute('data-sig') !== sig) { var open = cp.querySelector('details[open]') ? true : false; cp.replaceChildren.apply(cp, nodes); cp.setAttribute('data-sig', sig); if (open) { var d = cp.querySelector('details'); if (d) d.open = true; } }
+    }
+    renderLive();
     var s = $('rv-acc-rt-sum'); if (s) { s.textContent = t.sum; s.title = t.sum; }
   }
 
@@ -297,8 +422,7 @@
     if (!(S.estimate && S.estimateN === n)) {
       var want = n; C.API.estimate(n).then(function (e) { S.estimate = e; S.estimateN = want; S.estimateFail = false; updateEstimate(); }, function () { S.estimate = null; S.estimateN = want; S.estimateFail = true; updateEstimate(); });
     }
-    var j = S.job, active = j && V().isActive(j.summary_state);
-    R.runLive.hidden = !active; R.runLive.textContent = active ? V().progressText(j.progress, j.summary_state) : '';
+    renderLive(); refreshEstimate8(); renderEstLine();
   }
   function updateEstimate() { renderRuntime(); }
 
@@ -308,12 +432,12 @@
     var p = C.part(), v = F().exportView(S.exportInfo, S.ack, S.exportBusy);
     box.replaceChildren();
     var hd = h('div', { class: 'rv-exp-h' }, h('h3', { class: 'rv-fs-t', id: 'rv-exp-t', text: 'Export' }));
-    if (p && v.ready) hd.append(h('span', { class: 'badge-c rv-badge rv-draft', 'data-tone': v.status.tone, id: 'rv-exp-status', title: v.status.reasons.join(' ') }, icon(v.status.tone === 'red' ? 'x' : v.status.tone === 'amber' ? 'warn' : 'info', 13), h('span', { text: v.status.label })));
+    if (p && v.ready) hd.append(h('span', { class: 'badge-c rv-badge rv-draft', 'data-tone': v.status.tone, id: 'rv-exp-status', title: v.status.reasons.join(' ') }, icon(v.status.tone === 'red' ? 'x' : v.status.tone === 'amber' ? 'warn' : v.status.tone === 'green' ? 'check' : 'info', 13), h('span', { text: v.status.label })));
     box.append(hd);
     if (S.exportErr) box.append(h('p', { class: 'reason is-warn', role: 'status', text: 'Export status unavailable: ' + S.exportErr }));
     var row = h('div', { class: 'rv-exp-b', role: 'group', 'aria-labelledby': 'rv-exp-t' });
     v.buttons.forEach(function (b) {
-      var ic = b.kind === 'zip' ? 'files' : 'download';
+      var ic = b.kind === 'zip' ? 'files' : b.kind === 'report' ? 'file' : 'download';
       row.append(h('button', { class: 'btn secondary sm', type: 'button', id: 'rv-exp-' + b.kind, 'data-kind': b.kind, disabled: b.enabled ? null : true, title: b.enabled ? b.label + (b.filename ? ' (' + b.filename + ')' : '') : b.reason,
         onclick: function () { doExport(b.kind); } }, icon(ic, 14), b.label));
     });
@@ -322,7 +446,7 @@
       var cb = h('input', { type: 'checkbox', id: 'rv-exp-ack', 'aria-describedby': 'rv-exp-why', onchange: function () { S.ack = cb.checked; renderExport(); } }); cb.checked = !!S.ack;
       box.append(h('label', { class: 'chk rv-exp-ack', for: 'rv-exp-ack' }, cb, h('span', { text: 'I understand this is an unapproved draft for engineering review, not approved for manufacture.' })));
       box.append(h('p', { class: 'reason', id: 'rv-exp-why', text: v.status.reasons.join(' ') }));
-    } else if (v.ready) box.append(h('p', { class: 'reason', id: 'rv-exp-why', hidden: v.any ? true : null, text: v.any ? 'PRELIMINARY / FOR REVIEW. Not approved for manufacture.' : (v.buttons.map(function (b) { return b.reason; }).filter(Boolean)[0] || 'Nothing to export yet.') }));
+    } else if (v.ready) box.append(h('p', { class: 'reason', id: 'rv-exp-why', hidden: v.any ? true : null, text: v.any ? (v.status.key === 'verified' ? 'Verified against the source drawing by software comparison. Still a draft until an authorised engineer approves it.' : 'PRELIMINARY / FOR REVIEW. Not approved for manufacture.') : (v.buttons.map(function (b) { return b.reason; }).filter(Boolean)[0] || 'Nothing to export yet.') }));
     else box.append(h('p', { class: 'reason', id: 'rv-exp-why', text: 'Select a part from a run to export its drawing.' }));
   }
   function refreshExport() {
@@ -526,12 +650,13 @@
     R.runAll = h('button', { class: 'btn secondary', type: 'button', id: 'rv-run-all', 'aria-describedby': 'rv-run-why', onclick: function () { runPicked(true); } }, icon('play-all', 16), 'Run all');
     R.runWhy = h('p', { class: 'reason', id: 'rv-run-why', role: 'status' });
     R.runLive = h('p', { class: 'reason rv-run-live', id: 'rv-run-live', role: 'status', hidden: true });
+    R.runEst = h('p', { class: 'rv-run-est', id: 'rv-run-est', hidden: true });
     R.exportBox = h('section', { class: 'rv-export', id: 'rv-export', 'aria-labelledby': 'rv-exp-t' });
     R.railFoot = h('div', { class: 'rv-setup-foot' },
-      h('div', { class: 'rv-run' }, h('div', { class: 'rv-row rv-run-row' }, R.runSel, R.runAll), R.runWhy, R.runLive), R.exportBox);
+      h('div', { class: 'rv-run' }, h('div', { class: 'rv-row rv-run-row' }, R.runSel, R.runAll), R.runWhy, R.runEst, R.runLive), R.exportBox);
     return { scroll: R.railScroll, foot: R.railFoot, inputs: R.railInputs };
   }
 
-  McA.reverseRail = { init: init, render: render, renderProvenance: renderProvenance, renderRuntime: renderRuntime, renderRunButtons: renderRunButtons, renderExport: renderExport, refreshExport: refreshExport, setAcc: setAcc, openReference: function () { setAcc('ref', true); },
+  McA.reverseRail = { init: init, render: render, renderProvenance: renderProvenance, renderRuntime: renderRuntime, renderRunButtons: renderRunButtons, renderLive: renderLive, renderExport: renderExport, refreshExport: refreshExport, setAcc: setAcc, openReference: function () { setAcc('ref', true); },
     _internals: { rowsFor: rowsFor, ensureStage: ensureStage, state: function () { return { raw: raw.length }; } } };
 })();

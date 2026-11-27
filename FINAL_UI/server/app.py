@@ -18,6 +18,7 @@ Run:
 from __future__ import annotations
 
 import io
+from decimal import Decimal
 import json
 import os
 import re
@@ -1758,6 +1759,49 @@ def part_preview(session: str, part: str):
     return FileResponse(str(png), media_type="image/png", headers={"Cache-Control": "private, max-age=3600"})
 
 
+def _rate_info(ledger: list[dict]) -> dict:
+    """Model and rate date of the most recent priced ledger row (best effort: both None when it cannot be told). Reads config/pricing.json of the repo."""
+    rows = [r for r in ledger if r.get("model") and r.get("provider")]
+    if not rows:
+        return {"model": None, "rate_version": None}
+    last = sorted(rows, key=lambda r: str(r.get("ts") or ""))[-1]
+    rate = None
+    try:
+        pr = json.loads((PROJECT_DIR / "config" / "pricing.json").read_text(encoding="utf-8"))
+        rate = ((pr.get("providers") or {}).get(str(last["provider"])) or {}).get(str(last["model"])) or {}
+        rate = rate.get("as_of") or rate.get("effective_date")
+    except (OSError, ValueError):
+        rate = None
+    return {"model": str(last["model"])[:160], "rate_version": str(rate)[:40] if rate else None}
+
+
+def _usage_of(rows: list[dict]) -> dict:
+    """V8-shaped usage (V8_CONTRACT section 2) of ledger rows: totals, per-role stages, retries. Unpriced rows make the cost partial or unavailable, never $0."""
+    calls = [r for r in rows if not r.get("cache_hit")]
+    hits = len(rows) - len(calls)
+    priced = [r for r in calls if r.get("priced", True) and r.get("cost_usd") is not None]
+    unpriced = len(calls) - len(priced)
+    total = sum((Decimal(str(r["cost_usd"])) for r in priced), Decimal(0))
+    status = "none" if not calls else ("priced" if not unpriced else ("partial" if priced else "unpriced"))
+    stages: dict = {}
+    for r in calls:
+        s = stages.setdefault(str(r.get("role") or "other"), {"calls": 0, "input_tokens": 0, "cached_tokens": 0, "output_tokens": 0, "_cost": Decimal(0), "_unpriced": 0, "attempts": 0})
+        s["calls"] += 1
+        s["input_tokens"] += _costs._int(r.get("input_tokens")); s["cached_tokens"] += _costs._int(r.get("cache_read_tokens")); s["output_tokens"] += _costs._int(r.get("output_tokens"))
+        s["attempts"] = max(s["attempts"], _costs._int(r.get("attempt")) + 1)
+        if r.get("priced", True) and r.get("cost_usd") is not None:
+            s["_cost"] += Decimal(str(r["cost_usd"]))
+        else:
+            s["_unpriced"] += 1
+    by_stage = {k: {"calls": v["calls"], "input_tokens": v["input_tokens"], "cached_tokens": v["cached_tokens"], "output_tokens": v["output_tokens"],
+                    "cost_usd": None if v["_unpriced"] and not v["_cost"] else float(v["_cost"]), "attempts": v["attempts"]} for k, v in stages.items()}
+    models = sorted({str(r.get("model")) for r in calls if r.get("model")})
+    return {"calls": len(calls), "cache_hits": hits, "unpriced_calls": unpriced, "input_tokens": sum(_costs._int(r.get("input_tokens")) for r in calls),
+            "cached_tokens": sum(_costs._int(r.get("cache_read_tokens")) for r in calls), "output_tokens": sum(_costs._int(r.get("output_tokens")) for r in calls),
+            "cost_usd": None if status in ("unpriced",) else float(total), "cost_status": status, "currency": "USD", "model": models[0] if len(models) == 1 else None,
+            "by_stage": by_stage, "historical_usd": None}
+
+
 @app.get("/api/estimate")
 def estimate_run(session: str = "", parts: list[str] = Query(default_factory=list)):
     """Estimated time and cost for running ``parts`` one after another, from finished runs on this machine."""
@@ -1776,6 +1820,8 @@ def estimate_run(session: str = "", parts: list[str] = Query(default_factory=lis
                 pages = 1
             info.append({"part": n, "pages": pages, "error": err})
     est["parts"] = info
+    ri = _rate_info(ledger)
+    est["model"], est["rate_version"] = ri["model"], ri["rate_version"]
     return est
 
 
@@ -1787,7 +1833,12 @@ def part_last_run(session: str, part: str):
     """Persisted timing and measured cost of the part's latest run (survives refresh and reconnection)."""
     out = FINAL_OUTPUTS_DIR / _sanitize(part)
     ledger = [r for r in _costs.read_rows(_costs.ledger_paths(out)) if r.get("part") == _sanitize(part)]
-    return {"part": _sanitize(part), "run": _est.last_run(out, ledger)}
+    run = _est.last_run(out, ledger)
+    if run is not None:
+        rows = [x for x in ledger if x.get("run_id") == run.get("run_id") and x.get("run_attempt") in (None, run.get("attempt"))]
+        run["usage"] = _usage_of(rows)
+        run.update(_rate_info(rows))
+    return {"part": _sanitize(part), "run": run}
 
 
 @app.post("/api/preflight/pdf")

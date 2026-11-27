@@ -8,17 +8,18 @@
   var V = function () { return McA.reverseview; };
   var icon = function (n, s) { return McA.icons.get(n, s || 16); };
 
-  var TABS = [['overview', 'Overview'], ['inventory', 'Geometry Inventory'], ['plan', 'Drawing Plan'], ['coverage', 'Dimensions & Coverage'], ['review', 'Engineering Review'],
+  var TABS = [['overview', 'Overview'], ['compare', 'Comparison'], ['inventory', 'Geometry Inventory'], ['plan', 'Drawing Plan'], ['coverage', 'Dimensions & Coverage'], ['review', 'Engineering Review'],
     ['verification', 'Verification'], ['files', 'Files'], ['logs', 'Logs']];
   var S = {
     status: null, profiles: [], templates: [], defaultId: null, task: null, estimate: null, jobs: [], jobId: '', partId: '', job: null, loadErr: '', loading: false,
     picked: [], recursive: false, templateId: '', profile: 'us_third_angle_inch', config: '', submitting: false, setupOpen: true, resultsOpen: true, tab: 'overview',
     events: [], eventsNext: 0, sessionJobs: [], notice: null, review: {}, artifacts: {}, logScope: 'part', overlay: false, inited: false, visible: false,
-    view: {}, sync: false, caps: null
+    view: {}, sync: true, caps: null, cmp: {}, ev: {}, aligned: {}, jobFetchedAt: 0, est8: null
   };
   var R = {};                     // element refs
   var rail = null;                // McA.reverseRail (setup rail, reference flow, export)
   var timer = null, taskTimer = null, lastSummary = {}, guard = null;
+  var tickTimer = null;
   var viewKey = '', loadedStl = '', loadedPdf = '', loadedSrc = '', stlState = { status: 'empty', msg: '' }, pdfState = { status: 'empty', msg: '' };
 
   /* ───────────────────────── API ───────────────────────── */
@@ -57,6 +58,7 @@
     candidates: function (o) { return call('/api/reverse/reference/candidates', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(o) }); },
     confirm: function (o) { return call('/api/reverse/reference/confirm', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(o) }); },
     uploadReference: function (file) { var fd = new FormData(); fd.append('file', file, file.name); return call('/api/reverse/reference/upload', { method: 'POST', body: fd }); },
+    estimate8: function (o) { return call('/api/reverse/estimate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(o) }); },
     exportInfo: function (jobId, partId) { return call('/api/reverse/jobs/' + enc(jobId) + '/parts/' + enc(partId) + '/export'); }
   };
   function errText(e) { return (e && (e.detail || e.message)) || 'Something went wrong.'; }
@@ -124,7 +126,7 @@
   }
   function applyJob(j, wantPart) {
     var prev = S.job;
-    S.job = j; S.loading = false; S.loadErr = '';
+    S.job = j; S.loading = false; S.loadErr = ''; S.jobFetchedAt = performance.now();
     var ids = (j.parts || []).map(function (p) { return p.part_id; });
     if (wantPart && ids.indexOf(wantPart) >= 0) S.partId = wantPart;
     else if (ids.indexOf(S.partId) < 0) {
@@ -139,9 +141,19 @@
     pollEvents();
     schedulePoll();
   }
+  /** Elapsed time and the cost panel advance once a second while a run is active (server elapsed + the browser's own monotonic clock since it arrived). */
+  function startTick() {
+    if (tickTimer) return;
+    tickTimer = setInterval(function () {
+      if (!S.visible || !S.job || !V().isActive(S.job.summary_state)) { stopTick(); return; }
+      if (!document.hidden && rail) rail.renderRuntime();
+    }, 1000);
+  }
+  function stopTick() { if (tickTimer) { clearInterval(tickTimer); tickTimer = null; } }
   function schedulePoll() {
     clearTimeout(timer); timer = null;
-    if (!S.visible || !S.job || !V().isActive(S.job.summary_state)) return;
+    if (!S.visible || !S.job || !V().isActive(S.job.summary_state)) { stopTick(); return; }
+    startTick();
     var id = S.jobId;
     timer = setTimeout(function () {
       if (document.hidden) { schedulePoll(); return; }
@@ -174,7 +186,7 @@
       d.append(h('span', { class: 'dv' + (x[1] ? ' is-present' : ''), title: x[1] ? x[2] + ' produced' : x[2] + ' not produced yet', text: x[0] }));
     });
     setChip('rv-chip-runtime', j ? (V().runtimeText(j.parts) || 'Not measured yet') : '—');
-    setChip('rv-chip-cost', j ? V().costText(j) : '—');
+    setChip('rv-chip-cost', j ? (McA.costview.chipText(j) || V().costText(j)) : '—');
   }
   var STATE_ICON = { succeeded: 'check', warning: 'warn', failed: 'x', skipped: 'dash', na: 'dash' };
   function renderTracker() {
@@ -276,7 +288,7 @@
   }
 
   /* ───────────────────────── viewers: PDF (pdf.js) ───────────────────────── */
-  var P = { doc: null, page: 1, zoom: 1, task: null, rendering: false, again: false };
+  var P = { doc: null, page: 1, zoom: 1, task: null, rendering: false, again: false, pend: null, mute: 0, sq: false };
   function setPdf(status, msg) { pdfState = { status: status, msg: msg || '' }; renderPdfOverlay(); }
   function renderPdfOverlay() {
     var s = pdfState, p = part(), box = R.pdfEmpty;
@@ -301,13 +313,15 @@
     lib.getDocument(url).promise.then(function (doc) {
       if (!guard.isCurrent(tokn) || viewKey !== key.split('#')[0]) { doc.destroy && doc.destroy(); return; }
       if (P.doc && P.doc.destroy) P.doc.destroy();
-      P.doc = doc; P.page = 1; P.zoom = 1; loadedPdf = key; setPdf('ready'); renderPage(); updateSyncBtn();
+      P.doc = doc; P.page = 1; P.zoom = 1; loadedPdf = key; setPdf('ready'); renderPage(); updateSyncBtn(); renderCmpBar();
     }, function (e) { if (guard.isCurrent(tokn)) { loadedPdf = ''; setPdf('error', 'The PDF could not be read (' + ((e && e.message) || 'unknown error') + ').'); } });
   }
   function clearPdf() {
     if (P.task) { try { P.task.cancel(); } catch (e) { /* ignore */ } P.task = null; }
     if (P.doc && P.doc.destroy) { try { P.doc.destroy(); } catch (e) { /* ignore */ } }
-    P.doc = null; var c = R.paper.getContext('2d'); c.clearRect(0, 0, R.paper.width, R.paper.height); R.paper.width = R.paper.height = 0;
+    P.doc = null; P.pend = null; var c = R.paper.getContext('2d'); c.clearRect(0, 0, R.paper.width, R.paper.height); R.paper.width = R.paper.height = 0;
+    if (R.markGen) R.markGen.set(null);
+    hideCmpLayers();
   }
   function renderPage() {
     if (!P.doc) return;
@@ -332,7 +346,10 @@
         R.zoomLbl.textContent = Math.round(P.zoom * 100) + '%';
         R.prevBtn.disabled = !P.doc || P.page <= 1; R.nextBtn.disabled = !P.doc || P.page >= P.doc.numPages;
         renderOverlay();
-        if (P.again) { P.again = false; renderPage(); }
+        if (P.again) { P.again = false; renderPage(); return; }
+        if (P.pend) { var pv = P.pend; P.pend = null; applyRightScroll(pv); }
+        if (R.markGen) R.markGen.reposition();
+        renderCompareLayer();
       });
   }
   function renderOverlay() {
@@ -375,6 +392,7 @@
     else if (!src.pdf && pdfState.status !== 'empty') setPdf('empty');
     else renderPdfOverlay();
     syncLeft();
+    renderCmpBar();
     // panel headers
     var prev = j && V().isPreviousRun(j, S.sessionJobs) && V().isTerminal(p ? p.state : '');
     R.stlBadges.replaceChildren.apply(R.stlBadges, [
@@ -417,16 +435,33 @@
     } else if (loadedSrc && !sv.available) { loadedSrc = ''; R.srcPane.clear(); }
     updateSyncBtn();
   }
+  /* Synchronised zoom, pan and page: effective only when both sheets are loaded and have the same page count (V8: on by default when they do). */
+  function syncPlan() { var K = McA.compareview; return K.syncPlan(R.srcPane.isReady() ? R.srcPane.numPages() : 0, P.doc ? P.doc.numPages : 0, S.sync); }
   function updateSyncBtn() {
     if (!R.syncBtn) return;
-    var ok = R.srcPane.isReady() && !!P.doc, same = ok && R.srcPane.numPages() === P.doc.numPages;
-    var disabled = !ok || !same;
-    R.syncBtn.setAttribute('aria-disabled', disabled ? 'true' : 'false');
-    R.syncBtn.setAttribute('aria-pressed', String(!!S.sync && !disabled));
-    R.syncBtn.title = !ok ? 'Both drawings must be loaded to synchronise them.' : !same ? 'The sheets do not correspond (' + R.srcPane.numPages() + ' source vs ' + P.doc.numPages + ' generated), so they are not synchronised.' : 'Keep page and zoom in step with the generated drawing';
+    var pl = syncPlan();
+    R.syncBtn.setAttribute('aria-disabled', pl.possible ? 'false' : 'true');
+    R.syncBtn.setAttribute('aria-pressed', String(pl.effective));
+    R.syncBtn.title = pl.possible ? 'Keep page, zoom and pan in step with the generated drawing' : pl.reason;
+    var k = leftKey();
+    if (pl.effective && k && !S.aligned[k]) { S.aligned[k] = true; syncFromRight(); }
+    renderSyncNote();
   }
-  function syncFromRight() { if (S.sync && R.srcPane.isReady() && P.doc && R.srcPane.numPages() === P.doc.numPages) R.srcPane.setView({ page: P.page, zoom: P.zoom }); }
-  function syncFromLeft(v) { if (S.sync && P.doc && R.srcPane.numPages() === P.doc.numPages) { P.page = Math.max(1, Math.min(P.doc.numPages, v.page)); P.zoom = v.zoom; renderPage(); } }
+  function rightView() {
+    var K = McA.compareview, w = R.paperWrap;
+    return { page: P.page, zoom: P.zoom, sx: K.scrollFraction(w.scrollLeft, w.scrollWidth, w.clientWidth), sy: K.scrollFraction(w.scrollTop, w.scrollHeight, w.clientHeight) };
+  }
+  function applyRightScroll(v) {
+    var K = McA.compareview, w = R.paperWrap; P.mute = performance.now() + 120;
+    if (typeof v.sx === 'number') w.scrollLeft = K.scrollFromFraction(v.sx, w.scrollWidth, w.clientWidth);
+    if (typeof v.sy === 'number') w.scrollTop = K.scrollFromFraction(v.sy, w.scrollHeight, w.clientHeight);
+  }
+  function syncFromRight() { if (syncPlan().effective && R.srcPane.isReady()) R.srcPane.setView(rightView()); }
+  function syncFromLeft(v) {
+    if (!syncPlan().effective || !P.doc) return;
+    var pg = Math.max(1, Math.min(P.doc.numPages, v.page));
+    if (pg !== P.page || v.zoom !== P.zoom) { P.page = pg; P.zoom = v.zoom; P.pend = { sx: v.sx, sy: v.sy }; renderPage(); } else applyRightScroll(v);
+  }
 
   /** Reference-match verification (V7_CONTRACT 4): shown in the Verification tab only when the backend supplied it. */
   function verificationBlock(wrap, p, j) {
@@ -442,6 +477,200 @@
     if (imgs.length) wrap.append(h('h3', { class: 'sub-h', text: 'Comparison with the source' }), h('div', { class: 'rv-cmp' }, imgs.map(function (x) {
       return h('a', { class: 'rv-cmp-a', href: fileURL(j.job_id, x.rel, x.bytes), target: '_blank', rel: 'noopener', 'aria-label': 'Open comparison ' + x.name }, h('img', { src: fileURL(j.job_id, x.rel, x.bytes), alt: 'Comparison of the source and generated drawing: ' + x.name, loading: 'lazy', decoding: 'async' }), h('span', { class: 'reason', text: x.name }));
     })));
+  }
+
+  /* ───────────────────────── v8: source vs generated comparison ───────────────────────── */
+  var bad = {};                           // comparison images that failed to load (fall back to the in-browser computation)
+  var work = null;                        // offscreen canvas for the in-browser overlay / difference
+  function K() { return McA.compareview; }
+  function cmpState() { var k = leftKey(); return k ? (S.cmp[k] || (S.cmp[k] = { mode: 'side', filter: 'all' })) : { mode: 'side', filter: 'all' }; }
+  function evState() { var k = leftKey(); return k ? (S.ev[k] || (S.ev[k] = { id: '', note: '', canvas: null, busy: false })) : { id: '', note: '', canvas: null, busy: false }; }
+  function waitFor(test, done, fail, tries) {
+    var n = tries || 120;
+    (function poll() { if (test()) { done(); return; } if (--n <= 0) { if (fail) fail(); return; } setTimeout(poll, 50); })();
+  }
+  function hideCmpLayers() { if (R.cmpCanvas) { R.cmpCanvas.hidden = true; R.cmpImg.hidden = true; R.cmpImg.removeAttribute('src'); } if (R.cmpLegend) { R.cmpLegend.hidden = true; R.cmpLegend.textContent = ''; } }
+  function placeLayer(el) {
+    el.style.left = R.paper.offsetLeft + 'px'; el.style.top = R.paper.offsetTop + 'px'; el.style.width = R.paper.offsetWidth + 'px'; el.style.height = R.paper.offsetHeight + 'px';
+  }
+  function renderSyncNote() {
+    if (!R.cmpSync) return;
+    var pl = syncPlan(), sv = McA.referenceview.sourceView(part());
+    R.cmpSync.hidden = !sv.available;
+    R.cmpSync.textContent = pl.effective ? 'Zoom, pan and page synchronised' : (S.sync ? (pl.reason && R.srcPane.isReady() ? 'Not synchronised: ' + pl.reason : 'Open the Source PDF to compare') : 'Synchronisation is off');
+  }
+  /** The status chip, scales and the Side by side / Overlay / Difference switch above the generated sheet. */
+  function renderCmpBar() {
+    if (!R.cmpBar) return;
+    var p = part(), st = K().statusInfo(p), sv = McA.referenceview.sourceView(p), vis = !!p && (st.key !== 'none' || sv.available);
+    R.cmpBar.hidden = !vis;
+    if (!vis) { hideCmpLayers(); return; }
+    R.cmpChip.replaceChildren(icon(st.icon, 13), h('span', { text: st.label }));
+    R.cmpChip.setAttribute('data-tone', st.tone); R.cmpChip.setAttribute('data-key', st.key);
+    R.cmpChip.title = (st.reason ? st.reason + '. ' : '') + (st.verified ? 'Software comparison within the stated tolerances. Not an engineering approval.' : 'Draft for engineering review. Not approved for manufacture.');
+    var sl = K().scaleLines(p);
+    R.cmpScale.textContent = sl.length ? sl[0].text : '';
+    R.cmpScale.hidden = !sl.length; R.cmpScale.setAttribute('data-match', sl.length && sl[0].match === false ? 'false' : 'true');
+    R.cmpScale.title = sl.map(function (x) { return x.text; }).join('; ');
+    var mode = cmpState().mode;
+    R.cmpMode.querySelectorAll('button').forEach(function (b) {
+      var m = b.getAttribute('data-mode'), on = m === mode, dis = m !== 'side' && !sv.available;
+      b.className = on ? 'on' : ''; b.setAttribute('aria-pressed', String(on)); b.setAttribute('aria-disabled', dis ? 'true' : 'false');
+      b.title = dis ? sv.reason : (m === 'side' ? 'Source and generated sheets next to each other' : m === 'overlay' ? 'Draw the source and the generated sheet over each other' : 'Highlight what differs between the two sheets');
+    });
+    renderSyncNote();
+    renderCompareLayer();
+  }
+  function setCmpMode(m) {
+    var sv = McA.referenceview.sourceView(part());
+    if (m !== 'side' && !sv.available) return;
+    cmpState().mode = m;
+    if (m !== 'side' && leftMode() !== 'source') setLeftMode('source');
+    renderCmpBar();
+    var b = document.getElementById('rv-cmp-' + m); if (b) b.focus();
+    announce(m === 'side' ? 'Side by side view' : (m === 'overlay' ? 'Overlay' : 'Difference') + ' view');
+  }
+  function srcLoadedFor() { return R.srcPane.isReady() && R.srcPane.isIdle() && !P.rendering && !P.again && !!P.doc && R.paper.width > 0; }
+  /** Overlay / Difference: the backend's image for this sheet when the server lists one, otherwise computed here from the two rendered canvases (labelled). */
+  function renderCompareLayer() {
+    if (!R.cmpCanvas) return;
+    var p = part(), j = S.job, mode = cmpState().mode, sv = McA.referenceview.sourceView(p);
+    if (mode === 'side' || !sv.available || pdfState.status !== 'ready' || !P.doc || !j || !p) { hideCmpLayers(); return; }
+    var imgs = K().images(p), list = (imgs[mode === 'overlay' ? 'overlay' : 'difference'] || []).filter(function (x) { return !bad[x.rel]; });
+    var pick = K().pickImage(list, P.page), what = mode === 'overlay' ? 'Overlay' : 'Difference';
+    R.cmpLegend.hidden = false;
+    if (pick) {
+      R.cmpCanvas.hidden = true; placeLayer(R.cmpImg); R.cmpImg.hidden = false;
+      var url = fileURL(j.job_id, pick.rel, pick.bytes);
+      if (R.cmpImg.getAttribute('src') !== url) R.cmpImg.setAttribute('src', url);
+      R.cmpImg.alt = what + ' image of the source and generated sheet ' + P.page;
+      R.cmpImg.onerror = function () { bad[pick.rel] = true; renderCompareLayer(); };
+      R.cmpLegend.textContent = what + ' image produced by the backend for sheet ' + P.page + '. ' + K().LEGEND[mode];
+      R.cmpLegend.setAttribute('data-src', 'backend');
+      return;
+    }
+    R.cmpImg.hidden = true; R.cmpImg.removeAttribute('src');
+    if (!srcLoadedFor()) { R.cmpCanvas.hidden = true; R.cmpLegend.textContent = 'Preparing the ' + what.toLowerCase() + ' from the two sheets...'; R.cmpLegend.setAttribute('data-src', 'wait'); return; }
+    var W = R.paper.width, H = R.paper.height, sc = R.srcPane.canvas();
+    if (!sc.width || !sc.height) { R.cmpCanvas.hidden = true; R.cmpLegend.textContent = 'The source sheet is not drawn yet.'; R.cmpLegend.setAttribute('data-src', 'wait'); return; }
+    try {
+      work = work || document.createElement('canvas'); work.width = W; work.height = H;
+      var wctx = work.getContext('2d', { willReadFrequently: true }); wctx.fillStyle = '#fff'; wctx.fillRect(0, 0, W, H);
+      var k = Math.min(W / sc.width, H / sc.height), dw = sc.width * k, dh = sc.height * k;
+      wctx.drawImage(sc, (W - dw) / 2, (H - dh) / 2, dw, dh);
+      var src = wctx.getImageData(0, 0, W, H), gen = R.paper.getContext('2d').getImageData(0, 0, W, H);
+      var out = wctx.createImageData(W, H), res = mode === 'overlay' ? K().overlayPixels(src.data, gen.data, out.data) : K().diffPixels(src.data, gen.data, out.data);
+      R.cmpCanvas.width = W; R.cmpCanvas.height = H; R.cmpCanvas.getContext('2d').putImageData(out, 0, 0);
+      placeLayer(R.cmpCanvas); R.cmpCanvas.hidden = false;
+      var aspect = Math.abs(sc.width / sc.height - W / H) > 0.02 ? ' The two sheets have different proportions, so the source is fitted inside the generated sheet.' : '';
+      var pg = R.srcPane.getView().page, pgNote = pg !== P.page ? ' Comparing source page ' + pg + ' with generated sheet ' + P.page + '.' : '';
+      var st = res.stats ? ' ' + res.stats.onlySource.toLocaleString('en-US') + ' px only in the source, ' + res.stats.onlyGenerated.toLocaleString('en-US') + ' px only in the generated drawing.' : '';
+      R.cmpLegend.textContent = what + ' computed in your browser from the two rendered sheets (not a backend result; pixels are not a measurement of tolerance). ' + K().LEGEND[mode] + st + pgNote + aspect;
+      R.cmpLegend.setAttribute('data-src', 'browser');
+    } catch (e) { R.cmpCanvas.hidden = true; R.cmpLegend.textContent = 'The ' + what.toLowerCase() + ' could not be computed in this browser.'; R.cmpLegend.setAttribute('data-src', 'error'); }
+  }
+
+  /** Click an issue: show its evidence on the source (missing / mismatched) or on the generated sheet (extra), on the right page, with a highlight and a crop. */
+  function focusIssue(i) {
+    var p = part(), F = McA.referenceview, side = K().evidenceSide(i), ev = evState(), key = leftKey();
+    ev.id = i.id; ev.busy = true; ev.canvas = null; ev.note = 'Locating the evidence...'; ev.side = side;
+    renderResults();
+    function done(note, canvas) { ev.busy = false; ev.note = note; ev.canvas = canvas || null; if (leftKey() === key) renderResults(); announce(note); }
+    var label = i.text ? '"' + i.text + '"' : 'this item';
+    if (side === 'source') {
+      var sv = F.sourceView(p);
+      if (!sv.available) { done('No source PDF is available for this part, so the source evidence cannot be shown. ' + sv.reason); return; }
+      if (leftMode() !== 'source') setLeftMode('source');
+      var pane = R.srcPane;
+      waitFor(function () { return leftKey() === key && pane.isReady() && pane.isIdle(); }, function () {
+        var pg = Math.max(1, Math.min(pane.numPages(), i.page || pane.getView().page));
+        var v = pane.getView(); pane.setView({ page: pg, zoom: v.zoom }); if (pg !== v.page) syncFromLeft(pane.getView());
+        waitFor(function () { return pane.isIdle(); }, function () {
+          (i.bbox ? Promise.resolve(i.bbox) : pane.locate(pg, i.text)).then(function (box) {
+            if (leftKey() !== key) return;
+            if (!box) { pane.mark(null); done('Source page ' + pg + ' is shown. ' + label + ' could not be located in the page text (a scanned drawing has no selectable text), so nothing is highlighted.'); return; }
+            pane.mark(box, true);
+            done('Source page ' + pg + ': ' + (i.bbox ? 'the recorded evidence region' : label + ' located in the source drawing') + ' is highlighted.', cropOf(pane.canvas(), box, 'Source evidence for ' + i.id));
+          });
+        });
+      }, function () { done('The source PDF did not finish loading, so the evidence cannot be shown.'); });
+    } else {
+      if (!P.doc || pdfState.status !== 'ready') { done('The generated drawing is not loaded, so the evidence cannot be shown.'); return; }
+      waitFor(function () { return leftKey() === key && !P.rendering; }, function () {
+        var pg = Math.max(1, Math.min(P.doc.numPages, i.page || P.page));
+        if (pg !== P.page) { P.page = pg; renderPage(); syncFromRight(); }
+        waitFor(function () { return !P.rendering && !P.again; }, function () {
+          (i.bbox ? Promise.resolve(i.bbox) : McA.pdfpane.locateIn(P.doc, pg, i.text)).then(function (box) {
+            if (leftKey() !== key) return;
+            if (!box) { R.markGen.set(null); done('Generated sheet ' + pg + ' is shown. ' + label + ' could not be located in its text, so nothing is highlighted.'); return; }
+            R.markGen.set(box, true);
+            done('Generated sheet ' + pg + ': ' + label + ' is highlighted. It is present in the generated drawing but not in the source.', cropOf(R.paper, box, 'Generated evidence for ' + i.id));
+          });
+        });
+      }, function () { done('The generated drawing did not finish drawing.'); });
+    }
+  }
+  /** A small canvas copy of the region around `box` (page fractions) from a rendered sheet. Detached; no object URL is created. */
+  function cropOf(src, box, label) {
+    try {
+      var W = src.width, H = src.height; if (!W || !H) return null;
+      var bw = (box.x1 - box.x0) * W, bh = (box.y1 - box.y0) * H, padX = Math.max(40, bw * 0.8), padY = Math.max(30, bh * 1.2);
+      var x = Math.max(0, Math.floor(box.x0 * W - padX)), y = Math.max(0, Math.floor(box.y0 * H - padY)), w = Math.min(W - x, Math.ceil(bw + 2 * padX)), hh = Math.min(H - y, Math.ceil(bh + 2 * padY));
+      if (w < 2 || hh < 2) return null;
+      var c = document.createElement('canvas'), k = Math.min(1, 320 / w); c.width = Math.round(w * k); c.height = Math.round(hh * k);
+      var ctx = c.getContext('2d'); ctx.drawImage(src, x, y, w, hh, 0, 0, c.width, c.height);
+      ctx.strokeStyle = '#7a5cff'; ctx.lineWidth = 2; ctx.strokeRect((box.x0 * W - x) * k - 2, (box.y0 * H - y) * k - 2, bw * k + 4, bh * k + 4);
+      c.setAttribute('role', 'img'); c.setAttribute('aria-label', label); c.className = 'rv-ev-crop';
+      return c;
+    } catch (e) { return null; }
+  }
+
+  function tabCompare(p, j) {
+    var wrap = h('div', { class: 'rv-sec', id: 'rv-compare' }), st = K().statusInfo(p), st8 = evState(), cs = cmpState();
+    wrap.append(h('div', { class: 'rv-ct-head' }, h('span', { class: 'rv-chipst', id: 'rv-ct-status', 'data-tone': st.tone, 'data-key': st.key }, icon(st.icon, 13), h('span', { text: st.label })),
+      h('span', { class: 'reason', text: st.reason || (st.source === 'none' ? 'No comparison with a source drawing was run for this part (Standard mode, or an older run).' : st.verified ? 'Within the stated tolerances.' : 'Draft for engineering review.') })));
+    wrap.append(h('p', { class: 'rv-note', role: 'note' }, icon('info', 14), h('span', { text: 'A software comparison with the source drawing is not an engineering approval. ' + V().DRAFT_NOTICE + '.' })));
+    var issues = K().issues(p), counts = K().groupCounts(issues), shown = issues.filter(function (i) { return cs.filter === 'all' || i.group === cs.filter; });
+    var filters = h('div', { class: 'rv-ct-filters', role: 'group', 'aria-label': 'Filter issues' }, K().GROUPS.filter(function (g) { return g[0] === 'all' || counts[g[0]]; }).map(function (g) {
+      return h('button', { class: 'btn ghost sm', type: 'button', 'data-filter': g[0], 'aria-pressed': String(cs.filter === g[0]), text: g[1] + ' (' + counts[g[0]] + ')', onclick: function () { cs.filter = g[0]; renderResults(); var b = document.querySelector('[data-filter="' + g[0] + '"]'); if (b) b.focus(); } });
+    }));
+    var list;
+    if (!issues.length) list = empty(st.verified ? 'check' : 'file', st.source === 'none' ? 'Not compared' : 'No issues recorded', st.source === 'none' ? 'Run in Match reference mode to compare the drawing with its source.' : (st.verified ? 'No missing, extra or mismatched elements were recorded.' : 'The comparison recorded no itemised issues.'));
+    else {
+      var ul = h('ul', { class: 'rv-ct-list', 'aria-label': 'Differences between the source and the generated drawing' }, shown.map(function (i) {
+        var b = h('button', { class: 'rv-ct-issue', type: 'button', 'data-issue': i.id, 'aria-current': st8.id === i.id ? 'true' : null,
+          'aria-label': i.kindLabel + (i.page ? ', sheet ' + i.page : '') + ': ' + (i.text || i.detail || i.id) + '. Show the evidence.', onclick: function () { focusIssue(i); } },
+          pill(i.severity), h('span', { class: 'rv-ct-k', text: i.kindLabel }), h('span', { class: 'rv-ct-t', text: (i.text || '') + (i.detail ? ' (' + i.detail + ')' : '') }), i.page ? h('span', { class: 'rv-ct-p', text: 'sheet ' + i.page }) : null);
+        return h('li', null, b);
+      }));
+      ul.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+        var bs = Array.prototype.slice.call(ul.querySelectorAll('button')), n = bs.indexOf(document.activeElement); if (n < 0) return;
+        e.preventDefault(); var t = bs[Math.max(0, Math.min(bs.length - 1, n + (e.key === 'ArrowDown' ? 1 : -1)))]; if (t) t.focus();
+      });
+      list = h('div', null, filters, shown.length ? ul : h('p', { class: 'reason', text: 'No issues in this group.' }));
+    }
+    wrap.append(h('div', { class: 'rv-ct' }, h('div', { class: 'rv-ct-main' }, h('h3', { class: 'sub-h', text: 'Differences (' + issues.length + ')' }), list),
+      h('div', { class: 'rv-ct-side' }, h('h3', { class: 'sub-h', text: 'Source and output' }), factsNode(p), h('h3', { class: 'sub-h', text: 'Evidence' }), evidenceNode(st8, issues))));
+    return wrap;
+  }
+  function factsNode(p) {
+    var rows = K().factRows(p), dl = h('dl', { class: 'rv-kv rv-ct-facts', id: 'rv-ct-facts' });
+    var sl = K().scaleLines(p);
+    rows.forEach(function (r) {
+      dl.append(h('dt', { text: r[0] }), h('dd', null, r[1].map(function (t, n) { var bad_ = r[0] === 'Scales' && sl[n] && sl[n].match === false; return h('div', { 'data-match': bad_ ? 'false' : 'true', text: t + (bad_ ? ' (differs)' : '') }); })));
+    });
+    return dl;
+  }
+  function evidenceNode(ev, issues) {
+    var box = h('div', { class: 'rv-ct-ev', id: 'rv-ct-ev', role: 'status', 'aria-live': 'polite' });
+    if (!ev.id) box.append(h('p', { class: 'reason', text: 'Select a difference to see it on the drawings. A missing or mismatched item is shown on the source; an extra item on the generated drawing.' }));
+    else {
+      var i = issues.filter(function (x) { return x.id === ev.id; })[0];
+      box.append(h('p', { class: 'reason', id: 'rv-ev-note', text: (i ? i.id + ': ' : '') + ev.note }));
+      if (ev.canvas) box.append(ev.canvas);
+    }
+    return box;
   }
 
   /* ───────────────────────── queue (batch table) ───────────────────────── */
@@ -563,7 +792,7 @@
     body.replaceChildren();
     body.setAttribute('aria-labelledby', 'rv-tab-' + S.tab);
     if (!j || !p) { body.append(empty('results', 'Nothing to show yet', 'Results for the selected part appear here.')); return; }
-    var fn = { overview: tabOverview, inventory: tabInventory, plan: tabPlan, coverage: tabCoverage, review: tabReview, verification: tabVerification, files: tabFiles, logs: tabLogs }[S.tab];
+    var fn = { overview: tabOverview, compare: tabCompare, inventory: tabInventory, plan: tabPlan, coverage: tabCoverage, review: tabReview, verification: tabVerification, files: tabFiles, logs: tabLogs }[S.tab];
     body.append(fn(p, j));
   }
   function tabOverview(p, j) {
@@ -747,7 +976,7 @@
       toolBtn({ 'data-act': 'fit' }, 'fit', 'Fit to view', function () { if (T.mesh) { var d = T.camera.position.clone().sub(T.controls.target); moveCamera([d.x, d.y, d.z]); } }),
       toolBtn({ 'data-act': 'fullscreen', 'data-always': '' }, 'fullscreen', 'Fullscreen 3D', function () { fs(R.p3d); }));
     R.stlBadges = h('div', { class: 'vp-meta' });
-    R.srcPane = McA.pdfpane.create({ label: 'Source PDF', icon: icon, onView: function (v) { var k = leftKey(); if (k) viewFor(k).src = v; syncFromLeft(v); } });
+    R.srcPane = McA.pdfpane.create({ label: 'Source PDF', icon: icon, onView: function (v) { var k = leftKey(); if (k) viewFor(k).src = v; syncFromLeft(v); }, onRendered: function () { renderCompareLayer(); updateSyncBtn(); } });
     R.syncBtn = h('button', { class: 'ibtn', type: 'button', id: 'rv-sync', title: 'Keep page and zoom in step with the generated drawing', 'aria-label': 'Synchronise page and zoom with the generated drawing', 'aria-pressed': 'false',
       onclick: function () { if (R.syncBtn.getAttribute('aria-disabled') === 'true') return; S.sync = !S.sync; updateSyncBtn(); if (S.sync) syncFromRight(); } }, icon('refresh', 18));
     R.srcTools = h('div', { class: 'vp-tools rv-src-tools', role: 'toolbar', 'aria-label': 'Source PDF tools', hidden: true }, R.srcPane.tools, R.syncBtn,
@@ -768,7 +997,14 @@
       else if (e.key.indexOf('Arrow') === 0) { e.preventDefault(); orbitKey(e.key); }
     });
     R.paper = h('canvas', { class: 'rv-paper', 'aria-label': 'Drawing sheet' });
-    R.paperWrap = h('div', { class: 'rv-paperwrap', tabindex: '0', role: 'region', 'aria-label': 'Drawing sheet (scrollable)', hidden: true }, R.paper);
+    R.cmpCanvas = h('canvas', { class: 'rv-cmp-layer', id: 'rv-cmp-canvas', hidden: true, 'aria-label': 'Computed comparison of the source and the generated sheet' });
+    R.cmpImg = h('img', { class: 'rv-cmp-layer', id: 'rv-cmp-img', hidden: true, alt: '' });
+    R.paperWrap = h('div', { class: 'rv-paperwrap', tabindex: '0', role: 'region', 'aria-label': 'Drawing sheet (scrollable)', hidden: true }, R.paper, R.cmpCanvas, R.cmpImg);
+    R.markGen = McA.pdfpane.attachMark(R.paperWrap, R.paper);
+    R.paperWrap.addEventListener('scroll', function () {
+      if (performance.now() < P.mute || P.sq || !P.doc) return;
+      P.sq = true; requestAnimationFrame(function () { P.sq = false; if (performance.now() >= P.mute) syncFromRight(); });
+    }, { passive: true });
     R.pdfEmpty = h('div', { class: 'vp-empty rv-vempty' });
     R.overlayBox = h('div', { class: 'rv-overlay', hidden: true, 'aria-live': 'polite' });
     R.pageLbl = h('span', { class: 'rv-pagelbl', 'aria-live': 'polite' }); R.zoomLbl = h('span', { class: 'rv-zoomlbl' });
@@ -782,9 +1018,20 @@
       toolBtn({}, 'fit', 'Fit sheet to view', function () { P.zoom = 1; renderPage(); syncFromRight(); }), R.pdfOverlayBtn, R.pdfDl,
       toolBtn({ 'data-always': '' }, 'fullscreen', 'Fullscreen drawing', function () { fs(R.p2d); }));
     R.pdfBadges = h('div', { class: 'vp-meta' });
+    R.cmpChip = h('span', { class: 'rv-chipst', id: 'rv-cmp-status', role: 'status' });
+    R.cmpScale = h('span', { class: 'rv-cmp-scale', id: 'rv-cmp-scale', hidden: true });
+    R.cmpSync = h('span', { class: 'rv-cmp-scale', id: 'rv-cmp-sync', hidden: true });
+    R.cmpMode = h('div', { class: 'seg-c rv-cmp-mode', id: 'rv-cmp-mode', role: 'group', 'aria-label': 'Compare the source and the generated sheet' },
+      [['side', 'Side by side'], ['overlay', 'Overlay'], ['difference', 'Difference']].map(function (m) {
+        var b = h('button', { type: 'button', id: 'rv-cmp-' + m[0], 'data-mode': m[0], 'aria-pressed': 'false', text: m[1] });
+        b.addEventListener('click', function () { if (b.getAttribute('aria-disabled') === 'true') return; setCmpMode(m[0]); });
+        return b;
+      }));
+    R.cmpLegend = h('p', { class: 'rv-cmp-legend', id: 'rv-cmp-legend', role: 'status', hidden: true });
+    R.cmpBar = h('div', { class: 'rv-cmpbar', id: 'rv-cmpbar', hidden: true }, R.cmpChip, R.cmpScale, R.cmpSync, R.cmpMode, R.cmpLegend);
     R.p2d = h('section', { class: 'vpanel rv-panel', id: 'rv-2d', 'aria-labelledby': 'rv-2d-t' },
       h('header', { class: 'vp-head' }, h('span', { class: 'vp-ic' }, icon('file', 20)), h('h2', { id: 'rv-2d-t', text: 'Drawing (PDF)' }), h('span', { class: 'badge-c steel rv-lbl', id: 'rv-gen-lbl', title: 'Generated by this run (not the original)', text: 'Generated' }), R.pdfBadges, R.pdfTools),
-      h('div', { class: 'vp-body rv-sheetbody' }, R.paperWrap, R.pdfEmpty), R.overlayBox);
+      R.cmpBar, h('div', { class: 'vp-body rv-sheetbody' }, R.paperWrap, R.pdfEmpty), R.overlayBox);
     rail = McA.reverseRail;
     var rp = rail.init({ S: S, R: R, API: API, errText: errText, toast: toast, announce: announce, banner: banner, part: part, loadTemplates: loadTemplates, refreshJobs: refreshJobs, selectJob: selectJob,
       renderNotice: function () { renderNotice(); } });
@@ -911,7 +1158,7 @@
       else if (S.jobId) selectJob(S.jobId, S.partId);
       renderAll();
     },
-    leave: function () { S.visible = false; clearTimeout(timer); timer = null; },
+    leave: function () { S.visible = false; clearTimeout(timer); timer = null; stopTick(); },
     _state: S
   };
   McA.reverse = { open: function (job, partId) { McA.router.go('reverse', partId ? { job: job, part: partId } : { job: job }); }, refreshLists: renderLists };

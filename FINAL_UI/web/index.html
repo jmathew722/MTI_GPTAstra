@@ -253,16 +253,19 @@
                 <div class="rt-row" id="est-time"><span class="k">Estimated time:</span> <span class="v">calculating</span></div>
                 <p class="rt-h">OpenAI execution cost <span class="rt-note">(model calls only)</span></p>
                 <div class="rt-row" id="est-cost"><span class="k">Estimated cost:</span> <span class="v">calculating</span></div>
+                <div class="rt-row" id="est-model" hidden><span class="k">Model and rates</span><span class="v" id="est-model-v">N/A</span></div>
                 <div class="rt-live" id="rt-live" hidden>
                   <div class="rt-row"><span class="k">Elapsed</span><span class="v" id="rt-elapsed">N/A</span></div>
                   <div class="rt-row"><span class="k">Time left</span><span class="v" id="rt-left">N/A</span></div>
                   <div class="rt-row"><span class="k">Cost so far</span><span class="v" id="rt-sofar">N/A</span></div>
                   <div class="rt-row" id="rt-batch-row" hidden><span class="k">Part</span><span class="v" id="rt-batch">N/A</span></div>
                 </div>
+                <div class="rt-usage" id="rt-usage" hidden></div>
                 <p class="rt-h">Material cost <span class="rt-note">(separate, not OpenAI)</span></p>
                 <div class="rt-row"><span class="k">Selected part</span><span class="v" id="rt-material">N/A</span></div>
                 <p class="est-live" id="est-live" hidden></p>
                 <p class="est-detail" id="est-detail"></p>
+                <p class="est-detail" id="est-local">SolidWorks build time is local processing and carries no token cost.</p>
               </div>
             </section>
             <div class="row2 row-actions">
@@ -433,6 +436,8 @@
 <script defer src="/static/js/logic/resulttone.js"></script>
 <script defer src="/static/js/logic/reverseview.js"></script>
 <script defer src="/static/js/logic/referenceview.js"></script>
+<script defer src="/static/js/logic/costview.js"></script>
+<script defer src="/static/js/logic/compareview.js"></script>
 <script defer src="/static/js/logic/registry.js"></script>
 <script defer src="/static/js/features/run.js"></script>
 <script defer src="/static/js/features/intake.js"></script>

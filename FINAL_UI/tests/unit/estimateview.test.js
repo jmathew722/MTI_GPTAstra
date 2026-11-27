@@ -83,3 +83,15 @@ test('actual: live elapsed, final from the store, final from the persisted last 
   assert.equal(unpriced.costStatus, 'unpriced');
   assert.equal(V.actual({}, null), null);
 });
+
+test('v8: expected value and model/rate line appear only when the server gives them; unknown stays unknown', () => {
+  const base = { inputs: 1, time: { available: true, low: 90, high: 330, expected: 150, n_runs: 7, limited: false }, cost: { available: true, low: '0.0400', high: '0.6200', expected: '0.2100' }, model: 'gpt-6-astra', rate_version: '2026-11-27' };
+  const d = V.describe(base);
+  assert.equal(d.time, 'Estimated time: 1.5–5.5 min (expected 2.5 min)');
+  assert.equal(d.cost, 'Estimated cost: $0.04–$0.62 (expected $0.21)');
+  assert.equal(d.modelLine, 'Model gpt-6-astra · rates of 2026-11-27');
+  const old = V.describe({ inputs: 1, time: { available: true, low: 90, high: 330, n_runs: 3, limited: false }, cost: { available: true, low: '0.0400', high: '0.6200' } });
+  assert.ok(!/expected/.test(old.time + old.cost)); assert.equal(old.modelLine, '');
+  const unk = V.describe({ inputs: 1, time: { available: false, reason: 'x' }, cost: { available: false, reason: 'No priced runs' }, model: 'm' });
+  assert.equal(unk.cost, 'Estimated cost: unavailable'); assert.equal(unk.modelLine, ''); assert.ok(!/\$0/.test(unk.cost));
+});

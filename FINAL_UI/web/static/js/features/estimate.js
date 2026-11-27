@@ -71,6 +71,7 @@
     var rc = $('record-run');
     if (rc && rc.checked) detail += (detail ? ' · ' : '') + 'Recording adds a short pause after each feature.';
     set('est-detail', detail);
+    set('est-model-v', d.modelLine || '', !d.modelLine); var mr = $('est-model'); if (mr) mr.hidden = !d.modelLine;
     var live = $('est-live'), a = V.actual(s.run, lastKey === (sl ? s.session.id + '|' + sl.part : '') ? last : null, Date.now());
     var C = McA.collapsibles, ck = McA.selectors && McA.selectors.costKey ? McA.selectors.costKey(s) : null;
     var rows = $('rt-live');
@@ -88,16 +89,44 @@
       if (a && (a.kind === 'final' || a.kind === 'unknown') && a.elapsed) {
         var costTxt = a.cost || (a.kind === 'final' && ck && ck.state !== 'empty' && ck.status !== 'unpriced' && ck.runText ? ck.runText : '');
         var costPart = costTxt ? 'cost ' + costTxt + ' (measured)' : (a.costStatus === 'none' ? 'cost not recorded' : 'cost unavailable');
-        set('est-live', 'Last run' + (a.state ? ' (' + String(a.state).replace(/_/g, ' ') + ')' : '') + ': actual ' + a.elapsed + ' · ' + costPart, false);
+        set('est-live', 'Last run' + (a.state ? ' (' + String(a.state).replace(/_/g, ' ') + ')' : '') + ': actual ' + a.elapsed + ' · ' + costPart + vsEstimate(a), false);
         live.setAttribute('data-kind', 'final');
       } else set('est-live', '', true);
     }
+    renderUsage(lastKey === (sl ? s.session.id + '|' + sl.part : '') ? last : null, isRun);
     renderMaterialRow(sl);
     if (McA.accordions) McA.accordions.refreshRuntime();
     if (isRun) startTimer(); else stopTimer();
   }
   function startTimer() { if (!timer) timer = setInterval(render, 1000); }
   function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+
+  /* Actual vs estimate: the estimate range is shown next to the actual of a finished run, only while that estimate is on screen for the same part. */
+  function vsEstimate(a) {
+    var d = single && single.cost ? single : null, parts = [];
+    if (!d || a.kind !== 'final') return '';
+    if (d.time && d.time.available) parts.push('time estimate was ' + V.fmtRange(d.time.low, d.time.high));
+    if (a.cost && d.cost.available) parts.push('cost estimate was ' + V.usdRange(d.cost.low, d.cost.high));
+    return parts.length ? ' · ' + parts.join(' · ') : '';
+  }
+  /* Model calls of the last run by stage (tokens, cached tokens, calls, cost) from the same ledger; unknown cost stays "unavailable". */
+  function renderUsage(l, isRun) {
+    var box = $('rt-usage'), CV = McA.costview; if (!box || !CV) return;
+    var u = l && l.run && l.run.usage ? CV.usageView(l.run.usage) : null;
+    box.replaceChildren();
+    if (isRun || !u || !u.present || !(u.calls || u.cacheHits)) { box.hidden = true; return; }
+    box.hidden = false;
+    var h = McA.dom.h;
+    box.append(h('p', { class: 'rt-h', text: 'Model calls in the last run' }),
+      h('div', { class: 'rt-row' }, h('span', { class: 'k', text: 'Cost' }), h('span', { class: 'v', id: 'rt-usage-cost', text: u.cost.text + (u.cost.status === 'priced' || u.cost.status === 'partial' ? ' (calculated from token usage)' : '') })),
+      u.tokens ? h('div', { class: 'rt-row' }, h('span', { class: 'k', text: 'Tokens' }), h('span', { class: 'v', id: 'rt-usage-tokens', text: u.tokens })) : null,
+      h('div', { class: 'rt-row' }, h('span', { class: 'k', text: 'Calls' }), h('span', { class: 'v', text: u.calls + (u.cacheHits ? ' (+' + u.cacheHits + ' from cache)' : '') + (u.retries ? ', ' + u.retries + ' retr' + (u.retries === 1 ? 'y' : 'ies') : '') })),
+      l.run.model ? h('div', { class: 'rt-row' }, h('span', { class: 'k', text: 'Model and rates' }), h('span', { class: 'v', text: 'Model ' + l.run.model + (l.run.rate_version ? ' · rates of ' + l.run.rate_version : '') })) : null);
+    if (u.stages.length) box.append(h('div', { class: 'rt-stbl', tabindex: '0', role: 'region', 'aria-label': 'Model calls by stage (scrolls sideways when narrow)' }, h('table', { id: 'rt-usage-stages' },
+      h('thead', null, h('tr', null, ['Stage', 'Calls', 'In', 'Cached', 'Out', 'Cost'].map(function (t) { return h('th', { scope: 'col', text: t }); }))),
+      h('tbody', null, u.stages.map(function (r) { return h('tr', null, h('th', { scope: 'row', text: r.label }), h('td', { text: r.calls === null ? '—' : String(r.calls) }), h('td', { text: CV.count(r.input) }), h('td', { text: CV.count(r.cached) }), h('td', { text: CV.count(r.output) }), h('td', { text: r.cost })); })))));
+    u.notes.forEach(function (n) { box.append(h('p', { class: 'est-detail', text: n })); });
+  }
 
   /* Material cost of the selected part: its own row, never merged with the OpenAI figures above. */
   function renderMaterialRow(sl) {

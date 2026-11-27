@@ -12,7 +12,7 @@
   /* ------------------------------------------------------------------ artifacts */
   /** One artifact of a part by kind. The backend lists stable aliases (V7_CONTRACT 4) next to the legacy names; both are understood, and an entry the
       server marks `available: false` (or does not list at all) is absent. Returns {rel, bytes} or null. */
-  var ALIASES = { slddrw: ['slddrw', 'drawing.slddrw'], pdf: ['pdf', 'drawing.pdf'], source_pdf: ['source_pdf', 'reference/source.pdf'], stl: ['stl', 'model.stl'], qa_json: ['qa_json', 'qa.json'] };
+  var ALIASES = { slddrw: ['slddrw', 'drawing.slddrw'], pdf: ['pdf', 'drawing.pdf'], source_pdf: ['source_pdf', 'reference/source.pdf'], stl: ['stl', 'model.stl'], qa_json: ['qa_json', 'qa.json'], report: ['replication_report', 'replication/report.json', 'qa_json', 'qa.json'] };
   function artifactOf(part, kind) {
     var f = (part && part.files) || {}, names = ALIASES[kind] || [kind];
     for (var i = 0; i < names.length; i++) {
@@ -29,7 +29,7 @@
   }
 
   /* ------------------------------------------------------------------ export */
-  var EXPORT_KINDS = [['slddrw', 'Download SLDDRW'], ['pdf', 'Download PDF'], ['zip', 'Download both (ZIP)']];
+  var EXPORT_KINDS = [['slddrw', 'Download SLDDRW'], ['pdf', 'Download PDF'], ['report', 'Download report (JSON)'], ['zip', 'Download both (ZIP)']];
   /** Export panel state from GET .../export (server-computed): which buttons are enabled and why not. `ack` = the user ticked the acknowledgement. */
   function exportView(info, ack, busy) {
     if (!info || !info.downloads) {
@@ -50,8 +50,8 @@
   /** A key that changes when anything the export panel depends on changes (selection, state, files): used to refetch and to drop a stale acknowledgement. */
   function exportKey(job, part) {
     if (!job || !part) return '';
-    var d = artifactOf(part, 'slddrw'), p = artifactOf(part, 'pdf'), v = part.verification && part.verification.status;
-    return [job.job_id, part.part_id, part.state, part.review_status || '', v || '', d ? d.bytes : '-', p ? p.bytes : '-'].join('|');
+    var d = artifactOf(part, 'slddrw'), p = artifactOf(part, 'pdf'), r = artifactOf(part, 'report'), v = part.verification && part.verification.status, rp = part.replication && part.replication.status;
+    return [job.job_id, part.part_id, part.state, part.review_status || '', v || '', rp || '', d ? d.bytes : '-', p ? p.bytes : '-', r ? r.bytes : '-'].join('|');
   }
 
   /* ------------------------------------------------------------------ reference (setup rail) */

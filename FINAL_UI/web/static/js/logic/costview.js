@@ -95,8 +95,10 @@
   function stageRows(by, kind) {
     if (!by || typeof by !== 'object') return [];
     var order = ['extraction', 'tiles', 'local_generation', 'validation', 'correction'];
-    return order.filter(function (k) { return by[k]; }).map(function (k) {
-      var s = by[k], r = { key: k, label: STAGE_LABEL[k], local: k === 'local_generation' };
+    // keys the backend names that are not in the fixed list (for example the 2D -> 3D ledger roles) follow, in name order, with a plain label
+    Object.keys(by).sort().forEach(function (k) { if (order.indexOf(k) < 0) order.push(k); });
+    return order.filter(function (k) { return by[k] && typeof by[k] === 'object'; }).map(function (k) {
+      var s = by[k], r = { key: k, label: STAGE_LABEL[k] || (String(k).charAt(0).toUpperCase() + String(k).slice(1).replace(/_/g, ' ')), local: k === 'local_generation' };
       if (kind === 'estimate') {
         var c = s.cost || {};
         r.cost = isNum(c.expected) ? moneyEst(c.expected) : UNAVAILABLE;
