@@ -117,6 +117,19 @@
     });
     return t.any ? t : null;
   }
+  /** One line per page after the first (V8_CONTRACT section 6: replication.pages[]): status, scale agreement, verbatim notes. Only recorded members are shown. */
+  function pageLines(part) {
+    var pg = part && part.replication && Array.isArray(part.replication.pages) ? part.replication.pages : [];
+    return pg.filter(function (x) { return x && typeof x === 'object'; }).map(function (x, i) {
+      var bits = [];
+      if (x.status) bits.push(String(x.status).replace(/_/g, ' '));
+      if (x.generated_scale) bits.push('scale ' + x.generated_scale + (x.scale_match === false ? ' (differs)' : x.scale_match === true ? ' (matches)' : ''));
+      if (x.notes_verbatim && isNum(x.notes_verbatim.total)) bits.push('notes verbatim ' + (isNum(x.notes_verbatim.matched) ? x.notes_verbatim.matched : 0) + ' of ' + x.notes_verbatim.total);
+      if (Array.isArray(x.views_not_reproduced) && x.views_not_reproduced.length) bits.push(x.views_not_reproduced.length + ' view' + (x.views_not_reproduced.length === 1 ? '' : 's') + ' not reproduced');
+      if (Array.isArray(x.warnings) && x.warnings.length) bits.push(x.warnings.length + ' warning' + (x.warnings.length === 1 ? '' : 's'));
+      return { page: isNum(x.page) ? x.page : i + 2, text: 'Page ' + (isNum(x.page) ? x.page : i + 2) + ': ' + (bits.join(' · ') || 'no detail recorded'), match: x.scale_match === false ? false : null };
+    });
+  }
   function editable(part) {
     var f = (part && part.files) || {}, e = f.slddrw || f['drawing.slddrw'];
     var ok = !!(e && e.available !== false && e.url_path);
@@ -129,6 +142,7 @@
     if (ru) rows.push(['Extraction', [ru.text]]);
     if (co) rows.push(['Corrections', [co.text]]);
     if (an) rows.push(['Annotations', [an.matched + ' matched of ' + an.source + ' in the source · ' + an.missing + ' missing · ' + an.extra + ' extra · ' + an.mismatched + ' mismatched']]);
+    var pl = pageLines(part); if (pl.length) rows.push(['Other pages', pl.map(function (x) { return x.text; })]);
     if (rep && rep.spec && isNum(rep.spec.completeness)) rows.push(['Extraction completeness', [Math.round(rep.spec.completeness * 100) + '%']]);
     rows.push(['Editable output', [ed.text]]);
     return rows;
@@ -240,6 +254,6 @@
   }
 
   return { STATUS: STATUS, statusInfo: statusInfo, issues: issues, GROUPS: GROUPS, groupCounts: groupCounts, evidenceSide: evidenceSide, bboxOf: bboxOf, scaleLines: scaleLines, reuseOf: reuseOf,
-    correctionsOf: correctionsOf, annotationCounts: annotationCounts, editable: editable, factRows: factRows, images: images, pickImage: pickImage, kindOfName: kindOfName, pageOfName: pageOfName,
+    correctionsOf: correctionsOf, pageLines: pageLines, annotationCounts: annotationCounts, editable: editable, factRows: factRows, images: images, pickImage: pickImage, kindOfName: kindOfName, pageOfName: pageOfName,
     syncPlan: syncPlan, scrollFraction: scrollFraction, scrollFromFraction: scrollFromFraction, diffPixels: diffPixels, overlayPixels: overlayPixels, LEGEND: LEGEND, locateText: locateText };
 });

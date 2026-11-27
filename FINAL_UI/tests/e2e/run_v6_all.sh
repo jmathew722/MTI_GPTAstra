@@ -4,6 +4,7 @@
 PORT="${1:-8239}"
 UI="$(cd ../.. && pwd)"
 REPO="$(cd ../../../2D-3D-CAD-Test-Generation && pwd)"
+if netstat -ano | grep -qE "127.0.0.1:$PORT .*LISTENING"; then echo "port $PORT is already in use (a stale server?): refusing to test it"; exit 2; fi
 S="$(mktemp -d)"
 export MCAGENT_REPO="$REPO" MCAGENT_DATA="$S/data" MCAGENT_FINAL_OUTPUTS="$S/final" PYTHONUTF8=1
 mkdir -p "$S/data" "$S/final"
@@ -18,5 +19,6 @@ export BASE_URL="http://127.0.0.1:$PORT" STAGE2_OUT="$S/final"
 for spec in ${SPECS:-25-v4-scoring-projects-estimates-batch 27-v4-grade-spectrum 28-v4-buttons-and-number-colour 29-v4-layout-audit 30-v5-materials 31-v5-reverse 32-v5-results-drawer-layout 33-v6-workspace-collapsibles}; do
   echo "=== $spec"; timeout 900 npx playwright test "tests/$spec.spec.ts" --reporter=list 2>&1 | grep -E "✓|✘|passed|failed|skipped|flaky|Error|expect|Received|Expected|at .*spec.ts" | head -30
 done
-kill "$(cat "$S/pid")" 2>/dev/null; taskkill //PID "$(cat "$S/pid")" //F >/dev/null 2>&1
+# stop the server by PORT: $! is an MSYS pid, so killing it by pid leaves the Windows python server running (and a later run on the same port would silently test it)
+for pid in $(netstat -ano | grep -E "127.0.0.1:$PORT .*LISTENING" | awk '{print $5}' | sort -u); do taskkill //PID "$pid" //F >/dev/null 2>&1; done
 echo "scratch: $S"

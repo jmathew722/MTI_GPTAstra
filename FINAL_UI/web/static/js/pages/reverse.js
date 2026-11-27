@@ -319,7 +319,7 @@
   function clearPdf() {
     if (P.task) { try { P.task.cancel(); } catch (e) { /* ignore */ } P.task = null; }
     if (P.doc && P.doc.destroy) { try { P.doc.destroy(); } catch (e) { /* ignore */ } }
-    P.doc = null; P.pend = null; var c = R.paper.getContext('2d'); c.clearRect(0, 0, R.paper.width, R.paper.height); R.paper.width = R.paper.height = 0;
+    P.doc = null; P.pend = null; var c = R.paper.getContext('2d', { willReadFrequently: true }); c.clearRect(0, 0, R.paper.width, R.paper.height); R.paper.width = R.paper.height = 0;
     if (R.markGen) R.markGen.set(null);
     hideCmpLayers();
   }
@@ -335,7 +335,7 @@
       var vp = pg.getViewport({ scale: scale * dpr });
       R.paper.width = Math.floor(vp.width); R.paper.height = Math.floor(vp.height);
       R.paper.style.width = Math.floor(vp.width / dpr) + 'px'; R.paper.style.height = Math.floor(vp.height / dpr) + 'px';
-      var ctx = R.paper.getContext('2d');
+      var ctx = R.paper.getContext('2d', { willReadFrequently: true });
       ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, R.paper.width, R.paper.height);
       P.task = pg.render({ canvasContext: ctx, viewport: vp });
       return P.task.promise.then(function () { P.task = null; });
@@ -560,7 +560,7 @@
       var wctx = work.getContext('2d', { willReadFrequently: true }); wctx.fillStyle = '#fff'; wctx.fillRect(0, 0, W, H);
       var k = Math.min(W / sc.width, H / sc.height), dw = sc.width * k, dh = sc.height * k;
       wctx.drawImage(sc, (W - dw) / 2, (H - dh) / 2, dw, dh);
-      var src = wctx.getImageData(0, 0, W, H), gen = R.paper.getContext('2d').getImageData(0, 0, W, H);
+      var src = wctx.getImageData(0, 0, W, H), gen = R.paper.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, W, H);
       var out = wctx.createImageData(W, H), res = mode === 'overlay' ? K().overlayPixels(src.data, gen.data, out.data) : K().diffPixels(src.data, gen.data, out.data);
       R.cmpCanvas.width = W; R.cmpCanvas.height = H; R.cmpCanvas.getContext('2d').putImageData(out, 0, 0);
       placeLayer(R.cmpCanvas); R.cmpCanvas.hidden = false;

@@ -273,7 +273,7 @@ test.describe('v8: issues and source evidence', () => {
     await tab(page, 'compare'); await page.locator('[data-issue="R001"]').click(); await page.locator('[data-issue="R002"]').click(); await page.waitForTimeout(800);
     await sel(page, 'verified'); await page.locator('#rv-cmp-difference').click(); await page.waitForTimeout(800);
     expect(await page.evaluate(() => (window as any).__urls)).toBe(0);
-    expect(bad).toEqual([]);
+    expect(bad, bad.join(' | ')).toEqual([]);
   });
 });
 
@@ -570,7 +570,7 @@ test.describe('v8: 2D -> 3D workspace runtime and cost', () => {
     await expect(page.locator('#rt-usage')).toContainText('3, 2 retries'); await expect(page.locator('#rt-usage')).toContainText('Model gpt-6-astra · rates of 2026-11-27');
     const rows = page.locator('#rt-usage-stages tbody tr'); await expect(rows).toHaveCount(2);
     await expect(rows.nth(0)).toContainText('Extractor'); await expect(rows.nth(0)).toContainText('30,000'); await expect(rows.nth(0)).toContainText('$0.0030'); await expect(rows.nth(1)).toContainText('Planner');
-    await expect(page.locator('#est-live')).toContainText('actual 2 min 20 s'); await expect(page.locator('#est-live')).toContainText('0.0043');
+    await expect(page.locator('#est-live')).toContainText('actual 2.3 min'); await expect(page.locator('#est-live')).toContainText('0.0043');
     await shot(page, 'after-workspace-usage-1440x900.png');
     for (const [name, u, check] of [
       ['unpriced', WS_USAGE({ cost_usd: null, cost_status: 'unpriced', unpriced_calls: 3 }), async () => { await expect(page.locator('#rt-usage-cost')).toHaveText('unavailable'); }],

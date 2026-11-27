@@ -77,3 +77,11 @@ test('locateText: finds an item and returns page fractions; not found / no text 
   assert.ok(b && b.x0 === 0.5 && b.x1 === 0.7 && b.y0 > 0.3 && b.y1 < 0.6, JSON.stringify(b));
   assert.equal(K.locateText(items, vp, 'NOT THERE'), null); assert.equal(K.locateText([], vp, 'R12'), null); assert.equal(K.locateText(items, vp, ''), null);
 });
+
+test('v8 section 6: replication.pages[] becomes one honest line per extra page', () => {
+  const p = { replication: REP({ pages: [{ page: 2, status: 'needs_review', generated_scale: '1:4', scale_match: false, notes_verbatim: { matched: 3, total: 4 }, views_not_reproduced: ['V3'], warnings: ['w'] }, { status: 'verified' }, { page: 4 }] }) };
+  const l = K.pageLines(p);
+  assert.equal(l[0].text, 'Page 2: needs review · scale 1:4 (differs) · notes verbatim 3 of 4 · 1 view not reproduced · 1 warning'); assert.equal(l[0].match, false);
+  assert.equal(l[1].text, 'Page 3: verified'); assert.equal(l[2].text, 'Page 4: no detail recorded');
+  assert.deepEqual(K.pageLines({}), []); assert.ok(K.factRows(p).some((r) => r[0] === 'Other pages' && r[1].length === 3)); assert.ok(!K.factRows({ replication: REP() }).some((r) => r[0] === 'Other pages'));
+});
