@@ -1,5 +1,13 @@
 # Changelog
 
+## v7 (2026-11-27, branch `ImprovementsV7`)
+### Added
+- **3D -> 2D reference-driven reconstruction:** Standard vs Match-reference mode; source PDF resolved from an explicit upload or a content-hash-confirmed 2D -> 3D forward run (a filename alone is only a candidate; ambiguous matches are never auto-selected); extraction reuse (zero API calls on a cache hit), supplemental or fresh OpenAI extraction through the budget guard; coverage ledger, spatial/semantic comparison, bounded layout loop, QA gate (`review_required`, never a false pass). See `docs/solidflow-upgrades/V7_BACKEND_REPORT.md`, `V7_CONTRACT.md`.
+- **Drawing standards (SolidWorks 2025 APIs verified):** isometric Shaded With Edges, broken leaders on leadered dimensions (notes have no such style in the API: reported), native Auto Arrange with before/after verification, collision detector.
+- **Workspace:** compact Setup rail (Template, Parts, Reference, Advanced, Runtime & Cost, Run, Export), `3D Model | Source PDF` toggle, SLDDRW / PDF / ZIP downloads bound to the selected part and run, Batch Queue directly under the viewers (12 px, was 305-384 px). See `FINAL_UI/docs/verification/v7/WORKSPACE_V7_REPORT.md`.
+### Known limits
+- Every reconstruction ends `review_required`; some drawings keep measured collisions; title-block SCALE reads 2:1 on a 1:2 sheet; only sheet 1 of a multi-page reference is rebuilt; student-licence watermark on PDFs.
+
 ## v6 (2026-11-26, branch `Improvementsv6`)
 ### Added
 - **SolidWorks build recording, window-only:** the desktop/screen-rectangle fallback is gone; capture is `PrintWindow(PW_RENDERFULLCONTENT)` of the one validated SolidWorks window (Windows Graphics Capture + overlap

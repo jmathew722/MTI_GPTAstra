@@ -1,0 +1,136 @@
+{
+  "part": "4028-B",
+  "units": "inch",
+  "origin_kind": "corner",
+  "bbox": [
+    -0.0,
+    0.0,
+    0.0,
+    2.0,
+    1.75,
+    0.58
+  ],
+  "volume": 1.026689,
+  "volume_mm3": 16824.422,
+  "features": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F009"
+  ],
+  "skipped": {
+    "F008": "failed: CompileError: F008: edge_between(face(F002,-Z),face(F004,-Z)) matched no edges"
+  },
+  "holes": {
+    "F006": [
+      {
+        "planned_center": [
+          0.5,
+          1.36
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          0.5,
+          1.36
+        ],
+        "d": 0.281,
+        "depth": 0.33,
+        "axis": "Z"
+      }
+    ],
+    "F007": [
+      {
+        "planned_center": [
+          1.5,
+          1.36
+        ],
+        "planned_d": 0.281,
+        "measured": true,
+        "center": [
+          1.5,
+          1.36
+        ],
+        "d": 0.281,
+        "depth": 0.33,
+        "axis": "Z"
+      }
+    ]
+  },
+  "edge_points": {
+    "F009": [
+      [
+        1.0,
+        1.532,
+        0.5
+      ],
+      [
+        1.0,
+        1.188,
+        0.5
+      ]
+    ]
+  },
+  "starts": {
+    "F001": {
+      "axis": "Z",
+      "coord": 0.25,
+      "dir": 1,
+      "thru": false
+    },
+    "F002": {
+      "axis": "Z",
+      "coord": 0.25,
+      "dir": -1,
+      "thru": false
+    },
+    "F003": {
+      "axis": "Z",
+      "coord": 0.5,
+      "dir": 1,
+      "thru": false
+    },
+    "F004": {
+      "axis": "Y",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F005": {
+      "axis": "Y",
+      "coord": 0.0,
+      "dir": 1,
+      "thru": false
+    },
+    "F006": {
+      "axis": "Z",
+      "coord": 0.58,
+      "dir": -1
+    }
+  },
+  "volume_after": {
+    "F001": 0.875,
+    "F002": 1.125,
+    "F003": 1.18004,
+    "F004": 1.123658138,
+    "F005": 1.067276276,
+    "F006": 1.046811053,
+    "F007": 1.026345831,
+    "F009": 1.026689194
+  },
+  "base": {
+    "fid": "F001",
+    "bbox": [
+      0.0,
+      0.0,
+      0.25,
+      2.0,
+      1.75,
+      0.5
+    ]
+  }
+}

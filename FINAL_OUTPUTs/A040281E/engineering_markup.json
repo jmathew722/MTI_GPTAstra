@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "part": "A040281E",
+  "run_id": "run_a7d5264db0ad470a9483",
+  "source_pdf": "A040281E.pdf",
+  "source_sha256": "0ed5aa38ac00340dbcd42b5aa9367a2ad1a297c044f678a8cf12a0da097df262",
+  "marked_pdf": "A040281E_engineering_markup.pdf",
+  "generated_at": "2026-11-27T06:48:44Z",
+  "generator_version": "engineering_markup/1",
+  "finding_count": 1,
+  "located_count": 1,
+  "unlocated_count": 0,
+  "status": "ready",
+  "warnings": [],
+  "report_pages": 1,
+  "pages": [
+    {
+      "page": 1,
+      "width_pt": 1665.35,
+      "height_pt": 772.0,
+      "drawing_width_pt": 1219.0,
+      "rail_width_pt": 446.35,
+      "source_rotation": 0,
+      "finding_ids": [
+        "EF-001"
+      ],
+      "preview": "engineering_markup_pages/page-0001.png",
+      "preview_dpi": 110
+    }
+  ],
+  "findings": [
+    {
+      "id": "EF-001",
+      "number": 1,
+      "finding_id": "flag_5734a74f1254",
+      "severity": "ERROR",
+      "code": "feature_not_built",
+      "title": "Feature F008 was not built",
+      "explanation": "Expected: .03 R.; BLEND SMOOTH. Actual: skipped: failed: CompileError: F008: edge_between(face(F002,-Z),face(F004,-Z)) matched no edges. The model is missing this feature.",
+      "expected": ".03 R.; BLEND SMOOTH",
+      "actual": "skipped: failed: CompileError: F008: edge_between(face(F002,-Z),face(F004,-Z)) matched no edges",
+      "consequence": "The model is missing this feature.",
+      "manual_action": "Review the callout for F008 against the drawing, then add the feature or correct the plan.",
+      "location_status": "located",
+      "source_callout": ".03 R.; BLEND SMOOTH",
+      "feature_ids": [
+        "F008"
+      ],
+      "page": 1,
+      "location_method": "exact_tokens",
+      "confidence": 0.9546,
+      "rect_pdf_points": [
+        314.02,
+        216.01,
+        394.52,
+        251.0
+      ],
+      "rect_normalized": [
+        0.257603,
+        0.279803,
+        0.066039,
+        0.045331
+      ],
+      "regions": [
+        {
+          "page": 1,
+          "method": "exact_tokens",
+          "confidence": 0.9546,
+          "rect_normalized": [
+            0.257603,
+            0.279803,
+            0.066039,
+            0.045331
+          ],
+          "rect_pdf_points": [
+            314.02,
+            216.01,
+            394.52,
+            251.0
+          ],
+          "rect_marked_pt": [
+            314.02,
+            216.01,
+            394.52,
+            251.0
+          ]
+        }
+      ],
+      "card": {
+        "page": 1,
+        "rect": [
+          1231.31,
+          12.31,
+          1653.04,
+          114.2
+        ]
+      }
+    }
+  ],
+  "generation_key": "c9c58d3a8636"
+}

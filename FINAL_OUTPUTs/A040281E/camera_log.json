@@ -1,0 +1,1087 @@
+{
+ "summary": {
+  "ok": false,
+  "events_checked": 12,
+  "completed_features": 7,
+  "isometric_events": 4,
+  "isometric_verified": 4,
+  "no_move_events": 1,
+  "fit_verified": 11,
+  "orientation_preserved": 7,
+  "margin_corrections": 9,
+  "failures": [
+   "F001 (sketch_defined): geometry touches or leaves the viewport edge, or the frame is unreadable",
+   "F005 (feature_committed): geometry touches or leaves the viewport edge, or the frame is unreadable",
+   "F006 (before_feature): geometry touches or leaves the viewport edge, or the frame is unreadable"
+  ],
+  "target_margin": 0.15,
+  "iso_every": 2,
+  "log": "camera_log.json"
+ },
+ "entries": [
+  {
+   "event": "prepare",
+   "t": 1795761802.4036767,
+   "window_before": {
+    "maximised": false,
+    "rect": [
+     6,
+     0,
+     1542,
+     822
+    ]
+   },
+   "window_after": {
+    "maximised": true,
+    "rect": [
+     0,
+     0,
+     1536,
+     816
+    ]
+   },
+   "tree_visible_before": true,
+   "tree_command_result": true,
+   "tree_visible_after": false
+  },
+  {
+   "event": "initial",
+   "op_id": "initial",
+   "feature_count": 0,
+   "requested_orientation": "keep",
+   "t": 1795761805.6541097,
+   "ops": {},
+   "margins_before": {},
+   "outcome": "no_geometry_yet",
+   "empty_model": true,
+   "camera_ok": true,
+   "settled_frame": true,
+   "deferred_reason": "no solid or sketch geometry to frame yet",
+   "actual_orientation": "unchanged",
+   "t_end": 1795761806.2211082
+  },
+  {
+   "event": "before_feature",
+   "op_id": "F001",
+   "feature_count": 0,
+   "requested_orientation": "keep",
+   "t": 1795761806.5105026,
+   "ops": {},
+   "margins_before": {},
+   "outcome": "no_geometry_yet",
+   "empty_model": true,
+   "camera_ok": true,
+   "settled_frame": true,
+   "deferred_reason": "no solid or sketch geometry to frame yet",
+   "actual_orientation": "unchanged",
+   "t_end": 1795761806.826162
+  },
+  {
+   "event": "sketch_defined",
+   "op_id": "F001",
+   "feature_count": 0,
+   "requested_orientation": "keep",
+   "t": 1795761808.0884058,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.363,
+     0.85,
+     1.198
+    ],
+    "pan_px": [
+     [
+      -184,
+      -111
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.6612,
+    "right": 0.1775,
+    "top": 0.5034,
+    "bottom": 0.1554
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.4788,
+    "right": 0.2256,
+    "top": 0.3547,
+    "bottom": 0.0
+   },
+   "geometry_visible": false,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": false,
+   "outcome": "failed",
+   "reason": "geometry touches or leaves the viewport edge, or the frame is unreadable",
+   "t_end": 1795761817.42164
+  },
+  {
+   "event": "feature_committed",
+   "op_id": "F001",
+   "feature_count": 1,
+   "requested_orientation": "keep",
+   "t": 1795761818.9277217,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     1.154
+    ],
+    "pan_px": [
+     [
+      -202,
+      -94
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.2822,
+    "right": 0.0014,
+    "top": 0.1655,
+    "bottom": 0.0
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.244,
+    "right": 0.244,
+    "top": 0.1486,
+    "bottom": 0.1503
+   },
+   "geometry_visible": true,
+   "margin_in_band": true,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761823.5640137
+  },
+  {
+   "event": "before_feature",
+   "op_id": "F002",
+   "feature_count": 1,
+   "requested_orientation": "keep",
+   "t": 1795761824.1332884,
+   "ops": {},
+   "margins_before": {
+    "left": 0.244,
+    "right": 0.244,
+    "top": 0.1486,
+    "bottom": 0.1503
+   },
+   "outcome": "no_move",
+   "settled_frame": true,
+   "geometry_visible": true,
+   "margins": {
+    "left": 0.244,
+    "right": 0.244,
+    "top": 0.1486,
+    "bottom": 0.1503
+   },
+   "camera_ok": true,
+   "orientation_preserved": true,
+   "actual_orientation": "unchanged",
+   "t_end": 1795761824.6532695
+  },
+  {
+   "event": "sketch_defined",
+   "op_id": "F002",
+   "feature_count": 1,
+   "requested_orientation": "keep",
+   "t": 1795761829.0154276,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.212,
+     0.85,
+     1.177,
+     0.85
+    ],
+    "pan_px": [
+     [
+      -197,
+      -104
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.3225,
+    "right": 0.0339,
+    "top": 0.0,
+    "bottom": 0.0
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.4767,
+    "right": 0.1987,
+    "top": 0.3784,
+    "bottom": 0.027
+   },
+   "geometry_visible": true,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761835.481902
+  },
+  {
+   "event": "feature_committed",
+   "op_id": "F002",
+   "feature_count": 2,
+   "requested_orientation": "keep",
+   "t": 1795761836.507951,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.177,
+     0.85,
+     1.177,
+     0.85
+    ],
+    "pan_px": [
+     [
+      -202,
+      -95
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.4767,
+    "right": 0.2518,
+    "top": 0.3784,
+    "bottom": 0.0557
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.5,
+    "right": 0.2143,
+    "top": 0.3632,
+    "bottom": 0.0405
+   },
+   "geometry_visible": true,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761842.3623455
+  },
+  {
+   "event": "isometric_checkpoint",
+   "op_id": "F002",
+   "feature_count": 2,
+   "requested_orientation": "isometric",
+   "t": 1795761842.3623455,
+   "ops": {
+    "isometric": "issued",
+    "zoom_to_fit": "issued",
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.074
+    ],
+    "pan_px": [
+     [
+      -201,
+      -95
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.5,
+    "right": 0.2143,
+    "top": 0.3632,
+    "bottom": 0.0405
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.297,
+    "right": 0.2984,
+    "top": 0.1453,
+    "bottom": 0.152
+   },
+   "geometry_visible": true,
+   "margin_in_band": true,
+   "isometric_error": 0.0001,
+   "isometric_verified": true,
+   "actual_orientation": "iso",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761847.2634406
+  },
+  {
+   "event": "before_feature",
+   "op_id": "F003",
+   "feature_count": 2,
+   "requested_orientation": "keep",
+   "t": 1795761847.8316147,
+   "ops": {},
+   "margins_before": {
+    "left": 0.297,
+    "right": 0.2984,
+    "top": 0.1453,
+    "bottom": 0.152
+   },
+   "outcome": "no_move",
+   "settled_frame": true,
+   "geometry_visible": true,
+   "margins": {
+    "left": 0.297,
+    "right": 0.2984,
+    "top": 0.1453,
+    "bottom": 0.152
+   },
+   "camera_ok": true,
+   "orientation_preserved": true,
+   "actual_orientation": "iso",
+   "t_end": 1795761848.209417
+  },
+  {
+   "event": "sketch_defined",
+   "op_id": "F003",
+   "feature_count": 2,
+   "requested_orientation": "keep",
+   "t": 1795761853.6448772,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.138,
+     0.85,
+     1.177,
+     0.85
+    ],
+    "pan_px": [
+     [
+      -198,
+      -88
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.3225,
+    "right": 0.0014,
+    "top": 0.0,
+    "bottom": 0.0
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.4915,
+    "right": 0.2122,
+    "top": 0.3514,
+    "bottom": 0.0541
+   },
+   "geometry_visible": true,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761860.1258628
+  },
+  {
+   "event": "feature_committed",
+   "op_id": "F003",
+   "feature_count": 3,
+   "requested_orientation": "keep",
+   "t": 1795761861.0583777,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.181,
+     0.85,
+     1.177,
+     0.85
+    ],
+    "pan_px": [
+     [
+      -202,
+      -95
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.4915,
+    "right": 0.261,
+    "top": 0.4324,
+    "bottom": 0.0541
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.4993,
+    "right": 0.2136,
+    "top": 0.3615,
+    "bottom": 0.0439
+   },
+   "geometry_visible": true,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761867.2403765
+  },
+  {
+   "event": "before_feature",
+   "op_id": "F004",
+   "feature_count": 3,
+   "requested_orientation": "keep",
+   "t": 1795761867.8115916,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.181,
+     0.85,
+     1.177,
+     0.85
+    ],
+    "pan_px": [
+     [
+      -202,
+      -95
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.4993,
+    "right": 0.2136,
+    "top": 0.3615,
+    "bottom": 0.0439
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.4993,
+    "right": 0.2136,
+    "top": 0.3615,
+    "bottom": 0.0439
+   },
+   "geometry_visible": true,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761873.6561005
+  },
+  {
+   "event": "sketch_defined",
+   "op_id": "F004",
+   "feature_count": 3,
+   "requested_orientation": "keep",
+   "t": 1795761880.6327505,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.154,
+     0.925
+    ],
+    "pan_px": [
+     [
+      -201,
+      -96
+     ],
+     [
+      -99,
+      -32
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.0007,
+    "right": 0.0014,
+    "top": 0.0,
+    "bottom": 0.0
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.2454,
+    "right": 0.29,
+    "top": 0.1824,
+    "bottom": 0.1588
+   },
+   "geometry_visible": true,
+   "margin_in_band": true,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761886.6285844
+  },
+  {
+   "event": "feature_committed",
+   "op_id": "F004",
+   "feature_count": 4,
+   "requested_orientation": "keep",
+   "t": 1795761888.3359973,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.819,
+     0.85,
+     0.85,
+     0.938
+    ],
+    "pan_px": [
+     [
+      35,
+      1
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.2454,
+    "right": 0.3522,
+    "top": 0.3226,
+    "bottom": 0.1875
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.2086,
+    "right": 0.2136,
+    "top": 0.2348,
+    "bottom": 0.0642
+   },
+   "geometry_visible": true,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761894.152986
+  },
+  {
+   "event": "isometric_checkpoint",
+   "op_id": "F004",
+   "feature_count": 4,
+   "requested_orientation": "isometric",
+   "t": 1795761894.152986,
+   "ops": {
+    "isometric": "issued",
+    "zoom_to_fit": "issued",
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.752
+    ],
+    "pan_px": [
+     [
+      -133,
+      11
+     ],
+     [
+      75,
+      -31
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.2086,
+    "right": 0.2136,
+    "top": 0.2348,
+    "bottom": 0.0642
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.3798,
+    "right": 0.3069,
+    "top": 0.1166,
+    "bottom": 0.1841
+   },
+   "geometry_visible": true,
+   "margin_in_band": true,
+   "isometric_error": 0.0001,
+   "isometric_verified": true,
+   "actual_orientation": "iso",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761898.9364693
+  },
+  {
+   "event": "before_feature",
+   "op_id": "F005",
+   "feature_count": 4,
+   "requested_orientation": "keep",
+   "t": 1795761899.5589023,
+   "ops": {},
+   "margins_before": {
+    "left": 0.3798,
+    "right": 0.3069,
+    "top": 0.1166,
+    "bottom": 0.1841
+   },
+   "outcome": "no_move",
+   "settled_frame": true,
+   "geometry_visible": true,
+   "margins": {
+    "left": 0.3798,
+    "right": 0.3069,
+    "top": 0.1166,
+    "bottom": 0.1841
+   },
+   "camera_ok": true,
+   "orientation_preserved": true,
+   "actual_orientation": "iso",
+   "t_end": 1795761899.94004
+  },
+  {
+   "event": "sketch_defined",
+   "op_id": "F005",
+   "feature_count": 4,
+   "requested_orientation": "keep",
+   "t": 1795761907.495177,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     1.151,
+     0.891,
+     0.891,
+     0.814
+    ],
+    "pan_px": [
+     [
+      -200,
+      -97
+     ],
+     [
+      -167,
+      -35
+     ],
+     [
+      -14,
+      -52
+     ],
+     [
+      79,
+      20
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.2829,
+    "right": 0.0014,
+    "top": 0.4105,
+    "bottom": 0.0878
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.2687,
+    "right": 0.4045,
+    "top": 0.1233,
+    "bottom": 0.4071
+   },
+   "geometry_visible": true,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761914.2626858
+  },
+  {
+   "event": "feature_committed",
+   "op_id": "F005",
+   "feature_count": 5,
+   "requested_orientation": "keep",
+   "t": 1795761916.1792357,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.464
+    ],
+    "pan_px": [
+     [
+      -342,
+      -64
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.2687,
+    "right": 0.4484,
+    "top": 0.2196,
+    "bottom": 0.4358
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.4986,
+    "right": 0.0014,
+    "top": 0.3429,
+    "bottom": 0.0659
+   },
+   "geometry_visible": false,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": false,
+   "outcome": "failed",
+   "reason": "geometry touches or leaves the viewport edge, or the frame is unreadable",
+   "t_end": 1795761921.9385626
+  },
+  {
+   "event": "before_feature",
+   "op_id": "F006",
+   "feature_count": 5,
+   "requested_orientation": "keep",
+   "t": 1795761922.5029364,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.464
+    ],
+    "pan_px": [
+     [
+      -342,
+      -64
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.4986,
+    "right": 0.0014,
+    "top": 0.3429,
+    "bottom": 0.0659
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.4986,
+    "right": 0.0014,
+    "top": 0.3429,
+    "bottom": 0.0659
+   },
+   "geometry_visible": false,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": false,
+   "outcome": "failed",
+   "reason": "geometry touches or leaves the viewport edge, or the frame is unreadable",
+   "t_end": 1795761928.1531346
+  },
+  {
+   "event": "sketch_defined",
+   "op_id": "F007",
+   "feature_count": 5,
+   "requested_orientation": "keep",
+   "t": 1795761936.5546558,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.085
+    ],
+    "pan_px": [
+     [
+      -203,
+      -79
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.3225,
+    "right": 0.0339,
+    "top": 0.0,
+    "bottom": 0.0
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.4943,
+    "right": 0.2079,
+    "top": 0.2872,
+    "bottom": 0.0203
+   },
+   "geometry_visible": true,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761943.5915313
+  },
+  {
+   "event": "feature_committed",
+   "op_id": "F006",
+   "feature_count": 6,
+   "requested_orientation": "keep",
+   "t": 1795761945.7515612,
+   "ops": {
+    "zoom_to_fit": "issued",
+    "pan_reverted": true,
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.181,
+     0.85,
+     1.177,
+     0.85
+    ],
+    "pan_px": [
+     [
+      -202,
+      -95
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.4943,
+    "right": 0.2306,
+    "top": 0.4071,
+    "bottom": 0.0203
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.5,
+    "right": 0.2143,
+    "top": 0.3615,
+    "bottom": 0.0439
+   },
+   "geometry_visible": true,
+   "margin_in_band": false,
+   "orientation_preserved": true,
+   "actual_orientation": "preserved",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761951.603616
+  },
+  {
+   "event": "isometric_checkpoint",
+   "op_id": "F006",
+   "feature_count": 6,
+   "requested_orientation": "isometric",
+   "t": 1795761951.603616,
+   "ops": {
+    "isometric": "issued",
+    "zoom_to_fit": "issued",
+    "margin_zoom_factors": [
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     0.85,
+     1.279
+    ],
+    "pan_px": [
+     [
+      -201,
+      -98
+     ]
+    ]
+   },
+   "margins_before": {
+    "left": 0.5,
+    "right": 0.2143,
+    "top": 0.3615,
+    "bottom": 0.0439
+   },
+   "settled_frame": true,
+   "margins": {
+    "left": 0.297,
+    "right": 0.2949,
+    "top": 0.1503,
+    "bottom": 0.1486
+   },
+   "geometry_visible": true,
+   "margin_in_band": true,
+   "isometric_error": 0.0001,
+   "isometric_verified": true,
+   "actual_orientation": "iso",
+   "margin_corrected": true,
+   "camera_ok": true,
+   "outcome": "moved",
+   "t_end": 1795761955.5353503
+  },
+  {
+   "event": "before_feature",
+   "op_id": "F009",
+   "feature_count": 6,
+   "requested_orientation": "keep",
+   "t": 1795761956.1025188,
+   "ops": {},
+   "margins_before": {
+    "left": 0.297,
+    "right": 0.2949,
+    "top": 0.1503,
+    "bottom": 0.1486
+   },
+   "outcome": "no_move",
+   "settled_frame": true,
+   "geometry_visible": true,
+   "margins": {
+    "left": 0.297,
+    "right": 0.2949,
+    "top": 0.1503,
+    "bottom": 0.1486
+   },
+   "camera_ok": true,
+   "orientation_preserved": true,
+   "actual_orientation": "iso",
+   "t_end": 1795761956.4109547
+  },
+  {
+   "event": "feature_committed",
+   "op_id": "F009",
+   "feature_count": 7,
+   "requested_orientation": "keep",
+   "t": 1795761959.8280246,
+   "ops": {},
+   "margins_before": {
+    "left": 0.297,
+    "right": 0.2949,
+    "top": 0.1503,
+    "bottom": 0.1486
+   },
+   "outcome": "no_move",
+   "settled_frame": true,
+   "geometry_visible": true,
+   "margins": {
+    "left": 0.297,
+    "right": 0.2949,
+    "top": 0.1503,
+    "bottom": 0.1486
+   },
+   "camera_ok": true,
+   "orientation_preserved": true,
+   "actual_orientation": "iso",
+   "t_end": 1795761960.241163
+  },
+  {
+   "event": "build_completed",
+   "op_id": "final",
+   "feature_count": 7,
+   "requested_orientation": "isometric",
+   "t": 1795761962.5087304,
+   "ops": {},
+   "margins_before": {
+    "left": 0.297,
+    "right": 0.2949,
+    "top": 0.1503,
+    "bottom": 0.1486
+   },
+   "outcome": "already_isometric_in_frame",
+   "settled_frame": true,
+   "geometry_visible": true,
+   "margins": {
+    "left": 0.297,
+    "right": 0.2949,
+    "top": 0.1503,
+    "bottom": 0.1486
+   },
+   "camera_ok": true,
+   "isometric_verified": true,
+   "actual_orientation": "iso",
+   "t_end": 1795761962.8347373,
+   "coalesced_with_checkpoint": false,
+   "final": true
+  },
+  {
+   "event": "restore",
+   "t": 1795761966.2220533,
+   "tree_restored": true,
+   "window_restored": true,
+   "window_rect_after": [
+    6,
+    0,
+    1542,
+    822
+   ]
+  }
+ ]
+}

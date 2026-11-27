@@ -1,0 +1,929 @@
+{
+  "part_name": "DOG",
+  "part_number": "4028-B",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "1018",
+  "material_extraction": {
+    "status": "specified",
+    "raw_text": "1018",
+    "normalized_candidate": "1018",
+    "evidence": [
+      {
+        "page": 1,
+        "region": "title_block",
+        "quote": "1018",
+        "bbox_normalized": [
+          0.754,
+          0.553,
+          0.809,
+          0.592
+        ]
+      }
+    ],
+    "alternatives": [],
+    "confidence": 0.99,
+    "review_reason": null,
+    "specification": null,
+    "condition_or_temper": null,
+    "coating": null,
+    "heat_treatment": null,
+    "finish": null,
+    "hardness": null,
+    "stock_form": null,
+    "body_scope": null
+  },
+  "finish": "Local surface-texture callouts: 63 on the bottom foot's angled and central flat contact surfaces; 125 on the indicated rear web surfaces and the upper and lower rib shoulders. Units/roughness parameter are not explicitly printed.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED: THIRD ANGLE PROJECTION; DIMENSIONS IN INCHES; 2 PLACE DIM. \u00b1.02; 3 PLACE DIM. \u00b1.010; ANGULAR DIM. \u00b11\u00b0",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Lower-left view: 2.00-wide by 1.75-high part, two drilled holes, lower foot occupying the bottom .50, and hidden edges of the rear horizontal rib.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D006",
+        "D007"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F004",
+        "F005",
+        "F006",
+        "F007"
+      ],
+      "hidden_features": [
+        "F003"
+      ],
+      "centerline_notes": "Center marks locate both holes; a common horizontal centerline joins them. Hidden horizontal lines represent rear rib boundaries."
+    },
+    {
+      "view_type": "Top",
+      "description": "Upper-left view: web and rear rib thicknesses, and the lower foot's symmetric angled ends and central flat contact surface. Portions of the foot outline are obscured by the upright web.",
+      "dimensions_shown": [
+        "D008",
+        "D009",
+        "D010"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F007"
+      ],
+      "hidden_features": [
+        "F005",
+        "F006",
+        "F004"
+      ],
+      "centerline_notes": "Vertical centerlines project the two drill axes. Dashed lines show hole walls and obscured portions of the lower foot."
+    },
+    {
+      "view_type": "Right",
+      "description": "Right-side view: .25 web, .080 projecting rear rib, .344 rib height, 1.188 from bottom to lower rib shoulder, .500 foot thickness and .58 reference overall thickness.",
+      "dimensions_shown": [
+        "D011",
+        "D012",
+        "D013",
+        "D014",
+        "D015",
+        "D016",
+        "D017"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F008"
+      ],
+      "hidden_features": [
+        "F005",
+        "F006"
+      ],
+      "centerline_notes": "Horizontal centerline shows the common projected drilling axis. The two holes overlap in this projection; dashed horizontal lines show drill walls."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 2.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_width",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 2.00; general two-place tolerance."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 1.75,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_height",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General two-place tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "left_edge_to_first_hole_center",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .50; general two-place tolerance."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "hole_center_spacing",
+      "feature_ref": "F006",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.000; general three-place tolerance."
+    },
+    {
+      "id": "D005",
+      "type": "diameter",
+      "value": 0.281,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "hole_diameter",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".281 DR. THRU / 2 HLS.; general three-place tolerance."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 0.172,
+      "unit": "inch",
+      "tolerance_plus": 0.005,
+      "tolerance_minus": 0.005,
+      "tolerance_type": "bilateral",
+      "applies_to": "lower_rib_shoulder_to_hole_axis",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit .172 \u00b1.005; measured from the lower hidden rib edge to the hole centerline."
+    },
+    {
+      "id": "D007",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "bottom_foot_height",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .50; general two-place tolerance."
+    },
+    {
+      "id": "D008",
+      "type": "linear",
+      "value": 0.62,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "foot_angled_end_horizontal_run",
+      "feature_ref": "F004",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".62 TYP.; applies to both ends. Locate the nominal sharp intersection before the .03 blend."
+    },
+    {
+      "id": "D009",
+      "type": "angular",
+      "value": 30.0,
+      "unit": "inch",
+      "tolerance_plus": 1.0,
+      "tolerance_minus": 1.0,
+      "tolerance_type": "bilateral",
+      "applies_to": "foot_end_angle",
+      "feature_ref": "F004",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "30\u00b0 TYP.; angle and tolerance are in degrees, not inches. The schema provides no angular unit enum. General angular tolerance \u00b11\u00b0."
+    },
+    {
+      "id": "D010",
+      "type": "radial",
+      "value": 0.03,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "foot_contact_surface_blend_radius",
+      "feature_ref": "F007",
+      "view": "Top",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".03 R. BLEND SMOOTH; two leaders indicate both angled-to-flat transitions. General two-place tolerance."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 0.08,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "rear_rib_projection",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .080; general three-place tolerance."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "web_thickness",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .25; general two-place tolerance."
+    },
+    {
+      "id": "D013",
+      "type": "radial",
+      "value": 0.02,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "limit",
+      "applies_to": "rear_rib_root_radius_maximum",
+      "feature_ref": "F008",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".020 R. MAX.; upper bound, not a nominal radius with \u00b1.010. Two leaders identify upper and lower rib roots."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 0.344,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "unilateral",
+      "applies_to": "rear_rib_height",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Explicit .344 +.000/-.010; limits .334 to .344."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 1.188,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "bottom_to_lower_rib_shoulder",
+      "feature_ref": "F003",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "General three-place tolerance."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.01,
+      "tolerance_minus": 0.01,
+      "tolerance_type": "bilateral",
+      "applies_to": "foot_front_flat_to_rear_web_face",
+      "feature_ref": "F002",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .500; general three-place tolerance. Does not include the rear rib projection."
+    },
+    {
+      "id": "D017",
+      "type": "linear",
+      "value": 0.58,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "overall_thickness_envelope",
+      "feature_ref": "",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": true,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".58 REF.; .500 foot thickness plus .080 rear rib projection."
+    },
+    {
+      "id": "D018",
+      "type": "linear",
+      "value": 1.36,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "hole_axis_height_from_bottom",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D015 + D006 = 1.188 + .172. Not an additional drawing requirement; worst-case source stack \u00b1.015."
+    },
+    {
+      "id": "D019",
+      "type": "linear",
+      "value": 1.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "second_hole_x_from_left_edge",
+      "feature_ref": "F006",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D003 + D004 = .50 + 1.000; worst-case source stack \u00b1.030."
+    },
+    {
+      "id": "D020",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "second_hole_to_right_edge",
+      "feature_ref": "F006",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D001 - D003 - D004. Equal to left margin only nominally; no separate symmetry tolerance is specified."
+    },
+    {
+      "id": "D021",
+      "type": "linear",
+      "value": 1.532,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper_rib_shoulder_height_from_bottom",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D015 + D014 = 1.188 + .344."
+    },
+    {
+      "id": "D022",
+      "type": "linear",
+      "value": 0.218,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper_rib_shoulder_to_part_top",
+      "feature_ref": "F003",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D002 - D021 = 1.75 - 1.532."
+    },
+    {
+      "id": "D023",
+      "type": "linear",
+      "value": 0.76,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "foot_central_flat_virtual_corner_spacing",
+      "feature_ref": "F004",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D001 - 2*D008 = 2.00 - 2*.62. This is sharp-intersection spacing; the .03 blends modify the straight tangent length."
+    },
+    {
+      "id": "D024",
+      "type": "linear",
+      "value": 0.25,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "foot_projection_beyond_front_web_face",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D016 - D012 = .500 - .25. Do not apply an independent tolerance."
+    },
+    {
+      "id": "D025",
+      "type": "linear",
+      "value": 0.39,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "hole_axis_to_part_top",
+      "feature_ref": "F005",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived nominal: D002 - D018 = 1.75 - 1.360."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H001",
+      "type": "thru",
+      "diameter": 0.281,
+      "thru": true,
+      "depth": 0.0,
+      "thread_spec": "",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 2,
+      "x_position": 0.5,
+      "y_position": 1.36,
+      "position_known": true,
+      "pattern": "linear",
+      "pattern_spacing": 1.0,
+      "instance_positions": [
+        [
+          0.5,
+          1.36
+        ],
+        [
+          1.5,
+          1.36
+        ]
+      ],
+      "feature_ref": "F005",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Upright web, nominal 2.00 wide by 1.75 high, extruded .25 thick. Use front-view lower-left corner as x/y origin; drilling direction is normal to Front.",
+      "related_dimensions": [
+        "D001",
+        "D002",
+        "D012"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D012",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "extrude_boss",
+      "description": "Add the lower .50-high foot on the front side of the web across its width. Added projection .25 gives .500 from the foot's central contact face to the rear web face before angled-end cuts.",
+      "related_dimensions": [
+        "D001",
+        "D007",
+        "D016",
+        "D024"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D024",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F003",
+      "type": "extrude_boss",
+      "description": "Full-width rear horizontal rib projecting .080 from the rear web face. Lower shoulder at 1.188 above bottom; height .344 +.000/-.010.",
+      "related_dimensions": [
+        "D001",
+        "D011",
+        "D014",
+        "D015",
+        "D021"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D011",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F004",
+      "type": "extrude_cut",
+      "description": "Cut the two symmetric angled ends of the bottom foot in plan, through the lower .50 height. Each has .62 horizontal run at 30\u00b0 to the central contact face. These cuts can penetrate the original web at the extreme ends; do not restrict them to the added boss. Sharp central transition x positions are .62 and 1.38.",
+      "related_dimensions": [
+        "D007",
+        "D008",
+        "D009",
+        "D016",
+        "D023"
+      ],
+      "sketch_plane": "Top",
+      "depth_dimension_id": "D007",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F005",
+      "type": "hole",
+      "description": "Seed .281 drilled through hole normal to Front, passing through both web and rear rib. Center x=.50 from left, y=1.188+.172=1.360 from bottom.",
+      "related_dimensions": [
+        "D003",
+        "D005",
+        "D006",
+        "D015",
+        "D018"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.5,
+      "offset_y": 1.36,
+      "position_known": true,
+      "quantity": 1
+    },
+    {
+      "id": "F006",
+      "type": "pattern",
+      "description": "Linear pattern of the through hole: two total instances at 1.000 horizontal center spacing.",
+      "related_dimensions": [
+        "D004",
+        "D019"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F005",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F007",
+      "type": "fillet",
+      "description": "Two .03-radius smooth blends between the foot's angled end faces and central contact flat, running over the .50 foot height.",
+      "related_dimensions": [
+        "D010",
+        "D007"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F004",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F008",
+      "type": "fillet",
+      "description": "Upper and lower rear rib root blends, .020 radius maximum. This is a maximum allowable radius, not a uniquely specified nominal CAD radius.",
+      "related_dimensions": [
+        "D013"
+      ],
+      "sketch_plane": "",
+      "depth_dimension_id": "",
+      "parent_feature": "F003",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    }
+  ],
+  "geometric_tolerances": [],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Vertical mid-width plane x=1.00, parallel to Right",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007",
+          "F008"
+        ],
+        "description": "Nominal left/right symmetry. Foot end treatments are called TYP.; the holes have nominal .50 end margins. No GD&T symmetry control is printed."
+      }
+    ],
+    "concentric_groups": [],
+    "equal_spacing": [
+      {
+        "feature_ref": "H001",
+        "qty": 2,
+        "spacing_value": 1.0,
+        "computed_from": "Direct 1.000 center-to-center dimension; positions .50 and .50+1.000=1.50."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D003",
+          "D004",
+          "D020"
+        ],
+        "description": "Width = left hole margin + hole spacing + derived right margin."
+      },
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D008",
+          "D023",
+          "D008"
+        ],
+        "description": "Foot width = left angled run + central sharp-corner spacing + right angled run."
+      },
+      {
+        "total_dimension_id": "D016",
+        "component_dimension_ids": [
+          "D012",
+          "D024"
+        ],
+        "description": "Foot thickness = web thickness + forward projection."
+      },
+      {
+        "total_dimension_id": "D017",
+        "component_dimension_ids": [
+          "D016",
+          "D011"
+        ],
+        "description": "Reference thickness envelope .58 = .500 + .080."
+      },
+      {
+        "total_dimension_id": "D018",
+        "component_dimension_ids": [
+          "D015",
+          "D006"
+        ],
+        "description": "Hole center height = lower rib shoulder height + center offset."
+      },
+      {
+        "total_dimension_id": "D019",
+        "component_dimension_ids": [
+          "D003",
+          "D004"
+        ],
+        "description": "Second-hole x coordinate = first-hole x coordinate + spacing."
+      },
+      {
+        "total_dimension_id": "D021",
+        "component_dimension_ids": [
+          "D015",
+          "D014"
+        ],
+        "description": "Upper rib shoulder height = lower rib shoulder height + rib height."
+      },
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D021",
+          "D022"
+        ],
+        "description": "Overall height = upper rib shoulder elevation + top margin."
+      },
+      {
+        "total_dimension_id": "D002",
+        "component_dimension_ids": [
+          "D018",
+          "D025"
+        ],
+        "description": "Overall height = hole center elevation + top hole margin."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D018",
+      "D019",
+      "D020",
+      "D021",
+      "D022",
+      "D023",
+      "D024",
+      "D025"
+    ],
+    "reference_dimension_ids": [
+      "D017"
+    ]
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F008"
+  ],
+  "warnings": [
+    "No named ASME/ISO/DIN standard is printed. The title block explicitly specifies third-angle projection and inches.",
+    "4028-B is transcribed as the complete drawing/part identifier. No separate revision is populated; do not automatically interpret its suffix as revision B. MODEL No. is 480-B.",
+    "No heat-treatment requirement is entered in the heat-treatment field.",
+    "Surface-texture values 63 and 125 are local finish symbols, not dimensional or geometric tolerances. Microinch roughness is conventional for this inch drawing, but the unit and parameter are not explicitly stated.",
+    "The .020 R. MAX. rib-root requirement does not fix an exact nominal radius. Select a compliant value for manufacturing/CAD rather than treating .020 as mandatory.",
+    "Hole y coordinates are calculated from the dimensioned 1.188 shoulder elevation and .172 axis offset, not independently printed coordinates.",
+    "The hole axis is at the rib mid-height only nominally. Preserve the independent .172 \u00b1.005 axis offset and .344 +.000/-.010 rib height rather than imposing exact centering.",
+    "Angular values and angular tolerances are in degrees; the schema requires a linear-unit enum, so D009 uses the drawing-unit enum with this explicit qualification.",
+    "Derived dimensions are nominal construction aids; zero default tolerance fields on them must not be interpreted as zero manufacturing tolerance.",
+    "The top-view .62 dimensions locate the theoretical angled-to-flat intersections before blending; verify that convention if the actual tangent lengths are critical."
+  ],
+  "confidence": 0.94
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "artifact": "4028-B_ir.stl",
+  "artifact_sha256": "87a82f23f0ca9d1b88114db59ea230071bebb3c66544beac923f3d02f7916f67",
+  "job_id": "run_a7d5264db0ad470a9483",
+  "configuration": "",
+  "material_id": null,
+  "material_label": null,
+  "status": "unmatched",
+  "verified": false,
+  "color": "#9AA0A8",
+  "metalness": 0.2,
+  "roughness": 0.6,
+  "source": "neutral",
+  "caption": "Preview only: the material is not verified on the native part, so the model is shown in neutral grey.",
+  "per_body": null
+}

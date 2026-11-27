@@ -1,0 +1,409 @@
+{
+  "rubric": {
+    "id": "emf",
+    "name": "Extraction-to-Model Fidelity",
+    "version": "1.0",
+    "fingerprint": "emf-54023337c8"
+  },
+  "part": "A040281E",
+  "evaluated_at": "2026-11-27T06:48:44+00:00",
+  "run_id": null,
+  "evidence": {
+    "sldprt": "4028-B_ir.SLDPRT",
+    "stl": "4028-B_ir.STL",
+    "extraction": true,
+    "ir_report": true,
+    "feature_map": true
+  },
+  "state": "scored",
+  "score": 98.1,
+  "raw_score": 98.1,
+  "caps": [],
+  "coverage": 1.0,
+  "categories": [
+    {
+      "id": "model_integrity",
+      "label": "Build integrity",
+      "question": "Did SolidWorks build every planned feature, and does the exported mesh belong to this build?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 97.0,
+      "pct": 97.0,
+      "earned": 14.55,
+      "items": [
+        {
+          "id": "sw_build",
+          "label": "SolidWorks build completed",
+          "weight": 4,
+          "credit": 1.0,
+          "expected": "build ok",
+          "measured": "ok"
+        },
+        {
+          "id": "features_built",
+          "label": "Every planned feature was built",
+          "weight": 4,
+          "credit": 0.8889,
+          "expected": "9 planned",
+          "measured": "8 built"
+        },
+        {
+          "id": "no_fallbacks",
+          "label": "No fallback or substituted features",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "no fallbacks",
+          "measured": "0 fallback(s)"
+        },
+        {
+          "id": "mesh_valid",
+          "label": "Exported mesh is a closed solid",
+          "weight": 2,
+          "credit": 1.0,
+          "expected": "closed mesh",
+          "measured": "100.0% of edges closed"
+        },
+        {
+          "id": "mesh_matches_build",
+          "label": "Exported mesh belongs to this build",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "[0.58, 1.75, 2.0] in",
+          "measured": "[0.58, 1.75, 2.0] in",
+          "note": "matches the build record"
+        }
+      ],
+      "n_checked": 5,
+      "n_total": 5,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "envelope",
+      "label": "Overall size",
+      "question": "Does the real part's bounding box match the overall dimensions on the drawing?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "D001",
+          "label": "overall width",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 2.0,
+          "measured": 2.0,
+          "unit": "inch",
+          "error": -0.0,
+          "tol": 0.02,
+          "e": 0.0
+        },
+        {
+          "id": "D002",
+          "label": "overall height",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": 1.75,
+          "measured": 1.75,
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.02,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 2,
+      "n_total": 2,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "feature_coverage",
+      "label": "Feature coverage",
+      "question": "Is every feature the extraction asked for actually in the model?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 97.8,
+      "pct": 97.8,
+      "earned": 19.56,
+      "items": [
+        {
+          "id": "F001",
+          "label": "F001 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Upright web, nominal 2.00 wide by 1.75 high, extruded .25 thick. Use front-view lower-left corner as x/y origin; drillin"
+        },
+        {
+          "id": "F002",
+          "label": "F002 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Add the lower .50-high foot on the front side of the web across its width. Added projection .25 gives .500 from the foot"
+        },
+        {
+          "id": "F003",
+          "label": "F003 extrude boss",
+          "weight": 10.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Full-width rear horizontal rib projecting .080 from the rear web face. Lower shoulder at 1.188 above bottom; height .344"
+        },
+        {
+          "id": "F004",
+          "label": "F004 extrude cut",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Cut the two symmetric angled ends of the bottom foot in plan, through the lower .50 height. Each has .62 horizontal run "
+        },
+        {
+          "id": "F005",
+          "label": "F005 hole",
+          "weight": 5.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Seed .281 drilled through hole normal to Front, passing through both web and rear rib. Center x=.50 from left, y=1.188+."
+        },
+        {
+          "id": "F006",
+          "label": "F006 pattern",
+          "weight": 3.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Linear pattern of the through hole: two total instances at 1.000 horizontal center spacing."
+        },
+        {
+          "id": "F007",
+          "label": "F007 fillet",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "in the model",
+          "measured": "built",
+          "note": "Two .03-radius smooth blends between the foot's angled end faces and central contact flat, running over the .50 foot hei"
+        },
+        {
+          "id": "F008",
+          "label": "F008 fillet",
+          "weight": 1.0,
+          "credit": 0.0,
+          "expected": "in the model",
+          "measured": "skipped",
+          "note": "Upper and lower rear rib root blends, .020 radius maximum. This is a maximum allowable radius, not a uniquely specified "
+        }
+      ],
+      "n_checked": 8,
+      "n_total": 8,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "hole_accuracy",
+      "label": "Hole and bore accuracy",
+      "question": "Do the holes measured in the real part have the diameters, depths and types the drawing calls out?",
+      "weight": 20.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 20.0,
+      "items": [
+        {
+          "id": "H001#1",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.281 in through",
+          "measured": "d 0.281 in, through",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        },
+        {
+          "id": "H001#2",
+          "label": "H001 thru hole",
+          "weight": 1.0,
+          "credit": 1.0,
+          "expected": "d 0.281 in through",
+          "measured": "d 0.281 in, through",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005
+        }
+      ],
+      "n_checked": 2,
+      "n_total": 2,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 20.0
+    },
+    {
+      "id": "placement",
+      "label": "Placement and patterns",
+      "question": "Are the holes the right distance apart, in the right pattern, and concentric where they should be?",
+      "weight": 15.0,
+      "checked": true,
+      "score": 100.0,
+      "pct": 100.0,
+      "earned": 15.0,
+      "items": [
+        {
+          "id": "H001-spacing",
+          "label": "H001 pattern spacing",
+          "weight": 2.0,
+          "credit": 1.0,
+          "expected": "nearest-neighbour [1.0, 1.0]",
+          "measured": "[1.0, 1.0]",
+          "unit": "inch",
+          "error": 0.0,
+          "tol": 0.005,
+          "e": 0.0
+        }
+      ],
+      "n_checked": 1,
+      "n_total": 1,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 15.0
+    },
+    {
+      "id": "extraction_trust",
+      "label": "Extraction reliability",
+      "question": "How much of this score rests on unclear, assumed or defaulted input?",
+      "weight": 10.0,
+      "checked": true,
+      "score": 90.1,
+      "pct": 90.1,
+      "earned": 9.01,
+      "items": [
+        {
+          "id": "confidence",
+          "label": "Extraction confidence",
+          "weight": 4,
+          "credit": 0.9778,
+          "expected": ">= 95%",
+          "measured": "94%"
+        },
+        {
+          "id": "ambiguity",
+          "label": "Unclear dimensions and unknown positions",
+          "weight": 3,
+          "credit": 1.0,
+          "expected": "none",
+          "measured": "0 unclear dimension(s), 0 unknown callout(s)"
+        },
+        {
+          "id": "assumptions",
+          "label": "Assumed positions, defaults, open questions, engineering flags",
+          "weight": 3,
+          "credit": 0.7,
+          "expected": "none",
+          "measured": "0 assumed, 2 default(s), 0 question(s), 0 engineering flag(s)"
+        }
+      ],
+      "n_checked": 3,
+      "n_total": 3,
+      "band": {
+        "id": "green",
+        "label": "Matches the drawing",
+        "glyph": "check"
+      },
+      "max": 10.0
+    }
+  ],
+  "band": {
+    "id": "green",
+    "label": "Matches the drawing",
+    "glyph": "check"
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "category": "model_integrity",
+      "code": "FEATURE_NOT_BUILT",
+      "message": "F008 was planned but not built: skipped (failed: CompileError: F008: edge_between(face(F002,-Z),face(F004,-Z)) matched no edges).",
+      "evidence": "skipped (failed: CompileError: F008: edge_between(face(F002,-Z),face(F004,-Z)) matched no edges)",
+      "points": 0.44,
+      "ref": "F008"
+    },
+    {
+      "severity": "high",
+      "category": "feature_coverage",
+      "code": "FEATURE_SKIPPED",
+      "message": "F008 (fillet) was in the extraction but is not in the model: failed: CompileError: F008: edge_between(face(F002,-Z),face(F004,-Z)) matched no edges.",
+      "evidence": "Upper and lower rear rib root blends, .020 radius maximum. This is a maximum allowable radius, not a uniquely specified nominal CAD radius.",
+      "points": 0.44,
+      "ref": "F008"
+    },
+    {
+      "severity": "low",
+      "category": "extraction_trust",
+      "code": "DEFAULTS_APPLIED",
+      "message": "2 default value(s) were applied where the drawing was vague.",
+      "evidence": "F009: D1 fillet at the max value 0.02; D008: D9 0.62 -> 0.625 (two-place print of a 1/16 fraction)",
+      "points": 0.9,
+      "ref": ""
+    }
+  ],
+  "notes": [],
+  "measured": {
+    "units": "inch",
+    "stl_dims": [
+      0.58,
+      1.75,
+      2.0
+    ],
+    "stl_volume": 1.0269,
+    "triangles": 416,
+    "closed_fraction": 1.0,
+    "holes": [
+      {
+        "axis": "Y",
+        "d": 0.281,
+        "depth": 0.33,
+        "through": true,
+        "cbore": null
+      },
+      {
+        "axis": "Y",
+        "d": 0.281,
+        "depth": 0.33,
+        "through": true,
+        "cbore": null
+      }
+    ]
+  },
+  "counts": {
+    "critical": 0,
+    "high": 2,
+    "medium": 0,
+    "low": 1,
+    "info": 0
+  }
+}

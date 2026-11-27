@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "run_a7d5264db0ad470a9483",
+  "part": "A040281E",
+  "findings": [
+    {
+      "finding_id": "flag_5734a74f1254",
+      "part": "A040281E",
+      "run_id": "run_a7d5264db0ad470a9483",
+      "severity": "error",
+      "category": "feature_not_built",
+      "title": "Feature F008 was not built",
+      "expected": ".03 R.; BLEND SMOOTH",
+      "actual": "skipped: failed: CompileError: F008: edge_between(face(F002,-Z),face(F004,-Z)) matched no edges",
+      "consequence": "The model is missing this feature.",
+      "recommended_action": "Review the callout for F008 against the drawing, then add the feature or correct the plan.",
+      "feature_ids": [
+        "F008"
+      ],
+      "source_callouts": [
+        ".03 R.",
+        "BLEND SMOOTH"
+      ],
+      "evidence_ids": [
+        "ir_report:cq_skipped:F008",
+        "plan:F008"
+      ],
+      "schema_version": 1
+    }
+  ]
+}

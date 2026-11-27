@@ -1,0 +1,63 @@
+{
+  "part": "A040281E",
+  "extraction": "extracted with GPT-6 Astra -> C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040281E\\A040281E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 9,
+  "questions": [],
+  "flagged": [
+    "F004: The coefficient 0.5773502691896258 is tan(30 degrees), calculated from the printed 30\u00b0 TYP. callout D009. The .62 run locates the theoretical sharp intersection. The polygon overshoots the external X and Z surfaces; the exact .50 depth stops at the foot shoulder shown in the front view.",
+    "F005: The coefficient 0.5773502691896258 is tan(30 degrees), calculated from the printed 30\u00b0 TYP. callout D009. Both ends are shown symmetrically and dimensioned TYP. The polygon overshoots external X and Z surfaces; the exact .50 depth stops at the foot shoulder.",
+    "F009: DEFAULT D1: max-only radius built at the max value"
+  ],
+  "defaults": [
+    "F009: D1 fillet at the max value 0.02",
+    "D008: D9 0.62 -> 0.625 (two-place print of a 1/16 fraction)"
+  ],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040281E\\reference.step",
+  "volume": 1.026689,
+  "cq_skipped": {
+    "F008": "failed: CompileError: F008: edge_between(face(F002,-Z),face(F004,-Z)) matched no edges"
+  },
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040281E\\4028-B_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040281E\\4028-B_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A040281E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built",
+    "F003": "built",
+    "F004": "built",
+    "F005": "built",
+    "F006": "built (Up To Next; one feature for F006, F007)",
+    "F007": "built (in F006 (one feature))",
+    "F008": "skipped (failed: CompileError: F008: edge_between(face(F002,-Z),face(F004,-Z)) matched no edges)",
+    "F009": "built (2 edges selected by nearest point)"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "sketches fully defined: 6/6"
+  ],
+  "hole_wizard_substitutions": [],
+  "mti_review": [],
+  "material": {
+    "status": "unmatched",
+    "label": "1018",
+    "material_id": null,
+    "selection_source": null,
+    "review_required": true,
+    "cost_available": false,
+    "net_material_cost": null,
+    "currency": "USD",
+    "mass_kg": null,
+    "files": [
+      "material_resolution.json",
+      "material_native.json",
+      "material_costing.json",
+      "appearance.json"
+    ]
+  },
+  "cost_usd": 0.8713,
+  "error": ""
+}

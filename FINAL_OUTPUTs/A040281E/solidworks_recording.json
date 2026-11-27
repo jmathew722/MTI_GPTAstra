@@ -1,0 +1,141 @@
+{
+  "status": "ready",
+  "run_id": "run_a7d5264db0ad470a9483",
+  "part": "A040281E",
+  "source_sha256": "0ed5aa38ac00340dbcd42b5aa9367a2ad1a297c044f678a8cf12a0da097df262",
+  "video": "solidworks_recording.mp4",
+  "poster": "solidworks_recording_poster.jpg",
+  "backend": "printwindow",
+  "capture_method": "printwindow-window (PrintWindow PW_RENDERFULLCONTENT of one validated window; unaffected by covering windows; no desktop capture)",
+  "target": {
+    "pid": 26448,
+    "hwnd": 721112,
+    "exe": "SLDWORKS.exe",
+    "window_class": "Afx:0000000140000000:8:0000000000010003:0000000000000000:00000000031F1273",
+    "title_prefix": "SOLIDWORKS",
+    "identity_ok": true,
+    "identity_checks": {
+      "visible": true,
+      "top_level": true,
+      "unowned": true,
+      "solidworks_exe": true,
+      "same_session": true,
+      "main_window_class": true
+    }
+  },
+  "session": {
+    "sw_pid": 26448,
+    "doc_at_start": "",
+    "docs_open": null
+  },
+  "started_at": "2026-11-27T01:43:26-0500",
+  "started_epoch": 1795761806.489,
+  "ended_at": "2026-11-27T01:46:06-0500",
+  "captured_frames": 253,
+  "held_frames": 2142,
+  "occluded_seconds": 0.0,
+  "privacy_gate": "off",
+  "minimized_events": 0,
+  "resize_events": 0,
+  "verified": true,
+  "probe": {
+    "ok": true,
+    "frames": 2395,
+    "fps": 15.0,
+    "duration_s": 159.67,
+    "first_frame": true,
+    "last_frame": true,
+    "reason": ""
+  },
+  "fps": 15,
+  "width": 1536,
+  "height": 816,
+  "frames": 2395,
+  "dropped_frames": 0,
+  "duration_s": 159.67,
+  "bytes": 1110149,
+  "camera": {
+    "ok": false,
+    "events_checked": 12,
+    "completed_features": 7,
+    "isometric_events": 4,
+    "isometric_verified": 4,
+    "no_move_events": 1,
+    "fit_verified": 11,
+    "orientation_preserved": 7,
+    "margin_corrections": 9,
+    "failures": [
+      "F001 (sketch_defined): geometry touches or leaves the viewport edge, or the frame is unreadable",
+      "F005 (feature_committed): geometry touches or leaves the viewport edge, or the frame is unreadable",
+      "F006 (before_feature): geometry touches or leaves the viewport edge, or the frame is unreadable"
+    ],
+    "target_margin": 0.15,
+    "iso_every": 2,
+    "log": "camera_log.json"
+  },
+  "paced": true,
+  "build_outcome": "completed",
+  "build_error": "",
+  "chapters": [
+    {
+      "id": "F001",
+      "label": "F001 prism: built",
+      "status": "built",
+      "t": 12.42,
+      "t_settled": 17.23
+    },
+    {
+      "id": "F002",
+      "label": "F002 prism: built",
+      "status": "built",
+      "t": 29.96,
+      "t_settled": 40.93
+    },
+    {
+      "id": "F003",
+      "label": "F003 prism: built",
+      "status": "built",
+      "t": 54.56,
+      "t_settled": 60.91
+    },
+    {
+      "id": "F004",
+      "label": "F004 prism: built",
+      "status": "built",
+      "t": 81.84,
+      "t_settled": 92.6
+    },
+    {
+      "id": "F005",
+      "label": "F005 prism: built",
+      "status": "built",
+      "t": 109.68,
+      "t_settled": 115.6
+    },
+    {
+      "id": "F006",
+      "label": "F006 hole: built",
+      "status": "built",
+      "t": 139.2,
+      "t_settled": 149.2
+    },
+    {
+      "id": "F009",
+      "label": "F009 edge_op: built",
+      "status": "built",
+      "t": 153.29,
+      "t_settled": 153.91
+    },
+    {
+      "id": "final",
+      "label": "Final model",
+      "status": "built",
+      "t": 156.5,
+      "t_settled": 156.5
+    }
+  ],
+  "code": "",
+  "reason": "",
+  "schema_version": 1,
+  "generation_key": "09a187601f08"
+}

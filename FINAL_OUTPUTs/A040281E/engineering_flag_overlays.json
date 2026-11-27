@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "source_pdf_sha256": "0ed5aa38ac00340dbcd42b5aa9367a2ad1a297c044f678a8cf12a0da097df262",
+  "source_name": "A040281E.pdf",
+  "run_id": "run_a7d5264db0ad470a9483",
+  "pages": [
+    {
+      "page_index": 0,
+      "width": 1219.0,
+      "height": 772.0,
+      "rotation": 0,
+      "text_source": "ocr"
+    }
+  ],
+  "overlays": [
+    {
+      "finding_id": "flag_5734a74f1254",
+      "number": 1,
+      "severity": "error",
+      "label": "1: Feature F008 was not built",
+      "overlay_id": "ov_flag_5734a74f1254_1",
+      "page_index": 0,
+      "shape": "rect",
+      "rect_normalized": {
+        "x": 0.257603,
+        "y": 0.279803,
+        "width": 0.066039,
+        "height": 0.045331
+      },
+      "mapping_method": "exact_tokens",
+      "mapping_confidence": 0.9546,
+      "matched_text": "BLEND SMOOTH",
+      "rotation_degrees": 0,
+      "source_callout": "BLEND SMOOTH",
+      "provenance": "automatic",
+      "label_anchor_normalized": {
+        "x": 0.327642,
+        "y": 0.279803
+      }
+    }
+  ],
+  "unlocated_findings": []
+}

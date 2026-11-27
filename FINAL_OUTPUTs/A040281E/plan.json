@@ -1,0 +1,286 @@
+{
+  "dims": {
+    "D001": 2.0,
+    "D002": 1.75,
+    "D003": 0.5,
+    "D004": 1.0,
+    "D005": 0.281,
+    "D006": 0.172,
+    "D007": 0.5,
+    "D008": 0.62,
+    "D009": 30.0,
+    "D010": 0.03,
+    "D011": 0.08,
+    "D012": 0.25,
+    "D013": 0.02,
+    "D014": 0.344,
+    "D015": 1.188,
+    "D016": 0.5,
+    "D017": 0.58,
+    "D018": 1.36,
+    "D019": 1.5,
+    "D020": 0.5,
+    "D021": 1.532,
+    "D022": 0.218,
+    "D023": 0.76,
+    "D024": 0.25,
+    "D025": 0.39
+  },
+  "reference_ids": [
+    "D017"
+  ],
+  "plan": {
+    "ir_version": "2.0",
+    "part": "4028-B",
+    "frame": {
+      "origin_kind": "corner",
+      "units": "inch",
+      "view_map": {
+        "front": "-Z",
+        "top": "+Y",
+        "right": "+X"
+      }
+    },
+    "features": [
+      {
+        "id": "F001",
+        "rationale": "Full-height web behind the foot contact plane.",
+        "source_callouts": [
+          "2.00",
+          "1.75",
+          ".25",
+          ".500"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "plane(front)",
+        "offset": "D016 - D012",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D002",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D012",
+        "op": "add"
+      },
+      {
+        "id": "F002",
+        "rationale": "Lower front projection establishes the .500 foot thickness before end trimming.",
+        "source_callouts": [
+          ".50",
+          ".500"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "face(F001,-Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D007",
+          "anchor": "corner",
+          "u": "0",
+          "v": "0"
+        },
+        "depth": "D016 - D012",
+        "op": "add"
+      },
+      {
+        "id": "F003",
+        "rationale": "Full-width rear rib at its dimensioned elevation.",
+        "source_callouts": [
+          ".080",
+          ".344 +.000/-.010",
+          "1.188"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "prism",
+        "on": "face(F001,+Z)",
+        "offset": "0",
+        "profile": {
+          "shape": "rect",
+          "w": "D001",
+          "h": "D014",
+          "anchor": "corner",
+          "u": "0",
+          "v": "D015"
+        },
+        "depth": "D011",
+        "op": "add"
+      },
+      {
+        "id": "F004",
+        "rationale": "Left angled foot end cut includes the lower web material.",
+        "source_callouts": [
+          "30\u00b0 TYP.",
+          ".62 TYP.",
+          ".50"
+        ],
+        "status": "planned",
+        "justification": "The coefficient 0.5773502691896258 is tan(30 degrees), calculated from the printed 30\u00b0 TYP. callout D009. The .62 run locates the theoretical sharp intersection. The polygon overshoots the external X and Z surfaces; the exact .50 depth stops at the foot shoulder shown in the front view.",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "-D001",
+              "-D016"
+            ],
+            [
+              "D008",
+              "-D016"
+            ],
+            [
+              "D008",
+              "0"
+            ],
+            [
+              "-D001",
+              "(D008 + D001) * 0.5773502691896258"
+            ]
+          ]
+        },
+        "depth": "D007",
+        "op": "cut"
+      },
+      {
+        "id": "F005",
+        "rationale": "Matching right angled foot end cut.",
+        "source_callouts": [
+          "30\u00b0 TYP.",
+          ".62 TYP.",
+          ".50"
+        ],
+        "status": "planned",
+        "justification": "The coefficient 0.5773502691896258 is tan(30 degrees), calculated from the printed 30\u00b0 TYP. callout D009. Both ends are shown symmetrically and dimensioned TYP. The polygon overshoots external X and Z surfaces; the exact .50 depth stops at the foot shoulder.",
+        "kind": "prism",
+        "on": "plane(top)",
+        "offset": "0",
+        "profile": {
+          "shape": "polygon",
+          "points": [
+            [
+              "D001 - D008",
+              "-D016"
+            ],
+            [
+              "2 * D001",
+              "-D016"
+            ],
+            [
+              "2 * D001",
+              "(D001 + D008) * 0.5773502691896258"
+            ],
+            [
+              "D001 - D008",
+              "0"
+            ]
+          ]
+        },
+        "depth": "D007",
+        "op": "cut"
+      },
+      {
+        "id": "F006",
+        "rationale": "First through hole passes through rear rib and web, located from the lower rib shoulder.",
+        "source_callouts": [
+          ".281 DR. THRU",
+          "2 HLS.",
+          ".50",
+          ".172 \u00b1.005",
+          "1.188"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "hole",
+        "on": "face(F003,+Z)",
+        "u": "D003",
+        "v": "D015 + D006",
+        "spec": {
+          "type": "thru",
+          "d": "D005",
+          "depth": null,
+          "cbore_d": null,
+          "cbore_depth": null,
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F007",
+        "rationale": "Second through hole at the printed horizontal pitch.",
+        "source_callouts": [
+          "2 HLS.",
+          "1.000"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "pattern",
+        "seed": "F006",
+        "mode": "linear",
+        "dir": "+X",
+        "count": "2",
+        "pitch": "D004",
+        "dir2": "+Y",
+        "count2": "1",
+        "pitch2": "0",
+        "axis": "axis(part)",
+        "start_angle": "0",
+        "step": "equal",
+        "skip": []
+      },
+      {
+        "id": "F008",
+        "rationale": "Smooth blends at the two angled-to-flat foot transitions.",
+        "source_callouts": [
+          ".03 R.",
+          "BLEND SMOOTH"
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D010",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F002,-Z),face(F004,-Z))",
+          "edge_between(face(F002,-Z),face(F005,-Z))"
+        ]
+      },
+      {
+        "id": "F009",
+        "rationale": "What nominal radius should be used at the rear rib roots? Only a maximum is specified.",
+        "source_callouts": [
+          ".020 R. MAX."
+        ],
+        "status": "unresolved",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D013",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,+Z),face(F003,+Y))",
+          "edge_between(face(F001,+Z),face(F003,-Y))"
+        ]
+      }
+    ],
+    "notes": [
+      "Material: 1018. Drawing number 4028-B; model number 480-B.",
+      "Origin is the lower-left envelope corner on the central foot contact plane. X runs rightward and Y upward in the front view; Z runs toward the rear rib.",
+      "Rear web plane: Z=D016. Rear rib plane: Z=D016+D011, consistent with .58 REF.",
+      "Preserve the independently dimensioned hole elevation D015+D006 rather than imposing rib mid-height centering.",
+      "The .020 R. MAX. roots remain unbuilt pending selection of a nominal radius.",
+      "Surface-finish symbols 63 and 125 are manufacturing requirements, not dimensional features. No heat treatment is specified."
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "available": false,
+  "reason": "No material density is known, so mass and cost cannot be estimated.",
+  "currency": "USD",
+  "price_basis": "",
+  "catalog_version": "",
+  "label": "Material estimate from the catalog price",
+  "excludes": "Material only: excludes machining, labour, scrap/waste (unless a yield is set), shipping, tax and purchase minimums.",
+  "warnings": [],
+  "inputs": {
+    "volume_m3": 1.6824421536686305e-05,
+    "density_kg_m3": null,
+    "native_mass_kg": null,
+    "price_per_kg": null,
+    "yield_fraction": null
+  },
+  "mass_kg": null,
+  "net_material_cost": null,
+  "stock_cost": null,
+  "display": {}
+}
