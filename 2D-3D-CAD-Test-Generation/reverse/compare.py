@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Optional
 
 UNIT_M = {"inch": 0.0254, "in": 0.0254, "mm": 0.001, "millimeter": 0.001, "millimeters": 0.001, "cm": 0.01, "m": 1.0, "deg": None, "degree": None}
-NUM_RE = re.compile(r"(?<![\w.])(\d*\.\d+|\d+(?:\.\d*)?)")
+NUM_RE = re.compile(r"(?<![\d.A-Za-z])(\d*\.\d+|\d+(?:\.\d*)?)")
 DIAM_RE = re.compile(r"[Ø⌀ø]|\bDIA\b|\bDIAM", re.I)
 QTY_RE = re.compile(r"(?<![\d.])(\d+)\s*[Xx]\b")
 SPATIAL_VIEW_MM = 1.0
@@ -193,14 +193,16 @@ def semantic(ref: dict, native_dims: list[dict], *, default_unit: Optional[str],
 
 def view_presence(ref: dict, native_views: dict) -> list[dict]:
     """Reference view types vs the generated views: presence and scale text (never claims orientation equality beyond the standard-view type)."""
-    have = {}
+    have: dict = {}
     for role, info in native_views.items():
+        have.setdefault(info.get("ref_view") or info["type"], []).append(role)      # a silhouette-matched role answers for its reference view
         have.setdefault(info["type"], []).append(role)
     out = []
     for v in ref.get("views", []):
         t = v["type"]
-        out.append({"ref_view": v["id"], "type": t, "reference_scale": v.get("scale_text", ""), "present": t in have, "native_roles": have.get(t, []),
-                    "note": "" if t in have else f"no {t} view was generated (this pipeline generates front/top/right, an isometric and hole sections)"})
+        roles = have.get(v["id"]) or have.get(t) or []
+        out.append({"ref_view": v["id"], "type": t, "reference_scale": v.get("scale_text", ""), "present": bool(roles), "native_roles": roles,
+                    "note": "" if roles else f"no matching {t} view was generated (this pipeline generates front/top/right, an isometric and hole sections)"})
     return out
 
 
@@ -212,7 +214,7 @@ def spatial(ref: dict, W: float, H: float, native_view_centers: dict, ann_boxes:
     views = []
     for v in ref.get("views", []):
         for role, info in native_view_centers.items():
-            if info["type"] != v["type"]:
+            if (info.get("ref_view") and info["ref_view"] != v["id"]) or (not info.get("ref_view") and info["type"] != v["type"]):
                 continue
             cx, cy = v["center_norm"][0] * W, (1 - v["center_norm"][1]) * H
             dx, dy = (info["center_m"][0] - cx) * 1000, (info["center_m"][1] - cy) * 1000

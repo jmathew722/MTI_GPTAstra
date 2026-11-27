@@ -93,8 +93,9 @@ def test_readonly_output_dir_is_reported(tmp_path):
 
 def test_state_transitions():
     assert state.can_move("queued", "preflight") and not state.can_move("queued", "drawing")
-    assert state.can_move("mesh_export", "inventory") and not state.can_move("drawing", "mesh_export")
-    assert not state.can_move("completed", "failed") and state.can_move("drawing", "failed") and state.can_move("drawing", "canceled")
+    assert state.can_move("stl_export", "reference_resolution") and not state.can_move("native_drawing", "stl_export")
+    assert state.can_move("stl_export", "view_planning")           # Standard mode skips the reference stages
+    assert not state.can_move("completed", "failed") and state.can_move("native_drawing", "failed") and state.can_move("native_drawing", "canceled")
     assert not state.can_move("queued", "completed")
 
 
@@ -395,7 +396,8 @@ def test_job_view_lists_only_existing_files_and_never_server_paths(svc):
     j, p = seed_job(svc)
     v = svc.job_view(j.job_id)
     files = v["parts"][0]["files"]
-    assert set(files) == {"drawing.pdf", "qa.json"}                                # the absent SLDDRW is not advertised
+    assert set(files) == {"drawing.pdf", "qa.json", "pdf", "qa_json"}               # the absent SLDDRW is not advertised (aliases only for files that exist)
+    assert not v["parts"][0]["files_availability"]["slddrw"] and v["parts"][0]["files_availability"]["pdf"]
     assert "source" not in v["parts"][0] and "output_root" not in v and str(svc.data) not in json.dumps(v)
 
 

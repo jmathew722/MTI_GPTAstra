@@ -1,0 +1,1080 @@
+{
+  "schema_version": "ref/1",
+  "extraction_id": "refx_f8f7e106a00a833d",
+  "source": {
+    "sha256": "bd55705bb60d4bdbb8607b06d5f9d2b703b546aee53520a09b860fd6a119bf10",
+    "filename": "source.pdf",
+    "pages": 1,
+    "page_extracted": 1
+  },
+  "sheet": {
+    "page_index": 0,
+    "width_pt": 1664.0,
+    "height_pt": 1232.0,
+    "rotation": 0,
+    "media_box": [
+      0.0,
+      0.0,
+      1664.0,
+      1232.0
+    ],
+    "crop_box": [
+      0.0,
+      0.0,
+      1664.0,
+      1232.0
+    ],
+    "orientation": "landscape",
+    "units": "INCHES",
+    "projection": "THIRD ANGLE PROJECTION",
+    "scale_text": "HALF",
+    "size_text": "",
+    "title_block_bbox_norm": [
+      0.785,
+      0.598,
+      0.982,
+      0.958
+    ],
+    "title_block_bbox_pt": [
+      1306.24,
+      736.74,
+      1634.05,
+      1180.26
+    ],
+    "coordinate_system": "normalized top-left 0..1 plus PDF points (top-left origin, as displayed)",
+    "text_source": "ocr"
+  },
+  "views": [
+    {
+      "id": "V1",
+      "type": "Top",
+      "label": "",
+      "bbox_norm": [
+        0.252,
+        0.302,
+        0.395,
+        0.465
+      ],
+      "bbox_pt": [
+        419.33,
+        372.06,
+        657.28,
+        572.88
+      ],
+      "center_norm": [
+        0.3235,
+        0.3835
+      ],
+      "scale_text": "",
+      "parent_id": "",
+      "confidence": 0.99,
+      "evidence": "Above front view; third angle projection specified.",
+      "position_source": "model_estimate"
+    },
+    {
+      "id": "V2",
+      "type": "Front",
+      "label": "",
+      "bbox_norm": [
+        0.255,
+        0.56,
+        0.396,
+        0.649
+      ],
+      "bbox_pt": [
+        424.32,
+        689.92,
+        658.94,
+        799.57
+      ],
+      "center_norm": [
+        0.3255,
+        0.6045
+      ],
+      "scale_text": "",
+      "parent_id": "",
+      "confidence": 0.99,
+      "evidence": "Rectangular elevation below top view with hidden holes.",
+      "position_source": "model_estimate"
+    },
+    {
+      "id": "V3",
+      "type": "Section",
+      "label": "SECTION A-A",
+      "bbox_norm": [
+        0.464,
+        0.301,
+        0.531,
+        0.464
+      ],
+      "bbox_pt": [
+        772.1,
+        370.83,
+        883.58,
+        571.65
+      ],
+      "center_norm": [
+        0.4975,
+        0.3825
+      ],
+      "scale_text": "",
+      "parent_id": "V1",
+      "confidence": 0.99,
+      "evidence": "Hatched section to right, corresponding to A cutting-plane arrows in top view.",
+      "position_source": "model_estimate"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "A001",
+      "kind": "linear",
+      "text": "2.38",
+      "nominal": 2.38,
+      "unit": "inch",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.315,
+        0.243,
+        0.346,
+        0.261
+      ],
+      "bbox_pt": [
+        524.16,
+        299.38,
+        575.74,
+        321.55
+      ],
+      "anchor_norm": null,
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "bound_ids": [
+        "D005"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "read from the rendered page"
+    },
+    {
+      "id": "A002",
+      "kind": "linear",
+      "text": "2.75",
+      "nominal": 2.75,
+      "unit": "inch",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.15727,
+        0.40155,
+        0.185,
+        0.41853
+      ],
+      "bbox_pt": [
+        261.7,
+        494.71,
+        307.84,
+        515.63
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T004"
+      ],
+      "bound_ids": [
+        "D001"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T004"
+    },
+    {
+      "id": "A003",
+      "kind": "linear",
+      "text": "1.88",
+      "nominal": 1.88,
+      "unit": "inch",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.20415,
+        0.39,
+        0.23087,
+        0.40766
+      ],
+      "bbox_pt": [
+        339.71,
+        480.48,
+        384.17,
+        502.24
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T003"
+      ],
+      "bound_ids": [
+        "D003"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T003"
+    },
+    {
+      "id": "A004",
+      "kind": "linear",
+      "text": ".94",
+      "nominal": 0.94,
+      "unit": "inch",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.41486,
+        0.34651,
+        0.43754,
+        0.36757
+      ],
+      "bbox_pt": [
+        690.32,
+        426.9,
+        728.07,
+        452.85
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T002"
+      ],
+      "bound_ids": [
+        "D004"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T002"
+    },
+    {
+      "id": "A005",
+      "kind": "linear",
+      "text": ".50",
+      "nominal": 0.5,
+      "unit": "inch",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.352,
+        0.492,
+        0.373,
+        0.511
+      ],
+      "bbox_pt": [
+        585.73,
+        606.14,
+        620.67,
+        629.55
+      ],
+      "anchor_norm": null,
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "bound_ids": [
+        "D007"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "read from the rendered page"
+    },
+    {
+      "id": "A006",
+      "kind": "linear",
+      "text": "1.88",
+      "nominal": 1.88,
+      "unit": "inch",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.31808,
+        0.52657,
+        0.3458,
+        0.54355
+      ],
+      "bbox_pt": [
+        529.28,
+        648.73,
+        575.41,
+        669.65
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T007"
+      ],
+      "bound_ids": [
+        "D008"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T007"
+    },
+    {
+      "id": "A007",
+      "kind": "hole_callout",
+      "text": ".40 DIA. THRU 4 PLACES",
+      "nominal": 0.4,
+      "unit": "inch",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": 4,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.45014,
+        0.26294,
+        0.62405,
+        0.28333
+      ],
+      "bbox_pt": [
+        749.04,
+        323.94,
+        1038.42,
+        349.06
+      ],
+      "anchor_norm": [
+        0.381,
+        0.323
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T001"
+      ],
+      "bound_ids": [
+        "D013",
+        "H001"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "OCR misreads .40 as 4O and omits spaces; image reads .40.",
+      "evidence": "text items T001"
+    },
+    {
+      "id": "A008",
+      "kind": "linear",
+      "text": "3.25",
+      "nominal": 3.25,
+      "unit": "inch",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V2",
+      "bbox_norm": [
+        0.306,
+        0.706,
+        0.333,
+        0.727
+      ],
+      "bbox_pt": [
+        509.18,
+        869.79,
+        554.11,
+        895.66
+      ],
+      "anchor_norm": null,
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "bound_ids": [
+        "D009"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "read from the rendered page"
+    },
+    {
+      "id": "A009",
+      "kind": "linear",
+      "text": "1.5",
+      "nominal": 1.5,
+      "unit": "inch",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V2",
+      "bbox_norm": [
+        0.43906,
+        0.59587,
+        0.45569,
+        0.61218
+      ],
+      "bbox_pt": [
+        730.59,
+        734.11,
+        758.27,
+        754.2
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T008"
+      ],
+      "bound_ids": [
+        "D010"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T008"
+    },
+    {
+      "id": "A010",
+      "kind": "finish",
+      "text": "63",
+      "nominal": 63.0,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V2",
+      "bbox_norm": [
+        0.416,
+        0.528,
+        0.452,
+        0.561
+      ],
+      "bbox_pt": [
+        692.22,
+        650.5,
+        752.13,
+        691.15
+      ],
+      "anchor_norm": [
+        0.427,
+        0.56
+      ],
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "bound_ids": [],
+      "required": true,
+      "uncertain": false,
+      "note": "Surface texture symbol with 63; no finish unit printed.",
+      "evidence": "read from the rendered page"
+    },
+    {
+      "id": "A011",
+      "kind": "hole_callout",
+      "text": "DRILL .58 DIA. X .50 DP.\nC'BORE 1.012\n1.002 DIA.\nX .111\n.113 DEEP\n2 PLACES",
+      "nominal": null,
+      "unit": "inch",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": 2,
+      "view_id": "V2",
+      "bbox_norm": [
+        0.11796,
+        0.60809,
+        0.23288,
+        0.70797
+      ],
+      "bbox_pt": [
+        196.28,
+        749.17,
+        387.52,
+        872.22
+      ],
+      "anchor_norm": [
+        0.294,
+        0.56
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T009",
+        "T010",
+        "T012",
+        "T013",
+        "T014",
+        "T015",
+        "T017"
+      ],
+      "bound_ids": [
+        "D014",
+        "D015",
+        "D016",
+        "D017",
+        "H002"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "Diameter limits are stacked 1.012 above 1.002; depth limits are stacked .111 above .113, in that printed order. OCR misreads several decimals/digits and misses the quantity 2. No ± tolerance printed.",
+      "evidence": "text items T009,T010,T012,T013,T014,T015,T017"
+    },
+    {
+      "id": "A012",
+      "kind": "center_mark",
+      "text": "℄",
+      "nominal": null,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.55,
+        0.371,
+        0.563,
+        0.393
+      ],
+      "bbox_pt": [
+        915.2,
+        457.07,
+        936.83,
+        484.18
+      ],
+      "anchor_norm": null,
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "bound_ids": [],
+      "required": false,
+      "uncertain": false,
+      "note": "",
+      "evidence": "read from the rendered page"
+    },
+    {
+      "id": "A013",
+      "kind": "center_mark",
+      "text": "℄",
+      "nominal": null,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V2",
+      "bbox_norm": [
+        0.497,
+        0.547,
+        0.51,
+        0.566
+      ],
+      "bbox_pt": [
+        827.01,
+        673.9,
+        848.64,
+        697.31
+      ],
+      "anchor_norm": null,
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "bound_ids": [],
+      "required": false,
+      "uncertain": false,
+      "note": "",
+      "evidence": "read from the rendered page"
+    }
+  ],
+  "notes": [
+    {
+      "id": "N001",
+      "kind": "view_label",
+      "text": "A",
+      "bbox_norm": [
+        0.306,
+        0.276,
+        0.318,
+        0.294
+      ],
+      "bbox_pt": [
+        509.18,
+        340.03,
+        529.15,
+        362.21
+      ],
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "uncertain": false
+    },
+    {
+      "id": "N002",
+      "kind": "view_label",
+      "text": "A",
+      "bbox_norm": [
+        0.31203,
+        0.47221,
+        0.32513,
+        0.48716
+      ],
+      "bbox_pt": [
+        519.21,
+        581.76,
+        541.02,
+        600.18
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T005"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N003",
+      "kind": "view_label",
+      "text": "SECTION A-A",
+      "bbox_norm": [
+        0.49097,
+        0.47356,
+        0.59683,
+        0.49395
+      ],
+      "bbox_pt": [
+        816.98,
+        583.43,
+        993.13,
+        608.55
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T006"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N004",
+      "kind": "general_note",
+      "text": "HEAT TREATMENT\nNONE",
+      "bbox_norm": [
+        0.8146,
+        0.62508,
+        0.88567,
+        0.6808
+      ],
+      "bbox_pt": [
+        1355.49,
+        770.1,
+        1473.75,
+        838.74
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T011",
+        "T016"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N005",
+      "kind": "material",
+      "text": "MATERIAL\nCRS 1018",
+      "bbox_norm": [
+        0.81308,
+        0.70662,
+        0.88416,
+        0.74602
+      ],
+      "bbox_pt": [
+        1352.97,
+        870.55,
+        1471.24,
+        919.1
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T018",
+        "T019",
+        "T020"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N006",
+      "kind": "tolerance_block",
+      "text": "UNLESS OTHERWISE SPECIFIED:\nTHIRD ANGLE PROJECTION\nDIMENSIONS IN INCHES\nPLACE DIM. ±\nPLACE DIM. ±\nANGULAR DIM. ±",
+      "bbox_norm": [
+        0.79544,
+        0.75757,
+        0.88617,
+        0.81396
+      ],
+      "bbox_pt": [
+        1323.61,
+        933.33,
+        1474.59,
+        1002.8
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T024",
+        "T025",
+        "T027",
+        "T029",
+        "T030",
+        "T032"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N007",
+      "kind": "title_block_field",
+      "text": "SCALE = HALF",
+      "bbox_norm": [
+        0.80956,
+        0.81057,
+        0.87105,
+        0.82756
+      ],
+      "bbox_pt": [
+        1347.1,
+        998.62,
+        1449.43,
+        1019.55
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T033"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N008",
+      "kind": "title_block_field",
+      "text": "DATE: 7-8-76",
+      "bbox_norm": [
+        0.89424,
+        0.74466,
+        0.95372,
+        0.75825
+      ],
+      "bbox_pt": [
+        1488.01,
+        917.42,
+        1586.99,
+        934.16
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T023"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N009",
+      "kind": "title_block_field",
+      "text": "DRN: Bob Young",
+      "bbox_norm": [
+        0.89525,
+        0.76029,
+        0.95826,
+        0.77388
+      ],
+      "bbox_pt": [
+        1489.69,
+        936.68,
+        1594.54,
+        953.42
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T026"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N010",
+      "kind": "title_block_field",
+      "text": "CHK: BY",
+      "bbox_norm": [
+        0.89474,
+        0.77388,
+        0.93709,
+        0.79019
+      ],
+      "bbox_pt": [
+        1488.85,
+        953.42,
+        1559.31,
+        973.51
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T028"
+      ],
+      "uncertain": true
+    },
+    {
+      "id": "N011",
+      "kind": "title_block_field",
+      "text": "APP'D:",
+      "bbox_norm": [
+        0.89424,
+        0.7895,
+        0.91894,
+        0.80377
+      ],
+      "bbox_pt": [
+        1488.01,
+        972.67,
+        1529.11,
+        990.25
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T031"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N012",
+      "kind": "title_block_field",
+      "text": "CHG",
+      "bbox_norm": [
+        0.9149,
+        0.73107,
+        0.93406,
+        0.74534
+      ],
+      "bbox_pt": [
+        1522.4,
+        900.68,
+        1554.28,
+        918.26
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T021"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N013",
+      "kind": "title_block_field",
+      "text": "DATE",
+      "bbox_norm": [
+        0.94566,
+        0.73244,
+        0.96683,
+        0.74399
+      ],
+      "bbox_pt": [
+        1573.57,
+        902.36,
+        1608.8,
+        916.59
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T022"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N014",
+      "kind": "title_block_field",
+      "text": "MANUFACTURING TECHNOLOGY INC.",
+      "bbox_norm": [
+        0.78989,
+        0.83502,
+        0.97993,
+        0.85405
+      ],
+      "bbox_pt": [
+        1314.38,
+        1028.75,
+        1630.61,
+        1052.19
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T034"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N015",
+      "kind": "other",
+      "text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING\nTECHNOLOGY INC. AND OR ITS SUBSIDIARIES. WITHOUT WRITTEN PER-\nMISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE\nEXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+      "bbox_norm": [
+        0.788,
+        0.857,
+        0.979,
+        0.888
+      ],
+      "bbox_pt": [
+        1311.23,
+        1055.82,
+        1629.06,
+        1094.02
+      ],
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "uncertain": false
+    },
+    {
+      "id": "N016",
+      "kind": "title_block_field",
+      "text": "CHK. VALVE ELIM.",
+      "bbox_norm": [
+        0.79443,
+        0.89006,
+        0.90029,
+        0.90569
+      ],
+      "bbox_pt": [
+        1321.93,
+        1096.56,
+        1498.08,
+        1115.81
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T036"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N017",
+      "kind": "title_block_field",
+      "text": "116-C",
+      "bbox_norm": [
+        0.82367,
+        0.93015,
+        0.86299,
+        0.95189
+      ],
+      "bbox_pt": [
+        1370.58,
+        1145.94,
+        1436.01,
+        1172.73
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T037"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N018",
+      "kind": "title_block_field",
+      "text": "MODEL NO.\n90 B",
+      "bbox_norm": [
+        0.90785,
+        0.92539,
+        0.96028,
+        0.95393
+      ],
+      "bbox_pt": [
+        1510.66,
+        1140.08,
+        1597.9,
+        1175.24
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T038",
+        "T039"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N019",
+      "kind": "other",
+      "text": "CHARTPAK LEEDS, MASS SPM 10732",
+      "bbox_norm": [
+        0.786,
+        0.961,
+        0.83,
+        0.967
+      ],
+      "bbox_pt": [
+        1307.9,
+        1183.95,
+        1381.12,
+        1191.34
+      ],
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "uncertain": true
+    }
+  ],
+  "title_block": {
+    "HEAT TREATMENT": "NONE",
+    "MATERIAL": "CRS 1018",
+    "DATE:": "7-8-76",
+    "DRN:": "Bob Young",
+    "SCALE": "HALF",
+    "MODEL NO.": "90 B"
+  },
+  "material": {
+    "printed": "CRS 1018"
+  },
+  "text_items": 39,
+  "vector_clusters": [],
+  "warnings": [
+    "General tolerance form contains PLACE DIM. ± and ANGULAR DIM. ± but no legible numerical tolerance values; none inferred.",
+    "Prior extraction differs substantially from the sheet. No printed side tapped-hole callout, side-port dimensions, or many of the derived dimensions in that extraction are present.",
+    "Printed part description is CHK. VALVE ELIM., identifier 116-C, and scale HALF; prior extraction values were not used.",
+    "Small handwritten mark near the material/date boundary is not legible and has not been transcribed."
+  ],
+  "provenance": {
+    "origin": "supplemented",
+    "model": "gpt-6-astra",
+    "provider": "openai",
+    "prompt_version": "reflayout-3",
+    "schema_version": "ref/1",
+    "page_render": {
+      "max_long_edge_px": 2576,
+      "width_px": 2576,
+      "height_px": 1907,
+      "dpi_source": "PDF rasterized at 300 dpi, long edge capped"
+    },
+    "text_source": "ocr",
+    "usage": {
+      "input_tokens": 10781,
+      "output_tokens": 2014,
+      "usd": 0.20851000000000003,
+      "calls": 1
+    },
+    "created": "2026-11-27T08:12:46Z"
+  },
+  "base_extraction": {
+    "run": "A001151E",
+    "file": "A001151E_extraction.json",
+    "sha256": "25f54920f808302b65c6f0f69930071f372af1462478e82e810e0e591df94f97",
+    "why": "a byte-identical copy of the drawing is stored in the forward run folder",
+    "cost_usd": null,
+    "layout_positions": false
+  },
+  "quality": {
+    "ok": true,
+    "views": 3,
+    "annotations": 13,
+    "required_annotations": 11,
+    "located": 13,
+    "located_from_text_evidence": 7,
+    "uncertain": 0,
+    "notes": 19
+  }
+}

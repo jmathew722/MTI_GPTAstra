@@ -1,0 +1,52 @@
+{
+  "exists": true,
+  "pages": 1,
+  "expected_pages": 1,
+  "nonblack_text": [],
+  "nonblack_strokes": 0,
+  "color_fills": 0,
+  "text_overlaps": [
+    {
+      "page": 1,
+      "a": "REFERENCE NOTES FROM SOURCE DR",
+      "b": "(source.pdf); FOR REVIEW:"
+    },
+    {
+      "page": 1,
+      "a": "(source.pdf); FOR REVIEW:",
+      "b": "HEAT TREATMENT NONE"
+    },
+    {
+      "page": 1,
+      "a": "HEAT TREATMENT NONE",
+      "b": "MATERIAL CRS 1018"
+    },
+    {
+      "page": 1,
+      "a": "MATERIAL CRS 1018",
+      "b": "UNLESS OTHERWISE SPECIFIED: TH"
+    },
+    {
+      "page": 1,
+      "a": "UNLESS OTHERWISE SPECIFIED: TH",
+      "b": "ANGLE PROJECTION DIMENSIONS IN"
+    },
+    {
+      "page": 1,
+      "a": "ANGLE PROJECTION DIMENSIONS IN",
+      "b": "INCHES PLACE DIM. \u00b1 PLACE DIM."
+    },
+    {
+      "page": 1,
+      "a": "INCHES PLACE DIM. \u00b1 PLACE DIM.",
+      "b": "ANGULAR DIM. \u00b1"
+    }
+  ],
+  "text_clipped": [],
+  "vector": true,
+  "errors": [],
+  "ok": false,
+  "previews": [
+    "page-001.png"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "scenario": "07a_match_mode_no_reference_blocked",
+  "job_id": "r3d_8d53cd899c9994b7",
+  "state": "failed",
+  "parts": [
+    {
+      "part": "116-C_ir",
+      "state": "failed",
+      "error": "REFERENCE_BLOCKED: Match mode was requested for this part but its reference source is 'none'.",
+      "reference": {
+        "mode": "match",
+        "status": "blocked",
+        "source_kind": "none",
+        "filename": "",
+        "sha256": "",
+        "pages": 0,
+        "link": null,
+        "confidence": null,
+        "reasons": [
+          "Match mode was requested for this part but its reference source is 'none'."
+        ],
+        "extraction_cache": "none",
+        "extraction_id": "",
+        "extraction_schema": "",
+        "api_usage": {
+          "tokens": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0,
+          "calls": 0,
+          "incremental": true,
+          "historical_usd": null
+        },
+        "warnings": [],
+        "part_sha256": "cb72079227f317d0f79d0f27ea260eec28eecd96735887e730480634d8a3084f",
+        "error": "REFERENCE_BLOCKED: Match mode was requested for this part but its reference source is 'none'."
+      },
+      "verification_status": "not_run",
+      "stages": {
+        "preflight": "failed",
+        "stl_export": "skipped",
+        "reference_resolution": "skipped",
+        "extraction": "skipped",
+        "view_planning": "skipped",
+        "native_drawing": "skipped",
+        "dimensioning_layout": "skipped",
+        "comparison_correction": "skipped",
+        "verification": "skipped",
+        "publish": "skipped"
+      },
+      "seconds": null,
+      "verification": {
+        "status": "not_run"
+      }
+    }
+  ],
+  "wall_seconds": 0.1,
+  "budget_spent_before_usd": 15.5473,
+  "budget_spent_after_usd": 15.5473,
+  "budget_delta_usd": 0.0,
+  "inputs_unchanged": true,
+  "input_hashes": {
+    "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001161E\\116-C_ir.SLDPRT": "cb72079227f317d0f79d0f27ea260eec28eecd96735887e730480634d8a3084f"
+  }
+}

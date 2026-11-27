@@ -1,0 +1,65 @@
+{
+  "scenario": "06_ambiguous_blocked_needs_confirmation",
+  "job_id": "r3d_83c60f830b5d5d4d",
+  "state": "failed",
+  "parts": [
+    {
+      "part": "117-C_ir",
+      "state": "failed",
+      "error": "REFERENCE_AMBIGUOUS: 2 candidate drawing(s) were found but none is confirmed by hash or forward-run evidence (best: A001171E.PDF, confidence 0.60). Confirm one explicitly or upload the PDF.",
+      "reference": {
+        "mode": "match",
+        "status": "blocked",
+        "source_kind": "none",
+        "filename": "",
+        "sha256": "",
+        "pages": 0,
+        "link": null,
+        "confidence": null,
+        "reasons": [
+          "2 candidate drawing(s) were found but none is confirmed by hash or forward-run evidence (best: A001171E.PDF, confidence 0.60). Confirm one explicitly or upload the PDF."
+        ],
+        "extraction_cache": "none",
+        "extraction_id": "",
+        "extraction_schema": "",
+        "api_usage": {
+          "tokens": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0,
+          "calls": 0,
+          "incremental": true,
+          "historical_usd": null
+        },
+        "warnings": [],
+        "part_sha256": "630247beaa2af2a00018c940b8124dbb1d830b33de502364a4ffa1994ce7ab50",
+        "error": "REFERENCE_AMBIGUOUS: 2 candidate drawing(s) were found but none is confirmed by hash or forward-run evidence (best: A001171E.PDF, confidence 0.60). Confirm one explicitly or upload the PDF."
+      },
+      "verification_status": "not_run",
+      "stages": {
+        "preflight": "failed",
+        "stl_export": "skipped",
+        "reference_resolution": "skipped",
+        "extraction": "skipped",
+        "view_planning": "skipped",
+        "native_drawing": "skipped",
+        "dimensioning_layout": "skipped",
+        "comparison_correction": "skipped",
+        "verification": "skipped",
+        "publish": "skipped"
+      },
+      "seconds": null,
+      "verification": {
+        "status": "not_run"
+      }
+    }
+  ],
+  "wall_seconds": 0.1,
+  "budget_spent_before_usd": 15.5473,
+  "budget_spent_after_usd": 15.5473,
+  "budget_delta_usd": 0.0,
+  "inputs_unchanged": true,
+  "input_hashes": {
+    "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001171E\\117-C_ir.SLDPRT": "630247beaa2af2a00018c940b8124dbb1d830b33de502364a4ffa1994ce7ab50"
+  }
+}

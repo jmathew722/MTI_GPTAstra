@@ -24,6 +24,10 @@ ASPECT_TOLERANCE = 0.06            # relative aspect difference accepted as "the
 
 def parse_scale(text: str) -> Optional[tuple[int, int]]:
     """'1:1' -> (1, 1); '2:1' -> (2, 1); '1:2' -> (1, 2); anything else -> None (never guessed)."""
+    t = (text or "").upper()
+    for word, sc in (("HALF", (1, 2)), ("FULL", (1, 1)), ("TWICE", (2, 1)), ("DOUBLE", (2, 1))):         # a printed scale word is a scale statement (never inferred from geometry)
+        if re.search(r"\b" + word + r"\b", t) and not re.search(r"\d\s*[:/]\s*\d", t):
+            return sc
     m = re.search(r"(\d+(?:\.\d+)?)\s*[:/]\s*(\d+(?:\.\d+)?)", text or "")
     if not m:
         return None
@@ -81,6 +85,7 @@ def _type_of(sw_view: str) -> str:
 
 
 def apply_reference(plan: dict, ref: dict, ext: dict) -> dict:
+    ext = dict(ext)
     """Mutate ``plan`` in place: view rects moved to the reference centres where safe. Returns the ``reference_layout`` record (also stored in the plan)."""
     W = plan["regions_m"]["sheet"][2]
     H = plan["regions_m"]["sheet"][3]
@@ -96,20 +101,59 @@ def apply_reference(plan: dict, ref: dict, ext: dict) -> dict:
     gap = planner.GAP_MIN
     keep = [regions["title_block"].grow(gap * 0.3), regions["notes"].grow(gap * 0.3)]
     usable = regions["usable"]
-    # which reference view corresponds to which role: same standard view type (e.g. "*Top" <-> a reference view typed "Top")
+    # which reference view corresponds to which role. The reference may call the big face "Top" while this model's own Front is that face, so the type name is only a
+    # tie-breaker: orthographic views are matched by the shape of what they show (width / height of the part's silhouette), isometric by type.
     wanted: dict[str, dict] = {}
-    by_type: dict[str, list] = {}
-    for v in refviews:
-        by_type.setdefault(v["type"], []).append(v)
-    for role, sw in plan["views"].items():
-        if not sw or role not in rects:
+    ortho_types = ("Front", "Top", "Right", "Left", "Back", "Bottom", "Auxiliary", "Other")
+    pw, ph = float(ref.get("sheet", {}).get("width_pt") or 1), float(ref.get("sheet", {}).get("height_pt") or 1)
+    ortho_refs = [v for v in refviews if v["type"] in ortho_types and v.get("bbox_norm")]
+    roles = [r_ for r_ in ("front", "top", "right") if r_ in rects and plan["views"].get(r_)]
+
+    def role_aspect(role: str) -> float:
+        hd, vd = planner._view_dims(plan["views"][role], ext)
+        return hd / vd
+
+    def ref_aspect(v: dict) -> float:
+        bb = v["bbox_norm"]
+        return max(1e-6, (bb[2] - bb[0]) * pw) / max(1e-6, (bb[3] - bb[1]) * ph)
+
+    import itertools as _it
+    options = [None] + [v["id"] for v in ortho_refs]
+    byid = {v["id"]: v for v in ortho_refs}
+    best_cost, best_assign, runner = 9e9, None, 9e9
+    for perm in _it.product(options, repeat=len(roles)):
+        ids = [x for x in perm if x]
+        if len(ids) != len(set(ids)):
             continue
-        t = "Isometric" if role == "iso" else _type_of(sw)
-        cands = by_type.get(t) or []
-        if cands:
-            wanted[role] = max(cands, key=lambda v: (v.get("confidence") or 0))
-        else:
-            rec["views"][role] = {"status": "no_reference_view", "type": t, "note": f"The reference shows no view typed {t}; the planner's position is kept."}
+        cost = 0.0
+        for role, vid in zip(roles, perm):
+            if vid is None:
+                cost += 0.5
+                continue
+            c = abs(math.log(role_aspect(role) / ref_aspect(byid[vid])))
+            c += 0.0 if byid[vid]["type"] == _type_of(plan["views"][role]) else 0.12
+            if c > 0.35:
+                c += 5.0                          # an obviously different shape is never accepted
+            cost += c
+        if cost < best_cost - 1e-9:
+            best_cost, best_assign, runner = cost, perm, best_cost
+        elif cost < runner:
+            runner = cost
+    if best_assign is not None:
+        ambiguous = (runner - best_cost) < 0.03 and len(roles) > 1 and len({role_aspect(r_) for r_ in roles}) < len(roles)
+        for role, vid in zip(roles, best_assign):
+            if vid is None or ambiguous:
+                rec["views"][role] = {"status": "no_reference_view" if not ambiguous else "ambiguous_shape",
+                                      "note": ("no reference view has this view's silhouette; the planner's position is kept" if not ambiguous else
+                                               "two views of this model have the same silhouette; their reference positions cannot be told apart, so the planner's positions are kept")}
+                continue
+            wanted[role] = byid[vid]
+            rec["views"].setdefault(role, {})["matched_by"] = "silhouette proportions" + (" and type" if byid[vid]["type"] == _type_of(plan["views"][role]) else "")
+    iso_cands = [v for v in refviews if v["type"] == "Isometric" and v.get("bbox_norm")]
+    if "iso" in rects and iso_cands:
+        wanted["iso"] = max(iso_cands, key=lambda v: (v.get("confidence") or 0))
+    elif "iso" in rects:
+        rec["views"]["iso"] = {"status": "no_reference_view", "type": "Isometric", "note": "The reference has no isometric view (this pipeline always adds one, Shaded With Edges); placed by the planner."}
     new = dict(rects)
     moved: dict[str, list] = {}
 
@@ -121,7 +165,8 @@ def apply_reference(plan: dict, ref: dict, ext: dict) -> dict:
         if not v:
             return None
         cx, cy = to_sheet_m(tuple(v["center_norm"]), W, H)
-        rec["views"][role] = {"reference_view": v["id"], "type": v["type"], "reference_center_m": [round(cx, 6), round(cy, 6)]}
+        rec["views"].setdefault(role, {}).update({"reference_view": v["id"], "type": v["type"], "reference_center_m": [round(cx, 6), round(cy, 6)]})
+        rec["views"][role].pop("note", None)
         return cx, cy
 
     def fits(cand: Rect, others: list[Rect]) -> str:

@@ -164,6 +164,8 @@ def pdf_checks(pdf: Path, expected_sheets: int, preview_dir: Optional[Path] = No
                     spans.append((sp["text"], r))
         for (t1, r1), (t2, r2) in itertools.combinations(spans, 2):
             inter = r1 & r2
+            if (t1.upper().startswith("SCALE") or t2.upper().startswith("SCALE")) and inter.get_area() < 0.6 * min(r1.get_area(), r2.get_area()):
+                continue          # a view title stacked over its "SCALE 1:2" line is one SOLIDWORKS label whose font boxes touch; real overlaps are measured by reverse.layout
             if not inter.is_empty and inter.get_area() > 0.25 * min(r1.get_area(), r2.get_area()) and t1 != t2:
                 res["text_overlaps"].append({"page": pno, "a": t1[:30], "b": t2[:30]})
         try:

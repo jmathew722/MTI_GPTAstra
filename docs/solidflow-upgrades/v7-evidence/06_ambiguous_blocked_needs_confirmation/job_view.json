@@ -1,0 +1,198 @@
+{
+  "job_id": "r3d_83c60f830b5d5d4d",
+  "template_id": "solidflow-ansi-b",
+  "profile": "us_third_angle_inch",
+  "options": {
+    "rejected": [],
+    "reference_mode": "match",
+    "reference_fallback_standard": false
+  },
+  "state": "failed",
+  "created": "2026-11-27T08:05:17+00:00",
+  "updated": "2026-11-27T08:05:18+00:00",
+  "solidworks": {
+    "revision": "33.5.0",
+    "major": 33,
+    "service_pack": "SP5.0",
+    "is_2025": true
+  },
+  "cancel_requested": false,
+  "actual_api_cost_usd": 0.0,
+  "kind": "drawing_generation",
+  "parts": [
+    {
+      "part_id": "117-C_ir",
+      "name": "117-C_ir.SLDPRT",
+      "config": "",
+      "state": "failed",
+      "stages": {
+        "preflight": {
+          "status": "failed",
+          "started": "2026-11-27T08:05:17+00:00",
+          "ended": "2026-11-27T08:05:17+00:00",
+          "seconds": 0.0,
+          "warnings": [],
+          "errors": [
+            "REFERENCE_AMBIGUOUS: 2 candidate drawing(s) were found but none is confirmed by hash or forward-run evidence (best: A001171E.PDF, confidence 0.60). Confirm one explicitly or upload the PDF."
+          ]
+        },
+        "stl_export": {
+          "status": "skipped",
+          "started": null,
+          "ended": null,
+          "warnings": [],
+          "errors": []
+        },
+        "reference_resolution": {
+          "status": "skipped",
+          "started": null,
+          "ended": null,
+          "warnings": [],
+          "errors": []
+        },
+        "extraction": {
+          "status": "skipped",
+          "started": null,
+          "ended": null,
+          "warnings": [],
+          "errors": []
+        },
+        "view_planning": {
+          "status": "skipped",
+          "started": null,
+          "ended": null,
+          "warnings": [],
+          "errors": []
+        },
+        "native_drawing": {
+          "status": "skipped",
+          "started": null,
+          "ended": null,
+          "warnings": [],
+          "errors": []
+        },
+        "dimensioning_layout": {
+          "status": "skipped",
+          "started": null,
+          "ended": null,
+          "warnings": [],
+          "errors": []
+        },
+        "comparison_correction": {
+          "status": "skipped",
+          "started": null,
+          "ended": null,
+          "warnings": [],
+          "errors": []
+        },
+        "verification": {
+          "status": "skipped",
+          "started": null,
+          "ended": null,
+          "warnings": [],
+          "errors": []
+        },
+        "publish": {
+          "status": "skipped",
+          "started": null,
+          "ended": null,
+          "warnings": [],
+          "errors": []
+        }
+      },
+      "review_status": "none",
+      "issues": [],
+      "artifacts": {},
+      "error": "REFERENCE_AMBIGUOUS: 2 candidate drawing(s) were found but none is confirmed by hash or forward-run evidence (best: A001171E.PDF, confidence 0.60). Confirm one explicitly or upload the PDF.",
+      "attempts": 0,
+      "started": null,
+      "ended": "2026-11-27T08:05:17+00:00",
+      "seconds": null,
+      "coverage_pct": null,
+      "material": {},
+      "reference": {
+        "mode": "match",
+        "status": "blocked",
+        "source_kind": "none",
+        "filename": "",
+        "sha256": "",
+        "pages": 0,
+        "link": null,
+        "confidence": null,
+        "reasons": [
+          "2 candidate drawing(s) were found but none is confirmed by hash or forward-run evidence (best: A001171E.PDF, confidence 0.60). Confirm one explicitly or upload the PDF."
+        ],
+        "extraction_cache": "none",
+        "extraction_id": "",
+        "extraction_schema": "",
+        "api_usage": {
+          "tokens": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0,
+          "calls": 0,
+          "incremental": true,
+          "historical_usd": null
+        },
+        "warnings": [],
+        "part_sha256": "630247beaa2af2a00018c940b8124dbb1d830b33de502364a4ffa1994ce7ab50",
+        "error": "REFERENCE_AMBIGUOUS: 2 candidate drawing(s) were found but none is confirmed by hash or forward-run evidence (best: A001171E.PDF, confidence 0.60). Confirm one explicitly or upload the PDF."
+      },
+      "verification": {
+        "status": "not_run"
+      },
+      "files": {},
+      "files_availability": {
+        "slddrw": false,
+        "pdf": false,
+        "source_pdf": false,
+        "stl": false,
+        "qa_json": false,
+        "comparison_images": false
+      }
+    }
+  ],
+  "summary_state": "failed",
+  "progress": {
+    "stages_done": 9,
+    "stages_total": 10,
+    "fraction": 0.9,
+    "parts_done": 1,
+    "parts_total": 1
+  },
+  "stage_labels": {
+    "preflight": "Preflight",
+    "stl_export": "STL export",
+    "reference_resolution": "Reference resolution",
+    "extraction": "Reference extraction",
+    "view_planning": "View planning",
+    "native_drawing": "Native drawing",
+    "dimensioning_layout": "Dimensions and layout",
+    "comparison_correction": "Comparison and correction",
+    "verification": "Verification",
+    "publish": "Publish",
+    "mesh_export": "STL export",
+    "inventory": "Geometry inventory",
+    "planning": "View planning",
+    "drawing": "Native drawing",
+    "dimensioning": "Dimensions",
+    "publishing": "Publish"
+  },
+  "stage_order": [
+    "preflight",
+    "stl_export",
+    "reference_resolution",
+    "extraction",
+    "view_planning",
+    "native_drawing",
+    "dimensioning_layout",
+    "comparison_correction",
+    "verification",
+    "publish"
+  ],
+  "reference_stages": [
+    "reference_resolution",
+    "extraction",
+    "comparison_correction"
+  ]
+}

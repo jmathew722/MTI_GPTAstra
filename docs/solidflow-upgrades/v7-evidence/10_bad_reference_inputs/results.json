@@ -1,0 +1,38 @@
+{
+  "corrupt.pdf": {
+    "ok": false,
+    "sha256": "af21ceeeaf41b0ad8b7393c32383c936f16e8098a79110b29d9915e8c6aa11e3",
+    "pages": 0,
+    "size": 209,
+    "error": "The PDF is corrupted or unreadable (FileDataError).",
+    "artifact_id": "",
+    "filename": "corrupt.pdf"
+  },
+  "notpdf.pdf": {
+    "ok": false,
+    "sha256": "",
+    "pages": 0,
+    "size": 5,
+    "error": "Not a PDF (the %PDF- signature is missing).",
+    "artifact_id": "",
+    "filename": "notpdf.pdf"
+  },
+  "empty.pdf": {
+    "ok": false,
+    "sha256": "",
+    "pages": 0,
+    "size": 0,
+    "error": "The file is empty.",
+    "artifact_id": "",
+    "filename": "empty.pdf"
+  },
+  "missing": {
+    "ok": false,
+    "sha256": "",
+    "pages": 0,
+    "size": 0,
+    "error": "The file does not exist.",
+    "artifact_id": "",
+    "filename": "missing.pdf"
+  }
+}

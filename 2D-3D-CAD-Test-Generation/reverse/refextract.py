@@ -472,7 +472,7 @@ def extract_reference(pdf: Path, *, cache_root: Path, prior: Optional[list[dict]
             "text_source": ev.get("source"), "usage": {k: usage[k] for k in ("input_tokens", "output_tokens", "usd", "calls")},
             "created": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
     ex = assemble(layout, geom, ev, v_sha, pdf.name, pages, prov, base_meta)
-    ex["warnings"] += warnings + list(pi.warnings)
+    ex["warnings"] += warnings + [w_ for w_ in pi.warnings if "nearly blank" not in w_]          # a mostly white drawing sheet is normal
     _store(cache_root, ex)
     return {"extraction": ex, "cache": "supplemented" if base_ctx else "fresh", "usage": usage, "warnings": ex["warnings"]}
 

@@ -226,19 +226,19 @@ def add_reference_notes(r, dd) -> set:
         return carried
     reg = {k: planner.Rect(*v) for k, v in r.plan["regions_m"].items()}
     nz = reg["notes"]
-    lines = [f"REFERENCE NOTES FROM SOURCE DRAWING ({ex['source']['filename']}); FOR REVIEW:"]
+    import textwrap
+    width_chars = max(20, int((nz.w - 0.008) / 0.0026))          # ~2.6 mm per character at the note font; the zone is narrower than the title block
+    lines = textwrap.wrap(f"REFERENCE NOTES FROM SOURCE DRAWING ({ex['source']['filename']}); FOR REVIEW:", width_chars)
     for n in notes:
-        txt = " ".join(n["text"].split())
-        lines.append(txt)
+        lines += textwrap.wrap(" ".join(n["text"].split()), width_chars) or [""]
         carried.add(n["id"])
     text = "\n".join(lines)
     # a note block taller than the zone would collide with the border: place it in free sheet space instead and say so
-    rows = sum(max(1, math.ceil(len(l) / 46)) for l in lines)
-    height = rows * 0.0042 + 0.004
-    x, y = nz.x0 + 0.003, nz.y1 - 0.010
-    if height > nz.h - 0.012:
+    height = len(lines) * 0.0045 + 0.004
+    x, y = nz.x0 + 0.003, nz.y1 - 0.0165            # below the template's own "NOTES:" label
+    if height > (y - nz.y0 - 0.002):
         r.part.reference["warnings"].append("The reference notes are longer than the sheet's notes zone; they were placed in free space on the sheet.")
-        spot = planner.find_spot(0.14, height, [planner.Rect(*v) for v in r.outlines.values()], [reg["title_block"]], reg["usable"], 0.01)
+        spot = planner.find_spot(width_chars * 0.0026 + 0.004, height, [planner.Rect(*v).grow(0.02) for v in r.outlines.values()], [reg["title_block"], nz], reg["usable"], 0.01)
         if spot is None:
             for n in notes:
                 carried.discard(n["id"])
@@ -318,13 +318,13 @@ def detect_now(r, dd, st, pages, outl, ours_ids) -> list:
 
 def move_note(dd, st, view_name: str, index: int, new_xy: tuple[float, float]) -> bool:
     T = dd.s.typed
-    sv = dd.drw.GetFirstView()
-    if sv is None:
-        return False
-    for i, nn in enumerate(T(sv, "IView").GetNotes() or ()):
-        if i == index:
-            an = T(T(nn, "INote").GetAnnotation(), "IAnnotation")
-            return bool(an.SetPosition2(new_xy[0], new_xy[1], 0))
+    for tv in standards.all_views(dd):
+        if standards.vname_of(tv) != view_name:
+            continue
+        for i, nn in enumerate(tv.GetNotes() or ()):
+            if i == index:
+                an = T(T(nn, "INote").GetAnnotation(), "IAnnotation")
+                return bool(an.SetPosition2(new_xy[0], new_xy[1], 0))
     return False
 
 
@@ -347,10 +347,57 @@ def restore_snapshot(dd, st, snap: list[dict]) -> int:
 
 # ------------------------------------------------------------------ layout loop (dimensioning_layout)
 
+def separate_views(r, dd) -> dict:
+    """Overlapping view outlines (SOLIDWORKS' real outline, centre-mark overshoot included): move the FREE view (section / extra / isometric) to the nearest clear
+    position, verified by outline read-back. A view whose position SOLIDWORKS locks (aligned to its parent) is left where it is and reported."""
+    from reverse.drawing import com_doubles
+    rep = {"moved": [], "unresolved": []}
+    reg = {k: planner.Rect(*v) for k, v in r.plan["regions_m"].items()}
+    usable = reg["usable"]
+    keep = [reg["title_block"], reg["notes"]]
+    gap = 0.004
+    for _ in range(4):
+        outl = {k: planner.Rect(*v) for k, v in outlines(r, dd).items()}
+        sh = layout.ENVELOPE_ALLOWANCE_M
+        pair = next(((a, b) for a in outl for b in outl if a < b and planner.Rect(outl[a].x0 + sh, outl[a].y0 + sh, outl[a].x1 - sh, outl[a].y1 - sh).overlaps(
+            planner.Rect(outl[b].x0 + sh, outl[b].y0 + sh, outl[b].x1 - sh, outl[b].y1 - sh))), None)
+        if pair is None:
+            break
+        a, b = pair
+        rank = lambda n: 0 if n.startswith("section") else 1 if n.startswith("extra") else 2 if n == "iso" else 9
+        mover, fixed = (a, b) if rank(a) <= rank(b) else (b, a)
+        if rank(mover) == 9:
+            rep["unresolved"].append({"views": [a, b], "why": "neither view is free to move (aligned orthographic views)"})
+            break
+        m, f = outl[mover], outl[fixed]
+        cands = [(f.x1 - m.x0 + gap, 0.0), (f.x0 - m.x1 - gap, 0.0), (0.0, f.y1 - m.y0 + gap), (0.0, f.y0 - m.y1 - gap)]
+        cands.sort(key=lambda d: abs(d[0]) + abs(d[1]))
+        done = False
+        tv = dd.s.typed(dd.views[mover], "IView")
+        px, py = [float(c) for c in tv.Position]
+        for dx, dy in cands:
+            nr = planner.Rect(m.x0 + dx, m.y0 + dy, m.x1 + dx, m.y1 + dy)
+            # room for the view's own dimension lanes and labels: 12 mm from the title block / notes, 8 mm from other views
+            if not nr.inside(usable) or any(nr.grow(0.012).overlaps(k) for k in keep) or any(nr.grow(0.008).overlaps(o) for n_, o in outl.items() if n_ != mover):
+                continue
+            tv.Position = com_doubles(px + dx, py + dy)
+            got = planner.Rect(*dd.view_outline(mover))
+            if abs(got.x0 - nr.x0) < 2e-3 and abs(got.y0 - nr.y0) < 2e-3:
+                rep["moved"].append({"view": mover, "delta_mm": [round(dx * 1000, 1), round(dy * 1000, 1)], "because": f"outline overlapped {fixed}"})
+                done = True
+                break
+            tv.Position = com_doubles(px, py)              # locked (aligned to its parent): put it back
+        if not done:
+            rep["unresolved"].append({"views": [a, b], "why": "no clear position for the free view that SOLIDWORKS allows (alignment locked or no room)"})
+            break
+    return rep
+
+
 def layout_loop(r, dd, st) -> dict:
     """Measured, bounded correction: native Auto Arrange evaluated on its own merits, then collision-aware moves; the best revision is kept."""
     max_iter = int(r.job.options.get("max_iterations", DEFAULT_ITERATIONS))
     rep: dict = {"max_iterations": max_iter, "history": [], "arrange": {}, "moves": []}
+    rep["views"] = separate_views(r, dd)
     outl = outlines(r, dd)
     # three views of the same truth: native inventory, exported PDF text, native outlines
     snap0 = snapshot(st)
@@ -395,7 +442,7 @@ def layout_loop(r, dd, st) -> dict:
     seen = {_pos_key(best["snap"])}
     stagnant = 0
     for it in range(1, max_iter + 1):
-        if not best["col"]:
+        if not [c for c in best["col"] if c.severity != "low"]:
             break
         r._check_cancel()
         pm = best["pages"][0]
@@ -465,7 +512,7 @@ def layout_loop(r, dd, st) -> dict:
     rep["after"] = layout.summarize(best["col"], float(r.job.options.get("clearance_mm", layout.DEFAULT_CLEARANCE_MM)))
     rep["best"] = best["label"]
     rep["iterations_used"] = len([h for h in rep["history"] if h["iteration"] > 0])
-    rep["unresolved"] = [c.as_dict() for c in best["col"]]
+    rep["unresolved"] = [c.as_dict() for c in best["col"] if c.severity != "low"]
     return rep
 
 
@@ -493,10 +540,11 @@ def native_views_info(r, dd) -> tuple[dict, dict]:
         if not sw or role not in dd.views:
             continue
         t = "Isometric" if role == "iso" else (sw or "").strip("*")
-        typ[role] = {"type": t}
+        rv = ((plan.get("reference_layout") or {}).get("views", {}).get(role) or {}).get("reference_view")
+        typ[role] = {"type": t, "ref_view": rv}
         try:
             o = dd.view_outline(role)
-            centers[role] = {"type": t, "center_m": [(o[0] + o[2]) / 2, (o[1] + o[3]) / 2], "outline_m": o}
+            centers[role] = {"type": t, "ref_view": rv, "center_m": [(o[0] + o[2]) / 2, (o[1] + o[3]) / 2], "outline_m": o}
         except Exception:      # noqa: BLE001
             pass
     return typ, centers

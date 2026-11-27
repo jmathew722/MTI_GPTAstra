@@ -1,0 +1,43 @@
+{
+  "part": {
+    "filename": "117-C_ir.SLDPRT",
+    "sha256": "630247beaa2af2a00018c940b8124dbb1d830b33de502364a4ffa1994ce7ab50",
+    "configuration": ""
+  },
+  "selected": null,
+  "candidates": [
+    {
+      "artifact_id": "pdf_6dd0b8da50a6826fed56",
+      "filename": "A001171E.PDF",
+      "project": "input",
+      "run": "",
+      "date": "2026-11-17T14:22:50+00:00",
+      "pages": 1,
+      "confidence": 0.6,
+      "reasons": [
+        "file name matches the forward run that produced this part, but no manifest or hash links it to this drawing"
+      ],
+      "needs_confirmation": true,
+      "link": "name_only",
+      "sha256": "6dd0b8da50a6826fed56475dc6d80a144db61fbdd40af726f497c7756367cb54"
+    },
+    {
+      "artifact_id": "pdf_19466ae0017339545a79",
+      "filename": "A001171E.PDF",
+      "project": "DrawingPDFs",
+      "run": "",
+      "date": "2026-11-10T06:56:06+00:00",
+      "pages": 1,
+      "confidence": 0.6,
+      "reasons": [
+        "file name matches the forward run that produced this part, but no manifest or hash links it to this drawing"
+      ],
+      "needs_confirmation": true,
+      "link": "name_only",
+      "sha256": "19466ae0017339545a79034cf59622e5b91fdc8f273cbd6e6b3631cfc909d291"
+    }
+  ],
+  "matched_runs": [
+    "A001171E"
+  ]
+}

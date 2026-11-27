@@ -1,0 +1,622 @@
+{
+  "part": "116-C_ir",
+  "issues": [
+    {
+      "id": "116-C_ir-DESIGN_INTENT-007",
+      "severity": "info",
+      "code": "DESIGN_INTENT",
+      "message": "Tolerances, surface finish, thread specifications and datum scheme/GD&T are not in the part geometry and were not invented.",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Add them from the source design intent before release.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-COLLISION_TEXT_TEXT-008",
+      "severity": "high",
+      "code": "COLLISION_TEXT_TEXT",
+      "message": "text_text: SECTION A-A SCALE 1 : 2 closer than 1.5 mm",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-COLLISION_TEXT_STROKE-009",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: 1.880  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-COLLISION_TEXT_STROKE-010",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: 0.935  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-COLLISION_TEXT_STROKE-011",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: 1.002  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-COLLISION_TEXT_STROKE-012",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: SECTION A-A  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-COLLISION_VIEW_VIEW-013",
+      "severity": "high",
+      "code": "COLLISION_VIEW_VIEW",
+      "message": "view_view:   view outlines overlap",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-TEXT_OVERLAPS-014",
+      "severity": "high",
+      "code": "TEXT_OVERLAPS",
+      "message": "PDF check text_overlaps: {'page': 1, 'a': 'SECTION A-A', 'b': 'SCALE 1 : 2'}",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Fix the annotation style / layout.",
+      "history": []
+    }
+  ],
+  "coverage": {
+    "covered": 20,
+    "applicable": 24,
+    "percent": 83.33333333333333,
+    "by_status": {
+      "covered": 20,
+      "review_required": 4
+    },
+    "excluded": [],
+    "note": "Diagnostic only: geometric coverage is not manufacturing completeness or approval."
+  },
+  "hard_failures": [
+    {
+      "id": "116-C_ir-COLLISION_TEXT_TEXT-008",
+      "severity": "high",
+      "code": "COLLISION_TEXT_TEXT",
+      "message": "text_text: SECTION A-A SCALE 1 : 2 closer than 1.5 mm",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-COLLISION_TEXT_STROKE-009",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: 1.880  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-COLLISION_TEXT_STROKE-010",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: 0.935  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-COLLISION_TEXT_STROKE-011",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: 1.002  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-COLLISION_TEXT_STROKE-012",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: SECTION A-A  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-COLLISION_VIEW_VIEW-013",
+      "severity": "high",
+      "code": "COLLISION_VIEW_VIEW",
+      "message": "view_view:   view outlines overlap",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "116-C_ir-TEXT_OVERLAPS-014",
+      "severity": "high",
+      "code": "TEXT_OVERLAPS",
+      "message": "PDF check text_overlaps: {'page': 1, 'a': 'SECTION A-A', 'b': 'SCALE 1 : 2'}",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Fix the annotation style / layout.",
+      "history": []
+    }
+  ],
+  "pdf": {
+    "exists": true,
+    "pages": 1,
+    "expected_pages": 1,
+    "nonblack_text": [],
+    "nonblack_strokes": 0,
+    "color_fills": 0,
+    "text_overlaps": [
+      {
+        "page": 1,
+        "a": "SECTION A-A",
+        "b": "SCALE 1 : 2"
+      }
+    ],
+    "text_clipped": [],
+    "vector": true,
+    "errors": [],
+    "ok": false
+  },
+  "review_required": true,
+  "verification": {
+    "status": "review_required",
+    "coverage": {
+      "matched": 20,
+      "total": 24,
+      "unresolved": [
+        {
+          "id": "L036",
+          "kind": "INTENT:tolerances",
+          "text": "INTENT:tolerances",
+          "reason": "tolerances are manufacturing intent that geometry cannot supply; not invented",
+          "severity": "medium"
+        },
+        {
+          "id": "L037",
+          "kind": "INTENT:surface finish",
+          "text": "INTENT:surface finish",
+          "reason": "surface finish are manufacturing intent that geometry cannot supply; not invented",
+          "severity": "medium"
+        },
+        {
+          "id": "L038",
+          "kind": "INTENT:thread specification",
+          "text": "INTENT:thread specification",
+          "reason": "thread specification are manufacturing intent that geometry cannot supply; not invented",
+          "severity": "medium"
+        },
+        {
+          "id": "L039",
+          "kind": "INTENT:datum scheme / GD&T",
+          "text": "INTENT:datum scheme / GD&T",
+          "reason": "datum scheme / GD&T are manufacturing intent that geometry cannot supply; not invented",
+          "severity": "medium"
+        }
+      ],
+      "basis": "model features that need a dimension (Standard mode: geometry-derived, no reference)"
+    },
+    "collisions": {
+      "count": 6,
+      "by_kind": {
+        "text_text": 1,
+        "text_stroke": 4,
+        "view_view": 1
+      },
+      "clearance_mm": 1.5,
+      "items": [
+        {
+          "kind": "text_text",
+          "page": 1,
+          "a": "p1t17_0",
+          "b": "p1t18_0",
+          "severity": "medium",
+          "a_text": "SECTION A-A",
+          "b_text": "SCALE 1 : 2",
+          "box_a_mm": [
+            82.02,
+            97.68,
+            110.93,
+            101.13
+          ],
+          "box_b_mm": [
+            84.19,
+            93.15,
+            108.76,
+            96.61
+          ],
+          "detail": "closer than 1.5 mm"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t7_0",
+          "severity": "high",
+          "a_text": "1.880",
+          "box_a_mm": [
+            28.73,
+            126.3,
+            32.19,
+            140.53
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t9_0",
+          "severity": "high",
+          "a_text": "0.935",
+          "box_a_mm": [
+            59.96,
+            63.5,
+            74.19,
+            66.96
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t15_1",
+          "severity": "high",
+          "a_text": "1.002",
+          "box_a_mm": [
+            34.07,
+            136.87,
+            47.0,
+            140.32
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t17_0",
+          "severity": "high",
+          "a_text": "SECTION A-A",
+          "box_a_mm": [
+            82.02,
+            97.68,
+            110.93,
+            101.13
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "view_view",
+          "page": 1,
+          "a": "front",
+          "b": "section_A",
+          "severity": "high",
+          "box_a_mm": [
+            49.61,
+            92.9,
+            143.34,
+            173.93
+          ],
+          "box_b_mm": [
+            70.25,
+            101.16,
+            122.7,
+            131.39
+          ],
+          "detail": "view outlines overlap"
+        }
+      ],
+      "truncated": 0,
+      "exemptions": [
+        "strokes touching a text box edge (leader tip / extension line) are not collisions",
+        "shaded isometric fills are not strokes",
+        "the template's own title block and border are part of the sheet format"
+      ],
+      "texts": 38,
+      "strokes": 1645
+    },
+    "comparison": {
+      "semantic": null,
+      "spatial": null,
+      "note": "not applicable (Standard mode or no reference applied)"
+    },
+    "iterations": {
+      "layout": {
+        "max_iterations": 3,
+        "iterations_used": 3,
+        "best": "correction 1",
+        "history": [
+          {
+            "iteration": 0,
+            "what": "as generated",
+            "collisions": 11,
+            "score": 27.0
+          },
+          {
+            "iteration": 0,
+            "what": "native Auto Arrange",
+            "collisions": 9,
+            "score": 23.0,
+            "accepted": true
+          },
+          {
+            "iteration": 1,
+            "what": "collision-aware moves",
+            "moved": 6,
+            "moves": [
+              {
+                "annotation": "front/RD10",
+                "text": "1.380",
+                "delta_mm": [
+                  0.0,
+                  -4.0
+                ],
+                "kind": "dimension"
+              },
+              {
+                "annotation": "front/RD9",
+                "text": "0.935",
+                "delta_mm": [
+                  0.0,
+                  4.0
+                ],
+                "kind": "dimension"
+              },
+              {
+                "annotation": "front/RD11",
+                "text": "1.375",
+                "delta_mm": [
+                  0.0,
+                  4.0
+                ],
+                "kind": "dimension"
+              },
+              {
+                "annotation": "section_A/RD1",
+                "text": "1.002",
+                "delta_mm": [
+                  -28.0,
+                  0.0
+                ],
+                "kind": "dimension"
+              },
+              {
+                "annotation": "section_A/RD2",
+                "text": "0.111",
+                "delta_mm": [
+                  0.0,
+                  -8.0
+                ],
+                "kind": "dimension"
+              },
+              {
+                "annotation": "section_A/RD3",
+                "text": "0.500",
+                "delta_mm": [
+                  0.0,
+                  -8.0
+                ],
+                "kind": "dimension"
+              }
+            ],
+            "collisions": 6,
+            "score": 16.0
+          },
+          {
+            "iteration": 2,
+            "what": "collision-aware moves",
+            "moved": 3,
+            "moves": [
+              {
+                "annotation": "front/RD7",
+                "text": "1.880",
+                "delta_mm": [
+                  0.0,
+                  -8.0
+                ],
+                "kind": "dimension"
+              },
+              {
+                "annotation": "front/RD9",
+                "text": "0.935",
+                "delta_mm": [
+                  0.0,
+                  4.0
+                ],
+                "kind": "dimension"
+              },
+              {
+                "annotation": "section_A/RD1",
+                "text": "1.002",
+                "delta_mm": [
+                  -4.0,
+                  0.0
+                ],
+                "kind": "dimension"
+              }
+            ],
+            "collisions": 6,
+            "score": 16.0,
+            "rejected": "did not improve the measured layout (or repeated an earlier arrangement); positions restored to the best revision"
+          },
+          {
+            "iteration": 3,
+            "what": "collision-aware moves",
+            "moved": 3,
+            "moves": [
+              {
+                "annotation": "front/RD7",
+                "text": "1.880",
+                "delta_mm": [
+                  0.0,
+                  -8.0
+                ],
+                "kind": "dimension"
+              },
+              {
+                "annotation": "front/RD9",
+                "text": "0.935",
+                "delta_mm": [
+                  0.0,
+                  4.0
+                ],
+                "kind": "dimension"
+              },
+              {
+                "annotation": "section_A/RD1",
+                "text": "1.002",
+                "delta_mm": [
+                  -4.0,
+                  0.0
+                ],
+                "kind": "dimension"
+              }
+            ],
+            "collisions": 6,
+            "score": 16.0,
+            "rejected": "did not improve the measured layout (or repeated an earlier arrangement); positions restored to the best revision"
+          }
+        ]
+      }
+    },
+    "standards": {
+      "iso_shaded_with_edges": true,
+      "iso_shading_in_pdf": true,
+      "black_text": true,
+      "broken_leaders": {
+        "applied": 2,
+        "failed": 0,
+        "not_applicable": 13,
+        "note": "No leadered notes are generated: broken leaders do not exist for notes in the 2025 API."
+      },
+      "arrange": {
+        "accepted": true,
+        "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+        "moved": 14,
+        "integrity": {
+          "ok": true,
+          "lost": [],
+          "added": [],
+          "value_changed": [],
+          "dangling": [],
+          "count_before": 15,
+          "count_after": 15
+        },
+        "collisions_before": 11,
+        "collisions_after": 9
+      },
+      "licence_watermark": true
+    },
+    "issues_by_severity": {
+      "high": 7,
+      "info": 1
+    },
+    "hard_failures": [
+      "COLLISION_TEXT_TEXT",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_VIEW_VIEW",
+      "TEXT_OVERLAPS"
+    ],
+    "note": "Software QA is not engineering approval. A reference match is not an approval either; the drawing stays PRELIMINARY / FOR REVIEW."
+  },
+  "reference": {
+    "mode": "match",
+    "status": "fallback_standard",
+    "source_kind": "none",
+    "filename": "",
+    "sha256": "",
+    "pages": 0,
+    "link": null,
+    "confidence": null,
+    "reasons": [],
+    "extraction_cache": "none",
+    "extraction_id": "",
+    "extraction_schema": "",
+    "api_usage": {
+      "tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0,
+      "calls": 0,
+      "incremental": true,
+      "historical_usd": null
+    },
+    "warnings": [
+      "No reference was used; this part runs as Standard because fallback_standard is set. Reason: Match mode was requested for this part but its reference source is 'none'."
+    ],
+    "part_sha256": "cb72079227f317d0f79d0f27ea260eec28eecd96735887e730480634d8a3084f"
+  },
+  "note": "Software QA is not engineering approval. This drawing is PRELIMINARY / FOR REVIEW until an authorized engineer dispositions the issues."
+}

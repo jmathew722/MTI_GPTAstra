@@ -546,7 +546,7 @@ class PartRunner:
             self.issues.append(qa.issue("high", "ISO_NO_SHADING_IN_PDF", "The exported PDF shows no shaded image in the isometric view.", part_id=self.part.part_id))
         # a collision seen in the final export that the loop did not already report is a new finding
         known = {(i["code"], i["message"]) for i in self.issues}
-        for c in col:
+        for c in [c_ for c_ in col if c_.severity != "low"]:
             code = "COLLISION_" + c.kind.upper()
             msg = f"{c.kind}: {c.a_text} {c.b_text} {c.detail}".strip()
             if (code, msg) not in known:
@@ -663,6 +663,11 @@ class PartRunner:
             if (sd / sub).is_dir():
                 shutil.rmtree(out / sub, ignore_errors=True)
                 os.replace(sd / sub, out / sub)
+        for mp in sorted((sd / "source").glob("*.SLDPRT")) if (sd / "source").is_dir() else []:
+            # the drawing's referenced model travels with it (same folder, same file name: SOLIDWORKS searches the drawing's own folder), so the
+            # published SLDDRW can be reopened with its views resolved. It is the hashed working copy, never the user's file.
+            os.replace(mp, out / mp.name)
+            self.linked_model = mp.name
         pub_ref = {k: v for k, v in p.reference.items() if not k.startswith("_")}
         qa_doc = {"part": p.part_id, "issues": self.issues, "coverage": ledger, "hard_failures": hard, "pdf": {k: v for k, v in getattr(self, "pdfq", {}).items() if k != "previews"},
                   "review_required": bool(review) or verification["status"] != "passed", "verification": verification, "reference": pub_ref,
@@ -674,6 +679,8 @@ class PartRunner:
             fp = out / n
             if fp.is_file():
                 files[n] = {"bytes": fp.stat().st_size, "sha256": safety.sha256_file(fp)}
+        if getattr(self, "linked_model", None) and (out / self.linked_model).is_file():
+            files[self.linked_model] = {"bytes": (out / self.linked_model).stat().st_size, "sha256": safety.sha256_file(out / self.linked_model)}
         for sub in ("reference", "comparison"):
             for fp in sorted((out / sub).rglob("*")) if (out / sub).is_dir() else []:
                 if fp.is_file() and not fp.name.endswith(".tmp"):

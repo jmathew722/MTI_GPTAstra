@@ -236,6 +236,19 @@ class Standards:
         return res
 
 
+def all_views(dd):
+    """The sheet's own pseudo-view first (it owns the template's and our sheet-level notes), then every model view, as typed IView."""
+    T = dd.s.typed
+    out = []
+    v = dd.drw.GetFirstView()
+    while v is not None:
+        tv = T(v, "IView")
+        out.append(tv)
+        nv = tv.GetNextView()
+        v = nv if nv is not None else None
+    return out
+
+
 def vname_of(tv) -> str:
     try:
         return str(tv.GetName2())
@@ -275,13 +288,12 @@ def restore_positions(dd, before: list[dict]) -> int:
                     n += 1
         nv = tv.GetNextView()
         v = nv if nv is not None else None
-    sv = dd.drw.GetFirstView()
-    if sv is not None and bynote:
-        tsv = T(sv, "IView")
-        for i, nn in enumerate(tsv.GetNotes() or ()):
-            rec = bynote.get((vname_of(tsv), i))
-            if rec:
-                an = T(T(nn, "INote").GetAnnotation(), "IAnnotation")
-                if an.SetPosition2(rec["position_m"][0], rec["position_m"][1], 0):
-                    n += 1
+    if bynote:
+        for tv in all_views(dd):
+            for i, nn in enumerate(tv.GetNotes() or ()):
+                rec = bynote.get((vname_of(tv), i))
+                if rec:
+                    an = T(T(nn, "INote").GetAnnotation(), "IAnnotation")
+                    if an.SetPosition2(rec["position_m"][0], rec["position_m"][1], 0):
+                        n += 1
     return n

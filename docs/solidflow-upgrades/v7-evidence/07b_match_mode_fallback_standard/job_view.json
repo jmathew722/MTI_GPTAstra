@@ -1,0 +1,964 @@
+{
+  "job_id": "r3d_2838c1322b3ed5a4",
+  "template_id": "solidflow-ansi-b",
+  "profile": "us_third_angle_inch",
+  "options": {
+    "rejected": [],
+    "reference_mode": "match",
+    "reference_fallback_standard": true
+  },
+  "state": "review_required",
+  "created": "2026-11-27T08:05:18+00:00",
+  "updated": "2026-11-27T08:06:05+00:00",
+  "solidworks": {
+    "revision": "33.5.0",
+    "major": 33,
+    "service_pack": "SP5.0",
+    "is_2025": true
+  },
+  "cancel_requested": false,
+  "actual_api_cost_usd": 0.0,
+  "kind": "drawing_generation",
+  "parts": [
+    {
+      "part_id": "116-C_ir",
+      "name": "116-C_ir.SLDPRT",
+      "config": "",
+      "state": "review_required",
+      "stages": {
+        "preflight": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:05:18+00:00",
+          "warnings": [],
+          "errors": [],
+          "ended": "2026-11-27T08:05:18+00:00",
+          "seconds": 0.03
+        },
+        "stl_export": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:05:18+00:00",
+          "warnings": [],
+          "errors": [],
+          "ended": "2026-11-27T08:05:19+00:00",
+          "seconds": 1.62,
+          "inventory": {
+            "holes": 6,
+            "size_m": [
+              0.08255,
+              0.038099999999999995,
+              0.06985
+            ]
+          }
+        },
+        "reference_resolution": {
+          "status": "not_applicable",
+          "started": "2026-11-27T08:05:23+00:00",
+          "ended": "2026-11-27T08:05:23+00:00",
+          "seconds": 0.0,
+          "warnings": [],
+          "errors": [],
+          "note": "Standard mode (fallback): see reference warnings"
+        },
+        "extraction": {
+          "status": "not_applicable",
+          "started": "2026-11-27T08:05:23+00:00",
+          "ended": "2026-11-27T08:05:23+00:00",
+          "seconds": 0.0,
+          "warnings": [],
+          "errors": [],
+          "note": "Standard mode (fallback): see reference warnings"
+        },
+        "comparison_correction": {
+          "status": "not_applicable",
+          "started": "2026-11-27T08:06:00+00:00",
+          "ended": "2026-11-27T08:06:00+00:00",
+          "seconds": 0.0,
+          "warnings": [],
+          "errors": [],
+          "note": "No reference was applied to this part"
+        },
+        "view_planning": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:05:23+00:00",
+          "warnings": [],
+          "errors": [],
+          "ended": "2026-11-27T08:05:23+00:00",
+          "seconds": 0.01
+        },
+        "native_drawing": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:05:23+00:00",
+          "warnings": [],
+          "errors": [],
+          "iso": {
+            "views": [
+              {
+                "role": "iso",
+                "view": "Drawing View4",
+                "applied": true,
+                "set_returned": true,
+                "display_mode_readback": 3,
+                "edges_in_shaded_readback": true,
+                "label": "Shaded With Edges"
+              }
+            ]
+          },
+          "ended": "2026-11-27T08:05:26+00:00",
+          "seconds": 3.24
+        },
+        "dimensioning_layout": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:05:26+00:00",
+          "warnings": [],
+          "errors": [],
+          "standards": {
+            "iso": {
+              "views": [
+                {
+                  "role": "iso",
+                  "view": "Drawing View4",
+                  "applied": true,
+                  "set_returned": true,
+                  "display_mode_readback": 3,
+                  "edges_in_shaded_readback": true,
+                  "label": "Shaded With Edges"
+                }
+              ]
+            },
+            "leaders": {
+              "applied": [
+                {
+                  "id": "front/RD3",
+                  "type": "radial",
+                  "readback": 2,
+                  "use_document_display": false
+                },
+                {
+                  "id": "front/RD8",
+                  "type": "radial",
+                  "readback": 2,
+                  "use_document_display": false
+                }
+              ],
+              "not_applicable": [
+                {
+                  "id": "front/RD1",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD2",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD4",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD5",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD6",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD7",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD9",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD10",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD11",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "top/RD1",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "section_A/RD1",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "section_A/RD2",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "section_A/RD3",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                }
+              ],
+              "failed": []
+            },
+            "black": {
+              "checked": 32,
+              "fixed": 0,
+              "failed": []
+            },
+            "arrange": {
+              "requested": true,
+              "views": [
+                {
+                  "view": "front",
+                  "dimensions": 11,
+                  "selected": 11,
+                  "returned": true,
+                  "error": null
+                },
+                {
+                  "view": "top",
+                  "dimensions": 1,
+                  "selected": 0,
+                  "returned": null,
+                  "error": null,
+                  "skipped": "fewer than two dimensions: nothing to arrange"
+                },
+                {
+                  "view": "section_A",
+                  "dimensions": 3,
+                  "selected": 3,
+                  "returned": true,
+                  "error": null
+                }
+              ],
+              "moved": 14,
+              "integrity": {
+                "ok": true,
+                "lost": [],
+                "added": [],
+                "value_changed": [],
+                "dangling": [],
+                "count_before": 15,
+                "count_after": 15
+              },
+              "before_count": 15,
+              "after_count": 15
+            },
+            "notes": {
+              "leadered_notes": 0,
+              "note": "No leadered notes are generated: broken leaders do not exist for notes in the 2025 API."
+            }
+          },
+          "ended": "2026-11-27T08:06:00+00:00",
+          "seconds": 34.54
+        },
+        "verification": {
+          "status": "warning",
+          "started": "2026-11-27T08:06:00+00:00",
+          "warnings": [
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used."
+          ],
+          "errors": [],
+          "ended": "2026-11-27T08:06:05+00:00",
+          "seconds": 4.55
+        },
+        "publish": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:06:05+00:00",
+          "warnings": [],
+          "errors": [],
+          "ended": "2026-11-27T08:06:05+00:00",
+          "seconds": 0.21
+        }
+      },
+      "review_status": "required",
+      "issues": [
+        {
+          "id": "116-C_ir-DESIGN_INTENT-007",
+          "severity": "info",
+          "code": "DESIGN_INTENT",
+          "message": "Tolerances, surface finish, thread specifications and datum scheme/GD&T are not in the part geometry and were not invented.",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Add them from the source design intent before release.",
+          "history": []
+        },
+        {
+          "id": "116-C_ir-COLLISION_TEXT_TEXT-008",
+          "severity": "high",
+          "code": "COLLISION_TEXT_TEXT",
+          "message": "text_text: SECTION A-A SCALE 1 : 2 closer than 1.5 mm",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+          "history": []
+        },
+        {
+          "id": "116-C_ir-COLLISION_TEXT_STROKE-009",
+          "severity": "high",
+          "code": "COLLISION_TEXT_STROKE",
+          "message": "text_stroke: 1.880  a drawn line runs through this text",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+          "history": []
+        },
+        {
+          "id": "116-C_ir-COLLISION_TEXT_STROKE-010",
+          "severity": "high",
+          "code": "COLLISION_TEXT_STROKE",
+          "message": "text_stroke: 0.935  a drawn line runs through this text",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+          "history": []
+        },
+        {
+          "id": "116-C_ir-COLLISION_TEXT_STROKE-011",
+          "severity": "high",
+          "code": "COLLISION_TEXT_STROKE",
+          "message": "text_stroke: 1.002  a drawn line runs through this text",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+          "history": []
+        },
+        {
+          "id": "116-C_ir-COLLISION_TEXT_STROKE-012",
+          "severity": "high",
+          "code": "COLLISION_TEXT_STROKE",
+          "message": "text_stroke: SECTION A-A  a drawn line runs through this text",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+          "history": []
+        },
+        {
+          "id": "116-C_ir-COLLISION_VIEW_VIEW-013",
+          "severity": "high",
+          "code": "COLLISION_VIEW_VIEW",
+          "message": "view_view:   view outlines overlap",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+          "history": []
+        },
+        {
+          "id": "116-C_ir-TEXT_OVERLAPS-014",
+          "severity": "high",
+          "code": "TEXT_OVERLAPS",
+          "message": "PDF check text_overlaps: {'page': 1, 'a': 'SECTION A-A', 'b': 'SCALE 1 : 2'}",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Fix the annotation style / layout.",
+          "history": []
+        }
+      ],
+      "artifacts": {
+        "model.stl": "116-C_ir/active/model.stl",
+        "drawing.slddrw": "116-C_ir/active/drawing.slddrw",
+        "drawing.pdf": "116-C_ir/active/drawing.pdf",
+        "inventory.json": "116-C_ir/active/inventory.json",
+        "drawing_plan.json": "116-C_ir/active/drawing_plan.json",
+        "dimension_coverage.json": "116-C_ir/active/dimension_coverage.json",
+        "stl_validation.json": "116-C_ir/active/stl_validation.json",
+        "pdf_check.json": "116-C_ir/active/pdf_check.json",
+        "reopen_check.json": "116-C_ir/active/reopen_check.json",
+        "layout_report.json": "116-C_ir/active/layout_report.json",
+        "qa.json": "116-C_ir/active/qa.json",
+        "verification.json": "116-C_ir/active/verification.json",
+        "116-C_ir.SLDPRT": "116-C_ir/active/116-C_ir.SLDPRT",
+        "comparison/collisions-overlay.png": "116-C_ir/active/comparison/collisions-overlay.png",
+        "preview/page-001.png": "116-C_ir/active/preview/page-001.png",
+        "manifest.json": "116-C_ir/active/manifest.json"
+      },
+      "error": "",
+      "attempts": 1,
+      "started": "2026-11-27T08:05:18+00:00",
+      "ended": "2026-11-27T08:06:05+00:00",
+      "seconds": 47.0,
+      "coverage_pct": 83.33333333333333,
+      "material": {
+        "name": null,
+        "library": null,
+        "density_kg_m3": null,
+        "mass_kg": null,
+        "source": "native part (SetMaterialPropertyName2 read-back)",
+        "status": "not_specified"
+      },
+      "reference": {
+        "mode": "match",
+        "status": "fallback_standard",
+        "source_kind": "none",
+        "filename": "",
+        "sha256": "",
+        "pages": 0,
+        "link": null,
+        "confidence": null,
+        "reasons": [],
+        "extraction_cache": "none",
+        "extraction_id": "",
+        "extraction_schema": "",
+        "api_usage": {
+          "tokens": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0,
+          "calls": 0,
+          "incremental": true,
+          "historical_usd": null
+        },
+        "warnings": [
+          "No reference was used; this part runs as Standard because fallback_standard is set. Reason: Match mode was requested for this part but its reference source is 'none'."
+        ],
+        "part_sha256": "cb72079227f317d0f79d0f27ea260eec28eecd96735887e730480634d8a3084f"
+      },
+      "verification": {
+        "status": "review_required",
+        "coverage": {
+          "matched": 20,
+          "total": 24,
+          "unresolved": [
+            {
+              "id": "L036",
+              "kind": "INTENT:tolerances",
+              "text": "INTENT:tolerances",
+              "reason": "tolerances are manufacturing intent that geometry cannot supply; not invented",
+              "severity": "medium"
+            },
+            {
+              "id": "L037",
+              "kind": "INTENT:surface finish",
+              "text": "INTENT:surface finish",
+              "reason": "surface finish are manufacturing intent that geometry cannot supply; not invented",
+              "severity": "medium"
+            },
+            {
+              "id": "L038",
+              "kind": "INTENT:thread specification",
+              "text": "INTENT:thread specification",
+              "reason": "thread specification are manufacturing intent that geometry cannot supply; not invented",
+              "severity": "medium"
+            },
+            {
+              "id": "L039",
+              "kind": "INTENT:datum scheme / GD&T",
+              "text": "INTENT:datum scheme / GD&T",
+              "reason": "datum scheme / GD&T are manufacturing intent that geometry cannot supply; not invented",
+              "severity": "medium"
+            }
+          ],
+          "basis": "model features that need a dimension (Standard mode: geometry-derived, no reference)"
+        },
+        "collisions": {
+          "count": 6,
+          "by_kind": {
+            "text_text": 1,
+            "text_stroke": 4,
+            "view_view": 1
+          },
+          "clearance_mm": 1.5,
+          "items": [
+            {
+              "kind": "text_text",
+              "page": 1,
+              "a": "p1t17_0",
+              "b": "p1t18_0",
+              "severity": "medium",
+              "a_text": "SECTION A-A",
+              "b_text": "SCALE 1 : 2",
+              "box_a_mm": [
+                82.02,
+                97.68,
+                110.93,
+                101.13
+              ],
+              "box_b_mm": [
+                84.19,
+                93.15,
+                108.76,
+                96.61
+              ],
+              "detail": "closer than 1.5 mm"
+            },
+            {
+              "kind": "text_stroke",
+              "page": 1,
+              "a": "p1t7_0",
+              "severity": "high",
+              "a_text": "1.880",
+              "box_a_mm": [
+                28.73,
+                126.3,
+                32.19,
+                140.53
+              ],
+              "detail": "a drawn line runs through this text"
+            },
+            {
+              "kind": "text_stroke",
+              "page": 1,
+              "a": "p1t9_0",
+              "severity": "high",
+              "a_text": "0.935",
+              "box_a_mm": [
+                59.96,
+                63.5,
+                74.19,
+                66.96
+              ],
+              "detail": "a drawn line runs through this text"
+            },
+            {
+              "kind": "text_stroke",
+              "page": 1,
+              "a": "p1t15_1",
+              "severity": "high",
+              "a_text": "1.002",
+              "box_a_mm": [
+                34.07,
+                136.87,
+                47.0,
+                140.32
+              ],
+              "detail": "a drawn line runs through this text"
+            },
+            {
+              "kind": "text_stroke",
+              "page": 1,
+              "a": "p1t17_0",
+              "severity": "high",
+              "a_text": "SECTION A-A",
+              "box_a_mm": [
+                82.02,
+                97.68,
+                110.93,
+                101.13
+              ],
+              "detail": "a drawn line runs through this text"
+            },
+            {
+              "kind": "view_view",
+              "page": 1,
+              "a": "front",
+              "b": "section_A",
+              "severity": "high",
+              "box_a_mm": [
+                49.61,
+                92.9,
+                143.34,
+                173.93
+              ],
+              "box_b_mm": [
+                70.25,
+                101.16,
+                122.7,
+                131.39
+              ],
+              "detail": "view outlines overlap"
+            }
+          ],
+          "truncated": 0,
+          "exemptions": [
+            "strokes touching a text box edge (leader tip / extension line) are not collisions",
+            "shaded isometric fills are not strokes",
+            "the template's own title block and border are part of the sheet format"
+          ],
+          "texts": 38,
+          "strokes": 1645
+        },
+        "comparison": {
+          "semantic": null,
+          "spatial": null,
+          "note": "not applicable (Standard mode or no reference applied)"
+        },
+        "iterations": {
+          "layout": {
+            "max_iterations": 3,
+            "iterations_used": 3,
+            "best": "correction 1",
+            "history": [
+              {
+                "iteration": 0,
+                "what": "as generated",
+                "collisions": 11,
+                "score": 27.0
+              },
+              {
+                "iteration": 0,
+                "what": "native Auto Arrange",
+                "collisions": 9,
+                "score": 23.0,
+                "accepted": true
+              },
+              {
+                "iteration": 1,
+                "what": "collision-aware moves",
+                "moved": 6,
+                "moves": [
+                  {
+                    "annotation": "front/RD10",
+                    "text": "1.380",
+                    "delta_mm": [
+                      0.0,
+                      -4.0
+                    ],
+                    "kind": "dimension"
+                  },
+                  {
+                    "annotation": "front/RD9",
+                    "text": "0.935",
+                    "delta_mm": [
+                      0.0,
+                      4.0
+                    ],
+                    "kind": "dimension"
+                  },
+                  {
+                    "annotation": "front/RD11",
+                    "text": "1.375",
+                    "delta_mm": [
+                      0.0,
+                      4.0
+                    ],
+                    "kind": "dimension"
+                  },
+                  {
+                    "annotation": "section_A/RD1",
+                    "text": "1.002",
+                    "delta_mm": [
+                      -28.0,
+                      0.0
+                    ],
+                    "kind": "dimension"
+                  },
+                  {
+                    "annotation": "section_A/RD2",
+                    "text": "0.111",
+                    "delta_mm": [
+                      0.0,
+                      -8.0
+                    ],
+                    "kind": "dimension"
+                  },
+                  {
+                    "annotation": "section_A/RD3",
+                    "text": "0.500",
+                    "delta_mm": [
+                      0.0,
+                      -8.0
+                    ],
+                    "kind": "dimension"
+                  }
+                ],
+                "collisions": 6,
+                "score": 16.0
+              },
+              {
+                "iteration": 2,
+                "what": "collision-aware moves",
+                "moved": 3,
+                "moves": [
+                  {
+                    "annotation": "front/RD7",
+                    "text": "1.880",
+                    "delta_mm": [
+                      0.0,
+                      -8.0
+                    ],
+                    "kind": "dimension"
+                  },
+                  {
+                    "annotation": "front/RD9",
+                    "text": "0.935",
+                    "delta_mm": [
+                      0.0,
+                      4.0
+                    ],
+                    "kind": "dimension"
+                  },
+                  {
+                    "annotation": "section_A/RD1",
+                    "text": "1.002",
+                    "delta_mm": [
+                      -4.0,
+                      0.0
+                    ],
+                    "kind": "dimension"
+                  }
+                ],
+                "collisions": 6,
+                "score": 16.0,
+                "rejected": "did not improve the measured layout (or repeated an earlier arrangement); positions restored to the best revision"
+              },
+              {
+                "iteration": 3,
+                "what": "collision-aware moves",
+                "moved": 3,
+                "moves": [
+                  {
+                    "annotation": "front/RD7",
+                    "text": "1.880",
+                    "delta_mm": [
+                      0.0,
+                      -8.0
+                    ],
+                    "kind": "dimension"
+                  },
+                  {
+                    "annotation": "front/RD9",
+                    "text": "0.935",
+                    "delta_mm": [
+                      0.0,
+                      4.0
+                    ],
+                    "kind": "dimension"
+                  },
+                  {
+                    "annotation": "section_A/RD1",
+                    "text": "1.002",
+                    "delta_mm": [
+                      -4.0,
+                      0.0
+                    ],
+                    "kind": "dimension"
+                  }
+                ],
+                "collisions": 6,
+                "score": 16.0,
+                "rejected": "did not improve the measured layout (or repeated an earlier arrangement); positions restored to the best revision"
+              }
+            ]
+          }
+        },
+        "standards": {
+          "iso_shaded_with_edges": true,
+          "iso_shading_in_pdf": true,
+          "black_text": true,
+          "broken_leaders": {
+            "applied": 2,
+            "failed": 0,
+            "not_applicable": 13,
+            "note": "No leadered notes are generated: broken leaders do not exist for notes in the 2025 API."
+          },
+          "arrange": {
+            "accepted": true,
+            "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+            "moved": 14,
+            "integrity": {
+              "ok": true,
+              "lost": [],
+              "added": [],
+              "value_changed": [],
+              "dangling": [],
+              "count_before": 15,
+              "count_after": 15
+            },
+            "collisions_before": 11,
+            "collisions_after": 9
+          },
+          "licence_watermark": true
+        },
+        "issues_by_severity": {
+          "high": 7,
+          "info": 1
+        },
+        "hard_failures": [
+          "COLLISION_TEXT_TEXT",
+          "COLLISION_TEXT_STROKE",
+          "COLLISION_TEXT_STROKE",
+          "COLLISION_TEXT_STROKE",
+          "COLLISION_TEXT_STROKE",
+          "COLLISION_VIEW_VIEW",
+          "TEXT_OVERLAPS"
+        ],
+        "note": "Software QA is not engineering approval. A reference match is not an approval either; the drawing stays PRELIMINARY / FOR REVIEW."
+      },
+      "files": {
+        "model.stl": {
+          "bytes": 62384,
+          "url_path": "116-C_ir/active/model.stl"
+        },
+        "drawing.slddrw": {
+          "bytes": 117249,
+          "url_path": "116-C_ir/active/drawing.slddrw"
+        },
+        "drawing.pdf": {
+          "bytes": 52712,
+          "url_path": "116-C_ir/active/drawing.pdf"
+        },
+        "inventory.json": {
+          "bytes": 11864,
+          "url_path": "116-C_ir/active/inventory.json"
+        },
+        "drawing_plan.json": {
+          "bytes": 2204,
+          "url_path": "116-C_ir/active/drawing_plan.json"
+        },
+        "dimension_coverage.json": {
+          "bytes": 10992,
+          "url_path": "116-C_ir/active/dimension_coverage.json"
+        },
+        "stl_validation.json": {
+          "bytes": 547,
+          "url_path": "116-C_ir/active/stl_validation.json"
+        },
+        "pdf_check.json": {
+          "bytes": 363,
+          "url_path": "116-C_ir/active/pdf_check.json"
+        },
+        "reopen_check.json": {
+          "bytes": 623,
+          "url_path": "116-C_ir/active/reopen_check.json"
+        },
+        "layout_report.json": {
+          "bytes": 22015,
+          "url_path": "116-C_ir/active/layout_report.json"
+        },
+        "qa.json": {
+          "bytes": 18388,
+          "url_path": "116-C_ir/active/qa.json"
+        },
+        "verification.json": {
+          "bytes": 13413,
+          "url_path": "116-C_ir/active/verification.json"
+        },
+        "116-C_ir.SLDPRT": {
+          "bytes": 83639,
+          "url_path": "116-C_ir/active/116-C_ir.SLDPRT"
+        },
+        "comparison/collisions-overlay.png": {
+          "bytes": 114318,
+          "url_path": "116-C_ir/active/comparison/collisions-overlay.png"
+        },
+        "preview/page-001.png": {
+          "bytes": 144938,
+          "url_path": "116-C_ir/active/preview/page-001.png"
+        },
+        "manifest.json": {
+          "bytes": 4199,
+          "url_path": "116-C_ir/active/manifest.json"
+        },
+        "slddrw": {
+          "bytes": 117249,
+          "url_path": "116-C_ir/active/drawing.slddrw",
+          "available": true
+        },
+        "pdf": {
+          "bytes": 52712,
+          "url_path": "116-C_ir/active/drawing.pdf",
+          "available": true
+        },
+        "stl": {
+          "bytes": 62384,
+          "url_path": "116-C_ir/active/model.stl",
+          "available": true
+        },
+        "qa_json": {
+          "bytes": 18388,
+          "url_path": "116-C_ir/active/qa.json",
+          "available": true
+        },
+        "comparison_images": {
+          "files": [
+            {
+              "name": "comparison/collisions-overlay.png",
+              "bytes": 114318,
+              "url_path": "116-C_ir/active/comparison/collisions-overlay.png"
+            }
+          ],
+          "available": true
+        }
+      },
+      "files_availability": {
+        "slddrw": true,
+        "pdf": true,
+        "source_pdf": false,
+        "stl": true,
+        "qa_json": true,
+        "comparison_images": true
+      }
+    }
+  ],
+  "summary_state": "review_required",
+  "progress": {
+    "stages_done": 10,
+    "stages_total": 10,
+    "fraction": 1.0,
+    "parts_done": 1,
+    "parts_total": 1
+  },
+  "stage_labels": {
+    "preflight": "Preflight",
+    "stl_export": "STL export",
+    "reference_resolution": "Reference resolution",
+    "extraction": "Reference extraction",
+    "view_planning": "View planning",
+    "native_drawing": "Native drawing",
+    "dimensioning_layout": "Dimensions and layout",
+    "comparison_correction": "Comparison and correction",
+    "verification": "Verification",
+    "publish": "Publish",
+    "mesh_export": "STL export",
+    "inventory": "Geometry inventory",
+    "planning": "View planning",
+    "drawing": "Native drawing",
+    "dimensioning": "Dimensions",
+    "publishing": "Publish"
+  },
+  "stage_order": [
+    "preflight",
+    "stl_export",
+    "reference_resolution",
+    "extraction",
+    "view_planning",
+    "native_drawing",
+    "dimensioning_layout",
+    "comparison_correction",
+    "verification",
+    "publish"
+  ],
+  "reference_stages": [
+    "reference_resolution",
+    "extraction",
+    "comparison_correction"
+  ]
+}

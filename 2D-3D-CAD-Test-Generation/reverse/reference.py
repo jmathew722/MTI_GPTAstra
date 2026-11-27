@@ -365,8 +365,8 @@ class ReferenceIndex:
                 c["needs_confirmation"] = needs
                 if run is not None:
                     c["run"], c["project"] = run.name, run.root_label
-            if reason not in c["reasons"]:
-                c["reasons"].append(reason)
+            if reason not in c["reasons"] and not (link == "name_only" and c["link"] not in (None, "name_only")):
+                c["reasons"].append(reason)            # a weak name-only remark never decorates a hash / forward-run link
             if not needs:
                 c["needs_confirmation"] = False if c["confidence"] >= conf else c["needs_confirmation"]
 
@@ -472,7 +472,8 @@ def normalize_request(reference: Optional[dict]) -> dict:
     mode = str(reference.get("mode") or "standard").lower()
     if mode not in MODES:
         raise safety.SafetyError(f"Unknown reference mode {mode!r}; use 'standard' or 'match'.")
-    per = reference.get("per_part") or {}
+    per = reference.get("per_part")
+    per = {} if per is None else per
     if not isinstance(per, dict):
         raise safety.SafetyError("reference.per_part must be an object.")
     clean = {}

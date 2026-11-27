@@ -1,0 +1,275 @@
+{
+  "part": "115C_ir",
+  "issues": [
+    {
+      "id": "115C_ir-SECTION_NO_ROOM-001",
+      "severity": "medium",
+      "code": "SECTION_NO_ROOM",
+      "message": "Section B-B (through H001) does not fit beside its parent view on sheet 1.",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Use a larger sheet or place the section manually.",
+      "history": []
+    },
+    {
+      "id": "115C_ir-BLIND_DEPTH_REVIEW-002",
+      "severity": "medium",
+      "code": "BLIND_DEPTH_REVIEW",
+      "message": "H001: blind depth 60.325 mm is carried by the callout/hidden geometry; confirm or add a section view",
+      "source_ref": "",
+      "view": "right",
+      "sheet": null,
+      "observed": "60.325 mm",
+      "expected": "",
+      "next_action": "Confirm the depth on the drawing or add a section view.",
+      "history": []
+    },
+    {
+      "id": "115C_ir-DESIGN_INTENT-003",
+      "severity": "info",
+      "code": "DESIGN_INTENT",
+      "message": "Tolerances, surface finish, thread specifications and datum scheme/GD&T are not in the part geometry and were not invented.",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Add them from the source design intent before release.",
+      "history": []
+    }
+  ],
+  "coverage": {
+    "covered": 23,
+    "applicable": 28,
+    "percent": 82.14285714285714,
+    "by_status": {
+      "covered": 23,
+      "review_required": 5
+    },
+    "excluded": [],
+    "note": "Diagnostic only: geometric coverage is not manufacturing completeness or approval."
+  },
+  "hard_failures": [],
+  "pdf": {
+    "exists": true,
+    "pages": 1,
+    "expected_pages": 1,
+    "nonblack_text": [],
+    "nonblack_strokes": 0,
+    "color_fills": 0,
+    "text_overlaps": [],
+    "text_clipped": [],
+    "vector": true,
+    "errors": [],
+    "ok": true
+  },
+  "review_required": true,
+  "verification": {
+    "status": "review_required",
+    "coverage": {
+      "matched": 23,
+      "total": 28,
+      "unresolved": [
+        {
+          "id": "L009",
+          "kind": "H001:depth",
+          "text": "H001:depth",
+          "reason": "blind-hole depth: the native callout is checked by the engineer (no section view is generated in this version)",
+          "severity": "medium"
+        },
+        {
+          "id": "L043",
+          "kind": "INTENT:tolerances",
+          "text": "INTENT:tolerances",
+          "reason": "tolerances are manufacturing intent that geometry cannot supply; not invented",
+          "severity": "medium"
+        },
+        {
+          "id": "L044",
+          "kind": "INTENT:surface finish",
+          "text": "INTENT:surface finish",
+          "reason": "surface finish are manufacturing intent that geometry cannot supply; not invented",
+          "severity": "medium"
+        },
+        {
+          "id": "L045",
+          "kind": "INTENT:thread specification",
+          "text": "INTENT:thread specification",
+          "reason": "thread specification are manufacturing intent that geometry cannot supply; not invented",
+          "severity": "medium"
+        },
+        {
+          "id": "L046",
+          "kind": "INTENT:datum scheme / GD&T",
+          "text": "INTENT:datum scheme / GD&T",
+          "reason": "datum scheme / GD&T are manufacturing intent that geometry cannot supply; not invented",
+          "severity": "medium"
+        }
+      ],
+      "basis": "model features that need a dimension (Standard mode: geometry-derived, no reference)"
+    },
+    "collisions": {
+      "count": 0,
+      "by_kind": {
+        "envelope_touch": 1
+      },
+      "clearance_mm": 1.5,
+      "items": [],
+      "advisory": [
+        {
+          "kind": "envelope_touch",
+          "page": 1,
+          "a": "right",
+          "b": "section_A",
+          "severity": "low",
+          "box_a_mm": [
+            206.04,
+            92.9,
+            255.31,
+            173.93
+          ],
+          "box_b_mm": [
+            248.11,
+            97.91,
+            293.51,
+            128.14
+          ],
+          "detail": "view envelopes overlap inside the centre-mark allowance; drawn geometry does not"
+        }
+      ],
+      "truncated": 0,
+      "exemptions": [
+        "strokes touching a text box edge (leader tip / extension line) are not collisions",
+        "shaded isometric fills are not strokes",
+        "the template's own title block and border are part of the sheet format"
+      ],
+      "texts": 41,
+      "strokes": 1905
+    },
+    "comparison": {
+      "semantic": null,
+      "spatial": null,
+      "note": "not applicable (Standard mode or no reference applied)"
+    },
+    "iterations": {
+      "layout": {
+        "max_iterations": 3,
+        "iterations_used": 1,
+        "best": "correction 1",
+        "history": [
+          {
+            "iteration": 0,
+            "what": "as generated",
+            "collisions": 6,
+            "score": 15.05
+          },
+          {
+            "iteration": 0,
+            "what": "native Auto Arrange",
+            "collisions": 5,
+            "score": 12.05,
+            "accepted": true
+          },
+          {
+            "iteration": 1,
+            "what": "collision-aware moves",
+            "moved": 3,
+            "moves": [
+              {
+                "annotation": "section_A/note2",
+                "text": "VIEW FROM BOTTOM  SCALE 1:2",
+                "delta_mm": [
+                  0.0,
+                  8.0
+                ],
+                "kind": "note"
+              },
+              {
+                "annotation": "extra_bottom/RD1",
+                "text": "0.578",
+                "delta_mm": [
+                  0.0,
+                  -4.0
+                ],
+                "kind": "dimension"
+              },
+              {
+                "annotation": "section_A/RD1",
+                "text": "1.002",
+                "delta_mm": [
+                  20.0,
+                  0.0
+                ],
+                "kind": "dimension"
+              }
+            ],
+            "collisions": 1,
+            "score": 0.05
+          }
+        ]
+      }
+    },
+    "standards": {
+      "iso_shaded_with_edges": true,
+      "iso_shading_in_pdf": true,
+      "black_text": true,
+      "broken_leaders": {
+        "applied": 3,
+        "failed": 0,
+        "not_applicable": 15,
+        "note": "No leadered notes are generated: broken leaders do not exist for notes in the 2025 API."
+      },
+      "arrange": {
+        "accepted": true,
+        "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+        "moved": 17,
+        "integrity": {
+          "ok": true,
+          "lost": [],
+          "added": [],
+          "value_changed": [],
+          "dangling": [],
+          "count_before": 18,
+          "count_after": 18
+        },
+        "collisions_before": 6,
+        "collisions_after": 5
+      },
+      "licence_watermark": true
+    },
+    "issues_by_severity": {
+      "info": 1,
+      "medium": 2
+    },
+    "hard_failures": [],
+    "note": "Software QA is not engineering approval. A reference match is not an approval either; the drawing stays PRELIMINARY / FOR REVIEW."
+  },
+  "reference": {
+    "mode": "standard",
+    "status": "not_applicable",
+    "source_kind": "none",
+    "filename": "",
+    "sha256": "",
+    "pages": 0,
+    "link": null,
+    "confidence": null,
+    "reasons": [],
+    "extraction_cache": "none",
+    "extraction_id": "",
+    "extraction_schema": "",
+    "api_usage": {
+      "tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0,
+      "calls": 0,
+      "incremental": true,
+      "historical_usd": null
+    },
+    "warnings": []
+  },
+  "note": "Software QA is not engineering approval. This drawing is PRELIMINARY / FOR REVIEW until an authorized engineer dispositions the issues."
+}

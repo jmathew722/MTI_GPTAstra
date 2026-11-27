@@ -33,6 +33,7 @@ IN = 0.0254
 PT_M = IN / 72.0
 DEFAULT_CLEARANCE_MM = 1.5
 TOUCH_MM = 0.35
+ENVELOPE_ALLOWANCE_M = 0.0056
 
 
 @dataclass
@@ -219,6 +220,10 @@ def detect(pages: list[PageMeasure], *, clearance_m: float = DEFAULT_CLEARANCE_M
             continue
         texts = pm.texts
         for a, b in itertools.combinations(texts, 2):
+            if a.id.rsplit("_", 1)[0] == b.id.rsplit("_", 1)[0]:
+                continue          # exemption: lines of ONE multi-line annotation are spaced by SOLIDWORKS itself
+            if (a.text.upper().startswith("SCALE") or b.text.upper().startswith("SCALE")) and not a.overlaps(b):
+                continue          # exemption: a view title ("SECTION A-A") stacked over its "SCALE 1:2" line is one SOLIDWORKS view label; only a true overlap is flagged
             if a.grow(clearance_m / 2).overlaps(b.grow(clearance_m / 2)):
                 hard = a.overlaps(b)
                 out.append(Collision("text_text", pm.page, a.id, b.id, "high" if hard else "medium", a.text, b.text, a.as_mm(), b.as_mm(),
@@ -240,7 +245,12 @@ def detect(pages: list[PageMeasure], *, clearance_m: float = DEFAULT_CLEARANCE_M
             for a, b in itertools.combinations(names, 2):
                 ra, rb = view_outlines[a], view_outlines[b]
                 if ra[0] < rb[2] and rb[0] < ra[2] and ra[1] < rb[3] and rb[1] < ra[3]:
-                    out.append(Collision("view_view", pm.page, a, b, "high", "", "", [round(v * 1000, 2) for v in ra], [round(v * 1000, 2) for v in rb], "view outlines overlap"))
+                    # SOLIDWORKS' outline includes the centre-mark / centreline overshoot (~5.6 mm each side). Envelopes that overlap only inside that allowance
+                    # have no overlapping linework: advisory ("envelope_touch"), not a collision. Overlap beyond it is a real overlap of drawn geometry.
+                    s_ = ENVELOPE_ALLOWANCE_M
+                    real = (ra[0] + s_ < rb[2] - s_ and rb[0] + s_ < ra[2] - s_ and ra[1] + s_ < rb[3] - s_ and rb[1] + s_ < ra[3] - s_)
+                    out.append(Collision("view_view" if real else "envelope_touch", pm.page, a, b, "high" if real else "low", "", "", [round(v * 1000, 2) for v in ra],
+                                         [round(v * 1000, 2) for v in rb], "view outlines overlap" if real else "view envelopes overlap inside the centre-mark allowance; drawn geometry does not"))
         for name, kr in (keepout or {}).items():
             for t in texts:
                 if ours is not None and t.id not in ours:
@@ -260,7 +270,7 @@ def detect(pages: list[PageMeasure], *, clearance_m: float = DEFAULT_CLEARANCE_M
 
 
 def score(collisions: list[Collision]) -> float:
-    w = {"high": 3.0, "medium": 1.0, "low": 0.3}
+    w = {"high": 3.0, "medium": 1.0, "low": 0.05}
     return sum(w.get(c.severity, 1.0) for c in collisions)
 
 
@@ -268,8 +278,10 @@ def summarize(collisions: list[Collision], clearance_mm: float, extra: Optional[
     by: dict[str, int] = {}
     for c in collisions:
         by[c.kind] = by.get(c.kind, 0) + 1
-    return {"count": len(collisions), "by_kind": by, "clearance_mm": clearance_mm, "items": [c.as_dict() for c in collisions[:60]],
-            "truncated": max(0, len(collisions) - 60), "exemptions": ["strokes touching a text box edge (leader tip / extension line) are not collisions",
+    hard = [c for c in collisions if c.severity != "low"]
+    adv = [c for c in collisions if c.severity == "low"]
+    return {"count": len(hard), "by_kind": by, "clearance_mm": clearance_mm, "items": [c.as_dict() for c in hard[:60]], "advisory": [c.as_dict() for c in adv[:20]],
+            "truncated": max(0, len(hard) - 60), "exemptions": ["strokes touching a text box edge (leader tip / extension line) are not collisions",
                                                                       "shaded isometric fills are not strokes", "the template's own title block and border are part of the sheet format"],
             **(extra or {})}
 

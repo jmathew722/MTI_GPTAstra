@@ -1,0 +1,123 @@
+{
+  "profile": "us_third_angle_inch",
+  "projection": "third",
+  "units": "inch",
+  "sheet_size": "ANSI_B",
+  "paper": "ANSI B (17x11 in)",
+  "front_view": "*Top",
+  "views": {
+    "front": "*Top",
+    "top": "*Back",
+    "right": "*Right",
+    "iso": "*Isometric"
+  },
+  "scale": {
+    "num": 1,
+    "den": 1,
+    "label": "1:1"
+  },
+  "scale_fits": true,
+  "rects_m": {
+    "front": [
+      0.0487,
+      0.09199,
+      0.14425,
+      0.17484
+    ],
+    "top": [
+      0.0487,
+      0.21984,
+      0.14425,
+      0.27094
+    ],
+    "right": [
+      0.18925,
+      0.09199,
+      0.2721,
+      0.14309
+    ],
+    "iso": [
+      0.334229,
+      0.192137,
+      0.40295,
+      0.25055
+    ]
+  },
+  "iso_scale": 0.5,
+  "regions_m": {
+    "sheet": [
+      0,
+      0,
+      0.4318,
+      0.2794
+    ],
+    "usable": [
+      0.0127,
+      0.00635,
+      0.42545,
+      0.27305
+    ],
+    "title_block": [
+      0.26035,
+      0.00635,
+      0.42545,
+      0.04699
+    ],
+    "notes": [
+      0.15875,
+      0.00635,
+      0.26035,
+      0.04699
+    ]
+  },
+  "sheets": [
+    {
+      "index": 1,
+      "name": "Sheet1",
+      "contents": [
+        "front",
+        "top",
+        "right",
+        "iso"
+      ]
+    }
+  ],
+  "needs_section": false,
+  "bbox_m": [
+    0.08255,
+    0.038099999999999995,
+    0.06985
+  ],
+  "hole_axes": {
+    "x": 0,
+    "y": 6,
+    "z": 0
+  },
+  "notes": [
+    "The isometric view is shown at a smaller scale (0.5) than the orthographic views; it is labelled on the sheet."
+  ],
+  "basis": "front chosen for the largest silhouette (ties: the model's own Front); scale = largest standard scale that fits without collisions",
+  "extra_views": [],
+  "sections": [
+    {
+      "label": "A",
+      "parent": "front",
+      "hole_ids": [
+        "H003",
+        "H004"
+      ],
+      "fits": true,
+      "role": "section_A",
+      "alignment_locked": true,
+      "scale": 0.5,
+      "name": "Section View A-A",
+      "cut": {
+        "axis": "y",
+        "entry_side": "+",
+        "cut_along": "x",
+        "at_axis": "z",
+        "at_m": 0.0
+      }
+    }
+  ]
+}

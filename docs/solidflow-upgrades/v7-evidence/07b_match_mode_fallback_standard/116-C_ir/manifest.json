@@ -1,0 +1,140 @@
+{
+  "schema_version": 2,
+  "job_id": "r3d_2838c1322b3ed5a4",
+  "part_id": "116-C_ir",
+  "source_name": "116-C_ir.SLDPRT",
+  "source_sha256": "cb72079227f317d0f79d0f27ea260eec28eecd96735887e730480634d8a3084f",
+  "source_unchanged": true,
+  "configuration": "Default",
+  "solidworks": {
+    "revision": "33.5.0",
+    "major": 33,
+    "service_pack": "SP5.0",
+    "is_2025": true
+  },
+  "template": {
+    "id": "solidflow-ansi-b",
+    "name": "Solid Flow ANSI B landscape (17x11 in), third angle",
+    "sha256": "15f86ae5706412d0a494e805d53a6b19a4226827c6ff6b912e9e73776acacfe1",
+    "own_sheet_format": true
+  },
+  "profile": "us_third_angle_inch",
+  "units": "inch",
+  "projection": "third",
+  "scale": {
+    "num": 1,
+    "den": 1,
+    "label": "1:1"
+  },
+  "stl": {
+    "unit": "mm",
+    "transform": "none (the part is exported in its own coordinate system)"
+  },
+  "material": {
+    "name": null,
+    "library": null,
+    "density_kg_m3": null,
+    "mass_kg": null,
+    "source": "native part (SetMaterialPropertyName2 read-back)",
+    "status": "not_specified"
+  },
+  "reference": {
+    "mode": "match",
+    "status": "fallback_standard",
+    "source_kind": "none",
+    "filename": "",
+    "sha256": "",
+    "pages": 0,
+    "link": null,
+    "extraction_cache": "none",
+    "extraction_id": "",
+    "api_usage": {
+      "tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0,
+      "calls": 0,
+      "incremental": true,
+      "historical_usd": null
+    }
+  },
+  "verification_status": "review_required",
+  "stage_seconds": {
+    "preflight": 0.03,
+    "stl_export": 1.62,
+    "reference_resolution": 0.0,
+    "extraction": 0.0,
+    "comparison_correction": 0.0,
+    "view_planning": 0.01,
+    "native_drawing": 3.24,
+    "dimensioning_layout": 34.54,
+    "verification": 4.55,
+    "publish": null
+  },
+  "files": {
+    "model.stl": {
+      "bytes": 62384,
+      "sha256": "8a69373784202b9b83f2dfec962cfa6714679c2b85b47e2e8a749aa6e73af9db"
+    },
+    "drawing.slddrw": {
+      "bytes": 117249,
+      "sha256": "c1484d5f69513a34db5a5d7b3641af66629ba97c35b6d0f616eb7d4d92fb8eaf"
+    },
+    "drawing.pdf": {
+      "bytes": 52712,
+      "sha256": "e4d712bc5b6e7a4d6f16e0ac684288387afaf86bd2800583e62ff34ce4cec026"
+    },
+    "inventory.json": {
+      "bytes": 11864,
+      "sha256": "08f1cc650d0aeed33419531b374fd31e4d137f85a3abbf6c020e36dfa72c468e"
+    },
+    "drawing_plan.json": {
+      "bytes": 2204,
+      "sha256": "0d2287595b100e72d69b2f76ceade4e4c9d8e9fef2a4c86546c719b09534970e"
+    },
+    "dimension_coverage.json": {
+      "bytes": 10992,
+      "sha256": "1cbd27499e84c25edc752cbcebd4d1281af0a95891210f3a797a5bec254ba220"
+    },
+    "stl_validation.json": {
+      "bytes": 547,
+      "sha256": "f5e8b103599ff5054352c217324ebc6ba857d5a7ec2a52848cee331489185c38"
+    },
+    "pdf_check.json": {
+      "bytes": 363,
+      "sha256": "5e3f97fbae4a305f3995b4d4d8b8ab4dd89173650611d4c0b0aa55079d2bd155"
+    },
+    "reopen_check.json": {
+      "bytes": 623,
+      "sha256": "26a08966b8240b3a2bb036aae58f0c1d0f4388b386dedbb2e77a68f9643f55e3"
+    },
+    "layout_report.json": {
+      "bytes": 22015,
+      "sha256": "c923ca5e46824b7839ef3fe25078daa1b35dcc3f3546b24718541d4f4b29745d"
+    },
+    "qa.json": {
+      "bytes": 18388,
+      "sha256": "b506667a97959652362d6d836272d977361e9eeb9fbd89d6d9be22702a41ad74"
+    },
+    "verification.json": {
+      "bytes": 13413,
+      "sha256": "3df75d5bed4bdf1d6b9ab554b855a7c5ba1d72501c099d08f4a2ec70dd9fdd1e"
+    },
+    "116-C_ir.SLDPRT": {
+      "bytes": 83639,
+      "sha256": "cb72079227f317d0f79d0f27ea260eec28eecd96735887e730480634d8a3084f"
+    },
+    "comparison/collisions-overlay.png": {
+      "bytes": 114318,
+      "sha256": "783b796d2e5556ed67c3a509d40dafa30cf84f59b9f6ebc3f92e11a205bc47b6"
+    },
+    "preview/page-001.png": {
+      "bytes": 144938,
+      "sha256": "358a7112c48cc15c7923abc17126a09053360cdb9ae8c072200bf827de6703b3"
+    }
+  },
+  "review_status": "required",
+  "status": "review_required",
+  "draft": true,
+  "note": "Draft output. Not approved for manufacture."
+}
