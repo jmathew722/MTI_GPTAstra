@@ -296,7 +296,7 @@ def test_job_view_contract_for_old_and_new_jobs(tmp_path):
     assert p0["reference"]["mode"] == "standard" and p0["reference"]["status"] == "not_applicable"
     assert p0["verification"] == {"status": "not_run"}
     assert v["stage_order"][:3] == ["preflight", "stl_export", "reference_resolution"] and "mesh_export" in v["stage_labels"]
-    assert set(p0["files_availability"]) == {"slddrw", "pdf", "source_pdf", "stl", "qa_json", "comparison_images"} and not any(p0["files_availability"].values())
+    assert set(p0["files_availability"]) >= {"slddrw", "pdf", "source_pdf", "stl", "qa_json", "comparison_images"} and not any(p0["files_availability"].values())
 
 
 def test_part_files_aliases_and_comparison_images(tmp_path):
@@ -315,7 +315,8 @@ def test_part_files_aliases_and_comparison_images(tmp_path):
     for k in ("slddrw", "pdf", "source_pdf", "stl", "qa_json"):
         assert files[k]["available"] and files[k]["bytes"] > 0 and files[k]["url_path"]
     assert [f["name"] for f in files["comparison_images"]["files"]] == ["comparison/page-001.png", "comparison/page-002.png"]
-    assert all(svc.files_availability(files).values())
+    fa = svc.files_availability(files)
+    assert all(fa[k] for k in ("slddrw", "pdf", "source_pdf", "stl", "qa_json", "comparison_images"))      # v8 adds drawing_spec / replication_report / usage_log (False when absent)
     # containment is unchanged: only listed artifacts of this job are served
     assert svc.artifact_path("r3d_new", "p0/active/reference/source.pdf").is_file()
     with pytest.raises(safety.SafetyError):

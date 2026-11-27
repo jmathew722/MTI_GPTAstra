@@ -977,3 +977,82 @@ def _note_text_ids(r, pages) -> set:
         lines = {replicate.norm_text(t) for t in rec["text"].split("\n") if replicate.norm_text(t)}
         ids.update(t.id for t in pages[0].texts if replicate.norm_text(t.text) in lines and math.hypot(t.center[0] - tx, t.center[1] - ty) <= 0.25)
     return ids
+
+
+# ------------------------------------------------------------------ additional source pages (multi-sheet replication)
+
+STD_VIEW_FOR = {"Front": "*Front", "Top": "*Top", "Right": "*Right", "Left": "*Left", "Back": "*Back", "Bottom": "*Bottom", "Isometric": "*Isometric"}
+
+
+def build_extra_sheets(r, dd) -> list[dict]:
+    """Every source page after the first becomes its own sheet, in order: sheet size from the page, sheet scale from its title block (or the first page's, labelled),
+    border / title-block geometry, standard views (named orientation of the model, source scale and centre), and ALL of the page's text as verbatim editable
+    notes at the source positions. Dimensions are not generated on these sheets (no per-sheet dimensioner), so every dimension-like item is a non-associative source
+    note that needs review; section / detail / auxiliary views are not rebuilt and are reported."""
+    from reverse import replicate
+    from reverse.drawing import com_doubles
+    out: list[dict] = []
+    base_sc = (r.plan["scale"]["num"], r.plan["scale"]["den"])
+    for i, ex_i in enumerate(r.ref_pages[1:], start=2):
+        rec = {"page": i, "status": "built", "views": [], "views_not_reproduced": [], "warnings": []}
+        out.append(rec)
+        tgt = replicate.sheet_target(ex_i["sheet"])
+        if not tgt.get("ok"):
+            rec.update(status="failed", error="the source page size is unknown")
+            continue
+        sc = reflayout.reference_scale(ex_i)
+        rec["scale_basis"] = "explicit" if sc else "first_page_scale_assumed"
+        if sc is None:
+            sc = base_sc
+            rec["warnings"].append("This page states no scale; the first page's scale was used (needs review).")
+        frame = replicate.make_frame(ex_i["sheet"], tgt)
+        name = f"Sheet{i}"
+        try:
+            dd.add_sheet(name, tgt["w_m"], tgt["h_m"], sc, r.plan["projection"] == "first")
+        except Exception as e:      # noqa: BLE001
+            rec.update(status="failed", error=f"{type(e).__name__}: {e}")
+            continue
+        rec.update(name=name, frame=frame, target=tgt, scale=list(sc))
+        try:
+            lines = replicate.detect_lines(r.ref_pdf, i - 1)
+            tb = replicate.title_block_bbox(ex_i, lines)
+            segs, srep = replicate.sheet_segments(lines, tb, frame, ex_i)
+            rec["sheet_geometry"] = {"segments_drawn": dd.sheet_lines(segs, scale=sc[0] / sc[1]), **srep}
+        except Exception as e:      # noqa: BLE001
+            rec["warnings"].append(f"sheet geometry: {type(e).__name__}: {e}")
+        # views
+        for v in ex_i.get("views", []):
+            sw = STD_VIEW_FOR.get(v["type"])
+            if sw is None:
+                rec["views_not_reproduced"].append({"id": v["id"], "type": v["type"], "why": "section / detail / auxiliary views are not rebuilt"})
+                continue
+            vs = reflayout.parse_scale(v.get("scale_text", "")) or sc
+            cx, cy = frame.norm_to_sheet(*v["center_norm"])
+            try:
+                tv = dd.add_view_on_sheet(sw, (cx, cy), vs[0] / vs[1])
+                o = [float(x) for x in tv.GetOutline()]
+                dx, dy = cx - (o[0] + o[2]) / 2, cy - (o[1] + o[3]) / 2
+                if abs(dx) > 1e-4 or abs(dy) > 1e-4:
+                    p0 = [float(x) for x in tv.Position]
+                    tv.Position = com_doubles(p0[0] + dx, p0[1] + dy)
+                o = [float(x) for x in tv.GetOutline()]
+                rec["views"].append({"id": v["id"], "type": v["type"], "sw_view": sw, "scale": list(vs), "target_m": [cx, cy],
+                                     "dev_mm": round(math.hypot((o[0] + o[2]) / 2 - cx, (o[1] + o[3]) / 2 - cy) * 1000, 2)})
+            except Exception as e:      # noqa: BLE001
+                rec["views_not_reproduced"].append({"id": v["id"], "type": v["type"], "why": f"{type(e).__name__}: {e}"})
+        dd.set_sheet_scale((sc[0], sc[1]))
+        # text: everything, verbatim, editable
+        notes = replicate.collect_notes(ex_i, None)
+        rec["note_recs"] = replicate.place_notes(r, dd, frame, notes)
+    dd.activate_sheet("Sheet1")
+    return out
+
+
+def refine_extra_sheet_notes(r, dd, pages) -> None:
+    from reverse import replicate
+    for rec in getattr(r, "extra_pages", []):
+        if rec.get("status") != "built" or not rec.get("note_recs"):
+            continue
+        dd.activate_sheet(rec["name"])
+        rec["refine"] = replicate.refine_note_positions(r, dd, rec["note_recs"], pages, rec["frame"], page=rec["page"] - 1)
+    dd.activate_sheet("Sheet1")

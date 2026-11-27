@@ -103,6 +103,7 @@ class PartRunner:
         self.displacements: list = []
         self.rep_state: dict = {}
         self.replication: dict = {}
+        self.extra_pages: list = []
         self.spec: Optional[dict] = None
         self.ref_pdf: Optional[Path] = None
         self.ref_sha = ""
@@ -447,6 +448,8 @@ class PartRunner:
                                                     next_action="Print is monochrome: review line colours."))
                 _write_json(self.stage_dir / "pdf_check.json", {k: v for k, v in pdfq.items() if k != "previews"} | {"previews": pdfq["previews"]})
                 self._final_measure(dd, self.stage_dir / "drawing.pdf")
+                if self.replicating:
+                    self._replication_live_reads(dd)          # BEFORE the reopen: reopening the saved file returns the already-open document and closing it disconnects ours
                 self.reopen_info = self._reopen_check(self.stage_dir / "drawing.slddrw", copy)
                 if self.replicating:
                     self._replication_report(dd, self.stage_dir / "drawing.pdf")
@@ -539,6 +542,11 @@ class PartRunner:
         """Closed loop in replication mode: source-coordinate placement, measured correction (default 3 iterations), evidence. See reverse/replicate.py."""
         p, st = self.part, self.std
         hist = refrun.replication_loop(self, dd, st)
+        if len(self.ref_pages) > 1:
+            self.extra_pages = refrun.build_extra_sheets(self, dd)
+            pdf_x, pages_x, err_x = refrun.export_measure(self, dd, st, "rep_pages")
+            refrun.refine_extra_sheet_notes(self, dd, pages_x)
+            p.stages["comparison_correction"]["extra_sheets"] = [{k: v for k, v in x.items() if k in ("page", "status", "error", "scale_basis")} for x in self.extra_pages]
         led = self.comparison["semantic"]
         cdir = self.stage_dir / "comparison"
         _write_json(cdir / "comparison.json", {"semantic": led, "spatial": self.comparison["spatial"], "iterations": self.comparison["iterations"], "reference_layout": self.plan.get("reference_layout"),
@@ -566,6 +574,23 @@ class PartRunner:
         for dev in (self.plan.get("reference_layout") or {}).get("deviations", []):
             self.issues.append(qa.issue("low", "REFERENCE_LAYOUT_DEVIATION", dev, part_id=p.part_id))
 
+    def _replication_live_reads(self, dd) -> None:
+        """Everything the report needs from the live document: per-view generated scales and every sheet's scale (read back from SOLIDWORKS)."""
+        from reverse import replicate
+        live = {"view_scales": [], "sheet_scales": {}}
+        try:
+            dd.activate_sheet("Sheet1")
+            live["view_scales"] = replicate.view_scale_checks(self.ref_ex, dd, self.plan)
+            for xr in self.extra_pages:
+                if xr.get("status") == "built":
+                    dd.activate_sheet(xr["name"])
+                    pr_ = self.s.typed(dd.drw.GetCurrentSheet(), "ISheet").GetProperties2()
+                    live["sheet_scales"][xr["name"]] = [pr_[2], pr_[3]]
+            dd.activate_sheet("Sheet1")
+        except Exception as e:      # noqa: BLE001
+            live["error"] = f"{type(e).__name__}: {e}"
+        self.live_reads = live
+
     def _replication_report(self, dd, pdf: Path) -> None:
         """Measured replication report on the EXPORTED pdf and the reopened drawing: scales, view centres, annotation anchors, verbatim notes, clipping, sheets,
         evidence images, and the status decision (verified only from measured evidence)."""
@@ -592,7 +617,8 @@ class PartRunner:
         exact = None
         if src_sheet and gen_sheet:
             exact = abs(gen_sheet[0] - src_sheet[0]) < 1e-9 and abs(gen_sheet[1] - src_sheet[1]) < 1e-9 and (tb_parsed is None or tb_parsed == src_sheet)
-        vscales = replicate.view_scale_checks(ex, dd, self.plan)
+        live = getattr(self, "live_reads", {}) or {}
+        vscales = live.get("view_scales", [])
         # ---- views present
         want = [v for v in ex.get("views", [])]
         rv = (self.plan.get("reference_layout") or {}).get("views", {})
@@ -606,6 +632,7 @@ class PartRunner:
                 mism_types.append({"role": role, "source_type": vv["type"], "generated_type": native_t})
         # ---- notes verbatim (from the exported PDF)
         nv = replicate.note_verbatim_check(self.note_recs, pages)
+        imgs_x = {"side_by_side": [], "overlay": [], "difference": []}
         clip = [c for c in col if c.kind == "clipped"]
         led = (self.comparison or {}).get("semantic", {}).get("ledger", [])
         crit = [e for e in led if e.get("required") and e["kind"] in replicate.CRITICAL_KINDS and e["status"] in ("value_differs", "missing", "unit_unknown")]
@@ -614,10 +641,40 @@ class PartRunner:
         done_pages = len(self.ref_pages) if self.ref_pages else 1
         built = int(reop.get("sheets") or 1)
         pages_missing = [i for i in range(built + 1, n_pages + 1)]
+        extra_rep = []
+        xnv_bad, xnv_sym, xmiss, xunres, xdev = [], [], [], 0, []
+        for xr in self.extra_pages:
+            e_ = {"page": xr["page"], "status": xr["status"], "error": xr.get("error"), "warnings": xr.get("warnings", []), "scale_basis": xr.get("scale_basis")}
+            if xr["status"] == "built":
+                pr_ = (live.get("sheet_scales") or {}).get(xr["name"])
+                if pr_:
+                    e_["generated_scale"] = f"{pr_[0]:g}:{pr_[1]:g}"
+                    e_["scale_match"] = (abs(pr_[0] - xr["scale"][0]) < 1e-9 and abs(pr_[1] - xr["scale"][1]) < 1e-9)
+                else:
+                    e_["scale_error"] = live.get("error") or "not read"
+                nvx = replicate.note_verbatim_check(xr["note_recs"], pages, page=xr["page"] - 1)
+                e_["notes_verbatim"] = {"matched": nvx["matched"], "total": nvx["total"]}
+                xnv_bad += nvx["mismatched"]
+                xnv_sym += nvx["symbols_unverified"]
+                e_["views"], e_["views_not_reproduced"] = xr["views"], xr["views_not_reproduced"]
+                xmiss += [dict(m_, page=xr["page"]) for m_ in xr["views_not_reproduced"]]
+                xdev += [v_["dev_mm"] for v_ in xr["views"]]
+                xunres += sum(1 for n_ in xr["note_recs"] if n_.get("source") == "annotation")
+                try:
+                    evx = replicate.render_evidence(self.ref_pdf, pdf, xr["frame"], self.stage_dir / "comparison", xr["page"] - 1, xr["page"] - 1, tag=f"page-{xr['page']:03d}")
+                    for k_ in imgs_x:
+                        imgs_x[k_].append("comparison/" + Path(evx["paths"][k_]).name)
+                except Exception as ex_:      # noqa: BLE001
+                    e_["evidence_error"] = str(ex_)
+            extra_rep.append(e_)
+        nv = {"matched": nv["matched"], "total": nv["total"], "mismatched": nv["mismatched"] + xnv_bad, "symbols_unverified": nv.get("symbols_unverified", []) + xnv_sym}
+        missing_views = missing_views + xmiss
         metrics = {"sheet_scale_exact": exact, "view_scales": vscales, "view_center_dev_mm": {"median": med([v["distance_mm"] for v in vdev]), "max": max((v["distance_mm"] for v in vdev), default=None), "items": vdev},
                    "annotation_anchor_dev_mm": {"median": med([a["distance_mm"] for a in adev]), "max": max((a["distance_mm"] for a in adev), default=None), "n": len(adev)},
                    "notes_verbatim": nv, "unintended_clipping": len(clip), "critical_mismatches": len(crit), "missing_views": missing_views, "view_type_mismatches": mism_types,
-                   "pages_missing": pages_missing, "unresolved_source_items": len(unresolved_src)}
+                   "pages_missing": pages_missing, "unresolved_source_items": len(unresolved_src) + xunres}
+        if xdev:
+            metrics["view_center_dev_mm"]["max"] = max([metrics["view_center_dev_mm"]["max"] or 0.0] + xdev)
         status, reason = replicate.decide_status(metrics, th)
         if reop and not reop.get("opened", True):
             status, reason = "failed", "the saved drawing could not be reopened"
@@ -657,7 +714,9 @@ class PartRunner:
             pix_sim = ev["pixel_similarity"]
         except Exception as e:      # noqa: BLE001
             p.stages["verification"]["warnings"].append(f"evidence images: {type(e).__name__}: {e}")
-        self.replication = {"schema": "ReplicationReport/1", "status": status, "status_label": replicate.STATUS_LABEL[status], "reason": reason,
+        for k_ in imgs:
+            imgs[k_] += imgs_x[k_]
+        self.replication = {"schema": "ReplicationReport/1", "pages": extra_rep, "status": status, "status_label": replicate.STATUS_LABEL[status], "reason": reason,
                             "spec": {"schema": (self.spec or {}).get("schema_version"), "pages": n_pages, "pages_extracted": done_pages, "extraction_reuse": p.reference.get("extraction_cache"),
                                      "completeness": (self.spec or {}).get("completeness")},
                             "sheets": [{"page": 1, "source": {"width_mm": self.sheet_target.get("page_w_mm"), "height_mm": self.sheet_target.get("page_h_mm"),
@@ -677,10 +736,12 @@ class PartRunner:
                                         "notes_verbatim": {"matched": nv["matched"], "total": nv["total"]}, "unintended_clipping": len(clip), "critical_mismatches": len(crit),
                                         "pixel_similarity_diagnostic_only": pix_sim},
                             "displacements": len(self.displacements), "displacement_records": self.displacements[:200], "issues": issues, "images": imgs,
-                            "sheet_geometry": (p.stages.get("native_drawing") or {}).get("sheet_geometry"), "reopen": {k: reop.get(k) for k in ("opened", "sheets", "sheet_scale", "notes", "dimensions")},
+                            "sheet_geometry": (p.stages.get("native_drawing") or {}).get("sheet_geometry"), "reopen": {k: reop.get(k) for k in ("opened", "sheets", "sheet_scale", "notes", "dimensions", "sheets_info")},
                             "view_center_items": vdev, "annotation_items": adev[:200], "note_records": [{k: v for k, v in x.items() if k != "_an"} for x in self.note_recs],
                             "fidelity_diagnostics_separate_from_scoring": True,
                             "note": "Drawing-fidelity diagnostics only. scoring.MD (if present) remains the authoritative score; nothing here is a score. PRELIMINARY / FOR REVIEW."}
+        self.replication["sheets"] += [{"page": e["page"], "source": {"scale": (self.ref_pages[e["page"] - 1]["sheet"].get("scale_text") or None)}, "generated": {"scale": e.get("generated_scale")},
+                                        "status": e["status"], "notes_verbatim": e.get("notes_verbatim"), "views_not_reproduced": e.get("views_not_reproduced"), "error": e.get("error")} for e in extra_rep]
         _write_json(self.stage_dir / "replication" / "report.json", self.replication)
         for x in self.note_recs:
             x.pop("_an", None)
@@ -768,6 +829,18 @@ class PartRunner:
             if not info["views"] or not all(x["ok"] for x in info["views"]):
                 self.issues.append(qa.issue("critical", "DANGLING_VIEW", "A view does not reference the part after reopening.", part_id=self.part.part_id))
             info["sheets"] = int(drw.GetSheetCount())
+            info["sheets_info"] = []
+            for nm_ in (drw.GetSheetNames() or ()):
+                try:
+                    drw.ActivateSheet(nm_)
+                    pr2_ = T(drw.GetCurrentSheet(), "ISheet").GetProperties2()
+                    info["sheets_info"].append({"name": str(nm_), "scale": [pr2_[2], pr2_[3]], "size_m": [pr2_[5], pr2_[6]]})
+                except Exception as e2_:      # noqa: BLE001
+                    info["errors"].append(f"sheet {nm_}: {e2_}")
+            try:
+                drw.ActivateSheet("Sheet1")
+            except Exception:      # noqa: BLE001
+                pass
             try:
                 sh_ = T(drw.GetCurrentSheet(), "ISheet")
                 pr_ = sh_.GetProperties2()

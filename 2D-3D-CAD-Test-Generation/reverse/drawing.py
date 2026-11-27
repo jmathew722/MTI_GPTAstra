@@ -49,6 +49,7 @@ class DrawingDoc:
         self.views: dict[str, object] = {}        # role -> typed IView
         self.warnings: list[str] = []
         self.sheet_scale_record: dict = {}
+        self.sheet_scales: dict = {}
         self.note_boxes: list[tuple[float, float, float, float]] = []      # (x0, y0, x1, y1) of every label we placed
 
     # ------------------------------------------------------------ lifecycle
@@ -88,16 +89,19 @@ class DrawingDoc:
                 errs.append(f"{k}: {e}")
         return errs
 
-    def set_sheet_scale(self) -> dict:
+    def set_sheet_scale(self, sc=None) -> dict:
         """The title block's SCALE field reads the SHEET scale (views carry their own). Root cause of the v7 "2:1 on a 1:2 sheet" defect, found live in v8:
         ISheet.SetScale(num, den) drives the field correctly, but creating a drawing view afterwards silently resets the sheet scale (observed: 1:2 -> 1:5), so it
-        must be (re)applied AFTER the views exist and again just before every save / export. The value is read back with ISheet.GetProperties2 (items 2, 3)."""
-        sc = self.plan["scale"]
-        want = (float(sc["num"]), float(sc["den"]))
-        rec = {"wanted": [sc["num"], sc["den"]], "applied": False, "readback": None}
+        must be (re)applied AFTER the views exist and again just before every save / export. The value is read back with ISheet.GetProperties2 (items 2, 3).
+        ``sc`` = (num, den) for the CURRENT sheet (additional sheets); default = the plan's scale for sheet 1."""
+        sc_ = sc or (self.plan["scale"]["num"], self.plan["scale"]["den"])
+        want = (float(sc_[0]), float(sc_[1]))
+        rec = {"wanted": [sc_[0], sc_[1]], "applied": False, "readback": None}
         try:
             sh = self.s.typed(self.drw.GetCurrentSheet(), "ISheet")
-            sh.SetScale(sc["num"], sc["den"], False, False)
+            name = str(sh.GetName())
+            self.sheet_scales[name] = (sc_[0], sc_[1])
+            sh.SetScale(sc_[0], sc_[1], False, False)
             props = sh.GetProperties2()
             rec["readback"] = [props[2], props[3]]
             rec["applied"] = (abs(props[2] - want[0]) < 1e-9 and abs(props[3] - want[1]) < 1e-9)
@@ -106,8 +110,43 @@ class DrawingDoc:
         except Exception as e:      # noqa: BLE001
             self.warnings.append(f"sheet scale: {e}")
             rec["error"] = str(e)
-        self.sheet_scale_record = rec
+        if sc is None:
+            self.sheet_scale_record = rec
         return rec
+
+    def reassert_sheet_scales(self) -> None:
+        """Every sheet's scale again (a view created on any sheet can reset it); ends on Sheet1."""
+        for name, sc_ in list(self.sheet_scales.items()):
+            try:
+                self.drw.ActivateSheet(name)
+                self.set_sheet_scale(sc_)
+            except Exception as e:      # noqa: BLE001
+                self.warnings.append(f"reassert scale {name}: {e}")
+        try:
+            self.drw.ActivateSheet("Sheet1")
+        except Exception:      # noqa: BLE001
+            pass
+
+    def activate_sheet(self, name: str) -> bool:
+        try:
+            return bool(self.drw.ActivateSheet(name))
+        except Exception as e:      # noqa: BLE001
+            self.warnings.append(f"activate {name}: {e}")
+            return False
+
+    def add_sheet(self, name: str, w_m: float, h_m: float, sc, first_angle: bool) -> None:
+        """A further sheet of the source page's physical size (user-defined paper), blank (no sheet format), made current. NewSheet4 verified live on 2025 SP5."""
+        ok = self.drw.NewSheet4(name, SW_PAPER_USER_DEFINED, TEMPLATE_NONE, float(sc[0]), float(sc[1]), bool(first_angle), "", float(w_m), float(h_m), "Default", 0, 0, 0, 0, 0, 0)
+        if not ok:
+            raise CadError(f"SOLIDWORKS could not add sheet {name}.")
+        self.sheet_scales[name] = (sc[0], sc[1])
+        self.s.typed(self.drw.GetCurrentSheet(), "ISheet")
+
+    def add_view_on_sheet(self, sw_view: str, center: tuple[float, float], scale: float):
+        v = self.drw.CreateDrawViewFromModelView3(str(self.part), sw_view, center[0], center[1], 0)
+        if v is None:
+            raise CadError(f"SOLIDWORKS could not create the {sw_view} view of the part.")
+        return self._finish_view(v, scale, center)
 
     def _has_sheet_format(self) -> bool:
         try:
@@ -223,12 +262,12 @@ class DrawingDoc:
         an.SetPosition2(x, y, 0)
         return an
 
-    def sheet_lines(self, segments: list[tuple[float, float, float, float]]) -> int:
+    def sheet_lines(self, segments: list[tuple[float, float, float, float]], scale=None) -> int:
         """Native sheet geometry (border / title-block grid): straight sketch segments on the sheet at exact coordinates (no inference). Returns the count drawn."""
         n = 0
         # measured live (v8): sketch geometry on the sheet is multiplied by the SHEET SCALE when it is displayed (1:2 drew everything at half size and half the
         # offset), so coordinates are divided by the scale to land on the requested sheet position. Verified by registered overlay.
-        sc = self.plan["scale"]["num"] / self.plan["scale"]["den"]
+        sc = scale or (self.plan["scale"]["num"] / self.plan["scale"]["den"])
         segments = [(a / sc, b / sc, c / sc, d / sc) for a, b, c, d in segments]
         self.mdl.ClearSelection2(True)
         self.mdl.SketchManager.InsertSketch(True)
@@ -244,7 +283,7 @@ class DrawingDoc:
 
     # ------------------------------------------------------------ outputs
     def save_drawing(self, path: Path) -> None:
-        self.set_sheet_scale()          # a view created since the last call may have reset it
+        self.reassert_sheet_scales()          # a view created since the last call may have reset it
         path = Path(path).resolve()
         path.parent.mkdir(parents=True, exist_ok=True)
         path.unlink(missing_ok=True)
@@ -256,7 +295,7 @@ class DrawingDoc:
 
     def export_pdf(self, path: Path) -> None:
         """Vector PDF of ALL sheets."""
-        self.set_sheet_scale()
+        self.reassert_sheet_scales()
         path = Path(path).resolve()
         path.parent.mkdir(parents=True, exist_ok=True)
         path.unlink(missing_ok=True)

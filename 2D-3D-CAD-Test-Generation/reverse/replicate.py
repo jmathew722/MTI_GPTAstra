@@ -271,13 +271,13 @@ def native_note_text(an, s) -> str:
         return ""
 
 
-def refine_note_positions(r, dd, recs: list[dict], pages, frame, max_shift_mm: float = 60.0) -> dict:
+def refine_note_positions(r, dd, recs: list[dict], pages, frame, max_shift_mm: float = 60.0, page: int = 0) -> dict:
     """One measured correction: the rendered text box of each note (found by its own text in the exported PDF) vs its source box centre; shift the annotation by the
     residual. A note whose text cannot be found in the PDF is reported, never guessed."""
     from reverse import layout
-    if not pages:
+    if not pages or len(pages) <= page:
         return {"shifted": 0, "unmeasured": [x["id"] for x in recs if x.get("placed")]}
-    texts = pages[0].texts
+    texts = pages[page].texts
     used: set = set()
     shifted, unmeasured, deltas = 0, [], []
     for rec in recs:
@@ -320,16 +320,20 @@ def view_scale_checks(ex: dict, dd, plan: dict) -> list[dict]:
         if not rv or role not in dd.views:
             continue
         v = next((x for x in ex.get("views", []) if x["id"] == rv), None)
+        gen, gerr = None, None
         try:
-            gen = float(dd.views[role].ScaleDecimal)
-        except Exception:      # noqa: BLE001
-            gen = None
+            gen = float(dd.s.typed(dd.views[role], "IView").ScaleDecimal)
+        except Exception as e1:      # noqa: BLE001
+            try:
+                gen = float(dd.views[role].ScaleDecimal)
+            except Exception as e2:      # noqa: BLE001
+                gerr = f"{type(e1).__name__}: {e1} | {type(e2).__name__}: {e2}"
         from reverse.reflayout import parse_scale
         stated = parse_scale((v or {}).get("scale_text", ""))
         sheet = parse_scale(ex.get("sheet", {}).get("scale_text", ""))
         src = stated or sheet
         origin = "view label" if stated else ("sheet scale" if sheet else None)
-        row = {"role": role, "ref_view": rv, "source_scale": f"{src[0]}:{src[1]}" if src else None, "source_scale_origin": origin, "generated_decimal": gen}
+        row = {"role": role, "ref_view": rv, "source_scale": f"{src[0]}:{src[1]}" if src else None, "source_scale_origin": origin, "generated_decimal": gen, "read_error": gerr}
         if src and gen is not None:
             want = src[0] / src[1]
             row["generated_scale"] = f"{gen:g}"
@@ -361,10 +365,10 @@ def _strip_symbols(t: str) -> str:
     return norm_text("".join(ch for ch in t if (ord(ch) < 128 or ch in _KEEP_NONASCII) and ch != "|"))
 
 
-def note_verbatim_check(recs: list[dict], pages) -> dict:
+def note_verbatim_check(recs: list[dict], pages, page: int = 0) -> dict:
     """Is every placed source text present, verbatim (line by line, whitespace-normalised, case-exact), in the EXPORTED pdf? Read from the PDF, not from our own record.
     A line that differs ONLY by GD&T / frame glyphs the export did not print is reported separately as ``symbols_unverified`` (never counted as verbatim)."""
-    texts = [norm_text(t.text) for t in (pages[0].texts if pages else [])]
+    texts = [norm_text(t.text) for t in (pages[page].texts if pages and len(pages) > page else [])]
     joined = " ".join(texts)
     stripped = [_strip_symbols(t) for t in texts]
     ok, bad, symb = 0, [], []

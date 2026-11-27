@@ -32,6 +32,8 @@ CASES = {
     "ring": {"part": FO / "A001651E" / "165-C_ir.SLDPRT", "pdf": SP / "A001651E.PDF"},
     "block": {"part": FO / "A001151E" / "115C_ir.SLDPRT", "pdf": SP / "A001151E.PDF"},
     "cbore": {"part": FO / "A001171E" / "117-C_ir.SLDPRT", "pdf": SP / "A001171E.PDF"},
+    "b4028": {"part": FO / "A040281E" / "4028-B_ir.SLDPRT", "pdf": SP / "A040281E.PDF"},
+    "multipage": {"part": FO / "A001651E" / "165-C_ir.SLDPRT", "pdf": EVID / "_fixtures" / "ring_2page.pdf"},
     "p116": {"part": FO / "A001161E" / "116-C_ir.SLDPRT", "pdf": SP / "A001161E.PDF"},
 }
 
