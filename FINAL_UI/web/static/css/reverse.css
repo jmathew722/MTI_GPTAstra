@@ -325,4 +325,4 @@
 .rv-rc-tbl th { color: var(--ink-3); } .rv-rc-tbl td.n { text-align: right; font-variant-numeric: tabular-nums; }
 .rv-rc-scroll { overflow-x: auto; }
 .rv-rc-note { color: var(--ink-3); font-size: 12px; }
-.rv-run-est { margin: 0; font-size: 12px; color: var(--ink-2); overflow-wrap: anywhere; }
+.rv-run-est { margin: 0; font-size: 12px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

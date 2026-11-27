@@ -12,6 +12,8 @@ PY="$UI/.venv/Scripts/python.exe"; [ -f "$PY" ] || PY=python
 ( cd "$UI" && "$PY" -m uvicorn app:app --app-dir server --host 127.0.0.1 --port "$PORT" > "$S/server.log" 2>&1 & echo $! > "$S/pid" )
 for i in $(seq 1 40); do curl -s -o /dev/null "http://127.0.0.1:$PORT/api/status" && break; sleep 1; done
 export BASE_URL="http://127.0.0.1:$PORT"
+"$PY" helpers/make_scored_part.py "$S/final" V8SeedA good >/dev/null 2>&1
+"$PY" helpers/seed_session_part.py "http://127.0.0.1:$PORT" "$S/final" V8Audit     # a part that belongs to a session, for the 2D -> 3D workspace tests
 for spec in ${SPECS:-35-v8-comparison-cost}; do
   echo "=== $spec"; timeout 1500 npx playwright test "tests/$spec.spec.ts" --reporter=list 2>&1 | grep -E "✓|✘|passed|failed|skipped|flaky|Error|expect|Received|Expected|at .*spec.ts" | head -60
 done

@@ -19,7 +19,7 @@ test('artifacts: aliases and legacy names, unavailable entries are absent', () =
 });
 
 const INFO = (over) => Object.assign({ status: { key: 'review_required', label: 'Draft: review required', tone: 'amber', requires_ack: true, reasons: ['r'] },
-  downloads: { slddrw: { available: true, bytes: 10, filename: 'a-drawing.slddrw' }, pdf: { available: true, bytes: 20, filename: 'a-drawing.pdf' }, zip: { available: true, bytes: 30, filename: 'a-drawing.zip' } } }, over || {});
+  downloads: { slddrw: { available: true, bytes: 10, filename: 'a-drawing.slddrw' }, pdf: { available: true, bytes: 20, filename: 'a-drawing.pdf' }, report: { available: true, bytes: 40, filename: 'a-validation-report.json' }, zip: { available: true, bytes: 30, filename: 'a-drawing.zip' } } }, over || {});
 
 test('export: enabled only for real artifacts, acknowledgement gates unapproved drafts, busy blocks', () => {
   let v = F.exportView(INFO(), false, false);
@@ -29,7 +29,8 @@ test('export: enabled only for real artifacts, acknowledgement gates unapproved 
   assert.ok(F.exportView(INFO(), true, true).buttons.every((b) => !b.enabled && /progress/.test(b.reason)));
   const noPdf = INFO(); noPdf.downloads.pdf = { available: false, reason: 'The drawing PDF was not produced for this part.' }; noPdf.downloads.zip = { available: false, reason: 'Both must exist.' };
   v = F.exportView(noPdf, true, false);
-  assert.deepEqual(v.buttons.map((b) => b.enabled), [true, false, false]);
+  assert.deepEqual(v.buttons.map((b) => b.kind), ['slddrw', 'pdf', 'report', 'zip']);
+  assert.deepEqual(v.buttons.map((b) => b.enabled), [true, false, true, false]);
   assert.match(v.buttons[1].reason, /not produced/);
   const clean = INFO({ status: { key: 'draft', label: 'Draft: for review (not approved for manufacture)', tone: 'blue', requires_ack: false, reasons: [] } });
   assert.ok(F.exportView(clean, false, false).buttons.every((b) => b.enabled), 'a verified draft needs no acknowledgement');
@@ -153,4 +154,18 @@ test('stage vocabulary: legacy eight, v7 order from the job, not_applicable is i
   assert.deepEqual(R.stageStates({ state: 'queued', stages: {} }, { stage_order: order, stage_labels: { publish: 'Publish X' } }).map((x) => x.id), order);
   assert.equal(R.stageStates({ state: 'queued', stages: {} }).length, 10, 'nothing recorded: the current (v7) vocabulary');
   ['reference_resolution', 'extraction', 'view_planning', 'native_drawing', 'dimensioning_layout', 'comparison_correction', 'stl_export', 'publish'].forEach((s) => assert.ok(R.partStateInfo(s).label !== 'Unknown', s));
+});
+
+test('v8: the validation report is an export kind with its own bytes, filename and key; a replication status changes the export key', () => {
+  const v = F.exportView(INFO(), true, false), r = v.buttons.filter((b) => b.kind === 'report')[0];
+  assert.equal(r.label, 'Download report'); assert.equal(r.enabled, true); assert.equal(r.bytes, 40); assert.equal(r.filename, 'a-validation-report.json');
+  const noRep = INFO(); noRep.downloads.report = { available: false, reason: 'No validation report was written for this part.' };
+  const r2 = F.exportView(noRep, true, false).buttons.filter((b) => b.kind === 'report')[0];
+  assert.equal(r2.enabled, false); assert.match(r2.reason, /No validation report/);
+  assert.ok(F.exportView(INFO(), true, false).any); assert.equal(F.exportView(INFO({ downloads: { report: { available: true, bytes: 1 } } }), true, false).any, true);
+  const job = { job_id: 'j' }, p = (o) => Object.assign({ part_id: 'a', state: 'completed', files: { qa_json: { bytes: 7, url_path: 'q' } } }, o);
+  assert.deepEqual(F.artifactOf(p(), 'report'), { rel: 'q', bytes: 7 });
+  assert.deepEqual(F.artifactOf(p({ files: { replication_report: { bytes: 9, url_path: 'r' }, qa_json: { bytes: 7, url_path: 'q' } } }), 'report'), { rel: 'r', bytes: 9 });      // the replication report wins
+  assert.notEqual(F.exportKey(job, p()), F.exportKey(job, p({ replication: { status: 'verified' } })));
+  assert.notEqual(F.exportKey(job, p({ replication: { status: 'verified' } })), F.exportKey(job, p({ replication: { status: 'needs_review' } })));
 });

@@ -36,7 +36,7 @@
     if (ver && typeof ver === 'object' && ver.status) {
       var vk = VMAP[norm(ver.status)] || 'none', vs = Object.assign({}, STATUS[vk]);
       if (vk === 'draft') vs.label = 'Draft: checks passed (not verified against a source)';
-      vs.reason = ''; vs.source = 'verification';
+      vs.reason = ''; vs.source = vk === 'none' ? 'none' : 'verification';
       return vs;
     }
     return Object.assign({}, STATUS.none, { reason: '', source: 'none' });

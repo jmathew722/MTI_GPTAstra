@@ -69,7 +69,7 @@ test.describe('v8: comparison status, scales and facts', () => {
     await expectChip('blocked', /^Blocked$/, 'blocked'); await expect(chip).toHaveAttribute('data-tone', 'red'); await expect(chip).toHaveAttribute('title', /could not be read/);
     await expectChip('plain', /^Draft/, 'draft');                       // v7 verification only (no replication block): a draft, never "Verified"
     await expect(chip).not.toHaveText(/^Verified/);
-    for (const name of ['verified', 'needsrev', 'blocked', 'plain']) { await sel(page, name); expect(((await chip.getAttribute('title')) || '').toLowerCase().replace('not an engineering approval', '')).not.toContain('approved'); }
+    for (const name of ['verified', 'needsrev', 'blocked', 'plain']) { await sel(page, name); expect(((await chip.getAttribute('title')) || '').toLowerCase().replace('not an engineering approval', '').replace('not approved for manufacture', '')).not.toContain('approved'); }
     // an old v7 job: no replication, verification only
     await open(page, J1, 'flange'); await pdfReady(page);
     await expect(chip).toHaveAttribute('data-key', 'draft'); await expect(chip).not.toHaveText(/^Verified$/);
@@ -148,7 +148,7 @@ test.describe('v8: synchronised zoom, pan and page', () => {
     await page.locator('#rv-2d button[aria-label="Zoom in"]').click(); await page.waitForTimeout(300);
     await expect(page.locator('#rv-3d .rv-zoomlbl')).toHaveText('100%');
     // an event storm settles: after one zoom the labels stay put (no ping-pong)
-    await sel(page, 'verified'); await srcReady(page);
+    await sel(page, 'verified'); await srcMode(page);
     await page.locator('#rv-2d button[aria-label="Zoom in"]').click(); await expect(page.locator('#rv-3d .rv-zoomlbl')).toHaveText('125%'); await page.waitForTimeout(800);
     await expect(page.locator('#rv-3d .rv-zoomlbl')).toHaveText('125%'); await expect(page.locator('#rv-2d .rv-zoomlbl')).toHaveText('125%');
   });
@@ -280,7 +280,7 @@ test.describe('v8: issues and source evidence', () => {
 test.describe('v8: export of the validation report', () => {
   test('162 the report downloads as the real file of THIS part, bound to the selection, with draft labelling and acknowledgement', async ({ page }) => {
     await open(page, J4, 'needsrev'); await pdfReady(page);
-    await expect(page.locator('#rv-exp-report')).toBeVisible(); await expect(page.locator('#rv-exp-report')).toHaveText('Download report (JSON)');
+    await expect(page.locator('#rv-exp-report')).toBeVisible(); await expect(page.locator('#rv-exp-report')).toHaveText('Download report');
     await expect(page.locator('#rv-exp-status')).toContainText('Draft: review required');
     await expect(page.locator('#rv-exp-report')).toBeDisabled(); await expect(page.locator('#rv-exp-report')).toHaveAttribute('title', /Tick the acknowledgement/);
     await page.locator('#rv-exp-ack').check(); await expect(page.locator('#rv-exp-report')).toBeEnabled();
@@ -357,20 +357,26 @@ test.describe('v8: estimate before the run', () => {
     // Standard mode: a real zero is a stated "no OpenAI cost", with the reason
     await page.unroute('**/api/reverse/estimate');
     await mockEstimate(page, { schema_version: 1, mode: 'standard', count: 1, source: 'history', total: ESTIMATE({ cost: { low: 0, expected: 0, high: 0, currency: 'USD', rate_version: null, model: null, unavailable_reason: null } }) });
-    await page.setInputFiles('#rv-files', [SLD('c.SLDPRT')]);
+    await page.setInputFiles('#rv-files', [SLD('c.SLDPRT'), SLD('c2.SLDPRT')]);
     await expect(page.locator('#rv-est8-cost')).toContainText('No OpenAI cost expected'); await expect(page.locator('#rv-run-est')).toContainText('no OpenAI cost');
     // an unreachable / failing estimate is stated, not hidden and not zero
     await page.unroute('**/api/reverse/estimate');
     await mockEstimate(page, { detail: 'The estimate could not be computed.' }, 500);
-    await page.setInputFiles('#rv-files', [SLD('d.SLDPRT')]);
+    await page.setInputFiles('#rv-files', [SLD('d.SLDPRT')]);       // a third part: the selection changed, so the estimate is asked again
     await expect(page.locator('#rv-est8-err')).toContainText('Estimate unavailable'); await expect(page.locator('#rv-run-est')).toContainText('Estimate unavailable');
   });
 
   test('172 saved-extraction reuse is shown as a saving only when the backend confirmed it', async ({ page }) => {
-    await mockEstimate(page, { schema_version: 1, mode: 'match', count: 2, source: 'estimate_run', model: 'gpt-6-astra', total: ESTIMATE(),
-      parts: [{ part: 'p0', name: 'a.sldprt', reference: { status: 'resolved', pages: 1, extraction_cache: 'hit' }, estimate: ESTIMATE() }, { part: 'p1', name: 'b.sldprt', reference: { status: 'resolved', pages: 1, extraction_cache: 'fresh' }, estimate: ESTIMATE() }] });
+    const part = (n: string, cache: string) => ({ part: n, name: n + '.sldprt', reference: { status: 'resolved', pages: 1, extraction_cache: cache }, estimate: ESTIMATE() });
+    let parts = [part('p0', 'fresh'), part('p1', 'fresh')];
+    await mockEstimate(page, () => ({ schema_version: 1, mode: 'standard', count: 2, source: 'estimate_run', model: 'gpt-6-astra', total: ESTIMATE(), parts }));
     await open(page, J1, 'flange'); await openAcc(page, 'rt');
-    await expect(page.locator('#rv-est8-reuse')).toHaveCount(0);        // Standard selection: nothing confirmed, no saving claimed
+    await page.setInputFiles('#rv-files', [SLD('a.SLDPRT'), SLD('b.SLDPRT')]);
+    await expect(page.locator('#rv-cost-est h4')).toContainText('Estimate for 2 parts');
+    await expect(page.locator('#rv-est8-reuse')).toHaveCount(0);                  // nothing confirmed: no saving is claimed
+    parts = [part('p0', 'hit'), part('p1', 'fresh')];
+    await page.setInputFiles('#rv-files', [SLD('c.SLDPRT')]);                      // selection changed: asked again
+    await expect(page.locator('#rv-est8-reuse')).toHaveText('Saved extraction confirmed for 1 part: no new extraction cost is expected for it.');
   });
 });
 
@@ -468,7 +474,9 @@ test.describe('v8: layout, accessibility', () => {
     const seen: string[] = [];
     for (const [w, h] of [[1280, 720], [1440, 900], [1920, 1080]] as Array<[number, number]>) for (const zoom of [0.8, 1, 1.25]) for (const rail of [false, true]) {
       await open(page, J4, 'needsrev', w, h, { zoom, rail, cdp: true });
-      await openAcc(page, 'rt'); await tab(page, 'compare');
+      // the expanded sidebar overlays the page below ~1100 CSS px (scrim on top), so open the panels through the DOM here: this test measures layout, not clicking
+      await page.evaluate(() => { const b = document.getElementById('rv-acc-rt-btn') as HTMLElement; if (b.getAttribute('aria-expanded') !== 'true') b.click(); (document.getElementById('rv-tab-compare') as HTMLElement).click(); });
+      await page.waitForTimeout(250);
       const m = await page.evaluate(() => {
         const r = (s: string) => { const e = document.querySelector(s) as HTMLElement | null; if (!e) return null; const b = e.getBoundingClientRect(); return { top: b.top, bottom: b.bottom, left: b.left, right: b.right, w: b.width, h: b.height }; };
         const comp = document.getElementById('rv-compare') as HTMLElement, cb = document.getElementById('rv-cmpbar') as HTMLElement, cost = document.getElementById('rv-cost-panel') as HTMLElement;
@@ -514,5 +522,64 @@ test.describe('v8: evidence screenshots', () => {
     await shot(page, 'after-compare-synced-1440x900.png');
     await open(page, J4, 'needsrev', 1920, 1080); await pdfReady(page); await tab(page, 'compare'); await page.locator('[data-issue="R001"]').click(); await expect(page.locator('#rv-ev-note')).toContainText('located', { timeout: 10_000 }); await page.waitForTimeout(400);
     await shot(page, 'after-compare-issue-1920x1080.png');
+  });
+});
+
+/* ───────────────────────────── 2D -> 3D workspace: Run Pipeline cost area ───────────────────────────── */
+const WS_EST = (o: any = {}) => ({ inputs: 1, time: { available: true, low: 90, high: 330, expected: 150, n_runs: 7, limited: false }, cost: { available: true, low: '0.0400', high: '0.6200', expected: '0.2100', n_runs: 7, limited: false },
+  model: 'gpt-6-astra', rate_version: '2026-11-27', concurrency: 1, serialized_reason: '', parts: [], ...o });
+const LAST = (usage: any, o: any = {}) => ({ part: 'x', run: { run_id: 'r1', attempt: 1, state: 'succeeded', started_at: '2026-11-27T10:00:00+00:00', finished_at: '2026-11-27T10:02:20+00:00', seconds: 140.0, cost_usd: '0.0043', cost_status: 'priced', api_calls: 3, model: 'gpt-6-astra', rate_version: '2026-11-27', usage, ...o } });
+const WS_USAGE = (o: any = {}) => ({ calls: 3, cache_hits: 0, unpriced_calls: 0, input_tokens: 41234, cached_tokens: 1000, output_tokens: 5120, cost_usd: 0.0043, cost_status: 'priced', currency: 'USD', model: 'gpt-6-astra',
+  by_stage: { extractor: { calls: 1, input_tokens: 30000, cached_tokens: 1000, output_tokens: 4000, cost_usd: 0.003, attempts: 1 }, planner: { calls: 2, input_tokens: 11234, cached_tokens: 0, output_tokens: 1120, cost_usd: 0.0013, attempts: 3 } }, historical_usd: null, ...o });
+
+async function openWorkspace(page: Page, request: any, w = 1440, h = 900) {
+  const sc = await (await request.get('/api/scoring')).json();
+  const p = (sc.parts || []).find((x: any) => x.has_output && x.session);
+  expect(p, 'a seeded session part (run_v8_all.sh seeds one)').toBeTruthy();
+  await page.setViewportSize({ width: w, height: h });
+  await page.goto('/#/home'); await page.waitForFunction(() => !!(window as any).McA);
+  await page.evaluate((s: any) => { const P = (window as any).McA.persist; P.set(P.KEYS.selected, { session: s.session, part: s.part }); P.set(P.KEYS.session, s.session); }, p);
+  await page.goto('/#/workspace'); await page.reload(); await page.waitForFunction(() => !!(window as any).McA);
+  await expect(page.locator('#page-workspace')).toBeVisible(); await page.waitForTimeout(900);
+}
+async function wsAcc(page: Page) { const b = page.locator('#rt-acc-btn'); await b.scrollIntoViewIfNeeded(); if ((await b.getAttribute('aria-expanded')) !== 'true') await b.click(); }
+
+test.describe('v8: 2D -> 3D workspace runtime and cost', () => {
+  test('181 the estimate shows expected next to the range, the model and rate date, and says the local build has no token cost; unknown stays unavailable', async ({ page, request }) => {
+    let est: any = WS_EST();
+    await page.route('**/api/estimate**', (route) => route.fulfill({ json: est }));
+    await openWorkspace(page, request); await wsAcc(page);
+    await expect(page.locator('#est-time')).toContainText('Estimated time: 1.5–5.5 min (expected 2.5 min)');
+    await expect(page.locator('#est-cost')).toContainText('Estimated cost: $0.04–$0.62 (expected $0.21)');
+    await expect(page.locator('#est-model-v')).toHaveText('Model gpt-6-astra · rates of 2026-11-27'); await expect(page.locator('#est-model')).toBeVisible();
+    await expect(page.locator('#est-local')).toContainText('no token cost');
+    await shot(page, 'after-workspace-estimate-1440x900.png');
+    est = WS_EST({ cost: { available: false, reason: 'No priced runs to estimate from yet (cost is unavailable, not zero).' }, model: 'gpt-x' });
+    await page.reload(); await page.waitForFunction(() => !!(window as any).McA); await page.waitForTimeout(900); await wsAcc(page);
+    await expect(page.locator('#est-cost')).toContainText('Estimated cost: unavailable'); expect(await page.locator('#est-cost').innerText()).not.toContain('$0');
+    await expect(page.locator('#est-model')).toBeHidden();
+  });
+
+  test('182 the last run lists its model calls by stage with tokens, cached tokens, calls and cost; cached, partial and unpriced usage are worded correctly', async ({ page, request }) => {
+    let usage: any = WS_USAGE();
+    await page.route('**/api/estimate**', (route) => route.fulfill({ json: WS_EST() }));
+    await page.route('**/api/parts/*/*/last-run', (route) => route.fulfill({ json: LAST(usage) }));
+    await openWorkspace(page, request); await wsAcc(page);
+    await expect(page.locator('#rt-usage')).toBeVisible();
+    await expect(page.locator('#rt-usage-cost')).toHaveText('$0.0043 (calculated from token usage)'); await expect(page.locator('#rt-usage-tokens')).toHaveText('41,234 in · 1,000 cached · 5,120 out');
+    await expect(page.locator('#rt-usage')).toContainText('3, 2 retries'); await expect(page.locator('#rt-usage')).toContainText('Model gpt-6-astra · rates of 2026-11-27');
+    const rows = page.locator('#rt-usage-stages tbody tr'); await expect(rows).toHaveCount(2);
+    await expect(rows.nth(0)).toContainText('Extractor'); await expect(rows.nth(0)).toContainText('30,000'); await expect(rows.nth(0)).toContainText('$0.0030'); await expect(rows.nth(1)).toContainText('Planner');
+    await expect(page.locator('#est-live')).toContainText('actual 2 min 20 s'); await expect(page.locator('#est-live')).toContainText('0.0043');
+    await shot(page, 'after-workspace-usage-1440x900.png');
+    for (const [name, u, check] of [
+      ['unpriced', WS_USAGE({ cost_usd: null, cost_status: 'unpriced', unpriced_calls: 3 }), async () => { await expect(page.locator('#rt-usage-cost')).toHaveText('unavailable'); }],
+      ['partial', WS_USAGE({ cost_usd: 0.01, cost_status: 'partial', unpriced_calls: 1 }), async () => { await expect(page.locator('#rt-usage-cost')).toContainText('$0.0100 + unpriced calls'); await expect(page.locator('#rt-usage')).toContainText('1 call without a configured rate'); }],
+      ['cached', WS_USAGE({ calls: 0, cache_hits: 1, cost_usd: 0, cost_status: 'none', input_tokens: 0, cached_tokens: 0, output_tokens: 0, by_stage: {} }), async () => { await expect(page.locator('#rt-usage-cost')).toHaveText('$0.00'); await expect(page.locator('#rt-usage')).toContainText('+1 from cache'); }],
+      ['none', WS_USAGE({ calls: 0, cache_hits: 0, cost_usd: null, cost_status: 'none', input_tokens: 0, cached_tokens: 0, output_tokens: 0, by_stage: {} }), async () => { await expect(page.locator('#rt-usage')).toBeHidden(); }],
+    ] as Array<[string, any, () => Promise<void>]>) {
+      usage = u; await page.reload(); await page.waitForFunction(() => !!(window as any).McA); await page.waitForTimeout(900); await wsAcc(page);
+      await check();
+    }
   });
 });

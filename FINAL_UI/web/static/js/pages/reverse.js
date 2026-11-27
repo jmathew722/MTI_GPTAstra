@@ -288,7 +288,7 @@
   }
 
   /* ───────────────────────── viewers: PDF (pdf.js) ───────────────────────── */
-  var P = { doc: null, page: 1, zoom: 1, task: null, rendering: false, again: false, pend: null, mute: 0, sq: false };
+  var P = { doc: null, page: 1, zoom: 1, task: null, rendering: false, again: false, pend: null, expect: null, sq: false };
   function setPdf(status, msg) { pdfState = { status: status, msg: msg || '' }; renderPdfOverlay(); }
   function renderPdfOverlay() {
     var s = pdfState, p = part(), box = R.pdfEmpty;
@@ -452,10 +452,12 @@
     return { page: P.page, zoom: P.zoom, sx: K.scrollFraction(w.scrollLeft, w.scrollWidth, w.clientWidth), sy: K.scrollFraction(w.scrollTop, w.scrollHeight, w.clientHeight) };
   }
   function applyRightScroll(v) {
-    var K = McA.compareview, w = R.paperWrap; P.mute = performance.now() + 120;
+    var K = McA.compareview, w = R.paperWrap;
     if (typeof v.sx === 'number') w.scrollLeft = K.scrollFromFraction(v.sx, w.scrollWidth, w.clientWidth);
     if (typeof v.sy === 'number') w.scrollTop = K.scrollFromFraction(v.sy, w.scrollHeight, w.clientHeight);
+    P.expect = { l: w.scrollLeft, t: w.scrollTop };      // the resulting scroll event is an echo, recognised by position (not by a time window)
   }
+  function rightEcho() { var e = P.expect; if (!e) return false; P.expect = null; return Math.abs(R.paperWrap.scrollLeft - e.l) <= 1 && Math.abs(R.paperWrap.scrollTop - e.t) <= 1; }
   function syncFromRight() { if (syncPlan().effective && R.srcPane.isReady()) R.srcPane.setView(rightView()); }
   function syncFromLeft(v) {
     if (!syncPlan().effective || !P.doc) return;
@@ -570,17 +572,25 @@
     } catch (e) { R.cmpCanvas.hidden = true; R.cmpLegend.textContent = 'The ' + what.toLowerCase() + ' could not be computed in this browser.'; R.cmpLegend.setAttribute('data-src', 'error'); }
   }
 
+  /** Re-renders the results panel and puts focus back on the issue / filter button that had it (the list is rebuilt, so the node itself is new). */
+  function renderResultsKeepFocus() {
+    var ae = document.activeElement, issue = ae && ae.getAttribute ? ae.getAttribute('data-issue') : null, filt = ae && ae.getAttribute ? ae.getAttribute('data-filter') : null, y = R.resBody.scrollTop;
+    renderResults();
+    R.resBody.scrollTop = y;
+    var n = issue ? R.resBody.querySelector('[data-issue="' + issue + '"]') : (filt ? R.resBody.querySelector('[data-filter="' + filt + '"]') : null);
+    if (n) n.focus({ preventScroll: true });
+  }
   /** Click an issue: show its evidence on the source (missing / mismatched) or on the generated sheet (extra), on the right page, with a highlight and a crop. */
   function focusIssue(i) {
     var p = part(), F = McA.referenceview, side = K().evidenceSide(i), ev = evState(), key = leftKey();
     ev.id = i.id; ev.busy = true; ev.canvas = null; ev.note = 'Locating the evidence...'; ev.side = side;
-    renderResults();
-    function done(note, canvas) { ev.busy = false; ev.note = note; ev.canvas = canvas || null; if (leftKey() === key) renderResults(); announce(note); }
+    renderResultsKeepFocus();
+    function done(note, canvas) { ev.busy = false; ev.note = note; ev.canvas = canvas || null; if (leftKey() === key) renderResultsKeepFocus(); announce(note); }
     var label = i.text ? '"' + i.text + '"' : 'this item';
     if (side === 'source') {
       var sv = F.sourceView(p);
       if (!sv.available) { done('No source PDF is available for this part, so the source evidence cannot be shown. ' + sv.reason); return; }
-      if (leftMode() !== 'source') setLeftMode('source');
+      if (leftMode() !== 'source') { var fe = document.activeElement; setLeftMode('source'); if (fe && fe !== document.body && document.body.contains(fe) && fe.focus) fe.focus({ preventScroll: true }); }      // switching the viewer must not take focus from the list
       var pane = R.srcPane;
       waitFor(function () { return leftKey() === key && pane.isReady() && pane.isIdle(); }, function () {
         var pg = Math.max(1, Math.min(pane.numPages(), i.page || pane.getView().page));
@@ -632,7 +642,7 @@
     wrap.append(h('p', { class: 'rv-note', role: 'note' }, icon('info', 14), h('span', { text: 'A software comparison with the source drawing is not an engineering approval. ' + V().DRAFT_NOTICE + '.' })));
     var issues = K().issues(p), counts = K().groupCounts(issues), shown = issues.filter(function (i) { return cs.filter === 'all' || i.group === cs.filter; });
     var filters = h('div', { class: 'rv-ct-filters', role: 'group', 'aria-label': 'Filter issues' }, K().GROUPS.filter(function (g) { return g[0] === 'all' || counts[g[0]]; }).map(function (g) {
-      return h('button', { class: 'btn ghost sm', type: 'button', 'data-filter': g[0], 'aria-pressed': String(cs.filter === g[0]), text: g[1] + ' (' + counts[g[0]] + ')', onclick: function () { cs.filter = g[0]; renderResults(); var b = document.querySelector('[data-filter="' + g[0] + '"]'); if (b) b.focus(); } });
+      return h('button', { class: 'btn ghost sm', type: 'button', 'data-filter': g[0], 'aria-pressed': String(cs.filter === g[0]), text: g[1] + ' (' + counts[g[0]] + ')', onclick: function () { cs.filter = g[0]; renderResultsKeepFocus(); } });
     }));
     var list;
     if (!issues.length) list = empty(st.verified ? 'check' : 'file', st.source === 'none' ? 'Not compared' : 'No issues recorded', st.source === 'none' ? 'Run in Match reference mode to compare the drawing with its source.' : (st.verified ? 'No missing, extra or mismatched elements were recorded.' : 'The comparison recorded no itemised issues.'));
@@ -1002,8 +1012,8 @@
     R.paperWrap = h('div', { class: 'rv-paperwrap', tabindex: '0', role: 'region', 'aria-label': 'Drawing sheet (scrollable)', hidden: true }, R.paper, R.cmpCanvas, R.cmpImg);
     R.markGen = McA.pdfpane.attachMark(R.paperWrap, R.paper);
     R.paperWrap.addEventListener('scroll', function () {
-      if (performance.now() < P.mute || P.sq || !P.doc) return;
-      P.sq = true; requestAnimationFrame(function () { P.sq = false; if (performance.now() >= P.mute) syncFromRight(); });
+      if (P.sq || !P.doc || rightEcho()) return;
+      P.sq = true; requestAnimationFrame(function () { P.sq = false; syncFromRight(); });
     }, { passive: true });
     R.pdfEmpty = h('div', { class: 'vp-empty rv-vempty' });
     R.overlayBox = h('div', { class: 'rv-overlay', hidden: true, 'aria-live': 'polite' });

@@ -315,6 +315,9 @@ test.describe('v5: 3D -> 2D', () => {
     const tab = page.locator('#rv-tab-overview');
     await tab.focus();
     await page.keyboard.press('ArrowRight');
+    await expect(page.locator('#rv-tab-compare')).toHaveAttribute('aria-selected', 'true');           // v8: the Comparison tab sits right after Overview
+    await expect(page.locator('#rv-tab-compare')).toBeFocused();
+    await page.keyboard.press('ArrowRight');
     await expect(page.locator('#rv-tab-inventory')).toHaveAttribute('aria-selected', 'true');
     await expect(page.locator('#rv-tab-inventory')).toBeFocused();
     await page.keyboard.press('End');

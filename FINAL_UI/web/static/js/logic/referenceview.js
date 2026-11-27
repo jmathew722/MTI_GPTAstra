@@ -29,7 +29,7 @@
   }
 
   /* ------------------------------------------------------------------ export */
-  var EXPORT_KINDS = [['slddrw', 'Download SLDDRW'], ['pdf', 'Download PDF'], ['report', 'Download report (JSON)'], ['zip', 'Download both (ZIP)']];
+  var EXPORT_KINDS = [['slddrw', 'Download SLDDRW'], ['pdf', 'Download PDF'], ['report', 'Download report'], ['zip', 'Download both (ZIP)']];
   /** Export panel state from GET .../export (server-computed): which buttons are enabled and why not. `ack` = the user ticked the acknowledgement. */
   function exportView(info, ack, busy) {
     if (!info || !info.downloads) {

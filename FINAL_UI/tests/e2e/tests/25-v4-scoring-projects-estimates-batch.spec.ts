@@ -151,7 +151,7 @@ test.describe('v4: Run Pipeline estimates', () => {
     await page.click('#rt-acc-btn');
     await expect(box).toBeVisible();
     await expect(page.locator('#est-time')).toHaveText(/^Estimated time: .*min/, { timeout: 15_000 });
-    await expect(page.locator('#est-cost')).toHaveText(/^Estimated cost: \$\d+\.\d\d.\$\d+\.\d\d$/);
+    await expect(page.locator('#est-cost')).toHaveText(/^Estimated cost: \$\d+\.\d\d.\$\d+\.\d\d( \(expected \$\d+\.\d\d\))?$/);   // v8: the median is shown as \"expected\" next to the range
     await expect(page.locator('#est-detail')).toContainText('1 input');
     await expect(page.locator('#est-detail')).toContainText('Run All Parts (2)');
     await expect(page.locator('#est-detail')).toContainText('one part at a time');

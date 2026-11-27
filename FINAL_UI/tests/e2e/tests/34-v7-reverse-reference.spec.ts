@@ -510,7 +510,7 @@ test.describe('v7: left viewer toggle', () => {
     await page.locator('#rv-left-src').click(); await srcReady(page);
     await expect(page.locator('#rv-3d .rv-pagelbl')).toHaveText('Page 1 of 1');
     await expect(page.locator('#rv-sync')).toHaveAttribute('aria-disabled', 'false');
-    await page.locator('#rv-sync').click(); await expect(page.locator('#rv-sync')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#rv-sync')).toHaveAttribute('aria-pressed', 'true');                  // v8: on by default when the page counts match (v7 started off)
     await page.locator('#rv-2d button[aria-label="Zoom in"]').click(); await expect(page.locator('#rv-3d .rv-zoomlbl')).toHaveText('125%');     // right drives left
     await page.locator('#rv-3d .rv-src-tools button[aria-label^="Zoom in"]').click(); await expect(page.locator('#rv-2d .rv-zoomlbl')).toHaveText('150%');       // left drives right
     await page.locator('#rv-sync').click(); await expect(page.locator('#rv-sync')).toHaveAttribute('aria-pressed', 'false');

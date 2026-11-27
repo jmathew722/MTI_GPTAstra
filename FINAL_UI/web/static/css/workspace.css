@@ -316,8 +316,17 @@
 .rt-note { text-transform: none; letter-spacing: 0; }
 .rt-row { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: var(--sp-3); font-size: var(--fs-small); min-width: 0; font-variant-numeric: tabular-nums; }
 .rt-row .k { color: var(--ink-3); }
-.rt-row .v { color: var(--ink); text-align: right; overflow-wrap: anywhere; min-width: 0; }
+.rt-row .v { color: var(--ink); text-align: right; overflow-wrap: anywhere; min-width: 0; margin-left: auto; }          /* margin-left:auto keeps a long value (range + expected) on the right edge when it wraps under its label */
 .rt-live { display: flex; flex-direction: column; gap: 4px; padding-top: var(--sp-1); border-top: 1px dashed var(--line); }
 .rt-live[hidden] { display: none; }
 .rt-live .v { color: var(--gold); }
 .rt-row[hidden] { display: none; }
+
+/* v8: model calls of the last run by stage (Workspace > Runtime & cost) */
+.rt-usage { display: flex; flex-direction: column; gap: 4px; padding-top: var(--sp-1); border-top: 1px dashed var(--line); }
+.rt-usage[hidden] { display: none; }
+.rt-stbl { overflow-x: auto; }
+.rt-stbl table { width: 100%; border-collapse: collapse; font-size: var(--fs-caption); font-variant-numeric: tabular-nums; }
+.rt-stbl th, .rt-stbl td { text-align: right; padding: 2px 4px; border-bottom: 1px solid var(--line-soft); font-weight: 400; white-space: nowrap; }
+.rt-stbl th[scope="row"], .rt-stbl thead th:first-child { text-align: left; color: var(--ink-2); }
+.rt-stbl thead th { color: var(--ink-3); }

@@ -14,7 +14,7 @@
   function create(opts) {
     opts = opts || {};
     var icon = opts.icon || function (n, s) { return McA.icons.get(n, s || 16); };
-    var P = { doc: null, page: 1, zoom: 1, task: null, rendering: false, again: false, key: '', ready: false, token: 0, pend: null, mute: 0 };
+    var P = { doc: null, page: 1, zoom: 1, task: null, rendering: false, again: false, key: '', ready: false, token: 0, pend: null, expect: null };
     var paper = h('canvas', { class: 'rv-paper', 'aria-label': (opts.label || 'PDF') + ' sheet' });
     var wrap = h('div', { class: 'rv-paperwrap rv-pan', tabindex: '0', role: 'region', 'aria-label': (opts.label || 'PDF') + ' sheet (scrollable; drag to pan)', hidden: true }, paper);
     var box = h('div', { class: 'vp-empty rv-pempty' });
@@ -34,10 +34,11 @@
     function view() { var f = frac(); return { page: P.page, zoom: P.zoom, sx: f.sx, sy: f.sy }; }
     function applyScroll(v) {
       var C = McA.compareview; if (!C || !v) return;
-      P.mute = performance.now() + 120;
       if (typeof v.sx === 'number') wrap.scrollLeft = C.scrollFromFraction(v.sx, wrap.scrollWidth, wrap.clientWidth);
       if (typeof v.sy === 'number') wrap.scrollTop = C.scrollFromFraction(v.sy, wrap.scrollHeight, wrap.clientHeight);
+      P.expect = { l: wrap.scrollLeft, t: wrap.scrollTop };           // the scroll event this causes is an echo, recognised by its position (a time window would also swallow a real user scroll)
     }
+    function isEcho() { var e = P.expect; if (!e) return false; P.expect = null; return Math.abs(wrap.scrollLeft - e.l) <= 1 && Math.abs(wrap.scrollTop - e.t) <= 1; }
     function emit() { if (opts.onView) opts.onView(view()); }
     function go(n, user) {
       if (!P.doc) return;
@@ -133,9 +134,9 @@
     function endDrag() { if (drag) { drag = null; wrap.classList.remove('is-panning'); } }
     var scrollQ = false;
     wrap.addEventListener('scroll', function () {
-      if (!opts.onView || performance.now() < P.mute || scrollQ || !P.doc) return;
+      if (!opts.onView || scrollQ || !P.doc || isEcho()) return;
       scrollQ = true;
-      requestAnimationFrame(function () { scrollQ = false; if (performance.now() >= P.mute && P.doc) emit(); });
+      requestAnimationFrame(function () { scrollQ = false; if (P.doc) emit(); });
     }, { passive: true });
     wrap.addEventListener('pointerup', endDrag); wrap.addEventListener('pointercancel', endDrag);
     wrap.addEventListener('keydown', function (e) {

@@ -296,7 +296,7 @@
     bits.push(pv.cost.state === 'ready' ? 'about ' + pv.cost.text + ' OpenAI (' + (pv.model || 'model') + ')' : pv.cost.state === 'none' ? 'no OpenAI cost' : 'cost unavailable');
     return 'Estimate: ' + bits.join(' \u00b7 ');
   }
-  function renderEstLine() { if (R.runEst) { var t = estLineText(); if (R.runEst.textContent !== t) R.runEst.textContent = t; R.runEst.hidden = !t; } }
+  function renderEstLine() { if (R.runEst) { var t = estLineText(); if (R.runEst.textContent !== t) { R.runEst.textContent = t; R.runEst.title = t; } R.runEst.hidden = !t; } }
   function kvRow(dl, k, v, tone, id) { dl.append(h('dt', { text: k }), h('dd', { text: v, 'data-tone': tone || null, id: id || null })); }
   function stageTable(rows, kind, id) {
     var head = kind === 'usage' ? ['Stage', 'Calls', 'Input', 'Cached', 'Output', 'Cost'] : ['Stage', 'Calls', 'Time', 'Cost'];
