@@ -1,0 +1,57 @@
+{
+  "part": "A001341E",
+  "extraction": "reused C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001341E\\A001341E_extraction.json",
+  "plan_attempts": 2,
+  "gate1": "OK",
+  "planned": 9,
+  "questions": [],
+  "flagged": [],
+  "defaults": [],
+  "reference_step": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001341E\\reference.step",
+  "volume": 5.171599,
+  "cq_skipped": {},
+  "sw_ok": true,
+  "sldprt": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001341E\\134B_ir.sldprt",
+  "stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001341E\\134 B_ir.stl",
+  "prevalidation_stl": "C:\\Users\\joeka\\OneDrive\\Desktop\\UI_Astra\\FINAL_OUTPUTs\\A001341E\\prevalidation.stl",
+  "sw_features": {
+    "F001": "built (Mid Plane)",
+    "F002": "built (Up To Next; one feature for F002, F003)",
+    "F003": "built (in F002 (one feature))",
+    "F004": "built (Hole Wizard #10-24 tapped, cosmetic thread, Up To Next, 6 hole(s); one feature for F004, F005, F006, F007, F008, F009)",
+    "F005": "built (in F004 (one feature))",
+    "F006": "built (in F004 (one feature))",
+    "F007": "built (in F004 (one feature))",
+    "F008": "built (in F004 (one feature))",
+    "F009": "built (in F004 (one feature))"
+  },
+  "conventions": [
+    "origin centered: True",
+    "F001: base sketch on the Top plane, Mid Plane extrude",
+    "F009: Hole Wizard #10-24 tapped, cosmetic thread, Up To Next, 6 hole(s)",
+    "sketches fully defined: 3/3"
+  ],
+  "hole_wizard_substitutions": [],
+  "mti_review": [
+    "[mti_hole_grouping] F004, F005, F006, F007, F008, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points"
+  ],
+  "material": {
+    "status": "unmatched",
+    "label": "1018 STEEL",
+    "material_id": null,
+    "selection_source": null,
+    "review_required": true,
+    "cost_available": false,
+    "net_material_cost": null,
+    "currency": "USD",
+    "mass_kg": null,
+    "files": [
+      "material_resolution.json",
+      "material_native.json",
+      "material_costing.json",
+      "appearance.json"
+    ]
+  },
+  "cost_usd": 0.4064,
+  "error": ""
+}

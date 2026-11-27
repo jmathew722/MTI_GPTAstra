@@ -1,0 +1,643 @@
+{
+  "part_name": "SPACER",
+  "part_number": "4031-B",
+  "revision": "",
+  "drawing_standard": "",
+  "units": "inch",
+  "scale": "1:1",
+  "material": "1018",
+  "material_extraction": {
+    "status": "specified",
+    "raw_text": "1018",
+    "normalized_candidate": "1018",
+    "evidence": [
+      {
+        "page": 1,
+        "region": "title_block",
+        "quote": "1018",
+        "bbox_normalized": [
+          0.75,
+          0.557,
+          0.804,
+          0.595
+        ]
+      }
+    ],
+    "alternatives": [],
+    "confidence": 0.99,
+    "review_reason": null,
+    "specification": null,
+    "condition_or_temper": null,
+    "coating": null,
+    "heat_treatment": null,
+    "finish": "63 surface texture callouts on both end faces; parameter and roughness units are not explicitly stated.",
+    "hardness": null,
+    "stock_form": null,
+    "body_scope": null
+  },
+  "finish": "63 on both end faces normal to the 4.000 length. Conventionally microinch roughness on this inch drawing, but parameter and roughness units are not explicitly stated.",
+  "general_tolerance": "UNLESS OTHERWISE SPECIFIED:\nTHIRD ANGLE PROJECTION\nDIMENSIONS IN INCHES\n2 PLACE DIM. \u00b1.02\n3 PLACE DIM. \u00b1.030\nANGULAR DIM. \u00b11\u00b0",
+  "views": [
+    {
+      "view_type": "Front",
+      "description": "Left-hand end-face view, 1.50 wide by 3.00 high; two counterbored holes and an assembly-located tapped hole.",
+      "dimensions_shown": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D005",
+        "D007",
+        "D008",
+        "D009",
+        "D010"
+      ],
+      "visible_features": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005"
+      ],
+      "hidden_features": [],
+      "centerline_notes": "Common vertical centerline .75 from left edge locates the two counterbored holes. Horizontal centerlines mark their axes. The tapped hole is drawn approximately between them, but is explicitly LOCATE AT ASSEMBLY and has no controlled position."
+    },
+    {
+      "view_type": "Right",
+      "description": "Right-side view in third-angle projection, 4.000 long by 3.00 high. Hidden lines show through bores, counterbores entering from the left end, and a blind tapped hole with drill point. Right end face is datum A.",
+      "dimensions_shown": [
+        "D006",
+        "D014",
+        "D015",
+        "D016"
+      ],
+      "visible_features": [
+        "F001"
+      ],
+      "hidden_features": [
+        "F002",
+        "F003",
+        "F004",
+        "F005"
+      ],
+      "centerline_notes": "Horizontal centerlines indicate longitudinal bore axes. Each counterbore is coaxial with its associated through bore. Both end faces have surface texture 63 callouts."
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D001",
+      "type": "linear",
+      "value": 1.5,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_width",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.50; two-place general tolerance."
+    },
+    {
+      "id": "D002",
+      "type": "linear",
+      "value": 0.75,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "counterbored_hole_axis_distance_from_left_edge",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .75; applies to common vertical centerline of the two counterbored holes. Two-place general tolerance."
+    },
+    {
+      "id": "D003",
+      "type": "linear",
+      "value": 3.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_height",
+      "feature_ref": "F001",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 3.00; two-place general tolerance."
+    },
+    {
+      "id": "D004",
+      "type": "linear",
+      "value": 0.62,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "upper_hole_axis_distance_below_top_edge",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .62; do not substitute .625. Two-place general tolerance."
+    },
+    {
+      "id": "D005",
+      "type": "linear",
+      "value": 1.75,
+      "unit": "inch",
+      "tolerance_plus": 0.03,
+      "tolerance_minus": 0.03,
+      "tolerance_type": "bilateral",
+      "applies_to": "counterbored_hole_center_spacing",
+      "feature_ref": "F002",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 1.750. Three-place general tolerance read as \u00b1.030."
+    },
+    {
+      "id": "D006",
+      "type": "linear",
+      "value": 4.0,
+      "unit": "inch",
+      "tolerance_plus": 0.001,
+      "tolerance_minus": 0.001,
+      "tolerance_type": "bilateral",
+      "applies_to": "overall_length",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed 4.000 \u00b1 .001; explicit tolerance overrides general block. Right end face is datum A."
+    },
+    {
+      "id": "D007",
+      "type": "thread",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_internal_thread_diameter",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": ".500-13 TAP 1.00 DP. LOCATE AT ASSEMBLY. 13 threads per inch; thread class and explicit series are not stated. Not a drill diameter."
+    },
+    {
+      "id": "D008",
+      "type": "depth",
+      "value": 1.0,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "tapped_depth",
+      "feature_ref": "F005",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "1.00 DP. in tap callout; two-place general tolerance. Total drill depth not dimensioned."
+    },
+    {
+      "id": "D009",
+      "type": "depth",
+      "value": 0.75,
+      "unit": "inch",
+      "tolerance_plus": 0.02,
+      "tolerance_minus": 0.02,
+      "tolerance_type": "bilateral",
+      "applies_to": "counterbore_depth",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "DR. & C'BORE .75 DP. FOR .500 SOC. HD. CAP SCR. 2 HLS. Two-place general tolerance; applies to both counterbores."
+    },
+    {
+      "id": "D010",
+      "type": "linear",
+      "value": 0.5,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "nominal_socket_head_cap_screw_size",
+      "feature_ref": "F003",
+      "view": "Front",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Printed .500 SOC. HD. CAP SCR.; a nominal fastener size, not a through-hole or counterbore diameter. No linear size tolerance assigned to this designation."
+    },
+    {
+      "id": "D011",
+      "type": "linear",
+      "value": 0.63,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "lower_hole_axis_distance_above_bottom_edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: 3.00 - .62 - 1.750 = .630. Not printed; no independent tolerance assigned."
+    },
+    {
+      "id": "D012",
+      "type": "linear",
+      "value": 2.38,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "upper_hole_axis_distance_above_bottom_edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: 3.00 - .62 = 2.38. Not printed; no independent tolerance assigned."
+    },
+    {
+      "id": "D013",
+      "type": "linear",
+      "value": 0.75,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "hole_axis_distance_from_right_edge",
+      "feature_ref": "F002",
+      "view": "",
+      "datum_ref": "",
+      "gdt_symbol": "",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Derived: 1.50 - .75 = .75. Not printed; no independent tolerance assigned."
+    },
+    {
+      "id": "D014",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_end_face_parallelism_tolerance",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "A",
+      "gdt_symbol": "parallelism",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Left end-face feature control frame: parallelism | A | .001. Geometric tolerance magnitude, not nominal size."
+    },
+    {
+      "id": "D015",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "left_end_face_flatness_tolerance",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "flatness",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Flatness .001 on the counterbore-entry end face; no datum reference."
+    },
+    {
+      "id": "D016",
+      "type": "linear",
+      "value": 0.001,
+      "unit": "inch",
+      "tolerance_plus": 0.0,
+      "tolerance_minus": 0.0,
+      "tolerance_type": "reference",
+      "applies_to": "right_end_face_flatness_tolerance",
+      "feature_ref": "F001",
+      "view": "Right",
+      "datum_ref": "",
+      "gdt_symbol": "flatness",
+      "is_reference": false,
+      "value_unclear": false,
+      "ambiguity_reason": "",
+      "possible_values": [],
+      "resolution_required": false,
+      "notes": "Flatness .001 on the right end face, separately designated datum A. Flatness itself does not reference a datum."
+    }
+  ],
+  "hole_callouts": [
+    {
+      "id": "H002",
+      "type": "tapped",
+      "diameter": 0.5,
+      "thru": false,
+      "depth": 1.0,
+      "thread_spec": ".500-13 TAP",
+      "cbore_diameter": 0.0,
+      "cbore_depth": 0.0,
+      "csink_diameter": 0.0,
+      "csink_angle": 0.0,
+      "qty": 1,
+      "x_position": 0.0,
+      "y_position": 0.0,
+      "position_known": false,
+      "pattern": "none",
+      "pattern_spacing": 0.0,
+      "instance_positions": [],
+      "feature_ref": "F005",
+      "view": "Front"
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "type": "extrude_boss",
+      "description": "Rectangular base, 1.50 wide by 3.00 high, extruded 4.000 along the bore axes. Coordinate origin is the lower-left corner of the front end face.",
+      "related_dimensions": [
+        "D001",
+        "D003",
+        "D006",
+        "D014",
+        "D015",
+        "D016"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D006",
+      "parent_feature": "",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F002",
+      "type": "hole",
+      "description": "Two through bores for .500 socket-head cap screws. Edge-referenced instance_positions = [[.75,.63],[.75,2.38]], spacing 1.750 vertically. Actual through diameter is not specified and must be resolved before building.",
+      "related_dimensions": [
+        "D002",
+        "D004",
+        "D005",
+        "D010",
+        "D011",
+        "D012"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F003",
+      "type": "extrude_cut",
+      "description": "Two counterbores .75 deep from the front end face, coaxial with F002. Edge-referenced instance_positions = [[.75,.63],[.75,2.38]]. Diameter is not specified. Exact callout: DR. & C'BORE .75 DP. FOR .500 SOC. HD. CAP SCR. 2 HLS.",
+      "related_dimensions": [
+        "D002",
+        "D004",
+        "D005",
+        "D009",
+        "D010",
+        "D011",
+        "D012"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D009",
+      "parent_feature": "F002",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 2
+    },
+    {
+      "id": "F004",
+      "type": "hole",
+      "description": "Blind tap-drill preparation from front end face. Drill diameter, total drilled depth, and drill-point angle are unspecified. LOCATE AT ASSEMBLY means location must not be inferred from the sketch.",
+      "related_dimensions": [
+        "D007",
+        "D008"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "",
+      "parent_feature": "F001",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    },
+    {
+      "id": "F005",
+      "type": "thread",
+      "description": ".500-13 internal thread tapped 1.00 deep; LOCATE AT ASSEMBLY. Thread class and explicit series are not specified.",
+      "related_dimensions": [
+        "D007",
+        "D008"
+      ],
+      "sketch_plane": "Front",
+      "depth_dimension_id": "D008",
+      "parent_feature": "F004",
+      "offset_x": 0.0,
+      "offset_y": 0.0,
+      "position_known": false,
+      "quantity": 1
+    }
+  ],
+  "geometric_tolerances": [
+    {
+      "symbol": "parallelism",
+      "value": 0.001,
+      "datum": "A"
+    },
+    {
+      "symbol": "flatness",
+      "value": 0.001,
+      "datum": ""
+    },
+    {
+      "symbol": "flatness",
+      "value": 0.001,
+      "datum": ""
+    }
+  ],
+  "relationships": {
+    "symmetry": [
+      {
+        "plane": "Longitudinal plane at x = .75 bisecting the 1.50 width",
+        "feature_ids": [
+          "F001",
+          "F002",
+          "F003"
+        ],
+        "description": "Nominal width symmetry of base and counterbored hole pair. Assembly-located tapped hole excluded. Vertical hole-pair symmetry is not assumed: top margin .62 versus derived bottom margin .63."
+      }
+    ],
+    "concentric_groups": [
+      {
+        "feature_ids": [
+          "F002",
+          "F003"
+        ],
+        "description": "Each counterbore shares the axis of its associated through bore; the two instances do not share a single axis."
+      },
+      {
+        "feature_ids": [
+          "F004",
+          "F005"
+        ],
+        "description": "Blind drill preparation and tapped thread are coaxial at an assembly-defined location."
+      }
+    ],
+    "equal_spacing": [
+      {
+        "feature_ref": "F002",
+        "qty": 2,
+        "spacing_value": 1.75,
+        "computed_from": "Directly dimensioned 1.750; coordinates cross-check as 2.38 - .63 = 1.75."
+      }
+    ],
+    "dimension_chains": [
+      {
+        "total_dimension_id": "D001",
+        "component_dimension_ids": [
+          "D002",
+          "D013"
+        ],
+        "description": "1.50 = .75 + .75; width offsets."
+      },
+      {
+        "total_dimension_id": "D003",
+        "component_dimension_ids": [
+          "D004",
+          "D005",
+          "D011"
+        ],
+        "description": "3.00 = .62 + 1.750 + .63; vertical hole-position chain."
+      },
+      {
+        "total_dimension_id": "D003",
+        "component_dimension_ids": [
+          "D004",
+          "D012"
+        ],
+        "description": "3.00 = .62 + 2.38; upper hole offsets."
+      },
+      {
+        "total_dimension_id": "D012",
+        "component_dimension_ids": [
+          "D011",
+          "D005"
+        ],
+        "description": "2.38 = .63 + 1.750; upper coordinate from lower coordinate and spacing."
+      }
+    ],
+    "derived_dimension_ids": [
+      "D011",
+      "D012",
+      "D013"
+    ],
+    "reference_dimension_ids": []
+  },
+  "build_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005"
+  ],
+  "warnings": [
+    "The drawing states inch units and third-angle projection, but no explicit ASME/ISO/DIN standard or edition.",
+    "Drawing number is 4031-B; separate MODEL No. is 480-B. No independently populated revision; B suffix has not been treated as revision.",
+    "The three-place general tolerance is read as \u00b1.030. Verify this relatively broad handwritten tolerance against the source before manufacture; explicit 4.000 \u00b1.001 is unaffected.",
+    "The paired counterbored-hole callout cannot be entered honestly in the hole_callouts array because the schema requires a positive numerical bore diameter, while neither bore nor counterbore diameter is specified. It is fully retained in F002/F003 and D009/D010: quantity 2, through bores, .75-deep counterbores, for .500 socket-head cap screws; edge-referenced centers [[.75,.63],[.75,2.38]], linear spacing 1.750. No diameter has been invented.",
+    "The .500 screw designation must not be interpreted as either a .500 clearance bore or .500 counterbore. An applicable screw-clearance/counterbore standard and fit must be approved.",
+    "Through extent is shown by the side-view hidden lines rather than a printed THRU note.",
+    "Tapped hole is explicitly LOCATE AT ASSEMBLY. Its approximate drawn position is not a controlled location.",
+    "Tap depth 1.00 is interpreted as thread depth. Tap-drill diameter, total drilled depth, drill-point angle, and thread class are not specified.",
+    "Both end-face surface texture values are 63. Microinch roughness is conventional for this drawing, but roughness units and parameter are not printed.",
+    "Heat-treatment field is blank; no heat treatment, coating, hardness, or stock form specified.",
+    "Left end face has parallelism .001 to datum A and flatness .001. Right end face is datum A and has separate flatness .001.",
+    "Derived coordinates are nominal arithmetic, not independent toleranced dimensions. Missing hole sizes and assembly-location details prevent an exact final manufacturing model."
+  ],
+  "confidence": 0.9
+}

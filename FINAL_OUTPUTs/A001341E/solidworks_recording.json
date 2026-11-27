@@ -1,0 +1,109 @@
+{
+  "status": "ready",
+  "run_id": "run_3939a7729c564ec190d1",
+  "part": "A001341E",
+  "source_sha256": "a8f785fd85053016e4087223c20cc40b2b49a377da10df786663fe6aa2f5ae51",
+  "video": "solidworks_recording.mp4",
+  "poster": "solidworks_recording_poster.jpg",
+  "backend": "printwindow",
+  "capture_method": "printwindow-window (PrintWindow PW_RENDERFULLCONTENT of one validated window; unaffected by covering windows; no desktop capture)",
+  "target": {
+    "pid": 30100,
+    "hwnd": 7870000,
+    "exe": "SLDWORKS.exe",
+    "window_class": "Afx:0000000140000000:8:0000000000010003:0000000000000000:00000000002F0C32",
+    "title_prefix": "SOLIDWORKS",
+    "identity_ok": true,
+    "identity_checks": {
+      "visible": true,
+      "top_level": true,
+      "unowned": true,
+      "solidworks_exe": true,
+      "same_session": true,
+      "main_window_class": true
+    }
+  },
+  "session": {
+    "sw_pid": 30100,
+    "doc_at_start": "",
+    "docs_open": null
+  },
+  "started_at": "2026-11-27T16:56:45-0500",
+  "started_epoch": 1795816605.203,
+  "ended_at": "2026-11-27T16:58:04-0500",
+  "captured_frames": 125,
+  "held_frames": 1067,
+  "occluded_seconds": 0.0,
+  "privacy_gate": "off",
+  "minimized_events": 0,
+  "resize_events": 0,
+  "verified": true,
+  "probe": {
+    "ok": true,
+    "frames": 1192,
+    "fps": 15.0,
+    "duration_s": 79.47,
+    "first_frame": true,
+    "last_frame": true,
+    "reason": ""
+  },
+  "fps": 15,
+  "width": 1536,
+  "height": 816,
+  "frames": 1192,
+  "dropped_frames": 0,
+  "duration_s": 79.47,
+  "bytes": 1327509,
+  "camera": {
+    "ok": true,
+    "events_checked": 6,
+    "completed_features": 3,
+    "isometric_events": 2,
+    "isometric_verified": 2,
+    "no_move_events": 0,
+    "fit_verified": 6,
+    "orientation_preserved": 3,
+    "margin_corrections": 5,
+    "failures": [],
+    "target_margin": 0.15,
+    "iso_every": 2,
+    "log": "camera_log.json"
+  },
+  "paced": true,
+  "build_outcome": "completed",
+  "build_error": "",
+  "chapters": [
+    {
+      "id": "F001",
+      "label": "F001 prism: built",
+      "status": "built",
+      "t": 9.36,
+      "t_settled": 12.84
+    },
+    {
+      "id": "F002",
+      "label": "F002 hole: built",
+      "status": "built",
+      "t": 35.15,
+      "t_settled": 42.3
+    },
+    {
+      "id": "F004",
+      "label": "F004 hole: built",
+      "status": "built",
+      "t": 67.62,
+      "t_settled": 70.97
+    },
+    {
+      "id": "final",
+      "label": "Final model",
+      "status": "built",
+      "t": 76.24,
+      "t_settled": 76.24
+    }
+  ],
+  "code": "",
+  "reason": "",
+  "schema_version": 1,
+  "generation_key": "276277bca255"
+}

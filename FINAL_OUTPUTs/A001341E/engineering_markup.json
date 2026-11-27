@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "part": "A001341E",
+  "run_id": "run_3939a7729c564ec190d1",
+  "source_pdf": "A001341E.pdf",
+  "source_sha256": "a8f785fd85053016e4087223c20cc40b2b49a377da10df786663fe6aa2f5ae51",
+  "marked_pdf": "A001341E_engineering_markup.pdf",
+  "generated_at": "2026-11-27T21:58:15Z",
+  "generator_version": "engineering_markup/1",
+  "finding_count": 1,
+  "located_count": 0,
+  "unlocated_count": 1,
+  "status": "partial",
+  "warnings": [
+    {
+      "code": "MARKUP_LOCALIZATION_PARTIAL",
+      "detail": "1 of 1 flag(s) could not be placed precisely"
+    }
+  ],
+  "report_pages": 1,
+  "pages": [
+    {
+      "page": 1,
+      "width_pt": 1670.82,
+      "height_pt": 786.0,
+      "drawing_width_pt": 1223.0,
+      "rail_width_pt": 447.82,
+      "source_rotation": 0,
+      "finding_ids": [
+        "EF-001"
+      ],
+      "preview": "engineering_markup_pages/page-0001.png",
+      "preview_dpi": 110
+    }
+  ],
+  "findings": [
+    {
+      "id": "EF-001",
+      "number": 1,
+      "finding_id": "flag_0b301d1b4420",
+      "severity": "INFO",
+      "code": "practice_advisory",
+      "title": "Modeling practice: mti_hole_grouping",
+      "explanation": "Expected: MTI modeling practice. Actual: F004, F005, F006, F007, F008, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
+      "expected": "MTI modeling practice",
+      "actual": "F004, F005, F006, F007, F008, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
+      "consequence": "Advisory only: this never blocks a part.",
+      "manual_action": "Review the feature order and grouping if it matters for this part.",
+      "location_status": "unlocated",
+      "source_callout": "",
+      "feature_ids": [],
+      "page": 1,
+      "location_method": "no_source_callout",
+      "confidence": 0.0,
+      "rect_pdf_points": null,
+      "rect_normalized": null,
+      "regions": [],
+      "card": {
+        "page": 1,
+        "rect": [
+          1235.35,
+          12.35,
+          1658.46,
+          159.82
+        ]
+      }
+    }
+  ],
+  "generation_key": "1ff8f32689b7"
+}
