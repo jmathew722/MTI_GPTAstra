@@ -48,25 +48,26 @@
       "origin_kind": "corner",
       "units": "inch",
       "view_map": {
-        "Right": "-Z",
-        "Front": "+X",
-        "Bottom": "-Y"
+        "upper-right broad-face view": "+Z",
+        "upper-left end view": "+X",
+        "lower-left L-profile view": "-Y"
       }
     },
     "features": [
       {
         "id": "F001",
-        "rationale": "Full-length upright plate with exterior broad face at z=0.",
+        "rationale": "Upright plate spanning the full longitudinal length and width; its outer broad face is at maximum Z.",
         "source_callouts": [
           "5.75",
           "4.00",
+          "1.88",
           ".875"
         ],
         "status": "planned",
         "justification": "",
         "kind": "prism",
         "on": "plane(front)",
-        "offset": "0",
+        "offset": "D010 - D011",
         "profile": {
           "shape": "rect",
           "w": "D012",
@@ -80,16 +81,17 @@
       },
       {
         "id": "F002",
-        "rationale": "Projecting end flange completes the L section.",
+        "rationale": "Projecting flange at the right end of the broad-face view completes the L section.",
         "source_callouts": [
           "1.00",
           "1.88",
-          ".875"
+          ".875",
+          "4.00"
         ],
         "status": "planned",
         "justification": "",
         "kind": "prism",
-        "on": "face(F001,+Z)",
+        "on": "plane(front)",
         "offset": "0",
         "profile": {
           "shape": "rect",
@@ -104,7 +106,23 @@
       },
       {
         "id": "F003",
-        "rationale": "Central through bore located from the inner flange shoulder and width centerline.",
+        "rationale": "Full-width concave root radius between the inner upright surface and datum-A flange shoulder.",
+        "source_callouts": [
+          ".060 R."
+        ],
+        "status": "planned",
+        "justification": "",
+        "kind": "edge_op",
+        "operation": "fillet",
+        "size": "D015",
+        "angle": "45",
+        "edges": [
+          "edge_between(face(F001,-Z),face(F002,-X))"
+        ]
+      },
+      {
+        "id": "F004",
+        "rationale": "Central through bore positioned from the inner flange shoulder and width centerline.",
         "source_callouts": [
           "1.531 DIA. THRU",
           "3.125 \u00b1.005",
@@ -113,7 +131,7 @@
         "status": "planned",
         "justification": "",
         "kind": "hole",
-        "on": "face(F001,-Z)",
+        "on": "face(F001,+Z)",
         "u": "D012 - D013 - D020",
         "v": "D006 - D007",
         "spec": {
@@ -128,22 +146,23 @@
         }
       },
       {
-        "id": "F004",
-        "rationale": "Lower-left seed of four counterbored through holes; clearance depth overshoots the upright.",
+        "id": "F005",
+        "rationale": "Lower-left seed of the four large through holes, counterbored from the visible outer broad face.",
         "source_callouts": [
-          ".531 DR. THRU & 1.000 DIA. C'BORE .56 DP. 4 HLS.",
+          ".531 DR. THRU & 1.000 DIA. C'BORE .56 DP.",
+          "4 HLS.",
           "1.025"
         ],
         "status": "planned",
         "justification": "",
         "kind": "hole",
-        "on": "face(F001,-Z)",
+        "on": "face(F001,+Z)",
         "u": "D012 - D013 - D020 - D018",
         "v": "D006 - D007 - D017",
         "spec": {
           "type": "cbore",
           "d": "D001",
-          "depth": "D010",
+          "depth": null,
           "cbore_d": "D002",
           "cbore_depth": "D003",
           "csink_d": null,
@@ -152,8 +171,8 @@
         }
       },
       {
-        "id": "F005",
-        "rationale": "Complete the four-hole square pattern.",
+        "id": "F006",
+        "rationale": "Complete the square four-hole pattern using the independently dimensioned horizontal and vertical pitches.",
         "source_callouts": [
           "4 HLS.",
           "2.050 \u00b1.005"
@@ -161,7 +180,7 @@
         "status": "planned",
         "justification": "",
         "kind": "pattern",
-        "seed": "F004",
+        "seed": "F005",
         "mode": "grid",
         "dir": "+X",
         "count": "2",
@@ -175,8 +194,8 @@
         "skip": []
       },
       {
-        "id": "F006",
-        "rationale": "Lower outer upright screw-clearance hole; clearance depth overshoots the upright.",
+        "id": "F007",
+        "rationale": "Lower outer upright screw-clearance hole with counterbore entering the outer broad face.",
         "source_callouts": [
           "DR. & C'BORE FOR .375 SOC. HD. CAP SCR. 5 HLS.",
           ".375 \u00b1.005",
@@ -184,25 +203,25 @@
           "3.000 \u00b1.005"
         ],
         "status": "planned",
-        "justification": "For the D004 nominal .375 screw, the supplied SHCS chart (ASME B18.3 head; normal-fit drill) specifies .406 drill, .625 counterbore diameter and .375 counterbore depth. Through clearance is supported by the orthographic depiction and screw-clearance callout.",
+        "justification": "D004 identifies the nominal .375 SHCS. Supplied SHCS counterbore chart (ASME B18.3 head; normal-fit drill) specifies .406 drill, .625 counterbore diameter, and .375 counterbore depth. Through clearance follows the depicted screw-hole geometry.",
         "kind": "hole",
-        "on": "face(F001,-Z)",
+        "on": "face(F001,+Z)",
         "u": "D012 - D013 - D022",
         "v": "D006 - D007 + D023 - D024",
         "spec": {
           "type": "cbore",
           "d": "0.406",
-          "depth": "D010",
+          "depth": null,
           "cbore_d": "0.625",
-          "cbore_depth": "0.375",
+          "cbore_depth": "D004",
           "csink_d": null,
           "csink_angle": null,
           "thread": ""
         }
       },
       {
-        "id": "F007",
-        "rationale": "Upper outer upright screw hole at the dimensioned spacing.",
+        "id": "F008",
+        "rationale": "Second outer upright screw hole at the printed vertical spacing.",
         "source_callouts": [
           "DR. & C'BORE FOR .375 SOC. HD. CAP SCR. 5 HLS.",
           "3.000 \u00b1.005"
@@ -210,7 +229,7 @@
         "status": "planned",
         "justification": "",
         "kind": "pattern",
-        "seed": "F006",
+        "seed": "F007",
         "mode": "linear",
         "dir": "+Y",
         "count": "2",
@@ -224,50 +243,24 @@
         "skip": []
       },
       {
-        "id": "F008",
-        "rationale": "Middle upright screw-clearance hole on the width centerline; clearance depth overshoots the upright.",
+        "id": "F009",
+        "rationale": "Middle upright screw hole lies on the width centerline, offset inward from the outer small-hole column.",
         "source_callouts": [
           "DR. & C'BORE FOR .375 SOC. HD. CAP SCR. 5 HLS.",
           ".625 \u00b1.005"
         ],
         "status": "planned",
-        "justification": "The supplied SHCS chart (ASME B18.3 head; normal-fit drill) fixes .406 drill, .625 counterbore diameter and .375 counterbore depth for the D004 nominal .375 screw. The drawing places this through-clearance hole on the width centerline.",
+        "justification": "For nominal D004 (.375) SHCS, the supplied ASME B18.3 normal-fit counterbore chart gives .406 drill, .625 counterbore diameter, and .375 depth. The drawing places this hole on the width centerline and depicts through screw clearance.",
         "kind": "hole",
-        "on": "face(F001,-Z)",
+        "on": "face(F001,+Z)",
         "u": "D012 - D013 - D022 - D021",
         "v": "D006 - D007",
         "spec": {
           "type": "cbore",
           "d": "0.406",
-          "depth": "D010",
+          "depth": null,
           "cbore_d": "0.625",
-          "cbore_depth": "0.375",
-          "csink_d": null,
-          "csink_angle": null,
-          "thread": ""
-        }
-      },
-      {
-        "id": "F009",
-        "rationale": "Lower flange screw hole enters the outer flange end toward datum A; clearance depth overshoots the flange. Global X-face coordinates are (y,z).",
-        "source_callouts": [
-          "DR. & C'BORE FOR .375 SOC. HD. CAP SCR. 5 HLS.",
-          ".500 \u00b1.005",
-          ".875 \u00b1.005",
-          "1.750 \u00b1.005"
-        ],
-        "status": "planned",
-        "justification": "The supplied SHCS chart (ASME B18.3 head; normal-fit drill) fixes .406 drill, .625 counterbore diameter and .375 counterbore depth for the D004 nominal .375 screw. The lower profile shows counterbores entering the outer flange end and clearance bores breaking through datum A. The .500 offset lies into the projecting flange from the inner upright face.",
-        "kind": "hole",
-        "on": "face(F002,+X)",
-        "u": "D006 - D007 + D009 - D008",
-        "v": "D011 + D014",
-        "spec": {
-          "type": "cbore",
-          "d": "0.406",
-          "depth": "D010",
-          "cbore_d": "0.625",
-          "cbore_depth": "0.375",
+          "cbore_depth": "D004",
           "csink_d": null,
           "csink_angle": null,
           "thread": ""
@@ -275,7 +268,33 @@
       },
       {
         "id": "F010",
-        "rationale": "Second flange hole at the dimensioned widthwise spacing.",
+        "rationale": "Lower flange screw hole is drilled along -X from the outer flange end; its counterbore is opposite datum A.",
+        "source_callouts": [
+          "DR. & C'BORE FOR .375 SOC. HD. CAP SCR. 5 HLS.",
+          ".500 \u00b1.005",
+          ".875 \u00b1.005",
+          "1.750 \u00b1.005"
+        ],
+        "status": "planned",
+        "justification": "For nominal D004 (.375) SHCS, the supplied ASME B18.3 normal-fit counterbore chart gives .406 drill, .625 counterbore diameter, and .375 depth. The L-profile hidden lines establish the counterbore entry at the outer flange end and clearance through the flange. Global +X-face coordinates are (Y,Z), not the end-view local coordinates.",
+        "kind": "hole",
+        "on": "face(F002,+X)",
+        "u": "D006 - D007 + D009 - D008",
+        "v": "D010 - D011 - D014",
+        "spec": {
+          "type": "cbore",
+          "d": "0.406",
+          "depth": null,
+          "cbore_d": "0.625",
+          "cbore_depth": "D004",
+          "csink_d": null,
+          "csink_angle": null,
+          "thread": ""
+        }
+      },
+      {
+        "id": "F011",
+        "rationale": "Second flange screw hole at the dimensioned widthwise spacing.",
         "source_callouts": [
           "DR. & C'BORE FOR .375 SOC. HD. CAP SCR. 5 HLS.",
           "1.750 \u00b1.005"
@@ -283,7 +302,7 @@
         "status": "planned",
         "justification": "",
         "kind": "pattern",
-        "seed": "F009",
+        "seed": "F010",
         "mode": "linear",
         "dir": "+Y",
         "count": "2",
@@ -295,31 +314,14 @@
         "start_angle": "0",
         "step": "equal",
         "skip": []
-      },
-      {
-        "id": "F011",
-        "rationale": "Concave root fillet across the width between the inner upright and datum-A flange shoulder.",
-        "source_callouts": [
-          ".060 R."
-        ],
-        "status": "planned",
-        "justification": "",
-        "kind": "edge_op",
-        "operation": "fillet",
-        "size": "D015",
-        "angle": "45",
-        "edges": [
-          "edge_between(face(F001,+Z),face(F002,-X))"
-        ]
       }
     ],
     "notes": [
-      "Material: 1020 steel. Title: ANGLE PLATE; model 180.",
-      "X follows the 5.75 length left-to-right in the broad view; Y follows its 4.00 width bottom-to-top; Z runs from the exterior upright face toward the projecting flange.",
-      "Datum A is the inner flange shoulder at X = D012 - D013. The inner upright face at Z = D011 has the printed .001 perpendicularity requirement to A.",
-      "All five .375 SHCS locations use the supplied standard chart; .375 is not the clearance drill diameter. Verify standard-derived dimensions against the MTI shop standard.",
-      "The D010 clearance-hole depths exceed both the upright thickness D011 and flange thickness D013, ensuring breakthrough without coincident cut endpoints.",
-      "Surface-texture callouts 125 and 250 and drawing tolerances are manufacturing requirements, not additional geometry."
+      "Envelope: X = 0 to D012, Y = 0 to D006, Z = 0 to D010. X increases left-to-right in the broad-face view; Y increases upward. The projecting flange occupies X = D012-D013 to D012.",
+      "All counterbore features have through clearance bores; null hole depth denotes through, while counterbore depths are exact blind recess depths.",
+      "The .375 screw callout is a nominal fastener size, not the clearance drill diameter. Standard-derived sizes are planned and should be verified against the MTI shop standard.",
+      "Datum A is the inner flange shoulder at X = D012-D013. Preserve the printed .001 perpendicularity of the inner upright face to A and the 125/250 surface-finish requirements as manufacturing annotations.",
+      "Material: 1020. Drawing 4071-C, model 180. General drawing tolerances apply; dimensions are in inches."
     ]
   }
 }

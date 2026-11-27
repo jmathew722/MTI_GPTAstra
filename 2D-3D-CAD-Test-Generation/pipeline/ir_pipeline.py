@@ -270,7 +270,8 @@ def run_part(spec: PartSpec, out_root: Path, reuse: list[Path], sw_app=None, pma
                 rep = compile_solidworks(sw_app, plan, dims, cq.feature_map, out, template, pmap,
                                          progress=_on_feature_rec, material=material,
                                          on_ready=(lambda d: rec.start()) if rec is not None else None,
-                                         on_built=(lambda d: rec.finish_build()) if rec is not None else None)
+                                         on_built=(lambda d: rec.finish_build()) if rec is not None else None,
+                                         on_action=(lambda ev, fid: rec.action_boundary(fid, ev)) if rec is not None else None)
             except BaseException as e:   # noqa: BLE001 - close the video, then let the run fail as before
                 if rec is not None:
                     rec.stop(outcome="failed", error=f"{type(e).__name__}: {e}")

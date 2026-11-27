@@ -1,0 +1,6 @@
+Image appears nearly blank (mean pixel value 249.8 > 240) — it may contain no visible line work.
+BEFORE {"tree": true, "zoomed": false, "rect": [6, 0, 1542, 822], "docs_active": "Part153"}
+RAISED KeyboardInterrupt simulated cancel
+AFTER {"tree": true, "zoomed": false, "rect": [6, 0, 1542, 822], "sw_alive": true}
+MANIFEST {'status': 'ready', 'build_outcome': 'failed', 'build_error': 'KeyboardInterrupt: simulated cancel', 'verified': True, 'frames': 651, 'duration_s': 43.4, 'code': ''}
+CAMERA {'ok': False, 'events_checked': 4, 'completed_features': 2, 'isometric_events': 1, 'isometric_verified': 1, 'no_move_events': 0, 'fit_verified': 4, 'orientation_preserved': 2, 'margin_corrections': 3, 'failures': ['F001 (sketch_defined): geometry touches or leaves the viewport edge, or the frame is unreadable'], 'target_margin': 0.15, 'iso_every': 2, 'log': 'camera_log.json'}

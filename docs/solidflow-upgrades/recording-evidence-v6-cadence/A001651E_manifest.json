@@ -1,0 +1,125 @@
+{
+  "status": "ready",
+  "run_id": "run_untracked",
+  "part": "A001651E",
+  "source_sha256": "bd55705bb60d4bdbb8607b06d5f9d2b703b546aee53520a09b860fd6a119bf10",
+  "video": "solidworks_recording.mp4",
+  "poster": "solidworks_recording_poster.jpg",
+  "backend": "printwindow",
+  "capture_method": "printwindow-window (PrintWindow PW_RENDERFULLCONTENT of one validated window; unaffected by covering windows; no desktop capture)",
+  "target": {
+    "pid": 26448,
+    "hwnd": 721112,
+    "exe": "SLDWORKS.exe",
+    "window_class": "Afx:0000000140000000:8:0000000000010003:0000000000000000:00000000031F1273",
+    "title_prefix": "SOLIDWORKS",
+    "identity_ok": true,
+    "identity_checks": {
+      "visible": true,
+      "top_level": true,
+      "unowned": true,
+      "solidworks_exe": true,
+      "same_session": true,
+      "main_window_class": true
+    }
+  },
+  "session": {
+    "sw_pid": 26448,
+    "doc_at_start": "",
+    "docs_open": null
+  },
+  "started_at": "2026-11-27T01:13:34-0500",
+  "started_epoch": 1795760014.615,
+  "ended_at": "2026-11-27T01:15:21-0500",
+  "captured_frames": 219,
+  "held_frames": 1390,
+  "occluded_seconds": 0.0,
+  "privacy_gate": "off",
+  "minimized_events": 0,
+  "resize_events": 0,
+  "verified": true,
+  "probe": {
+    "ok": true,
+    "frames": 1609,
+    "fps": 15.0,
+    "duration_s": 107.27,
+    "first_frame": true,
+    "last_frame": true,
+    "reason": ""
+  },
+  "fps": 15,
+  "width": 1536,
+  "height": 816,
+  "frames": 1609,
+  "dropped_frames": 0,
+  "duration_s": 107.27,
+  "bytes": 1013810,
+  "camera": {
+    "ok": false,
+    "events_checked": 9,
+    "completed_features": 5,
+    "isometric_events": 3,
+    "isometric_verified": 3,
+    "no_move_events": 1,
+    "fit_verified": 9,
+    "orientation_preserved": 5,
+    "margin_corrections": 7,
+    "failures": [
+      "F005 (sketch_defined): geometry touches or leaves the viewport edge, or the frame is unreadable"
+    ],
+    "target_margin": 0.15,
+    "iso_every": 2,
+    "log": "camera_log.json"
+  },
+  "paced": true,
+  "build_outcome": "completed",
+  "build_error": "",
+  "chapters": [
+    {
+      "id": "F001",
+      "label": "F001 revolve: built",
+      "status": "built",
+      "t": 12.04,
+      "t_settled": 17.78
+    },
+    {
+      "id": "F002",
+      "label": "F002 edge_op: built",
+      "status": "built",
+      "t": 24.79,
+      "t_settled": 35.8
+    },
+    {
+      "id": "F003",
+      "label": "F003 edge_op: built",
+      "status": "built",
+      "t": 37.77,
+      "t_settled": 38.29
+    },
+    {
+      "id": "F004",
+      "label": "F004 hole: built",
+      "status": "built",
+      "t": 53.66,
+      "t_settled": 63.49
+    },
+    {
+      "id": "F006",
+      "label": "F006 hole: built",
+      "status": "built",
+      "t": 91.09,
+      "t_settled": 96.38
+    },
+    {
+      "id": "final",
+      "label": "Final model",
+      "status": "built",
+      "t": 104.06,
+      "t_settled": 104.06
+    }
+  ],
+  "code": "",
+  "reason": "",
+  "schema_version": 1,
+  "generation_key": "76de8aeafc58"
+}

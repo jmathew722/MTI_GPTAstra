@@ -730,7 +730,7 @@ class SolidWorksRecorder:
                 self._caption = _ascii(f"{label} | step {self._count}")
             t_commit = round(max(0.0, time.time() - self._t0), 2)
             if self.paced and self._started:
-                self._redraw(label=str(fid))
+                self._camera_step("commit", str(fid), status)
             self.chapters.append({"id": str(fid), "label": str(label)[:80], "status": str(status), "t": t_commit,
                                   "t_settled": round(max(0.0, time.time() - self._t0), 2)})
             if self.paced and self._started:
@@ -738,25 +738,36 @@ class SolidWorksRecorder:
         except Exception:                                # noqa: BLE001
             pass
 
-    def _redraw(self, label: str = "", final: bool = False) -> None:
+    def action_boundary(self, fid: str, event: str = "before_feature") -> None:
+        """A safe boundary before a meaningful modeling action: show the whole part, keep the orientation, move only if needed."""
+        if self._started and self.paced:
+            self._camera_step("boundary", str(fid), event)
+
+    def _camera_step(self, kind: str, label: str, status: str = "") -> None:
+        """Central camera hook (policy in pipeline/solidworks_camera.py). kind: boundary | commit | final. While the camera moves, the video holds the previous
+        picture, then jumps to the settled one."""
         try:
             doc = self.sw_app.ActiveDoc if self.sw_app is not None else None
             if doc is None:
                 return
-            if self._cam is not None:
-                self._freeze = True
-                try:
-                    self._cam.frame(doc, label or "model", final=final)  # isometric + fit + margin + redraw, verified on a settled frame
-                    self._cam.write_log()
-                finally:
-                    time.sleep(0.2)
-                    self._freeze = False
+            if self._cam is None:                                          # camera control off: SolidWorks' own fit only (orientation untouched), isometric at the end
+                if kind == "final":
+                    doc.ShowNamedView2("*Isometric", 7)
+                doc.ViewZoomtofit2()
+                doc.GraphicsRedraw2()
                 return
-            if not self._iso_done:
-                doc.ShowNamedView2("*Isometric", 7)
-                self._iso_done = True
-            doc.ViewZoomtofit2()
-            doc.GraphicsRedraw2()
+            self._freeze = True
+            try:
+                if kind == "commit":
+                    self._cam.on_feature_committed(doc, label, status)
+                elif kind == "final":
+                    self._cam.on_build_completed(doc)
+                else:
+                    self._cam.on_action_boundary(doc, label, status or "action_boundary")
+                self._cam.write_log()
+            finally:
+                time.sleep(0.15)
+                self._freeze = False
         except Exception:                                # noqa: BLE001
             pass
 
@@ -771,8 +782,7 @@ class SolidWorksRecorder:
             h = FINAL_HOLD_S
         try:
             self.caption("Final model")
-            self._iso_done = False
-            self._redraw(label="final", final=True)
+            self._camera_step("final", "final")
             self.chapters.append({"id": "final", "label": "Final model", "status": "built", "t": round(max(0.0, time.time() - self._t0), 2),
                                   "t_settled": round(max(0.0, time.time() - self._t0), 2)})
             time.sleep(max(0.0, h))
@@ -1032,7 +1042,7 @@ class SolidWorksRecorder:
             "status": status, "run_id": self.run_id, "part": self.part, "source_sha256": self.sha,
             "video": video, "poster": POSTER if (self.out / POSTER).exists() else "",
             "backend": self._source.name if self._source else "", "capture_method": (("printwindow-window (PrintWindow PW_RENDERFULLCONTENT of one validated window; unaffected by covering windows; no desktop capture)" if (self._source and self._source.name == "printwindow") else "wgc-window (Windows Graphics Capture, one validated window, overlap privacy gate; no desktop capture)")),
-            "target": self._target(), "session": session, "started_at": self._started_at, "ended_at": self._ended_at,
+            "target": self._target(), "session": session, "started_at": self._started_at, "started_epoch": round(self._t0, 3), "ended_at": self._ended_at,
             "captured_frames": captured, "held_frames": self._held, "occluded_seconds": round(self._occluded_ticks / max(self.fps, 1), 1),
             "privacy_gate": "overlap-by-other-windows frames are never encoded" if self._occ_fn is not None else "off", "minimized_events": self._minimized, "resize_events": self._resizes,
             "verified": bool(self._verify.get("ok")), "probe": self._verify, "fps": self.fps, "width": w, "height": h,

@@ -5,16 +5,16 @@ import sys
 from pipeline.ir.cq_runtime import Model
 
 m = Model('4071-C', origin_kind='corner', units='inch', strict=False)
-m.prism('F001', on='plane(front)', offset=0, profile={'shape': 'rect', 'w': 5.75, 'h': 4, 'anchor': 'corner', 'u': 0, 'v': 0}, depth=0.875, op='add')  # w=D012, h=D006, u=0, v=0; depth=D011; offset=0
-m.prism('F002', on='face(F001,+Z)', offset=0, profile={'shape': 'rect', 'w': 1, 'h': 4, 'anchor': 'corner', 'u': 4.75, 'v': 0}, depth=1, op='add')  # w=D013, h=D006, u=D012 - D013, v=0; depth=D010 - D011; offset=0
-m.hole('F003', on='face(F001,-Z)', u=1.625, v=2, spec={'type': 'thru', 'd': 1.531})  # u=D012 - D013 - D020, v=D006 - D007, d=D005
-m.hole('F004', on='face(F001,-Z)', u=0.6, v=0.975, spec={'type': 'cbore', 'd': 0.531, 'depth': 1.875, 'cbore_d': 1, 'cbore_depth': 0.5625})  # u=D012 - D013 - D020 - D018, v=D006 - D007 - D017, d=D001, cbore=D002xD003
-m.pattern('F005', seed='F004', mode='grid', count=2, pitch=2.05, dir='+X', count2=2, pitch2=2.05, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D019
-m.hole('F006', on='face(F001,-Z)', u=4.375, v=0.5, spec={'type': 'cbore', 'd': 0.406, 'depth': 1.875, 'cbore_d': 0.625, 'cbore_depth': 0.375})  # u=D012 - D013 - D022, v=D006 - D007 + D023 - D024, d=0.406, cbore=0.625x0.375
-m.pattern('F007', seed='F006', mode='linear', count=2, pitch=3, dir='+Y', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D024
-m.hole('F008', on='face(F001,-Z)', u=3.75, v=2, spec={'type': 'cbore', 'd': 0.406, 'depth': 1.875, 'cbore_d': 0.625, 'cbore_depth': 0.375})  # u=D012 - D013 - D022 - D021, v=D006 - D007, d=0.406, cbore=0.625x0.375
-m.hole('F009', on='face(F002,+X)', u=1.125, v=1.375, spec={'type': 'cbore', 'd': 0.406, 'depth': 1.875, 'cbore_d': 0.625, 'cbore_depth': 0.375})  # u=D006 - D007 + D009 - D008, v=D011 + D014, d=0.406, cbore=0.625x0.375
-m.pattern('F010', seed='F009', mode='linear', count=2, pitch=1.75, dir='+Y', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D008
-m.edge_op('F011', operation='fillet', size=0.06, angle=45, edges=['edge_between(face(F001,+Z),face(F002,-X))'])  # size=D015; edges=['edge_between(face(F001,+Z),face(F002,-X))']
+m.prism('F001', on='plane(front)', offset=1, profile={'shape': 'rect', 'w': 5.75, 'h': 4, 'anchor': 'corner', 'u': 0, 'v': 0}, depth=0.875, op='add')  # w=D012, h=D006, u=0, v=0; depth=D011; offset=D010 - D011
+m.prism('F002', on='plane(front)', offset=0, profile={'shape': 'rect', 'w': 1, 'h': 4, 'anchor': 'corner', 'u': 4.75, 'v': 0}, depth=1, op='add')  # w=D013, h=D006, u=D012 - D013, v=0; depth=D010 - D011; offset=0
+m.edge_op('F003', operation='fillet', size=0.06, angle=45, edges=['edge_between(face(F001,-Z),face(F002,-X))'])  # size=D015; edges=['edge_between(face(F001,-Z),face(F002,-X))']
+m.hole('F004', on='face(F001,+Z)', u=1.625, v=2, spec={'type': 'thru', 'd': 1.531})  # u=D012 - D013 - D020, v=D006 - D007, d=D005
+m.hole('F005', on='face(F001,+Z)', u=0.6, v=0.975, spec={'type': 'cbore', 'd': 0.531, 'cbore_d': 1, 'cbore_depth': 0.5625})  # u=D012 - D013 - D020 - D018, v=D006 - D007 - D017, d=D001, cbore=D002xD003
+m.pattern('F006', seed='F005', mode='grid', count=2, pitch=2.05, dir='+X', count2=2, pitch2=2.05, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D019
+m.hole('F007', on='face(F001,+Z)', u=4.375, v=0.5, spec={'type': 'cbore', 'd': 0.406, 'cbore_d': 0.625, 'cbore_depth': 0.375})  # u=D012 - D013 - D022, v=D006 - D007 + D023 - D024, d=0.406, cbore=0.625xD004
+m.pattern('F008', seed='F007', mode='linear', count=2, pitch=3, dir='+Y', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D024
+m.hole('F009', on='face(F001,+Z)', u=3.75, v=2, spec={'type': 'cbore', 'd': 0.406, 'cbore_d': 0.625, 'cbore_depth': 0.375})  # u=D012 - D013 - D022 - D021, v=D006 - D007, d=0.406, cbore=0.625xD004
+m.hole('F010', on='face(F002,+X)', u=1.125, v=0.5, spec={'type': 'cbore', 'd': 0.406, 'cbore_d': 0.625, 'cbore_depth': 0.375})  # u=D006 - D007 + D009 - D008, v=D010 - D011 - D014, d=0.406, cbore=0.625xD004
+m.pattern('F011', seed='F010', mode='linear', count=2, pitch=1.75, dir='+Y', count2=1, pitch2=0, dir2='+Y', axis='axis(part)', step='equal', skip=[], op='cut')  # count=2, pitch=D008
 
 fmap = m.finish(sys.argv[1] if len(sys.argv) > 1 else None)

@@ -249,6 +249,17 @@ class _SW:
         self.doc.SketchManager.InsertSketch(True)
         return plane, sign
 
+    def camera_boundary(self, event: str, fid: str = "") -> None:
+        """Recording camera hook at a view-only safe point (selections here are model-space, never screen clicks; a re-frame neither exits the sketch nor
+        clears a selection). Never raises."""
+        cb = getattr(self, "on_action", None)
+        if cb is None:
+            return
+        try:
+            cb(event, fid or getattr(self, "_cur_fid", ""))
+        except Exception as e:     # noqa: BLE001
+            log.warning("camera hook failed: %s", e)
+
     def pt(self, plane: str, ir_point: Vec) -> tuple[float, float]:
         m = self.pm.to_model(tuple(c * self.k for c in self.local(ir_point)))  # type: ignore
         return self.pm.sketch_coords(plane, m)
@@ -301,6 +312,7 @@ class _SW:
                     how += " + origin anchor"
             self.sketch_status[fid] = sk.GetConstrainedStatus()
             log.info("  %s sketch: fully define (%s) -> %s, status %s", fid, how, r, self.sketch_status[fid])
+            self.camera_boundary("sketch_defined", fid)
         except Exception as e:   # never fail a build over sketch definition (practices, not rules)
             log.info("  %s: could not fully define the sketch: %s", fid, e)
             self.sketch_status[fid] = 0
@@ -1426,7 +1438,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
                        out_dir: Path, template: Optional[str] = None,
                        pmap: Optional[PlaneMap] = None, progress=None,
                        convention: str = "mti", keep_open: bool = False, material: Optional[dict] = None,
-                       on_ready=None, on_built=None) -> SwBuildReport:
+                       on_ready=None, on_built=None, on_action=None) -> SwBuildReport:
     """Build the plan in SolidWorks, verifying each feature against the CadQuery reference.
 
     ``convention``: ``"mti"`` (centered origin, Top-plane base, Mid Plane, Up To Next) or
@@ -1440,6 +1452,7 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         raise ValueError(f"convention must be one of {CONVENTIONS}")
     pmap = pmap or probe_plane_map(sw_app, template)
     sw = _SW(sw_app, plan, dims, fmap, pmap, template, convention)
+    sw.on_action = (lambda ev, fid: on_action(ev, fid)) if on_action is not None else None
     if on_ready is not None:       # the new part document exists and is active: a recording may start now, before the first feature
         try:
             on_ready(sw.doc)
@@ -1454,6 +1467,12 @@ def compile_solidworks(sw_app, plan: BuildPlan, dims: dict[str, float], fmap: di
         if f.status != "planned" or f.id in skipped:
             sw.report.features.append(SwFeatureResult(f.id, "skipped", note=skipped.get(f.id, f.status)))
             continue
+        if on_action is not None:      # a safe boundary (nothing open): the recording camera may re-frame here, never inside the feature's sketch/selection transaction
+            sw._cur_fid = f.id
+            try:
+                on_action("before_feature", f.id)
+            except Exception as e:     # noqa: BLE001
+                log.warning("on_action hook failed: %s", e)
         group = [f]
         if convention == "mti" and isinstance(f, Hole) and not is_radial(f):   # same hole, same face: one feature
             nxt = features[i] if i < len(features) else None

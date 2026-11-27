@@ -1,0 +1,4 @@
+A001611E sampled 721 clipped% 61.2 empty% 1.4 clip intervals [(2.0, 8.8), (10.0, 14.0), (16.4, 34.6), (36.8, 53.4), (60.4, 72.2), (84.0, 99.0), (113.4, 129.2)] total clipped s 88.2
+A040161E sampled 583 clipped% 47.7 empty% 13.2 clip intervals [(2.6, 12.0), (13.2, 17.6), (20.2, 31.8), (33.0, 43.0), (57.0, 66.4), (81.8, 92.6)] total clipped s 55.6
+A001821E sampled 955 clipped% 52.6 empty% 0.6 clip intervals [(1.2, 22.2), (25.0, 38.8), (55.0, 67.0), (81.8, 93.4), (106.2, 118.6), (135.0, 150.2), (161.4, 175.8)] total clipped s 100.4
+A001651E sampled 537 clipped% 38.9 empty% 2.0 clip intervals [(2.2, 2.4), (42.4, 63.6), (66.4, 76.8), (79.2, 89.2)] total clipped s 41.8

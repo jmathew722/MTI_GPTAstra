@@ -30,9 +30,10 @@ ISO_NAME = "*Isometric"
 ISO_MATRIX = (0.70710678, -0.40824829, 0.57735027,
               0.0, 0.81649658, 0.57735027,
               -0.70710678, -0.40824829, 0.57735027)
-TARGET_MARGIN = float(os.environ.get("GPTASTRA_CAMERA_MARGIN", "0.10"))   # per viewport edge, fraction of the viewport (8-12 % target band)
-MARGIN_LO, MARGIN_HI = 0.06, 0.14
-SETTLE_TIMEOUT_S = 2.0
+TARGET_MARGIN = float(os.environ.get("GPTASTRA_CAMERA_MARGIN", "0.15"))   # clear margin per viewport edge (12-18 % band, default 15 %)
+MARGIN_LO, MARGIN_HI = 0.11, 0.20                                         # accepted binding margin (the target band with a small tolerance, to avoid hunting)
+ISO_EVERY = int(os.environ.get("GPTASTRA_CAMERA_ISO_EVERY", "2"))         # isometric after every N completed features
+SETTLE_TIMEOUT_S = 1.5
 CAMERA_LOG = "camera_log.json"
 
 
@@ -83,7 +84,9 @@ def measure_margins(frame, rect=None) -> dict:
     m = {"left": round((x0 - ux0) / uw, 4), "right": round((ux1 - x1) / uw, 4), "top": round((y0 - uy0) / uh, 4), "bottom": round((uy1 - y1) / uh, 4)}
     edge = 0.012
     touches = min(m.values()) < edge
-    out.update(ok=True, margins=m, touches_edge=bool(touches), bbox=[x0, y0, x1, y1], usable=[ux0, uy0, ux1, uy1])
+    ys_, xs_ = np.where(mask)
+    out.update(ok=True, margins=m, touches_edge=bool(touches), bbox=[x0, y0, x1, y1], usable=[ux0, uy0, ux1, uy1],
+               centroid=[round(float(xs_.mean()), 1), round(float(ys_.mean()), 1)])
     return out
 
 
@@ -151,6 +154,10 @@ class CameraController:
         self._doc = None
         self.failures: list[str] = []
         self.prepared = False
+        self.completed_feature_count = 0
+        self._seen_ops: set = set()
+        self._iso_pending_final = True
+        self._pan_cal: dict = {}
 
     # ---------------------------------------------------------------- helpers
     def _wait_settled(self, timeout: float = SETTLE_TIMEOUT_S):
@@ -177,17 +184,54 @@ class CameraController:
                 return None
         return None
 
-    def _pan(self, doc, dx_px: float, dy_px: float) -> None:
-        """Pan the view by roughly (dx_px, dy_px) screen pixels with IModelView.Translation3 (gains measured on SolidWorks 2025 SP5, refined by the loop)."""
-        from pipeline.solidworks_builder import com_doubles, typed
+    def _translation(self, doc):
+        from pipeline.solidworks_builder import typed
         mv = typed(doc.ActiveView, "IModelView")
-        scale = float(mv.Scale2) or 1.0
-        a = list(mv.Translation3.ArrayData)
-        gx = 4000.0 * scale / 1.2184           # screen px per unit of Translation3.x, at the scale the gain was measured at
-        gy = 2600.0 * scale / 1.2184           # (+y moved the model UP on screen)
-        new = [a[0] + dx_px / gx, a[1] - dy_px / gy, a[2]]
+        return mv, [float(x) for x in list(mv.Translation3.ArrayData)[:3]], float(mv.Scale2) or 1.0
+
+    def _set_translation(self, mv, vec) -> None:
+        from pipeline.solidworks_builder import com_doubles, typed
         mu = typed(self.app.GetMathUtility, "IMathUtility")
-        mv.Translation3 = mu.CreateVector(com_doubles(*new))
+        mv.Translation3 = mu.CreateVector(com_doubles(*vec))
+
+    def _calibrate_pan(self, doc, meas0: dict):
+        """Screen pixels moved per unit of IModelView.Translation3 along X/Y/Z for the CURRENT orientation (the mapping depends on the view), measured by
+        three tiny probe moves of the rendered picture; cached per orientation and normalised by the view scale."""
+        import numpy as np
+        key = tuple(round(x, 2) for x in (self._orientation(doc) or ()))
+        if key in self._pan_cal:
+            return self._pan_cal[key]
+        mv, base, scale = self._translation(doc)
+        c0 = meas0.get("centroid")
+        if not c0:
+            return None
+        eps = 0.012 * 1.2184 / scale
+        cols = []
+        for ax in range(3):
+            v = list(base)
+            v[ax] += eps
+            self._set_translation(mv, v)
+            doc.GraphicsRedraw2()
+            fr, _s, _w = self._wait_settled(1.0)
+            m1 = measure_margins(fr, self._viewport(doc, fr)) if fr is not None else {}
+            c1 = m1.get("centroid")
+            cols.append([(c1[0] - c0[0]) / eps, (c1[1] - c0[1]) / eps] if c1 else [0.0, 0.0])
+        self._set_translation(mv, base)
+        doc.GraphicsRedraw2()
+        G = np.array(cols).T / scale                    # 2x3, px per unit at scale 1 (gain is proportional to the scale)
+        self._pan_cal[key] = G
+        return G
+
+    def _pan(self, doc, dx_px: float, dy_px: float, meas: Optional[dict] = None) -> None:
+        """Move the model by (dx_px, dy_px) screen pixels with IModelView.Translation3, using a mapping calibrated for the current orientation."""
+        import numpy as np
+        G = self._calibrate_pan(doc, meas or {})
+        if G is None or not np.isfinite(G).all() or np.linalg.matrix_rank(G, tol=1e-6) < 2:
+            raise RuntimeError("pan calibration failed")
+        mv, base, scale = self._translation(doc)
+        Gs = G * scale
+        u = Gs.T @ np.linalg.solve(Gs @ Gs.T, np.array([dx_px, dy_px]))           # minimum-norm translation giving the wanted screen move
+        self._set_translation(mv, [base[k] + float(u[k]) for k in range(3)])
 
     def _model_view(self, doc):
         try:
@@ -232,7 +276,7 @@ class CameraController:
         self.prepared = True
         self.entries.append(info)
         try:
-            self.frame(doc, "initial", initial=True)
+            self.on_action_boundary(doc, "initial", "initial")      # full-part view if geometry exists, otherwise waits for geometry (no forced isometric)
         except Exception as e:                           # noqa: BLE001
             log.warning("camera initial frame failed: %s", e)
         return info
@@ -267,109 +311,235 @@ class CameraController:
         return res
 
     # ---------------------------------------------------------------- per feature
-    def frame(self, doc, label: str, *, initial: bool = False, final: bool = False) -> dict:
-        """Isometric + fit + margin + redraw for the CURRENT model; verify it. Called only at safe boundaries (a committed feature, no open sketch)."""
-        e: dict = {"event": "final" if final else ("initial" if initial else "feature"), "feature": str(label), "t": time.time(), "ops": {}}
+    # ---------------------------------------------------------------- camera policy (SolidFlow_Recording_Zoom_and_Isometric_Cadence)
+    def _orientation(self, doc):
         try:
-            doc.ShowNamedView2(ISO_NAME, SW_ISOMETRIC_VIEW)
-            e["ops"]["isometric"] = "issued"
-        except Exception as ex:                          # noqa: BLE001
-            e["ops"]["isometric"] = f"failed: {type(ex).__name__}"
+            return [float(x) for x in list(doc.ActiveView.Orientation3.ArrayData)[:9]]
+        except Exception:                                # noqa: BLE001
+            return None
+
+    @staticmethod
+    def _same_orientation(a, b, tol: float = 0.01) -> Optional[bool]:
+        if a is None or b is None:
+            return None
+        return max(abs(x - y) for x, y in zip(a, b)) < tol
+
+    def _in_band(self, meas: dict) -> bool:
+        if not (meas.get("ok") and meas.get("margins")) or meas.get("empty"):
+            return False
+        m = meas["margins"]
+        binding = min(m.values())
+        centred = abs(m["right"] - m["left"]) / 2 < 0.05 and abs(m["bottom"] - m["top"]) / 2 < 0.05
+        return bool(not meas.get("touches_edge") and MARGIN_LO <= binding <= MARGIN_HI and centred)
+
+    def _fit(self, doc, op_id: str, event: str, orientation: str = "keep") -> dict:
+        e = self._fit_impl(doc, op_id, event, orientation)
+        e["t_end"] = time.time()                                     # lets the frames around this event be located in the video
+        return e
+
+    def _fit_impl(self, doc, op_id: str, event: str, orientation: str = "keep") -> dict:
+        """Fit the whole current part in the actual model viewport, with the configured margin.
+
+        orientation 'keep'      : the camera orientation is preserved (verified against native IModelView.Orientation3), nothing is moved when the picture already
+                                  shows the whole part with the margin (no jitter).
+        orientation 'isometric' : the standard isometric view is established first (only if it is not already the current one), then fit.
+        Absolute fit (``ViewZoomtofit2``) is always the starting point; the margin loop then measures the rendered picture, so zoom never accumulates."""
+        e: dict = {"event": event, "op_id": str(op_id), "feature_count": self.completed_feature_count, "requested_orientation": orientation,
+                   "t": time.time(), "ops": {}}
+        before = self._orientation(doc)
+        frame, settled, waited = self._wait_settled()
+        meas = measure_margins(frame, self._viewport(doc, frame)) if frame is not None else {"ok": False}
+        e["margins_before"] = meas.get("margins")
+        if meas.get("ok") and meas.get("empty") and (self.completed_feature_count > 0 or event in ("feature_committed", "isometric_checkpoint", "build_completed")):
+            # a completed feature exists but nothing is in the picture: the part is out of view (e.g. after the next sketch changed the view): absolute fit first
+            try:
+                doc.ViewZoomtofit2()
+                doc.GraphicsRedraw2()
+                e["ops"]["recover_fit"] = "issued (part not in view)"
+            except Exception as ex:                      # noqa: BLE001
+                e["ops"]["recover_fit"] = f"failed: {type(ex).__name__}"
+            frame, settled, waited = self._wait_settled()
+            meas = measure_margins(frame, self._viewport(doc, frame)) if frame is not None else {"ok": False}
+        if meas.get("ok") and meas.get("empty"):
+            e.update(outcome="no_geometry_yet", empty_model=True, camera_ok=True, settled_frame=bool(settled), deferred_reason="no solid or sketch geometry to frame yet")
+            e["actual_orientation"] = "unchanged"
+            self.entries.append(e)
+            return e
+        err0 = iso_error(before) if before else 9.9
+        need_iso = orientation == "isometric" and err0 >= 0.01
+        if orientation == "keep" and self._in_band(meas):
+            e.update(outcome="no_move", settled_frame=bool(settled), geometry_visible=True, margins=meas["margins"], camera_ok=True, orientation_preserved=True,
+                     actual_orientation="iso" if err0 < 0.01 else "unchanged")
+            self.entries.append(e)
+            return e
+        if orientation == "isometric" and not need_iso and self._in_band(meas):
+            e.update(outcome="already_isometric_in_frame", settled_frame=bool(settled), geometry_visible=True, margins=meas["margins"], camera_ok=True,
+                     isometric_verified=True, actual_orientation="iso")
+            self.entries.append(e)
+            return e
         try:
+            if need_iso:
+                doc.ShowNamedView2(ISO_NAME, SW_ISOMETRIC_VIEW)
+                e["ops"]["isometric"] = "issued"
             doc.ViewZoomtofit2()
             e["ops"]["zoom_to_fit"] = "issued"
-        except Exception as ex:                          # noqa: BLE001
-            e["ops"]["zoom_to_fit"] = f"failed: {type(ex).__name__}"
-        try:
             doc.GraphicsRedraw2()
-            e["ops"]["redraw"] = "issued"
         except Exception as ex:                          # noqa: BLE001
-            e["ops"]["redraw"] = f"failed: {type(ex).__name__}"
+            e["ops"]["fit"] = f"failed: {type(ex).__name__}: {ex}"
         frame, settled, waited = self._wait_settled()
         e["settled_frame"] = bool(settled)
-        e["settle_wait_s"] = round(waited, 2)
-        mv = self._model_view(doc)
-        err = 9.9
-        try:
-            err = iso_error(mv.Orientation3.ArrayData) if mv is not None else 9.9
-        except Exception:                                # noqa: BLE001
-            pass
-        e["isometric_error"] = round(err, 4)
-        e["isometric_verified"] = bool(err < 0.01)
         meas = measure_margins(frame, self._viewport(doc, frame)) if frame is not None else {"ok": False}
-        e["fit"] = meas
-        corrected = False
-        factors = []
-        pans = []
-        for _ in range(7):
-            if not (meas.get("ok") and not meas.get("empty") and meas.get("margins")) or mv is None:
+        mv = self._model_view(doc)
+        corrected, factors, pans = False, [], []
+        pan_ok = True
+
+        def score(m_: dict) -> float:
+            """0 = perfect. Penalises touching the edge, a margin below the band, and an off-centre model."""
+            if not (m_.get("ok") and m_.get("margins")) or m_.get("empty"):
+                return 99.0
+            mm = m_["margins"]
+            return (5.0 if m_.get("touches_edge") else 0.0) + max(0.0, MARGIN_LO - min(mm.values())) + abs(mm["right"] - mm["left"]) / 2 + abs(mm["bottom"] - mm["top"]) / 2
+
+        for _ in range(9):
+            if mv is None or not meas.get("ok"):
+                break
+            if meas.get("empty"):                                       # the part left the picture: absolute fit again, then continue
+                try:
+                    doc.ViewZoomtofit2()
+                    doc.GraphicsRedraw2()
+                    e["ops"]["recover_fit"] = "issued (part left the picture)"
+                except Exception:                        # noqa: BLE001
+                    break
+                frame, settled2, _w = self._wait_settled()
+                meas = measure_margins(frame, self._viewport(doc, frame)) if frame is not None else {"ok": False}
+                mv = self._model_view(doc)
+                pan_ok = False                                          # whatever moved it away is not repeated
+                continue
+            if self._in_band(meas):
                 break
             m = meas["margins"]
-            binding = min(m.values())
-            cx_off = (m["right"] - m["left"]) / 2                       # + : the model sits left of centre (fractions of the usable width)
-            cy_off = (m["bottom"] - m["top"]) / 2
             uw = meas["usable"][2] - meas["usable"][0]
             uh = meas["usable"][3] - meas["usable"][1]
-            bw = meas["bbox"][2] - meas["bbox"][0]
-            bh = meas["bbox"][3] - meas["bbox"][1]
-            used = max(bw / uw, bh / uh)
+            used = max((meas["bbox"][2] - meas["bbox"][0]) / uw, (meas["bbox"][3] - meas["bbox"][1]) / uh)
             want = 1 - 2 * TARGET_MARGIN
-            centred = abs(cx_off) < 0.03 and abs(cy_off) < 0.03
-            sized = MARGIN_LO <= binding and not meas.get("touches_edge") and abs(used - want) < 0.10
-            if centred and sized:
-                break
-            # SolidWorks' own fit is computed for the whole view frame and can leave the model off-centre or partly outside the visible viewport.
-            # Closed loop on the RENDERED picture: zoom to the target margin, pan to the centre of the usable region, re-measure.
-            f = 1.0
-            if meas.get("touches_edge") or binding < MARGIN_LO or abs(used - want) >= 0.10:
-                f = max(0.6, min(1.5, want / max(used, 0.05)))
-                if meas.get("touches_edge"):
-                    f = min(f, 0.9)                                     # a clipped extent under-reads the real size
+            binding = min(m.values())
+            before_score, base_tr = score(meas), None
             try:
-                if abs(f - 1) > 0.02:
-                    mv.ZoomByFactor(float(f))
-                    factors.append(round(f, 3))
-                dxp, dyp = cx_off * uw, cy_off * uh               # pixels to move the model: right if it sits left, down if it sits high
-                self._pan(doc, dxp, dyp)
-                pans.append([round(dxp), round(dyp)])
+                if meas.get("touches_edge"):
+                    # a clipped extent under-reads the real size and its centroid is unreliable: ONLY zoom out until the whole part is inside, then centre
+                    mv.ZoomByFactor(0.85)
+                    factors.append(0.85)
+                else:
+                    f = max(0.6, min(1.5, want / max(used, 0.05))) if (binding < MARGIN_LO or binding > MARGIN_HI) else 1.0
+                    if abs(f - 1) > 0.02:
+                        mv.ZoomByFactor(float(f))
+                        factors.append(round(f, 3))
+                    if pan_ok:
+                        dxp, dyp = (m["right"] - m["left"]) / 2 * uw, (m["bottom"] - m["top"]) / 2 * uh
+                        if abs(dxp) > 8 or abs(dyp) > 8:
+                            _mv, base_tr, _sc = self._translation(doc)
+                            self._pan(doc, dxp, dyp, meas)
+                            pans.append([round(dxp), round(dyp)])
                 doc.GraphicsRedraw2()
                 corrected = True
             except Exception as ex:                      # noqa: BLE001
                 e["ops"]["margin_adjust"] = f"failed: {type(ex).__name__}: {ex}"
+                pan_ok = False
                 break
-            frame, settled2, waited2 = self._wait_settled()
+            frame, settled2, _w = self._wait_settled()
             settled = settled and settled2
-            meas = measure_margins(frame, self._viewport(doc, frame)) if frame is not None else {"ok": False}
+            new_meas = measure_margins(frame, self._viewport(doc, frame)) if frame is not None else {"ok": False}
+            if base_tr is not None and score(new_meas) > before_score + 0.02:
+                try:                                              # the pan made it worse: undo it, keep the zoom, and stop panning
+                    self._set_translation(self._translation(doc)[0], base_tr)
+                    doc.GraphicsRedraw2()
+                    e["ops"]["pan_reverted"] = True
+                    frame, settled2, _w = self._wait_settled()
+                    new_meas = measure_margins(frame, self._viewport(doc, frame)) if frame is not None else {"ok": False}
+                except Exception:                        # noqa: BLE001
+                    pass
+                pan_ok = False
+            meas = new_meas
             mv = self._model_view(doc)
-        if factors or pans:
-            e["ops"]["margin_zoom_factors"] = factors
-            e["ops"]["pan_px"] = pans
-            e["fit_after_margin"] = meas
+        e["settled_frame"] = bool(settled)
+        e["ops"]["margin_zoom_factors"], e["ops"]["pan_px"] = factors, pans
+        after = self._orientation(doc)
+        e["margins"] = meas.get("margins")
+        e["geometry_visible"] = bool(meas.get("ok") and not meas.get("touches_edge") and not meas.get("empty"))
+        e["margin_in_band"] = self._in_band(meas)
+        if orientation == "isometric":
+            e["isometric_error"] = round(iso_error(after), 4) if after else None
+            e["isometric_verified"] = bool(after and iso_error(after) < 0.01)
+            e["actual_orientation"] = "iso" if e["isometric_verified"] else "not isometric"
+            orient_ok = e["isometric_verified"]
+        else:
+            e["orientation_preserved"] = self._same_orientation(before, after)
+            e["actual_orientation"] = "preserved" if e["orientation_preserved"] else "changed"
+            orient_ok = e["orientation_preserved"] is not False
         e["margin_corrected"] = corrected
-        final_meas = meas
-        e["geometry_visible"] = bool(final_meas.get("ok") and not final_meas.get("touches_edge"))
-        e["empty_model"] = bool(final_meas.get("empty"))
-        e["camera_ok"] = bool(e["isometric_verified"] and settled and (e["geometry_visible"] or e["empty_model"]))
+        e["camera_ok"] = bool(orient_ok and settled and e["geometry_visible"])
+        e["outcome"] = "moved" if e["camera_ok"] else "failed"
         if not e["camera_ok"]:
             why = []
-            if not e["isometric_verified"]:
-                why.append("orientation is not the standard isometric")
+            if not orient_ok:
+                why.append("orientation not as requested")
             if not settled:
                 why.append("no settled frame")
-            if not (e["geometry_visible"] or e["empty_model"]):
+            if not e["geometry_visible"]:
                 why.append("geometry touches or leaves the viewport edge, or the frame is unreadable")
-            self.failures.append(f"{label}: " + "; ".join(why))
+            e["reason"] = "; ".join(why)
+            self.failures.append(f"{op_id} ({event}): {e['reason']}")
         self.entries.append(e)
         return e
 
+    def on_action_boundary(self, doc, op_id: str, event: str = "action_boundary") -> dict:
+        """Before/after a meaningful action at a safe boundary (nothing open): keep the orientation, show the whole part, only move when needed."""
+        return self._fit(doc, op_id, event, "keep")
+
+    def on_feature_committed(self, doc, op_id: str, status: str) -> dict:
+        """A feature operation finished. Counts toward the isometric cadence only when it is a distinct, successfully built feature."""
+        op_id = str(op_id)
+        if status != "built":
+            self.entries.append({"event": "feature_not_counted", "op_id": op_id, "feature_count": self.completed_feature_count, "status": status,
+                                 "reason": "failed / mismatch: not a completed feature", "t": time.time()})
+            return self.on_action_boundary(doc, op_id, "after_failed_feature")
+        if op_id in self._seen_ops:
+            self.entries.append({"event": "feature_not_counted", "op_id": op_id, "feature_count": self.completed_feature_count,
+                                 "reason": "duplicate operation id (retry of the same logical operation)", "t": time.time()})
+            return self.on_action_boundary(doc, op_id, "after_duplicate_feature")
+        self._seen_ops.add(op_id)
+        self.completed_feature_count += 1
+        res = self._fit(doc, op_id, "feature_committed", "keep")
+        self._iso_pending_final = True
+        if ISO_EVERY > 0 and self.completed_feature_count % ISO_EVERY == 0:
+            res = self._fit(doc, op_id, "isometric_checkpoint", "isometric")
+            self._iso_pending_final = False                           # the last picture is already the full-part isometric view
+        return res
+
+    def on_build_completed(self, doc) -> dict:
+        """Final presentation: always the whole part in isometric. Coalesced with an even-feature checkpoint that already produced it."""
+        coalesced = not self._iso_pending_final and self.completed_feature_count > 0
+        res = self._fit(doc, "final", "build_completed", "isometric")
+        res["coalesced_with_checkpoint"] = bool(coalesced and res.get("outcome") in ("already_isometric_in_frame", "no_move"))
+        res["final"] = True
+        return res
+
+    def frame(self, doc, label: str, *, initial: bool = False, final: bool = False) -> dict:
+        """Compatibility entry point (older callers): initial/ordinary -> action boundary, final -> build completed."""
+        return self.on_build_completed(doc) if final else self.on_action_boundary(doc, label, "initial" if initial else "action_boundary")
+
     # ---------------------------------------------------------------- report
     def summary(self) -> dict:
-        feats = [x for x in self.entries if x.get("event") in ("feature", "final", "initial")]
-        return {"ok": not self.failures and bool(feats), "frames_checked": len(feats),
-                "iso_verified": sum(1 for x in feats if x.get("isometric_verified")),
-                "fit_verified": sum(1 for x in feats if x.get("geometry_visible") or x.get("empty_model")),
-                "margin_corrections": sum(1 for x in feats if x.get("margin_corrected")),
-                "failures": self.failures[:20], "target_margin": TARGET_MARGIN, "log": CAMERA_LOG}
+        evs = [x for x in self.entries if x.get("event") in ("feature_committed", "isometric_checkpoint", "build_completed", "action_boundary",
+                                                                 "initial", "after_failed_feature", "after_duplicate_feature")]
+        iso = [x for x in evs if x.get("event") in ("isometric_checkpoint", "build_completed")]
+        return {"ok": not self.failures and bool(evs), "events_checked": len(evs), "completed_features": self.completed_feature_count,
+                "isometric_events": len(iso), "isometric_verified": sum(1 for x in iso if x.get("isometric_verified")),
+                "no_move_events": sum(1 for x in evs if x.get("outcome") == "no_move"),
+                "fit_verified": sum(1 for x in evs if x.get("geometry_visible") or x.get("empty_model")),
+                "orientation_preserved": sum(1 for x in evs if x.get("orientation_preserved")),
+                "margin_corrections": sum(1 for x in evs if x.get("margin_corrected")),
+                "failures": self.failures[:20], "target_margin": TARGET_MARGIN, "iso_every": ISO_EVERY, "log": CAMERA_LOG}
 
     def write_log(self) -> None:
         if self.out is None:

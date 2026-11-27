@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
   "part": "A040711E",
-  "run_id": "run_85a8b9d940bc4c49b688",
+  "run_id": "run_e78f4855c95a4d5688d8",
   "source_pdf": "A040711E.pdf",
   "source_sha256": "5b97f8dff4e09483a120ddd7b0a7485cba16328b01aadfac49ca0ace6d702077",
   "marked_pdf": "A040711E_engineering_markup.pdf",
-  "generated_at": "2026-11-19T20:22:09Z",
+  "generated_at": "2026-11-26T21:39:04Z",
   "generator_version": "engineering_markup/1",
-  "finding_count": 1,
+  "finding_count": 2,
   "located_count": 0,
-  "unlocated_count": 1,
+  "unlocated_count": 2,
   "status": "partial",
   "warnings": [
     {
       "code": "MARKUP_LOCALIZATION_PARTIAL",
-      "detail": "1 of 1 flag(s) could not be placed precisely"
+      "detail": "2 of 2 flag(s) could not be placed precisely"
     }
   ],
   "report_pages": 1,
@@ -27,7 +27,8 @@
       "rail_width_pt": 579.27,
       "source_rotation": 0,
       "finding_ids": [
-        "EF-001"
+        "EF-001",
+        "EF-002"
       ],
       "preview": "engineering_markup_pages/page-0001.png",
       "preview_dpi": 110
@@ -37,13 +38,13 @@
     {
       "id": "EF-001",
       "number": 1,
-      "finding_id": "flag_30b9bbfd915f",
+      "finding_id": "flag_39be9ffcf8fe",
       "severity": "INFO",
       "code": "practice_advisory",
       "title": "Modeling practice: mti_hole_grouping",
-      "explanation": "Expected: MTI modeling practice. Actual: F006, F008: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
+      "explanation": "Expected: MTI modeling practice. Actual: F007, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points. Advisory only: this never blocks a part.",
       "expected": "MTI modeling practice",
-      "actual": "F006, F008: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "actual": "F007, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
       "consequence": "Advisory only: this never blocks a part.",
       "manual_action": "Review the feature order and grouping if it matters for this part.",
       "location_status": "unlocated",
@@ -64,7 +65,38 @@
           188.16
         ]
       }
+    },
+    {
+      "id": "EF-002",
+      "number": 2,
+      "finding_id": "flag_b9f5395c01f2",
+      "severity": "INFO",
+      "code": "practice_advisory",
+      "title": "Modeling practice: mti_edge_ops_last",
+      "explanation": "Expected: MTI modeling practice. Actual: F004 (hole) comes after F003 (fillet); MTI puts fillets and chamfers at the end of the tree. Advisory only: this never blocks a part.",
+      "expected": "MTI modeling practice",
+      "actual": "F004 (hole) comes after F003 (fillet); MTI puts fillets and chamfers at the end of the tree",
+      "consequence": "Advisory only: this never blocks a part.",
+      "manual_action": "Review the feature order and grouping if it matters for this part.",
+      "location_status": "unlocated",
+      "source_callout": "",
+      "feature_ids": [],
+      "page": 1,
+      "location_method": "no_source_callout",
+      "confidence": 0.0,
+      "rect_pdf_points": null,
+      "rect_normalized": null,
+      "regions": [],
+      "card": {
+        "page": 1,
+        "rect": [
+          1597.98,
+          200.15,
+          2145.29,
+          372.33
+        ]
+      }
     }
   ],
-  "generation_key": "c0e7ae00ddb7"
+  "generation_key": "85ebda3df90e"
 }

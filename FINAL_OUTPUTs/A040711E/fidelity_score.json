@@ -6,7 +6,7 @@
     "fingerprint": "emf-54023337c8"
   },
   "part": "A040711E",
-  "evaluated_at": "2026-11-25T23:00:31+00:00",
+  "evaluated_at": "2026-11-26T21:39:04+00:00",
   "run_id": null,
   "evidence": {
     "sldprt": "4071-C_ir.SLDPRT",
@@ -257,7 +257,7 @@
           "expected": "d 1.531 in through",
           "measured": "d 1.531 in, through",
           "unit": "inch",
-          "error": 0.0,
+          "error": -0.0,
           "tol": 0.005
         },
         {
@@ -290,7 +290,7 @@
           "expected": "d 0.531 in through",
           "measured": "d 0.531 in, through, cbore d 1 in",
           "unit": "inch",
-          "error": -0.0,
+          "error": 0.0,
           "tol": 0.005
         },
         {
@@ -301,7 +301,7 @@
           "expected": "d 0.531 in through",
           "measured": "d 0.531 in, through, cbore d 1 in",
           "unit": "inch",
-          "error": -0.0,
+          "error": 0.0,
           "tol": 0.005
         }
       ],
@@ -342,7 +342,7 @@
           "weight": 1.0,
           "credit": 1.0,
           "expected": "0",
-          "measured": "3.366e-07 in",
+          "measured": "4.381e-07 in",
           "unit": "inch",
           "error": 0.0,
           "tol": 0.0025
@@ -353,7 +353,7 @@
           "weight": 1.0,
           "credit": 1.0,
           "expected": "0",
-          "measured": "3.366e-07 in",
+          "measured": "4.381e-07 in",
           "unit": "inch",
           "error": 0.0,
           "tol": 0.0025
@@ -364,7 +364,7 @@
           "weight": 1.0,
           "credit": 1.0,
           "expected": "0",
-          "measured": "5.046e-07 in",
+          "measured": "6.817e-07 in",
           "unit": "inch",
           "error": 0.0,
           "tol": 0.0025
@@ -375,7 +375,7 @@
           "weight": 1.0,
           "credit": 1.0,
           "expected": "0",
-          "measured": "5.046e-07 in",
+          "measured": "6.817e-07 in",
           "unit": "inch",
           "error": 0.0,
           "tol": 0.0025
@@ -472,7 +472,16 @@
       "severity": "info",
       "category": "model_integrity",
       "code": "MTI_PRACTICE",
-      "message": "[mti_hole_grouping] F006, F008: identical holes on face(F001,-Z) -> one Hole Wizard feature with several sketch points",
+      "message": "[mti_hole_grouping] F007, F009: identical holes on face(F001,+Z) -> one Hole Wizard feature with several sketch points",
+      "evidence": "advisory only, never blocks a part",
+      "points": 0.0,
+      "ref": ""
+    },
+    {
+      "severity": "info",
+      "category": "model_integrity",
+      "code": "MTI_PRACTICE",
+      "message": "[mti_edge_ops_last] F004 (hole) comes after F003 (fillet); MTI puts fillets and chamfers at the end of the tree",
       "evidence": "advisory only, never blocks a part",
       "points": 0.0,
       "ref": ""
@@ -486,8 +495,8 @@
       4.0,
       5.75
     ],
-    "stl_volume": 19.5638,
-    "triangles": 3098,
+    "stl_volume": 19.5653,
+    "triangles": 2974,
     "closed_fraction": 1.0,
     "holes": [
       {
@@ -512,80 +521,80 @@
       },
       {
         "axis": "Y",
+        "d": 0.406,
+        "depth": 0.5,
+        "through": true,
+        "cbore": {
+          "d": 0.625,
+          "depth": 0.375
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.406,
+        "depth": 0.5,
+        "through": true,
+        "cbore": {
+          "d": 0.625,
+          "depth": 0.375
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.406,
+        "depth": 0.5,
+        "through": true,
+        "cbore": {
+          "d": 0.625,
+          "depth": 0.375
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.531,
+        "depth": 0.3125,
+        "through": true,
+        "cbore": {
+          "d": 1.0,
+          "depth": 0.5625
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.531,
+        "depth": 0.3125,
+        "through": true,
+        "cbore": {
+          "d": 1.0,
+          "depth": 0.5625
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.531,
+        "depth": 0.3125,
+        "through": true,
+        "cbore": {
+          "d": 1.0,
+          "depth": 0.5625
+        }
+      },
+      {
+        "axis": "Y",
+        "d": 0.531,
+        "depth": 0.3125,
+        "through": true,
+        "cbore": {
+          "d": 1.0,
+          "depth": 0.5625
+        }
+      },
+      {
+        "axis": "Y",
         "d": 1.531,
         "depth": 0.875,
         "through": true,
         "cbore": null
-      },
-      {
-        "axis": "Y",
-        "d": 0.531,
-        "depth": 0.3125,
-        "through": true,
-        "cbore": {
-          "d": 1.0,
-          "depth": 0.5625
-        }
-      },
-      {
-        "axis": "Y",
-        "d": 0.531,
-        "depth": 0.3125,
-        "through": true,
-        "cbore": {
-          "d": 1.0,
-          "depth": 0.5625
-        }
-      },
-      {
-        "axis": "Y",
-        "d": 0.531,
-        "depth": 0.3125,
-        "through": true,
-        "cbore": {
-          "d": 1.0,
-          "depth": 0.5625
-        }
-      },
-      {
-        "axis": "Y",
-        "d": 0.531,
-        "depth": 0.3125,
-        "through": true,
-        "cbore": {
-          "d": 1.0,
-          "depth": 0.5625
-        }
-      },
-      {
-        "axis": "Y",
-        "d": 0.406,
-        "depth": 0.5,
-        "through": true,
-        "cbore": {
-          "d": 0.625,
-          "depth": 0.375
-        }
-      },
-      {
-        "axis": "Y",
-        "d": 0.406,
-        "depth": 0.5,
-        "through": true,
-        "cbore": {
-          "d": 0.625,
-          "depth": 0.375
-        }
-      },
-      {
-        "axis": "Y",
-        "d": 0.406,
-        "depth": 0.5,
-        "through": true,
-        "cbore": {
-          "d": 0.625,
-          "depth": 0.375
-        }
       }
     ]
   },
@@ -594,6 +603,6 @@
     "high": 0,
     "medium": 1,
     "low": 2,
-    "info": 1
+    "info": 2
   }
 }

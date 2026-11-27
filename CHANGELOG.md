@@ -7,6 +7,7 @@
 - **Camera and presentation** (`pipeline/solidworks_camera.py`): maximize the owned window, hide the FeatureManager tree (native `Hide/Show Tree Area` command), standard isometric + fit + margin + centring after
   every committed feature, verified on the rendered picture and native orientation; 3.2 s final hold; everything restored on completion, failure and cancel. `camera_log.json` per run, `camera` block in the manifest.
 - **Workspace layout:** see `FINAL_UI/docs/verification/v6/WORKSPACE_REPORT.md` (collapsible Material and Runtime & cost sections, Pipeline Results closed by default and filling to the workspace bottom).
+- **Camera cadence:** whole-part zoom-out with the working orientation kept (15 % margin), isometric only after every second successfully completed feature and at the end (held >= 3 s), per-part feature counter, boundaries before each feature / after each sketch is defined / after each commit. See the cadence section of `RECORDING_CAMERA_REPORT.md` (includes what is NOT met).
 - Docs: `docs/solidflow-upgrades/RECORDING_CAMERA_REPORT.md`, `RECORDING_VERIFICATION.md`, evidence in `recording-evidence*/`.
 
 ## v5 (2026-11-26, branch `ImprovementsV5`)

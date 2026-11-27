@@ -1,0 +1,155 @@
+{
+ "opened": {
+  "chrome": 2037190,
+  "vscode": 26216190,
+  "explorer": 24317538,
+  "notepad": 1971970
+ },
+ "events": [
+  {
+   "event": "recording_seen",
+   "t": 1795759678.451172
+  },
+  {
+   "event": "cover",
+   "app": "chrome",
+   "hwnd": 2037190,
+   "cycle": 0,
+   "t_start": 1795759678.451172,
+   "mode": "maximized",
+   "t_end": 1795759681.0210211
+  },
+  {
+   "event": "cover",
+   "app": "vscode",
+   "hwnd": 26216190,
+   "cycle": 0,
+   "t_start": 1795759681.6742685,
+   "mode": "maximized",
+   "t_end": 1795759684.2038517
+  },
+  {
+   "event": "cover",
+   "app": "explorer",
+   "hwnd": 24317538,
+   "cycle": 0,
+   "t_start": 1795759684.8248274,
+   "mode": "maximized",
+   "t_end": 1795759687.4394224
+  },
+  {
+   "event": "cover",
+   "app": "notepad",
+   "hwnd": 1971970,
+   "cycle": 0,
+   "t_start": 1795759688.1070495,
+   "mode": "maximized",
+   "t_end": 1795759690.8298194
+  },
+  {
+   "event": "partial_overlap",
+   "app": "notepad",
+   "hwnd": 1971970,
+   "cycle": 0,
+   "t_start": 1795759691.5533342,
+   "mode": "moved over the viewport",
+   "t_end": 1795759694.2199097
+  },
+  {
+   "event": "cover",
+   "app": "chrome",
+   "hwnd": 2037190,
+   "cycle": 1,
+   "t_start": 1795759694.2285004,
+   "mode": "maximized",
+   "t_end": 1795759696.7844677
+  },
+  {
+   "event": "cover",
+   "app": "vscode",
+   "hwnd": 26216190,
+   "cycle": 1,
+   "t_start": 1795759697.4090915,
+   "mode": "maximized",
+   "t_end": 1795759699.9322934
+  },
+  {
+   "event": "cover",
+   "app": "explorer",
+   "hwnd": 24317538,
+   "cycle": 1,
+   "t_start": 1795759700.5534358,
+   "mode": "maximized",
+   "t_end": 1795759703.1430094
+  },
+  {
+   "event": "cover",
+   "app": "notepad",
+   "hwnd": 1971970,
+   "cycle": 1,
+   "t_start": 1795759703.862433,
+   "mode": "maximized",
+   "t_end": 1795759706.507687
+  },
+  {
+   "event": "partial_overlap",
+   "app": "notepad",
+   "hwnd": 1971970,
+   "cycle": 1,
+   "t_start": 1795759707.2447624,
+   "mode": "moved over the viewport",
+   "t_end": 1795759709.8555474
+  },
+  {
+   "event": "cover",
+   "app": "chrome",
+   "hwnd": 2037190,
+   "cycle": 2,
+   "t_start": 1795759709.8583798,
+   "mode": "maximized",
+   "t_end": 1795759712.4305065
+  },
+  {
+   "event": "cover",
+   "app": "vscode",
+   "hwnd": 26216190,
+   "cycle": 2,
+   "t_start": 1795759713.0558908,
+   "mode": "maximized",
+   "t_end": 1795759715.621123
+  },
+  {
+   "event": "cover",
+   "app": "explorer",
+   "hwnd": 24317538,
+   "cycle": 2,
+   "t_start": 1795759716.235729,
+   "mode": "maximized",
+   "t_end": 1795759718.832573
+  },
+  {
+   "event": "cover",
+   "app": "notepad",
+   "hwnd": 1971970,
+   "cycle": 2,
+   "t_start": 1795759719.5137339,
+   "mode": "maximized",
+   "t_end": 1795759722.1873016
+  },
+  {
+   "event": "partial_overlap",
+   "app": "notepad",
+   "hwnd": 1971970,
+   "cycle": 2,
+   "t_start": 1795759722.8815403,
+   "mode": "moved over the viewport",
+   "t_end": 1795759725.4852166
+  },
+  {
+   "event": "recording_finished",
+   "t": 1795759872.745858,
+   "status": "ready"
+  }
+ ],
+ "tmp": "C:\\Users\\joeka\\AppData\\Local\\Temp\\sf_chaos_wcnoq2zu"
+}

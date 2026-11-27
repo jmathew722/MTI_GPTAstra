@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "artifact": "4071-C_ir.STL",
+  "artifact_sha256": "1b37106b81844dbf4d333a6aa5dd0fedcebf35791a2391e484d2a84e101111f7",
+  "job_id": "run_e78f4855c95a4d5688d8",
+  "configuration": "",
+  "material_id": null,
+  "material_label": null,
+  "status": "unmatched",
+  "verified": false,
+  "color": "#9AA0A8",
+  "metalness": 0.2,
+  "roughness": 0.6,
+  "source": "neutral",
+  "caption": "Preview only: the material is not verified on the native part, so the model is shown in neutral grey.",
+  "per_body": null
+}
