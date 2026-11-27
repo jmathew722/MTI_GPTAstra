@@ -17,11 +17,21 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-STAGES = ("preflight", "mesh_export", "inventory", "planning", "drawing", "dimensioning", "verification", "publishing")
+# v7 vocabulary (docs/solidflow-upgrades/V7_CONTRACT.md). ``stl_export`` includes the geometry inventory (same open document).
+STAGES = ("preflight", "stl_export", "reference_resolution", "extraction", "view_planning", "native_drawing", "dimensioning_layout", "comparison_correction",
+          "verification", "publish")
+# stages that only exist in reference-match mode; Standard mode records them as ``not_applicable``
+REFERENCE_STAGES = ("reference_resolution", "extraction", "comparison_correction")
+LEGACY_STAGES = ("mesh_export", "inventory", "planning", "drawing", "dimensioning", "publishing")      # jobs created before v7 keep these keys
 TERMINAL = ("completed", "review_required", "failed", "canceled")
-STATES = ("queued",) + STAGES + TERMINAL
-STAGE_LABEL = {"preflight": "Preflight", "mesh_export": "STL export", "inventory": "Geometry inventory", "planning": "View planning",
-               "drawing": "Native drawing", "dimensioning": "Dimensions", "verification": "Verification", "publishing": "Publish"}
+STATES = ("queued",) + STAGES + LEGACY_STAGES + TERMINAL
+STAGE_LABEL = {"preflight": "Preflight", "stl_export": "STL export", "reference_resolution": "Reference resolution", "extraction": "Reference extraction",
+               "view_planning": "View planning", "native_drawing": "Native drawing", "dimensioning_layout": "Dimensions and layout",
+               "comparison_correction": "Comparison and correction", "verification": "Verification", "publish": "Publish",
+               # legacy vocabulary (read-only; old jobs)
+               "mesh_export": "STL export", "inventory": "Geometry inventory", "planning": "View planning", "drawing": "Native drawing",
+               "dimensioning": "Dimensions", "publishing": "Publish"}
+DONE_STATUSES = ("succeeded", "warning", "skipped", "not_applicable")
 
 
 class StateError(RuntimeError):
@@ -36,7 +46,7 @@ def can_move(cur: str, nxt: str) -> bool:
     if cur in TERMINAL:
         return False
     if nxt in ("failed", "canceled", "review_required", "completed"):
-        return nxt != "completed" or cur in ("publishing", "verification")
+        return nxt != "completed" or cur in ("publish", "publishing", "verification")
     if cur == "queued":
         return nxt == "preflight"
     return cur in STAGES and nxt in STAGES and STAGES.index(nxt) >= STAGES.index(cur)
@@ -60,6 +70,8 @@ class PartState:
     seconds: Optional[float] = None
     coverage_pct: Optional[float] = None
     material: dict = field(default_factory=dict)
+    reference: dict = field(default_factory=dict)        # v7: mode, status, source, extraction cache, usage (keys starting with "_" are server-private)
+    verification: dict = field(default_factory=dict)     # v7: QA gate result (coverage, collisions, comparison, iterations, standards)
 
 
 @dataclass
@@ -214,6 +226,11 @@ def begin_stage(part: PartState, stage: str) -> None:
     part.stages[stage] = {"status": "running", "started": now(), "t0": time.time(), "warnings": [], "errors": []}
 
 
+def mark_not_applicable(part: PartState, stage: str, why: str = "") -> None:
+    """A stage that does not apply to this part (Standard mode has no reference): recorded so the UI can render it, counted as done."""
+    part.stages[stage] = {"status": "not_applicable", "started": now(), "ended": now(), "seconds": 0.0, "warnings": [], "errors": [], "note": why}
+
+
 def end_stage(part: PartState, stage: str, status: str = "succeeded", *, warnings=(), errors=()) -> None:
     st = part.stages.setdefault(stage, {"started": now(), "t0": time.time(), "warnings": [], "errors": []})
     st["status"] = status
@@ -244,7 +261,9 @@ def progress(job: Job) -> dict:
         if p.state in TERMINAL and p.state in ("completed", "review_required"):
             done += len(STAGES)
         else:
-            done += sum(1 for s in STAGES if (p.stages.get(s) or {}).get("status") in ("succeeded", "warning", "skipped"))
+            legacy = any(k in p.stages for k in LEGACY_STAGES)
+            names = ("preflight", "mesh_export", "inventory", "planning", "drawing", "dimensioning", "verification", "publishing") if legacy else STAGES
+            done += min(len(STAGES), sum(1 for s in names if (p.stages.get(s) or {}).get("status") in DONE_STATUSES))
     return {"stages_done": done, "stages_total": total, "fraction": (done / total) if total else 0.0,
             "parts_done": sum(1 for p in job.parts if p.state in TERMINAL), "parts_total": len(job.parts)}
 

@@ -10,16 +10,18 @@ import shutil
 from pathlib import Path
 from typing import Optional
 
-from reverse import jobs, planner, qa, safety, state, templates
+from reverse import jobs, planner, qa, reference as refmod, safety, state, templates
 
 
 class ReverseService:
-    def __init__(self, data_dir: Path, authorized_roots: Optional[list[Path]] = None):
+    def __init__(self, data_dir: Path, authorized_roots: Optional[list[Path]] = None, reference_roots: Optional[list[Path]] = None, reference_client=None):
         self.data = Path(data_dir)
         self.store = state.JobStore(self.data / "outputs" / "3d-to-2d")
         self.templates = templates.TemplateCatalog(self.data / "templates")
         self.roots = [Path(r) for r in (authorized_roots or [])]
-        self.queue = jobs.JobQueue(self.store, self.templates.get)
+        self.refs = refmod.ReferenceServices(self.data, reference_roots, reference_client)
+        self.refs.template_lookup = self.templates.get       # lets reference mode switch to the Solid Flow template whose sheet matches the reference
+        self.queue = jobs.JobQueue(self.store, self.templates.get, refs=self.refs)
         self.upload_dir = self.data / "uploads" / "3d-to-2d"
 
     # ---- lifecycle
@@ -66,14 +68,53 @@ class ReverseService:
     def profiles(self) -> list[dict]:
         return [{"id": k, "projection": v["projection"], "sheet": v["sheet"], "units": v["units"], "paper": planner.SHEETS[v["sheet"]]["paper"]} for k, v in planner.PROFILES.items()]
 
+    # ---- reference PDFs (v7)
+    def validate_reference_pdf(self, path) -> dict:
+        v = refmod.validate_pdf(path)
+        return {k: v[k] for k in ("ok", "sha256", "pages", "size", "error")}
+
+    def save_reference_pdf(self, data_stream_path) -> dict:
+        """Validate and store a reference PDF content-addressed. The returned ``pdf_path`` is a SERVER path (keep it server-side)."""
+        return self.refs.resolver.save_pdf(data_stream_path)
+
+    def _part_for_lookup(self, part_path_or_part_id) -> tuple[Optional[Path], str, str]:
+        raw = str(part_path_or_part_id or "")
+        p = Path(raw)
+        if raw and p.suffix.lower() == ".sldprt":
+            try:
+                ap = safety.authorize(p, self.roots + [self.upload_dir]) if self.roots else p.resolve()
+            except safety.SafetyError as e:
+                return None, "", str(e)
+            if ap.is_file():
+                return ap, "", ""
+            return None, ap.stem, "The part file was not found."
+        return None, Path(raw).stem or raw, ""        # an id / name: name evidence only
+
+    def reference_candidates(self, part_path_or_part_id, config: str = "") -> dict:
+        """Ranked candidate reference drawings from the 2D -> 3D history; see V7_CONTRACT.md section 2. Never auto-confirms by name."""
+        part, hint, err = self._part_for_lookup(part_path_or_part_id)
+        res = self.refs.index.candidates(part, config, name_hint=hint)
+        if err:
+            res["error"] = err
+        return res
+
+    def confirm_reference_link(self, part_path, artifact_id: str, config: str = "", user: str = "") -> dict:
+        part, _, err = self._part_for_lookup(part_path)
+        if part is None:
+            raise safety.SafetyError(err or "A saved part file is required to confirm a link.")
+        ent = self.refs.index.pdf_by_artifact(artifact_id)
+        if ent is None:
+            raise safety.SafetyError("Unknown reference artifact.")
+        return self.refs.index.save_link(safety.sha256_file(part), config, ent.sha256, user)
+
     def submit(self, *, part_paths: list[Path], template_id: Optional[str] = None, profile: str = "us_third_angle_inch", configs: Optional[dict] = None,
-               options: Optional[dict] = None, authorized: bool = True) -> state.Job:
+               reference: Optional[dict] = None, options: Optional[dict] = None, authorized: bool = True) -> state.Job:
         tpl = self.templates.get(template_id) if template_id else self.templates.default()
         options = dict(options or {})
         if options.get("all_configs"):
             part_paths, configs = self._expand_configs(part_paths, configs)
-        job = jobs.create_job(self.store, template=tpl, part_paths=part_paths, profile=profile, configs=configs, options=options,
-                              authorized_roots=(self.roots + [self.upload_dir]) if authorized else None)
+        job = jobs.create_job(self.store, template=tpl, part_paths=part_paths, profile=profile, configs=configs, options=options, reference=reference,
+                              refs=self.refs, authorized_roots=(self.roots + [self.upload_dir]) if authorized else None)
         self.queue.submit(job.job_id)
         return job
 
@@ -117,21 +158,39 @@ class ReverseService:
         d["summary_state"] = j.summary_state()
         d["progress"] = state.progress(j)
         d["stage_labels"] = state.STAGE_LABEL
+        d["stage_order"] = list(state.STAGES)
+        d["reference_stages"] = list(state.REFERENCE_STAGES)
         for p, pj in zip(j.parts, d["parts"]):
             pj.pop("source", None)                      # never expose server paths
             pj["files"] = self.part_files(j, p)
+            pj["files_availability"] = self.files_availability(pj["files"])
+            pj["reference"] = refmod.public_reference(p.reference) if p.reference else refmod.blank_reference("standard")
+            pj["verification"] = p.verification or {"status": "not_run"}
         d.pop("output_root", None)
         return d
 
+    ALIASES = {"slddrw": "drawing.slddrw", "pdf": "drawing.pdf", "source_pdf": "reference/source.pdf", "stl": "model.stl", "qa_json": "qa.json"}
+
     def part_files(self, job: state.Job, part: state.PartState) -> dict:
-        """Only files that exist, with their sizes: the UI must never advertise an absent file."""
+        """Only files that exist, with their sizes: the UI must never advertise an absent file. v7 adds stable aliases (slddrw, pdf, source_pdf, stl,
+        qa_json, comparison_images) next to the original keys."""
         base = self.store.dir(job.job_id)
         out = {}
         for name, rel in part.artifacts.items():
             fp = base / rel
             if fp.is_file():
                 out[name] = {"bytes": fp.stat().st_size, "url_path": rel}
+        for alias, key in self.ALIASES.items():
+            if key in out:
+                out[alias] = dict(out[key], available=True)
+        cmp_files = [{"name": n, **v} for n, v in out.items() if n.startswith("comparison/") and n.lower().endswith(".png")]
+        if cmp_files:
+            out["comparison_images"] = {"files": sorted(cmp_files, key=lambda f: f["name"]), "available": True}
         return out
+
+    @staticmethod
+    def files_availability(files: dict) -> dict:
+        return {k: (k in files) for k in ("slddrw", "pdf", "source_pdf", "stl", "qa_json", "comparison_images")}
 
     def artifact_path(self, job_id: str, rel: str) -> Path:
         """A downloadable artifact: must be a listed artifact of a part of this job, inside the job folder, a regular file."""

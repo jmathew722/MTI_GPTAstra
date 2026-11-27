@@ -10,18 +10,42 @@ import threading
 from pathlib import Path
 from typing import Callable, Optional
 
-from reverse import engine, safety, state, worker
+from reverse import engine, reference as refmod, safety, state, worker
 
 log = logging.getLogger(__name__)
 
 
+def _resolve_part_reference(refs, req: dict, key: str, real: Path, cfg: str, part: state.PartState) -> None:
+    """Fill ``part.reference`` for the requested mode. Match mode with no resolvable source blocks THIS part only (explicit reason)."""
+    if req["mode"] != "match" or refs is None:
+        part.reference = refmod.blank_reference("standard")
+        if req["mode"] == "match" and refs is None:
+            part.reference = refmod.blank_reference("match")
+            part.reference.update(status="blocked", error="REFERENCE_BLOCKED: reference matching is not configured on this server.", _blocked=True)
+    else:
+        spec = req["per_part"].get(key) or req["per_part"].get(str(real)) or {"source": "auto"}
+        r = refs.resolver.resolve(real, cfg, spec, req)
+        r["_request"] = {k: spec.get(k) for k in ("source", "artifact_id")} | {"pdf_path": spec.get("pdf_path"), "filename": spec.get("filename")}
+        r["_fallback"] = bool(req.get("fallback_standard"))
+        if r.get("_pdf") is not None:
+            r["_pdf"] = str(r["_pdf"])
+        part.reference = r
+    if part.reference.get("_blocked"):
+        state.finish(part, "failed", str(part.reference.get("error") or "REFERENCE_BLOCKED: no reference source."))
+        part.stages["preflight"] = {"status": "failed", "started": state.now(), "ended": state.now(), "seconds": 0.0, "warnings": [], "errors": [part.error]}
+        for st in state.STAGES[1:]:
+            part.stages.setdefault(st, {"status": "skipped", "started": None, "ended": None, "warnings": [], "errors": []})
+
+
 def create_job(store: state.JobStore, *, template: dict, part_paths: list[Path], profile: str = "us_third_angle_inch", configs: Optional[dict] = None,
-               options: Optional[dict] = None, authorized_roots: Optional[list[Path]] = None) -> state.Job:
+               options: Optional[dict] = None, authorized_roots: Optional[list[Path]] = None, reference: Optional[dict] = None,
+               refs: Optional["refmod.ReferenceServices"] = None) -> state.Job:
     """Validate every input BEFORE anything is queued. A bad file is reported with its reason; good files still run (batch isolation)."""
     from reverse.planner import PROFILES
     if profile not in PROFILES:
         raise safety.SafetyError(f"Unknown drawing profile {profile!r}.")
     template = dict(template, path=str(Path(template["path"]).resolve())) if template.get("path") else template
+    req = refmod.normalize_request(reference)
     job = state.Job(job_id=safety.new_job_id(), template_id=template["id"], profile=profile, output_root=str(store.root), options=dict(options or {}))
     rejected = []
     entries = []
@@ -41,10 +65,14 @@ def create_job(store: state.JobStore, *, template: dict, part_paths: list[Path],
         try:
             p = safety.authorize(real, authorized_roots) if authorized_roots else Path(real).resolve()
             safety.check_part_file(p)
-            job.parts.append(state.PartState(part_id=pid, source=str(p), name=p.name, config=cfg))
+            ps = state.PartState(part_id=pid, source=str(p), name=p.name, config=cfg)
+            _resolve_part_reference(refs, req, sp, p, cfg, ps)
+            job.parts.append(ps)
         except safety.SafetyError as e:
             rejected.append({"name": Path(real).name, "reason": str(e)})
     job.options["rejected"] = rejected
+    job.options["reference_mode"] = req["mode"]
+    job.options["reference_fallback_standard"] = req["fallback_standard"]
     if not job.parts:
         raise safety.SafetyError("No valid SOLIDWORKS parts to process: " + "; ".join(f"{r['name']}: {r['reason']}" for r in rejected))
     store.save(job)
@@ -53,7 +81,7 @@ def create_job(store: state.JobStore, *, template: dict, part_paths: list[Path],
 
 
 def run_job(store: state.JobStore, job_id: str, template: dict, *, cancel: Optional[Callable[[], bool]] = None, session: Optional[worker.CadSession] = None,
-            only: Optional[list[str]] = None) -> state.Job:
+            only: Optional[list[str]] = None, refs: Optional["refmod.ReferenceServices"] = None) -> state.Job:
     """Run (or retry, with ``only``) the parts of a job. Never raises for a part failure: each part carries its own result."""
     job = store.load(job_id)
     s = session or worker.CadSession()
@@ -82,13 +110,20 @@ def run_job(store: state.JobStore, job_id: str, template: dict, *, cancel: Optio
             continue
         if part.state in ("completed", "review_required") and not only:
             continue
+        if part.reference.get("_blocked") and not only:       # blocked in preflight: no reference source (explicit reason already recorded)
+            continue
+        if only and part.reference.get("_blocked") and refs is not None:      # a retry re-resolves (the user may have uploaded or confirmed a source since)
+            _reresolve(refs, job, part)
+            if part.reference.get("_blocked"):
+                store.save(job)
+                continue
         if cancelled():
             if part.state not in state.TERMINAL:
                 state.finish(part, "canceled")
             continue
         if only:       # retry: start the part over
             part.state, part.error, part.stages, part.ended = "queued", "", {}, None
-        engine.PartRunner(s, store, job, part, template, cancel=cancelled).run()
+        engine.PartRunner(s, store, job, part, template, cancel=cancelled, refs=refs).run()
         store.save(job)
     job.state = job.summary_state()
     store.save(job)
@@ -96,12 +131,33 @@ def run_job(store: state.JobStore, job_id: str, template: dict, *, cancel: Optio
     return job
 
 
+def _reresolve(refs, job: state.Job, part: state.PartState) -> None:
+    spec = dict(part.reference.get("_request") or {"source": "auto"})
+    req = {"mode": "match", "fallback_standard": bool(part.reference.get("_fallback")), "per_part": {str(part.source): spec}}
+    old_err = part.error
+    part.state, part.error, part.ended, part.stages = "queued", "", None, {}
+    try:
+        r = refs.resolver.resolve(Path(part.source), part.config, spec, req)
+    except Exception as e:      # noqa: BLE001
+        r = {"_blocked": True, "error": f"REFERENCE_BLOCKED: {type(e).__name__}: {e}"}
+    r["_request"] = spec
+    r["_fallback"] = req["fallback_standard"]
+    if r.get("_pdf") is not None:
+        r["_pdf"] = str(r["_pdf"])
+    if r.get("_blocked"):
+        r.setdefault("error", old_err)
+    part.reference = r
+    if r.get("_blocked"):
+        state.finish(part, "failed", str(r.get("error") or old_err))
+
+
 class JobQueue:
     """One worker thread, strictly serialized (one COM session). Submitting never blocks the caller."""
 
-    def __init__(self, store: state.JobStore, template_lookup: Callable[[str], dict]):
+    def __init__(self, store: state.JobStore, template_lookup: Callable[[str], dict], refs: Optional["refmod.ReferenceServices"] = None):
         self.store = store
         self.lookup = template_lookup
+        self.refs = refs
         self._q: list[tuple[str, Optional[list[str]]]] = []
         self._tasks: list = []
         self._cv = threading.Condition()
@@ -186,7 +242,7 @@ class JobQueue:
                 self.current = job_id
                 try:
                     j = self.store.load(job_id)
-                    run_job(self.store, job_id, self.lookup(j.template_id), session=session, only=only)
+                    run_job(self.store, job_id, self.lookup(j.template_id), session=session, only=only, refs=self.refs)
                 except Exception:      # noqa: BLE001
                     log.exception("job %s crashed", job_id)
                 finally:

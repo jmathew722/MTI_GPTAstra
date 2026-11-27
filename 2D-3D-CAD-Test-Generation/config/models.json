@@ -5,6 +5,16 @@
     "openai": "gpt-6-astra"
   },
   "planner_settings": {
-    "openai": {"max_tokens": 16000}
+    "openai": {
+      "max_tokens": 16000
+    }
+  },
+  "reference_extractor": {
+    "openai": "gpt-6-astra"
+  },
+  "reference_extractor_settings": {
+    "openai": {
+      "max_tokens": 16000
+    }
   }
 }

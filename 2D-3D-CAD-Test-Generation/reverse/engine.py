@@ -14,7 +14,7 @@ import time
 from pathlib import Path
 from typing import Callable, Optional
 
-from reverse import dimension, drawing, inventory, planner, qa, safety, section_views, state, worker
+from reverse import compare, dimension, drawing, inventory, layout, planner, qa, refrun, safety, section_views, standards, state, worker
 
 log = logging.getLogger(__name__)
 
@@ -24,6 +24,13 @@ TRANSIENT_HRESULTS = {-2147417848, -2147023170, -2147023174, -2147417851, -21474
 
 class Canceled(Exception):
     pass
+
+
+try:
+    from pipeline.budget import BudgetExceeded as _BudgetExceeded
+except Exception:      # noqa: BLE001 - the pipeline package is always present in the repo; this only guards odd import paths
+    class _BudgetExceeded(Exception):      # type: ignore[no-redef]
+        pass
 
 
 def _is_transient(e: BaseException) -> bool:
@@ -80,8 +87,19 @@ def extra_views_needed(inv: dict, plan: dict) -> list[dict]:
 
 class PartRunner:
     def __init__(self, session: worker.CadSession, store: state.JobStore, job: state.Job, part: state.PartState, template: dict,
-                 cancel: Callable[[], bool] = lambda: False, source_authorized: Optional[Path] = None):
+                 cancel: Callable[[], bool] = lambda: False, source_authorized: Optional[Path] = None, refs=None):
         self.s, self.store, self.job, self.part, self.template = session, store, job, part, template
+        self.refs = refs
+        self.ref_ex: Optional[dict] = None
+        self.ref_pdf: Optional[Path] = None
+        self.ref_sha = ""
+        self.ref_applied = False
+        self.comparison: Optional[dict] = None
+        self.layout_rep: dict = {}
+        self.final_measure: dict = {}
+        self.carried: set = set()
+        self.std = None
+        self.profile_used = job.profile
         self.cancel = cancel
         self.src = Path(part.source)
         self.out = part_dir(store.dir(job.job_id), part.part_id, part.config)
@@ -133,6 +151,11 @@ class PartRunner:
             self._cleanup()
             state.finish(p, "canceled")
             self._ev("canceled")
+        except _BudgetExceeded as e:       # rule 12: the API budget stops the WHOLE run (this part fails, every remaining part is cancelled)
+            self._cleanup()
+            state.finish(p, "failed", f"API_BUDGET_STOP: {e}"[:400])
+            self.job.cancel_requested = True
+            self._ev("budget_stop", error=str(e))
         except Exception as e:      # noqa: BLE001
             self._cleanup()
             if _is_transient(e) and p.attempts < 2:
@@ -208,7 +231,7 @@ class PartRunner:
                 self.s.activate_configuration(doc, p.config)
                 self.config_used = self.s.active_configuration(doc)
                 if p.config == "" and len(cfgs) > 1:
-                    p.stages["mesh_export"]["warnings"].append(f"{len(cfgs)} configurations exist; only the active one ('{self.config_used}') is drawn. Run again for the others.")
+                    p.stages["stl_export"]["warnings"].append(f"{len(cfgs)} configurations exist; only the active one ('{self.config_used}') is drawn. Run again for the others.")
                 stl_path = self.stage_dir / "model.stl"
                 rec = self.s.export_stl(doc, stl_path)
                 self.box = self.s.body_box(doc)
@@ -227,13 +250,12 @@ class PartRunner:
                 except Exception as e:      # noqa: BLE001
                     self.material = {"name": None, "status": "unread", "error": str(e)}
                 return rec
-            self._stage("mesh_export", mesh)
+            self._stage("stl_export", mesh)
 
             # ---- 3 inventory
-            def inv_stage():
-                self.inv = inventory.build_inventory(self.s, doc, self.config_used)
-                _write_json(self.stage_dir / "inventory.json", self.inv)
-            self._stage("inventory", inv_stage)
+            self.inv = inventory.build_inventory(self.s, doc, self.config_used)          # part of the stl_export stage: same open document
+            _write_json(self.stage_dir / "inventory.json", self.inv)
+            p.stages["stl_export"]["inventory"] = {"holes": len(self.inv.get("holes", [])), "size_m": self.inv.get("size_m")}
             self.s.close_part(copy)
             doc = None
         finally:
@@ -241,10 +263,38 @@ class PartRunner:
                 self.s.close_part(copy)
                 doc = None
 
+        # ---- reference stages (v7): resolution + extraction, or "not applicable" in Standard mode
+        ref_mode = refrun.ref_mode_active(p)
+        self.ref_applied = False
+        if not ref_mode:
+            for st_ in state.REFERENCE_STAGES:
+                state.mark_not_applicable(p, st_, "Standard mode: no reference drawing" if p.reference.get("status") != "fallback_standard" else "Standard mode (fallback): see reference warnings")
+            self.store.save(self.job)
+        else:
+            if self.refs is None:
+                raise worker.CadError("REFERENCE_BLOCKED: reference matching is not configured on this server.")
+            self._stage("reference_resolution", lambda: refrun.stage_reference_resolution(self))
+            self._stage("extraction", lambda: refrun.stage_extraction(self))
+            self.job.actual_api_cost_usd = round(float(self.job.actual_api_cost_usd or 0) + float((p.reference.get("api_usage") or {}).get("usd", 0.0)), 4)
+            default_unit = "inch" if self.job.profile in ("us_third_angle_inch", "us_third_angle_inch_c") else "mm"
+            chk = refrun.compatibility(self.ref_ex, self.inv, default_unit)
+            p.reference["geometry_check"] = chk
+            if chk["status"] == "incompatible":
+                p.reference["status"] = "rejected_unrelated"
+                p.reference["warnings"].append("The reference drawing does not look like this part (its printed dimensions are not found among the model's sizes); "
+                                               "it was not used for layout. Check that the right drawing was selected.")
+                self.issues.append(qa.issue("high", "REFERENCE_UNRELATED", f"The reference drawing does not match this part: {chk['matched']} of {chk['compared']} printed dimensions "
+                                            "exist on the model and none of its overall sizes.", part_id=p.part_id, next_action="Select the correct drawing, or run in Standard mode."))
+                self.ref_applied = False
+            else:
+                self.ref_applied = True
+                if chk["status"] == "uncertain":
+                    p.reference["warnings"].append(f"Only {chk['matched']} of {chk['compared']} printed dimensions were found on the model; verify this is the right drawing.")
+            _write_json(self.stage_dir / "reference" / "geometry_check.json", chk)
+
         # ---- 4 planning
         def plan_stage():
-            prof = self.job.profile
-            self.plan = planner.plan_views(tuple(self.inv["size_m"]), prof, hole_axes=self.inv["hole_axes"])
+            self.plan = refrun.plan_with_reference(self)
             self.extra = extra_views_needed(self.inv, self.plan)
             self.plan["extra_views"] = self.extra
             for ev in self.extra:
@@ -254,7 +304,7 @@ class PartRunner:
             if not self.plan["scale_fits"]:
                 self.issues.append(qa.issue("high", "NO_SCALE_FITS", "No standard scale fits the views on this sheet.", part_id=p.part_id, next_action="Choose a larger sheet profile."))
             _write_json(self.stage_dir / "drawing_plan.json", self.plan)
-        self._stage("planning", plan_stage)
+        self._stage("view_planning", plan_stage)
 
         # ---- 5 drawing
         dd = drawing.DrawingDoc(self.s, copy, self.plan, Path(self.template["path"]), units=self.plan["units"], config=self.config_used,
@@ -272,7 +322,7 @@ class PartRunner:
                     "SF_Projection": "THIRD ANGLE" if self.plan["projection"] == "third" else "FIRST ANGLE",
                     "SF_Status": "PRELIMINARY / FOR REVIEW", "SF_DrawnBy": nsp, "SF_CheckedBy": nsp, "SF_Date": datetime.date.today().isoformat(),
                     "SF_Source": self.src.name, "SF_Config": self.config_used})
-                p.stages["drawing"]["warnings"] += perrs
+                p.stages["native_drawing"]["warnings"] += perrs
                 dd.set_sheet_scale()
                 outlines = dd.build_plan_views([e for e in self.extra if e["fits"]])
                 self.outlines = outlines
@@ -302,11 +352,21 @@ class PartRunner:
                         r = rects[ev["role"]]
                         lbl = f"VIEW FROM {ev['sw_view'].strip('*').upper()}" + (f"  SCALE {drawing._ratio(ev['scale'])}" if abs(ev["scale"] - base) > 1e-9 else "")
                         dd.note(lbl, r.x0, r.y1 + 0.004)
-                p.stages["drawing"]["warnings"] += dd.warnings
+                # v7 standard: the isometric is Shaded With Edges (verified by read-back here and by the PDF later)
+                self.std = standards.Standards(dd)
+                rz = {k: planner.Rect(*v) for k, v in self.plan["regions_m"].items()}
+                self.std.template_zones = [(rz["title_block"].x0, rz["title_block"].y0, rz["title_block"].x1, rz["title_block"].y1),
+                                           (rz["notes"].x0, rz["notes"].y0, rz["notes"].x1, rz["notes"].y1)]
+                iso = self.std.apply_iso_style()
+                p.stages["native_drawing"]["iso"] = iso
+                for v_ in iso["views"]:
+                    if not v_.get("applied"):
+                        self.issues.append(qa.issue("high", "ISO_NOT_SHADED_WITH_EDGES", f"The isometric view could not be set to Shaded With Edges ({v_.get('error') or v_.get('label')}).", part_id=p.part_id))
+                p.stages["native_drawing"]["warnings"] += dd.warnings
                 _write_json(self.stage_dir / "drawing_plan.json", self.plan)          # now including the sections that were actually created
-            self._stage("drawing", draw_stage)
+            self._stage("native_drawing", draw_stage)
 
-            # ---- 6 dimensions
+            # ---- 6 dimensions + leaders + layout (measured, bounded)
             def dim_stage():
                 dm = dimension.Dimensioner(dd, self.inv, self.plan, part_id=p.part_id)
                 dm.sections = getattr(self, "secs", [])
@@ -320,10 +380,33 @@ class PartRunner:
                 self.annotations = res["annotations"]
                 p.coverage_pct = res["ledger"]["coverage"]["percent"]
                 _write_json(self.stage_dir / "dimension_coverage.json", res["ledger"])
-                p.stages["dimensioning"]["warnings"] += dd.warnings
-            self._stage("dimensioning", dim_stage)
+                p.stages["dimensioning_layout"]["warnings"] += dd.warnings
+                # standards: leader text style on leadered dimensions, black annotations
+                lead = self.std.apply_leader_style()
+                for f_ in lead["failed"]:
+                    self.issues.append(qa.issue("medium", "LEADER_STYLE_NOT_APPLIED", f"Broken leader / horizontal text could not be verified on {f_.get('id')}.", part_id=p.part_id))
+                blk = self.std.ensure_black()
+                for bid in blk["failed"]:
+                    self.issues.append(qa.issue("medium", "ANNOTATION_NOT_BLACK", f"Annotation {bid} was not black.", part_id=p.part_id))
+                self.inv_before_layout = self.std.inventory()
+                self.carried = refrun.add_reference_notes(self, dd) if self.ref_applied else set()
+                self.layout_rep = refrun.layout_loop(self, dd, self.std)
+                _write_json(self.stage_dir / "layout_report.json", self.layout_rep)
+                for c in self.layout_rep.get("unresolved", []):
+                    self.issues.append(qa.issue("high", "COLLISION_" + c["kind"].upper(), f"{c['kind']}: {c.get('a_text', '')} {c.get('b_text', '')} {c.get('detail', '')}".strip(),
+                                                part_id=p.part_id, next_action="Move the annotation manually; evidence is in layout_report.json."))
+                p.stages["dimensioning_layout"]["standards"] = self.std.report
+            self._stage("dimensioning_layout", dim_stage)
 
-            # ---- 7 verification
+            # ---- 7 comparison + bounded correction (reference mode only)
+            if self.ref_applied:
+                self._stage("comparison_correction", lambda: self._comparison(dd))
+            else:
+                state.mark_not_applicable(p, "comparison_correction", "Standard mode: nothing to compare against" if p.reference.get("mode") != "match" else
+                                          "No reference was applied to this part")
+                self.comparison = None
+
+            # ---- 8 verification
             def verify():
                 dd.save_drawing(self.stage_dir / "drawing.slddrw")
                 dd.export_pdf(self.stage_dir / "drawing.pdf")
@@ -341,6 +424,7 @@ class PartRunner:
                         self.issues.append(qa.issue("medium", "NONBLACK_LINES", f"{pdfq['nonblack_strokes']} non-black strokes in the PDF", part_id=p.part_id,
                                                     next_action="Print is monochrome: review line colours."))
                 _write_json(self.stage_dir / "pdf_check.json", {k: v for k, v in pdfq.items() if k != "previews"} | {"previews": pdfq["previews"]})
+                self._final_measure(dd, self.stage_dir / "drawing.pdf")
                 self._reopen_check(self.stage_dir / "drawing.slddrw", copy)
                 if safety.sha256_file(self.src) != self.src_hash:
                     raise worker.CadError("The source part changed while the job ran (hash mismatch).")
@@ -349,9 +433,128 @@ class PartRunner:
         finally:
             dd.close()
             self.s.close_all_owned()
+            shutil.rmtree(self.stage_dir / "_iter", ignore_errors=True)
 
-        # ---- 8 publish
-        self._stage("publishing", self._publish)
+        # ---- 9 publish
+        self._stage("publish", self._publish)
+
+    # ------------------------------------------------------------ v7 helpers
+    def _comparison(self, dd) -> None:
+        """Semantic + spatial comparison, then bounded repositioning toward the reference (collisions take priority; best revision kept)."""
+        p, st = self.part, self.std
+        max_iter = int(self.job.options.get("max_iterations", refrun.DEFAULT_ITERATIONS))
+        pdf, pages, err = refrun.export_measure(self, dd, st, "cmp0")
+        if err:
+            raise worker.CadError(err)
+        outl = refrun.outlines(self, dd)
+        cmp_ = refrun.run_comparison(self, dd, st, pages, self.carried)
+        ours = getattr(self, "best_ours", None)
+        col = refrun.detect_now(self, dd, st, pages, outl, ours)
+        best = {"cs": layout.score(col), "ss": compare.spatial_score(cmp_["spatial"]), "snap": refrun.snapshot(st), "cmp": cmp_, "col": col, "pdf": pdf, "pages": pages}
+        hist = [{"iteration": 0, "what": "as laid out", "collisions": len(col), "spatial_mean_mm": round(best["ss"], 2)}]
+        for it in range(1, max_iter + 1):
+            self._check_cancel()
+            mv = refrun.reposition_toward_reference(self, dd, st, best["cmp"]["semantic"], best["cmp"]["spatial"], best["pages"])
+            if not mv["moves"]:
+                hist.append({"iteration": it, "what": "no safe reposition available", "skipped": mv["skipped"][:10]})
+                break
+            pdf2, pages2, err2 = refrun.export_measure(self, dd, st, f"cmp{it}")
+            if err2:
+                refrun.restore_snapshot(dd, st, best["snap"])
+                break
+            snap2 = refrun.snapshot(st)
+            t2a = refrun.map_all(pages2[0].texts, snap2)
+            self.best_t2a = t2a
+            self.best_ours = set(t2a.values()) | (ours or set())
+            cmp2 = refrun.run_comparison(self, dd, st, pages2, self.carried)
+            col2 = refrun.detect_now(self, dd, st, pages2, outl, self.best_ours)
+            cs2, ss2 = layout.score(col2), compare.spatial_score(cmp2["spatial"])
+            entry = {"iteration": it, "what": "moved toward reference anchors", "moved": len(mv["moves"]), "collisions": len(col2), "spatial_mean_mm": round(ss2, 2),
+                     "moves": mv["moves"][:20], "skipped": mv["skipped"][:10]}
+            hist.append(entry)
+            if cs2 <= best["cs"] and ss2 < best["ss"] - 0.05:
+                best = {"cs": cs2, "ss": ss2, "snap": snap2, "cmp": cmp2, "col": col2, "pdf": pdf2, "pages": pages2}
+            else:
+                entry["rejected"] = "no measured improvement without adding collisions; positions restored to the best revision"
+                refrun.restore_snapshot(dd, st, best["snap"])
+                self.best_t2a = refrun.map_all(best["pages"][0].texts, best["snap"])
+                break
+        refrun.restore_snapshot(dd, st, best["snap"])
+        self.comparison = best["cmp"]
+        self.comparison["iterations"] = {"used": len([h for h in hist if h["iteration"] > 0]), "max": max_iter, "history": hist}
+        # evidence images
+        cdir = self.stage_dir / "comparison"
+        W, H = refrun.sheet_dims(self)
+        try:
+            pdf3, pages3, _ = refrun.export_measure(self, dd, st, "cmp_final")
+            col3 = refrun.detect_now(self, dd, st, pages3, outl, getattr(self, "best_ours", None))
+            compare.render_side_by_side(self.ref_pdf, pdf3, cdir / "page-001.png", ref_ex=self.ref_ex, collisions_boxes_mm=[c.box_a_mm for c in col3 if c.box_a_mm], W=W, H=H)
+        except Exception as e:      # noqa: BLE001
+            p.stages["comparison_correction"]["warnings"].append(f"comparison image: {type(e).__name__}: {e}")
+        led = self.comparison["semantic"]
+        _write_json(cdir / "comparison.json", {"semantic": led, "spatial": self.comparison["spatial"], "iterations": self.comparison["iterations"], "reference_layout": self.plan.get("reference_layout")})
+        for e in led["ledger"]:
+            if e.get("required") and e["status"] in ("value_differs",):
+                self.issues.append(qa.issue("high", "REFERENCE_VALUE_DIFFERS", f"{e['text']}: {e['reason']}", part_id=p.part_id, source_ref=e.get("ref_id", ""), expected=e.get("expected") or "",
+                                            observed=e.get("observed") or "", next_action="The drawing shows the model's true value. Confirm which is right (the model or the reference)."))
+        unresolved_req = [e for e in led["ledger"] if e.get("required") and e["status"] in ("missing", "unresolved_requirement", "unit_unknown", "page_not_reconstructed")]
+        if unresolved_req:
+            self.issues.append(qa.issue("high", "REFERENCE_ITEMS_UNRESOLVED", f"{len(unresolved_req)} required reference item(s) are not on the generated drawing; see the comparison ledger.", part_id=p.part_id,
+                                        next_action="Review comparison/comparison.json; add the missing dimensions manually or confirm they are not needed."))
+        if any(e["status"] == "tolerance_not_applied" for e in led["ledger"]):
+            self.issues.append(qa.issue("medium", "REFERENCE_TOLERANCES_NOT_APPLIED", "The reference prints tolerances; tolerances are never invented or applied automatically.", part_id=p.part_id,
+                                        next_action="An engineer applies tolerances deliberately; the printed text is in the ledger."))
+        if led["material"]["status"] == "mismatch":
+            self.issues.append(qa.issue("high", "REFERENCE_MATERIAL_MISMATCH", led["material"].get("note", "Material mismatch"), part_id=p.part_id))
+        elif led["material"]["status"] == "reference_only":
+            self.issues.append(qa.issue("medium", "REFERENCE_MATERIAL_UNASSIGNED", led["material"].get("note", ""), part_id=p.part_id))
+        for dev in (self.plan.get("reference_layout") or {}).get("deviations", []):
+            self.issues.append(qa.issue("low", "REFERENCE_LAYOUT_DEVIATION", dev, part_id=p.part_id))
+
+    def _final_measure(self, dd, pdf: Path) -> None:
+        """Measure the EXPORTED drawing.pdf: collisions on the real deliverable, shading evidence for the isometric, black text and lines, licence watermark."""
+        st = self.std
+        pages = layout.measure_pdf(pdf)
+        W, H = refrun.sheet_dims(self)
+        err = layout.check_scale(pages[0], W, H) if pages else "the export has no pages"
+        outl = refrun.outlines(self, dd)
+        snap = refrun.snapshot(st)
+        t2a = refrun.map_all(pages[0].texts, snap) if pages else {}
+        ours = set(t2a.values())
+        col = refrun.detect_now(self, dd, st, pages, outl, ours) if pages and not err else []
+        iso_ok = None
+        try:
+            import fitz
+            d_ = fitz.open(str(pdf))
+            pg = d_.load_page(0)
+            io = outl.get("iso")
+            if io:
+                imgs = [pg.get_image_bbox(i) for i in pg.get_images(full=True)]
+                H_pt = pg.rect.height
+                iso_ok = any((r.x0 * layout.PT_M <= (io[2] + 0.002) and r.x1 * layout.PT_M >= (io[0] - 0.002) and (H_pt - r.y1) * layout.PT_M <= (io[3] + 0.002)
+                              and (H_pt - r.y0) * layout.PT_M >= (io[1] - 0.002)) for r in imgs if not r.is_empty) or (pages[0].shaded_fills > 0)
+            d_.close()
+        except Exception as e:      # noqa: BLE001
+            self.part.stages["verification"]["warnings"].append(f"isometric shading check: {type(e).__name__}: {e}")
+        self.final_measure = {"scale_error": err, "collisions": layout.summarize(col, float(self.job.options.get("clearance_mm", layout.DEFAULT_CLEARANCE_MM)),
+                                                                                  {"texts": len(pages[0].texts) if pages else 0, "strokes": len(pages[0].strokes) if pages else 0}),
+                              "iso_shading_in_pdf": iso_ok, "nonblack_text": len(pages[0].nonblack_text) if pages else None, "nonblack_strokes": pages[0].nonblack_strokes if pages else None,
+                              "licence_watermark": bool(pages and pages[0].watermark), "mapped_annotations": len(t2a)}
+        if err:
+            self.issues.append(qa.issue("high", "LAYOUT_UNMEASURED", err, part_id=self.part.part_id))
+        if iso_ok is False:
+            self.issues.append(qa.issue("high", "ISO_NO_SHADING_IN_PDF", "The exported PDF shows no shaded image in the isometric view.", part_id=self.part.part_id))
+        # a collision seen in the final export that the loop did not already report is a new finding
+        known = {(i["code"], i["message"]) for i in self.issues}
+        for c in col:
+            code = "COLLISION_" + c.kind.upper()
+            msg = f"{c.kind}: {c.a_text} {c.b_text} {c.detail}".strip()
+            if (code, msg) not in known:
+                self.issues.append(qa.issue("high", code, msg, part_id=self.part_id if hasattr(self, "part_id") else self.part.part_id, next_action="Move the annotation manually; evidence is in verification.json."))
+        try:
+            layout.render_overlay(pdf, col, self.stage_dir / "comparison" / "collisions-overlay.png") if col else None
+        except Exception:      # noqa: BLE001
+            pass
 
     def _reopen_check(self, slddrw: Path, model_copy: Path) -> None:
         """Reopen the saved drawing: it must open, its views must reference the model (not dangling), and dimensions must still be attached."""
@@ -393,18 +596,62 @@ class PartRunner:
             self.s.opened.pop(str(slddrw.resolve()).lower(), None)
         _write_json(self.stage_dir / "reopen_check.json", info)
 
+    def _verification(self, hard: list, review: bool) -> dict:
+        """The QA gate: never a pass while anything unresolved remains. ``failed`` only when the deliverable could not be produced or verified."""
+        p = self.part
+        cmp_ = self.comparison
+        if cmp_:
+            sem = cmp_["semantic"]
+            coverage = {"matched": sem["coverage"]["matched"], "total": sem["coverage"]["total"], "unresolved": sem["coverage"]["unresolved"][:80],
+                        "basis": "required reference items (dimensions, hole callouts, notes) vs the generated drawing"}
+        else:
+            items = [it for it in (self.ledger_json or {}).get("items", []) if it.get("status") != "not_applicable"]
+            coverage = {"matched": sum(1 for it in items if it.get("status") == "covered"), "total": len(items),
+                        "unresolved": [{"id": it.get("id"), "kind": it.get("characteristic"), "text": it.get("characteristic"), "reason": it.get("reason", ""), "severity": "medium"}
+                                       for it in items if it.get("status") != "covered"][:80],
+                        "basis": "model features that need a dimension (Standard mode: geometry-derived, no reference)"}
+        fm = self.final_measure or {}
+        col = fm.get("collisions") or self.layout_rep.get("after") or {"count": 0, "items": [], "clearance_mm": float(self.job.options.get("clearance_mm", layout.DEFAULT_CLEARANCE_MM))}
+        sev = [i["severity"] for i in self.issues]
+        critical = [i for i in self.issues if i["severity"] == "critical" or i["code"] in ("REOPEN_FAILED", "DANGLING_VIEW", "PDF_PAGES")]
+        if critical:
+            status = "failed"
+        elif hard or review or coverage["unresolved"] or col.get("count"):
+            status = "review_required"
+        else:
+            status = "passed"
+        iso = (p.stages.get("native_drawing") or {}).get("iso", {})
+        std = (self.std.report if self.std else {})
+        arr = self.layout_rep.get("arrange") or {}
+        return {"status": status, "coverage": coverage, "collisions": col,
+                "comparison": ({"semantic": {"counts": self.comparison["semantic"]["counts"], "material": self.comparison["semantic"]["material"], "views": self.comparison["semantic"]["views"]},
+                                "spatial": self.comparison["spatial"]["summary"]} if self.comparison else {"semantic": None, "spatial": None, "note": "not applicable (Standard mode or no reference applied)"}),
+                "iterations": ({**((self.comparison or {}).get("iterations") or {}), "layout": {k: self.layout_rep.get(k) for k in ("max_iterations", "iterations_used", "best", "history")}} if self.layout_rep else {}),
+                "standards": {"iso_shaded_with_edges": (all(v.get("applied") for v in iso.get("views", [])) if iso.get("views") else None),
+                              "iso_shading_in_pdf": fm.get("iso_shading_in_pdf"),
+                              "black_text": (not fm.get("nonblack_text") and not (std.get("black") or {}).get("failed")) if fm else None,
+                              "broken_leaders": {"applied": len((std.get("leaders") or {}).get("applied", [])), "failed": len((std.get("leaders") or {}).get("failed", [])),
+                                                 "not_applicable": len((std.get("leaders") or {}).get("not_applicable", [])), "note": (std.get("notes") or {}).get("note")},
+                              "arrange": {k: arr.get(k) for k in ("accepted", "decision", "moved", "integrity", "collisions_before", "collisions_after")} if arr else None,
+                              "licence_watermark": fm.get("licence_watermark")},
+                "issues_by_severity": {s_: sev.count(s_) for s_ in sorted(set(sev))}, "hard_failures": [h["code"] for h in hard],
+                "note": "Software QA is not engineering approval. A reference match is not an approval either; the drawing stays PRELIMINARY / FOR REVIEW."}
+
     def _publish(self) -> None:
         p = self.part
         out = self.out
         sd = self.stage_dir
         ledger = self.ledger_json.get("coverage", {})
-        hard = [i for i in self.issues if i["severity"] in ("critical",) or i["code"] in ("VALUE_MISMATCH", "PDF_PAGES", "DANGLING_VIEW", "REOPEN_FAILED", "VIEW_OVERLAP", "TEXT_OVERLAPS")]
+        hard = [i for i in self.issues if i["severity"] in ("critical",) or i["code"] in ("VALUE_MISMATCH", "PDF_PAGES", "DANGLING_VIEW", "REOPEN_FAILED", "VIEW_OVERLAP", "TEXT_OVERLAPS")
+                or i["code"].startswith("COLLISION_") or i["code"] in ("ISO_NOT_SHADED_WITH_EDGES", "ISO_NO_SHADING_IN_PDF", "REFERENCE_UNRELATED", "LAYOUT_UNMEASURED")]
         review = [i for i in self.issues if i["severity"] in ("critical", "high", "medium")] or any(
             it["status"] in ("review_required", "unresolved") for it in self.ledger_json.get("items", []))
+        verification = self._verification(hard, bool(review))
+        p.verification = verification
         # artifact set: only what exists
         names = {"model.stl": "model.stl", "drawing.slddrw": "drawing.slddrw", "drawing.pdf": "drawing.pdf", "inventory.json": "inventory.json",
                  "drawing_plan.json": "drawing_plan.json", "dimension_coverage.json": "dimension_coverage.json", "stl_validation.json": "stl_validation.json",
-                 "pdf_check.json": "pdf_check.json", "reopen_check.json": "reopen_check.json"}
+                 "pdf_check.json": "pdf_check.json", "reopen_check.json": "reopen_check.json", "layout_report.json": "layout_report.json"}
         for n in names:
             src = sd / n
             if src.is_file():
@@ -412,23 +659,37 @@ class PartRunner:
         if (sd / "preview").is_dir():
             shutil.rmtree(out / "preview", ignore_errors=True)
             os.replace(sd / "preview", out / "preview")
+        for sub in ("reference", "comparison"):
+            if (sd / sub).is_dir():
+                shutil.rmtree(out / sub, ignore_errors=True)
+                os.replace(sd / sub, out / sub)
+        pub_ref = {k: v for k, v in p.reference.items() if not k.startswith("_")}
         qa_doc = {"part": p.part_id, "issues": self.issues, "coverage": ledger, "hard_failures": hard, "pdf": {k: v for k, v in getattr(self, "pdfq", {}).items() if k != "previews"},
-                  "review_required": bool(review), "note": "Software QA is not engineering approval. This drawing is PRELIMINARY / FOR REVIEW until an authorized engineer dispositions the issues."}
+                  "review_required": bool(review) or verification["status"] != "passed", "verification": verification, "reference": pub_ref,
+                  "note": "Software QA is not engineering approval. This drawing is PRELIMINARY / FOR REVIEW until an authorized engineer dispositions the issues."}
         _write_json(out / "qa.json", qa_doc)
+        _write_json(out / "verification.json", {"schema": "VerificationReport/1", **verification, "reference": pub_ref, "final_measure": self.final_measure})
         files = {}
-        for n in list(names) + ["qa.json"]:
+        for n in list(names) + ["qa.json", "verification.json"]:
             fp = out / n
             if fp.is_file():
                 files[n] = {"bytes": fp.stat().st_size, "sha256": safety.sha256_file(fp)}
+        for sub in ("reference", "comparison"):
+            for fp in sorted((out / sub).rglob("*")) if (out / sub).is_dir() else []:
+                if fp.is_file() and not fp.name.endswith(".tmp"):
+                    files[f"{sub}/{fp.relative_to(out / sub).as_posix()}"] = {"bytes": fp.stat().st_size, "sha256": safety.sha256_file(fp)}
         for pv in sorted((out / "preview").glob("*.png")) if (out / "preview").is_dir() else []:
             files[f"preview/{pv.name}"] = {"bytes": pv.stat().st_size, "sha256": safety.sha256_file(pv)}
-        manifest = {"schema_version": 1, "job_id": self.job.job_id, "part_id": p.part_id, "source_name": self.src.name, "source_sha256": self.src_hash,
+        not_ok = bool(review) or bool(hard) or verification["status"] != "passed"
+        manifest = {"schema_version": 2, "job_id": self.job.job_id, "part_id": p.part_id, "source_name": self.src.name, "source_sha256": self.src_hash,
                     "source_unchanged": safety.sha256_file(self.src) == self.src_hash, "configuration": getattr(self, "config_used", ""),
                     "solidworks": self.s.info.as_dict(), "template": {k: self.template.get(k) for k in ("id", "name", "sha256", "own_sheet_format")},
                     "profile": self.job.profile, "units": self.plan.get("units"), "projection": self.plan.get("projection"), "scale": self.plan.get("scale"),
                     "stl": {"unit": "mm", "transform": "none (the part is exported in its own coordinate system)"}, "material": self.material,
-                    "stage_seconds": {k: v.get("seconds") for k, v in p.stages.items()}, "files": files, "review_status": "required" if review else "none",
-                    "status": "review_required" if (review or hard) else "completed", "draft": True,
+                    "reference": {k: pub_ref.get(k) for k in ("mode", "status", "source_kind", "filename", "sha256", "pages", "link", "extraction_cache", "extraction_id", "api_usage")},
+                    "verification_status": verification["status"],
+                    "stage_seconds": {k: v.get("seconds") for k, v in p.stages.items()}, "files": files, "review_status": "required" if not_ok else "none",
+                    "status": "review_required" if not_ok else "completed", "draft": True,
                     "note": "Draft output. Not approved for manufacture."}
         _write_json(out / "manifest.json", manifest)
         shutil.rmtree(sd, ignore_errors=True)
@@ -436,6 +697,6 @@ class PartRunner:
         p.artifacts = {n: rel(n) for n in files} | {"manifest.json": rel("manifest.json")}
         p.issues = self.issues
         p.material = self.material
-        p.review_status = "required" if review else "none"
-        state.finish(p, "review_required" if (review or hard) else "completed")
-        self._ev("published", status=p.state, files=len(files))
+        p.review_status = "required" if not_ok else "none"
+        state.finish(p, "review_required" if not_ok else "completed")       # a failed verification is itself the review item: it never reads as green
+        self._ev("published", status=p.state, files=len(files), verification=verification["status"])
