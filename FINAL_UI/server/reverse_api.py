@@ -27,6 +27,8 @@ from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.concurrency import run_in_threadpool
 
+import reverse_v7
+
 MAX_PART_UPLOAD_BYTES = 500 * 1024 * 1024
 MAX_FILES_PER_JOB = 200
 MAX_TEMPLATE_BYTES = 25 * 1024 * 1024
@@ -258,6 +260,7 @@ def make_router(app_module) -> APIRouter:
     global _APP
     _APP = app_module
     r = APIRouter(prefix="/api/reverse", tags=["reverse"])
+    reverse_v7.add_routes(r, sys.modules[__name__])
 
     @r.get("/profiles")
     def profiles():
@@ -362,13 +365,20 @@ def make_router(app_module) -> APIRouter:
         template_id = profile = config = None
         paths: list[Path] = []
         pre_rejected: list[dict] = []
+        reference_raw = None
+        stage_id = ""
+        stage_keys: Optional[list] = None
         if ctype.startswith("multipart/"):
             form = await request.form()
             template_id = (form.get("template_id") or "").strip() or None
             profile = (form.get("profile") or "").strip() or "us_third_angle_inch"
             config = (form.get("config") or "").strip()
-            files = [f for f in form.getlist("files") if hasattr(f, "filename")]
-            if not files:
+            reference_raw = form.get("reference")
+            stage_id = (form.get("stage_id") or "").strip()
+            if stage_id:
+                stage_keys = [str(k) for k in form.getlist("keys")]
+            files = [f for f in form.getlist("files") if hasattr(f, "filename")] if not stage_id else []
+            if not files and not stage_id:
                 raise HTTPException(400, "Choose one or more SOLIDWORKS parts (.SLDPRT).")
             if len(files) > MAX_FILES_PER_JOB:
                 raise HTTPException(400, f"At most {MAX_FILES_PER_JOB} files per job.")
@@ -405,30 +415,55 @@ def make_router(app_module) -> APIRouter:
                 body = await request.json()
             except Exception:      # noqa: BLE001
                 raise HTTPException(400, "Send multipart files or a JSON body {folder, recursive}.")
-            if not isinstance(body, dict) or not isinstance(body.get("folder"), str):
-                raise HTTPException(400, "A JSON submission needs a 'folder'.")
+            if not isinstance(body, dict) or not (isinstance(body.get("folder"), str) or isinstance(body.get("stage_id"), str)):
+                raise HTTPException(400, "A JSON submission needs a 'folder' or a 'stage_id'.")
             template_id = (body.get("template_id") or "").strip() or None
             profile = (body.get("profile") or "").strip() or "us_third_angle_inch"
             config = (body.get("config") or "").strip()
+            reference_raw = body.get("reference")
             from reverse import safety
-            try:
-                folder = safety.authorize(body["folder"], authorized_roots())
-            except safety.SafetyError as e:
-                raise HTTPException(400, str(e))
-            if not folder.is_dir():
-                raise HTTPException(400, "That folder was not found.")
-            paths = safety.discover_parts(folder, bool(body.get("recursive")))[:MAX_FILES_PER_JOB]
-            if not paths:
-                raise HTTPException(400, "No .SLDPRT files were found in that folder" + (" (including subfolders)." if body.get("recursive") else "."))
+            if isinstance(body.get("stage_id"), str) and body["stage_id"]:
+                stage_id = body["stage_id"].strip()
+                stage_keys = [str(k) for k in (body.get("keys") or [])] if isinstance(body.get("keys"), list) else None
+            else:
+                try:
+                    folder = safety.authorize(body["folder"], authorized_roots())
+                except safety.SafetyError as e:
+                    raise HTTPException(400, str(e))
+                if not folder.is_dir():
+                    raise HTTPException(400, "That folder was not found.")
+                paths = safety.discover_parts(folder, bool(body.get("recursive")))[:MAX_FILES_PER_JOB]
+                if not paths:
+                    raise HTTPException(400, "No .SLDPRT files were found in that folder" + (" (including subfolders)." if body.get("recursive") else "."))
         if len(config) > 80 or not re.match(r"^[^\x00-\x1f]*$", config):
             raise HTTPException(400, "Invalid configuration name.")
+        stage = None
+        key_to_path: dict = {}
+        if stage_id:
+            stage = reverse_v7._stage_or_404(stage_id)
+            for k, info in stage["parts"].items():
+                if stage_keys is not None and k not in stage_keys:
+                    continue
+                pth = Path(info["path"])
+                if pth.is_file():
+                    paths.append(pth)
+                    key_to_path[k] = pth
+            if not paths:
+                raise HTTPException(400, "None of the chosen parts is still on the server. Choose them again.")
+        elif reference_raw not in (None, ""):
+            key_to_path = {f"p{i}": p for i, p in enumerate(paths)}
+        reference = reverse_v7.translate_reference(sys.modules[__name__], svc, reference_raw, stage, key_to_path)
         if not paths:
             raise HTTPException(400, "No valid SOLIDWORKS parts: " + "; ".join(r["reason"] for r in pre_rejected))
         from reverse import safety, templates as tpl_mod
         try:
-            job = await run_in_threadpool(lambda: svc.submit(part_paths=paths, template_id=template_id, profile=profile, configs={str(p): config for p in paths} if config else None))
+            kw = {"reference": reference} if reference is not None else {}
+            job = await run_in_threadpool(lambda: svc.submit(part_paths=paths, template_id=template_id, profile=profile, configs={str(p): config for p in paths} if config else None, **kw))
         except (safety.SafetyError, tpl_mod.TemplateError) as e:
             raise HTTPException(400, str(scrub(str(e))))
+        if stage_id:
+            with reverse_v7._SLOCK:
+                reverse_v7._STAGES.pop(stage_id, None)          # the job owns the staged copies now (delete_job removes them)
         rej = list(job.options.get("rejected", [])) + pre_rejected
         if pre_rejected:
             job.options["rejected"] = rej
