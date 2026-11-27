@@ -699,6 +699,16 @@ def plan_replication(r) -> Optional[dict]:
     r.profile_used = prof
     dev.append(f"Blank stock sheet used (not a Solid Flow template): {tgt['note']}.")
     rec = reflayout.apply_reference(plan, ex, ext, frame=frame, replicate=True)
+    # mixed scales: a source view that states its OWN scale keeps it (detail / section / reduced views); the sheet scale stays the title block's
+    vscales = {}
+    for role, info in (rec.get("views") or {}).items():
+        v = next((x for x in ex.get("views", []) if x["id"] == info.get("reference_view")), None)
+        own = reflayout.parse_scale((v or {}).get("scale_text", "")) if v else None
+        if own and own != (plan["scale"]["num"], plan["scale"]["den"]):
+            vscales[role] = own
+    plan["view_scales"] = {k: list(v) for k, v in vscales.items()}
+    if vscales:
+        dev.append("Views with their own printed scale keep it: " + ", ".join(f"{k} {v[0]}:{v[1]}" for k, v in vscales.items()))
     rec["sheet_deviations"] = dev
     rec["deviations"] = dev + rec["deviations"]
     rec["replicate"] = True

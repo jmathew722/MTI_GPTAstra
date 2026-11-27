@@ -1,0 +1,2812 @@
+{
+  "part": "4028-B_ir",
+  "issues": [
+    {
+      "id": "4028-B_ir-HOLE_VIEW_MISSING-046",
+      "severity": "high",
+      "code": "HOLE_VIEW_MISSING",
+      "message": "H001 (axis x) is only visible from *Right; that view is not on the sheet",
+      "source_ref": "",
+      "view": "right",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Add the view or a section through the hole and dimension it.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-HOLE_VIEW_MISSING-047",
+      "severity": "high",
+      "code": "HOLE_VIEW_MISSING",
+      "message": "H002 (axis x) is only visible from *Right; that view is not on the sheet",
+      "source_ref": "",
+      "view": "right",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Add the view or a section through the hole and dimension it.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-BLIND_DEPTH_REVIEW-048",
+      "severity": "medium",
+      "code": "BLIND_DEPTH_REVIEW",
+      "message": "H003: blind depth 8.382 mm is carried by the callout/hidden geometry; confirm or add a section view",
+      "source_ref": "",
+      "view": "front",
+      "sheet": null,
+      "observed": "8.382 mm",
+      "expected": "",
+      "next_action": "Confirm the depth on the drawing or add a section view.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-DESIGN_INTENT-049",
+      "severity": "info",
+      "code": "DESIGN_INTENT",
+      "message": "Tolerances, surface finish, thread specifications and datum scheme/GD&T are not in the part geometry and were not invented.",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Add them from the source design intent before release.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_TEXT-050",
+      "severity": "high",
+      "code": "COLLISION_TEXT_TEXT",
+      "message": "text_text: ANGULAR DIM. \u00b11\u00b0 SCALE 1\"=1\" overlap",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_TEXT-051",
+      "severity": "high",
+      "code": "COLLISION_TEXT_TEXT",
+      "message": "text_text: DOG EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED. closer than 1.5 mm",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_TEXT-052",
+      "severity": "high",
+      "code": "COLLISION_TEXT_TEXT",
+      "message": "text_text: MC CHG overlap",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-053",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: UNLESS OTHERWISE SPECIFIED:  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-054",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: DIMENSIONS IN INCHES  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-055",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: DATE: 10-20-87  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-056",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: MANUFACTURING TECHNOLOGY INC.  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-057",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: MODEL NO.  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-058",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-059",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: TECHNOLOGY INC. AND OR ITS SUBSIDIARIES WITHOUT WRITTEN PER-  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-060",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: MISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-061",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-REFERENCE_VALUE_DIFFERS-062",
+      "severity": "high",
+      "code": "REFERENCE_VALUE_DIFFERS",
+      "message": ".62\nTYP.: the reference prints 0.62 inch but the model's true value is 0.5800 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+      "source_ref": "A004",
+      "view": "",
+      "sheet": null,
+      "observed": "0.5800 inch",
+      "expected": "0.62 inch",
+      "next_action": "The drawing shows the model's true value. Confirm which is right (the model or the reference).",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-REFERENCE_VALUE_DIFFERS-063",
+      "severity": "high",
+      "code": "REFERENCE_VALUE_DIFFERS",
+      "message": ".25: the reference prints 0.25 inch but the model's true value is 0.2810 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+      "source_ref": "A013",
+      "view": "",
+      "sheet": null,
+      "observed": "0.2810 inch",
+      "expected": "0.25 inch",
+      "next_action": "The drawing shows the model's true value. Confirm which is right (the model or the reference).",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-REFERENCE_VALUE_DIFFERS-064",
+      "severity": "high",
+      "code": "REFERENCE_VALUE_DIFFERS",
+      "message": "1.188: the reference prints 1.188 inch but the model's true value is 1.3600 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+      "source_ref": "A015",
+      "view": "",
+      "sheet": null,
+      "observed": "1.3600 inch",
+      "expected": "1.188 inch",
+      "next_action": "The drawing shows the model's true value. Confirm which is right (the model or the reference).",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-SOURCE_ONLY_CALLOUTS-065",
+      "severity": "medium",
+      "code": "SOURCE_ONLY_CALLOUTS",
+      "message": "12 source callout(s) were reproduced as editable non-associative notes (hole / GD&T / finish / unmatched dimensions); an engineer must confirm them against the model.",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Review comparison/comparison.json (status source_note).",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-REFERENCE_MATERIAL_UNASSIGNED-066",
+      "severity": "medium",
+      "code": "REFERENCE_MATERIAL_UNASSIGNED",
+      "message": "The reference prints a material but the model has none assigned; the drawing title block says NOT SPECIFIED (never guessed).",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-REFERENCE_LAYOUT_DEVIATION-067",
+      "severity": "low",
+      "code": "REFERENCE_LAYOUT_DEVIATION",
+      "message": "Sheet format ANSI_B was chosen from the reference page proportions (aspect 1.579); the requested profile used ANSI_C.",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-REFERENCE_LAYOUT_DEVIATION-068",
+      "severity": "low",
+      "code": "REFERENCE_LAYOUT_DEVIATION",
+      "message": "Blank stock sheet used (not a Solid Flow template): source page 430.0 x 272.3 mm matches ANSI B.",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-TEXT_OVERLAPS-069",
+      "severity": "high",
+      "code": "TEXT_OVERLAPS",
+      "message": "PDF check text_overlaps: {'page': 1, 'a': 'MC', 'b': 'CHG'}",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Fix the annotation style / layout.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-070",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: 480-B  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in verification.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-071",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: MC  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in verification.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-072",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: CHG  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in verification.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-073",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: .080  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in verification.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-074",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: .25  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in verification.json.",
+      "history": []
+    }
+  ],
+  "coverage": {
+    "covered": 8,
+    "applicable": 15,
+    "percent": 53.333333333333336,
+    "by_status": {
+      "covered": 8,
+      "review_required": 7
+    },
+    "excluded": [],
+    "note": "Diagnostic only: geometric coverage is not manufacturing completeness or approval."
+  },
+  "hard_failures": [
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_TEXT-050",
+      "severity": "high",
+      "code": "COLLISION_TEXT_TEXT",
+      "message": "text_text: ANGULAR DIM. \u00b11\u00b0 SCALE 1\"=1\" overlap",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_TEXT-051",
+      "severity": "high",
+      "code": "COLLISION_TEXT_TEXT",
+      "message": "text_text: DOG EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED. closer than 1.5 mm",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_TEXT-052",
+      "severity": "high",
+      "code": "COLLISION_TEXT_TEXT",
+      "message": "text_text: MC CHG overlap",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-053",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: UNLESS OTHERWISE SPECIFIED:  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-054",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: DIMENSIONS IN INCHES  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-055",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: DATE: 10-20-87  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-056",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: MANUFACTURING TECHNOLOGY INC.  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-057",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: MODEL NO.  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-058",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-059",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: TECHNOLOGY INC. AND OR ITS SUBSIDIARIES WITHOUT WRITTEN PER-  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-060",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: MISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-061",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-TEXT_OVERLAPS-069",
+      "severity": "high",
+      "code": "TEXT_OVERLAPS",
+      "message": "PDF check text_overlaps: {'page': 1, 'a': 'MC', 'b': 'CHG'}",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Fix the annotation style / layout.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-070",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: 480-B  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in verification.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-071",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: MC  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in verification.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-072",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: CHG  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in verification.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-073",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: .080  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in verification.json.",
+      "history": []
+    },
+    {
+      "id": "4028-B_ir-COLLISION_TEXT_STROKE-074",
+      "severity": "high",
+      "code": "COLLISION_TEXT_STROKE",
+      "message": "text_stroke: .25  a drawn line runs through this text",
+      "source_ref": "",
+      "view": "",
+      "sheet": null,
+      "observed": "",
+      "expected": "",
+      "next_action": "Move the annotation manually; evidence is in verification.json.",
+      "history": []
+    }
+  ],
+  "pdf": {
+    "exists": true,
+    "pages": 1,
+    "expected_pages": 1,
+    "nonblack_text": [],
+    "nonblack_strokes": 0,
+    "color_fills": 0,
+    "text_overlaps": [
+      {
+        "page": 1,
+        "a": "MC",
+        "b": "CHG"
+      }
+    ],
+    "text_clipped": [],
+    "vector": true,
+    "errors": [],
+    "ok": false
+  },
+  "review_required": true,
+  "verification": {
+    "status": "review_required",
+    "coverage": {
+      "matched": 11,
+      "total": 26,
+      "unresolved": [
+        {
+          "id": "L002",
+          "ref_id": "A002",
+          "kind": "angular",
+          "text": "30\u00b0 TYP.",
+          "required": true,
+          "status": "source_note",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L003",
+          "ref_id": "A003",
+          "kind": "radius",
+          "text": ".03 R.\nBLEND\nSMOOTH",
+          "required": true,
+          "status": "source_note",
+          "expected": "0.03 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L004",
+          "ref_id": "A004",
+          "kind": "linear",
+          "text": ".62\nTYP.",
+          "required": true,
+          "status": "value_differs",
+          "native_id": "top/RD1",
+          "expected": "0.62 inch",
+          "observed": "0.5800 inch",
+          "reason": "the reference prints 0.62 inch but the model's true value is 0.5800 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+          "severity": "high"
+        },
+        {
+          "id": "L007",
+          "ref_id": "A007",
+          "kind": "linear",
+          "text": ".172\u00b1.005",
+          "required": true,
+          "status": "source_note",
+          "expected": "0.172 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L011",
+          "ref_id": "A011",
+          "kind": "linear",
+          "text": ".080",
+          "required": true,
+          "status": "source_note",
+          "expected": "0.08 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L012",
+          "ref_id": "A012",
+          "kind": "radius",
+          "text": ".020 R. MAX.",
+          "required": true,
+          "status": "source_note",
+          "expected": "0.02 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L013",
+          "ref_id": "A013",
+          "kind": "linear",
+          "text": ".25",
+          "required": true,
+          "status": "value_differs",
+          "native_id": "front/RD3",
+          "expected": "0.25 inch",
+          "observed": "0.2810 inch",
+          "reason": "the reference prints 0.25 inch but the model's true value is 0.2810 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+          "severity": "high"
+        },
+        {
+          "id": "L014",
+          "ref_id": "A014",
+          "kind": "linear",
+          "text": ".344 +.000\n\u2212.010",
+          "required": true,
+          "status": "source_note",
+          "expected": "0.344 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L015",
+          "ref_id": "A015",
+          "kind": "linear",
+          "text": "1.188",
+          "required": true,
+          "status": "value_differs",
+          "native_id": "front/RD6",
+          "expected": "1.188 inch",
+          "observed": "1.3600 inch",
+          "reason": "the reference prints 1.188 inch but the model's true value is 1.3600 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+          "severity": "high"
+        },
+        {
+          "id": "L018",
+          "ref_id": "A018",
+          "kind": "finish",
+          "text": "63",
+          "required": true,
+          "status": "source_note",
+          "expected": "63 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L019",
+          "ref_id": "A019",
+          "kind": "finish",
+          "text": "63",
+          "required": true,
+          "status": "source_note",
+          "expected": "63 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L020",
+          "ref_id": "A020",
+          "kind": "finish",
+          "text": "125",
+          "required": true,
+          "status": "source_note",
+          "expected": "125 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L021",
+          "ref_id": "A021",
+          "kind": "finish",
+          "text": "125",
+          "required": true,
+          "status": "source_note",
+          "expected": "125 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L022",
+          "ref_id": "A022",
+          "kind": "finish",
+          "text": "125",
+          "required": true,
+          "status": "source_note",
+          "expected": "125 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L023",
+          "ref_id": "A023",
+          "kind": "finish",
+          "text": "125",
+          "required": true,
+          "status": "source_note",
+          "expected": "125 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        }
+      ],
+      "basis": "required reference items (dimensions, hole callouts, notes) vs the generated drawing"
+    },
+    "collisions": {
+      "count": 14,
+      "by_kind": {
+        "text_text": 1,
+        "text_stroke": 13
+      },
+      "clearance_mm": 1.5,
+      "items": [
+        {
+          "kind": "text_text",
+          "page": 1,
+          "a": "p1t18_0",
+          "b": "p1t18_1",
+          "severity": "high",
+          "a_text": "MC",
+          "b_text": "CHG",
+          "box_a_mm": [
+            376.53,
+            106.21,
+            384.47,
+            109.6
+          ],
+          "box_b_mm": [
+            375.07,
+            106.21,
+            385.93,
+            109.6
+          ],
+          "detail": "overlap"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t8_0",
+          "severity": "high",
+          "a_text": "UNLESS OTHERWISE SPECIFIED:",
+          "box_a_mm": [
+            316.46,
+            95.79,
+            356.59,
+            97.88
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t8_2",
+          "severity": "high",
+          "a_text": "DIMENSIONS IN INCHES",
+          "box_a_mm": [
+            316.46,
+            88.15,
+            347.56,
+            90.24
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t11_0",
+          "severity": "high",
+          "a_text": "MANUFACTURING TECHNOLOGY INC.",
+          "box_a_mm": [
+            314.35,
+            59.14,
+            410.08,
+            63.06
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t13_1",
+          "severity": "high",
+          "a_text": "MODEL NO.",
+          "box_a_mm": [
+            375.8,
+            20.24,
+            403.92,
+            23.9
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t13_2",
+          "severity": "high",
+          "a_text": "480-B",
+          "box_a_mm": [
+            375.8,
+            14.3,
+            388.48,
+            17.96
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t14_0",
+          "severity": "high",
+          "a_text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING",
+          "box_a_mm": [
+            325.23,
+            53.26,
+            403.18,
+            55.09
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t14_1",
+          "severity": "high",
+          "a_text": "TECHNOLOGY INC. AND OR ITS SUBSIDIARIES WITHOUT WRITTEN PER-",
+          "box_a_mm": [
+            325.23,
+            49.79,
+            404.86,
+            51.62
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t14_2",
+          "severity": "high",
+          "a_text": "MISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE",
+          "box_a_mm": [
+            325.23,
+            45.78,
+            401.56,
+            48.15
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t14_3",
+          "severity": "high",
+          "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+          "box_a_mm": [
+            325.23,
+            42.31,
+            388.34,
+            44.68
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t18_0",
+          "severity": "high",
+          "a_text": "MC",
+          "box_a_mm": [
+            376.53,
+            106.21,
+            384.47,
+            109.6
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t18_1",
+          "severity": "high",
+          "a_text": "CHG",
+          "box_a_mm": [
+            375.07,
+            106.21,
+            385.93,
+            109.6
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t23_0",
+          "severity": "high",
+          "a_text": ".080",
+          "box_a_mm": [
+            218.45,
+            187.85,
+            227.35,
+            191.25
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t24_0",
+          "severity": "high",
+          "a_text": ".25",
+          "box_a_mm": [
+            225.38,
+            164.02,
+            231.74,
+            167.41
+          ],
+          "detail": "a drawn line runs through this text"
+        }
+      ],
+      "advisory": [],
+      "truncated": 0,
+      "exemptions": [
+        "strokes touching a text box edge (leader tip / extension line) are not collisions",
+        "shaded isometric fills are not strokes",
+        "the template's own title block and border are part of the sheet format"
+      ],
+      "texts": 54,
+      "strokes": 377
+    },
+    "comparison": {
+      "semantic": {
+        "counts": {
+          "matched": 6,
+          "matched_shared": 2,
+          "preserved_note": 18,
+          "source_note": 12,
+          "value_differs": 3
+        },
+        "material": {
+          "reference": "1018",
+          "native": null,
+          "status": "reference_only",
+          "note": "The reference prints a material but the model has none assigned; the drawing title block says NOT SPECIFIED (never guessed)."
+        },
+        "views": [
+          {
+            "ref_view": "V1",
+            "type": "Front",
+            "reference_scale": "",
+            "present": true,
+            "native_roles": [
+              "front"
+            ],
+            "note": ""
+          },
+          {
+            "ref_view": "V2",
+            "type": "Top",
+            "reference_scale": "",
+            "present": true,
+            "native_roles": [
+              "top"
+            ],
+            "note": ""
+          },
+          {
+            "ref_view": "V3",
+            "type": "Right",
+            "reference_scale": "",
+            "present": false,
+            "native_roles": [],
+            "note": "no matching Right view was generated (this pipeline generates front/top/right, an isometric and hole sections)"
+          }
+        ]
+      },
+      "spatial": {
+        "views_compared": 2,
+        "views_within_target": 1,
+        "view_median_mm": 1.2,
+        "annotations_compared": 8,
+        "annotations_within_target": 6,
+        "annotation_median_mm": 1.9,
+        "annotation_max_mm": 108.6,
+        "targets_note": "Spatial targets (1 mm views, 2 mm annotations) are drafting-comparison targets, not manufacturing tolerances. Positions from a scan are OCR/model estimates with the stated position_source; the reference page proportions may differ from the supported sheet formats (see sheet deviation)."
+      }
+    },
+    "iterations": {
+      "used": 2,
+      "max": 3,
+      "best": 1,
+      "history": [
+        {
+          "iteration": 0,
+          "view_dev_max_mm": 0.22,
+          "annotation_dev_median_mm": 91.42,
+          "annotation_dev_max_mm": 237.98,
+          "collisions": 15,
+          "objective": 1770.43,
+          "notes_shifted": 29,
+          "views_moved": [],
+          "views_locked": [],
+          "annotation_placement": {
+            "baseline": {
+              "collisions": 15,
+              "score": 45.0
+            },
+            "after": {
+              "collisions": 15,
+              "score": 45.0
+            },
+            "accepted": true,
+            "decision": null,
+            "moved": 8,
+            "displaced": 0,
+            "skipped": 0
+          }
+        },
+        {
+          "iteration": 1,
+          "view_dev_max_mm": 0.22,
+          "annotation_dev_median_mm": 0.0,
+          "annotation_dev_max_mm": 108.13,
+          "collisions": 14,
+          "objective": 1017.25,
+          "notes_shifted": 2,
+          "views_moved": [],
+          "views_locked": [],
+          "annotation_placement": {
+            "baseline": {
+              "collisions": 14,
+              "score": 42.0
+            },
+            "after": {
+              "collisions": 14,
+              "score": 42.0
+            },
+            "accepted": true,
+            "decision": null,
+            "moved": 2,
+            "displaced": 0,
+            "skipped": 0
+          }
+        },
+        {
+          "iteration": 2,
+          "view_dev_max_mm": 0.22,
+          "annotation_dev_median_mm": 0.0,
+          "annotation_dev_max_mm": 155.25,
+          "collisions": 14,
+          "objective": 1064.37,
+          "notes_shifted": 2,
+          "rejected": "no measured improvement; the best earlier revision was restored"
+        }
+      ],
+      "stop_reason": "no_improvement",
+      "layout": {
+        "max_iterations": 3,
+        "iterations_used": 2,
+        "best": "correction 1",
+        "history": [
+          {
+            "iteration": 0,
+            "what": "as generated",
+            "collisions": 14,
+            "score": 40.0
+          },
+          {
+            "iteration": 0,
+            "what": "native Auto Arrange",
+            "collisions": 14,
+            "score": 40.0,
+            "accepted": true
+          },
+          {
+            "iteration": 1,
+            "what": "collision-aware moves",
+            "moved": 2,
+            "moves": [
+              {
+                "annotation": "sheet/note22",
+                "text": ".172\u00b1.005",
+                "delta_mm": [
+                  0.0,
+                  4.0
+                ],
+                "kind": "note"
+              },
+              {
+                "annotation": "sheet/note19",
+                "text": "30\u00b0 TYP.",
+                "delta_mm": [
+                  0.0,
+                  4.0
+                ],
+                "kind": "note"
+              }
+            ],
+            "collisions": 12,
+            "score": 34.0
+          },
+          {
+            "iteration": 2,
+            "what": "no free position found for the colliding annotations",
+            "collisions": 12,
+            "score": 34.0
+          }
+        ]
+      }
+    },
+    "standards": {
+      "iso_shaded_with_edges": null,
+      "iso_shading_in_pdf": null,
+      "black_text": true,
+      "broken_leaders": {
+        "applied": 1,
+        "failed": 0,
+        "not_applicable": 6,
+        "note": "No leadered notes are generated: broken leaders do not exist for notes in the 2025 API."
+      },
+      "arrange": {
+        "accepted": true,
+        "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+        "moved": 6,
+        "integrity": {
+          "ok": true,
+          "lost": [],
+          "added": [],
+          "value_changed": [],
+          "dangling": [],
+          "count_before": 7,
+          "count_after": 7
+        },
+        "collisions_before": 14,
+        "collisions_after": 14
+      },
+      "licence_watermark": true
+    },
+    "replication": {
+      "schema": "ReplicationReport/1",
+      "pages": [],
+      "status": "needs_review",
+      "status_label": "Needs Review",
+      "reason": "3 unresolved critical mismatch(es); annotation anchor deviation up to 108.1 mm (limit 1.0 mm); 1 source view(s) not reproduced; 15 source item(s) are non-associative notes or missing and need engineer review",
+      "spec": {
+        "schema": "drawingspec/1",
+        "pages": 1,
+        "pages_extracted": 1,
+        "extraction_reuse": "hit",
+        "completeness": 1.0
+      },
+      "sheets": [
+        {
+          "page": 1,
+          "source": {
+            "width_mm": 430.04,
+            "height_mm": 272.34,
+            "rotation": 0,
+            "scale": "1\"=1\""
+          },
+          "generated": {
+            "width_mm": 431.8,
+            "height_mm": 279.4,
+            "name": "ANSI B",
+            "scale": "1:1",
+            "title_block_scale": "1\"=1\""
+          },
+          "view_count": {
+            "source": 3,
+            "generated": 2
+          },
+          "annotations": {
+            "source": 23,
+            "generated": 8,
+            "matched": 8,
+            "source_notes": 12,
+            "missing": 0,
+            "extra": 0,
+            "mismatched": 3
+          }
+        }
+      ],
+      "scales": {
+        "sheet": {
+          "source": "1:1",
+          "generated": "1:1",
+          "title_block": "1\"=1\"",
+          "match": true,
+          "basis": "explicit"
+        },
+        "views": [
+          {
+            "role": "front",
+            "ref_view": "V1",
+            "source_scale": "1:1",
+            "source_scale_origin": "sheet scale",
+            "generated_decimal": 1.0,
+            "read_error": null,
+            "generated_scale": "1",
+            "match": true
+          },
+          {
+            "role": "top",
+            "ref_view": "V2",
+            "source_scale": "1:1",
+            "source_scale_origin": "sheet scale",
+            "generated_decimal": 1.0,
+            "read_error": null,
+            "generated_scale": "1",
+            "match": true
+          }
+        ]
+      },
+      "iterations": {
+        "used": 2,
+        "max": 3,
+        "best": 1,
+        "stop_reason": "no_improvement"
+      },
+      "thresholds": {
+        "view_center_mm": 1.0,
+        "annotation_anchor_mm": 1.0,
+        "scale_ratio_pct_inferred": 0.5,
+        "notes_verbatim": "exact",
+        "scale_explicit": "exact",
+        "max_unintended_clipping": 0,
+        "max_unresolved_critical": 0
+      },
+      "metrics": {
+        "view_center_dev_mm": {
+          "median": 0.11,
+          "max": 0.22
+        },
+        "annotation_anchor_dev_mm": {
+          "median": 0.0,
+          "max": 108.13
+        },
+        "notes_verbatim": {
+          "matched": 33,
+          "total": 33
+        },
+        "unintended_clipping": 0,
+        "critical_mismatches": 3,
+        "pixel_similarity_diagnostic_only": 0.197
+      },
+      "displacements": 0,
+      "displacement_records": [],
+      "issues": [
+        {
+          "id": "R001",
+          "kind": "view_missing",
+          "severity": "high",
+          "page": 1,
+          "text": "source view V3 (Right) was not reproduced",
+          "detail": "the pipeline creates standard projected views; section / detail views of the source are not rebuilt"
+        },
+        {
+          "id": "R002",
+          "kind": "view_missing",
+          "severity": "medium",
+          "page": 1,
+          "text": "source Front view stands in as a plain Top view",
+          "detail": "orientation matches; the cut / detail is not reproduced"
+        },
+        {
+          "id": "R003",
+          "kind": "view_missing",
+          "severity": "medium",
+          "page": 1,
+          "text": "source Top view stands in as a plain Back view",
+          "detail": "orientation matches; the cut / detail is not reproduced"
+        },
+        {
+          "id": "R004",
+          "kind": "position_deviation",
+          "severity": "low",
+          "page": 1,
+          "text": "'.50' is 108.1 mm from its source position",
+          "detail": ""
+        },
+        {
+          "id": "R005",
+          "kind": "position_deviation",
+          "severity": "low",
+          "page": 1,
+          "text": "'.500' is 68.5 mm from its source position",
+          "detail": ""
+        },
+        {
+          "id": "R006",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'30\u00b0 TYP.': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        },
+        {
+          "id": "R007",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'.03 R.\\nBLEND\\nSMOOTH': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        },
+        {
+          "id": "R008",
+          "kind": "value_mismatch",
+          "severity": "high",
+          "page": 1,
+          "text": "'.62\\nTYP.': value_differs",
+          "detail": "the reference prints 0.62 inch but the model's true value is 0.5800 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note"
+        },
+        {
+          "id": "R009",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'.172\u00b1.005': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        },
+        {
+          "id": "R010",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'.080': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        },
+        {
+          "id": "R011",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'.020 R. MAX.': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        },
+        {
+          "id": "R012",
+          "kind": "value_mismatch",
+          "severity": "high",
+          "page": 1,
+          "text": "'.25': value_differs",
+          "detail": "the reference prints 0.25 inch but the model's true value is 0.2810 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note"
+        },
+        {
+          "id": "R013",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'.344 +.000\\n\u2212.010': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        },
+        {
+          "id": "R014",
+          "kind": "value_mismatch",
+          "severity": "high",
+          "page": 1,
+          "text": "'1.188': value_differs",
+          "detail": "the reference prints 1.188 inch but the model's true value is 1.3600 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note"
+        },
+        {
+          "id": "R015",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'63': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        },
+        {
+          "id": "R016",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'63': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        },
+        {
+          "id": "R017",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'125': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        },
+        {
+          "id": "R018",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'125': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        },
+        {
+          "id": "R019",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'125': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        },
+        {
+          "id": "R020",
+          "kind": "unresolved_source_item",
+          "severity": "medium",
+          "page": 1,
+          "text": "'125': source_note",
+          "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+        }
+      ],
+      "images": {
+        "side_by_side": [
+          "comparison/page-001_side_by_side.png"
+        ],
+        "overlay": [
+          "comparison/page-001_overlay.png"
+        ],
+        "difference": [
+          "comparison/page-001_diff.png"
+        ]
+      },
+      "sheet_geometry": {
+        "segments_drawn": 65,
+        "segments_planned": 65,
+        "border": 4,
+        "title_block": 61,
+        "skipped": 41
+      },
+      "reopen": {
+        "opened": true,
+        "sheets": 1,
+        "sheet_scale": [
+          1.0,
+          1.0
+        ],
+        "notes": 0,
+        "dimensions": 7,
+        "sheets_info": [
+          {
+            "name": "Sheet1",
+            "scale": [
+              1.0,
+              1.0
+            ],
+            "size_m": [
+              0.4318,
+              0.2794
+            ]
+          }
+        ]
+      },
+      "view_center_items": [
+        {
+          "role": "front",
+          "ref_view": "V1",
+          "target_m": [
+            0.100394,
+            0.11085
+          ],
+          "actual_m": [
+            0.100394,
+            0.11085
+          ],
+          "dx_mm": 0.0,
+          "dy_mm": 0.0,
+          "distance_mm": 0.0
+        },
+        {
+          "role": "top",
+          "ref_view": "V2",
+          "target_m": [
+            0.100609,
+            0.220371
+          ],
+          "actual_m": [
+            0.100394,
+            0.220371
+          ],
+          "dx_mm": -0.22,
+          "dy_mm": -0.0,
+          "distance_mm": 0.22
+        }
+      ],
+      "annotation_items": [
+        {
+          "ref_id": "A001",
+          "native": "front/RD3",
+          "text": ".281 DR. THRU\n2 HLS.",
+          "distance_mm": 0.0,
+          "position_source": "ocr"
+        },
+        {
+          "ref_id": "A005",
+          "native": "front/RD4",
+          "text": ".50",
+          "distance_mm": 108.13,
+          "position_source": "ocr"
+        },
+        {
+          "ref_id": "A006",
+          "native": "front/RD5",
+          "text": "1.000",
+          "distance_mm": 0.0,
+          "position_source": "ocr"
+        },
+        {
+          "ref_id": "A008",
+          "native": "front/RD2",
+          "text": "1.75",
+          "distance_mm": 0.0,
+          "position_source": "ocr"
+        },
+        {
+          "ref_id": "A009",
+          "native": "front/RD4",
+          "text": ".50",
+          "distance_mm": 0.0,
+          "position_source": "ocr"
+        },
+        {
+          "ref_id": "A010",
+          "native": "front/RD1",
+          "text": "2.00",
+          "distance_mm": 0.0,
+          "position_source": "ocr"
+        },
+        {
+          "ref_id": "A016",
+          "native": "front/RD4",
+          "text": ".500",
+          "distance_mm": 68.46,
+          "position_source": "ocr"
+        },
+        {
+          "ref_id": "A017",
+          "native": "top/RD1",
+          "text": ".58 REF.",
+          "distance_mm": 0.0,
+          "position_source": "ocr"
+        }
+      ],
+      "note_records": [
+        {
+          "id": "N001",
+          "source": "note",
+          "kind": "material",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "1018",
+          "height_pt": 17.5,
+          "bbox_pt": [
+            924.85,
+            429.6,
+            980.15,
+            453.13
+          ],
+          "target_center_m": [
+            0.33739909762100084,
+            0.12008834536505332
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.32760478260869563,
+            0.12425579983593107
+          ],
+          "measured_center_m": [
+            0.33739908684624564,
+            0.12008833873515659
+          ],
+          "residual_mm": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "N002",
+          "source": "note",
+          "kind": "tolerance_block",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "UNLESS OTHERWISE SPECIFIED:\nTHIRD ANGLE PROJECTION\nDIMENSIONS IN INCHES\n2 PLACE DIM. \u00b1.02\n3 PLACE DIM. \u00b1.010\nANGULAR DIM. \u00b11\u00b0",
+          "height_pt": 8.2,
+          "bbox_pt": [
+            874.46,
+            500.8,
+            1025.63,
+            567.17
+          ],
+          "target_center_m": [
+            0.33652947579983594,
+            0.08728004675963903
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.3097553962264151,
+            0.09903499589827727
+          ],
+          "measured_center_m": [
+            0.33652946938408745,
+            0.08728005826923582
+          ],
+          "residual_mm": [
+            0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "N003",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "SCALE 1\"=1\"",
+          "height_pt": 17.9,
+          "bbox_pt": [
+            896.58,
+            562.95,
+            974.62,
+            587.08
+          ],
+          "target_center_m": [
+            0.3314126989335521,
+            0.07274620426579159
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.3175908482362592,
+            0.07701992616899095
+          ],
+          "measured_center_m": [
+            0.3314127059088813,
+            0.07274620683876673
+          ],
+          "residual_mm": [
+            -0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "N004",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "DATE: 10-20-87",
+          "height_pt": 13.5,
+          "bbox_pt": [
+            1037.92,
+            485.11,
+            1154.06,
+            503.21
+          ],
+          "target_center_m": [
+            0.3882268105004102,
+            0.10138704840032814
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.3676569778506973,
+            0.10459278260869564
+          ],
+          "measured_center_m": [
+            0.38822679833306206,
+            0.10138705045917298
+          ],
+          "residual_mm": [
+            0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "N005",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "DRN: GLN",
+          "height_pt": 12.1,
+          "bbox_pt": [
+            1039.15,
+            503.82,
+            1108.59,
+            520.11
+          ],
+          "target_center_m": [
+            0.380391358490566,
+            0.09508007629204264
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.3680926743232158,
+            0.09796523707957341
+          ],
+          "measured_center_m": [
+            0.3803913592868381,
+            0.09508007890107897
+          ],
+          "residual_mm": [
+            -0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "N006",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "CHK: JWZ",
+          "height_pt": 12.1,
+          "bbox_pt": [
+            1040.38,
+            521.32,
+            1122.11,
+            537.61
+          ],
+          "target_center_m": [
+            0.3830037662018047,
+            0.08888114273995076
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.36852837079573425,
+            0.09176630352748152
+          ],
+          "measured_center_m": [
+            0.38300375366210937,
+            0.08888111441381771
+          ],
+          "residual_mm": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "N007",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "MANUFACTURING TECHNOLOGY INC.",
+          "height_pt": 14.8,
+          "bbox_pt": [
+            868.93,
+            597.94,
+            1176.18,
+            617.86
+          ],
+          "target_center_m": [
+            0.36221431419196065,
+            0.06109752255947494
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.30779653322395406,
+            0.06462560131255124
+          ],
+          "measured_center_m": [
+            0.36221433571709527,
+            0.0610975174357891
+          ],
+          "residual_mm": [
+            -0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "N008",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "DOG",
+          "height_pt": 13.9,
+          "bbox_pt": [
+            881.22,
+            664.32,
+            929.15,
+            683.02
+          ],
+          "target_center_m": [
+            0.3206389524200164,
+            0.03780015914684164
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.3121499557013946,
+            0.041112160787530744
+          ],
+          "measured_center_m": [
+            0.32063895568847656,
+            0.037800149526966934
+          ],
+          "residual_mm": [
+            -0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "N009",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "4028-B",
+          "height_pt": 23.8,
+          "bbox_pt": [
+            877.53,
+            710.78,
+            1024.4,
+            742.75
+          ],
+          "target_center_m": [
+            0.33685536259228877,
+            0.018992594749794915
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.3108428662838392,
+            0.024654877768662844
+          ],
+          "measured_center_m": [
+            0.33685535388522675,
+            0.018992576966762535
+          ],
+          "residual_mm": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "N010",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "MODEL NO.\n480-B",
+          "height_pt": 13.5,
+          "bbox_pt": [
+            1062.5,
+            708.36,
+            1138.7,
+            744.56
+          ],
+          "target_center_m": [
+            0.3898597867104183,
+            0.019100633305988497
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.37636382280557834,
+            0.025512101722723536
+          ],
+          "measured_center_m": [
+            0.3898598166571723,
+            0.019100640669716732
+          ],
+          "residual_mm": [
+            -0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "N011",
+          "source": "note",
+          "kind": "other",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": true,
+          "text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING\nTECHNOLOGY INC. AND OR ITS SUBSIDIARIES WITHOUT WRITTEN PER-\nMISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE\nEXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+          "height_pt": 7.1,
+          "bbox_pt": [
+            888.59,
+            623.89,
+            1172.5,
+            661.9
+          ],
+          "target_center_m": [
+            0.36504457013945857,
+            0.04870142657916325
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.3147605922887613,
+            0.05543346841673503
+          ],
+          "measured_center_m": [
+            0.36504462161593965,
+            0.04870142753330868
+          ],
+          "residual_mm": [
+            -0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "N012",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "HEAT TREATMENT",
+          "height_pt": 9.0,
+          "bbox_pt": [
+            908.87,
+            390.38,
+            1023.78,
+            402.45
+          ],
+          "target_center_m": [
+            0.3422962551271534,
+            0.13601074897456933
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.32194427071369974,
+            0.138148495488105
+          ],
+          "measured_center_m": [
+            0.3422962362501356,
+            0.136010751955986
+          ],
+          "residual_mm": [
+            0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "N013",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "MATERIAL",
+          "height_pt": 10.8,
+          "bbox_pt": [
+            935.29,
+            470.03,
+            996.13,
+            484.51
+          ],
+          "target_center_m": [
+            0.3420784068908942,
+            0.10736990484003281
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.33130288925348644,
+            0.10993449220672682
+          ],
+          "measured_center_m": [
+            0.34207840932210287,
+            0.10736991240644456
+          ],
+          "residual_mm": [
+            -0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "N014",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "APP'D:",
+          "height_pt": 11.2,
+          "bbox_pt": [
+            1039.76,
+            540.02,
+            1077.25,
+            555.11
+          ],
+          "target_center_m": [
+            0.3749486948318294,
+            0.08246967432321572
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.36830875143560293,
+            0.08514230024610336
+          ],
+          "measured_center_m": [
+            0.37494871131049257,
+            0.08246965918564797
+          ],
+          "residual_mm": [
+            -0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "N015",
+          "source": "note",
+          "kind": "revision",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": true,
+          "text": "MC",
+          "height_pt": 13.0,
+          "bbox_pt": [
+            1039.76,
+            467.01,
+            1108.59,
+            484.51
+          ],
+          "target_center_m": [
+            0.3804993970467596,
+            0.10790478424938474
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.36830875143560293,
+            0.11100425102543068
+          ],
+          "measured_center_m": [
+            0.3804994060940212,
+            0.10790478889497121
+          ],
+          "residual_mm": [
+            -0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "N016",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "CHG",
+          "height_pt": 13.0,
+          "bbox_pt": [
+            1039.76,
+            467.01,
+            1108.59,
+            484.51
+          ],
+          "target_center_m": [
+            0.3804993970467596,
+            0.10790478424938474
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.36830875143560293,
+            0.11100425102543068
+          ],
+          "measured_center_m": [
+            0.38049944915771483,
+            0.10790479325853453
+          ],
+          "residual_mm": [
+            -0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "N017",
+          "source": "note",
+          "kind": "title_block_field",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "DATE",
+          "height_pt": 9.9,
+          "bbox_pt": [
+            1126.41,
+            470.63,
+            1159.59,
+            483.91
+          ],
+          "target_center_m": [
+            0.40487891714520097,
+            0.10736990484003281
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.3990023281378179,
+            0.10972195734208368
+          ],
+          "measured_center_m": [
+            0.4048789042154948,
+            0.10736990912283792
+          ],
+          "residual_mm": [
+            0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "N018",
+          "source": "note",
+          "kind": "other",
+          "classification": "source_note",
+          "position_source": "ocr",
+          "uncertain": true,
+          "text": "CRAFTPAK LEEDS, MASS SPS 10732",
+          "height_pt": 5.8,
+          "bbox_pt": [
+            859.71,
+            750.6,
+            929.15,
+            758.44
+          ],
+          "target_center_m": [
+            0.31682926497128794,
+            0.009161086136177197
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.3045305808039377,
+            0.010549647251845764
+          ],
+          "measured_center_m": [
+            0.31682926144070095,
+            0.009161094210545222
+          ],
+          "residual_mm": [
+            0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "A002",
+          "source": "annotation",
+          "kind": "angular",
+          "classification": "source_only_non_associative",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "30\u00b0 TYP.",
+          "height_pt": 12.6,
+          "bbox_pt": [
+            106.31,
+            134.55,
+            169.61,
+            151.45
+          ],
+          "target_center_m": [
+            0.04886884987694832,
+            0.22577662018047578
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.03765763576702215,
+            0.22876981952420017
+          ],
+          "measured_center_m": [
+            0.04886884903377957,
+            0.22577660467566385
+          ],
+          "residual_mm": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "A003",
+          "source": "annotation",
+          "kind": "radius",
+          "classification": "source_only_non_associative",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": ".03 R.\nBLEND\nSMOOTH",
+          "height_pt": 12.6,
+          "bbox_pt": [
+            314.02,
+            200.32,
+            394.52,
+            251.0
+          ],
+          "target_center_m": [
+            0.12549121082854797,
+            0.1964964003281378
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.11123366365873666,
+            0.20547245611156686
+          ],
+          "measured_center_m": [
+            0.12549119351704915,
+            0.19649638139351205
+          ],
+          "residual_mm": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "A004",
+          "source": "annotation",
+          "kind": "linear",
+          "classification": "source_only_non_associative",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": ".62\nTYP.",
+          "height_pt": 12.1,
+          "bbox_pt": [
+            214.47,
+            243.76,
+            255.02,
+            276.35
+          ],
+          "target_center_m": [
+            0.08315249466776047,
+            0.18431283921246921
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.07597058736669401,
+            0.1900849319114028
+          ],
+          "measured_center_m": [
+            0.0831524960623847,
+            0.18431284926327068
+          ],
+          "residual_mm": [
+            -0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "A007",
+          "source": "annotation",
+          "kind": "linear",
+          "classification": "source_only_non_associative",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": ".172\u00b1.005",
+          "height_pt": 14.8,
+          "bbox_pt": [
+            410.5,
+            357.8,
+            489.77,
+            377.71
+          ],
+          "target_center_m": [
+            0.1594489688269073,
+            0.14616283100902377
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.1454092698933552,
+            0.14968913863822805
+          ],
+          "measured_center_m": [
+            0.15944896681043835,
+            0.14616283595418927
+          ],
+          "residual_mm": [
+            0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "A011",
+          "source": "annotation",
+          "kind": "linear",
+          "classification": "source_only_non_associative",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": ".080",
+          "height_pt": 13.0,
+          "bbox_pt": [
+            610.21,
+            236.52,
+            648.31,
+            254.02
+          ],
+          "target_center_m": [
+            0.22289948154224773,
+            0.18955005250205087
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.21615149958982774,
+            0.1926495192780968
+          ],
+          "measured_center_m": [
+            0.2228994866265191,
+            0.1895500532362991
+          ],
+          "residual_mm": [
+            -0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "A012",
+          "source": "annotation",
+          "kind": "radius",
+          "classification": "source_only_non_associative",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": ".020 R. MAX.",
+          "height_pt": 13.5,
+          "bbox_pt": [
+            789.65,
+            236.52,
+            905.18,
+            254.62
+          ],
+          "target_center_m": [
+            0.3001753872026251,
+            0.1894437850697293
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.2797135931091058,
+            0.1926495192780968
+          ],
+          "measured_center_m": [
+            0.3001753791809082,
+            0.18944379399630756
+          ],
+          "residual_mm": [
+            0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "A013",
+          "source": "annotation",
+          "kind": "linear",
+          "classification": "source_only_non_associative",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": ".25",
+          "height_pt": 12.6,
+          "bbox_pt": [
+            622.5,
+            304.1,
+            667.98,
+            321.0
+          ],
+          "target_center_m": [
+            0.22855999343724365,
+            0.1657178096800656
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.22050492206726824,
+            0.16871100902378997
+          ],
+          "measured_center_m": [
+            0.22856000459459092,
+            0.16571780521554416
+          ],
+          "residual_mm": [
+            -0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "A014",
+          "source": "annotation",
+          "kind": "linear",
+          "classification": "source_only_non_associative",
+          "position_source": "model_estimate",
+          "uncertain": false,
+          "text": ".344 +.000\n\u2212.010",
+          "height_pt": 11.2,
+          "bbox_pt": [
+            774.07,
+            366.7,
+            845.99,
+            396.81
+          ],
+          "target_center_m": [
+            0.2869326940114848,
+            0.1412036841673503
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.274194771123872,
+            0.14653653814602133
+          ],
+          "measured_center_m": [
+            0.2869326905144585,
+            0.14120369655852846
+          ],
+          "residual_mm": [
+            0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "A015",
+          "source": "annotation",
+          "kind": "linear",
+          "classification": "source_only_non_associative",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "1.188",
+          "height_pt": 13.9,
+          "bbox_pt": [
+            772.45,
+            487.53,
+            812.39,
+            506.23
+          ],
+          "target_center_m": [
+            0.2806947957342084,
+            0.10042355701394585
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.27362092698933554,
+            0.10373555865463495
+          ],
+          "measured_center_m": [
+            0.28069478530883785,
+            0.10042356607837147
+          ],
+          "residual_mm": [
+            0.0,
+            -0.0
+          ]
+        },
+        {
+          "id": "A018",
+          "source": "annotation",
+          "kind": "finish",
+          "classification": "source_only_non_associative",
+          "position_source": "model_estimate",
+          "uncertain": false,
+          "text": "63",
+          "height_pt": 20.1,
+          "bbox_pt": [
+            171.88,
+            108.08,
+            201.14,
+            135.1
+          ],
+          "target_center_m": [
+            0.06606646267432321,
+            0.2333605726004922
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.0608841542247744,
+            0.2381461493027071
+          ],
+          "measured_center_m": [
+            0.06547821150885688,
+            0.23177869990470673
+          ],
+          "residual_mm": [
+            0.59,
+            1.58
+          ]
+        },
+        {
+          "id": "A019",
+          "source": "annotation",
+          "kind": "finish",
+          "classification": "source_only_non_associative",
+          "position_source": "model_estimate",
+          "uncertain": false,
+          "text": "63",
+          "height_pt": 17.2,
+          "bbox_pt": [
+            165.78,
+            156.72,
+            193.82,
+            179.88
+          ],
+          "target_center_m": [
+            0.063689614438064,
+            0.21681473338802298
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.05872338310090238,
+            0.22091665627563575
+          ]
+        },
+        {
+          "id": "A020",
+          "source": "annotation",
+          "kind": "finish",
+          "classification": "source_only_non_associative",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "125",
+          "height_pt": 9.9,
+          "bbox_pt": [
+            675.97,
+            281.78,
+            691.33,
+            295.05
+          ],
+          "target_center_m": [
+            0.24216576702214934,
+            0.17426702461033636
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.239445320754717,
+            0.1766173059885152
+          ],
+          "measured_center_m": [
+            0.24604279836018877,
+            0.16256410673885874
+          ],
+          "residual_mm": [
+            -3.88,
+            11.7
+          ]
+        },
+        {
+          "id": "A021",
+          "source": "annotation",
+          "kind": "finish",
+          "classification": "source_only_non_associative",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "125",
+          "height_pt": 8.5,
+          "bbox_pt": [
+            750.94,
+            397.62,
+            774.29,
+            409.09
+          ],
+          "target_center_m": [
+            0.27013712633305986,
+            0.13355242904019687
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.2660015520918786,
+            0.135583908121411
+          ]
+        },
+        {
+          "id": "A022",
+          "source": "annotation",
+          "kind": "finish",
+          "classification": "source_only_non_associative",
+          "position_source": "model_estimate",
+          "uncertain": false,
+          "text": "125",
+          "height_pt": 17.8,
+          "bbox_pt": [
+            748.47,
+            423.06,
+            780.16,
+            446.99
+          ],
+          "target_center_m": [
+            0.2707393084495488,
+            0.12233413043478261
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.2651266168990976,
+            0.1265724298605414
+          ]
+        },
+        {
+          "id": "A023",
+          "source": "annotation",
+          "kind": "finish",
+          "classification": "source_only_non_associative",
+          "position_source": "ocr",
+          "uncertain": false,
+          "text": "125",
+          "height_pt": 8.1,
+          "bbox_pt": [
+            675.35,
+            552.69,
+            690.1,
+            563.55
+          ],
+          "target_center_m": [
+            0.24183810910582446,
+            0.07873083182936833
+          ],
+          "placed": true,
+          "first_xy_m": [
+            0.23922570139458574,
+            0.08065427235438882
+          ]
+        }
+      ],
+      "fidelity_diagnostics_separate_from_scoring": true,
+      "note": "Drawing-fidelity diagnostics only. scoring.MD (if present) remains the authoritative score; nothing here is a score. PRELIMINARY / FOR REVIEW."
+    },
+    "issues_by_severity": {
+      "high": 23,
+      "info": 1,
+      "low": 2,
+      "medium": 3
+    },
+    "hard_failures": [
+      "COLLISION_TEXT_TEXT",
+      "COLLISION_TEXT_TEXT",
+      "COLLISION_TEXT_TEXT",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "TEXT_OVERLAPS",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE",
+      "COLLISION_TEXT_STROKE"
+    ],
+    "note": "Software QA is not engineering approval. A reference match is not an approval either; the drawing stays PRELIMINARY / FOR REVIEW."
+  },
+  "reference": {
+    "mode": "match",
+    "status": "resolved",
+    "source_kind": "upload",
+    "filename": "0ed5aa38ac00.pdf",
+    "sha256": "0ed5aa38ac00340dbcd42b5aa9367a2ad1a297c044f678a8cf12a0da097df262",
+    "pages": 1,
+    "link": null,
+    "confidence": null,
+    "reasons": [
+      "explicitly uploaded by the user (overrides any history)"
+    ],
+    "extraction_cache": "hit",
+    "extraction_id": "refx_79ede681987b11bd",
+    "extraction_schema": "ref/1",
+    "api_usage": {
+      "tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0,
+      "calls": 0,
+      "incremental": true,
+      "historical_usd": 0.23454999999999998,
+      "model": "gpt-6-astra"
+    },
+    "warnings": [
+      "Prior-extraction dimensions D018\u2013D025 are not printed dimensions on this sheet and are not reported.",
+      "General tolerances are transcribed only in the tolerance block, not inferred onto individual dimensions.",
+      "Small proprietary notice, footer imprint, and handwritten MC entry have limited legibility.",
+      "OCR T012 merges two separate dimensions; T020 merges handwritten text with the CHG heading."
+    ],
+    "part_sha256": "86da9677216a8c61905aed0c7b8662634195c6c30235c2e8415ee35aa3e24227",
+    "candidate_summary": [],
+    "matched_runs": [],
+    "quality": {
+      "ok": true,
+      "views": 3,
+      "annotations": 23,
+      "required_annotations": 23,
+      "located": 23,
+      "located_from_text_evidence": 19,
+      "uncertain": 0,
+      "notes": 18
+    },
+    "spec": {
+      "schema": "drawingspec/1",
+      "pages": 1,
+      "completeness": 1.0,
+      "pages_missing": []
+    },
+    "geometry_check": {
+      "status": "compatible",
+      "compared": 16,
+      "matched": 11,
+      "ratio": 0.688,
+      "overall_extents_found": 3,
+      "overall_extents_total": 3,
+      "note": "A mismatch detector, not proof of identity: it checks that printed dimensions exist among the model's sizes, hole diameters and hole positions."
+    }
+  },
+  "note": "Software QA is not engineering approval. This drawing is PRELIMINARY / FOR REVIEW until an authorized engineer dispositions the issues."
+}

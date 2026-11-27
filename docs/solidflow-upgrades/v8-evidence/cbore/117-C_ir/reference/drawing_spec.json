@@ -1,0 +1,2633 @@
+{
+  "schema_version": "drawingspec/1",
+  "source": {
+    "sha256": "6dd0b8da50a6826fed56475dc6d80a144db61fbdd40af726f497c7756367cb54",
+    "filename": "source.pdf",
+    "page_count": 1
+  },
+  "pages": [
+    {
+      "page": 1,
+      "boxes": {
+        "width_pt": 1585.0,
+        "height_pt": 1210.0,
+        "media_box": [
+          0.0,
+          0.0,
+          1585.0,
+          1210.0
+        ],
+        "crop_box": [
+          0.0,
+          0.0,
+          1585.0,
+          1210.0
+        ],
+        "rotation": 0
+      },
+      "physical_size": {
+        "width_mm": 559.15,
+        "height_mm": 426.86,
+        "units": "mm",
+        "standard_sheet": "ANSI C",
+        "note": "from the PDF page box at 1 pt = 1/72 in; a scan's page size is the scan size, not guaranteed to be the plotted sheet"
+      },
+      "units": {
+        "value": "INCHES",
+        "status": "present"
+      },
+      "projection": {
+        "value": "THIRD ANGLE PROJECTION",
+        "status": "present"
+      },
+      "sheet_scale": {
+        "numerator": 1,
+        "denominator": 1,
+        "text": "1 = 1",
+        "status": "present"
+      },
+      "title_block": {
+        "bbox": {
+          "norm": [
+            0.775,
+            0.615,
+            0.98,
+            0.98
+          ],
+          "pt": [
+            1228.38,
+            744.15,
+            1553.3,
+            1185.8
+          ]
+        },
+        "fields": {
+          "DATE:": {
+            "text": "JAN. 17 77",
+            "status": "present"
+          },
+          "DRN:": {
+            "text": "D. LING",
+            "status": "present"
+          },
+          "MATERIAL": {
+            "text": "1018",
+            "status": "present"
+          },
+          "MODEL No.": {
+            "text": "90 B",
+            "status": "present"
+          }
+        },
+        "revision": {
+          "value": null,
+          "status": "missing"
+        }
+      },
+      "material": {
+        "value": "1018",
+        "status": "present"
+      },
+      "views": [
+        {
+          "id": "V1",
+          "type": "Front",
+          "label": "",
+          "orientation": "Front",
+          "center_norm": [
+            0.318,
+            0.344
+          ],
+          "bbox": {
+            "norm": [
+              0.217,
+              0.23,
+              0.419,
+              0.458
+            ],
+            "pt": [
+              343.94,
+              278.3,
+              664.12,
+              554.18
+            ],
+            "source": "model_estimate"
+          },
+          "scale": {
+            "numerator": null,
+            "denominator": null,
+            "text": "",
+            "status": "missing"
+          },
+          "parent": null,
+          "alignment": null,
+          "section_path": {
+            "value": null,
+            "status": "not_applicable"
+          },
+          "detail_boundary": {
+            "value": null,
+            "status": "not_applicable"
+          },
+          "provenance": {
+            "evidence": "Principal broad face; aligned right-side view and lower view, with printed third-angle projection."
+          },
+          "confidence": 0.87
+        },
+        {
+          "id": "V2",
+          "type": "Right",
+          "label": "",
+          "orientation": "Right",
+          "center_norm": [
+            0.638,
+            0.344
+          ],
+          "bbox": {
+            "norm": [
+              0.609,
+              0.23,
+              0.667,
+              0.458
+            ],
+            "pt": [
+              965.26,
+              278.3,
+              1057.2,
+              554.18
+            ],
+            "source": "model_estimate"
+          },
+          "scale": {
+            "numerator": null,
+            "denominator": null,
+            "text": "",
+            "status": "missing"
+          },
+          "parent": null,
+          "alignment": null,
+          "section_path": {
+            "value": null,
+            "status": "not_applicable"
+          },
+          "detail_boundary": {
+            "value": null,
+            "status": "not_applicable"
+          },
+          "provenance": {
+            "evidence": "Narrow side view to the right of principal face."
+          },
+          "confidence": 0.88
+        },
+        {
+          "id": "V3",
+          "type": "Bottom",
+          "label": "",
+          "orientation": "Bottom",
+          "center_norm": [
+            0.318,
+            0.704
+          ],
+          "bbox": {
+            "norm": [
+              0.217,
+              0.666,
+              0.419,
+              0.742
+            ],
+            "pt": [
+              343.94,
+              805.86,
+              664.12,
+              897.82
+            ],
+            "source": "model_estimate"
+          },
+          "scale": {
+            "numerator": null,
+            "denominator": null,
+            "text": "",
+            "status": "missing"
+          },
+          "parent": null,
+          "alignment": null,
+          "section_path": {
+            "value": null,
+            "status": "not_applicable"
+          },
+          "detail_boundary": {
+            "value": null,
+            "status": "not_applicable"
+          },
+          "provenance": {
+            "evidence": "Aligned below principal face in third-angle projection."
+          },
+          "confidence": 0.87
+        }
+      ],
+      "annotations": [
+        {
+          "id": "A001",
+          "page": 1,
+          "type": "linear",
+          "text": "4.44",
+          "value": 4.44,
+          "units": null,
+          "precision": 2,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.27,
+              0.081,
+              0.304,
+              0.099
+            ],
+            "pt": [
+              427.95,
+              98.01,
+              481.84,
+              119.79
+            ],
+            "status": "present",
+            "source": "model_estimate"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.27,
+              0.081,
+              0.304,
+              0.099
+            ],
+            "evidence": "read from the rendered page",
+            "ocr_ids": [],
+            "position_source": "model_estimate"
+          },
+          "confidence": 0.75,
+          "review_status": "auto"
+        },
+        {
+          "id": "A002",
+          "page": 1,
+          "type": "linear",
+          "text": ".625",
+          "value": 0.625,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.22032,
+              0.11524,
+              0.24402,
+              0.13152
+            ],
+            "pt": [
+              349.21,
+              139.44,
+              386.77,
+              159.14
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.22032,
+              0.11524,
+              0.24402,
+              0.13152
+            ],
+            "evidence": "text items T002",
+            "ocr_ids": [
+              "T002"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A003",
+          "page": 1,
+          "type": "linear",
+          "text": "3.190 ±.005",
+          "value": 3.19,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "upper": 0.005,
+            "lower": -0.005,
+            "text": "±.005"
+          },
+          "quantity": null,
+          "symbols": [
+            "plus_minus"
+          ],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.26268,
+              0.10222,
+              0.33578,
+              0.12892
+            ],
+            "pt": [
+              416.34,
+              123.69,
+              532.21,
+              155.99
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.26268,
+              0.10222,
+              0.33578,
+              0.12892
+            ],
+            "evidence": "text items T001,T003",
+            "ocr_ids": [
+              "T001",
+              "T003"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A004",
+          "page": 1,
+          "type": "linear",
+          "text": ".880",
+          "value": 0.88,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.2536,
+              0.14259,
+              0.28032,
+              0.15691
+            ],
+            "pt": [
+              401.95,
+              172.53,
+              444.31,
+              189.86
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.2536,
+              0.14259,
+              0.28032,
+              0.15691
+            ],
+            "evidence": "text items T004",
+            "ocr_ids": [
+              "T004"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A005",
+          "page": 1,
+          "type": "linear",
+          "text": "1.810",
+          "value": 1.81,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.30351,
+              0.15105,
+              0.33628,
+              0.16473
+            ],
+            "pt": [
+              481.07,
+              182.77,
+              533.01,
+              199.32
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.30351,
+              0.15105,
+              0.33628,
+              0.16473
+            ],
+            "evidence": "text items T005",
+            "ocr_ids": [
+              "T005"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A006",
+          "page": 1,
+          "type": "linear",
+          "text": ".340 ±.005",
+          "value": 0.34,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "upper": 0.005,
+            "lower": -0.005,
+            "text": "±.005"
+          },
+          "quantity": null,
+          "symbols": [
+            "plus_minus"
+          ],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.17797,
+              0.16733,
+              0.21326,
+              0.19728
+            ],
+            "pt": [
+              282.09,
+              202.47,
+              338.02,
+              238.71
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.17797,
+              0.16733,
+              0.21326,
+              0.19728
+            ],
+            "evidence": "text items T006,T007",
+            "ocr_ids": [
+              "T006",
+              "T007"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A007",
+          "page": 1,
+          "type": "linear",
+          "text": "1.590",
+          "value": 1.59,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.25007,
+              0.18165,
+              0.28536,
+              0.19728
+            ],
+            "pt": [
+              396.36,
+              219.8,
+              452.3,
+              238.71
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.25007,
+              0.18165,
+              0.28536,
+              0.19728
+            ],
+            "evidence": "text items T008",
+            "ocr_ids": [
+              "T008"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A008",
+          "page": 1,
+          "type": "linear",
+          "text": ".625",
+          "value": 0.625,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.14117,
+              0.24416,
+              0.17041,
+              0.26043
+            ],
+            "pt": [
+              223.75,
+              295.43,
+              270.1,
+              315.12
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.14117,
+              0.24416,
+              0.17041,
+              0.26043
+            ],
+            "evidence": "text items T011",
+            "ocr_ids": [
+              "T011"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A009",
+          "page": 1,
+          "type": "linear",
+          "text": "1.280",
+          "value": 1.28,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.1689,
+              0.3008,
+              0.20318,
+              0.31643
+            ],
+            "pt": [
+              267.7,
+              363.97,
+              322.04,
+              382.88
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.1689,
+              0.3008,
+              0.20318,
+              0.31643
+            ],
+            "evidence": "text items T015",
+            "ocr_ids": [
+              "T015"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A010",
+          "page": 1,
+          "type": "linear",
+          "text": "3.81",
+          "value": 3.81,
+          "units": null,
+          "precision": 2,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.10789,
+              0.31838,
+              0.13159,
+              0.3327
+            ],
+            "pt": [
+              171.01,
+              385.24,
+              208.57,
+              402.57
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.10789,
+              0.31838,
+              0.13159,
+              0.3327
+            ],
+            "evidence": "text items T018",
+            "ocr_ids": [
+              "T018"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A011",
+          "page": 1,
+          "type": "linear",
+          "text": "2.560 ±.005",
+          "value": 2.56,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "upper": 0.005,
+            "lower": -0.005,
+            "text": "±.005"
+          },
+          "quantity": null,
+          "symbols": [
+            "plus_minus"
+          ],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.13865,
+              0.35484,
+              0.18604,
+              0.38349
+            ],
+            "pt": [
+              219.76,
+              429.36,
+              294.87,
+              464.02
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.13865,
+              0.35484,
+              0.18604,
+              0.38349
+            ],
+            "evidence": "text items T020,T021",
+            "ocr_ids": [
+              "T020",
+              "T021"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A012",
+          "page": 1,
+          "type": "hole_callout",
+          "text": "9/32 DR. .31 DP.\n(2) HL'S.",
+          "value": null,
+          "units": null,
+          "precision": 0,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": 2,
+          "symbols": [],
+          "line_breaks": 1,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": [
+              0.408,
+              0.34
+            ],
+            "pt": [
+              646.68,
+              411.4
+            ],
+            "status": "present"
+          },
+          "bbox": {
+            "norm": [
+              0.45375,
+              0.26955,
+              0.54199,
+              0.31512
+            ],
+            "pt": [
+              719.2,
+              326.15,
+              859.05,
+              381.3
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [
+              [
+                646.68,
+                411.4
+              ]
+            ],
+            "status": "present",
+            "note": "end point only: leader polylines are not vectorised from scans"
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.45375,
+              0.26955,
+              0.54199,
+              0.31512
+            ],
+            "evidence": "text items T012,T013,T014,T016",
+            "ocr_ids": [
+              "T012",
+              "T013",
+              "T014",
+              "T016"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A013",
+          "page": 1,
+          "type": "hole_callout",
+          "text": "21/32 DR. THRU.\n(4) HL'S.",
+          "value": null,
+          "units": null,
+          "precision": 0,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": 4,
+          "symbols": [],
+          "line_breaks": 1,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": [
+              0.234,
+              0.433
+            ],
+            "pt": [
+              370.89,
+              523.93
+            ],
+            "status": "present"
+          },
+          "bbox": {
+            "norm": [
+              0.0595,
+              0.52738,
+              0.13965,
+              0.571
+            ],
+            "pt": [
+              94.3,
+              638.13,
+              221.35,
+              690.91
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [
+              [
+                370.89,
+                523.93
+              ]
+            ],
+            "status": "present",
+            "note": "end point only: leader polylines are not vectorised from scans"
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.0595,
+              0.52738,
+              0.13965,
+              0.571
+            ],
+            "evidence": "text items T030,T031",
+            "ocr_ids": [
+              "T030",
+              "T031"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A014",
+          "page": 1,
+          "type": "linear",
+          "text": "1.590",
+          "value": 1.59,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.35242,
+              0.4766,
+              0.38267,
+              0.49222
+            ],
+            "pt": [
+              558.58,
+              576.68,
+              606.53,
+              595.59
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.35242,
+              0.4766,
+              0.38267,
+              0.49222
+            ],
+            "evidence": "text items T025",
+            "ocr_ids": [
+              "T025"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A015",
+          "page": 1,
+          "type": "linear",
+          "text": ".340 ±.005",
+          "value": 0.34,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "upper": 0.005,
+            "lower": -0.005,
+            "text": "±.005"
+          },
+          "quantity": null,
+          "symbols": [
+            "plus_minus"
+          ],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.43006,
+              0.47139,
+              0.46535,
+              0.50003
+            ],
+            "pt": [
+              681.64,
+              570.38,
+              737.58,
+              605.04
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.43006,
+              0.47139,
+              0.46535,
+              0.50003
+            ],
+            "evidence": "text items T026,T027",
+            "ocr_ids": [
+              "T026",
+              "T027"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A016",
+          "page": 1,
+          "type": "linear",
+          "text": "1.810",
+          "value": 1.81,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.28788,
+              0.52282,
+              0.31662,
+              0.53454
+            ],
+            "pt": [
+              456.29,
+              632.61,
+              501.84,
+              646.79
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.28788,
+              0.52282,
+              0.31662,
+              0.53454
+            ],
+            "evidence": "text items T028",
+            "ocr_ids": [
+              "T028"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A017",
+          "page": 1,
+          "type": "linear",
+          "text": ".880",
+          "value": 0.88,
+          "units": null,
+          "precision": 3,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.35544,
+              0.52087,
+              0.37964,
+              0.53715
+            ],
+            "pt": [
+              563.37,
+              630.25,
+              601.73,
+              649.95
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V1",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.35544,
+              0.52087,
+              0.37964,
+              0.53715
+            ],
+            "evidence": "text items T029",
+            "ocr_ids": [
+              "T029"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A018",
+          "page": 1,
+          "type": "linear",
+          "text": "1.00",
+          "value": 1.0,
+          "units": null,
+          "precision": 2,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.6171,
+              0.17709,
+              0.64131,
+              0.19142
+            ],
+            "pt": [
+              978.11,
+              214.28,
+              1016.47,
+              231.62
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V2",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.6171,
+              0.17709,
+              0.64131,
+              0.19142
+            ],
+            "evidence": "text items T009",
+            "ocr_ids": [
+              "T009"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A019",
+          "page": 1,
+          "type": "linear",
+          "text": ".25 TYP.",
+          "value": 0.25,
+          "units": null,
+          "precision": 2,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": null,
+            "pt": null,
+            "status": "missing"
+          },
+          "bbox": {
+            "norm": [
+              0.66903,
+              0.19923,
+              0.7371,
+              0.21551
+            ],
+            "pt": [
+              1060.42,
+              241.07,
+              1168.3,
+              260.77
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [],
+            "status": "missing",
+            "note": ""
+          },
+          "view_ref": "V2",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.66903,
+              0.19923,
+              0.7371,
+              0.21551
+            ],
+            "evidence": "text items T010",
+            "ocr_ids": [
+              "T010"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A020",
+          "page": 1,
+          "type": "other",
+          "text": "1/4 DIA. X .50 LG. DWL.\n(2) REQ'D.",
+          "value": null,
+          "units": null,
+          "precision": 0,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": 2,
+          "symbols": [
+            "diameter_word"
+          ],
+          "line_breaks": 1,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": [
+              0.665,
+              0.273
+            ],
+            "pt": [
+              1054.03,
+              330.33
+            ],
+            "status": "present"
+          },
+          "bbox": {
+            "norm": [
+              0.7255,
+              0.30406,
+              0.86466,
+              0.34247
+            ],
+            "pt": [
+              1149.92,
+              367.91,
+              1370.48,
+              414.39
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [
+              [
+                1054.03,
+                330.33
+              ]
+            ],
+            "status": "present",
+            "note": "end point only: leader polylines are not vectorised from scans"
+          },
+          "view_ref": "V2",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.7255,
+              0.30406,
+              0.86466,
+              0.34247
+            ],
+            "evidence": "text items T017,T019",
+            "ocr_ids": [
+              "T017",
+              "T019"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A021",
+          "page": 1,
+          "type": "hole_callout",
+          "text": "1/4 RM. PF. .31 DP.\n(2) HL'S.",
+          "value": null,
+          "units": null,
+          "precision": 0,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": 2,
+          "symbols": [],
+          "line_breaks": 1,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": [
+              0.664,
+              0.276
+            ],
+            "pt": [
+              1052.44,
+              333.96
+            ],
+            "status": "present"
+          },
+          "bbox": {
+            "norm": [
+              0.73105,
+              0.37437,
+              0.83491,
+              0.41669
+            ],
+            "pt": [
+              1158.71,
+              452.99,
+              1323.33,
+              504.2
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [
+              [
+                1052.44,
+                333.96
+              ]
+            ],
+            "status": "present",
+            "note": "end point only: leader polylines are not vectorised from scans"
+          },
+          "view_ref": "V2",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.73105,
+              0.37437,
+              0.83491,
+              0.41669
+            ],
+            "evidence": "text items T022,T023,T024",
+            "ocr_ids": [
+              "T022",
+              "T023",
+              "T024"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A022",
+          "page": 1,
+          "type": "hole_callout",
+          "text": "29/32 DR. .50 DP.\n(2) PL'S.",
+          "value": null,
+          "units": null,
+          "precision": 0,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": 2,
+          "symbols": [],
+          "line_breaks": 1,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": [
+              0.269,
+              0.667
+            ],
+            "pt": [
+              426.37,
+              807.07
+            ],
+            "status": "present"
+          },
+          "bbox": {
+            "norm": [
+              0.33124,
+              0.58142,
+              0.41846,
+              0.62309
+            ],
+            "pt": [
+              525.02,
+              703.52,
+              663.26,
+              753.94
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [
+              [
+                426.37,
+                807.07
+              ]
+            ],
+            "status": "present",
+            "note": "end point only: leader polylines are not vectorised from scans"
+          },
+          "view_ref": "V3",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.33124,
+              0.58142,
+              0.41846,
+              0.62309
+            ],
+            "evidence": "text items T032,T033,T034,T035",
+            "ocr_ids": [
+              "T032",
+              "T033",
+              "T034",
+              "T035"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A023",
+          "page": 1,
+          "type": "hole_callout",
+          "text": "29/32 DR. .50 DP. &\n1.311 +.003 −.000 DIA. .111 +.002 −.000 DP.\n(2) PL'S.",
+          "value": null,
+          "units": null,
+          "precision": 0,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": 2,
+          "symbols": [
+            "diameter_word"
+          ],
+          "line_breaks": 2,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": [
+              0.368,
+              0.727
+            ],
+            "pt": [
+              583.28,
+              879.67
+            ],
+            "status": "present"
+          },
+          "bbox": {
+            "norm": [
+              0.3509,
+              0.76958,
+              0.5203,
+              0.83144
+            ],
+            "pt": [
+              556.18,
+              931.19,
+              824.68,
+              1006.04
+            ],
+            "status": "present",
+            "source": "ocr"
+          },
+          "leader_vertices": {
+            "pt": [
+              [
+                583.28,
+                879.67
+              ]
+            ],
+            "status": "present",
+            "note": "end point only: leader polylines are not vectorised from scans"
+          },
+          "view_ref": "V3",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.3509,
+              0.76958,
+              0.5203,
+              0.83144
+            ],
+            "evidence": "text items T041,T044,T045,T047,T052,T053,T054,T058",
+            "ocr_ids": [
+              "T041",
+              "T044",
+              "T045",
+              "T047",
+              "T052",
+              "T053",
+              "T054",
+              "T058"
+            ],
+            "position_source": "ocr"
+          },
+          "confidence": 0.9,
+          "review_status": "auto"
+        },
+        {
+          "id": "A024",
+          "page": 1,
+          "type": "finish",
+          "text": "63",
+          "value": 63.0,
+          "units": null,
+          "precision": 0,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": [
+              0.441,
+              0.667
+            ],
+            "pt": [
+              698.99,
+              807.07
+            ],
+            "status": "present"
+          },
+          "bbox": {
+            "norm": [
+              0.426,
+              0.646,
+              0.449,
+              0.668
+            ],
+            "pt": [
+              675.21,
+              781.66,
+              711.66,
+              808.28
+            ],
+            "status": "present",
+            "source": "model_estimate"
+          },
+          "leader_vertices": {
+            "pt": [
+              [
+                698.99,
+                807.07
+              ]
+            ],
+            "status": "present",
+            "note": "end point only: leader polylines are not vectorised from scans"
+          },
+          "view_ref": "V3",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.426,
+              0.646,
+              0.449,
+              0.668
+            ],
+            "evidence": "read from the rendered page",
+            "ocr_ids": [],
+            "position_source": "model_estimate"
+          },
+          "confidence": 0.75,
+          "review_status": "auto"
+        },
+        {
+          "id": "A025",
+          "page": 1,
+          "type": "finish",
+          "text": "63",
+          "value": 63.0,
+          "units": null,
+          "precision": 0,
+          "tolerance": {
+            "value": null,
+            "status": "missing"
+          },
+          "quantity": null,
+          "symbols": [],
+          "line_breaks": 0,
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "anchor": {
+            "norm": [
+              0.442,
+              0.727
+            ],
+            "pt": [
+              700.57,
+              879.67
+            ],
+            "status": "present"
+          },
+          "bbox": {
+            "norm": [
+              0.427,
+              0.704,
+              0.45,
+              0.727
+            ],
+            "pt": [
+              676.79,
+              851.84,
+              713.25,
+              879.67
+            ],
+            "status": "present",
+            "source": "model_estimate"
+          },
+          "leader_vertices": {
+            "pt": [
+              [
+                700.57,
+                879.67
+              ]
+            ],
+            "status": "present",
+            "note": "end point only: leader polylines are not vectorised from scans"
+          },
+          "view_ref": "V3",
+          "geometry_refs": [],
+          "required": true,
+          "provenance": {
+            "page": 1,
+            "region": [
+              0.427,
+              0.704,
+              0.45,
+              0.727
+            ],
+            "evidence": "read from the rendered page",
+            "ocr_ids": [],
+            "position_source": "model_estimate"
+          },
+          "confidence": 0.75,
+          "review_status": "auto"
+        }
+      ],
+      "notes": [
+        {
+          "id": "N001",
+          "page": 1,
+          "kind": "material",
+          "text": "1018",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.82029,
+              0.71555,
+              0.84802,
+              0.73182
+            ],
+            "pt": [
+              1300.16,
+              865.81,
+              1344.11,
+              885.5
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T037"
+            ]
+          }
+        },
+        {
+          "id": "N002",
+          "page": 1,
+          "kind": "tolerance_block",
+          "text": "UNLESS OTHERWISE SPECIFIED:\nTHIRD ANGLE PROJECTION\nDIMENSIONS IN INCHES\n2 PLACE DIM. ±.03\n3 PLACE DIM. ±.010\nANGULAR DIM. ±1°\nSCALE 1 = 1",
+          "line_breaks": 6,
+          "bbox": {
+            "norm": [
+              0.78449,
+              0.77609,
+              0.88028,
+              0.84641
+            ],
+            "pt": [
+              1243.42,
+              939.07,
+              1395.25,
+              1024.16
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T046",
+              "T048",
+              "T055",
+              "T057",
+              "T059",
+              "T061",
+              "T062"
+            ]
+          }
+        },
+        {
+          "id": "N003",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "DATE: JAN. 17 77",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.88936,
+              0.76568,
+              0.96902,
+              0.77935
+            ],
+            "pt": [
+              1409.64,
+              926.47,
+              1535.89,
+              943.01
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T042",
+              "T043"
+            ]
+          }
+        },
+        {
+          "id": "N004",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "DRN: D. LING",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.89037,
+              0.78065,
+              0.95692,
+              0.79367
+            ],
+            "pt": [
+              1411.23,
+              944.59,
+              1516.72,
+              960.34
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T049",
+              "T050",
+              "T051"
+            ]
+          }
+        },
+        {
+          "id": "N005",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "HEAT TREATMENT",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.80718,
+              0.6856,
+              0.87978,
+              0.69666
+            ],
+            "pt": [
+              1279.38,
+              829.57,
+              1394.45,
+              842.96
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T036"
+            ]
+          }
+        },
+        {
+          "id": "N006",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "MATERIAL",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.82331,
+              0.75265,
+              0.86213,
+              0.76372
+            ],
+            "pt": [
+              1304.95,
+              910.71,
+              1366.48,
+              924.1
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T038"
+            ]
+          }
+        },
+        {
+          "id": "N007",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "CHG",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.91205,
+              0.752,
+              0.9302,
+              0.76372
+            ],
+            "pt": [
+              1445.6,
+              909.92,
+              1474.36,
+              924.1
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T039"
+            ]
+          }
+        },
+        {
+          "id": "N008",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "DATE",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.94331,
+              0.75136,
+              0.96549,
+              0.76502
+            ],
+            "pt": [
+              1495.14,
+              909.14,
+              1530.3,
+              925.68
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T040"
+            ]
+          }
+        },
+        {
+          "id": "N009",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "CHK:",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.88986,
+              0.79627,
+              0.90852,
+              0.80864
+            ],
+            "pt": [
+              1410.43,
+              963.49,
+              1440.0,
+              978.46
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T056"
+            ]
+          }
+        },
+        {
+          "id": "N010",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "APP'D:",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.88936,
+              0.80995,
+              0.91406,
+              0.82362
+            ],
+            "pt": [
+              1409.64,
+              980.04,
+              1448.79,
+              996.58
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T060"
+            ]
+          }
+        },
+        {
+          "id": "N011",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "MANUFACTURING TECHNOLOGY INC.",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.77844,
+              0.85553,
+              0.9786,
+              0.87571
+            ],
+            "pt": [
+              1233.83,
+              1035.19,
+              1551.08,
+              1059.61
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T063"
+            ]
+          }
+        },
+        {
+          "id": "N012",
+          "page": 1,
+          "kind": "other",
+          "text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING\nTECHNOLOGY INC. AND OR ITS SUBSIDIARIES. WITHOUT WRITTEN PER-\nMISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE\nEXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+          "line_breaks": 3,
+          "bbox": {
+            "norm": [
+              0.77592,
+              0.87766,
+              0.97406,
+              0.91152
+            ],
+            "pt": [
+              1229.83,
+              1061.97,
+              1543.89,
+              1102.94
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T064",
+              "T065",
+              "T067",
+              "T066"
+            ]
+          }
+        },
+        {
+          "id": "N013",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "CHECK VALVE ADAPTOR",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.78399,
+              0.91087,
+              0.94633,
+              0.92584
+            ],
+            "pt": [
+              1242.62,
+              1102.15,
+              1499.93,
+              1120.27
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T068"
+            ]
+          }
+        },
+        {
+          "id": "N014",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "(FOR C5G815)",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.78298,
+              0.9304,
+              0.86717,
+              0.94733
+            ],
+            "pt": [
+              1241.02,
+              1125.78,
+              1374.47,
+              1146.27
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T069"
+            ]
+          }
+        },
+        {
+          "id": "N015",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "117-C",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.81323,
+              0.95319,
+              0.85457,
+              0.97337
+            ],
+            "pt": [
+              1288.97,
+              1153.36,
+              1354.5,
+              1177.78
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T070"
+            ]
+          }
+        },
+        {
+          "id": "N016",
+          "page": 1,
+          "kind": "title_block_field",
+          "text": "MODEL No. 90 B",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.90297,
+              0.94863,
+              0.94633,
+              0.97468
+            ],
+            "pt": [
+              1431.21,
+              1147.84,
+              1499.93,
+              1179.36
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "auto",
+          "provenance": {
+            "ocr_ids": [
+              "T071",
+              "T072"
+            ]
+          }
+        },
+        {
+          "id": "N017",
+          "page": 1,
+          "kind": "other",
+          "text": "MC",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.889,
+              0.749,
+              0.909,
+              0.764
+            ],
+            "pt": [
+              1409.07,
+              906.29,
+              1440.77,
+              924.44
+            ],
+            "source": "model_estimate"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "needs_review",
+          "provenance": {
+            "ocr_ids": []
+          }
+        },
+        {
+          "id": "N018",
+          "page": 1,
+          "kind": "other",
+          "text": "CHARTPAK LEEDS, MASS SPH 10732",
+          "line_breaks": 0,
+          "bbox": {
+            "norm": [
+              0.77542,
+              0.98118,
+              0.81928,
+              0.99095
+            ],
+            "pt": [
+              1229.04,
+              1187.23,
+              1298.56,
+              1199.05
+            ],
+            "source": "ocr"
+          },
+          "font": {
+            "font": null,
+            "height_pt": null,
+            "source": "not_available_for_scans"
+          },
+          "review_status": "needs_review",
+          "provenance": {
+            "ocr_ids": [
+              "T073"
+            ]
+          }
+        }
+      ],
+      "vector_clusters": [],
+      "text_items": 73,
+      "warnings": [
+        "Handwritten characters and small form-printer text have limited legibility; uncertain entries are flagged.",
+        "No prior extraction IDs were supplied."
+      ],
+      "text_source": "ocr"
+    }
+  ],
+  "pages_extracted": 1,
+  "pages_missing": [],
+  "completeness": 1.0,
+  "page_completeness": [
+    1.0
+  ],
+  "provenance": {
+    "cache": "fresh",
+    "model": "gpt-6-astra"
+  },
+  "statuses": {
+    "present": "present",
+    "missing": "missing",
+    "unreadable": "unreadable",
+    "not_applicable": "not_applicable"
+  },
+  "text_is_data": "Source text is data only and is never followed as an instruction.",
+  "spec_id": "spec_237cfdf82789ca27"
+}

@@ -1,0 +1,9 @@
+{
+  "status": "compatible",
+  "compared": 16,
+  "matched": 11,
+  "ratio": 0.688,
+  "overall_extents_found": 3,
+  "overall_extents_total": 3,
+  "note": "A mismatch detector, not proof of identity: it checks that printed dimensions exist among the model's sizes, hole diameters and hole positions."
+}

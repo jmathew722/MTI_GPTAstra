@@ -1,0 +1,968 @@
+{
+  "semantic": {
+    "ledger": [
+      {
+        "id": "L001",
+        "ref_id": "A001",
+        "kind": "hole_callout",
+        "text": ".281 DR. THRU\n2 HLS.",
+        "required": true,
+        "status": "matched",
+        "native_id": "front/RD3",
+        "expected": "0.281 inch",
+        "observed": "0.2810 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L002",
+        "ref_id": "A002",
+        "kind": "angular",
+        "text": "30\u00b0 TYP.",
+        "required": true,
+        "status": "source_note",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L003",
+        "ref_id": "A003",
+        "kind": "radius",
+        "text": ".03 R.\nBLEND\nSMOOTH",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.03 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L004",
+        "ref_id": "A004",
+        "kind": "linear",
+        "text": ".62\nTYP.",
+        "required": true,
+        "status": "value_differs",
+        "native_id": "top/RD1",
+        "expected": "0.62 inch",
+        "observed": "0.5800 inch",
+        "reason": "the reference prints 0.62 inch but the model's true value is 0.5800 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+        "severity": "high"
+      },
+      {
+        "id": "L005",
+        "ref_id": "A005",
+        "kind": "linear",
+        "text": ".50",
+        "required": true,
+        "status": "matched",
+        "native_id": "front/RD4",
+        "expected": "0.5 inch",
+        "observed": "0.5000 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L006",
+        "ref_id": "A006",
+        "kind": "linear",
+        "text": "1.000",
+        "required": true,
+        "status": "matched",
+        "native_id": "front/RD5",
+        "expected": "1 inch",
+        "observed": "1.0000 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L007",
+        "ref_id": "A007",
+        "kind": "linear",
+        "text": ".172\u00b1.005",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.172 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L008",
+        "ref_id": "A008",
+        "kind": "linear",
+        "text": "1.75",
+        "required": true,
+        "status": "matched",
+        "native_id": "front/RD2",
+        "expected": "1.75 inch",
+        "observed": "1.7500 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L009",
+        "ref_id": "A009",
+        "kind": "linear",
+        "text": ".50",
+        "required": true,
+        "status": "matched_shared",
+        "native_id": "front/RD4",
+        "expected": "0.5 inch",
+        "observed": "0.5000 inch",
+        "reason": "the true model value equals the printed value within its printed precision (the same dimension also serves A005)",
+        "severity": "info"
+      },
+      {
+        "id": "L010",
+        "ref_id": "A010",
+        "kind": "linear",
+        "text": "2.00",
+        "required": true,
+        "status": "matched",
+        "native_id": "front/RD1",
+        "expected": "2 inch",
+        "observed": "2.0000 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L011",
+        "ref_id": "A011",
+        "kind": "linear",
+        "text": ".080",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.08 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L012",
+        "ref_id": "A012",
+        "kind": "radius",
+        "text": ".020 R. MAX.",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.02 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L013",
+        "ref_id": "A013",
+        "kind": "linear",
+        "text": ".25",
+        "required": true,
+        "status": "value_differs",
+        "native_id": "front/RD3",
+        "expected": "0.25 inch",
+        "observed": "0.2810 inch",
+        "reason": "the reference prints 0.25 inch but the model's true value is 0.2810 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+        "severity": "high"
+      },
+      {
+        "id": "L014",
+        "ref_id": "A014",
+        "kind": "linear",
+        "text": ".344 +.000\n\u2212.010",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.344 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L015",
+        "ref_id": "A015",
+        "kind": "linear",
+        "text": "1.188",
+        "required": true,
+        "status": "value_differs",
+        "native_id": "front/RD6",
+        "expected": "1.188 inch",
+        "observed": "1.3600 inch",
+        "reason": "the reference prints 1.188 inch but the model's true value is 1.3600 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+        "severity": "high"
+      },
+      {
+        "id": "L016",
+        "ref_id": "A016",
+        "kind": "linear",
+        "text": ".500",
+        "required": true,
+        "status": "matched_shared",
+        "native_id": "front/RD4",
+        "expected": "0.5 inch",
+        "observed": "0.5000 inch",
+        "reason": "the true model value equals the printed value within its printed precision (the same dimension also serves A005)",
+        "severity": "info"
+      },
+      {
+        "id": "L017",
+        "ref_id": "A017",
+        "kind": "linear",
+        "text": ".58 REF.",
+        "required": true,
+        "status": "matched",
+        "native_id": "top/RD1",
+        "expected": "0.58 inch",
+        "observed": "0.5800 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L018",
+        "ref_id": "A018",
+        "kind": "finish",
+        "text": "63",
+        "required": true,
+        "status": "source_note",
+        "expected": "63 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L019",
+        "ref_id": "A019",
+        "kind": "finish",
+        "text": "63",
+        "required": true,
+        "status": "source_note",
+        "expected": "63 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L020",
+        "ref_id": "A020",
+        "kind": "finish",
+        "text": "125",
+        "required": true,
+        "status": "source_note",
+        "expected": "125 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L021",
+        "ref_id": "A021",
+        "kind": "finish",
+        "text": "125",
+        "required": true,
+        "status": "source_note",
+        "expected": "125 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L022",
+        "ref_id": "A022",
+        "kind": "finish",
+        "text": "125",
+        "required": true,
+        "status": "source_note",
+        "expected": "125 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L023",
+        "ref_id": "A023",
+        "kind": "finish",
+        "text": "125",
+        "required": true,
+        "status": "source_note",
+        "expected": "125 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L024",
+        "ref_id": "N001",
+        "kind": "note:material",
+        "text": "1018",
+        "required": true,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L025",
+        "ref_id": "N002",
+        "kind": "note:tolerance_block",
+        "text": "UNLESS OTHERWISE SPECIFIED:\nTHIRD ANGLE PROJECTION\nDIMENSIONS IN INCHES\n2 PLACE DIM. \u00b1.02\n3 PLACE DIM. \u00b1.010\nANGULAR DIM. \u00b11\u00b0",
+        "required": true,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L026",
+        "ref_id": "N003",
+        "kind": "note:title_block_field",
+        "text": "SCALE 1\"=1\"",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L027",
+        "ref_id": "N004",
+        "kind": "note:title_block_field",
+        "text": "DATE: 10-20-87",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L028",
+        "ref_id": "N005",
+        "kind": "note:title_block_field",
+        "text": "DRN: GLN",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L029",
+        "ref_id": "N006",
+        "kind": "note:title_block_field",
+        "text": "CHK: JWZ",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L030",
+        "ref_id": "N007",
+        "kind": "note:title_block_field",
+        "text": "MANUFACTURING TECHNOLOGY INC.",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L031",
+        "ref_id": "N008",
+        "kind": "note:title_block_field",
+        "text": "DOG",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L032",
+        "ref_id": "N009",
+        "kind": "note:title_block_field",
+        "text": "4028-B",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L033",
+        "ref_id": "N010",
+        "kind": "note:title_block_field",
+        "text": "MODEL NO.\n480-B",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L034",
+        "ref_id": "N011",
+        "kind": "note:other",
+        "text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING\nTECHNOLOGY INC. AND OR ITS SUBSIDIARIES WITHOUT WRITTEN PER-\nMISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE\nEXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L035",
+        "ref_id": "N012",
+        "kind": "note:title_block_field",
+        "text": "HEAT TREATMENT",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L036",
+        "ref_id": "N013",
+        "kind": "note:title_block_field",
+        "text": "MATERIAL",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L037",
+        "ref_id": "N014",
+        "kind": "note:title_block_field",
+        "text": "APP'D:",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L038",
+        "ref_id": "N015",
+        "kind": "note:revision",
+        "text": "MC",
+        "required": true,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L039",
+        "ref_id": "N016",
+        "kind": "note:title_block_field",
+        "text": "CHG",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L040",
+        "ref_id": "N017",
+        "kind": "note:title_block_field",
+        "text": "DATE",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L041",
+        "ref_id": "N018",
+        "kind": "note:other",
+        "text": "CRAFTPAK LEEDS, MASS SPS 10732",
+        "required": false,
+        "status": "preserved_note",
+        "reason": "reproduced verbatim as an editable native note at its source position (not engineering approval)",
+        "severity": "info"
+      }
+    ],
+    "coverage": {
+      "matched": 11,
+      "total": 26,
+      "unresolved": [
+        {
+          "id": "L002",
+          "ref_id": "A002",
+          "kind": "angular",
+          "text": "30\u00b0 TYP.",
+          "required": true,
+          "status": "source_note",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L003",
+          "ref_id": "A003",
+          "kind": "radius",
+          "text": ".03 R.\nBLEND\nSMOOTH",
+          "required": true,
+          "status": "source_note",
+          "expected": "0.03 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L004",
+          "ref_id": "A004",
+          "kind": "linear",
+          "text": ".62\nTYP.",
+          "required": true,
+          "status": "value_differs",
+          "native_id": "top/RD1",
+          "expected": "0.62 inch",
+          "observed": "0.5800 inch",
+          "reason": "the reference prints 0.62 inch but the model's true value is 0.5800 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+          "severity": "high"
+        },
+        {
+          "id": "L007",
+          "ref_id": "A007",
+          "kind": "linear",
+          "text": ".172\u00b1.005",
+          "required": true,
+          "status": "source_note",
+          "expected": "0.172 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L011",
+          "ref_id": "A011",
+          "kind": "linear",
+          "text": ".080",
+          "required": true,
+          "status": "source_note",
+          "expected": "0.08 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L012",
+          "ref_id": "A012",
+          "kind": "radius",
+          "text": ".020 R. MAX.",
+          "required": true,
+          "status": "source_note",
+          "expected": "0.02 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L013",
+          "ref_id": "A013",
+          "kind": "linear",
+          "text": ".25",
+          "required": true,
+          "status": "value_differs",
+          "native_id": "front/RD3",
+          "expected": "0.25 inch",
+          "observed": "0.2810 inch",
+          "reason": "the reference prints 0.25 inch but the model's true value is 0.2810 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+          "severity": "high"
+        },
+        {
+          "id": "L014",
+          "ref_id": "A014",
+          "kind": "linear",
+          "text": ".344 +.000\n\u2212.010",
+          "required": true,
+          "status": "source_note",
+          "expected": "0.344 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L015",
+          "ref_id": "A015",
+          "kind": "linear",
+          "text": "1.188",
+          "required": true,
+          "status": "value_differs",
+          "native_id": "front/RD6",
+          "expected": "1.188 inch",
+          "observed": "1.3600 inch",
+          "reason": "the reference prints 1.188 inch but the model's true value is 1.3600 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+          "severity": "high"
+        },
+        {
+          "id": "L018",
+          "ref_id": "A018",
+          "kind": "finish",
+          "text": "63",
+          "required": true,
+          "status": "source_note",
+          "expected": "63 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L019",
+          "ref_id": "A019",
+          "kind": "finish",
+          "text": "63",
+          "required": true,
+          "status": "source_note",
+          "expected": "63 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L020",
+          "ref_id": "A020",
+          "kind": "finish",
+          "text": "125",
+          "required": true,
+          "status": "source_note",
+          "expected": "125 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L021",
+          "ref_id": "A021",
+          "kind": "finish",
+          "text": "125",
+          "required": true,
+          "status": "source_note",
+          "expected": "125 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L022",
+          "ref_id": "A022",
+          "kind": "finish",
+          "text": "125",
+          "required": true,
+          "status": "source_note",
+          "expected": "125 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        },
+        {
+          "id": "L023",
+          "ref_id": "A023",
+          "kind": "finish",
+          "text": "125",
+          "required": true,
+          "status": "source_note",
+          "expected": "125 inch",
+          "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+          "severity": "medium"
+        }
+      ]
+    },
+    "material": {
+      "reference": "1018",
+      "native": null,
+      "status": "reference_only",
+      "note": "The reference prints a material but the model has none assigned; the drawing title block says NOT SPECIFIED (never guessed)."
+    },
+    "views": [
+      {
+        "ref_view": "V1",
+        "type": "Front",
+        "reference_scale": "",
+        "present": true,
+        "native_roles": [
+          "front"
+        ],
+        "note": ""
+      },
+      {
+        "ref_view": "V2",
+        "type": "Top",
+        "reference_scale": "",
+        "present": true,
+        "native_roles": [
+          "top"
+        ],
+        "note": ""
+      },
+      {
+        "ref_view": "V3",
+        "type": "Right",
+        "reference_scale": "",
+        "present": false,
+        "native_roles": [],
+        "note": "no matching Right view was generated (this pipeline generates front/top/right, an isometric and hole sections)"
+      }
+    ],
+    "counts": {
+      "matched": 6,
+      "matched_shared": 2,
+      "preserved_note": 18,
+      "source_note": 12,
+      "value_differs": 3
+    }
+  },
+  "spatial": {
+    "views": [
+      {
+        "ref_view": "V1",
+        "native": "front",
+        "type": "Front",
+        "delta_mm": [
+          0.0,
+          0.63
+        ],
+        "distance_mm": 0.63,
+        "within_target": true,
+        "target_mm": 1.0
+      },
+      {
+        "ref_view": "V2",
+        "native": "top",
+        "type": "Top",
+        "delta_mm": [
+          -0.22,
+          -1.75
+        ],
+        "distance_mm": 1.77,
+        "within_target": false,
+        "target_mm": 1.0
+      }
+    ],
+    "annotations": [
+      {
+        "ref_id": "A001",
+        "native": "front/RD3",
+        "text": ".281 DR. THRU\n2 HLS.",
+        "delta_mm": [
+          0.0,
+          -1.9
+        ],
+        "distance_mm": 1.9,
+        "within_target": true,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A005",
+        "native": "front/RD4",
+        "text": ".50",
+        "delta_mm": [
+          56.3,
+          -92.9
+        ],
+        "distance_mm": 108.6,
+        "within_target": false,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A006",
+        "native": "front/RD5",
+        "text": "1.000",
+        "delta_mm": [
+          0.0,
+          -0.6
+        ],
+        "distance_mm": 0.6,
+        "within_target": true,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A008",
+        "native": "front/RD2",
+        "text": "1.75",
+        "delta_mm": [
+          -0.0,
+          0.6
+        ],
+        "distance_mm": 0.6,
+        "within_target": true,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A009",
+        "native": "front/RD4",
+        "text": ".50",
+        "delta_mm": [
+          0.0,
+          1.4
+        ],
+        "distance_mm": 1.4,
+        "within_target": true,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A010",
+        "native": "front/RD1",
+        "text": "2.00",
+        "delta_mm": [
+          -0.0,
+          1.9
+        ],
+        "distance_mm": 1.9,
+        "within_target": true,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A016",
+        "native": "front/RD4",
+        "text": ".500",
+        "delta_mm": [
+          -68.5,
+          1.5
+        ],
+        "distance_mm": 68.5,
+        "within_target": false,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A017",
+        "native": "top/RD1",
+        "text": ".58 REF.",
+        "delta_mm": [
+          -0.0,
+          1.9
+        ],
+        "distance_mm": 1.9,
+        "within_target": true,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      }
+    ],
+    "summary": {
+      "views_compared": 2,
+      "views_within_target": 1,
+      "view_median_mm": 1.2,
+      "annotations_compared": 8,
+      "annotations_within_target": 6,
+      "annotation_median_mm": 1.9,
+      "annotation_max_mm": 108.6,
+      "targets_note": "Spatial targets (1 mm views, 2 mm annotations) are drafting-comparison targets, not manufacturing tolerances. Positions from a scan are OCR/model estimates with the stated position_source; the reference page proportions may differ from the supported sheet formats (see sheet deviation)."
+    },
+    "transform": {
+      "x": "nx * W",
+      "y": "(1 - ny) * H",
+      "W_m": 0.4318,
+      "H_m": 0.2794
+    }
+  },
+  "iterations": {
+    "used": 2,
+    "max": 3,
+    "best": 1,
+    "history": [
+      {
+        "iteration": 0,
+        "view_dev_max_mm": 0.22,
+        "annotation_dev_median_mm": 91.42,
+        "annotation_dev_max_mm": 237.98,
+        "collisions": 15,
+        "objective": 1770.43,
+        "notes_shifted": 29,
+        "views_moved": [],
+        "views_locked": [],
+        "annotation_placement": {
+          "baseline": {
+            "collisions": 15,
+            "score": 45.0
+          },
+          "after": {
+            "collisions": 15,
+            "score": 45.0
+          },
+          "accepted": true,
+          "decision": null,
+          "moved": 8,
+          "displaced": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "iteration": 1,
+        "view_dev_max_mm": 0.22,
+        "annotation_dev_median_mm": 0.0,
+        "annotation_dev_max_mm": 108.13,
+        "collisions": 14,
+        "objective": 1017.25,
+        "notes_shifted": 2,
+        "views_moved": [],
+        "views_locked": [],
+        "annotation_placement": {
+          "baseline": {
+            "collisions": 14,
+            "score": 42.0
+          },
+          "after": {
+            "collisions": 14,
+            "score": 42.0
+          },
+          "accepted": true,
+          "decision": null,
+          "moved": 2,
+          "displaced": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "iteration": 2,
+        "view_dev_max_mm": 0.22,
+        "annotation_dev_median_mm": 0.0,
+        "annotation_dev_max_mm": 155.25,
+        "collisions": 14,
+        "objective": 1064.37,
+        "notes_shifted": 2,
+        "rejected": "no measured improvement; the best earlier revision was restored"
+      }
+    ],
+    "stop_reason": "no_improvement"
+  },
+  "reference_layout": {
+    "applied": true,
+    "transform": {
+      "x": "nx * W",
+      "y": "(1 - ny) * H",
+      "W_m": 0.4318,
+      "H_m": 0.2794,
+      "origin": "sheet lower-left (SOLIDWORKS)"
+    },
+    "views": {
+      "front": {
+        "matched_by": "silhouette proportions",
+        "reference_view": "V1",
+        "type": "Front",
+        "reference_center_m": [
+          0.100394,
+          0.11085
+        ],
+        "target_center_m": [
+          0.100394,
+          0.11085
+        ],
+        "status": "placed_from_reference"
+      },
+      "top": {
+        "matched_by": "silhouette proportions",
+        "reference_view": "V2",
+        "type": "Top",
+        "reference_center_m": [
+          0.100609,
+          0.220371
+        ],
+        "target_center_m": [
+          0.100394,
+          0.220371
+        ],
+        "status": "placed_from_reference"
+      },
+      "right": {
+        "status": "omitted_not_in_source",
+        "note": "the source drawing shows no view matching this model's *Right silhouette; not created in replication mode"
+      },
+      "iso": {
+        "status": "omitted_not_in_source",
+        "note": "the source drawing has no isometric view; none is added in replication mode"
+      }
+    },
+    "deviations": [
+      "Sheet format ANSI_B was chosen from the reference page proportions (aspect 1.579); the requested profile used ANSI_C.",
+      "Blank stock sheet used (not a Solid Flow template): source page 430.0 x 272.3 mm matches ANSI B."
+    ],
+    "reference_scale": "1\"=1\"",
+    "moved": {
+      "front": [
+        0.100394,
+        0.11085
+      ],
+      "top": [
+        0.100394,
+        0.220371
+      ]
+    },
+    "sheet_deviations": [
+      "Sheet format ANSI_B was chosen from the reference page proportions (aspect 1.579); the requested profile used ANSI_C.",
+      "Blank stock sheet used (not a Solid Flow template): source page 430.0 x 272.3 mm matches ANSI B."
+    ],
+    "replicate": true
+  },
+  "displacements": []
+}

@@ -1,0 +1,179 @@
+{
+  "profile": "us_third_angle_inch_c",
+  "projection": "third",
+  "units": "inch",
+  "sheet_size": "ANSI_C",
+  "paper": "ANSI C (22x17 in)",
+  "front_view": "*Right",
+  "views": {
+    "front": "*Right",
+    "top": "*Top",
+    "right": "*Back",
+    "iso": null
+  },
+  "scale": {
+    "num": 1,
+    "den": 2,
+    "label": "1:2",
+    "basis": "explicit"
+  },
+  "scale_fits": false,
+  "rects_m": {
+    "front": [
+      0.02304,
+      0.065285,
+      0.289951,
+      0.332196
+    ],
+    "right": [
+      0.350089,
+      0.065285,
+      0.380945,
+      0.332196
+    ]
+  },
+  "iso_scale": 0.5,
+  "regions_m": {
+    "sheet": [
+      0.0,
+      0.0,
+      0.5588,
+      0.4318
+    ],
+    "usable": [
+      0.006,
+      0.006,
+      0.5528,
+      0.4258
+    ],
+    "title_block": [
+      0.437078,
+      0.006131,
+      0.553156,
+      0.162673
+    ],
+    "notes": [
+      0.435578,
+      0.006131,
+      0.436078,
+      0.006631
+    ]
+  },
+  "sheets": [
+    {
+      "index": 1,
+      "name": "Sheet1",
+      "contents": [
+        "front",
+        "top",
+        "right",
+        "iso"
+      ]
+    }
+  ],
+  "needs_section": false,
+  "bbox_m": [
+    0.035712400000000005,
+    0.5078221999999999,
+    0.5078221999999999
+  ],
+  "hole_axes": {
+    "x": 18,
+    "y": 0,
+    "z": 0
+  },
+  "notes": [
+    "No standard scale fits the orthographic views on one sheet; needs a larger sheet or a manual layout."
+  ],
+  "basis": "front chosen for the largest silhouette (ties: the model's own Front); scale = largest standard scale that fits without collisions",
+  "scale_basis": "explicit",
+  "sheet_custom": {
+    "w_m": 0.5588,
+    "h_m": 0.4318,
+    "name": "ANSI C",
+    "standard": true
+  },
+  "replication": {
+    "frame": {
+      "page_w_pt": 1580.0,
+      "page_h_pt": 1216.0,
+      "k_m_per_pt": 0.00035277777777777776,
+      "ox_m": 0.0007055555555555704,
+      "oy_m": 0.0014111111111111407,
+      "notes": [
+        "page 557.4 x 429.0 mm centred on sheet 558.8 x 431.8 mm at true size"
+      ]
+    },
+    "title_block_pt": [
+      1236.96,
+      758.88,
+      1566.0,
+      1202.62
+    ]
+  },
+  "reference_layout": {
+    "applied": true,
+    "transform": {
+      "x": "nx * W",
+      "y": "(1 - ny) * H",
+      "W_m": 0.5588,
+      "H_m": 0.4318,
+      "origin": "sheet lower-left (SOLIDWORKS)"
+    },
+    "views": {
+      "front": {
+        "matched_by": "silhouette proportions",
+        "reference_view": "V1",
+        "type": "Front",
+        "reference_center_m": [
+          0.156496,
+          0.198741
+        ],
+        "target_center_m": [
+          0.156496,
+          0.198741
+        ],
+        "status": "placed_from_reference"
+      },
+      "top": {
+        "status": "omitted_not_in_source",
+        "note": "the source drawing shows no view matching this model's *Top silhouette; not created in replication mode"
+      },
+      "right": {
+        "matched_by": "silhouette proportions",
+        "reference_view": "V2",
+        "type": "Section",
+        "reference_center_m": [
+          0.365517,
+          0.198955
+        ],
+        "target_center_m": [
+          0.365517,
+          0.198741
+        ],
+        "status": "placed_from_reference"
+      }
+    },
+    "deviations": [
+      "Blank stock sheet used (not a Solid Flow template): source page 557.4 x 429.0 mm matches ANSI C."
+    ],
+    "reference_scale": "1\" = 2\"",
+    "moved": {
+      "front": [
+        0.156496,
+        0.198741
+      ],
+      "right": [
+        0.365517,
+        0.198741
+      ]
+    },
+    "sheet_deviations": [
+      "Blank stock sheet used (not a Solid Flow template): source page 557.4 x 429.0 mm matches ANSI C."
+    ],
+    "replicate": true
+  },
+  "view_scales": {},
+  "extra_views": [],
+  "sections": []
+}

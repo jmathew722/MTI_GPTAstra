@@ -1,0 +1,54 @@
+{
+  "opened": true,
+  "views": [
+    {
+      "name": "Drawing View1",
+      "references": "165-C_ir__sf0358ea.SLDPRT",
+      "ok": true,
+      "scale_decimal": 0.5
+    },
+    {
+      "name": "Drawing View2",
+      "references": "165-C_ir__sf0358ea.SLDPRT",
+      "ok": true,
+      "scale_decimal": 0.5
+    }
+  ],
+  "dimensions": 4,
+  "errors": [],
+  "notes": 49,
+  "sheets": 2,
+  "sheets_info": [
+    {
+      "name": "Sheet1",
+      "scale": [
+        1.0,
+        2.0
+      ],
+      "size_m": [
+        0.5588,
+        0.4318
+      ]
+    },
+    {
+      "name": "Sheet2",
+      "scale": [
+        1.0,
+        2.0
+      ],
+      "size_m": [
+        0.5588,
+        0.4318
+      ]
+    }
+  ],
+  "sheet_scale": [
+    1.0,
+    2.0
+  ],
+  "sheet_size_m": [
+    0.5588,
+    0.4318
+  ],
+  "sheet_notes": 0
+}

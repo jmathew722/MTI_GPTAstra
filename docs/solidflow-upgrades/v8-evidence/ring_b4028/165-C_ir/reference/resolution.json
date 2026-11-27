@@ -1,0 +1,32 @@
+{
+  "schema": "ReferenceResolution/1",
+  "mode": "match",
+  "status": "resolved",
+  "source_kind": "upload",
+  "filename": "57977f7f8c8d.pdf",
+  "sha256": "57977f7f8c8dd0e79dcb74e519ede61a9218ed600dd7470a4d60beb3d891be38",
+  "pages": 1,
+  "link": null,
+  "confidence": null,
+  "reasons": [
+    "explicitly uploaded by the user (overrides any history)"
+  ],
+  "extraction_cache": "none",
+  "extraction_id": "",
+  "extraction_schema": "",
+  "api_usage": {
+    "tokens": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "usd": 0.0,
+    "calls": 0,
+    "incremental": true,
+    "historical_usd": null
+  },
+  "warnings": [],
+  "part_sha256": "2a2ddc7e1256a2d719b938fce83e67129db6018cb93de0453e43e87fdcb85739",
+  "candidate_summary": [],
+  "matched_runs": [],
+  "configuration": "Default",
+  "pdfSha256": "57977f7f8c8dd0e79dcb74e519ede61a9218ed600dd7470a4d60beb3d891be38"
+}

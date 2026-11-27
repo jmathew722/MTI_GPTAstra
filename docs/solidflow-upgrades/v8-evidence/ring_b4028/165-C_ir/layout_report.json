@@ -1,0 +1,670 @@
+{
+  "max_iterations": 3,
+  "history": [
+    {
+      "iteration": 0,
+      "what": "as generated",
+      "collisions": 10,
+      "score": 30.0
+    },
+    {
+      "iteration": 0,
+      "what": "native Auto Arrange",
+      "collisions": 10,
+      "score": 30.0,
+      "accepted": true
+    },
+    {
+      "iteration": 1,
+      "what": "collision-aware moves",
+      "moved": 3,
+      "moves": [
+        {
+          "annotation": "front/note2",
+          "text": "NOTE A:",
+          "delta_mm": [
+            0.0,
+            4.0
+          ],
+          "kind": "note"
+        },
+        {
+          "annotation": "front/note1",
+          "text": "8 HOLES EQ SP ON DIA 16.250 B.C.",
+          "delta_mm": [
+            0.0,
+            16.0
+          ],
+          "kind": "note"
+        },
+        {
+          "annotation": "front/note49",
+          "text": "STAMP .12 HIGH",
+          "delta_mm": [
+            0.0,
+            4.0
+          ],
+          "kind": "note"
+        }
+      ],
+      "collisions": 8,
+      "score": 24.0
+    },
+    {
+      "iteration": 2,
+      "what": "no free position found for the colliding annotations",
+      "collisions": 8,
+      "score": 24.0
+    }
+  ],
+  "arrange": {
+    "views": [
+      {
+        "view": "front",
+        "dimensions": 4,
+        "selected": 4,
+        "returned": true,
+        "error": null
+      }
+    ],
+    "moved": 4,
+    "integrity": {
+      "ok": true,
+      "lost": [],
+      "added": [],
+      "value_changed": [],
+      "dangling": [],
+      "count_before": 4,
+      "count_after": 4
+    },
+    "collisions_before": 10,
+    "collisions_after": 10,
+    "score_before": 30.0,
+    "score_after": 30.0,
+    "accepted": true,
+    "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+    "inventory_before": [
+      {
+        "id": "front/RD1",
+        "value_m": 0.5078222,
+        "position_m": [
+          0.298087,
+          0.340332
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD2",
+        "value_m": 0.0103124,
+        "position_m": [
+          0.316087,
+          0.20474
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD3",
+        "value_m": 0.41275,
+        "position_m": [
+          0.156496,
+          0.050149
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD4",
+        "value_m": 0.3937,
+        "position_m": [
+          0.327087,
+          0.215741
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      }
+    ],
+    "inventory_after": [
+      {
+        "id": "front/RD1",
+        "value_m": 0.5078222,
+        "position_m": [
+          0.304495,
+          0.338501
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD2",
+        "value_m": 0.0103124,
+        "position_m": [
+          0.311451,
+          0.235313
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD3",
+        "value_m": 0.41275,
+        "position_m": [
+          0.156496,
+          0.061785
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD4",
+        "value_m": 0.3937,
+        "position_m": [
+          0.251499,
+          0.338501
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      }
+    ]
+  },
+  "moves": [
+    {
+      "annotation": "front/note2",
+      "text": "NOTE A:",
+      "delta_mm": [
+        0.0,
+        4.0
+      ],
+      "kind": "note"
+    },
+    {
+      "annotation": "front/note1",
+      "text": "8 HOLES EQ SP ON DIA 16.250 B.C.",
+      "delta_mm": [
+        0.0,
+        16.0
+      ],
+      "kind": "note"
+    },
+    {
+      "annotation": "front/note49",
+      "text": "STAMP .12 HIGH",
+      "delta_mm": [
+        0.0,
+        4.0
+      ],
+      "kind": "note"
+    }
+  ],
+  "views": {
+    "moved": [],
+    "unresolved": []
+  },
+  "before": {
+    "count": 10,
+    "by_kind": {
+      "text_text": 4,
+      "text_stroke": 6
+    },
+    "clearance_mm": 1.5,
+    "items": [
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t4_0",
+        "b": "p1t4_1",
+        "severity": "high",
+        "a_text": "8 HOLES EQ SP ON DIA 16.250 B.C.",
+        "b_text": "NOTE A:",
+        "box_a_mm": [
+          20.9,
+          32.61,
+          97.18,
+          37.09
+        ],
+        "box_b_mm": [
+          16.16,
+          35.82,
+          35.25,
+          39.47
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t4_0",
+        "b": "p1t4_2",
+        "severity": "high",
+        "a_text": "8 HOLES EQ SP ON DIA 16.250 B.C.",
+        "b_text": "LEAVE .25 MIN. STOCK FOR",
+        "box_a_mm": [
+          20.9,
+          32.61,
+          97.18,
+          37.09
+        ],
+        "box_b_mm": [
+          16.16,
+          29.88,
+          79.32,
+          33.54
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t6_4",
+        "b": "p1t6_5",
+        "severity": "high",
+        "a_text": "3-PLACE DIM. \u00b1 .010",
+        "b_text": "ANGULAR DIM. \u00b1 \u00bc\u00b0",
+        "box_a_mm": [
+          443.23,
+          73.02,
+          473.44,
+          75.37
+        ],
+        "box_b_mm": [
+          448.01,
+          71.17,
+          481.85,
+          73.78
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t11_3",
+        "b": "p1t11_4",
+        "severity": "high",
+        "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "b_text": "WEIGHT - FLYWHEEL",
+        "box_a_mm": [
+          438.18,
+          35.17,
+          510.31,
+          37.88
+        ],
+        "box_b_mm": [
+          443.52,
+          32.08,
+          496.04,
+          36.26
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t6_2",
+        "severity": "high",
+        "a_text": "DIMENSIONS IN INCHES",
+        "box_a_mm": [
+          443.23,
+          81.37,
+          478.21,
+          83.72
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t10_0",
+        "severity": "high",
+        "a_text": "MANUFACTURING TECHNOLOGY INC.",
+        "box_a_mm": [
+          439.86,
+          54.99,
+          541.97,
+          59.16
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t11_0",
+        "severity": "high",
+        "a_text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING",
+        "box_a_mm": [
+          438.18,
+          47.26,
+          527.27,
+          49.34
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t11_1",
+        "severity": "high",
+        "a_text": "TECHNOLOGY INC. AND OR ITS SUBSIDIARIES. WITHOUT WRITTEN PER-",
+        "box_a_mm": [
+          438.18,
+          43.43,
+          529.97,
+          45.52
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t11_3",
+        "severity": "high",
+        "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "box_a_mm": [
+          438.18,
+          35.17,
+          510.31,
+          37.88
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t37_3",
+        "severity": "high",
+        "a_text": "17.85 WK\u00b2",
+        "box_a_mm": [
+          177.15,
+          49.08,
+          200.13,
+          52.74
+        ],
+        "detail": "a drawn line runs through this text"
+      }
+    ],
+    "advisory": [],
+    "truncated": 0,
+    "exemptions": [
+      "strokes touching a text box edge (leader tip / extension line) are not collisions",
+      "shaded isometric fills are not strokes",
+      "the template's own title block and border are part of the sheet format"
+    ]
+  },
+  "after": {
+    "count": 8,
+    "by_kind": {
+      "text_text": 2,
+      "text_stroke": 6
+    },
+    "clearance_mm": 1.5,
+    "items": [
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t7_4",
+        "b": "p1t7_5",
+        "severity": "high",
+        "a_text": "3-PLACE DIM. \u00b1 .010",
+        "b_text": "ANGULAR DIM. \u00b1 \u00bc\u00b0",
+        "box_a_mm": [
+          443.23,
+          73.02,
+          473.44,
+          75.37
+        ],
+        "box_b_mm": [
+          448.01,
+          71.17,
+          481.85,
+          73.78
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t12_3",
+        "b": "p1t12_4",
+        "severity": "high",
+        "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "b_text": "WEIGHT - FLYWHEEL",
+        "box_a_mm": [
+          438.18,
+          35.17,
+          510.31,
+          37.88
+        ],
+        "box_b_mm": [
+          443.52,
+          32.08,
+          496.04,
+          36.26
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t7_2",
+        "severity": "high",
+        "a_text": "DIMENSIONS IN INCHES",
+        "box_a_mm": [
+          443.23,
+          81.37,
+          478.21,
+          83.72
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t11_0",
+        "severity": "high",
+        "a_text": "MANUFACTURING TECHNOLOGY INC.",
+        "box_a_mm": [
+          439.86,
+          54.99,
+          541.97,
+          59.16
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t12_0",
+        "severity": "high",
+        "a_text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING",
+        "box_a_mm": [
+          438.18,
+          47.26,
+          527.27,
+          49.34
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t12_1",
+        "severity": "high",
+        "a_text": "TECHNOLOGY INC. AND OR ITS SUBSIDIARIES. WITHOUT WRITTEN PER-",
+        "box_a_mm": [
+          438.18,
+          43.43,
+          529.97,
+          45.52
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t12_3",
+        "severity": "high",
+        "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "box_a_mm": [
+          438.18,
+          35.17,
+          510.31,
+          37.88
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t39_1",
+        "severity": "high",
+        "a_text": "165-C",
+        "box_a_mm": [
+          177.15,
+          59.02,
+          191.02,
+          62.68
+        ],
+        "detail": "a drawn line runs through this text"
+      }
+    ],
+    "advisory": [],
+    "truncated": 0,
+    "exemptions": [
+      "strokes touching a text box edge (leader tip / extension line) are not collisions",
+      "shaded isometric fills are not strokes",
+      "the template's own title block and border are part of the sheet format"
+    ]
+  },
+  "best": "correction 1",
+  "iterations_used": 2,
+  "unresolved": [
+    {
+      "kind": "text_text",
+      "page": 1,
+      "a": "p1t7_4",
+      "b": "p1t7_5",
+      "severity": "high",
+      "a_text": "3-PLACE DIM. \u00b1 .010",
+      "b_text": "ANGULAR DIM. \u00b1 \u00bc\u00b0",
+      "box_a_mm": [
+        443.23,
+        73.02,
+        473.44,
+        75.37
+      ],
+      "box_b_mm": [
+        448.01,
+        71.17,
+        481.85,
+        73.78
+      ],
+      "detail": "overlap"
+    },
+    {
+      "kind": "text_text",
+      "page": 1,
+      "a": "p1t12_3",
+      "b": "p1t12_4",
+      "severity": "high",
+      "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+      "b_text": "WEIGHT - FLYWHEEL",
+      "box_a_mm": [
+        438.18,
+        35.17,
+        510.31,
+        37.88
+      ],
+      "box_b_mm": [
+        443.52,
+        32.08,
+        496.04,
+        36.26
+      ],
+      "detail": "overlap"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t7_2",
+      "severity": "high",
+      "a_text": "DIMENSIONS IN INCHES",
+      "box_a_mm": [
+        443.23,
+        81.37,
+        478.21,
+        83.72
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t11_0",
+      "severity": "high",
+      "a_text": "MANUFACTURING TECHNOLOGY INC.",
+      "box_a_mm": [
+        439.86,
+        54.99,
+        541.97,
+        59.16
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t12_0",
+      "severity": "high",
+      "a_text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING",
+      "box_a_mm": [
+        438.18,
+        47.26,
+        527.27,
+        49.34
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t12_1",
+      "severity": "high",
+      "a_text": "TECHNOLOGY INC. AND OR ITS SUBSIDIARIES. WITHOUT WRITTEN PER-",
+      "box_a_mm": [
+        438.18,
+        43.43,
+        529.97,
+        45.52
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t12_3",
+      "severity": "high",
+      "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+      "box_a_mm": [
+        438.18,
+        35.17,
+        510.31,
+        37.88
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t39_1",
+      "severity": "high",
+      "a_text": "165-C",
+      "box_a_mm": [
+        177.15,
+        59.02,
+        191.02,
+        62.68
+      ],
+      "detail": "a drawn line runs through this text"
+    }
+  ]
+}

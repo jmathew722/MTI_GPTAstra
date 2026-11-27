@@ -1,0 +1,21 @@
+{
+  "exists": true,
+  "pages": 1,
+  "expected_pages": 1,
+  "nonblack_text": [],
+  "nonblack_strokes": 0,
+  "color_fills": 0,
+  "text_overlaps": [],
+  "text_clipped": [
+    {
+      "page": 1,
+      "text": "MODEL No. 90"
+    }
+  ],
+  "vector": true,
+  "errors": [],
+  "ok": false,
+  "previews": [
+    "page-001.png"
+  ]
+}

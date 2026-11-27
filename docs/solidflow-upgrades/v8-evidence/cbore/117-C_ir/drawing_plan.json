@@ -1,0 +1,161 @@
+{
+  "profile": "us_third_angle_inch_c",
+  "projection": "third",
+  "units": "inch",
+  "sheet_size": "ANSI_C",
+  "paper": "ANSI C (22x17 in)",
+  "front_view": "*Top",
+  "views": {
+    "front": "*Top",
+    "top": "*Back",
+    "right": "*Right",
+    "iso": "*Isometric"
+  },
+  "scale": {
+    "num": 1,
+    "den": 1,
+    "label": "1:1",
+    "basis": "explicit"
+  },
+  "scale_fits": true,
+  "rects_m": {
+    "front": [
+      0.114778,
+      0.227572,
+      0.24049,
+      0.337409
+    ]
+  },
+  "iso_scale": 1.0,
+  "regions_m": {
+    "sheet": [
+      0.0,
+      0.0,
+      0.5588,
+      0.4318
+    ],
+    "usable": [
+      0.006,
+      0.006,
+      0.5528,
+      0.4258
+    ],
+    "title_block": [
+      0.427052,
+      0.010739,
+      0.548718,
+      0.198953
+    ],
+    "notes": [
+      0.425552,
+      0.010739,
+      0.426052,
+      0.011239
+    ]
+  },
+  "sheets": [
+    {
+      "index": 1,
+      "name": "Sheet1",
+      "contents": [
+        "front",
+        "top",
+        "right",
+        "iso"
+      ]
+    }
+  ],
+  "needs_section": false,
+  "bbox_m": [
+    0.1127125,
+    0.0254,
+    0.09683749999999999
+  ],
+  "hole_axes": {
+    "x": 0,
+    "y": 12,
+    "z": 0
+  },
+  "notes": [],
+  "basis": "front chosen for the largest silhouette (ties: the model's own Front); scale = largest standard scale that fits without collisions",
+  "scale_basis": "explicit",
+  "sheet_custom": {
+    "w_m": 0.5588,
+    "h_m": 0.4318,
+    "name": "ANSI C",
+    "standard": true
+  },
+  "replication": {
+    "frame": {
+      "page_w_pt": 1585.0,
+      "page_h_pt": 1210.0,
+      "k_m_per_pt": 0.00035277777777777776,
+      "ox_m": -0.00017638888888887871,
+      "oy_m": 0.0024694444444444685,
+      "notes": [
+        "page 559.2 x 426.9 mm centred on sheet 558.8 x 431.8 mm at true size"
+      ]
+    },
+    "title_block_pt": [
+      1211.04,
+      653.04,
+      1555.92,
+      1186.56
+    ]
+  },
+  "reference_layout": {
+    "applied": true,
+    "transform": {
+      "x": "nx * W",
+      "y": "(1 - ny) * H",
+      "W_m": 0.5588,
+      "H_m": 0.4318,
+      "origin": "sheet lower-left (SOLIDWORKS)"
+    },
+    "views": {
+      "front": {
+        "matched_by": "silhouette proportions",
+        "reference_view": "V1",
+        "type": "Front",
+        "reference_center_m": [
+          0.177634,
+          0.28249
+        ],
+        "target_center_m": [
+          0.177634,
+          0.28249
+        ],
+        "status": "placed_from_reference"
+      },
+      "top": {
+        "status": "omitted_not_in_source",
+        "note": "the source drawing shows no view matching this model's *Back silhouette; not created in replication mode"
+      },
+      "right": {
+        "status": "omitted_not_in_source",
+        "note": "the source drawing shows no view matching this model's *Right silhouette; not created in replication mode"
+      },
+      "iso": {
+        "status": "omitted_not_in_source",
+        "note": "the source drawing has no isometric view; none is added in replication mode"
+      }
+    },
+    "deviations": [
+      "Blank stock sheet used (not a Solid Flow template): source page 559.2 x 426.9 mm matches ANSI C."
+    ],
+    "reference_scale": "1 = 1",
+    "moved": {
+      "front": [
+        0.177634,
+        0.28249
+      ]
+    },
+    "sheet_deviations": [
+      "Blank stock sheet used (not a Solid Flow template): source page 559.2 x 426.9 mm matches ANSI C."
+    ],
+    "replicate": true
+  },
+  "view_scales": {},
+  "extra_views": [],
+  "sections": []
+}

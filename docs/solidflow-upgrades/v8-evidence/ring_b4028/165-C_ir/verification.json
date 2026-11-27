@@ -1,0 +1,3182 @@
+{
+  "schema": "VerificationReport/1",
+  "status": "review_required",
+  "coverage": {
+    "matched": 7,
+    "total": 34,
+    "unresolved": [
+      {
+        "id": "L001",
+        "ref_id": "A001",
+        "kind": "hole_callout",
+        "text": ".375-16 TAP THRU\n8-HOLES EQUALLY SPACED",
+        "required": true,
+        "status": "value_differs",
+        "native_id": "front/RD2",
+        "expected": "0.375 inch",
+        "observed": "0.4060 inch",
+        "reason": "the reference prints 0.375 inch but the model's true value is 0.4060 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+        "severity": "high"
+      },
+      {
+        "id": "L002",
+        "ref_id": "A002",
+        "kind": "gdt",
+        "text": "\u2316 | .010 DIA.",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.01 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L003",
+        "ref_id": "A003",
+        "kind": "hole_callout",
+        "text": "DRILL & C'BORE\nFROM OPPOSITE SIDE\nFOR .375 SOC. HD. CAP SCR.\n8-HOLES EQUALLY SPACED",
+        "required": true,
+        "status": "value_differs",
+        "native_id": "front/RD2",
+        "expected": "0.375 inch",
+        "observed": "0.4060 inch",
+        "reason": "the reference prints 0.375 inch but the model's true value is 0.4060 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+        "severity": "high"
+      },
+      {
+        "id": "L004",
+        "ref_id": "A004",
+        "kind": "gdt",
+        "text": "\u2316 | .010 DIA.",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.01 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L005",
+        "ref_id": "A005",
+        "kind": "other",
+        "text": "BALANCE TO WITHIN .   OZ-IN\n.312 \u2300 B HOLES .38 DEEP",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.312 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "info"
+      },
+      {
+        "id": "L006",
+        "ref_id": "A006",
+        "kind": "linear",
+        "text": ".38",
+        "required": true,
+        "status": "value_differs",
+        "native_id": "front/RD2",
+        "expected": "0.38 inch",
+        "observed": "0.4060 inch",
+        "reason": "the reference prints 0.38 inch but the model's true value is 0.4060 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+        "severity": "high"
+      },
+      {
+        "id": "L008",
+        "ref_id": "A008",
+        "kind": "diameter",
+        "text": "19.250 DIA.\nBSC",
+        "required": true,
+        "status": "value_differs",
+        "native_id": "front/RD1",
+        "expected": "19.25 inch",
+        "observed": "19.9930 inch",
+        "reason": "the reference prints 19.25 inch but the model's true value is 19.9930 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+        "severity": "high"
+      },
+      {
+        "id": "L009",
+        "ref_id": "A009",
+        "kind": "linear",
+        "text": "1.406",
+        "required": true,
+        "status": "source_note",
+        "expected": "1.406 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L010",
+        "ref_id": "A010",
+        "kind": "linear",
+        "text": ".600",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.6 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L011",
+        "ref_id": "A011",
+        "kind": "radius",
+        "text": ".030 R.",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.03 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L012",
+        "ref_id": "A012",
+        "kind": "radius",
+        "text": ".030 R.",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.03 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L013",
+        "ref_id": "A013",
+        "kind": "gdt",
+        "text": "\u2197 | A | .001 TIR",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.001 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L014",
+        "ref_id": "A014",
+        "kind": "gdt",
+        "text": "\u22a5 | A | .001",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.001 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L015",
+        "ref_id": "A015",
+        "kind": "gdt",
+        "text": "-A-",
+        "required": true,
+        "status": "source_note",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L017",
+        "ref_id": "A017",
+        "kind": "diameter",
+        "text": "\u00b1.001\n19.993\nDIA.",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.001 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L018",
+        "ref_id": "A018",
+        "kind": "diameter",
+        "text": "\u00b1.001\n17.001\nDIA.",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.001 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L019",
+        "ref_id": "A019",
+        "kind": "diameter",
+        "text": "18.44\nDIA.",
+        "required": true,
+        "status": "value_differs",
+        "native_id": "front/RD1",
+        "expected": "18.44 inch",
+        "observed": "19.9930 inch",
+        "reason": "the reference prints 18.44 inch but the model's true value is 19.9930 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note",
+        "severity": "high"
+      },
+      {
+        "id": "L020",
+        "ref_id": "A020",
+        "kind": "finish",
+        "text": "63",
+        "required": true,
+        "status": "source_note",
+        "expected": "63 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L021",
+        "ref_id": "A021",
+        "kind": "finish",
+        "text": "63",
+        "required": true,
+        "status": "source_note",
+        "expected": "63 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L022",
+        "ref_id": "A022",
+        "kind": "finish",
+        "text": "H",
+        "required": true,
+        "status": "source_note",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L023",
+        "ref_id": "A023",
+        "kind": "finish",
+        "text": "63",
+        "required": true,
+        "status": "source_note",
+        "expected": "63 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L024",
+        "ref_id": "A024",
+        "kind": "finish",
+        "text": "63",
+        "required": true,
+        "status": "source_note",
+        "expected": "63 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L025",
+        "ref_id": "A025",
+        "kind": "finish",
+        "text": "K",
+        "required": true,
+        "status": "source_note",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L026",
+        "ref_id": "A026",
+        "kind": "finish",
+        "text": "H",
+        "required": true,
+        "status": "source_note",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L027",
+        "ref_id": "A027",
+        "kind": "chamfer",
+        "text": ".06 x 45\u00b0",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.06 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L028",
+        "ref_id": "A028",
+        "kind": "gdt",
+        "text": "\u2197 | A | .001 TIR",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.001 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "medium"
+      },
+      {
+        "id": "L029",
+        "ref_id": "A029",
+        "kind": "other",
+        "text": "STAMP .12 HIGH\n165-C\n17.85 WK\u00b2\nMAX. R.P.M.",
+        "required": true,
+        "status": "source_note",
+        "expected": "0.12 inch",
+        "reason": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model",
+        "severity": "info"
+      }
+    ],
+    "basis": "required reference items (dimensions, hole callouts, notes) vs the generated drawing"
+  },
+  "collisions": {
+    "count": 12,
+    "by_kind": {
+      "text_text": 7,
+      "text_stroke": 5
+    },
+    "clearance_mm": 1.5,
+    "items": [
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t8_0",
+        "b": "p1t30_0",
+        "severity": "high",
+        "a_text": "DATE: JAN. 5, 1977",
+        "b_text": "\u00b1.001",
+        "box_a_mm": [
+          502.75,
+          93.07,
+          546.4,
+          97.81
+        ],
+        "box_b_mm": [
+          515.64,
+          94.9,
+          527.05,
+          98.29
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t8_0",
+        "b": "p1t30_1",
+        "severity": "medium",
+        "a_text": "DATE: JAN. 5, 1977",
+        "b_text": "19.993",
+        "box_a_mm": [
+          502.75,
+          93.07,
+          546.4,
+          97.81
+        ],
+        "box_b_mm": [
+          515.64,
+          89.31,
+          529.62,
+          92.71
+        ],
+        "detail": "closer than 1.5 mm"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t9_0",
+        "b": "p1t30_1",
+        "severity": "high",
+        "a_text": "DRN: T. CHOD",
+        "b_text": "19.993",
+        "box_a_mm": [
+          506.39,
+          87.45,
+          534.89,
+          90.58
+        ],
+        "box_b_mm": [
+          515.64,
+          89.31,
+          529.62,
+          92.71
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t9_0",
+        "b": "p1t30_2",
+        "severity": "medium",
+        "a_text": "DRN: T. CHOD",
+        "b_text": "DIA.",
+        "box_a_mm": [
+          506.39,
+          87.45,
+          534.89,
+          90.58
+        ],
+        "box_b_mm": [
+          515.64,
+          83.73,
+          524.76,
+          87.12
+        ],
+        "detail": "closer than 1.5 mm"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t11_3",
+        "b": "p1t12_0",
+        "severity": "medium",
+        "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "b_text": "WEIGHT - FLYWHEEL",
+        "box_a_mm": [
+          447.35,
+          36.25,
+          519.48,
+          38.96
+        ],
+        "box_b_mm": [
+          454.62,
+          30.64,
+          507.15,
+          34.82
+        ],
+        "detail": "closer than 1.5 mm"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t20_1",
+        "b": "p1t22_0",
+        "severity": "high",
+        "a_text": "8-HOLES EQUALLY SPACED",
+        "b_text": "BALANCE TO WITHIN .   OZ-IN",
+        "box_a_mm": [
+          67.08,
+          410.4,
+          129.95,
+          415.14
+        ],
+        "box_b_mm": [
+          128.07,
+          407.6,
+          191.12,
+          411.0
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t28_0",
+        "b": "p1t35_0",
+        "severity": "high",
+        "a_text": ".030 R.",
+        "b_text": "63",
+        "box_a_mm": [
+          304.71,
+          290.19,
+          320.02,
+          293.85
+        ],
+        "box_b_mm": [
+          318.51,
+          289.19,
+          327.89,
+          295.46
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t7_2",
+        "severity": "high",
+        "a_text": "DIMENSIONS IN INCHES",
+        "box_a_mm": [
+          447.35,
+          81.7,
+          482.33,
+          84.05
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t10_0",
+        "severity": "high",
+        "a_text": "MANUFACTURING TECHNOLOGY INC.",
+        "box_a_mm": [
+          444.3,
+          53.41,
+          546.41,
+          57.58
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t11_0",
+        "severity": "high",
+        "a_text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING",
+        "box_a_mm": [
+          447.35,
+          48.34,
+          536.44,
+          50.43
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t11_3",
+        "severity": "high",
+        "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "box_a_mm": [
+          447.35,
+          36.25,
+          519.48,
+          38.96
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t30_2",
+        "severity": "high",
+        "a_text": "DIA.",
+        "box_a_mm": [
+          515.64,
+          83.73,
+          524.76,
+          87.12
+        ],
+        "detail": "a drawn line runs through this text"
+      }
+    ],
+    "advisory": [],
+    "truncated": 0,
+    "exemptions": [
+      "strokes touching a text box edge (leader tip / extension line) are not collisions",
+      "shaded isometric fills are not strokes",
+      "the template's own title block and border are part of the sheet format"
+    ],
+    "texts": 73,
+    "strokes": 1953
+  },
+  "comparison": {
+    "semantic": {
+      "counts": {
+        "matched": 2,
+        "preserved_note": 21,
+        "source_note": 22,
+        "value_differs": 5
+      },
+      "material": {
+        "reference": "USS-T1",
+        "native": null,
+        "status": "reference_only",
+        "note": "The reference prints a material but the model has none assigned; the drawing title block says NOT SPECIFIED (never guessed)."
+      },
+      "views": [
+        {
+          "ref_view": "V1",
+          "type": "Front",
+          "reference_scale": "",
+          "present": true,
+          "native_roles": [
+            "front"
+          ],
+          "note": ""
+        },
+        {
+          "ref_view": "V2",
+          "type": "Section",
+          "reference_scale": "",
+          "present": true,
+          "native_roles": [
+            "right"
+          ],
+          "note": ""
+        },
+        {
+          "ref_view": "V3",
+          "type": "Detail",
+          "reference_scale": "",
+          "present": false,
+          "native_roles": [],
+          "note": "no matching Detail view was generated (this pipeline generates front/top/right, an isometric and hole sections)"
+        }
+      ]
+    },
+    "spatial": {
+      "views_compared": 2,
+      "views_within_target": 2,
+      "view_median_mm": 0.3,
+      "annotations_compared": 2,
+      "annotations_within_target": 0,
+      "annotation_median_mm": 9.8,
+      "annotation_max_mm": 11.7,
+      "targets_note": "Spatial targets (1 mm views, 2 mm annotations) are drafting-comparison targets, not manufacturing tolerances. Positions from a scan are OCR/model estimates with the stated position_source; the reference page proportions may differ from the supported sheet formats (see sheet deviation)."
+    }
+  },
+  "iterations": {
+    "used": 2,
+    "max": 3,
+    "best": 1,
+    "history": [
+      {
+        "iteration": 0,
+        "view_dev_max_mm": 0.21,
+        "annotation_dev_median_mm": 181.55,
+        "annotation_dev_max_mm": 189.2,
+        "collisions": 10,
+        "objective": 883.73,
+        "notes_shifted": 39,
+        "views_moved": [],
+        "views_locked": [],
+        "annotation_placement": {
+          "baseline": {
+            "collisions": 10,
+            "score": 26.0
+          },
+          "after": {
+            "collisions": 9,
+            "score": 23.0
+          },
+          "accepted": true,
+          "decision": null,
+          "moved": 2,
+          "displaced": 2,
+          "skipped": 0
+        }
+      },
+      {
+        "iteration": 1,
+        "view_dev_max_mm": 0.21,
+        "annotation_dev_median_mm": 10.0,
+        "annotation_dev_max_mm": 12.0,
+        "collisions": 11,
+        "objective": 640.63,
+        "notes_shifted": 6,
+        "views_moved": [],
+        "views_locked": [],
+        "annotation_placement": {
+          "baseline": {
+            "collisions": 11,
+            "score": 31.0
+          },
+          "after": {
+            "collisions": 11,
+            "score": 31.0
+          },
+          "accepted": true,
+          "decision": null,
+          "moved": 2,
+          "displaced": 2,
+          "skipped": 0
+        }
+      },
+      {
+        "iteration": 2,
+        "view_dev_max_mm": 0.21,
+        "annotation_dev_median_mm": 10.0,
+        "annotation_dev_max_mm": 12.0,
+        "collisions": 14,
+        "objective": 700.63,
+        "notes_shifted": 6,
+        "rejected": "no measured improvement; the best earlier revision was restored"
+      }
+    ],
+    "stop_reason": "no_improvement",
+    "layout": {
+      "max_iterations": 3,
+      "iterations_used": 2,
+      "best": "correction 1",
+      "history": [
+        {
+          "iteration": 0,
+          "what": "as generated",
+          "collisions": 10,
+          "score": 30.0
+        },
+        {
+          "iteration": 0,
+          "what": "native Auto Arrange",
+          "collisions": 10,
+          "score": 30.0,
+          "accepted": true
+        },
+        {
+          "iteration": 1,
+          "what": "collision-aware moves",
+          "moved": 3,
+          "moves": [
+            {
+              "annotation": "front/note2",
+              "text": "NOTE A:",
+              "delta_mm": [
+                0.0,
+                4.0
+              ],
+              "kind": "note"
+            },
+            {
+              "annotation": "front/note1",
+              "text": "8 HOLES EQ SP ON DIA 16.250 B.C.",
+              "delta_mm": [
+                0.0,
+                16.0
+              ],
+              "kind": "note"
+            },
+            {
+              "annotation": "front/note49",
+              "text": "STAMP .12 HIGH",
+              "delta_mm": [
+                0.0,
+                4.0
+              ],
+              "kind": "note"
+            }
+          ],
+          "collisions": 8,
+          "score": 24.0
+        },
+        {
+          "iteration": 2,
+          "what": "no free position found for the colliding annotations",
+          "collisions": 8,
+          "score": 24.0
+        }
+      ]
+    }
+  },
+  "standards": {
+    "iso_shaded_with_edges": null,
+    "iso_shading_in_pdf": null,
+    "black_text": true,
+    "broken_leaders": {
+      "applied": 3,
+      "failed": 0,
+      "not_applicable": 1,
+      "note": "No leadered notes are generated: broken leaders do not exist for notes in the 2025 API."
+    },
+    "arrange": {
+      "accepted": true,
+      "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+      "moved": 4,
+      "integrity": {
+        "ok": true,
+        "lost": [],
+        "added": [],
+        "value_changed": [],
+        "dangling": [],
+        "count_before": 4,
+        "count_after": 4
+      },
+      "collisions_before": 10,
+      "collisions_after": 10
+    },
+    "licence_watermark": true
+  },
+  "replication": {
+    "schema": "ReplicationReport/1",
+    "pages": [],
+    "status": "needs_review",
+    "status_label": "Needs Review",
+    "reason": "5 unresolved critical mismatch(es); 6 note(s) not verbatim in the export; annotation anchor deviation up to 12.0 mm (limit 1.0 mm); 1 source view(s) not reproduced ...",
+    "spec": {
+      "schema": "drawingspec/1",
+      "pages": 1,
+      "pages_extracted": 1,
+      "extraction_reuse": "hit",
+      "completeness": 1.0
+    },
+    "sheets": [
+      {
+        "page": 1,
+        "source": {
+          "width_mm": 557.39,
+          "height_mm": 428.98,
+          "rotation": 0,
+          "scale": "1\" = 2\""
+        },
+        "generated": {
+          "width_mm": 558.8,
+          "height_mm": 431.8,
+          "name": "ANSI C",
+          "scale": "1:2",
+          "title_block_scale": "1\"=2\""
+        },
+        "view_count": {
+          "source": 3,
+          "generated": 2
+        },
+        "annotations": {
+          "source": 29,
+          "generated": 2,
+          "matched": 2,
+          "source_notes": 22,
+          "missing": 0,
+          "extra": 0,
+          "mismatched": 5
+        }
+      }
+    ],
+    "scales": {
+      "sheet": {
+        "source": "1:2",
+        "generated": "1:2",
+        "title_block": "1\"=2\"",
+        "match": true,
+        "basis": "explicit"
+      },
+      "views": [
+        {
+          "role": "front",
+          "ref_view": "V1",
+          "source_scale": "1:2",
+          "source_scale_origin": "sheet scale",
+          "generated_decimal": 0.5,
+          "read_error": null,
+          "generated_scale": "0.5",
+          "match": true
+        },
+        {
+          "role": "right",
+          "ref_view": "V2",
+          "source_scale": "1:2",
+          "source_scale_origin": "sheet scale",
+          "generated_decimal": 0.5,
+          "read_error": null,
+          "generated_scale": "0.5",
+          "match": true
+        }
+      ]
+    },
+    "iterations": {
+      "used": 2,
+      "max": 3,
+      "best": 1,
+      "stop_reason": "no_improvement"
+    },
+    "thresholds": {
+      "view_center_mm": 1.0,
+      "annotation_anchor_mm": 1.0,
+      "scale_ratio_pct_inferred": 0.5,
+      "notes_verbatim": "exact",
+      "scale_explicit": "exact",
+      "max_unintended_clipping": 0,
+      "max_unresolved_critical": 0
+    },
+    "metrics": {
+      "view_center_dev_mm": {
+        "median": 0.1,
+        "max": 0.21
+      },
+      "annotation_anchor_dev_mm": {
+        "median": 10.0,
+        "max": 12.0
+      },
+      "notes_verbatim": {
+        "matched": 42,
+        "total": 48
+      },
+      "unintended_clipping": 0,
+      "critical_mismatches": 5,
+      "pixel_similarity_diagnostic_only": 0.1532
+    },
+    "displacements": 4,
+    "displacement_records": [
+      {
+        "native": "front/RD3",
+        "ref_id": "A007",
+        "text": "16.250 DIA.\nBSC",
+        "displacement_mm": 8.0,
+        "delta_mm": [
+          0.0,
+          8.0
+        ],
+        "reason": "text_stroke collision (measured) at the source position: 16.250"
+      },
+      {
+        "native": "front/RD4",
+        "ref_id": "A016",
+        "text": "15.50\nDIA.",
+        "displacement_mm": 12.0,
+        "delta_mm": [
+          12.0,
+          0.0
+        ],
+        "reason": "text_stroke collision (measured) at the source position: 15.500 THRU"
+      },
+      {
+        "native": "front/RD3",
+        "ref_id": "A007",
+        "text": "16.250 DIA.\nBSC",
+        "displacement_mm": 8.0,
+        "delta_mm": [
+          0.0,
+          8.0
+        ],
+        "reason": "text_stroke collision (measured) at the source position: 16.250"
+      },
+      {
+        "native": "front/RD4",
+        "ref_id": "A016",
+        "text": "15.50\nDIA.",
+        "displacement_mm": 12.0,
+        "delta_mm": [
+          12.0,
+          0.0
+        ],
+        "reason": "text_stroke collision (measured) at the source position: 15.500 THRU"
+      }
+    ],
+    "issues": [
+      {
+        "id": "R001",
+        "kind": "view_missing",
+        "severity": "high",
+        "page": 1,
+        "text": "source view V3 (Detail) was not reproduced",
+        "detail": "the pipeline creates standard projected views; section / detail views of the source are not rebuilt"
+      },
+      {
+        "id": "R002",
+        "kind": "view_missing",
+        "severity": "medium",
+        "page": 1,
+        "text": "source Front view stands in as a plain Right view",
+        "detail": "orientation matches; the cut / detail is not reproduced"
+      },
+      {
+        "id": "R003",
+        "kind": "view_missing",
+        "severity": "medium",
+        "page": 1,
+        "text": "source Section view stands in as a plain Back view",
+        "detail": "orientation matches; the cut / detail is not reproduced"
+      },
+      {
+        "id": "R004",
+        "kind": "text_mismatch",
+        "severity": "high",
+        "page": 1,
+        "text": "note not verbatim in the export: '\u2316 | .010 DIA.'",
+        "detail": "text not found verbatim in the exported PDF"
+      },
+      {
+        "id": "R005",
+        "kind": "text_mismatch",
+        "severity": "high",
+        "page": 1,
+        "text": "note not verbatim in the export: '\u2316 | .010 DIA.'",
+        "detail": "text not found verbatim in the exported PDF"
+      },
+      {
+        "id": "R006",
+        "kind": "text_mismatch",
+        "severity": "high",
+        "page": 1,
+        "text": "note not verbatim in the export: 'BALANCE TO WITHIN .   OZ-IN\\n.312 \u2300 B HOLES .38 DEEP'",
+        "detail": "text not found verbatim in the exported PDF"
+      },
+      {
+        "id": "R007",
+        "kind": "text_mismatch",
+        "severity": "high",
+        "page": 1,
+        "text": "note not verbatim in the export: '\u2197 | A | .001 TIR'",
+        "detail": "text not found verbatim in the exported PDF"
+      },
+      {
+        "id": "R008",
+        "kind": "text_mismatch",
+        "severity": "high",
+        "page": 1,
+        "text": "note not verbatim in the export: '\u22a5 | A | .001'",
+        "detail": "text not found verbatim in the exported PDF"
+      },
+      {
+        "id": "R009",
+        "kind": "text_mismatch",
+        "severity": "high",
+        "page": 1,
+        "text": "note not verbatim in the export: '\u2197 | A | .001 TIR'",
+        "detail": "text not found verbatim in the exported PDF"
+      },
+      {
+        "id": "R010",
+        "kind": "position_deviation",
+        "severity": "low",
+        "page": 1,
+        "text": "'16.250 DIA.\\nBSC' is 8.0 mm from its source position",
+        "detail": ""
+      },
+      {
+        "id": "R011",
+        "kind": "position_deviation",
+        "severity": "low",
+        "page": 1,
+        "text": "'15.50\\nDIA.' is 12.0 mm from its source position",
+        "detail": ""
+      },
+      {
+        "id": "R012",
+        "kind": "value_mismatch",
+        "severity": "high",
+        "page": 1,
+        "text": "'.375-16 TAP THRU\\n8-HOLES EQUALLY SPACED': value_differs",
+        "detail": "the reference prints 0.375 inch but the model's true value is 0.4060 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note"
+      },
+      {
+        "id": "R013",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'\u2316 | .010 DIA.': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R014",
+        "kind": "value_mismatch",
+        "severity": "high",
+        "page": 1,
+        "text": "\"DRILL & C'BORE\\nFROM OPPOSITE SIDE\\nFOR .3\": value_differs",
+        "detail": "the reference prints 0.375 inch but the model's true value is 0.4060 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note"
+      },
+      {
+        "id": "R015",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'\u2316 | .010 DIA.': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R016",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'BALANCE TO WITHIN .   OZ-IN\\n.312 \u2300 B HOL': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R017",
+        "kind": "value_mismatch",
+        "severity": "high",
+        "page": 1,
+        "text": "'.38': value_differs",
+        "detail": "the reference prints 0.38 inch but the model's true value is 0.4060 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note"
+      },
+      {
+        "id": "R018",
+        "kind": "value_mismatch",
+        "severity": "high",
+        "page": 1,
+        "text": "'19.250 DIA.\\nBSC': value_differs",
+        "detail": "the reference prints 19.25 inch but the model's true value is 19.9930 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note"
+      },
+      {
+        "id": "R019",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'1.406': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R020",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'.600': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R021",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'.030 R.': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R022",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'.030 R.': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R023",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'\u2197 | A | .001 TIR': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R024",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'\u22a5 | A | .001': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R025",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'-A-': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R026",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'\u00b1.001\\n19.993\\nDIA.': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R027",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'\u00b1.001\\n17.001\\nDIA.': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R028",
+        "kind": "value_mismatch",
+        "severity": "high",
+        "page": 1,
+        "text": "'18.44\\nDIA.': value_differs",
+        "detail": "the reference prints 18.44 inch but the model's true value is 19.9930 inch; the true value is shown, nothing was overridden; the printed text is also reproduced verbatim as a source note"
+      },
+      {
+        "id": "R029",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'63': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R030",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'63': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R031",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'H': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R032",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'63': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R033",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'63': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R034",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'K': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R035",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'H': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R036",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'.06 x 45\u00b0': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R037",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'\u2197 | A | .001 TIR': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      },
+      {
+        "id": "R038",
+        "kind": "unresolved_source_item",
+        "severity": "medium",
+        "page": 1,
+        "text": "'STAMP .12 HIGH\\n165-C\\n17.85 WK\u00b2\\nMAX. R.P.': source_note",
+        "detail": "reproduced verbatim as an editable native note at its source position; it is NOT an associative dimension / symbol, so an engineer must confirm it against the model"
+      }
+    ],
+    "images": {
+      "side_by_side": [
+        "comparison/page-001_side_by_side.png"
+      ],
+      "overlay": [
+        "comparison/page-001_overlay.png"
+      ],
+      "difference": [
+        "comparison/page-001_diff.png"
+      ]
+    },
+    "sheet_geometry": {
+      "segments_drawn": 36,
+      "segments_planned": 36,
+      "border": 3,
+      "title_block": 33,
+      "skipped": 52
+    },
+    "reopen": {
+      "opened": true,
+      "sheets": 1,
+      "sheet_scale": [
+        1.0,
+        2.0
+      ],
+      "notes": 49,
+      "dimensions": 4,
+      "sheets_info": [
+        {
+          "name": "Sheet1",
+          "scale": [
+            1.0,
+            2.0
+          ],
+          "size_m": [
+            0.5588,
+            0.4318
+          ]
+        }
+      ]
+    },
+    "view_center_items": [
+      {
+        "role": "front",
+        "ref_view": "V1",
+        "target_m": [
+          0.156496,
+          0.198741
+        ],
+        "actual_m": [
+          0.156496,
+          0.19874
+        ],
+        "dx_mm": -0.0,
+        "dy_mm": -0.0,
+        "distance_mm": 0.0
+      },
+      {
+        "role": "right",
+        "ref_view": "V2",
+        "target_m": [
+          0.365517,
+          0.198955
+        ],
+        "actual_m": [
+          0.365517,
+          0.19874
+        ],
+        "dx_mm": 0.0,
+        "dy_mm": -0.21,
+        "distance_mm": 0.21
+      }
+    ],
+    "annotation_items": [
+      {
+        "ref_id": "A007",
+        "native": "front/RD3",
+        "text": "16.250 DIA.\nBSC",
+        "distance_mm": 8.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A016",
+        "native": "front/RD4",
+        "text": "15.50\nDIA.",
+        "distance_mm": 12.0,
+        "position_source": "ocr"
+      }
+    ],
+    "note_records": [
+      {
+        "id": "N001",
+        "source": "note",
+        "kind": "general_note",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "NOTE A:\nLEAVE .25 MIN. STOCK FOR\nMACHINING ON ALL FLAME\nCUT DIAMETERS.",
+        "height_pt": 13.5,
+        "bbox_pt": [
+          43.8,
+          1104.67,
+          333.71,
+          1177.52
+        ],
+        "target_center_m": [
+          0.06729412500000001,
+          0.027835930555555576
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.016157222222222236,
+          0.04068586111111111
+        ],
+        "measured_center_m": [
+          0.06729412537680732,
+          0.02783594448060458
+        ],
+        "residual_mm": [
+          -0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "N002",
+        "source": "note",
+        "kind": "general_note",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "WK\u00b2 = 17.85 LBS. FT.\u00b2\nWEIGHT = 33 LBS.",
+        "height_pt": 15.0,
+        "bbox_pt": [
+          940.61,
+          1149.01,
+          1184.32,
+          1189.4
+        ],
+        "target_center_m": [
+          0.37551959722222217,
+          0.017919347222222277
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.3325318611111111,
+          0.025043694444444476
+        ],
+        "measured_center_m": [
+          0.37551959593031137,
+          0.017919368579122748
+        ],
+        "residual_mm": [
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "N003",
+        "source": "note",
+        "kind": "material",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "USS-T1",
+        "height_pt": 14.1,
+        "bbox_pt": [
+          1250.43,
+          870.27,
+          1330.07,
+          889.28
+        ],
+        "target_center_m": [
+          0.4558770833333333,
+          0.12002381944444447
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.44182947222222224,
+          0.12337697222222226
+        ],
+        "measured_center_m": [
+          0.4558770618014865,
+          0.12002380760865741
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "N004",
+        "source": "note",
+        "kind": "tolerance_block",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "UNLESS OTHERWISE SPECIFIED:\nTHIRD ANGLE PROJECTION\nDIMENSIONS IN INCHES\n2-PLACE DIM. \u00b1 .020\n3-PLACE DIM. \u00b1 .010",
+        "height_pt": 8.7,
+        "bbox_pt": [
+          1254.41,
+          955.79,
+          1405.74,
+          1014.39
+        ],
+        "target_center_m": [
+          0.46992645833333335,
+          0.08287102777777783
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.4432335277777778,
+          0.09320741666666671
+        ],
+        "measured_center_m": [
+          0.46992644110785586,
+          0.0828710271015432
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "N005",
+        "source": "note",
+        "kind": "tolerance_block",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": true,
+        "text": "ANGULAR DIM. \u00b1 \u00bc\u00b0",
+        "height_pt": 10.0,
+        "bbox_pt": [
+          1267.95,
+          1010.43,
+          1377.06,
+          1023.89
+        ],
+        "target_center_m": [
+          0.4672559305555556,
+          0.07155744444444448
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.4480101388888889,
+          0.07393163888888893
+        ],
+        "measured_center_m": [
+          0.46725595380995005,
+          0.07155744499283367
+        ],
+        "residual_mm": [
+          -0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "N006",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "SCALE 1\" = 2\"",
+        "height_pt": 15.3,
+        "bbox_pt": [
+          1277.51,
+          1019.14,
+          1358.75,
+          1039.73
+        ],
+        "target_center_m": [
+          0.46571252777777783,
+          0.06722709722222227
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.45138269444444445,
+          0.07085894444444447
+        ],
+        "measured_center_m": [
+          0.4657125079684787,
+          0.0672270521197319
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "N007",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "DATE: JAN. 5, 1977",
+        "height_pt": 14.1,
+        "bbox_pt": [
+          1420.07,
+          939.96,
+          1549.89,
+          958.96
+        ],
+        "target_center_m": [
+          0.5245735,
+          0.09544050000000001
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.5016746944444443,
+          0.0987918888888889
+        ],
+        "measured_center_m": [
+          0.5245735146416558,
+          0.09544051408990224
+        ],
+        "residual_mm": [
+          -0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "N008",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "DRN: T. CHOD",
+        "height_pt": 11.7,
+        "bbox_pt": [
+          1419.28,
+          959.75,
+          1528.39,
+          975.59
+        ],
+        "target_center_m": [
+          0.5206417916666666,
+          0.08901641666666667
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.501396,
+          0.09181041666666669
+        ],
+        "measured_center_m": [
+          0.5206417778862846,
+          0.08901643041004076
+        ],
+        "residual_mm": [
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "N009",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "MANUFACTURING TECHNOLOGY INC.",
+        "height_pt": 16.4,
+        "bbox_pt": [
+          1244.85,
+          1051.61,
+          1559.45,
+          1073.78
+        ],
+        "target_center_m": [
+          0.4953529166666667,
+          0.055493708333333384
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.4398609722222222,
+          0.05940425000000006
+        ],
+        "measured_center_m": [
+          0.4953529468112522,
+          0.05549372771199543
+        ],
+        "residual_mm": [
+          -0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "N010",
+        "source": "note",
+        "kind": "other",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING\nTECHNOLOGY INC. AND OR ITS SUBSIDIARIES. WITHOUT WRITTEN PER-\nMISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE\nEXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "height_pt": 7.5,
+        "bbox_pt": [
+          1240.08,
+          1076.95,
+          1552.28,
+          1117.34
+        ],
+        "target_center_m": [
+          0.49324683333333325,
+          0.043340513888888925
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.4381782222222222,
+          0.05046486111111112
+        ],
+        "measured_center_m": [
+          0.4932468307495117,
+          0.043340515399482527
+        ],
+        "residual_mm": [
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "N011",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "WEIGHT - FLYWHEEL",
+        "height_pt": 15.8,
+        "bbox_pt": [
+          1255.21,
+          1116.54,
+          1467.06,
+          1137.92
+        ],
+        "target_center_m": [
+          0.48088373611111107,
+          0.03272719444444447
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.44351575,
+          0.03649838888888893
+        ],
+        "measured_center_m": [
+          0.48088376108805336,
+          0.032727205257468736
+        ],
+        "residual_mm": [
+          -0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "N012",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "165-C",
+        "height_pt": 20.5,
+        "bbox_pt": [
+          1275.92,
+          1168.81,
+          1365.12,
+          1196.52
+        ],
+        "target_center_m": [
+          0.46655566666666665,
+          0.013170958333333375
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.45082177777777777,
+          0.018058694444444492
+        ],
+        "measured_center_m": [
+          0.4665556520250108,
+          0.013170953360822447
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "N013",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "MODEL NO.\n180 B",
+        "height_pt": 12.3,
+        "bbox_pt": [
+          1442.37,
+          1164.06,
+          1522.02,
+          1197.32
+        ],
+        "target_center_m": [
+          0.5235910138888888,
+          0.013867694444444453
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.5095416388888889,
+          0.019734388888888937
+        ],
+        "measured_center_m": [
+          0.5235909949408637,
+          0.013867697731415444
+        ],
+        "residual_mm": [
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "N014",
+        "source": "note",
+        "kind": "other",
+        "classification": "source_note",
+        "position_source": "model_estimate",
+        "uncertain": false,
+        "text": "165-C",
+        "height_pt": 24.0,
+        "bbox_pt": [
+          834.24,
+          42.56,
+          857.94,
+          120.38
+        ],
+        "target_center_m": [
+          0.29918730555555556,
+          0.40164808333333335
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.2950068888888889,
+          0.41537466666666667
+        ],
+        "measured_center_m": [
+          0.29918731502956813,
+          0.4016480610747867
+        ],
+        "residual_mm": [
+          -0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "N015",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "HEAT TREATMENT",
+        "height_pt": 10.0,
+        "bbox_pt": [
+          1287.86,
+          844.93,
+          1403.35,
+          858.39
+        ],
+        "target_center_m": [
+          0.47540509722222224,
+          0.1299421666666667
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.4550339444444444,
+          0.13231636111111114
+        ],
+        "measured_center_m": [
+          0.4754050903320312,
+          0.12994218717911507
+        ],
+        "residual_mm": [
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "N016",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "MATERIAL",
+        "height_pt": 11.7,
+        "bbox_pt": [
+          1314.15,
+          924.91,
+          1376.27,
+          940.75
+        ],
+        "target_center_m": [
+          0.47526575,
+          0.1013071944444445
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.46430847222222227,
+          0.10410119444444448
+        ],
+        "measured_center_m": [
+          0.47526571468777123,
+          0.10130719259405135
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "N017",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "CHG",
+        "height_pt": 11.1,
+        "bbox_pt": [
+          1455.12,
+          924.12,
+          1485.38,
+          939.16
+        ],
+        "target_center_m": [
+          0.5193770833333333,
+          0.10172700000000003
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.5140395555555555,
+          0.10437988888888891
+        ],
+        "measured_center_m": [
+          0.5193770833333333,
+          0.10172698739714091
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "N018",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "DATE",
+        "height_pt": 12.3,
+        "bbox_pt": [
+          1505.29,
+          923.33,
+          1540.34,
+          939.96
+        ],
+        "target_center_m": [
+          0.5379208472222223,
+          0.10172523611111114
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.5317384166666665,
+          0.10465858333333335
+        ],
+        "measured_center_m": [
+          0.537920848083496,
+          0.10172523190567229
+        ],
+        "residual_mm": [
+          -0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "N019",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "CHK:",
+        "height_pt": 11.1,
+        "bbox_pt": [
+          1420.07,
+          977.97,
+          1449.54,
+          993.01
+        ],
+        "target_center_m": [
+          0.506872875,
+          0.0827299166666667
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.5016746944444443,
+          0.08538280555555557
+        ],
+        "measured_center_m": [
+          0.5068728724161784,
+          0.08272991409630245
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "N020",
+        "source": "note",
+        "kind": "title_block_field",
+        "classification": "source_note",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "APP'D:",
+        "height_pt": 10.6,
+        "bbox_pt": [
+          1420.07,
+          996.18,
+          1458.3,
+          1010.43
+        ],
+        "target_center_m": [
+          0.5084180416666666,
+          0.0764451805555556
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.5016746944444443,
+          0.07895872222222226
+        ],
+        "measured_center_m": [
+          0.5084180408053928,
+          0.07644519917723869
+        ],
+        "residual_mm": [
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "N021",
+        "source": "note",
+        "kind": "other",
+        "classification": "source_note",
+        "position_source": "model_estimate",
+        "uncertain": true,
+        "text": "MC",
+        "height_pt": 16.2,
+        "bbox_pt": [
+          1418.84,
+          919.3,
+          1452.02,
+          941.18
+        ],
+        "target_center_m": [
+          0.507093361111111,
+          0.1022208888888889
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.5012407777777776,
+          0.10608027777777781
+        ],
+        "measured_center_m": [
+          0.5070933585272894,
+          0.10222088628488116
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "A001",
+        "source": "annotation",
+        "kind": "hole_callout",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": ".375-16 TAP THRU\n8-HOLES EQUALLY SPACED",
+        "height_pt": 14.4,
+        "bbox_pt": [
+          181.59,
+          115.61,
+          458.76,
+          154.42
+        ],
+        "target_center_m": [
+          0.11365618055555557,
+          0.3827585972222223
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.06476647222222223,
+          0.38960425000000004
+        ],
+        "measured_center_m": [
+          0.11588702629937064,
+          0.37664252565519013
+        ],
+        "residual_mm": [
+          -2.23,
+          6.12
+        ]
+      },
+      {
+        "id": "A002",
+        "source": "annotation",
+        "kind": "gdt",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "\u2316 | .010 DIA.",
+        "height_pt": 14.1,
+        "bbox_pt": [
+          198.32,
+          155.21,
+          309.82,
+          174.21
+        ],
+        "target_center_m": [
+          0.09033580555555557,
+          0.3722828611111111
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.07066844444444445,
+          0.37563425
+        ]
+      },
+      {
+        "id": "A003",
+        "source": "annotation",
+        "kind": "hole_callout",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "DRILL & C'BORE\nFROM OPPOSITE SIDE\nFOR .375 SOC. HD. CAP SCR.\n8-HOLES EQUALLY SPACED",
+        "height_pt": 13.6,
+        "bbox_pt": [
+          242.12,
+          199.55,
+          524.07,
+          273.2
+        ],
+        "target_center_m": [
+          0.13585295833333336,
+          0.3470010416666667
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.08612011111111112,
+          0.3599920833333334
+        ],
+        "measured_center_m": [
+          0.13585294799804687,
+          0.34700104822042255
+        ],
+        "residual_mm": [
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "A004",
+        "source": "annotation",
+        "kind": "gdt",
+        "classification": "source_only_non_associative",
+        "position_source": "model_estimate",
+        "uncertain": false,
+        "text": "\u2316 | .010 DIA.",
+        "height_pt": 15.3,
+        "bbox_pt": [
+          244.9,
+          274.82,
+          350.76,
+          295.49
+        ],
+        "target_center_m": [
+          0.10577336111111112,
+          0.32979254166666666
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.08710083333333335,
+          0.3334385
+        ]
+      },
+      {
+        "id": "A005",
+        "source": "annotation",
+        "kind": "other",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": true,
+        "text": "BALANCE TO WITHIN .   OZ-IN\n.312 \u2300 B HOLES .38 DEEP",
+        "height_pt": 12.6,
+        "bbox_pt": [
+          297.08,
+          42.76,
+          603.71,
+          76.81
+        ],
+        "target_center_m": [
+          0.15959490277777777,
+          0.4092980694444444
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.10550877777777778,
+          0.4153041111111111
+        ],
+        "measured_center_m": [
+          0.15959491505093043,
+          0.40929809359712066
+        ],
+        "residual_mm": [
+          -0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "A006",
+        "source": "annotation",
+        "kind": "linear",
+        "classification": "source_only_non_associative",
+        "position_source": "model_estimate",
+        "uncertain": false,
+        "text": ".38",
+        "height_pt": 15.3,
+        "bbox_pt": [
+          794.74,
+          454.78,
+          827.92,
+          475.46
+        ],
+        "target_center_m": [
+          0.28692474999999995,
+          0.2663048888888889
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.2810721666666667,
+          0.26995261111111113
+        ],
+        "measured_center_m": [
+          0.2869247560289171,
+          0.266304892646869
+        ],
+        "residual_mm": [
+          -0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "A008",
+        "source": "annotation",
+        "kind": "diameter",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "19.250 DIA.\nBSC",
+        "height_pt": 14.1,
+        "bbox_pt": [
+          452.38,
+          814.84,
+          560.7,
+          852.85
+        ],
+        "target_center_m": [
+          0.17940161111111114,
+          0.1362269027777778
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.16029516666666668,
+          0.14293144444444444
+        ],
+        "measured_center_m": [
+          0.17940159797668456,
+          0.13622689167878363
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "A009",
+        "source": "annotation",
+        "kind": "linear",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "1.406",
+        "height_pt": 14.1,
+        "bbox_pt": [
+          931.85,
+          218.56,
+          988.4,
+          237.56
+        ],
+        "target_center_m": [
+          0.33941631944444445,
+          0.3499343888888889
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.3294415277777778,
+          0.3532857777777778
+        ],
+        "measured_center_m": [
+          0.33941635174221463,
+          0.34993439134150084
+        ],
+        "residual_mm": [
+          -0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "A010",
+        "source": "annotation",
+        "kind": "linear",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": ".600",
+        "height_pt": 15.8,
+        "bbox_pt": [
+          922.29,
+          250.23,
+          973.26,
+          271.61
+        ],
+        "target_center_m": [
+          0.3350595138888889,
+          0.3383421111111111
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.3260689722222222,
+          0.3421133055555556
+        ],
+        "measured_center_m": [
+          0.33505951173570414,
+          0.33834210623280203
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "A011",
+        "source": "annotation",
+        "kind": "radius",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": ".030 R.",
+        "height_pt": 15.3,
+        "bbox_pt": [
+          1104.68,
+          251.82,
+          1175.56,
+          272.41
+        ],
+        "target_center_m": [
+          0.4029145555555555,
+          0.3379205416666667
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.3904121111111111,
+          0.34155238888888895
+        ],
+        "measured_center_m": [
+          0.39112640601264104,
+          0.33238024648253117
+        ],
+        "residual_mm": [
+          11.79,
+          5.54
+        ]
+      },
+      {
+        "id": "A012",
+        "source": "annotation",
+        "kind": "radius",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": ".030 R.",
+        "height_pt": 14.1,
+        "bbox_pt": [
+          861.76,
+          386.44,
+          931.05,
+          405.44
+        ],
+        "target_center_m": [
+          0.3169373194444444,
+          0.29071005555555557
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.30471533333333334,
+          0.29406144444444443
+        ]
+      },
+      {
+        "id": "A013",
+        "source": "annotation",
+        "kind": "gdt",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "\u2197 | A | .001 TIR",
+        "height_pt": 13.5,
+        "bbox_pt": [
+          1032.2,
+          162.33,
+          1141.32,
+          180.55
+        ],
+        "target_center_m": [
+          0.3840903333333333,
+          0.36990866666666666
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.3648427777777778,
+          0.3731224722222223
+        ]
+      },
+      {
+        "id": "A014",
+        "source": "annotation",
+        "kind": "gdt",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "\u22a5 | A | .001",
+        "height_pt": 14.1,
+        "bbox_pt": [
+          1033.79,
+          180.55,
+          1119.81,
+          199.55
+        ],
+        "target_center_m": [
+          0.3805766666666666,
+          0.36334347222222224
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.3654036944444444,
+          0.36669486111111116
+        ]
+      },
+      {
+        "id": "A015",
+        "source": "annotation",
+        "kind": "gdt",
+        "classification": "source_only_non_associative",
+        "position_source": "model_estimate",
+        "uncertain": false,
+        "text": "-A-",
+        "height_pt": 16.2,
+        "bbox_pt": [
+          960.64,
+          572.74,
+          996.98,
+          594.62
+        ],
+        "target_center_m": [
+          0.3460079722222222,
+          0.22447955555555554
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.339598,
+          0.22833894444444447
+        ],
+        "measured_center_m": [
+          0.34600797136094835,
+          0.22447953742843202
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "A017",
+        "source": "annotation",
+        "kind": "diameter",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "\u00b1.001\n19.993\nDIA.",
+        "height_pt": 13.1,
+        "bbox_pt": [
+          1157.24,
+          619.25,
+          1233.7,
+          672.3
+        ],
+        "target_center_m": [
+          0.4224408055555556,
+          0.20257381944444447
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.40895411111111113,
+          0.21193125000000002
+        ],
+        "measured_center_m": [
+          0.4071995097690158,
+          0.22136978627530732
+        ],
+        "residual_mm": [
+          15.24,
+          -18.8
+        ]
+      },
+      {
+        "id": "A018",
+        "source": "annotation",
+        "kind": "diameter",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "\u00b1.001\n17.001\nDIA.",
+        "height_pt": 12.5,
+        "bbox_pt": [
+          934.24,
+          676.26,
+          1009.1,
+          726.94
+        ],
+        "target_center_m": [
+          0.34348913888888893,
+          0.18288000000000001
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.33028466666666667,
+          0.19181938888888891
+        ],
+        "measured_center_m": [
+          0.34348912209404836,
+          0.18288000041717953
+        ],
+        "residual_mm": [
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "id": "A019",
+        "source": "annotation",
+        "kind": "diameter",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "18.44\nDIA.",
+        "height_pt": 15.0,
+        "bbox_pt": [
+          1113.44,
+          676.26,
+          1167.6,
+          716.65
+        ],
+        "target_center_m": [
+          0.40305566666666665,
+          0.1846950416666667
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.39350244444444443,
+          0.19181938888888891
+        ],
+        "measured_center_m": [
+          0.4030556520250108,
+          0.18469504019644523
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "A020",
+        "source": "annotation",
+        "kind": "finish",
+        "classification": "source_only_non_associative",
+        "position_source": "model_estimate",
+        "uncertain": false,
+        "text": "63",
+        "height_pt": 24.0,
+        "bbox_pt": [
+          1139.18,
+          193.34,
+          1178.68,
+          227.39
+        ],
+        "target_center_m": [
+          0.40955030555555555,
+          0.35617679166666666
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.4025829444444445,
+          0.36218283333333334
+        ],
+        "measured_center_m": [
+          0.3713690202501085,
+          0.31285058161910373
+        ],
+        "residual_mm": [
+          38.18,
+          43.33
+        ]
+      },
+      {
+        "id": "A021",
+        "source": "annotation",
+        "kind": "finish",
+        "classification": "source_only_non_associative",
+        "position_source": "model_estimate",
+        "uncertain": false,
+        "text": "63",
+        "height_pt": 24.0,
+        "bbox_pt": [
+          1173.94,
+          265.09,
+          1208.7,
+          297.92
+        ],
+        "target_center_m": [
+          0.4209767777777778,
+          0.33108018055555555
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.41484550000000003,
+          0.33687102777777783
+        ]
+      },
+      {
+        "id": "A022",
+        "source": "annotation",
+        "kind": "finish",
+        "classification": "source_only_non_associative",
+        "position_source": "model_estimate",
+        "uncertain": false,
+        "text": "H",
+        "height_pt": 24.0,
+        "bbox_pt": [
+          1221.34,
+          418.3,
+          1254.52,
+          458.43
+        ],
+        "target_center_m": [
+          0.43741974999999994,
+          0.27574345833333336
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.4315671666666666,
+          0.2828219444444445
+        ],
+        "measured_center_m": [
+          0.4304789135403103,
+          0.2530989873153898
+        ],
+        "residual_mm": [
+          6.94,
+          22.64
+        ]
+      },
+      {
+        "id": "A023",
+        "source": "annotation",
+        "kind": "finish",
+        "classification": "source_only_non_associative",
+        "position_source": "model_estimate",
+        "uncertain": false,
+        "text": "63",
+        "height_pt": 24.0,
+        "bbox_pt": [
+          903.76,
+          740.54,
+          940.1,
+          775.81
+        ],
+        "target_center_m": [
+          0.32594197222222226,
+          0.16292159722222227
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.319532,
+          0.16914283333333335
+        ],
+        "measured_center_m": [
+          0.3264538892957899,
+          0.09958278529342016
+        ],
+        "residual_mm": [
+          -0.51,
+          63.34
+        ]
+      },
+      {
+        "id": "A024",
+        "source": "annotation",
+        "kind": "finish",
+        "classification": "source_only_non_associative",
+        "position_source": "model_estimate",
+        "uncertain": false,
+        "text": "63",
+        "height_pt": 24.0,
+        "bbox_pt": [
+          910.08,
+          927.81,
+          949.58,
+          963.07
+        ],
+        "target_center_m": [
+          0.3287289166666667,
+          0.09685866666666668
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.3217615555555556,
+          0.10307813888888893
+        ]
+      },
+      {
+        "id": "A025",
+        "source": "annotation",
+        "kind": "finish",
+        "classification": "source_only_non_associative",
+        "position_source": "model_estimate",
+        "uncertain": false,
+        "text": "K",
+        "height_pt": 20.7,
+        "bbox_pt": [
+          873.74,
+          971.58,
+          902.18,
+          999.55
+        ],
+        "target_center_m": [
+          0.3139581111111111,
+          0.08270345833333334
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.3089416111111111,
+          0.08763705555555557
+        ],
+        "measured_center_m": [
+          0.31395810809665253,
+          0.08270345529868868
+        ],
+        "residual_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "A026",
+        "source": "annotation",
+        "kind": "finish",
+        "classification": "source_only_non_associative",
+        "position_source": "model_estimate",
+        "uncertain": false,
+        "text": "H",
+        "height_pt": 24.0,
+        "bbox_pt": [
+          1080.72,
+          952.13,
+          1115.48,
+          987.39
+        ],
+        "target_center_m": [
+          0.3880908333333333,
+          0.08827911111111114
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.38195955555555555,
+          0.09449858333333336
+        ]
+      },
+      {
+        "id": "A027",
+        "source": "annotation",
+        "kind": "chamfer",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": ".06 x 45\u00b0",
+        "height_pt": 13.5,
+        "bbox_pt": [
+          962.91,
+          1050.82,
+          1044.94,
+          1069.03
+        ],
+        "target_center_m": [
+          0.3548679861111111,
+          0.05647090277777782
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.3403988055555555,
+          0.05968294444444449
+        ],
+        "measured_center_m": [
+          0.3548680033365885,
+          0.056470896701759754
+        ],
+        "residual_mm": [
+          -0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "A028",
+        "source": "annotation",
+        "kind": "gdt",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "\u2197 | A | .001 TIR",
+        "height_pt": 15.8,
+        "bbox_pt": [
+          1065.65,
+          1078.53,
+          1183.53,
+          1099.91
+        ],
+        "target_center_m": [
+          0.3974359166666667,
+          0.0461362777777778
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.3766431944444445,
+          0.049907472222222256
+        ]
+      },
+      {
+        "id": "A029",
+        "source": "annotation",
+        "kind": "other",
+        "classification": "source_only_non_associative",
+        "position_source": "ocr",
+        "uncertain": false,
+        "text": "STAMP .12 HIGH\n165-C\n17.85 WK\u00b2\nMAX. R.P.M.",
+        "height_pt": 14.1,
+        "bbox_pt": [
+          500.17,
+          1033.4,
+          677.78,
+          1109.42
+        ],
+        "target_center_m": [
+          0.20848284722222224,
+          0.05241925
+        ],
+        "placed": true,
+        "first_xy_m": [
+          0.17715441666666668,
+          0.06582833333333332
+        ],
+        "measured_center_m": [
+          0.2084828386094835,
+          0.052419273654752296
+        ],
+        "residual_mm": [
+          0.0,
+          -0.0
+        ]
+      }
+    ],
+    "fidelity_diagnostics_separate_from_scoring": true,
+    "note": "Drawing-fidelity diagnostics only. scoring.MD (if present) remains the authoritative score; nothing here is a score. PRELIMINARY / FOR REVIEW."
+  },
+  "issues_by_severity": {
+    "high": 36,
+    "info": 1,
+    "low": 1,
+    "medium": 7
+  },
+  "hard_failures": [
+    "COLLISION_TEXT_TEXT",
+    "COLLISION_TEXT_TEXT",
+    "COLLISION_TEXT_STROKE",
+    "COLLISION_TEXT_STROKE",
+    "COLLISION_TEXT_STROKE",
+    "COLLISION_TEXT_STROKE",
+    "COLLISION_TEXT_STROKE",
+    "COLLISION_TEXT_STROKE",
+    "TEXT_OVERLAPS",
+    "TEXT_OVERLAPS",
+    "TEXT_OVERLAPS",
+    "TEXT_OVERLAPS",
+    "COLLISION_TEXT_TEXT",
+    "COLLISION_TEXT_TEXT",
+    "COLLISION_TEXT_TEXT",
+    "COLLISION_TEXT_TEXT",
+    "COLLISION_TEXT_TEXT",
+    "COLLISION_TEXT_TEXT",
+    "COLLISION_TEXT_TEXT",
+    "COLLISION_TEXT_STROKE"
+  ],
+  "note": "Software QA is not engineering approval. A reference match is not an approval either; the drawing stays PRELIMINARY / FOR REVIEW.",
+  "reference": {
+    "mode": "match",
+    "status": "resolved",
+    "source_kind": "upload",
+    "filename": "57977f7f8c8d.pdf",
+    "sha256": "57977f7f8c8dd0e79dcb74e519ede61a9218ed600dd7470a4d60beb3d891be38",
+    "pages": 1,
+    "link": null,
+    "confidence": null,
+    "reasons": [
+      "explicitly uploaded by the user (overrides any history)"
+    ],
+    "extraction_cache": "hit",
+    "extraction_id": "refx_a660f48d46b16c15",
+    "extraction_schema": "ref/1",
+    "api_usage": {
+      "tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0,
+      "calls": 0,
+      "incremental": true,
+      "historical_usd": 0.32055,
+      "model": "gpt-6-astra"
+    },
+    "warnings": [
+      "Balance-limit number is blank or illegible; faint XX marks occur above the balance instruction.",
+      "Angular tolerance is faint; the transcription \u00bc\u00b0 is uncertain.",
+      "No numerical maximum RPM is legible in the stamping instruction.",
+      "Surface-texture letters H and K are transcribed as printed; no numeric finish values have been inferred from them.",
+      "Unlabelled sectional and local detail views have been classified from their drawn geometry.",
+      "No prior machine-extraction IDs were supplied.",
+      "Only 6 of 14 printed dimensions were found on the model; verify this is the right drawing."
+    ],
+    "part_sha256": "2a2ddc7e1256a2d719b938fce83e67129db6018cb93de0453e43e87fdcb85739",
+    "candidate_summary": [],
+    "matched_runs": [],
+    "quality": {
+      "ok": true,
+      "views": 3,
+      "annotations": 29,
+      "required_annotations": 29,
+      "located": 29,
+      "located_from_text_evidence": 19,
+      "uncertain": 1,
+      "notes": 21
+    },
+    "spec": {
+      "schema": "drawingspec/1",
+      "pages": 1,
+      "completeness": 1.0,
+      "pages_missing": []
+    },
+    "geometry_check": {
+      "status": "uncertain",
+      "compared": 14,
+      "matched": 6,
+      "ratio": 0.429,
+      "overall_extents_found": 1,
+      "overall_extents_total": 3,
+      "note": "A mismatch detector, not proof of identity: it checks that printed dimensions exist among the model's sizes, hole diameters and hole positions."
+    }
+  },
+  "final_measure": {
+    "scale_error": null,
+    "collisions": {
+      "count": 12,
+      "by_kind": {
+        "text_text": 7,
+        "text_stroke": 5
+      },
+      "clearance_mm": 1.5,
+      "items": [
+        {
+          "kind": "text_text",
+          "page": 1,
+          "a": "p1t8_0",
+          "b": "p1t30_0",
+          "severity": "high",
+          "a_text": "DATE: JAN. 5, 1977",
+          "b_text": "\u00b1.001",
+          "box_a_mm": [
+            502.75,
+            93.07,
+            546.4,
+            97.81
+          ],
+          "box_b_mm": [
+            515.64,
+            94.9,
+            527.05,
+            98.29
+          ],
+          "detail": "overlap"
+        },
+        {
+          "kind": "text_text",
+          "page": 1,
+          "a": "p1t8_0",
+          "b": "p1t30_1",
+          "severity": "medium",
+          "a_text": "DATE: JAN. 5, 1977",
+          "b_text": "19.993",
+          "box_a_mm": [
+            502.75,
+            93.07,
+            546.4,
+            97.81
+          ],
+          "box_b_mm": [
+            515.64,
+            89.31,
+            529.62,
+            92.71
+          ],
+          "detail": "closer than 1.5 mm"
+        },
+        {
+          "kind": "text_text",
+          "page": 1,
+          "a": "p1t9_0",
+          "b": "p1t30_1",
+          "severity": "high",
+          "a_text": "DRN: T. CHOD",
+          "b_text": "19.993",
+          "box_a_mm": [
+            506.39,
+            87.45,
+            534.89,
+            90.58
+          ],
+          "box_b_mm": [
+            515.64,
+            89.31,
+            529.62,
+            92.71
+          ],
+          "detail": "overlap"
+        },
+        {
+          "kind": "text_text",
+          "page": 1,
+          "a": "p1t9_0",
+          "b": "p1t30_2",
+          "severity": "medium",
+          "a_text": "DRN: T. CHOD",
+          "b_text": "DIA.",
+          "box_a_mm": [
+            506.39,
+            87.45,
+            534.89,
+            90.58
+          ],
+          "box_b_mm": [
+            515.64,
+            83.73,
+            524.76,
+            87.12
+          ],
+          "detail": "closer than 1.5 mm"
+        },
+        {
+          "kind": "text_text",
+          "page": 1,
+          "a": "p1t11_3",
+          "b": "p1t12_0",
+          "severity": "medium",
+          "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+          "b_text": "WEIGHT - FLYWHEEL",
+          "box_a_mm": [
+            447.35,
+            36.25,
+            519.48,
+            38.96
+          ],
+          "box_b_mm": [
+            454.62,
+            30.64,
+            507.15,
+            34.82
+          ],
+          "detail": "closer than 1.5 mm"
+        },
+        {
+          "kind": "text_text",
+          "page": 1,
+          "a": "p1t20_1",
+          "b": "p1t22_0",
+          "severity": "high",
+          "a_text": "8-HOLES EQUALLY SPACED",
+          "b_text": "BALANCE TO WITHIN .   OZ-IN",
+          "box_a_mm": [
+            67.08,
+            410.4,
+            129.95,
+            415.14
+          ],
+          "box_b_mm": [
+            128.07,
+            407.6,
+            191.12,
+            411.0
+          ],
+          "detail": "overlap"
+        },
+        {
+          "kind": "text_text",
+          "page": 1,
+          "a": "p1t28_0",
+          "b": "p1t35_0",
+          "severity": "high",
+          "a_text": ".030 R.",
+          "b_text": "63",
+          "box_a_mm": [
+            304.71,
+            290.19,
+            320.02,
+            293.85
+          ],
+          "box_b_mm": [
+            318.51,
+            289.19,
+            327.89,
+            295.46
+          ],
+          "detail": "overlap"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t7_2",
+          "severity": "high",
+          "a_text": "DIMENSIONS IN INCHES",
+          "box_a_mm": [
+            447.35,
+            81.7,
+            482.33,
+            84.05
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t10_0",
+          "severity": "high",
+          "a_text": "MANUFACTURING TECHNOLOGY INC.",
+          "box_a_mm": [
+            444.3,
+            53.41,
+            546.41,
+            57.58
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t11_0",
+          "severity": "high",
+          "a_text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING",
+          "box_a_mm": [
+            447.35,
+            48.34,
+            536.44,
+            50.43
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t11_3",
+          "severity": "high",
+          "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+          "box_a_mm": [
+            447.35,
+            36.25,
+            519.48,
+            38.96
+          ],
+          "detail": "a drawn line runs through this text"
+        },
+        {
+          "kind": "text_stroke",
+          "page": 1,
+          "a": "p1t30_2",
+          "severity": "high",
+          "a_text": "DIA.",
+          "box_a_mm": [
+            515.64,
+            83.73,
+            524.76,
+            87.12
+          ],
+          "detail": "a drawn line runs through this text"
+        }
+      ],
+      "advisory": [],
+      "truncated": 0,
+      "exemptions": [
+        "strokes touching a text box edge (leader tip / extension line) are not collisions",
+        "shaded isometric fills are not strokes",
+        "the template's own title block and border are part of the sheet format"
+      ],
+      "texts": 73,
+      "strokes": 1953
+    },
+    "iso_shading_in_pdf": null,
+    "nonblack_text": 0,
+    "nonblack_strokes": 0,
+    "licence_watermark": true,
+    "mapped_annotations": 20
+  }
+}

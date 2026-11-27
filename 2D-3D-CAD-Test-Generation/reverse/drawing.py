@@ -212,10 +212,15 @@ class DrawingDoc:
             x0, y0, x1, y1 = r[k]
             return ((x0 + x1) / 2, (y0 + y1) / 2)
 
-        self.add_base("front", views["front"], ctr("front"), sc)
+        own = {k: v[0] / v[1] for k, v in (self.plan.get("view_scales") or {}).items()}       # replication: views that print their own scale
+        self.add_base("front", views["front"], ctr("front"), own.get("front", sc))
         for role in ("top", "right"):
             if role in r:                    # replication: a projected view the source does not show is not created
                 self.add_projected(role, "front", ctr(role), sc)
+                if role in own:
+                    tv = self.s.typed(self.views[role], "IView")
+                    tv.ScaleDecimal = float(own[role])
+                    tv.Position = com_doubles(*ctr(role))
         if "iso" in r and views.get("iso"):
             iso_sc = float(self.plan.get("iso_scale") or sc)
             self.add_base("iso", views["iso"], ctr("iso"), iso_sc)

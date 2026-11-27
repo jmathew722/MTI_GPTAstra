@@ -1,0 +1,43 @@
+{
+  "exists": true,
+  "pages": 2,
+  "expected_pages": 2,
+  "nonblack_text": [],
+  "nonblack_strokes": 0,
+  "color_fills": 0,
+  "text_overlaps": [
+    {
+      "page": 1,
+      "a": "3-PLACE DIM. \u00b1 .010",
+      "b": "ANGULAR DIM. \u00b1 \u00bc\u00b0"
+    },
+    {
+      "page": 1,
+      "a": "DATE: JAN. 5, 1977",
+      "b": "\u00b1.001"
+    },
+    {
+      "page": 1,
+      "a": "DRN: T. CHOD",
+      "b": "19.993"
+    },
+    {
+      "page": 1,
+      "a": "DRN: T. CHOD",
+      "b": "DIA."
+    },
+    {
+      "page": 2,
+      "a": "3-PLACE DIM. \u00b1 .010",
+      "b": "ANGULAR DIM. \u00b1 \u00bc\u00b0"
+    }
+  ],
+  "text_clipped": [],
+  "vector": true,
+  "errors": [],
+  "ok": false,
+  "previews": [
+    "page-001.png",
+    "page-002.png"
+  ]
+}

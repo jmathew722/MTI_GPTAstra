@@ -1,0 +1,37 @@
+{
+  "opened": true,
+  "views": [
+    {
+      "name": "Drawing View1",
+      "references": "117-C_ir.SLDPRT",
+      "ok": true,
+      "scale_decimal": 1.0
+    }
+  ],
+  "dimensions": 17,
+  "errors": [],
+  "notes": 0,
+  "sheets": 1,
+  "sheets_info": [
+    {
+      "name": "Sheet1",
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "size_m": [
+        0.5588,
+        0.4318
+      ]
+    }
+  ],
+  "sheet_scale": [
+    1.0,
+    1.0
+  ],
+  "sheet_size_m": [
+    0.5588,
+    0.4318
+  ],
+  "sheet_notes": 32
+}

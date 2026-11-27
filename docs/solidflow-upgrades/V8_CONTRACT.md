@@ -133,3 +133,13 @@ The 10 v7 stages are unchanged. `parts[i].stages[stage]` may add `seconds`, `que
 ## 5. Errors
 
 Unchanged. `estimate_run` never raises for a bad/missing path: that part gets `reference.status: "blocked"` / `estimate: null` and a `warning` string.
+
+## 6. Implementation notes (as built, v8)
+
+* `replication.pages[]` (additional to `sheets[]`): one entry per page after the first with `status`, `generated_scale`, `scale_match`, `notes_verbatim {matched,total}`, `views`, `views_not_reproduced`, `warnings`.
+  `replication.sheets[0].generated.title_block_scale` is the text the SHEET prints (the replicated source title-block note, e.g. `1"=2"`), compared by ratio with the sheet scale.
+* `replication.metrics.notes_verbatim` counts only exact (case, symbol, digit exact; whitespace-normalised) matches read from the EXPORTED pdf. Lines that differ only by GD&T / frame glyphs the
+  export did not print are listed in the report as `symbols_unverified` and make the status `needs_review`; they are not counted as verbatim.
+* `estimate` is frozen at submit in `job.options["estimates"]` (per part); `estimate_vs_actual` is filled only when both sides are known.
+* Pre-v8 job views are unchanged apart from the added keys (`estimate: null`, `replication: null`, `usage.calls: 0`).
+* Replication is the `match` mode (`job.options.replicate`, default true); standard mode is untouched.

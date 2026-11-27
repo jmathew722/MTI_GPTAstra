@@ -1,0 +1,186 @@
+{
+  "schema_version": 2,
+  "job_id": "r3d_35a478a6948c0b2b",
+  "part_id": "117-C_ir",
+  "source_name": "117-C_ir.SLDPRT",
+  "source_sha256": "630247beaa2af2a00018c940b8124dbb1d830b33de502364a4ffa1994ce7ab50",
+  "source_unchanged": true,
+  "configuration": "Default",
+  "solidworks": {
+    "revision": "33.5.0",
+    "major": 33,
+    "service_pack": "SP5.0",
+    "is_2025": true
+  },
+  "template": {
+    "id": "stock-default",
+    "name": "SOLIDWORKS stock drawing template",
+    "sha256": "22b0f578f4d2b3b8731e3c55f2995a06f7a4879e3f1bb32fece61ba8222fb273",
+    "own_sheet_format": false
+  },
+  "profile": "us_third_angle_inch_c",
+  "units": "inch",
+  "projection": "third",
+  "scale": {
+    "num": 1,
+    "den": 1,
+    "label": "1:1",
+    "basis": "explicit"
+  },
+  "stl": {
+    "unit": "mm",
+    "transform": "none (the part is exported in its own coordinate system)"
+  },
+  "material": {
+    "name": null,
+    "library": null,
+    "density_kg_m3": null,
+    "mass_kg": null,
+    "source": "native part (SetMaterialPropertyName2 read-back)",
+    "status": "not_specified"
+  },
+  "reference": {
+    "mode": "match",
+    "status": "resolved",
+    "source_kind": "upload",
+    "filename": "6dd0b8da50a6.pdf",
+    "sha256": "6dd0b8da50a6826fed56475dc6d80a144db61fbdd40af726f497c7756367cb54",
+    "pages": 1,
+    "link": null,
+    "extraction_cache": "fresh",
+    "extraction_id": "refx_94160428920a790f",
+    "api_usage": {
+      "tokens": 12974,
+      "input_tokens": 10394,
+      "output_tokens": 2580,
+      "usd": 0.2329,
+      "calls": 1,
+      "incremental": true,
+      "historical_usd": null,
+      "model": "gpt-6-astra"
+    }
+  },
+  "verification_status": "review_required",
+  "stage_seconds": {
+    "preflight": 0.05,
+    "stl_export": 3.28,
+    "reference_resolution": 0.03,
+    "extraction": 48.66,
+    "view_planning": 0.42,
+    "native_drawing": 3.06,
+    "dimensioning_layout": 82.48,
+    "comparison_correction": 94.02,
+    "verification": 5.77,
+    "publish": null
+  },
+  "files": {
+    "model.stl": {
+      "bytes": 113784,
+      "sha256": "aec9bfae45ec95afe6511fc62690dc4cc0813d480489a0258c8281a8ceda3e7d"
+    },
+    "drawing.slddrw": {
+      "bytes": 92780,
+      "sha256": "a0466d39a35583b7e85ced1ecd4d82dbfb5d04a84bc29a9a52a2559bb6ed43ba"
+    },
+    "drawing.pdf": {
+      "bytes": 47973,
+      "sha256": "75400e4ac234de5b81a4650b7a7a5ed6d003240c7e2e7da71632d1491c26a928"
+    },
+    "inventory.json": {
+      "bytes": 19872,
+      "sha256": "878ee331abf13a0d0d5ab22f6468dc0bd0805f3a74d662051073d8efd400ae48"
+    },
+    "drawing_plan.json": {
+      "bytes": 3612,
+      "sha256": "c18d930e4318c50032afd5f9162b482d4e6ed92dd0f3040af356d517b52adaff"
+    },
+    "dimension_coverage.json": {
+      "bytes": 15555,
+      "sha256": "579178f9d3d96bc4dd99e07481c2a374832d5bae028ccdb450aa0f3515e4ca98"
+    },
+    "stl_validation.json": {
+      "bytes": 565,
+      "sha256": "57652136e697f25d8ae266e574935d22ce5424aad51700338df11a9d07afd828"
+    },
+    "pdf_check.json": {
+      "bytes": 340,
+      "sha256": "170aa523889426a729f1709849d53e2fa507925b285e25fe421bfea9cdfc0ce6"
+    },
+    "reopen_check.json": {
+      "bytes": 544,
+      "sha256": "0c101eec5b26e88e2205a40c1ff26a0fd3d802f9806e045dceb34205568679e9"
+    },
+    "layout_report.json": {
+      "bytes": 25560,
+      "sha256": "0bd18ce1702da837f8a98bc3ff4b5dfffe3646e7f48feb443de4ee91399aac3a"
+    },
+    "qa.json": {
+      "bytes": 86827,
+      "sha256": "d269cb9e8a4071297db08687a9d585b88eb92382e9fbbb47873462538b18f989"
+    },
+    "verification.json": {
+      "bytes": 66313,
+      "sha256": "c8427a94814a23a6b60abe9362ccb62724fb3676f672e0408336b4fc40706288"
+    },
+    "117-C_ir.SLDPRT": {
+      "bytes": 110342,
+      "sha256": "630247beaa2af2a00018c940b8124dbb1d830b33de502364a4ffa1994ce7ab50"
+    },
+    "usage/usage_ledger.jsonl": {
+      "bytes": 615,
+      "sha256": "2a5e0032ef62de514639d6b6b353add6cc76e88d944e9594d7e858cea26496ab"
+    },
+    "reference/drawing_spec.json": {
+      "bytes": 65446,
+      "sha256": "25a61651ee96cc55fb9d01bbeeb0fd34c7478d6e343122b7a066269af958447b"
+    },
+    "reference/geometry_check.json": {
+      "bytes": 306,
+      "sha256": "583371804e53cd821502654ec1e54f7046e339e41640fefd285736b6b5d31593"
+    },
+    "reference/reference_extraction.json": {
+      "bytes": 30786,
+      "sha256": "296f9131d7625c54bfe447366c1e7cd6c8e87f834e8903ddaa43960b047b5783"
+    },
+    "reference/resolution.json": {
+      "bytes": 903,
+      "sha256": "aa189bde90f3795863dbbf821e39870de3d8ece9157f429338f9df731d99aa70"
+    },
+    "reference/source.pdf": {
+      "bytes": 268907,
+      "sha256": "6dd0b8da50a6826fed56475dc6d80a144db61fbdd40af726f497c7756367cb54"
+    },
+    "comparison/collisions-overlay.png": {
+      "bytes": 200915,
+      "sha256": "374c7cb9794eec60c14596a1452483e7bd2744d10db47f7426a4c2df9ffc75eb"
+    },
+    "comparison/comparison.json": {
+      "bytes": 37046,
+      "sha256": "21b5b6fe58f8a7320fe4215c79508963f00430e5da2f1ad8a997a66df73cf642"
+    },
+    "comparison/page-001_diff.png": {
+      "bytes": 40490,
+      "sha256": "0689a022340fa4ab70637ff91d39d4c7086ee8e08f37be6df833bc46455f8405"
+    },
+    "comparison/page-001_overlay.png": {
+      "bytes": 52699,
+      "sha256": "7a51ce78ac8ed9e4950a5a5ab88a14a5a4a8fdd091ee87e100794fc581da069f"
+    },
+    "comparison/page-001_side_by_side.png": {
+      "bytes": 465527,
+      "sha256": "907d6fbd3fe4e5d46aed3ce46bd9529a1d74c1dd23ba20743059b8ad2bcd9955"
+    },
+    "replication/report.json": {
+      "bytes": 37281,
+      "sha256": "466019413b7cc1e9a0272eca0e5b8921ef58c2a3040354638ff7d6901405bc5f"
+    },
+    "preview/page-001.png": {
+      "bytes": 252467,
+      "sha256": "578d254424e1bd37aa0af836b5534ac5d52afa73652fcb9208b9ebf9d59c7418"
+    }
+  },
+  "review_status": "required",
+  "status": "review_required",
+  "draft": true,
+  "note": "Draft output. Not approved for manufacture."
+}

@@ -25,7 +25,8 @@ GATE_STAGE = {"reference_layout": "extraction", "reference_tile": "tiles", "tile
 MILLION = Decimal(1_000_000)
 
 # ---- fallback estimation constants (used, and labelled, only when no comparable history exists)
-FALLBACK_SYSTEM_TOKENS = 2400          # system prompt + tool schema
+FALLBACK_SYSTEM_TOKENS = 3600          # system prompt + tool schema (calibrated on 4 observed reference reads: 10.2k-11.2k input tokens for a scanned C-size page)
+MIN_IMAGE_TOKENS = 2000                # observed image cost floor for a high-detail drawing page (the documented tile rule gives ~800 and under-counts)
 FALLBACK_TEXT_ITEM_TOKENS = 30         # one {id,text,box} JSON item
 FALLBACK_TEXT_ITEMS = 150              # a typical scan / dense page when the page has not been read yet
 FALLBACK_OUTPUT_TOKENS = 3500          # observed 2.1k - 5.1k on 8-30 annotation sheets
@@ -273,7 +274,7 @@ def estimate_extraction(facts: Optional[dict], rate: Optional[dict], *, cache: s
     out_lo = out_ex = out_hi = 0
     for i in range(n_pages):
         pg = pages[i] if i < len(pages) else None
-        img = image_tokens(*pg["px"]) if pg else image_tokens(2576, 1980)
+        img = max(MIN_IMAGE_TOKENS, image_tokens(*pg["px"]) if pg else image_tokens(2576, 1980))
         items = (pg["text_blocks"] * 3 if pg and not pg["scanned"] else FALLBACK_TEXT_ITEMS)
         if pg is None or pg["scanned"]:
             labels.append("fallback_text_items")

@@ -1,0 +1,904 @@
+{
+  "max_iterations": 3,
+  "history": [
+    {
+      "iteration": 0,
+      "what": "as generated",
+      "collisions": 14,
+      "score": 40.0
+    },
+    {
+      "iteration": 0,
+      "what": "native Auto Arrange",
+      "collisions": 14,
+      "score": 40.0,
+      "accepted": true
+    },
+    {
+      "iteration": 1,
+      "what": "collision-aware moves",
+      "moved": 2,
+      "moves": [
+        {
+          "annotation": "sheet/note22",
+          "text": ".172\u00b1.005",
+          "delta_mm": [
+            0.0,
+            4.0
+          ],
+          "kind": "note"
+        },
+        {
+          "annotation": "sheet/note19",
+          "text": "30\u00b0 TYP.",
+          "delta_mm": [
+            0.0,
+            4.0
+          ],
+          "kind": "note"
+        }
+      ],
+      "collisions": 12,
+      "score": 34.0
+    },
+    {
+      "iteration": 2,
+      "what": "no free position found for the colliding annotations",
+      "collisions": 12,
+      "score": 34.0
+    }
+  ],
+  "arrange": {
+    "views": [
+      {
+        "view": "front",
+        "dimensions": 6,
+        "selected": 6,
+        "returned": true,
+        "error": null
+      },
+      {
+        "view": "top",
+        "dimensions": 1,
+        "selected": 0,
+        "returned": null,
+        "error": null,
+        "skipped": "fewer than two dimensions: nothing to arrange"
+      }
+    ],
+    "moved": 6,
+    "integrity": {
+      "ok": true,
+      "lost": [],
+      "added": [],
+      "value_changed": [],
+      "dangling": [],
+      "count_before": 7,
+      "count_after": 7
+    },
+    "collisions_before": 14,
+    "collisions_after": 14,
+    "score_before": 40.0,
+    "score_after": 40.0,
+    "accepted": true,
+    "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+    "inventory_before": [
+      {
+        "id": "front/RD1",
+        "value_m": 0.0508,
+        "position_m": [
+          0.100394,
+          0.151663
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD2",
+        "value_m": 0.04445,
+        "position_m": [
+          0.056406,
+          0.11085
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD3",
+        "value_m": 0.0071374,
+        "position_m": [
+          0.144382,
+          0.129169
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD4",
+        "value_m": 0.0127,
+        "position_m": [
+          0.081344,
+          0.070037
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD5",
+        "value_m": 0.0254,
+        "position_m": [
+          0.100394,
+          0.059037
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD6",
+        "value_m": 0.034544,
+        "position_m": [
+          0.045406,
+          0.105897
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "top/RD1",
+        "value_m": 0.014732,
+        "position_m": [
+          0.056406,
+          0.220371
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      }
+    ],
+    "inventory_after": [
+      {
+        "id": "front/RD1",
+        "value_m": 0.0508,
+        "position_m": [
+          0.100394,
+          0.143075
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD2",
+        "value_m": 0.04445,
+        "position_m": [
+          0.058994,
+          0.11085
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD3",
+        "value_m": 0.0071374,
+        "position_m": [
+          0.151,
+          0.14588
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD4",
+        "value_m": 0.0127,
+        "position_m": [
+          0.061532,
+          0.078625
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD5",
+        "value_m": 0.0254,
+        "position_m": [
+          0.100394,
+          0.072625
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD6",
+        "value_m": 0.034544,
+        "position_m": [
+          0.064994,
+          0.105897
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "top/RD1",
+        "value_m": 0.014732,
+        "position_m": [
+          0.056406,
+          0.220371
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      }
+    ]
+  },
+  "moves": [
+    {
+      "annotation": "sheet/note22",
+      "text": ".172\u00b1.005",
+      "delta_mm": [
+        0.0,
+        4.0
+      ],
+      "kind": "note"
+    },
+    {
+      "annotation": "sheet/note19",
+      "text": "30\u00b0 TYP.",
+      "delta_mm": [
+        0.0,
+        4.0
+      ],
+      "kind": "note"
+    }
+  ],
+  "views": {
+    "moved": [],
+    "unresolved": []
+  },
+  "before": {
+    "count": 14,
+    "by_kind": {
+      "text_text": 4,
+      "text_stroke": 10
+    },
+    "clearance_mm": 1.5,
+    "items": [
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t6_0",
+        "b": "p1t21_0",
+        "severity": "high",
+        "a_text": "0.580",
+        "b_text": "30\u00b0 TYP.",
+        "box_a_mm": [
+          51.94,
+          213.26,
+          55.39,
+          227.48
+        ],
+        "box_b_mm": [
+          37.66,
+          225.18,
+          54.49,
+          228.57
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t8_5",
+        "b": "p1t8_6",
+        "severity": "high",
+        "a_text": "ANGULAR DIM. \u00b11\u00b0",
+        "b_text": "SCALE 1\"=1\"",
+        "box_a_mm": [
+          309.76,
+          76.71,
+          335.27,
+          78.8
+        ],
+        "box_b_mm": [
+          317.59,
+          72.05,
+          353.53,
+          76.75
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t13_0",
+        "b": "p1t15_3",
+        "severity": "medium",
+        "a_text": "DOG",
+        "b_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "box_a_mm": [
+          312.15,
+          37.25,
+          324.43,
+          40.9
+        ],
+        "box_b_mm": [
+          314.76,
+          41.55,
+          377.88,
+          43.92
+        ],
+        "detail": "closer than 1.5 mm"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t19_0",
+        "b": "p1t19_1",
+        "severity": "high",
+        "a_text": "MC",
+        "b_text": "CHG",
+        "box_a_mm": [
+          368.31,
+          107.41,
+          376.25,
+          110.81
+        ],
+        "box_b_mm": [
+          368.31,
+          107.41,
+          379.17,
+          110.81
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t3_0",
+        "severity": "high",
+        "a_text": "0.500",
+        "box_a_mm": [
+          74.23,
+          71.05,
+          88.46,
+          74.5
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t8_0",
+        "severity": "high",
+        "a_text": "UNLESS OTHERWISE SPECIFIED:",
+        "box_a_mm": [
+          309.76,
+          95.83,
+          349.89,
+          97.91
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t8_2",
+        "severity": "high",
+        "a_text": "DIMENSIONS IN INCHES",
+        "box_a_mm": [
+          309.76,
+          88.18,
+          340.85,
+          90.27
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t9_0",
+        "severity": "high",
+        "a_text": "DATE: 10-20-87",
+        "box_a_mm": [
+          367.66,
+          100.73,
+          402.17,
+          104.38
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t12_0",
+        "severity": "high",
+        "a_text": "MANUFACTURING TECHNOLOGY INC.",
+        "box_a_mm": [
+          307.8,
+          60.48,
+          403.52,
+          64.4
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t14_1",
+        "severity": "high",
+        "a_text": "MODEL NO.",
+        "box_a_mm": [
+          376.36,
+          20.65,
+          404.49,
+          24.3
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t15_0",
+        "severity": "high",
+        "a_text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING",
+        "box_a_mm": [
+          314.76,
+          52.5,
+          392.71,
+          54.33
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t15_1",
+        "severity": "high",
+        "a_text": "TECHNOLOGY INC. AND OR ITS SUBSIDIARIES WITHOUT WRITTEN PER-",
+        "box_a_mm": [
+          314.76,
+          49.03,
+          394.4,
+          50.86
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t15_2",
+        "severity": "high",
+        "a_text": "MISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE",
+        "box_a_mm": [
+          314.76,
+          45.02,
+          391.1,
+          47.39
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t15_3",
+        "severity": "high",
+        "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "box_a_mm": [
+          314.76,
+          41.55,
+          377.88,
+          43.92
+        ],
+        "detail": "a drawn line runs through this text"
+      }
+    ],
+    "advisory": [],
+    "truncated": 0,
+    "exemptions": [
+      "strokes touching a text box edge (leader tip / extension line) are not collisions",
+      "shaded isometric fills are not strokes",
+      "the template's own title block and border are part of the sheet format"
+    ]
+  },
+  "after": {
+    "count": 12,
+    "by_kind": {
+      "text_text": 3,
+      "text_stroke": 9
+    },
+    "clearance_mm": 1.5,
+    "items": [
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t8_5",
+        "b": "p1t8_6",
+        "severity": "high",
+        "a_text": "ANGULAR DIM. \u00b11\u00b0",
+        "b_text": "SCALE 1\"=1\"",
+        "box_a_mm": [
+          309.76,
+          76.71,
+          335.27,
+          78.8
+        ],
+        "box_b_mm": [
+          317.59,
+          72.05,
+          353.53,
+          76.75
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t13_0",
+        "b": "p1t15_3",
+        "severity": "medium",
+        "a_text": "DOG",
+        "b_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "box_a_mm": [
+          312.15,
+          37.25,
+          324.43,
+          40.9
+        ],
+        "box_b_mm": [
+          314.76,
+          41.55,
+          377.88,
+          43.92
+        ],
+        "detail": "closer than 1.5 mm"
+      },
+      {
+        "kind": "text_text",
+        "page": 1,
+        "a": "p1t19_0",
+        "b": "p1t19_1",
+        "severity": "high",
+        "a_text": "MC",
+        "b_text": "CHG",
+        "box_a_mm": [
+          368.31,
+          107.41,
+          376.25,
+          110.81
+        ],
+        "box_b_mm": [
+          368.31,
+          107.41,
+          379.17,
+          110.81
+        ],
+        "detail": "overlap"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t8_0",
+        "severity": "high",
+        "a_text": "UNLESS OTHERWISE SPECIFIED:",
+        "box_a_mm": [
+          309.76,
+          95.83,
+          349.89,
+          97.91
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t8_2",
+        "severity": "high",
+        "a_text": "DIMENSIONS IN INCHES",
+        "box_a_mm": [
+          309.76,
+          88.18,
+          340.85,
+          90.27
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t9_0",
+        "severity": "high",
+        "a_text": "DATE: 10-20-87",
+        "box_a_mm": [
+          367.66,
+          100.73,
+          402.17,
+          104.38
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t12_0",
+        "severity": "high",
+        "a_text": "MANUFACTURING TECHNOLOGY INC.",
+        "box_a_mm": [
+          307.8,
+          60.48,
+          403.52,
+          64.4
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t14_1",
+        "severity": "high",
+        "a_text": "MODEL NO.",
+        "box_a_mm": [
+          376.36,
+          20.65,
+          404.49,
+          24.3
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t15_0",
+        "severity": "high",
+        "a_text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING",
+        "box_a_mm": [
+          314.76,
+          52.5,
+          392.71,
+          54.33
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t15_1",
+        "severity": "high",
+        "a_text": "TECHNOLOGY INC. AND OR ITS SUBSIDIARIES WITHOUT WRITTEN PER-",
+        "box_a_mm": [
+          314.76,
+          49.03,
+          394.4,
+          50.86
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t15_2",
+        "severity": "high",
+        "a_text": "MISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE",
+        "box_a_mm": [
+          314.76,
+          45.02,
+          391.1,
+          47.39
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t15_3",
+        "severity": "high",
+        "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "box_a_mm": [
+          314.76,
+          41.55,
+          377.88,
+          43.92
+        ],
+        "detail": "a drawn line runs through this text"
+      }
+    ],
+    "advisory": [],
+    "truncated": 0,
+    "exemptions": [
+      "strokes touching a text box edge (leader tip / extension line) are not collisions",
+      "shaded isometric fills are not strokes",
+      "the template's own title block and border are part of the sheet format"
+    ]
+  },
+  "best": "correction 1",
+  "iterations_used": 2,
+  "unresolved": [
+    {
+      "kind": "text_text",
+      "page": 1,
+      "a": "p1t8_5",
+      "b": "p1t8_6",
+      "severity": "high",
+      "a_text": "ANGULAR DIM. \u00b11\u00b0",
+      "b_text": "SCALE 1\"=1\"",
+      "box_a_mm": [
+        309.76,
+        76.71,
+        335.27,
+        78.8
+      ],
+      "box_b_mm": [
+        317.59,
+        72.05,
+        353.53,
+        76.75
+      ],
+      "detail": "overlap"
+    },
+    {
+      "kind": "text_text",
+      "page": 1,
+      "a": "p1t13_0",
+      "b": "p1t15_3",
+      "severity": "medium",
+      "a_text": "DOG",
+      "b_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+      "box_a_mm": [
+        312.15,
+        37.25,
+        324.43,
+        40.9
+      ],
+      "box_b_mm": [
+        314.76,
+        41.55,
+        377.88,
+        43.92
+      ],
+      "detail": "closer than 1.5 mm"
+    },
+    {
+      "kind": "text_text",
+      "page": 1,
+      "a": "p1t19_0",
+      "b": "p1t19_1",
+      "severity": "high",
+      "a_text": "MC",
+      "b_text": "CHG",
+      "box_a_mm": [
+        368.31,
+        107.41,
+        376.25,
+        110.81
+      ],
+      "box_b_mm": [
+        368.31,
+        107.41,
+        379.17,
+        110.81
+      ],
+      "detail": "overlap"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t8_0",
+      "severity": "high",
+      "a_text": "UNLESS OTHERWISE SPECIFIED:",
+      "box_a_mm": [
+        309.76,
+        95.83,
+        349.89,
+        97.91
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t8_2",
+      "severity": "high",
+      "a_text": "DIMENSIONS IN INCHES",
+      "box_a_mm": [
+        309.76,
+        88.18,
+        340.85,
+        90.27
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t9_0",
+      "severity": "high",
+      "a_text": "DATE: 10-20-87",
+      "box_a_mm": [
+        367.66,
+        100.73,
+        402.17,
+        104.38
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t12_0",
+      "severity": "high",
+      "a_text": "MANUFACTURING TECHNOLOGY INC.",
+      "box_a_mm": [
+        307.8,
+        60.48,
+        403.52,
+        64.4
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t14_1",
+      "severity": "high",
+      "a_text": "MODEL NO.",
+      "box_a_mm": [
+        376.36,
+        20.65,
+        404.49,
+        24.3
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t15_0",
+      "severity": "high",
+      "a_text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING",
+      "box_a_mm": [
+        314.76,
+        52.5,
+        392.71,
+        54.33
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t15_1",
+      "severity": "high",
+      "a_text": "TECHNOLOGY INC. AND OR ITS SUBSIDIARIES WITHOUT WRITTEN PER-",
+      "box_a_mm": [
+        314.76,
+        49.03,
+        394.4,
+        50.86
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t15_2",
+      "severity": "high",
+      "a_text": "MISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE",
+      "box_a_mm": [
+        314.76,
+        45.02,
+        391.1,
+        47.39
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t15_3",
+      "severity": "high",
+      "a_text": "EXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+      "box_a_mm": [
+        314.76,
+        41.55,
+        377.88,
+        43.92
+      ],
+      "detail": "a drawn line runs through this text"
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "profile": "us_third_angle_inch",
+  "projection": "third",
+  "units": "inch",
+  "sheet_size": "ANSI_B",
+  "paper": "ANSI B (17x11 in)",
+  "front_view": "*Top",
+  "views": {
+    "front": "*Top",
+    "top": "*Back",
+    "right": "*Right",
+    "iso": "*Isometric"
+  },
+  "scale": {
+    "num": 1,
+    "den": 1,
+    "label": "1:1",
+    "basis": "explicit"
+  },
+  "scale_fits": true,
+  "rects_m": {
+    "front": [
+      0.068494,
+      0.082125,
+      0.132294,
+      0.139575
+    ],
+    "top": [
+      0.068494,
+      0.206505,
+      0.132294,
+      0.234237
+    ]
+  },
+  "iso_scale": 1.0,
+  "regions_m": {
+    "sheet": [
+      0.0,
+      0.0,
+      0.4318,
+      0.2794
+    ],
+    "usable": [
+      0.006,
+      0.006,
+      0.4258,
+      0.2734
+    ],
+    "title_block": [
+      0.304417,
+      0.011697,
+      0.420564,
+      0.168548
+    ],
+    "notes": [
+      0.302917,
+      0.011697,
+      0.303417,
+      0.012197
+    ]
+  },
+  "sheets": [
+    {
+      "index": 1,
+      "name": "Sheet1",
+      "contents": [
+        "front",
+        "top",
+        "right",
+        "iso"
+      ]
+    }
+  ],
+  "needs_section": false,
+  "bbox_m": [
+    0.0508,
+    0.014731999999999999,
+    0.044449999999999996
+  ],
+  "hole_axes": {
+    "x": 2,
+    "y": 2,
+    "z": 0
+  },
+  "notes": [],
+  "basis": "front chosen for the largest silhouette (ties: the model's own Front); scale = largest standard scale that fits without collisions",
+  "scale_basis": "explicit",
+  "sheet_custom": {
+    "w_m": 0.4318,
+    "h_m": 0.2794,
+    "name": "ANSI B",
+    "standard": true
+  },
+  "replication": {
+    "frame": {
+      "page_w_pt": 1219.0,
+      "page_h_pt": 772.0,
+      "k_m_per_pt": 0.0003542247744052502,
+      "ox_m": 0.0,
+      "oy_m": 0.002969237079573417,
+      "notes": [
+        "page scaled by 1.0041 to fit the sheet (uniform, centred): positions are not at physical size"
+      ]
+    },
+    "title_block_pt": [
+      859.39,
+      304.56,
+      1187.28,
+      747.36
+    ]
+  },
+  "reference_layout": {
+    "applied": true,
+    "transform": {
+      "x": "nx * W",
+      "y": "(1 - ny) * H",
+      "W_m": 0.4318,
+      "H_m": 0.2794,
+      "origin": "sheet lower-left (SOLIDWORKS)"
+    },
+    "views": {
+      "front": {
+        "matched_by": "silhouette proportions",
+        "reference_view": "V1",
+        "type": "Front",
+        "reference_center_m": [
+          0.100394,
+          0.11085
+        ],
+        "target_center_m": [
+          0.100394,
+          0.11085
+        ],
+        "status": "placed_from_reference"
+      },
+      "top": {
+        "matched_by": "silhouette proportions",
+        "reference_view": "V2",
+        "type": "Top",
+        "reference_center_m": [
+          0.100609,
+          0.220371
+        ],
+        "target_center_m": [
+          0.100394,
+          0.220371
+        ],
+        "status": "placed_from_reference"
+      },
+      "right": {
+        "status": "omitted_not_in_source",
+        "note": "the source drawing shows no view matching this model's *Right silhouette; not created in replication mode"
+      },
+      "iso": {
+        "status": "omitted_not_in_source",
+        "note": "the source drawing has no isometric view; none is added in replication mode"
+      }
+    },
+    "deviations": [
+      "Sheet format ANSI_B was chosen from the reference page proportions (aspect 1.579); the requested profile used ANSI_C.",
+      "Blank stock sheet used (not a Solid Flow template): source page 430.0 x 272.3 mm matches ANSI B."
+    ],
+    "reference_scale": "1\"=1\"",
+    "moved": {
+      "front": [
+        0.100394,
+        0.11085
+      ],
+      "top": [
+        0.100394,
+        0.220371
+      ]
+    },
+    "sheet_deviations": [
+      "Sheet format ANSI_B was chosen from the reference page proportions (aspect 1.579); the requested profile used ANSI_C.",
+      "Blank stock sheet used (not a Solid Flow template): source page 430.0 x 272.3 mm matches ANSI B."
+    ],
+    "replicate": true
+  },
+  "extra_views": [],
+  "sections": []
+}
