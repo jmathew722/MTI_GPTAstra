@@ -625,3 +625,11 @@ def test_geometry_compatibility_detects_unrelated_reference():
     assert refrun.compatibility(good, inv, "inch")["status"] == "compatible"
     assert refrun.compatibility(other, inv, "inch")["status"] == "incompatible"
     assert refrun.compatibility({"sheet": {}, "annotations": []}, inv, "inch")["status"] == "unknown"
+
+
+def test_watchdog_compares_monotonic_t0_with_monotonic_clock():
+    """Regression: state.py stores t0 = time.monotonic(); the watchdog once compared it with time.time() and cancelled every running stage at once."""
+    import inspect
+    from reverse import jobs
+    src = inspect.getsource(jobs.JobQueue._watchdog) if hasattr(jobs, "JobQueue") else inspect.getsource(jobs)
+    assert "monotonic() - st.get" in src and "time() - st.get" not in src

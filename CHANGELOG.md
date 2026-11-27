@@ -1,5 +1,13 @@
 # Changelog
 
+## v8 (2026-11-27, on `ImprovementsV7`): drawing replication and cost accounting
+### Added
+- **Replication:** sheet at the source's physical size; title-block scale equals the source (root cause: creating a view resets the sheet scale, now re-applied before every save and export); source-coordinate placement with rotation/crop transforms; verbatim editable notes and title block; multi-sheet reconstruction; mixed view scales; versioned `drawingspec/1`; closed loop with side-by-side, overlay and difference images; statuses Verified / Needs Review / Blocked / Failed. Nothing reached Verified in the live runs (ring, 4028-B, counterbores): see `docs/solidflow-upgrades/V8_BACKEND_REPORT.md`.
+- **Cost and runtime:** per-request usage with Decimal arithmetic, config-versioned pricing (the GPT-6 Astra rate could not be re-verified against the public price page), pre-run estimates (low/expected/high), monotonic elapsed time, estimate vs actual; shown on the 3D -> 2D rail and the 2D -> 3D workspace.
+- **UI:** synchronized side-by-side source/generated viewer, Overlay/Difference, Comparison tab with issue list, validation-report download. See `FINAL_UI/docs/verification/v8/WORKSPACE_V8_REPORT.md`.
+### Fixed
+- The 3D -> 2D job watchdog compared a monotonic stage timestamp with wall-clock time and cancelled every running stage within seconds (found by the first live run through the UI; regression test added).
+
 ## v7 (2026-11-27, branch `ImprovementsV7`)
 ### Added
 - **3D -> 2D reference-driven reconstruction:** Standard vs Match-reference mode; source PDF resolved from an explicit upload or a content-hash-confirmed 2D -> 3D forward run (a filename alone is only a candidate; ambiguous matches are never auto-selected); extraction reuse (zero API calls on a cache hit), supplemental or fresh OpenAI extraction through the budget guard; coverage ledger, spatial/semantic comparison, bounded layout loop, QA gate (`review_required`, never a false pass). See `docs/solidflow-upgrades/V7_BACKEND_REPORT.md`, `V7_CONTRACT.md`.

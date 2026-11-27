@@ -178,7 +178,7 @@ class JobQueue:
                 j = self.store.load(jid)
                 for p in j.parts:
                     st = p.stages.get(p.state) if p.state in state.STAGES else None
-                    if st and st.get("status") == "running" and _t.time() - st.get("t0", _t.time()) > self.WATCHDOG_S and not j.cancel_requested:
+                    if st and st.get("status") == "running" and _t.monotonic() - st.get("t0", _t.monotonic()) > self.WATCHDOG_S and not j.cancel_requested:     # t0 is a monotonic clock value (state.py)
                         j.cancel_requested = True
                         self.store.save(j)
                         self.store.event(jid, "watchdog_timeout", p.part_id, stage=p.state, seconds=self.WATCHDOG_S,
