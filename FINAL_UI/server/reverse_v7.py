@@ -58,6 +58,8 @@ def capabilities(svc) -> dict:
         "upload": submit_ref and up,             # manual reference PDF upload
         "confirm": callable(getattr(svc, "confirm_reference_link", None)),
         "export": True,
+        "report": True,                          # v8: the validation report (JSON) is an export kind
+        "estimate": callable(getattr(svc, "estimate_run", None)),     # v8: pre-run estimate with cost (ReverseService.estimate_run)
         "limits": {"reference_pdf_bytes": MAX_REFERENCE_BYTES, "reference_pdf_pages": 20},
     }
 
@@ -180,8 +182,10 @@ def reference_dir(api) -> Path:
 # ------------------------------------------------------------------ export
 
 PART_OK = ("completed", "review_required", "failed")
-ART = {"slddrw": ("drawing.slddrw", "slddrw"), "pdf": ("drawing.pdf", "pdf")}
-MIME = {"slddrw": "application/octet-stream", "pdf": "application/pdf", "zip": "application/zip"}
+ART = {"slddrw": ("drawing.slddrw", "slddrw"), "pdf": ("drawing.pdf", "pdf"),
+       "report": ("replication/report.json", "qa.json", "verification.json")}      # v8: the validation report (replication report first, then the QA record)
+MIME = {"slddrw": "application/octet-stream", "pdf": "application/pdf", "zip": "application/zip", "report": "application/json"}
+KINDS = ("slddrw", "pdf", "report", "zip")
 
 
 def _part_view(svc, job_id: str, part_id: str) -> dict:
@@ -213,9 +217,12 @@ def _resolve(api, svc, job, part, kind: str) -> Optional[Path]:
         return None
 
 
-def export_status(part_state: str, review_status: str, verification: Optional[dict]) -> dict:
-    """Pure: the draft / review status of a drawing and whether downloading it needs an explicit acknowledgement. Never says 'approved'."""
+def export_status(part_state: str, review_status: str, verification: Optional[dict], replication: Optional[dict] = None) -> dict:
+    """Pure: the draft / review status of a drawing and whether downloading it needs an explicit acknowledgement. Never says 'approved'.
+    `replication` (v8, V8_CONTRACT section 3) can only make a drawing 'verified' when the backend says so AND nothing else is open; it never
+    relaxes a failed or review-required v7 verification."""
     ver = (verification or {}).get("status") if isinstance(verification, dict) else None
+    rep = (replication or {}).get("status") if isinstance(replication, dict) else None
     reasons: list[str] = []
     if ver == "failed":
         reasons.append("Verification failed for this drawing.")
@@ -229,13 +236,24 @@ def export_status(part_state: str, review_status: str, verification: Optional[di
         reasons.append("The run did not finish cleanly.")
     if review_status == "required":
         reasons.append("Engineering review is still open.")
-    if ver == "failed" or part_state == "failed":
+    why = str((replication or {}).get("reason") or "").strip()[:200] if isinstance(replication, dict) else ""
+    if rep == "needs_review":
+        reasons.append("The drawing does not fully match the source drawing" + (": " + why if why else "."))
+    elif rep == "blocked":
+        reasons.append("Matching the source drawing was blocked" + (": " + why if why else "."))
+    elif rep == "failed":
+        reasons.append("Matching the source drawing failed" + (": " + why if why else "."))
+    elif rep == "pending":
+        reasons.append("Matching the source drawing is not finished.")
+    if ver == "failed" or part_state == "failed" or rep == "failed":
         key, label, tone = "failed", "Draft: verification failed", "red"
     elif reasons:
         key, label, tone = "review_required", "Draft: review required", "amber"
+    elif rep == "verified":
+        key, label, tone = "verified", "Verified against the source drawing (not an engineering approval)", "green"
     else:
         key, label, tone = "draft", "Draft: for review (not approved for manufacture)", "blue"
-    return {"key": key, "label": label, "tone": tone, "requires_ack": bool(reasons), "reasons": reasons, "verification": ver or "not_run"}
+    return {"key": key, "label": label, "tone": tone, "requires_ack": bool(reasons), "reasons": reasons, "verification": ver or "not_run", "replication": rep or None}
 
 
 def _safe_stem(name: str, fallback: str) -> str:
@@ -252,7 +270,7 @@ def export_info(api, svc, job_id: str, part_id: str) -> dict:
     except KeyError:
         raise HTTPException(404, "No such part in this run.")
     view = _part_view(svc, job_id, part_id)
-    st = export_status(part.state, part.review_status, view.get("verification"))
+    st = export_status(part.state, part.review_status, view.get("verification"), view.get("replication"))
     stem = _safe_stem(part.name, part.part_id)
     out: dict = {"job_id": job_id, "part_id": part_id, "part_state": part.state, "job_state": job.summary_state(), "status": st, "downloads": {}}
     gate = ""
@@ -260,14 +278,16 @@ def export_info(api, svc, job_id: str, part_id: str) -> dict:
         gate = "This part was canceled; nothing was exported."
     elif part.state not in PART_OK:
         gate = "The run for this part has not finished."
-    for kind, ext in (("slddrw", ".slddrw"), ("pdf", ".pdf")):
+    missing = {"slddrw": "The native drawing was not produced for this part.", "pdf": "The drawing PDF was not produced for this part.",
+               "report": "No validation report was written for this part."}
+    for kind, fname in (("slddrw", f"{stem}-drawing.slddrw"), ("pdf", f"{stem}-drawing.pdf"), ("report", f"{stem}-validation-report.json")):
         fp = None if gate else _resolve(api, svc, job, part, kind)
         if gate:
             out["downloads"][kind] = {"available": False, "reason": gate}
         elif fp is None:
-            out["downloads"][kind] = {"available": False, "reason": ("The native drawing was not produced for this part." if kind == "slddrw" else "The drawing PDF was not produced for this part.")}
+            out["downloads"][kind] = {"available": False, "reason": missing[kind]}
         else:
-            out["downloads"][kind] = {"available": True, "bytes": fp.stat().st_size, "filename": f"{stem}-drawing{ext}"}
+            out["downloads"][kind] = {"available": True, "bytes": fp.stat().st_size, "filename": fname}
     both = all(out["downloads"][k]["available"] for k in ("slddrw", "pdf"))
     out["downloads"]["zip"] = ({"available": True, "bytes": sum(out["downloads"][k]["bytes"] for k in ("slddrw", "pdf")), "filename": f"{stem}-drawing.zip"} if both else
                                {"available": False, "reason": gate or "Both the SLDDRW and the PDF must exist to package them."})
@@ -275,7 +295,7 @@ def export_info(api, svc, job_id: str, part_id: str) -> dict:
 
 
 def _download(api, svc, job_id: str, part_id: str, kind: str, ack: str, expect: Optional[int]):
-    if kind not in ("slddrw", "pdf", "zip"):
+    if kind not in KINDS:
         raise HTTPException(404, "Unknown export.")
     info = export_info(api, svc, job_id, part_id)
     part_state = info["part_state"]
@@ -294,7 +314,7 @@ def _download(api, svc, job_id: str, part_id: str, kind: str, ack: str, expect: 
     job = api._job_or_404(svc, job_id)
     part = job.part(part_id)
     headers = {"X-Content-Type-Options": "nosniff", "Cache-Control": "no-store", "X-Drawing-Status": st["key"]}
-    if kind in ("slddrw", "pdf"):
+    if kind in ("slddrw", "pdf", "report"):
         fp = _resolve(api, svc, job, part, kind)
         if fp is None:
             raise HTTPException(404, "That file is not available.")
@@ -318,12 +338,99 @@ def _download(api, svc, job_id: str, part_id: str, kind: str, ack: str, expect: 
                         background=BackgroundTask(lambda: Path(tmp).unlink(missing_ok=True)))
 
 
+# ------------------------------------------------------------------ v8: pre-run estimate
+
+def _legacy_total(svc, n: int, mode: str, caps: dict) -> dict:
+    """An <Estimate> (V8_CONTRACT section 1) built only from what the legacy history estimate knows: a duration range and nothing else.
+    Cost is a real zero only for Standard mode (that path makes no model call); for match mode it is unavailable (null), never 0."""
+    legacy = None
+    try:
+        legacy = svc.estimate(n)
+    except Exception:      # noqa: BLE001
+        legacy = None
+    dur = None
+    if isinstance(legacy, dict) and legacy.get("available") and isinstance(legacy.get("low_s"), (int, float)) and isinstance(legacy.get("high_s"), (int, float)):
+        dur = {"low_s": legacy["low_s"], "expected_s": None, "high_s": legacy["high_s"], "source": "history", "basis": str(legacy.get("basis") or "")}
+    if mode == "standard":
+        cost = {"low": 0, "expected": 0, "high": 0, "currency": "USD", "rate_version": None, "model": None, "unavailable_reason": None}
+        note = "Standard mode makes no model call: local CAD only, no token cost."
+    else:
+        why = ("Choose the parts and their references to estimate the OpenAI cost." if caps.get("estimate")
+               else "This backend build cannot estimate the OpenAI cost before a run.")
+        cost = {"low": None, "expected": None, "high": None, "currency": "USD", "rate_version": None, "model": None, "unavailable_reason": why}
+        note = ""
+    return {"duration": dur, "cost": cost, "tokens": None, "by_stage": {}, "assumptions": [note] if note else [], "labels": [] if dur else ["no_duration_history"]}
+
+
+def build_estimate(api, svc, body: dict) -> dict:
+    """Pre-run estimate for the 3D -> 2D page. Uses ReverseService.estimate_run when the backend has it and the parts are staged on the server (match mode);
+    otherwise a history-only duration. Makes no model call and starts nothing."""
+    caps = capabilities(svc)
+    try:
+        n = max(1, min(1000, int(body.get("count") or 1)))
+    except (TypeError, ValueError):
+        raise HTTPException(400, "count must be a number.")
+    ref_in = body.get("reference")
+    if isinstance(ref_in, str):
+        try:
+            ref_in = json.loads(ref_in)
+        except ValueError:
+            raise HTTPException(400, "The reference settings are not valid JSON.")
+    if ref_in is not None and not isinstance(ref_in, dict):
+        raise HTTPException(400, "The reference settings must be an object.")
+    mode = (ref_in or {}).get("mode", "standard")
+    if mode not in ("standard", "match"):
+        raise HTTPException(400, "Reference mode must be 'standard' or 'match'.")
+    out: dict = {"schema_version": 1, "mode": mode, "count": n, "source": "history", "total": None, "parts": [], "budget": None, "model": None}
+    sid = str(body.get("stage_id") or "")
+    keys = body.get("keys")
+    if caps["estimate"] and sid:
+        st = _stage_or_404(sid)
+        want = [k for k in st["parts"] if keys is None or k in keys]
+        if any(not KEY_RE.match(k) for k in want):
+            raise HTTPException(400, "Invalid part key.")
+        if want:
+            key_to_path = {k: st["parts"][k]["path"] for k in want}
+            try:
+                ref = translate_reference(api, svc, ref_in, st, key_to_path)
+            except HTTPException:
+                ref = {"mode": "match", "fallback_standard": False, "per_part": {}} if mode == "match" else None      # choices not final yet: estimate with automatic lookup
+            by_path = {str(v): k for k, v in key_to_path.items()}
+            try:
+                res = svc.estimate_run([Path(v) for v in key_to_path.values()], ref)
+            except Exception as e:      # noqa: BLE001
+                res = None
+                out["error"] = str(api.scrub(str(e)))[:300] or "The estimate could not be computed."
+            if isinstance(res, dict) and isinstance(res.get("total"), dict):
+                parts = []
+                for p in res.get("parts") or []:
+                    if isinstance(p, dict):
+                        q = dict(p)
+                        q["part"] = by_path.get(str(p.get("part")), "")
+                        parts.append(q)
+                out.update(source="estimate_run", total=res["total"], parts=parts, budget=res.get("budget"), model=res.get("model"))
+                return api.scrub(out)
+    out["total"] = _legacy_total(svc, n, mode, caps)
+    return api.scrub(out)
+
+
 # ------------------------------------------------------------------ routes
 
 def add_routes(r, api) -> None:
     @r.get("/capabilities")
     def caps():
         return capabilities(api.service())
+
+    @r.post("/estimate")
+    async def estimate_post(request: Request):
+        svc = api.service()
+        try:
+            body = await request.json()
+        except Exception:      # noqa: BLE001
+            body = {}
+        if not isinstance(body, dict):
+            raise HTTPException(400, "Send JSON {count, reference?, stage_id?, keys?}.")
+        return await run_in_threadpool(lambda: build_estimate(api, svc, body))
 
     # ---- staging: parts are uploaded once, then candidates are looked up and the job is submitted from the stage
     @r.post("/stage")
