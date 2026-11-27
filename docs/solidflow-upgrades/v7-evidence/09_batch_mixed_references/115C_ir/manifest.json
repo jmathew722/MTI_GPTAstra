@@ -1,0 +1,161 @@
+{
+  "schema_version": 2,
+  "job_id": "r3d_326c1b977e6203df",
+  "part_id": "115C_ir",
+  "source_name": "115C_ir.SLDPRT",
+  "source_sha256": "d04499e690cd20221f8fda82005fdbc605e1d050b24aef0a641e5b64f04a1753",
+  "source_unchanged": true,
+  "configuration": "Default",
+  "solidworks": {
+    "revision": "33.5.0",
+    "major": 33,
+    "service_pack": "SP5.0",
+    "is_2025": true
+  },
+  "template": {
+    "id": "solidflow-ansi-c",
+    "name": "Solid Flow ANSI C landscape (22x17 in), third angle",
+    "sha256": "b8976313954623b68d872610de6f475441e3f8992182a3f80aae9d90d02393a4",
+    "own_sheet_format": true
+  },
+  "profile": "us_third_angle_inch",
+  "units": "inch",
+  "projection": "third",
+  "scale": {
+    "num": 1,
+    "den": 2,
+    "label": "1:2"
+  },
+  "stl": {
+    "unit": "mm",
+    "transform": "none (the part is exported in its own coordinate system)"
+  },
+  "material": {
+    "name": null,
+    "library": null,
+    "density_kg_m3": null,
+    "mass_kg": null,
+    "source": "native part (SetMaterialPropertyName2 read-back)",
+    "status": "not_specified"
+  },
+  "reference": {
+    "mode": "match",
+    "status": "resolved",
+    "source_kind": "history",
+    "filename": "A001151E.pdf",
+    "sha256": "bd55705bb60d4bdbb8607b06d5f9d2b703b546aee53520a09b860fd6a119bf10",
+    "pages": 1,
+    "link": "forward_run",
+    "extraction_cache": "hit",
+    "extraction_id": "refx_f8f7e106a00a833d",
+    "api_usage": {
+      "tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0,
+      "calls": 0,
+      "incremental": true,
+      "historical_usd": 0.20851000000000003,
+      "model": "gpt-6-astra"
+    }
+  },
+  "verification_status": "review_required",
+  "stage_seconds": {
+    "preflight": 0.02,
+    "stl_export": 1.7,
+    "reference_resolution": 0.02,
+    "extraction": 0.01,
+    "view_planning": 0.01,
+    "native_drawing": 4.3,
+    "dimensioning_layout": 26.7,
+    "comparison_correction": 17.99,
+    "verification": 4.29,
+    "publish": null
+  },
+  "files": {
+    "model.stl": {
+      "bytes": 83384,
+      "sha256": "5ed6cb431069c2b3d1cb42c767be898a1001aa0705203227fd5834842c6066c5"
+    },
+    "drawing.slddrw": {
+      "bytes": 187907,
+      "sha256": "ad355b11f598a99734f3b2cc13d8f073ea2ff2bd20c4d8c0c585f0e49172ca05"
+    },
+    "drawing.pdf": {
+      "bytes": 59208,
+      "sha256": "cecf62f8932ac5f8cdf8bc903a20573021cf2ec148db2430243dcedb6616ec70"
+    },
+    "inventory.json": {
+      "bytes": 14110,
+      "sha256": "2782b32e6bb6d021d9cde6aa9700f38b7959e1200488a0e429ee056326051b8f"
+    },
+    "drawing_plan.json": {
+      "bytes": 4981,
+      "sha256": "45bf5961a30201c00831730c8a284a6dbdc0a5f9c36138ee1e04eb49b35742e7"
+    },
+    "dimension_coverage.json": {
+      "bytes": 12721,
+      "sha256": "ac28063e02773ed12e22cdc24ce428968a27dde11c20ee133ae27e6205a99e38"
+    },
+    "stl_validation.json": {
+      "bytes": 547,
+      "sha256": "c4a15a6ae21598011265b13f47c06d020040a3d66c9043eb49337279fe8c4b6d"
+    },
+    "pdf_check.json": {
+      "bytes": 1086,
+      "sha256": "ef4c0412b441a1291fd85d4acda7e18dafe64373373318e05c260b490d8fb60a"
+    },
+    "reopen_check.json": {
+      "bytes": 829,
+      "sha256": "9c7e4fb9de7451b6ffce29af2db7182255625e0fd346b74a36b228ba54d04330"
+    },
+    "layout_report.json": {
+      "bytes": 12730,
+      "sha256": "f3b51f7caa84c476658146cc23c8269037954dbbbb6b5d5b435c004fd7ee7537"
+    },
+    "qa.json": {
+      "bytes": 19074,
+      "sha256": "b1828ffa9d5c196ea647741826477a211d5906e05e10c980b84ba7ac1e406d68"
+    },
+    "verification.json": {
+      "bytes": 9767,
+      "sha256": "09c0e42f131d3e07790a8b36bfeb992177fba9af7be3d5be10027ee27cdfeb10"
+    },
+    "115C_ir.SLDPRT": {
+      "bytes": 98665,
+      "sha256": "d04499e690cd20221f8fda82005fdbc605e1d050b24aef0a641e5b64f04a1753"
+    },
+    "reference/geometry_check.json": {
+      "bytes": 303,
+      "sha256": "cfbebd3f6c0a9f4c6aaf30566c9b9e6871864e94b1bdfaba91a9d22944465ec8"
+    },
+    "reference/reference_extraction.json": {
+      "bytes": 22708,
+      "sha256": "a0bdc7b872ea7e29f2bbd20c42e2b5635349b674bd94a2eaeeb6ef743c42d5f8"
+    },
+    "reference/resolution.json": {
+      "bytes": 1172,
+      "sha256": "f146dd877ecdf7c56aaabcc78038508ed7bf09df6f142985cd220eed74054e0e"
+    },
+    "reference/source.pdf": {
+      "bytes": 378086,
+      "sha256": "bd55705bb60d4bdbb8607b06d5f9d2b703b546aee53520a09b860fd6a119bf10"
+    },
+    "comparison/comparison.json": {
+      "bytes": 22361,
+      "sha256": "283cc906e78b38c7aae6f47050b4282bc13f6962aeee1696b3b7c5edc9b1a361"
+    },
+    "comparison/page-001.png": {
+      "bytes": 363221,
+      "sha256": "3be3465cee449158cfdf590412e0f3a1ef04208437322c960c56675e9c40e21c"
+    },
+    "preview/page-001.png": {
+      "bytes": 213205,
+      "sha256": "122f01e2eeb641dccfa0233d4e7b9755b9a9a9bd37632fe30d6d631c13bf012f"
+    }
+  },
+  "review_status": "required",
+  "status": "review_required",
+  "draft": true,
+  "note": "Draft output. Not approved for manufacture."
+}

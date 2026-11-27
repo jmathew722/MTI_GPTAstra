@@ -1,0 +1,508 @@
+{
+  "max_iterations": 3,
+  "history": [
+    {
+      "iteration": 0,
+      "what": "as generated",
+      "collisions": 3,
+      "score": 9.0
+    },
+    {
+      "iteration": 0,
+      "what": "native Auto Arrange",
+      "collisions": 2,
+      "score": 6.0,
+      "accepted": true
+    },
+    {
+      "iteration": 1,
+      "what": "collision-aware moves",
+      "moved": 1,
+      "moves": [
+        {
+          "annotation": "right/RD4",
+          "text": "0.384",
+          "delta_mm": [
+            4.0,
+            0.0
+          ],
+          "kind": "dimension"
+        }
+      ],
+      "collisions": 2,
+      "score": 6.0,
+      "rejected": "did not improve the measured layout (or repeated an earlier arrangement); positions restored to the best revision"
+    },
+    {
+      "iteration": 2,
+      "what": "collision-aware moves",
+      "moved": 1,
+      "moves": [
+        {
+          "annotation": "right/RD4",
+          "text": "0.384",
+          "delta_mm": [
+            4.0,
+            0.0
+          ],
+          "kind": "dimension"
+        }
+      ],
+      "collisions": 2,
+      "score": 6.0,
+      "rejected": "did not improve the measured layout (or repeated an earlier arrangement); positions restored to the best revision"
+    }
+  ],
+  "arrange": {
+    "views": [
+      {
+        "view": "front",
+        "dimensions": 6,
+        "selected": 6,
+        "returned": true,
+        "error": null
+      },
+      {
+        "view": "top",
+        "dimensions": 1,
+        "selected": 0,
+        "returned": null,
+        "error": null,
+        "skipped": "fewer than two dimensions: nothing to arrange"
+      },
+      {
+        "view": "right",
+        "dimensions": 4,
+        "selected": 4,
+        "returned": true,
+        "error": null
+      },
+      {
+        "view": "section_A",
+        "dimensions": 1,
+        "selected": 0,
+        "returned": null,
+        "error": null,
+        "skipped": "fewer than two dimensions: nothing to arrange"
+      }
+    ],
+    "moved": 10,
+    "integrity": {
+      "ok": true,
+      "lost": [],
+      "added": [],
+      "value_changed": [],
+      "dangling": [],
+      "count_before": 12,
+      "count_after": 12
+    },
+    "collisions_before": 3,
+    "collisions_after": 2,
+    "score_before": 9.0,
+    "score_after": 6.0,
+    "accepted": true,
+    "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+    "inventory_before": [
+      {
+        "id": "front/RD1",
+        "value_m": 0.0508,
+        "position_m": [
+          0.100394,
+          0.151036
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD2",
+        "value_m": 0.04445,
+        "position_m": [
+          0.056406,
+          0.110223
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD3",
+        "value_m": 0.0071374,
+        "position_m": [
+          0.144382,
+          0.139542
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD4",
+        "value_m": 0.0127,
+        "position_m": [
+          0.081344,
+          0.06941
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD5",
+        "value_m": 0.0254,
+        "position_m": [
+          0.100394,
+          0.05841
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD6",
+        "value_m": 0.034544,
+        "position_m": [
+          0.045406,
+          0.10527
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "top/RD1",
+        "value_m": 0.014732,
+        "position_m": [
+          0.056406,
+          0.222123
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD1",
+        "value_m": 0.001016,
+        "position_m": [
+          0.231972,
+          0.133419
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "right/RD2",
+        "value_m": 0.001524,
+        "position_m": [
+          0.199414,
+          0.06941
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD3",
+        "value_m": 0.0296672,
+        "position_m": [
+          0.180064,
+          0.102832
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD4",
+        "value_m": 0.0097536,
+        "position_m": [
+          0.169064,
+          0.122542
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD1",
+        "value_m": 0.008382,
+        "position_m": [
+          0.056406,
+          0.020369
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      }
+    ],
+    "inventory_after": [
+      {
+        "id": "front/RD1",
+        "value_m": 0.0508,
+        "position_m": [
+          0.100394,
+          0.142448
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD2",
+        "value_m": 0.04445,
+        "position_m": [
+          0.058994,
+          0.110223
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD3",
+        "value_m": 0.0071374,
+        "position_m": [
+          0.151,
+          0.145253
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD4",
+        "value_m": 0.0127,
+        "position_m": [
+          0.061532,
+          0.077998
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD5",
+        "value_m": 0.0254,
+        "position_m": [
+          0.100394,
+          0.071998
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD6",
+        "value_m": 0.034544,
+        "position_m": [
+          0.064994,
+          0.10527
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "top/RD1",
+        "value_m": 0.014732,
+        "position_m": [
+          0.056406,
+          0.222123
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD1",
+        "value_m": 0.001016,
+        "position_m": [
+          0.16354,
+          0.153748
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "right/RD2",
+        "value_m": 0.001524,
+        "position_m": [
+          0.18519,
+          0.077998
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD3",
+        "value_m": 0.0296672,
+        "position_m": [
+          0.188652,
+          0.102832
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD4",
+        "value_m": 0.0097536,
+        "position_m": [
+          0.188652,
+          0.140881
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD1",
+        "value_m": 0.008382,
+        "position_m": [
+          0.056406,
+          0.020369
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      }
+    ]
+  },
+  "moves": [
+    {
+      "annotation": "right/RD4",
+      "text": "0.384",
+      "delta_mm": [
+        4.0,
+        0.0
+      ],
+      "kind": "dimension"
+    },
+    {
+      "annotation": "right/RD4",
+      "text": "0.384",
+      "delta_mm": [
+        4.0,
+        0.0
+      ],
+      "kind": "dimension"
+    }
+  ],
+  "views": {
+    "moved": [],
+    "unresolved": []
+  },
+  "before": {
+    "count": 3,
+    "by_kind": {
+      "text_stroke": 3
+    },
+    "clearance_mm": 1.5,
+    "items": [
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t4_0",
+        "severity": "high",
+        "a_text": "0.500",
+        "box_a_mm": [
+          74.23,
+          70.42,
+          88.46,
+          73.88
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t10_0",
+        "severity": "high",
+        "a_text": "0.060",
+        "box_a_mm": [
+          192.3,
+          70.42,
+          206.53,
+          73.88
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t16_0",
+        "severity": "high",
+        "a_text": "SCALE 1 : 1",
+        "box_a_mm": [
+          88.11,
+          4.92,
+          112.68,
+          8.37
+        ],
+        "detail": "a drawn line runs through this text"
+      }
+    ],
+    "advisory": [],
+    "truncated": 0,
+    "exemptions": [
+      "strokes touching a text box edge (leader tip / extension line) are not collisions",
+      "shaded isometric fills are not strokes",
+      "the template's own title block and border are part of the sheet format"
+    ]
+  },
+  "after": {
+    "count": 2,
+    "by_kind": {
+      "text_stroke": 2
+    },
+    "clearance_mm": 1.5,
+    "items": [
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t11_1",
+        "severity": "high",
+        "a_text": "0.384",
+        "box_a_mm": [
+          184.18,
+          133.77,
+          187.64,
+          147.99
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t15_0",
+        "severity": "high",
+        "a_text": "SCALE 1 : 1",
+        "box_a_mm": [
+          88.11,
+          4.92,
+          112.68,
+          8.37
+        ],
+        "detail": "a drawn line runs through this text"
+      }
+    ],
+    "advisory": [],
+    "truncated": 0,
+    "exemptions": [
+      "strokes touching a text box edge (leader tip / extension line) are not collisions",
+      "shaded isometric fills are not strokes",
+      "the template's own title block and border are part of the sheet format"
+    ]
+  },
+  "best": "native Auto Arrange",
+  "iterations_used": 2,
+  "unresolved": [
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t11_1",
+      "severity": "high",
+      "a_text": "0.384",
+      "box_a_mm": [
+        184.18,
+        133.77,
+        187.64,
+        147.99
+      ],
+      "detail": "a drawn line runs through this text"
+    },
+    {
+      "kind": "text_stroke",
+      "page": 1,
+      "a": "p1t15_0",
+      "severity": "high",
+      "a_text": "SCALE 1 : 1",
+      "box_a_mm": [
+        88.11,
+        4.92,
+        112.68,
+        8.37
+      ],
+      "detail": "a drawn line runs through this text"
+    }
+  ]
+}

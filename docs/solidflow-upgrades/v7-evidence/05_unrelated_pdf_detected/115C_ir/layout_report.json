@@ -1,0 +1,654 @@
+{
+  "max_iterations": 3,
+  "history": [
+    {
+      "iteration": 0,
+      "what": "as generated",
+      "collisions": 6,
+      "score": 15.05
+    },
+    {
+      "iteration": 0,
+      "what": "native Auto Arrange",
+      "collisions": 5,
+      "score": 12.05,
+      "accepted": true
+    },
+    {
+      "iteration": 1,
+      "what": "collision-aware moves",
+      "moved": 3,
+      "moves": [
+        {
+          "annotation": "section_A/note2",
+          "text": "VIEW FROM BOTTOM  SCALE 1:2",
+          "delta_mm": [
+            0.0,
+            8.0
+          ],
+          "kind": "note"
+        },
+        {
+          "annotation": "extra_bottom/RD1",
+          "text": "0.578",
+          "delta_mm": [
+            0.0,
+            -4.0
+          ],
+          "kind": "dimension"
+        },
+        {
+          "annotation": "section_A/RD1",
+          "text": "1.002",
+          "delta_mm": [
+            20.0,
+            0.0
+          ],
+          "kind": "dimension"
+        }
+      ],
+      "collisions": 1,
+      "score": 0.05
+    }
+  ],
+  "arrange": {
+    "views": [
+      {
+        "view": "front",
+        "dimensions": 7,
+        "selected": 7,
+        "returned": true,
+        "error": null
+      },
+      {
+        "view": "top",
+        "dimensions": 1,
+        "selected": 0,
+        "returned": null,
+        "error": null,
+        "skipped": "fewer than two dimensions: nothing to arrange"
+      },
+      {
+        "view": "right",
+        "dimensions": 3,
+        "selected": 3,
+        "returned": true,
+        "error": null
+      },
+      {
+        "view": "extra_bottom",
+        "dimensions": 4,
+        "selected": 4,
+        "returned": true,
+        "error": null
+      },
+      {
+        "view": "section_A",
+        "dimensions": 3,
+        "selected": 3,
+        "returned": true,
+        "error": null
+      }
+    ],
+    "moved": 17,
+    "integrity": {
+      "ok": true,
+      "lost": [],
+      "added": [],
+      "value_changed": [],
+      "dangling": [],
+      "count_before": 18,
+      "count_after": 18
+    },
+    "collisions_before": 6,
+    "collisions_after": 5,
+    "score_before": 15.05,
+    "score_after": 12.05,
+    "accepted": true,
+    "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+    "inventory_before": [
+      {
+        "id": "front/RD1",
+        "value_m": 0.08255,
+        "position_m": [
+          0.096475,
+          0.186928
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD2",
+        "value_m": 0.06985,
+        "position_m": [
+          0.036612,
+          0.133415
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD3",
+        "value_m": 0.01031875,
+        "position_m": [
+          0.156338,
+          0.163227
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD4",
+        "value_m": 0.0111125,
+        "position_m": [
+          0.060756,
+          0.079902
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD5",
+        "value_m": 0.060325,
+        "position_m": [
+          0.096475,
+          0.068902
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD6",
+        "value_m": 0.0111125,
+        "position_m": [
+          0.025612,
+          0.104046
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD7",
+        "value_m": 0.047625,
+        "position_m": [
+          0.02295,
+          0.133415
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "top/RD1",
+        "value_m": 0.0381,
+        "position_m": [
+          0.036612,
+          0.24539
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD1",
+        "value_m": 0.014684375,
+        "position_m": [
+          0.268313,
+          0.139415
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "right/RD2",
+        "value_m": 0.01905,
+        "position_m": [
+          0.22115,
+          0.079902
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD3",
+        "value_m": 0.034925,
+        "position_m": [
+          0.193037,
+          0.115952
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD1",
+        "value_m": 0.014684375,
+        "position_m": [
+          0.310038,
+          0.232588
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD2",
+        "value_m": 0.0238125,
+        "position_m": [
+          0.256128,
+          0.190537
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD3",
+        "value_m": 0.034925,
+        "position_m": [
+          0.270812,
+          0.179537
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD4",
+        "value_m": 0.034925,
+        "position_m": [
+          0.231587,
+          0.217856
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD1",
+        "value_m": 0.0254508,
+        "position_m": [
+          0.262081,
+          0.152138
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD2",
+        "value_m": 0.0028194,
+        "position_m": [
+          0.235112,
+          0.104205
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD3",
+        "value_m": 0.028575,
+        "position_m": [
+          0.224112,
+          0.110644
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      }
+    ],
+    "inventory_after": [
+      {
+        "id": "front/RD1",
+        "value_m": 0.08255,
+        "position_m": [
+          0.096475,
+          0.17834
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD2",
+        "value_m": 0.06985,
+        "position_m": [
+          0.0392,
+          0.133415
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD3",
+        "value_m": 0.01031875,
+        "position_m": [
+          0.16575,
+          0.181145
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD4",
+        "value_m": 0.0111125,
+        "position_m": [
+          0.041738,
+          0.07049
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD5",
+        "value_m": 0.060325,
+        "position_m": [
+          0.096475,
+          0.08849
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD6",
+        "value_m": 0.0111125,
+        "position_m": [
+          0.0452,
+          0.085028
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD7",
+        "value_m": 0.047625,
+        "position_m": [
+          0.0452,
+          0.133415
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "top/RD1",
+        "value_m": 0.0381,
+        "position_m": [
+          0.036612,
+          0.24539
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD1",
+        "value_m": 0.014684375,
+        "position_m": [
+          0.269476,
+          0.16527
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "right/RD2",
+        "value_m": 0.01905,
+        "position_m": [
+          0.22115,
+          0.08849
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD3",
+        "value_m": 0.034925,
+        "position_m": [
+          0.201625,
+          0.115952
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD1",
+        "value_m": 0.014684375,
+        "position_m": [
+          0.314562,
+          0.251299
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD2",
+        "value_m": 0.0238125,
+        "position_m": [
+          0.236713,
+          0.193125
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD3",
+        "value_m": 0.034925,
+        "position_m": [
+          0.270812,
+          0.199125
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD4",
+        "value_m": 0.034925,
+        "position_m": [
+          0.240175,
+          0.217856
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD1",
+        "value_m": 0.0254508,
+        "position_m": [
+          0.239618,
+          0.13255
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD2",
+        "value_m": 0.0028194,
+        "position_m": [
+          0.2437,
+          0.090038
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD3",
+        "value_m": 0.028575,
+        "position_m": [
+          0.2377,
+          0.110644
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      }
+    ]
+  },
+  "moves": [
+    {
+      "annotation": "section_A/note2",
+      "text": "VIEW FROM BOTTOM  SCALE 1:2",
+      "delta_mm": [
+        0.0,
+        8.0
+      ],
+      "kind": "note"
+    },
+    {
+      "annotation": "extra_bottom/RD1",
+      "text": "0.578",
+      "delta_mm": [
+        0.0,
+        -4.0
+      ],
+      "kind": "dimension"
+    },
+    {
+      "annotation": "section_A/RD1",
+      "text": "1.002",
+      "delta_mm": [
+        20.0,
+        0.0
+      ],
+      "kind": "dimension"
+    }
+  ],
+  "views": {
+    "moved": [],
+    "unresolved": []
+  },
+  "before": {
+    "count": 5,
+    "by_kind": {
+      "text_stroke": 5,
+      "envelope_touch": 1
+    },
+    "clearance_mm": 1.5,
+    "items": [
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t4_0",
+        "severity": "high",
+        "a_text": "0.438",
+        "box_a_mm": [
+          53.64,
+          80.92,
+          67.87,
+          84.37
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t6_0",
+        "severity": "high",
+        "a_text": "0.438",
+        "box_a_mm": [
+          21.14,
+          96.93,
+          24.6,
+          111.16
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t8_1",
+        "severity": "high",
+        "a_text": "0.578",
+        "box_a_mm": [
+          265.13,
+          137.68,
+          278.06,
+          141.13
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t13_0",
+        "severity": "high",
+        "a_text": "0.938",
+        "box_a_mm": [
+          249.02,
+          191.55,
+          263.24,
+          195.0
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t18_0",
+        "severity": "high",
+        "a_text": "0.111",
+        "box_a_mm": [
+          230.64,
+          97.09,
+          234.1,
+          111.32
+        ],
+        "detail": "a drawn line runs through this text"
+      }
+    ],
+    "advisory": [
+      {
+        "kind": "envelope_touch",
+        "page": 1,
+        "a": "right",
+        "b": "section_A",
+        "severity": "low",
+        "box_a_mm": [
+          206.04,
+          92.9,
+          255.31,
+          173.93
+        ],
+        "box_b_mm": [
+          248.11,
+          97.91,
+          293.51,
+          128.14
+        ],
+        "detail": "view envelopes overlap inside the centre-mark allowance; drawn geometry does not"
+      }
+    ],
+    "truncated": 0,
+    "exemptions": [
+      "strokes touching a text box edge (leader tip / extension line) are not collisions",
+      "shaded isometric fills are not strokes",
+      "the template's own title block and border are part of the sheet format"
+    ]
+  },
+  "after": {
+    "count": 0,
+    "by_kind": {
+      "envelope_touch": 1
+    },
+    "clearance_mm": 1.5,
+    "items": [],
+    "advisory": [
+      {
+        "kind": "envelope_touch",
+        "page": 1,
+        "a": "right",
+        "b": "section_A",
+        "severity": "low",
+        "box_a_mm": [
+          206.04,
+          92.9,
+          255.31,
+          173.93
+        ],
+        "box_b_mm": [
+          248.11,
+          97.91,
+          293.51,
+          128.14
+        ],
+        "detail": "view envelopes overlap inside the centre-mark allowance; drawn geometry does not"
+      }
+    ],
+    "truncated": 0,
+    "exemptions": [
+      "strokes touching a text box edge (leader tip / extension line) are not collisions",
+      "shaded isometric fills are not strokes",
+      "the template's own title block and border are part of the sheet format"
+    ]
+  },
+  "best": "correction 1",
+  "iterations_used": 1,
+  "unresolved": []
+}

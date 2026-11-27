@@ -152,7 +152,7 @@ def compatibility(ex: dict, inv: dict, default_unit: Optional[str]) -> dict:
         if any(abs(num.value * UNIT_TO_M[u] - sz) <= max(compare.tol_m(num, u), 1e-6) for num, u in items):
             overall_hit += 1
     ratio = matched / len(items)
-    if overall_hit == 0 and ratio < 0.3:
+    if overall_hit == 0 and ratio < 0.5:
         status = "incompatible"
     elif ratio >= 0.5 or overall_hit >= 2:
         status = "compatible"

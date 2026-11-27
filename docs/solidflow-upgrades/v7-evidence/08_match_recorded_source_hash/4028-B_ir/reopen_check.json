@@ -1,0 +1,33 @@
+{
+  "opened": true,
+  "views": [
+    {
+      "name": "Drawing View1",
+      "references": "4028-B_ir.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View2",
+      "references": "4028-B_ir.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View3",
+      "references": "4028-B_ir.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Drawing View4",
+      "references": "4028-B_ir.SLDPRT",
+      "ok": true
+    },
+    {
+      "name": "Section View A-A",
+      "references": "4028-B_ir.SLDPRT",
+      "ok": true
+    }
+  ],
+  "dimensions": 12,
+  "errors": [],
+  "sheets": 1
+}

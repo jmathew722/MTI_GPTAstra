@@ -48,3 +48,19 @@ are the final authority, as the architecture spec requires. No enum value below 
 4. A note created while geometry is selected gets a leader.
 5. Sketch inference moves new endpoints; build programmatic geometry with `AddToDB = True`.
 6. A dimension is measured in the view plane: compare against model geometry projected into that plane (a counterbore floor sits 2.8 mm deeper than the part face).
+
+## v7 drawing standards (SOLIDWORKS 2025 SP5, 33.5.0; verified live 2026-11-27 against sldworks.tlb / swconst.tlb)
+
+| Need | API (verified) | Constant / readback | Evidence |
+|---|---|---|---|
+| Isometric Shaded With Edges | `IView.SetDisplayMode3(UseParent=False, Mode=3, Faceted=False, Edges=True)` | `swDisplayMode_e.swSHADED`=3 + Edges flag. `Mode=7` (`swSHADED_EDGES`) and `5` (`swViewDisplayMode_ShadedWithEdges`, a different enum) are NOT accepted (5 yields HIDDEN_GREYED=1; 7 returns False). Read back `GetDisplayMode2()==3` and `GetDisplayEdgesInShadedMode()==True`; the exported PDF contains the shaded image in the iso outline | `v7-evidence/*/verification.json` standards.iso_* |
+| Broken leader, horizontal text (dimension "Custom text position") | `IDisplayDimension.SetBrokenLeader2(UseDoc=False, Broken=2)` | `swDisplayDimensionLeaderText_e.swBrokenLeaderHorizontalText`=2; read back `GetBrokenLeader2()==2`, `GetUseDocBrokenLeader()==False`. Linear dimensions read -1 (no leader text option): reported not applicable. No `SetHorizontal` effect (returns False). Doc preference 372 (`swDetailingDimensionTextAndLeaderStyle`) is read-only through `SetUserPreferenceInteger` (returns False) | standards.broken_leaders |
+| Notes | `swLeaderStyle_e` has straight/bent/underlined only: no broken leader class for notes. Solid Flow creates no leadered notes (reported) | | |
+| Auto Arrange Dimensions | `IModelDocExtension.AlignDimensions(swAlignDimensionType_AutoArrange=0, spacing)` after `SelectByID2(IDisplayDimension.GetNameForSelection(), "DIMENSION", ...)` (append for 2nd+). `IAnnotation.Select3` does NOT select dimensions (returns False; AlignDimensions then silently does nothing) | before/after inventory (id, value, position, attachments) in `layout_report.json` | |
+| Dimension inventory | `IView.GetDisplayDimensions`, `IDisplayDimension.GetDimension2(0).SystemValue` (metres), `.GetAnnotation().GetPosition/Color/Layer/IsDangling/GetAttachedEntityCount3` | | |
+| Notes inventory/move | `IView.GetNotes` (sheet pseudo-view owns sheet notes), `INote.GetAnnotation().SetPosition2` | | |
+| Annotation black | layer SF_BLACK (colour 0), `IAnnotation.Color` read back == 0, PDF text colour measured | `final_measure.nonblack_text` | |
+| Text extents | not available natively for dimensions: measured from the exported PDF (PyMuPDF), converted with x_m=x_pt*0.0254/72, y_m=(H-y)*0.0254/72; `check_scale` verifies page size == native sheet size | | |
+| Free-view move | `IView.Position` set + `GetOutline` read-back (aligned section views may be locked) | | |
+Student Edition note: every PDF carries "SOLIDWORKS Educational Product. For Instructional Use Only." (licence watermark); it is detected and excluded from collisions, never hidden.
+Unresolved: ISheet.SetScale(num, den) does not change the template title block SCALE field (reads 2:1 on a 1:2 ANSI C sheet; view scales are correct).

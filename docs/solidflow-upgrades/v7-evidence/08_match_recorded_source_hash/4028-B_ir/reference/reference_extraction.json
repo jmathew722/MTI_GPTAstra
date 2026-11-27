@@ -1,0 +1,1438 @@
+{
+  "schema_version": "ref/1",
+  "extraction_id": "refx_79ede681987b11bd",
+  "source": {
+    "sha256": "0ed5aa38ac00340dbcd42b5aa9367a2ad1a297c044f678a8cf12a0da097df262",
+    "filename": "source.pdf",
+    "pages": 1,
+    "page_extracted": 1
+  },
+  "sheet": {
+    "page_index": 0,
+    "width_pt": 1219.0,
+    "height_pt": 772.0,
+    "rotation": 0,
+    "media_box": [
+      0.0,
+      0.0,
+      1219.0,
+      772.0
+    ],
+    "crop_box": [
+      0.0,
+      0.0,
+      1219.0,
+      772.0
+    ],
+    "orientation": "landscape",
+    "units": "INCHES",
+    "projection": "THIRD ANGLE PROJECTION",
+    "scale_text": "1\"=1\"",
+    "size_text": "",
+    "title_block_bbox_norm": [
+      0.705,
+      0.395,
+      0.973,
+      0.966
+    ],
+    "title_block_bbox_pt": [
+      859.39,
+      304.94,
+      1186.09,
+      745.75
+    ],
+    "coordinate_system": "normalized top-left 0..1 plus PDF points (top-left origin, as displayed)",
+    "text_source": "ocr"
+  },
+  "views": [
+    {
+      "id": "V1",
+      "type": "Front",
+      "label": "",
+      "bbox_norm": [
+        0.173,
+        0.523,
+        0.292,
+        0.688
+      ],
+      "bbox_pt": [
+        210.89,
+        403.76,
+        355.95,
+        531.14
+      ],
+      "center_norm": [
+        0.2325,
+        0.6055
+      ],
+      "scale_text": "",
+      "parent_id": "",
+      "confidence": 0.99,
+      "evidence": "Main rectangular view with two circular holes; top and right views arranged in printed third-angle projection.",
+      "position_source": "model_estimate"
+    },
+    {
+      "id": "V2",
+      "type": "Top",
+      "label": "",
+      "bbox_norm": [
+        0.174,
+        0.177,
+        0.292,
+        0.233
+      ],
+      "bbox_pt": [
+        212.11,
+        136.64,
+        355.95,
+        179.88
+      ],
+      "center_norm": [
+        0.233,
+        0.205
+      ],
+      "scale_text": "",
+      "parent_id": "",
+      "confidence": 0.98,
+      "evidence": "Above front view; rectangular web and tapered foot outline. Lines below tapered outline are radius leaders.",
+      "position_source": "model_estimate"
+    },
+    {
+      "id": "V3",
+      "type": "Right",
+      "label": "",
+      "bbox_norm": [
+        0.544,
+        0.524,
+        0.58,
+        0.69
+      ],
+      "bbox_pt": [
+        663.14,
+        404.53,
+        707.02,
+        532.68
+      ],
+      "center_norm": [
+        0.562,
+        0.607
+      ],
+      "scale_text": "",
+      "parent_id": "",
+      "confidence": 0.99,
+      "evidence": "Profile to right of front view in third-angle projection.",
+      "position_source": "model_estimate"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "A001",
+      "kind": "hole_callout",
+      "text": ".281 DR. THRU\n2 HLS.",
+      "nominal": 0.281,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": 2,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.40934,
+        0.15084,
+        0.52025,
+        0.19383
+      ],
+      "bbox_pt": [
+        498.99,
+        116.45,
+        634.18,
+        149.64
+      ],
+      "anchor_norm": [
+        0.265,
+        0.551
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T001",
+        "T003"
+      ],
+      "bound_ids": [
+        "D005",
+        "H001"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T001,T003"
+    },
+    {
+      "id": "A002",
+      "kind": "angular",
+      "text": "30° TYP.",
+      "nominal": 30.0,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V2",
+      "bbox_norm": [
+        0.08721,
+        0.17429,
+        0.13914,
+        0.19618
+      ],
+      "bbox_pt": [
+        106.31,
+        134.55,
+        169.61,
+        151.45
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T002"
+      ],
+      "bound_ids": [
+        "D009"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T002"
+    },
+    {
+      "id": "A003",
+      "kind": "radius",
+      "text": ".03 R.\nBLEND\nSMOOTH",
+      "nominal": 0.03,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V2",
+      "bbox_norm": [
+        0.2576,
+        0.25948,
+        0.32364,
+        0.32513
+      ],
+      "bbox_pt": [
+        314.02,
+        200.32,
+        394.52,
+        251.0
+      ],
+      "anchor_norm": [
+        0.254,
+        0.232
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T004",
+        "T005",
+        "T006"
+      ],
+      "bound_ids": [
+        "D010"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "Leading decimal point is visible; OCR omitted it.",
+      "evidence": "text items T004,T005,T006"
+    },
+    {
+      "id": "A004",
+      "kind": "linear",
+      "text": ".62\nTYP.",
+      "nominal": 0.62,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V2",
+      "bbox_norm": [
+        0.17594,
+        0.31575,
+        0.2092,
+        0.35797
+      ],
+      "bbox_pt": [
+        214.47,
+        243.76,
+        255.02,
+        276.35
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T009",
+        "T010"
+      ],
+      "bound_ids": [
+        "D008"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "OCR omitted leading decimal point.",
+      "evidence": "text items T009,T010"
+    },
+    {
+      "id": "A005",
+      "kind": "linear",
+      "text": ".50",
+      "nominal": 0.5,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.17392,
+        0.39469,
+        0.26214,
+        0.41267
+      ],
+      "bbox_pt": [
+        212.01,
+        304.7,
+        319.55,
+        318.58
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T012"
+      ],
+      "bound_ids": [
+        "D003"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "T012 contains two separate dimensions and dimension-line artifacts; this is the left dimension.",
+      "evidence": "text items T012"
+    },
+    {
+      "id": "A006",
+      "kind": "linear",
+      "text": "1.000",
+      "nominal": 1.0,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.17392,
+        0.39469,
+        0.26214,
+        0.41267
+      ],
+      "bbox_pt": [
+        212.01,
+        304.7,
+        319.55,
+        318.58
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T012"
+      ],
+      "bound_ids": [
+        "D004"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "T012 contains two separate dimensions and dimension-line artifacts; this is the right dimension.",
+      "evidence": "text items T012"
+    },
+    {
+      "id": "A007",
+      "kind": "linear",
+      "text": ".172±.005",
+      "nominal": 0.172,
+      "unit": "",
+      "tol_upper": 0.005,
+      "tol_lower": -0.005,
+      "tol_text": "±.005",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.33675,
+        0.46347,
+        0.40178,
+        0.48926
+      ],
+      "bbox_pt": [
+        410.5,
+        357.8,
+        489.77,
+        377.71
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T014"
+      ],
+      "bound_ids": [
+        "D006"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T014"
+    },
+    {
+      "id": "A008",
+      "kind": "linear",
+      "text": "1.75",
+      "nominal": 1.75,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.07764,
+        0.59321,
+        0.10284,
+        0.61666
+      ],
+      "bbox_pt": [
+        94.64,
+        457.96,
+        125.36,
+        476.06
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T018"
+      ],
+      "bound_ids": [
+        "D002"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T018"
+    },
+    {
+      "id": "A009",
+      "kind": "linear",
+      "text": ".50",
+      "nominal": 0.5,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.33826,
+        0.73233,
+        0.35842,
+        0.75031
+      ],
+      "bbox_pt": [
+        412.34,
+        565.36,
+        436.92,
+        579.24
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T034"
+      ],
+      "bound_ids": [
+        "D007"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "OCR omitted leading decimal point.",
+      "evidence": "text items T034"
+    },
+    {
+      "id": "A010",
+      "kind": "linear",
+      "text": "2.00",
+      "nominal": 2.0,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V1",
+      "bbox_norm": [
+        0.20669,
+        0.80268,
+        0.24147,
+        0.82456
+      ],
+      "bbox_pt": [
+        251.95,
+        619.67,
+        294.35,
+        636.56
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T038"
+      ],
+      "bound_ids": [
+        "D001"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T038"
+    },
+    {
+      "id": "A011",
+      "kind": "linear",
+      "text": ".080",
+      "nominal": 0.08,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.50058,
+        0.30637,
+        0.53184,
+        0.32904
+      ],
+      "bbox_pt": [
+        610.21,
+        236.52,
+        648.31,
+        254.02
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T007"
+      ],
+      "bound_ids": [
+        "D011"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T007"
+    },
+    {
+      "id": "A012",
+      "kind": "radius",
+      "text": ".020 R. MAX.",
+      "nominal": 0.02,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.64779,
+        0.30637,
+        0.74256,
+        0.32982
+      ],
+      "bbox_pt": [
+        789.65,
+        236.52,
+        905.18,
+        254.62
+      ],
+      "anchor_norm": [
+        0.575,
+        0.546
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T008"
+      ],
+      "bound_ids": [
+        "D013"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "OCR leading hyphen is a leader-line artifact. Branched leader points to both rib-root corners.",
+      "evidence": "text items T008"
+    },
+    {
+      "id": "A013",
+      "kind": "linear",
+      "text": ".25",
+      "nominal": 0.25,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.51066,
+        0.39391,
+        0.54797,
+        0.4158
+      ],
+      "bbox_pt": [
+        622.5,
+        304.1,
+        667.98,
+        321.0
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T013"
+      ],
+      "bound_ids": [
+        "D012"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "OCR trailing dash is part of dimension line.",
+      "evidence": "text items T013"
+    },
+    {
+      "id": "A014",
+      "kind": "linear",
+      "text": ".344 +.000\n−.010",
+      "nominal": 0.344,
+      "unit": "",
+      "tol_upper": 0.0,
+      "tol_lower": -0.01,
+      "tol_text": "+.000\n−.010",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.635,
+        0.475,
+        0.694,
+        0.514
+      ],
+      "bbox_pt": [
+        774.07,
+        366.7,
+        845.99,
+        396.81
+      ],
+      "anchor_norm": null,
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "bound_ids": [
+        "D014"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "Tolerance is stacked at upper right of nominal value.",
+      "evidence": "read from the rendered page"
+    },
+    {
+      "id": "A015",
+      "kind": "linear",
+      "text": "1.188",
+      "nominal": 1.188,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.63368,
+        0.63152,
+        0.66644,
+        0.65574
+      ],
+      "bbox_pt": [
+        772.45,
+        487.53,
+        812.39,
+        506.23
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T022"
+      ],
+      "bound_ids": [
+        "D015"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T022"
+    },
+    {
+      "id": "A016",
+      "kind": "linear",
+      "text": ".500",
+      "nominal": 0.5,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.48899,
+        0.73078,
+        0.52478,
+        0.75266
+      ],
+      "bbox_pt": [
+        596.08,
+        564.16,
+        639.71,
+        581.05
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T035"
+      ],
+      "bound_ids": [
+        "D016"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "OCR trailing dash is part of dimension line.",
+      "evidence": "text items T035"
+    },
+    {
+      "id": "A017",
+      "kind": "linear",
+      "text": ".58 REF.",
+      "nominal": 0.58,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.4774,
+        0.80268,
+        0.55856,
+        0.82534
+      ],
+      "bbox_pt": [
+        581.95,
+        619.67,
+        680.88,
+        637.16
+      ],
+      "anchor_norm": null,
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T039"
+      ],
+      "bound_ids": [
+        "D017"
+      ],
+      "required": true,
+      "uncertain": false,
+      "note": "OCR trailing dash is part of dimension line.",
+      "evidence": "text items T039"
+    },
+    {
+      "id": "A018",
+      "kind": "finish",
+      "text": "63",
+      "nominal": 63.0,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V2",
+      "bbox_norm": [
+        0.141,
+        0.14,
+        0.165,
+        0.175
+      ],
+      "bbox_pt": [
+        171.88,
+        108.08,
+        201.14,
+        135.1
+      ],
+      "anchor_norm": [
+        0.146,
+        0.172
+      ],
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "bound_ids": [],
+      "required": true,
+      "uncertain": false,
+      "note": "Surface-texture symbol on inclined extension.",
+      "evidence": "read from the rendered page"
+    },
+    {
+      "id": "A019",
+      "kind": "finish",
+      "text": "63",
+      "nominal": 63.0,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V2",
+      "bbox_norm": [
+        0.136,
+        0.203,
+        0.159,
+        0.233
+      ],
+      "bbox_pt": [
+        165.78,
+        156.72,
+        193.82,
+        179.88
+      ],
+      "anchor_norm": [
+        0.149,
+        0.231
+      ],
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "bound_ids": [],
+      "required": true,
+      "uncertain": false,
+      "note": "Surface-texture symbol on horizontal extension.",
+      "evidence": "read from the rendered page"
+    },
+    {
+      "id": "A020",
+      "kind": "finish",
+      "text": "125",
+      "nominal": 125.0,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.55453,
+        0.365,
+        0.56713,
+        0.38219
+      ],
+      "bbox_pt": [
+        675.97,
+        281.78,
+        691.33,
+        295.05
+      ],
+      "anchor_norm": [
+        0.575,
+        0.361
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T011"
+      ],
+      "bound_ids": [],
+      "required": true,
+      "uncertain": false,
+      "note": "Rotated surface-texture value 125; OCR fragment V is incorrect.",
+      "evidence": "text items T011"
+    },
+    {
+      "id": "A021",
+      "kind": "finish",
+      "text": "125",
+      "nominal": 125.0,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.61603,
+        0.51505,
+        0.63518,
+        0.52991
+      ],
+      "bbox_pt": [
+        750.94,
+        397.62,
+        774.29,
+        409.09
+      ],
+      "anchor_norm": [
+        0.629,
+        0.545
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T016"
+      ],
+      "bound_ids": [],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "text items T016"
+    },
+    {
+      "id": "A022",
+      "kind": "finish",
+      "text": "125",
+      "nominal": 125.0,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.614,
+        0.548,
+        0.64,
+        0.579
+      ],
+      "bbox_pt": [
+        748.47,
+        423.06,
+        780.16,
+        446.99
+      ],
+      "anchor_norm": [
+        0.628,
+        0.578
+      ],
+      "position_source": "model_estimate",
+      "ocr_ids": [],
+      "bound_ids": [],
+      "required": true,
+      "uncertain": false,
+      "note": "",
+      "evidence": "read from the rendered page"
+    },
+    {
+      "id": "A023",
+      "kind": "finish",
+      "text": "125",
+      "nominal": 125.0,
+      "unit": "",
+      "tol_upper": null,
+      "tol_lower": null,
+      "tol_text": "",
+      "quantity": null,
+      "view_id": "V3",
+      "bbox_norm": [
+        0.55402,
+        0.71592,
+        0.56612,
+        0.72999
+      ],
+      "bbox_pt": [
+        675.35,
+        552.69,
+        690.1,
+        563.55
+      ],
+      "anchor_norm": [
+        0.573,
+        0.711
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T032"
+      ],
+      "bound_ids": [],
+      "required": true,
+      "uncertain": false,
+      "note": "Rotated surface-texture value 125; OCR captured only a fragment.",
+      "evidence": "text items T032"
+    }
+  ],
+  "notes": [
+    {
+      "id": "N001",
+      "kind": "material",
+      "text": "1018",
+      "bbox_norm": [
+        0.7587,
+        0.55648,
+        0.80406,
+        0.58696
+      ],
+      "bbox_pt": [
+        924.85,
+        429.6,
+        980.15,
+        453.13
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T017"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N002",
+      "kind": "tolerance_block",
+      "text": "UNLESS OTHERWISE SPECIFIED:\nTHIRD ANGLE PROJECTION\nDIMENSIONS IN INCHES\n2 PLACE DIM. ±.02\n3 PLACE DIM. ±.010\nANGULAR DIM. ±1°",
+      "bbox_norm": [
+        0.71736,
+        0.6487,
+        0.84137,
+        0.73468
+      ],
+      "bbox_pt": [
+        874.46,
+        500.8,
+        1025.63,
+        567.17
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T024",
+        "T026",
+        "T027",
+        "T029",
+        "T030",
+        "T033"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N003",
+      "kind": "title_block_field",
+      "text": "SCALE 1\"=1\"",
+      "bbox_norm": [
+        0.7355,
+        0.72921,
+        0.79952,
+        0.76047
+      ],
+      "bbox_pt": [
+        896.58,
+        562.95,
+        974.62,
+        587.08
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T036"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N004",
+      "kind": "title_block_field",
+      "text": "DATE: 10-20-87",
+      "bbox_norm": [
+        0.85145,
+        0.62838,
+        0.94673,
+        0.65183
+      ],
+      "bbox_pt": [
+        1037.92,
+        485.11,
+        1154.06,
+        503.21
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T023"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N005",
+      "kind": "title_block_field",
+      "text": "DRN: GLN",
+      "bbox_norm": [
+        0.85246,
+        0.65262,
+        0.90943,
+        0.67372
+      ],
+      "bbox_pt": [
+        1039.15,
+        503.82,
+        1108.59,
+        520.11
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T025"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N006",
+      "kind": "title_block_field",
+      "text": "CHK: JWZ",
+      "bbox_norm": [
+        0.85347,
+        0.67528,
+        0.92052,
+        0.69639
+      ],
+      "bbox_pt": [
+        1040.38,
+        521.32,
+        1122.11,
+        537.61
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T028"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N007",
+      "kind": "title_block_field",
+      "text": "MANUFACTURING TECHNOLOGY INC.",
+      "bbox_norm": [
+        0.71282,
+        0.77453,
+        0.96487,
+        0.80034
+      ],
+      "bbox_pt": [
+        868.93,
+        597.94,
+        1176.18,
+        617.86
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T037"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N008",
+      "kind": "title_block_field",
+      "text": "DOG",
+      "bbox_norm": [
+        0.7229,
+        0.86052,
+        0.76222,
+        0.88474
+      ],
+      "bbox_pt": [
+        881.22,
+        664.32,
+        929.15,
+        683.02
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T048"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N009",
+      "kind": "title_block_field",
+      "text": "4028-B",
+      "bbox_norm": [
+        0.71988,
+        0.9207,
+        0.84036,
+        0.96211
+      ],
+      "bbox_pt": [
+        877.53,
+        710.78,
+        1024.4,
+        742.75
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T049"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N010",
+      "kind": "title_block_field",
+      "text": "MODEL NO.\n480-B",
+      "bbox_norm": [
+        0.87162,
+        0.91756,
+        0.93413,
+        0.96446
+      ],
+      "bbox_pt": [
+        1062.5,
+        708.36,
+        1138.7,
+        744.56
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T050",
+        "T051"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N011",
+      "kind": "other",
+      "text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING\nTECHNOLOGY INC. AND OR ITS SUBSIDIARIES WITHOUT WRITTEN PER-\nMISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE\nEXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+      "bbox_norm": [
+        0.72895,
+        0.80815,
+        0.96185,
+        0.85738
+      ],
+      "bbox_pt": [
+        888.59,
+        623.89,
+        1172.5,
+        661.9
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T040",
+        "T041",
+        "T042",
+        "T043",
+        "T044",
+        "T045",
+        "T046",
+        "T047"
+      ],
+      "uncertain": true
+    },
+    {
+      "id": "N012",
+      "kind": "title_block_field",
+      "text": "HEAT TREATMENT",
+      "bbox_norm": [
+        0.74559,
+        0.50567,
+        0.83985,
+        0.52131
+      ],
+      "bbox_pt": [
+        908.87,
+        390.38,
+        1023.78,
+        402.45
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T015"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N013",
+      "kind": "title_block_field",
+      "text": "MATERIAL",
+      "bbox_norm": [
+        0.76726,
+        0.60885,
+        0.81717,
+        0.6276
+      ],
+      "bbox_pt": [
+        935.29,
+        470.03,
+        996.13,
+        484.51
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T019"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N014",
+      "kind": "title_block_field",
+      "text": "APP'D:",
+      "bbox_norm": [
+        0.85296,
+        0.69951,
+        0.88372,
+        0.71905
+      ],
+      "bbox_pt": [
+        1039.76,
+        540.02,
+        1077.25,
+        555.11
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T031"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N015",
+      "kind": "revision",
+      "text": "MC",
+      "bbox_norm": [
+        0.85296,
+        0.60494,
+        0.90943,
+        0.6276
+      ],
+      "bbox_pt": [
+        1039.76,
+        467.01,
+        1108.59,
+        484.51
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T020"
+      ],
+      "uncertain": true
+    },
+    {
+      "id": "N016",
+      "kind": "title_block_field",
+      "text": "CHG",
+      "bbox_norm": [
+        0.85296,
+        0.60494,
+        0.90943,
+        0.6276
+      ],
+      "bbox_pt": [
+        1039.76,
+        467.01,
+        1108.59,
+        484.51
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T020"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N017",
+      "kind": "title_block_field",
+      "text": "DATE",
+      "bbox_norm": [
+        0.92404,
+        0.60962,
+        0.95126,
+        0.62683
+      ],
+      "bbox_pt": [
+        1126.41,
+        470.63,
+        1159.59,
+        483.91
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T021"
+      ],
+      "uncertain": false
+    },
+    {
+      "id": "N018",
+      "kind": "other",
+      "text": "CRAFTPAK LEEDS, MASS SPS 10732",
+      "bbox_norm": [
+        0.70526,
+        0.97228,
+        0.76222,
+        0.98244
+      ],
+      "bbox_pt": [
+        859.71,
+        750.6,
+        929.15,
+        758.44
+      ],
+      "position_source": "ocr",
+      "ocr_ids": [
+        "T052"
+      ],
+      "uncertain": true
+    }
+  ],
+  "title_block": {
+    "MATERIAL": "1018",
+    "DATE:": "10-20-87",
+    "DRN:": "GLN",
+    "CHK:": "JWZ",
+    "MODEL NO.": "480-B",
+    "SCALE": "1\"=1\""
+  },
+  "material": {
+    "printed": "1018"
+  },
+  "text_items": 52,
+  "vector_clusters": [],
+  "warnings": [
+    "Prior-extraction dimensions D018–D025 are not printed dimensions on this sheet and are not reported.",
+    "General tolerances are transcribed only in the tolerance block, not inferred onto individual dimensions.",
+    "Small proprietary notice, footer imprint, and handwritten MC entry have limited legibility.",
+    "OCR T012 merges two separate dimensions; T020 merges handwritten text with the CHG heading."
+  ],
+  "provenance": {
+    "origin": "supplemented",
+    "model": "gpt-6-astra",
+    "provider": "openai",
+    "prompt_version": "reflayout-3",
+    "schema_version": "ref/1",
+    "page_render": {
+      "max_long_edge_px": 2576,
+      "width_px": 2576,
+      "height_px": 1631,
+      "dpi_source": "PDF rasterized at 300 dpi, long edge capped"
+    },
+    "text_source": "ocr",
+    "usage": {
+      "input_tokens": 9058,
+      "output_tokens": 2656,
+      "usd": 0.23454999999999998,
+      "calls": 1
+    },
+    "created": "2026-11-27T08:20:44Z"
+  },
+  "base_extraction": {
+    "run": "A040281E",
+    "file": "A040281E_extraction.json",
+    "sha256": "46425516a7e1e6550f464a88afd60b700587a223efe22c38661676e03b399011",
+    "why": "the forward run manifest records this drawing's SHA-256",
+    "cost_usd": null,
+    "layout_positions": false
+  },
+  "quality": {
+    "ok": true,
+    "views": 3,
+    "annotations": 23,
+    "required_annotations": 23,
+    "located": 23,
+    "located_from_text_evidence": 19,
+    "uncertain": 0,
+    "notes": 18
+  }
+}

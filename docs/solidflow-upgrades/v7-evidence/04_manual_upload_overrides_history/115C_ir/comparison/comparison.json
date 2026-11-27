@@ -1,0 +1,741 @@
+{
+  "semantic": {
+    "ledger": [
+      {
+        "id": "L001",
+        "ref_id": "A001",
+        "kind": "linear",
+        "text": "2.38",
+        "required": true,
+        "status": "matched",
+        "native_id": "front/RD5",
+        "expected": "2.38 inch",
+        "observed": "2.3750 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L002",
+        "ref_id": "A002",
+        "kind": "linear",
+        "text": "2.75",
+        "required": true,
+        "status": "matched",
+        "native_id": "front/RD2",
+        "expected": "2.75 inch",
+        "observed": "2.7500 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L003",
+        "ref_id": "A003",
+        "kind": "linear",
+        "text": "1.88",
+        "required": true,
+        "status": "matched",
+        "native_id": "front/RD7",
+        "expected": "1.88 inch",
+        "observed": "1.8750 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L004",
+        "ref_id": "A004",
+        "kind": "linear",
+        "text": ".94",
+        "required": true,
+        "status": "matched",
+        "native_id": "extra_bottom/RD2",
+        "expected": "0.94 inch",
+        "observed": "0.9375 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L005",
+        "ref_id": "A005",
+        "kind": "linear",
+        "text": ".50",
+        "required": true,
+        "status": "value_differs",
+        "native_id": "front/RD4",
+        "expected": "0.5 inch",
+        "observed": "0.4375 inch",
+        "reason": "the reference prints 0.5 inch but the model's true value is 0.4375 inch; the true value is shown, nothing was overridden",
+        "severity": "high"
+      },
+      {
+        "id": "L006",
+        "ref_id": "A006",
+        "kind": "linear",
+        "text": "1.88",
+        "required": true,
+        "status": "matched_shared",
+        "native_id": "front/RD7",
+        "expected": "1.88 inch",
+        "observed": "1.8750 inch",
+        "reason": "the true model value equals the printed value within its printed precision (the same dimension also serves A003)",
+        "severity": "info"
+      },
+      {
+        "id": "L007",
+        "ref_id": "A007",
+        "kind": "hole_callout",
+        "text": ".40 DIA. THRU 4 PLACES",
+        "required": true,
+        "status": "value_differs",
+        "native_id": "front/RD3",
+        "expected": "0.4 inch",
+        "observed": "0.4062 inch",
+        "reason": "the reference prints 0.4 inch but the model's true value is 0.4062 inch; the true value is shown, nothing was overridden",
+        "severity": "high"
+      },
+      {
+        "id": "L008",
+        "ref_id": "A008",
+        "kind": "linear",
+        "text": "3.25",
+        "required": true,
+        "status": "matched",
+        "native_id": "front/RD1",
+        "expected": "3.25 inch",
+        "observed": "3.2500 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L009",
+        "ref_id": "A009",
+        "kind": "linear",
+        "text": "1.5",
+        "required": true,
+        "status": "matched",
+        "native_id": "top/RD1",
+        "expected": "1.5 inch",
+        "observed": "1.5000 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L010",
+        "ref_id": "A010",
+        "kind": "finish",
+        "text": "63",
+        "required": true,
+        "status": "missing",
+        "expected": "63 inch",
+        "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+        "severity": "medium"
+      },
+      {
+        "id": "L011",
+        "ref_id": "A011",
+        "kind": "hole_callout",
+        "text": "DRILL .58 DIA. X .50 DP.\nC'BORE 1.012\n1.002 DIA.\nX .111\n.113 DEEP\n2 PLACES",
+        "required": true,
+        "status": "matched",
+        "native_id": "right/RD1",
+        "expected": "0.58 inch",
+        "observed": "0.5781 inch",
+        "reason": "the true model value equals the printed value within its printed precision",
+        "severity": "info"
+      },
+      {
+        "id": "L012",
+        "ref_id": "A012",
+        "kind": "center_mark",
+        "text": "\u2104",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "no numeric characteristic",
+        "severity": "info"
+      },
+      {
+        "id": "L013",
+        "ref_id": "A013",
+        "kind": "center_mark",
+        "text": "\u2104",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "no numeric characteristic",
+        "severity": "info"
+      },
+      {
+        "id": "L014",
+        "ref_id": "N001",
+        "kind": "note:view_label",
+        "text": "A",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L015",
+        "ref_id": "N002",
+        "kind": "note:view_label",
+        "text": "A",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L016",
+        "ref_id": "N003",
+        "kind": "note:view_label",
+        "text": "SECTION A-A",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L017",
+        "ref_id": "N004",
+        "kind": "note:general_note",
+        "text": "HEAT TREATMENT\nNONE",
+        "required": true,
+        "status": "preserved_note",
+        "reason": "carried verbatim into the reference-note block with provenance (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L018",
+        "ref_id": "N005",
+        "kind": "note:material",
+        "text": "MATERIAL\nCRS 1018",
+        "required": true,
+        "status": "preserved_note",
+        "reason": "carried verbatim into the reference-note block with provenance (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L019",
+        "ref_id": "N006",
+        "kind": "note:tolerance_block",
+        "text": "UNLESS OTHERWISE SPECIFIED:\nTHIRD ANGLE PROJECTION\nDIMENSIONS IN INCHES\nPLACE DIM. \u00b1\nPLACE DIM. \u00b1\nANGULAR DIM. \u00b1",
+        "required": true,
+        "status": "preserved_note",
+        "reason": "carried verbatim into the reference-note block with provenance (not engineering approval)",
+        "severity": "info"
+      },
+      {
+        "id": "L020",
+        "ref_id": "N007",
+        "kind": "note:title_block_field",
+        "text": "SCALE = HALF",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L021",
+        "ref_id": "N008",
+        "kind": "note:title_block_field",
+        "text": "DATE: 7-8-76",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L022",
+        "ref_id": "N009",
+        "kind": "note:title_block_field",
+        "text": "DRN: Bob Young",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L023",
+        "ref_id": "N010",
+        "kind": "note:title_block_field",
+        "text": "CHK: BY",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L024",
+        "ref_id": "N011",
+        "kind": "note:title_block_field",
+        "text": "APP'D:",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L025",
+        "ref_id": "N012",
+        "kind": "note:title_block_field",
+        "text": "CHG",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L026",
+        "ref_id": "N013",
+        "kind": "note:title_block_field",
+        "text": "DATE",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L027",
+        "ref_id": "N014",
+        "kind": "note:title_block_field",
+        "text": "MANUFACTURING TECHNOLOGY INC.",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L028",
+        "ref_id": "N015",
+        "kind": "note:other",
+        "text": "THE INFORMATION HEREON IS THE PROPERTY OF MANUFACTURING\nTECHNOLOGY INC. AND OR ITS SUBSIDIARIES. WITHOUT WRITTEN PER-\nMISSION, ANY COPYING, TRANSMITTAL TO OTHERS, AND ANY USE\nEXCEPT THAT FOR WHICH IT IS LOANED, IS PROHIBITED.",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L029",
+        "ref_id": "N016",
+        "kind": "note:title_block_field",
+        "text": "CHK. VALVE ELIM.",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L030",
+        "ref_id": "N017",
+        "kind": "note:title_block_field",
+        "text": "116-C",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L031",
+        "ref_id": "N018",
+        "kind": "note:title_block_field",
+        "text": "MODEL NO.\n90 B",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      },
+      {
+        "id": "L032",
+        "ref_id": "N019",
+        "kind": "note:other",
+        "text": "CHARTPAK LEEDS, MASS SPM 10732",
+        "required": false,
+        "status": "not_applicable",
+        "reason": "administrative text (title block data is generated from the part and template)",
+        "severity": "info"
+      }
+    ],
+    "coverage": {
+      "matched": 11,
+      "total": 14,
+      "unresolved": [
+        {
+          "id": "L005",
+          "ref_id": "A005",
+          "kind": "linear",
+          "text": ".50",
+          "required": true,
+          "status": "value_differs",
+          "native_id": "front/RD4",
+          "expected": "0.5 inch",
+          "observed": "0.4375 inch",
+          "reason": "the reference prints 0.5 inch but the model's true value is 0.4375 inch; the true value is shown, nothing was overridden",
+          "severity": "high"
+        },
+        {
+          "id": "L007",
+          "ref_id": "A007",
+          "kind": "hole_callout",
+          "text": ".40 DIA. THRU 4 PLACES",
+          "required": true,
+          "status": "value_differs",
+          "native_id": "front/RD3",
+          "expected": "0.4 inch",
+          "observed": "0.4062 inch",
+          "reason": "the reference prints 0.4 inch but the model's true value is 0.4062 inch; the true value is shown, nothing was overridden",
+          "severity": "high"
+        },
+        {
+          "id": "L010",
+          "ref_id": "A010",
+          "kind": "finish",
+          "text": "63",
+          "required": true,
+          "status": "missing",
+          "expected": "63 inch",
+          "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+          "severity": "medium"
+        }
+      ]
+    },
+    "material": {
+      "reference": "CRS 1018",
+      "native": null,
+      "status": "reference_only",
+      "note": "The reference prints a material but the model has none assigned; the drawing title block says NOT SPECIFIED (never guessed)."
+    },
+    "views": [
+      {
+        "ref_view": "V1",
+        "type": "Top",
+        "reference_scale": "",
+        "present": true,
+        "native_roles": [
+          "front"
+        ],
+        "note": ""
+      },
+      {
+        "ref_view": "V2",
+        "type": "Front",
+        "reference_scale": "",
+        "present": true,
+        "native_roles": [
+          "top"
+        ],
+        "note": ""
+      },
+      {
+        "ref_view": "V3",
+        "type": "Section",
+        "reference_scale": "",
+        "present": false,
+        "native_roles": [],
+        "note": "no matching Section view was generated (this pipeline generates front/top/right, an isometric and hole sections)"
+      }
+    ],
+    "counts": {
+      "matched": 7,
+      "matched_shared": 1,
+      "missing": 1,
+      "not_applicable": 18,
+      "preserved_note": 3,
+      "value_differs": 2
+    }
+  },
+  "spatial": {
+    "views": [
+      {
+        "ref_view": "V1",
+        "native": "front",
+        "type": "Top",
+        "delta_mm": [
+          -0.0,
+          -0.0
+        ],
+        "distance_mm": 0.0,
+        "within_target": true,
+        "target_mm": 1.0
+      },
+      {
+        "ref_view": "V2",
+        "native": "top",
+        "type": "Front",
+        "delta_mm": [
+          -1.12,
+          0.0
+        ],
+        "distance_mm": 1.12,
+        "within_target": false,
+        "target_mm": 1.0
+      }
+    ],
+    "annotations": [
+      {
+        "ref_id": "A001",
+        "native": "front/RD5",
+        "text": "2.38",
+        "delta_mm": [
+          -3.9,
+          -81.5
+        ],
+        "distance_mm": 81.6,
+        "within_target": false,
+        "target_mm": 2.0,
+        "position_source": "model_estimate"
+      },
+      {
+        "ref_id": "A002",
+        "native": "front/RD2",
+        "text": "2.75",
+        "delta_mm": [
+          39.8,
+          11.5
+        ],
+        "distance_mm": 41.4,
+        "within_target": false,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A003",
+        "native": "front/RD7",
+        "text": "1.88",
+        "delta_mm": [
+          19.8,
+          6.6
+        ],
+        "distance_mm": 20.9,
+        "within_target": false,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A004",
+        "native": "extra_bottom/RD2",
+        "text": ".94",
+        "delta_mm": [
+          125.6,
+          70.6
+        ],
+        "distance_mm": 144.1,
+        "within_target": false,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A006",
+        "native": "front/RD7",
+        "text": "1.88",
+        "delta_mm": [
+          -44.1,
+          65.4
+        ],
+        "distance_mm": 78.9,
+        "within_target": false,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A008",
+        "native": "front/RD1",
+        "text": "3.25",
+        "delta_mm": [
+          2.2,
+          174.0
+        ],
+        "distance_mm": 174.0,
+        "within_target": false,
+        "target_mm": 2.0,
+        "position_source": "model_estimate"
+      },
+      {
+        "ref_id": "A009",
+        "native": "top/RD1",
+        "text": "1.5",
+        "delta_mm": [
+          -114.2,
+          -0.2
+        ],
+        "distance_mm": 114.2,
+        "within_target": false,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      },
+      {
+        "ref_id": "A011",
+        "native": "right/RD1",
+        "text": "DRILL .58 DIA. X .50 DP.\nC'BORE 1.012\n1.002 DIA.\nX .111\n.113 DEEP\n2 PLACES",
+        "delta_mm": [
+          211.4,
+          140.9
+        ],
+        "distance_mm": 254.0,
+        "within_target": false,
+        "target_mm": 2.0,
+        "position_source": "ocr"
+      }
+    ],
+    "summary": {
+      "views_compared": 2,
+      "views_within_target": 1,
+      "view_median_mm": 0.6,
+      "annotations_compared": 8,
+      "annotations_within_target": 0,
+      "annotation_median_mm": 97.9,
+      "annotation_max_mm": 254.0,
+      "targets_note": "Spatial targets (1 mm views, 2 mm annotations) are drafting-comparison targets, not manufacturing tolerances. Positions from a scan are OCR/model estimates with the stated position_source; the reference page proportions may differ from the supported sheet formats (see sheet deviation)."
+    },
+    "transform": {
+      "x": "nx * W",
+      "y": "(1 - ny) * H",
+      "W_m": 0.5588,
+      "H_m": 0.4318
+    }
+  },
+  "iterations": {
+    "used": 1,
+    "max": 3,
+    "history": [
+      {
+        "iteration": 0,
+        "what": "as laid out",
+        "collisions": 0,
+        "spatial_mean_mm": 91.25
+      },
+      {
+        "iteration": 1,
+        "what": "moved toward reference anchors",
+        "moved": 6,
+        "collisions": 3,
+        "spatial_mean_mm": 34.59,
+        "moves": [
+          {
+            "annotation": "right/RD1",
+            "ref": "A011",
+            "delta_mm": [
+              -211.4,
+              -140.9
+            ]
+          },
+          {
+            "annotation": "extra_bottom/RD2",
+            "ref": "A004",
+            "delta_mm": [
+              -125.6,
+              -70.6
+            ]
+          },
+          {
+            "annotation": "top/RD1",
+            "ref": "A009",
+            "delta_mm": [
+              114.2,
+              0.2
+            ]
+          },
+          {
+            "annotation": "front/RD7",
+            "ref": "A006",
+            "delta_mm": [
+              44.1,
+              -65.4
+            ]
+          },
+          {
+            "annotation": "front/RD2",
+            "ref": "A002",
+            "delta_mm": [
+              -39.8,
+              -11.5
+            ]
+          },
+          {
+            "annotation": "front/RD7",
+            "ref": "A003",
+            "delta_mm": [
+              -19.8,
+              -6.6
+            ]
+          }
+        ],
+        "skipped": [],
+        "rejected": "no measured improvement without adding collisions; positions restored to the best revision"
+      }
+    ]
+  },
+  "reference_layout": {
+    "applied": true,
+    "transform": {
+      "x": "nx * W",
+      "y": "(1 - ny) * H",
+      "W_m": 0.5588,
+      "H_m": 0.4318,
+      "origin": "sheet lower-left (SOLIDWORKS)"
+    },
+    "views": {
+      "front": {
+        "matched_by": "silhouette proportions and type",
+        "reference_view": "V1",
+        "type": "Top",
+        "reference_center_m": [
+          0.180772,
+          0.266205
+        ],
+        "target_center_m": [
+          0.180772,
+          0.266205
+        ],
+        "status": "placed_from_reference"
+      },
+      "top": {
+        "matched_by": "silhouette proportions",
+        "reference_view": "V2",
+        "type": "Front",
+        "reference_center_m": [
+          0.181889,
+          0.170777
+        ],
+        "target_center_m": [
+          0.180772,
+          0.170777
+        ],
+        "status": "placed_from_reference"
+      },
+      "right": {
+        "status": "placed_from_reference",
+        "note": "no reference view has this view's silhouette; the planner's position is kept",
+        "target_center_m": [
+          0.276872,
+          0.266205
+        ]
+      },
+      "iso": {
+        "status": "no_reference_view",
+        "type": "Isometric",
+        "note": "The reference has no isometric view (this pipeline always adds one, Shaded With Edges); placed by the planner."
+      }
+    },
+    "deviations": [
+      "Sheet format ANSI_C was chosen from the reference page proportions (aspect 1.351); the requested profile used ANSI_B.",
+      "Template changed to Solid Flow ANSI C landscape (22x17 in), third angle so the sheet format matches the reference."
+    ],
+    "reference_scale": "HALF",
+    "moved": {
+      "front": [
+        0.180772,
+        0.266205
+      ],
+      "top": [
+        0.180772,
+        0.170777
+      ],
+      "right": [
+        0.276872,
+        0.266205
+      ]
+    },
+    "sheet_deviations": [
+      "Sheet format ANSI_C was chosen from the reference page proportions (aspect 1.351); the requested profile used ANSI_B.",
+      "Template changed to Solid Flow ANSI C landscape (22x17 in), third angle so the sheet format matches the reference."
+    ]
+  }
+}

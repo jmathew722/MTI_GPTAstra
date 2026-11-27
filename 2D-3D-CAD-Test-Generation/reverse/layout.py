@@ -220,7 +220,7 @@ def detect(pages: list[PageMeasure], *, clearance_m: float = DEFAULT_CLEARANCE_M
             continue
         texts = pm.texts
         for a, b in itertools.combinations(texts, 2):
-            if a.id.rsplit("_", 1)[0] == b.id.rsplit("_", 1)[0]:
+            if a.id.rsplit("_", 1)[0] == b.id.rsplit("_", 1)[0] and not a.overlaps(b):
                 continue          # exemption: lines of ONE multi-line annotation are spaced by SOLIDWORKS itself
             if (a.text.upper().startswith("SCALE") or b.text.upper().startswith("SCALE")) and not a.overlaps(b):
                 continue          # exemption: a view title ("SECTION A-A") stacked over its "SCALE 1:2" line is one SOLIDWORKS view label; only a true overlap is flagged

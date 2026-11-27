@@ -1,0 +1,441 @@
+{
+  "scenario": "09_batch_mixed_references",
+  "job_id": "r3d_326c1b977e6203df",
+  "state": "completed_with_failures",
+  "parts": [
+    {
+      "part": "115C_ir",
+      "state": "review_required",
+      "error": "",
+      "reference": {
+        "mode": "match",
+        "status": "resolved",
+        "source_kind": "history",
+        "filename": "A001151E.pdf",
+        "sha256": "bd55705bb60d4bdbb8607b06d5f9d2b703b546aee53520a09b860fd6a119bf10",
+        "pages": 1,
+        "link": "forward_run",
+        "confidence": 0.95,
+        "reasons": [
+          "part SHA-256 equals the SLDPRT of forward run 'A001151E', and this drawing is stored in that run folder"
+        ],
+        "extraction_cache": "hit",
+        "extraction_id": "refx_f8f7e106a00a833d",
+        "extraction_schema": "ref/1",
+        "api_usage": {
+          "tokens": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0,
+          "calls": 0,
+          "incremental": true,
+          "historical_usd": 0.20851000000000003,
+          "model": "gpt-6-astra"
+        },
+        "warnings": [
+          "The reference notes are longer than the sheet's notes zone; they were placed in free space on the sheet."
+        ],
+        "part_sha256": "d04499e690cd20221f8fda82005fdbc605e1d050b24aef0a641e5b64f04a1753",
+        "candidate_summary": [
+          {
+            "artifact_id": "pdf_bd55705bb60d4bdbb860",
+            "filename": "A001151E.pdf",
+            "confidence": 0.95,
+            "link": "forward_run",
+            "needs_confirmation": false
+          }
+        ],
+        "matched_runs": [
+          "A001151E"
+        ],
+        "quality": {
+          "ok": true,
+          "views": 3,
+          "annotations": 13,
+          "required_annotations": 11,
+          "located": 13,
+          "located_from_text_evidence": 7,
+          "uncertain": 0,
+          "notes": 19
+        },
+        "geometry_check": {
+          "status": "compatible",
+          "compared": 10,
+          "matched": 9,
+          "ratio": 0.9,
+          "overall_extents_found": 3,
+          "overall_extents_total": 3,
+          "note": "A mismatch detector, not proof of identity: it checks that printed dimensions exist among the model's sizes, hole diameters and hole positions."
+        }
+      },
+      "verification_status": "review_required",
+      "stages": {
+        "preflight": "succeeded",
+        "stl_export": "succeeded",
+        "reference_resolution": "succeeded",
+        "extraction": "succeeded",
+        "view_planning": "succeeded",
+        "native_drawing": "succeeded",
+        "dimensioning_layout": "succeeded",
+        "comparison_correction": "succeeded",
+        "verification": "warning",
+        "publish": "succeeded"
+      },
+      "seconds": 59.0,
+      "verification": {
+        "status": "review_required",
+        "coverage": {
+          "matched": 11,
+          "total": 14,
+          "unresolved": [
+            {
+              "id": "L005",
+              "ref_id": "A005",
+              "kind": "linear",
+              "text": ".50",
+              "required": true,
+              "status": "value_differs",
+              "native_id": "front/RD4",
+              "expected": "0.5 inch",
+              "observed": "0.4375 inch",
+              "reason": "the reference prints 0.5 inch but the model's true value is 0.4375 inch; the true value is shown, nothing was overridden",
+              "severity": "high"
+            },
+            {
+              "id": "L007",
+              "ref_id": "A007",
+              "kind": "hole_callout",
+              "text": ".40 DIA. THRU 4 PLACES",
+              "required": true,
+              "status": "value_differs",
+              "native_id": "front/RD3",
+              "expected": "0.4 inch",
+              "observed": "0.4062 inch",
+              "reason": "the reference prints 0.4 inch but the model's true value is 0.4062 inch; the true value is shown, nothing was overridden",
+              "severity": "high"
+            },
+            {
+              "id": "L010",
+              "ref_id": "A010",
+              "kind": "finish",
+              "text": "63",
+              "required": true,
+              "status": "missing",
+              "expected": "63 inch",
+              "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+              "severity": "medium"
+            }
+          ],
+          "basis": "required reference items (dimensions, hole callouts, notes) vs the generated drawing"
+        },
+        "collisions": {
+          "count": 0,
+          "by_kind": {},
+          "clearance_mm": 1.5,
+          "items": [],
+          "advisory": [],
+          "truncated": 0,
+          "exemptions": [
+            "strokes touching a text box edge (leader tip / extension line) are not collisions",
+            "shaded isometric fills are not strokes",
+            "the template's own title block and border are part of the sheet format"
+          ],
+          "texts": 53,
+          "strokes": 2372
+        },
+        "comparison": {
+          "semantic": {
+            "counts": {
+              "matched": 7,
+              "matched_shared": 1,
+              "missing": 1,
+              "not_applicable": 18,
+              "preserved_note": 3,
+              "value_differs": 2
+            },
+            "material": {
+              "reference": "CRS 1018",
+              "native": null,
+              "status": "reference_only",
+              "note": "The reference prints a material but the model has none assigned; the drawing title block says NOT SPECIFIED (never guessed)."
+            },
+            "views": [
+              {
+                "ref_view": "V1",
+                "type": "Top",
+                "reference_scale": "",
+                "present": true,
+                "native_roles": [
+                  "front"
+                ],
+                "note": ""
+              },
+              {
+                "ref_view": "V2",
+                "type": "Front",
+                "reference_scale": "",
+                "present": true,
+                "native_roles": [
+                  "top"
+                ],
+                "note": ""
+              },
+              {
+                "ref_view": "V3",
+                "type": "Section",
+                "reference_scale": "",
+                "present": false,
+                "native_roles": [],
+                "note": "no matching Section view was generated (this pipeline generates front/top/right, an isometric and hole sections)"
+              }
+            ]
+          },
+          "spatial": {
+            "views_compared": 2,
+            "views_within_target": 1,
+            "view_median_mm": 0.6,
+            "annotations_compared": 8,
+            "annotations_within_target": 0,
+            "annotation_median_mm": 97.9,
+            "annotation_max_mm": 254.0,
+            "targets_note": "Spatial targets (1 mm views, 2 mm annotations) are drafting-comparison targets, not manufacturing tolerances. Positions from a scan are OCR/model estimates with the stated position_source; the reference page proportions may differ from the supported sheet formats (see sheet deviation)."
+          }
+        },
+        "iterations": {
+          "used": 1,
+          "max": 3,
+          "history": [
+            {
+              "iteration": 0,
+              "what": "as laid out",
+              "collisions": 0,
+              "spatial_mean_mm": 91.25
+            },
+            {
+              "iteration": 1,
+              "what": "moved toward reference anchors",
+              "moved": 6,
+              "collisions": 3,
+              "spatial_mean_mm": 34.59,
+              "moves": [
+                {
+                  "annotation": "right/RD1",
+                  "ref": "A011",
+                  "delta_mm": [
+                    -211.4,
+                    -140.9
+                  ]
+                },
+                {
+                  "annotation": "extra_bottom/RD2",
+                  "ref": "A004",
+                  "delta_mm": [
+                    -125.6,
+                    -70.6
+                  ]
+                },
+                {
+                  "annotation": "top/RD1",
+                  "ref": "A009",
+                  "delta_mm": [
+                    114.2,
+                    0.2
+                  ]
+                },
+                {
+                  "annotation": "front/RD7",
+                  "ref": "A006",
+                  "delta_mm": [
+                    44.1,
+                    -65.4
+                  ]
+                },
+                {
+                  "annotation": "front/RD2",
+                  "ref": "A002",
+                  "delta_mm": [
+                    -39.8,
+                    -11.5
+                  ]
+                },
+                {
+                  "annotation": "front/RD7",
+                  "ref": "A003",
+                  "delta_mm": [
+                    -19.8,
+                    -6.6
+                  ]
+                }
+              ],
+              "skipped": [],
+              "rejected": "no measured improvement without adding collisions; positions restored to the best revision"
+            }
+          ],
+          "layout": {
+            "max_iterations": 3,
+            "iterations_used": 0,
+            "best": "native Auto Arrange",
+            "history": [
+              {
+                "iteration": 0,
+                "what": "as generated",
+                "collisions": 5,
+                "score": 15.0
+              },
+              {
+                "iteration": 0,
+                "what": "native Auto Arrange",
+                "collisions": 0,
+                "score": 0,
+                "accepted": true
+              }
+            ]
+          }
+        },
+        "standards": {
+          "iso_shaded_with_edges": true,
+          "iso_shading_in_pdf": true,
+          "black_text": true,
+          "broken_leaders": {
+            "applied": 3,
+            "failed": 0,
+            "not_applicable": 16,
+            "note": "No leadered notes are generated: broken leaders do not exist for notes in the 2025 API."
+          },
+          "arrange": {
+            "accepted": true,
+            "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+            "moved": 17,
+            "integrity": {
+              "ok": true,
+              "lost": [],
+              "added": [],
+              "value_changed": [],
+              "dangling": [],
+              "count_before": 19,
+              "count_after": 19
+            },
+            "collisions_before": 5,
+            "collisions_after": 0
+          },
+          "licence_watermark": true
+        },
+        "issues_by_severity": {
+          "high": 8,
+          "info": 1,
+          "low": 2,
+          "medium": 1
+        },
+        "hard_failures": [
+          "TEXT_OVERLAPS",
+          "TEXT_OVERLAPS",
+          "TEXT_OVERLAPS",
+          "TEXT_OVERLAPS",
+          "TEXT_OVERLAPS"
+        ],
+        "note": "Software QA is not engineering approval. A reference match is not an approval either; the drawing stays PRELIMINARY / FOR REVIEW."
+      }
+    },
+    {
+      "part": "117-C_ir",
+      "state": "failed",
+      "error": "REFERENCE_AMBIGUOUS: 2 candidate drawing(s) were found but none is confirmed by hash or forward-run evidence (best: A001171E.PDF, confidence 0.60). Confirm one explicitly or upload the PDF.",
+      "reference": {
+        "mode": "match",
+        "status": "blocked",
+        "source_kind": "none",
+        "filename": "",
+        "sha256": "",
+        "pages": 0,
+        "link": null,
+        "confidence": null,
+        "reasons": [
+          "2 candidate drawing(s) were found but none is confirmed by hash or forward-run evidence (best: A001171E.PDF, confidence 0.60). Confirm one explicitly or upload the PDF."
+        ],
+        "extraction_cache": "none",
+        "extraction_id": "",
+        "extraction_schema": "",
+        "api_usage": {
+          "tokens": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0,
+          "calls": 0,
+          "incremental": true,
+          "historical_usd": null
+        },
+        "warnings": [],
+        "part_sha256": "630247beaa2af2a00018c940b8124dbb1d830b33de502364a4ffa1994ce7ab50",
+        "error": "REFERENCE_AMBIGUOUS: 2 candidate drawing(s) were found but none is confirmed by hash or forward-run evidence (best: A001171E.PDF, confidence 0.60). Confirm one explicitly or upload the PDF."
+      },
+      "verification_status": "not_run",
+      "stages": {
+        "preflight": "failed",
+        "stl_export": "skipped",
+        "reference_resolution": "skipped",
+        "extraction": "skipped",
+        "view_planning": "skipped",
+        "native_drawing": "skipped",
+        "dimensioning_layout": "skipped",
+        "comparison_correction": "skipped",
+        "verification": "skipped",
+        "publish": "skipped"
+      },
+      "seconds": null,
+      "verification": {
+        "status": "not_run"
+      }
+    },
+    {
+      "part": "116-C_ir",
+      "state": "failed",
+      "error": "REFERENCE_BLOCKED: Match mode was requested for this part but its reference source is 'none'.",
+      "reference": {
+        "mode": "match",
+        "status": "blocked",
+        "source_kind": "none",
+        "filename": "",
+        "sha256": "",
+        "pages": 0,
+        "link": null,
+        "confidence": null,
+        "reasons": [
+          "Match mode was requested for this part but its reference source is 'none'."
+        ],
+        "extraction_cache": "none",
+        "extraction_id": "",
+        "extraction_schema": "",
+        "api_usage": {
+          "tokens": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0,
+          "calls": 0,
+          "incremental": true,
+          "historical_usd": null
+        },
+        "warnings": [],
+        "part_sha256": "cb72079227f317d0f79d0f27ea260eec28eecd96735887e730480634d8a3084f",
+        "error": "REFERENCE_BLOCKED: Match mode was requested for this part but its reference source is 'none'."
+      },
+      "verification_status": "not_run",
+      "stages": {
+        "preflight": "failed",
+        "stl_export": "skipped",
+        "reference_resolution": "skipped",
+        "extraction": "skipped",
+        "view_planning": "skipped",
+        "native_drawing": "skipped",
+        "dimensioning_layout": "skipped",
+        "comparison_correction": "skipped",
+        "verification": "skipped",
+        "publish": "skipped"
+      },
+      "seconds": null,
+      "verification": {
+        "status": "not_run"
+      }
+    }
+  ],
+  "note": "115C: linked + cached; 117-C: ambiguous (blocked); 116-C: match with no source (blocked)"
+}

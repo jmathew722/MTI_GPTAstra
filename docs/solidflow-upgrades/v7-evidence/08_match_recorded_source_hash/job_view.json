@@ -1,0 +1,1239 @@
+{
+  "job_id": "r3d_9956bcfdb55e06f6",
+  "template_id": "solidflow-ansi-b",
+  "profile": "us_third_angle_inch",
+  "options": {
+    "rejected": [],
+    "reference_mode": "match",
+    "reference_fallback_standard": false
+  },
+  "state": "review_required",
+  "created": "2026-11-27T08:20:01+00:00",
+  "updated": "2026-11-27T08:21:24+00:00",
+  "solidworks": {
+    "revision": "33.5.0",
+    "major": 33,
+    "service_pack": "SP5.0",
+    "is_2025": true
+  },
+  "cancel_requested": false,
+  "actual_api_cost_usd": 0.2345,
+  "kind": "drawing_generation",
+  "parts": [
+    {
+      "part_id": "4028-B_ir",
+      "name": "4028-B_ir.SLDPRT",
+      "config": "",
+      "state": "review_required",
+      "stages": {
+        "preflight": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:20:01+00:00",
+          "warnings": [],
+          "errors": [],
+          "ended": "2026-11-27T08:20:01+00:00",
+          "seconds": 0.02
+        },
+        "stl_export": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:20:01+00:00",
+          "warnings": [],
+          "errors": [],
+          "ended": "2026-11-27T08:20:04+00:00",
+          "seconds": 3.58,
+          "inventory": {
+            "holes": 4,
+            "size_m": [
+              0.0508,
+              0.014731999999999999,
+              0.044449999999999996
+            ]
+          }
+        },
+        "reference_resolution": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:20:08+00:00",
+          "warnings": [],
+          "errors": [],
+          "ended": "2026-11-27T08:20:08+00:00",
+          "seconds": 0.04
+        },
+        "extraction": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:20:08+00:00",
+          "warnings": [],
+          "errors": [],
+          "ended": "2026-11-27T08:20:44+00:00",
+          "seconds": 35.57
+        },
+        "view_planning": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:20:44+00:00",
+          "warnings": [],
+          "errors": [],
+          "ended": "2026-11-27T08:20:44+00:00",
+          "seconds": 0.01
+        },
+        "native_drawing": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:20:44+00:00",
+          "warnings": [],
+          "errors": [],
+          "iso": {
+            "views": [
+              {
+                "role": "iso",
+                "view": "Drawing View4",
+                "applied": true,
+                "set_returned": true,
+                "display_mode_readback": 3,
+                "edges_in_shaded_readback": true,
+                "label": "Shaded With Edges"
+              }
+            ]
+          },
+          "ended": "2026-11-27T08:20:47+00:00",
+          "seconds": 3.13
+        },
+        "dimensioning_layout": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:20:47+00:00",
+          "warnings": [],
+          "errors": [],
+          "standards": {
+            "iso": {
+              "views": [
+                {
+                  "role": "iso",
+                  "view": "Drawing View4",
+                  "applied": true,
+                  "set_returned": true,
+                  "display_mode_readback": 3,
+                  "edges_in_shaded_readback": true,
+                  "label": "Shaded With Edges"
+                }
+              ]
+            },
+            "leaders": {
+              "applied": [
+                {
+                  "id": "front/RD3",
+                  "type": "radial",
+                  "readback": 2,
+                  "use_document_display": false
+                },
+                {
+                  "id": "right/RD1",
+                  "type": "radial",
+                  "readback": 2,
+                  "use_document_display": false
+                }
+              ],
+              "not_applicable": [
+                {
+                  "id": "front/RD1",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD2",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD4",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD5",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "front/RD6",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "top/RD1",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "right/RD2",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "right/RD3",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "right/RD4",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                },
+                {
+                  "id": "section_A/RD1",
+                  "type": "linear",
+                  "why": "no configurable leader text style (linear / ordinate dimension)"
+                }
+              ],
+              "failed": []
+            },
+            "black": {
+              "checked": 28,
+              "fixed": 0,
+              "failed": []
+            },
+            "arrange": {
+              "requested": true,
+              "views": [
+                {
+                  "view": "front",
+                  "dimensions": 6,
+                  "selected": 6,
+                  "returned": true,
+                  "error": null
+                },
+                {
+                  "view": "top",
+                  "dimensions": 1,
+                  "selected": 0,
+                  "returned": null,
+                  "error": null,
+                  "skipped": "fewer than two dimensions: nothing to arrange"
+                },
+                {
+                  "view": "right",
+                  "dimensions": 4,
+                  "selected": 4,
+                  "returned": true,
+                  "error": null
+                },
+                {
+                  "view": "section_A",
+                  "dimensions": 1,
+                  "selected": 0,
+                  "returned": null,
+                  "error": null,
+                  "skipped": "fewer than two dimensions: nothing to arrange"
+                }
+              ],
+              "moved": 10,
+              "integrity": {
+                "ok": true,
+                "lost": [],
+                "added": [],
+                "value_changed": [],
+                "dangling": [],
+                "count_before": 12,
+                "count_after": 12
+              },
+              "before_count": 12,
+              "after_count": 12
+            },
+            "notes": {
+              "leadered_notes": 0,
+              "note": "No leadered notes are generated: broken leaders do not exist for notes in the 2025 API."
+            }
+          },
+          "ended": "2026-11-27T08:21:10+00:00",
+          "seconds": 23.21
+        },
+        "comparison_correction": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:21:10+00:00",
+          "warnings": [],
+          "errors": [],
+          "ended": "2026-11-27T08:21:19+00:00",
+          "seconds": 9.15
+        },
+        "verification": {
+          "status": "warning",
+          "started": "2026-11-27T08:21:19+00:00",
+          "warnings": [
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used.",
+            "IExportPdfData.SetSheets(all) returned False; the default (all sheets) was used."
+          ],
+          "errors": [],
+          "ended": "2026-11-27T08:21:23+00:00",
+          "seconds": 3.63
+        },
+        "publish": {
+          "status": "succeeded",
+          "started": "2026-11-27T08:21:23+00:00",
+          "warnings": [],
+          "errors": [],
+          "ended": "2026-11-27T08:21:24+00:00",
+          "seconds": 0.62
+        }
+      },
+      "review_status": "required",
+      "issues": [
+        {
+          "id": "4028-B_ir-DESIGN_INTENT-039",
+          "severity": "info",
+          "code": "DESIGN_INTENT",
+          "message": "Tolerances, surface finish, thread specifications and datum scheme/GD&T are not in the part geometry and were not invented.",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Add them from the source design intent before release.",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-COLLISION_TEXT_STROKE-040",
+          "severity": "high",
+          "code": "COLLISION_TEXT_STROKE",
+          "message": "text_stroke: 0.384  a drawn line runs through this text",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-COLLISION_TEXT_STROKE-041",
+          "severity": "high",
+          "code": "COLLISION_TEXT_STROKE",
+          "message": "text_stroke: SCALE 1 : 1  a drawn line runs through this text",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Move the annotation manually; evidence is in layout_report.json.",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-REFERENCE_VALUE_DIFFERS-042",
+          "severity": "high",
+          "code": "REFERENCE_VALUE_DIFFERS",
+          "message": ".62\nTYP.: the reference prints 0.62 inch but the model's true value is 0.5800 inch; the true value is shown, nothing was overridden",
+          "source_ref": "A004",
+          "view": "",
+          "sheet": null,
+          "observed": "0.5800 inch",
+          "expected": "0.62 inch",
+          "next_action": "The drawing shows the model's true value. Confirm which is right (the model or the reference).",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-REFERENCE_VALUE_DIFFERS-043",
+          "severity": "high",
+          "code": "REFERENCE_VALUE_DIFFERS",
+          "message": ".25: the reference prints 0.25 inch but the model's true value is 0.2810 inch; the true value is shown, nothing was overridden",
+          "source_ref": "A013",
+          "view": "",
+          "sheet": null,
+          "observed": "0.2810 inch",
+          "expected": "0.25 inch",
+          "next_action": "The drawing shows the model's true value. Confirm which is right (the model or the reference).",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-REFERENCE_VALUE_DIFFERS-044",
+          "severity": "high",
+          "code": "REFERENCE_VALUE_DIFFERS",
+          "message": ".344 +.000\n\u2212.010: the reference prints 0.344 inch but the model's true value is 0.3300 inch; the true value is shown, nothing was overridden",
+          "source_ref": "A014",
+          "view": "",
+          "sheet": null,
+          "observed": "0.3300 inch",
+          "expected": "0.344 inch",
+          "next_action": "The drawing shows the model's true value. Confirm which is right (the model or the reference).",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-REFERENCE_VALUE_DIFFERS-045",
+          "severity": "high",
+          "code": "REFERENCE_VALUE_DIFFERS",
+          "message": "1.188: the reference prints 1.188 inch but the model's true value is 1.1680 inch; the true value is shown, nothing was overridden",
+          "source_ref": "A015",
+          "view": "",
+          "sheet": null,
+          "observed": "1.1680 inch",
+          "expected": "1.188 inch",
+          "next_action": "The drawing shows the model's true value. Confirm which is right (the model or the reference).",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-REFERENCE_ITEMS_UNRESOLVED-046",
+          "severity": "high",
+          "code": "REFERENCE_ITEMS_UNRESOLVED",
+          "message": "11 required reference item(s) are not on the generated drawing; see the comparison ledger.",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Review comparison/comparison.json; add the missing dimensions manually or confirm they are not needed.",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-REFERENCE_MATERIAL_UNASSIGNED-047",
+          "severity": "medium",
+          "code": "REFERENCE_MATERIAL_UNASSIGNED",
+          "message": "The reference prints a material but the model has none assigned; the drawing title block says NOT SPECIFIED (never guessed).",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-REFERENCE_LAYOUT_DEVIATION-048",
+          "severity": "low",
+          "code": "REFERENCE_LAYOUT_DEVIATION",
+          "message": "The reference scale could not be read; the largest scale that fits was used.",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-TEXT_OVERLAPS-049",
+          "severity": "high",
+          "code": "TEXT_OVERLAPS",
+          "message": "PDF check text_overlaps: {'page': 1, 'a': 'REFERENCE NOTES FROM SOURCE DR', 'b': '(source.pdf); FOR REVIEW:'}",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Fix the annotation style / layout.",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-TEXT_OVERLAPS-050",
+          "severity": "high",
+          "code": "TEXT_OVERLAPS",
+          "message": "PDF check text_overlaps: {'page': 1, 'a': '(source.pdf); FOR REVIEW:', 'b': '1018'}",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Fix the annotation style / layout.",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-TEXT_OVERLAPS-051",
+          "severity": "high",
+          "code": "TEXT_OVERLAPS",
+          "message": "PDF check text_overlaps: {'page': 1, 'a': '1018', 'b': 'UNLESS OTHERWISE SPECIFIED: TH'}",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Fix the annotation style / layout.",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-TEXT_OVERLAPS-052",
+          "severity": "high",
+          "code": "TEXT_OVERLAPS",
+          "message": "PDF check text_overlaps: {'page': 1, 'a': 'UNLESS OTHERWISE SPECIFIED: TH', 'b': 'ANGLE PROJECTION DIMENSIONS IN'}",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Fix the annotation style / layout.",
+          "history": []
+        },
+        {
+          "id": "4028-B_ir-TEXT_OVERLAPS-053",
+          "severity": "high",
+          "code": "TEXT_OVERLAPS",
+          "message": "PDF check text_overlaps: {'page': 1, 'a': 'ANGLE PROJECTION DIMENSIONS IN', 'b': 'INCHES 2 PLACE DIM. \u00b1.02 3 PLA'}",
+          "source_ref": "",
+          "view": "",
+          "sheet": null,
+          "observed": "",
+          "expected": "",
+          "next_action": "Fix the annotation style / layout.",
+          "history": []
+        }
+      ],
+      "artifacts": {
+        "model.stl": "4028-B_ir/active/model.stl",
+        "drawing.slddrw": "4028-B_ir/active/drawing.slddrw",
+        "drawing.pdf": "4028-B_ir/active/drawing.pdf",
+        "inventory.json": "4028-B_ir/active/inventory.json",
+        "drawing_plan.json": "4028-B_ir/active/drawing_plan.json",
+        "dimension_coverage.json": "4028-B_ir/active/dimension_coverage.json",
+        "stl_validation.json": "4028-B_ir/active/stl_validation.json",
+        "pdf_check.json": "4028-B_ir/active/pdf_check.json",
+        "reopen_check.json": "4028-B_ir/active/reopen_check.json",
+        "layout_report.json": "4028-B_ir/active/layout_report.json",
+        "qa.json": "4028-B_ir/active/qa.json",
+        "verification.json": "4028-B_ir/active/verification.json",
+        "4028-B_ir.SLDPRT": "4028-B_ir/active/4028-B_ir.SLDPRT",
+        "reference/geometry_check.json": "4028-B_ir/active/reference/geometry_check.json",
+        "reference/reference_extraction.json": "4028-B_ir/active/reference/reference_extraction.json",
+        "reference/resolution.json": "4028-B_ir/active/reference/resolution.json",
+        "reference/source.pdf": "4028-B_ir/active/reference/source.pdf",
+        "comparison/collisions-overlay.png": "4028-B_ir/active/comparison/collisions-overlay.png",
+        "comparison/comparison.json": "4028-B_ir/active/comparison/comparison.json",
+        "comparison/page-001.png": "4028-B_ir/active/comparison/page-001.png",
+        "preview/page-001.png": "4028-B_ir/active/preview/page-001.png",
+        "manifest.json": "4028-B_ir/active/manifest.json"
+      },
+      "error": "",
+      "attempts": 1,
+      "started": "2026-11-27T08:20:01+00:00",
+      "ended": "2026-11-27T08:21:24+00:00",
+      "seconds": 83.0,
+      "coverage_pct": 78.94736842105263,
+      "material": {
+        "name": null,
+        "library": null,
+        "density_kg_m3": null,
+        "mass_kg": null,
+        "source": "native part (SetMaterialPropertyName2 read-back)",
+        "status": "not_specified"
+      },
+      "reference": {
+        "mode": "match",
+        "status": "resolved",
+        "source_kind": "history",
+        "filename": "A040281E.pdf",
+        "sha256": "0ed5aa38ac00340dbcd42b5aa9367a2ad1a297c044f678a8cf12a0da097df262",
+        "pages": 1,
+        "link": "recorded_source_hash",
+        "confidence": 0.99,
+        "reasons": [
+          "part SHA-256 equals the SLDPRT of forward run 'A040281E', whose manifest records this drawing's SHA-256",
+          "part SHA-256 equals the SLDPRT of forward run 'A040281E', and this drawing is stored in that run folder"
+        ],
+        "extraction_cache": "supplemented",
+        "extraction_id": "refx_79ede681987b11bd",
+        "extraction_schema": "ref/1",
+        "api_usage": {
+          "tokens": 11714,
+          "input_tokens": 9058,
+          "output_tokens": 2656,
+          "usd": 0.2345,
+          "calls": 1,
+          "incremental": true,
+          "historical_usd": null,
+          "model": "gpt-6-astra"
+        },
+        "warnings": [
+          "Prior-extraction dimensions D018\u2013D025 are not printed dimensions on this sheet and are not reported.",
+          "General tolerances are transcribed only in the tolerance block, not inferred onto individual dimensions.",
+          "Small proprietary notice, footer imprint, and handwritten MC entry have limited legibility.",
+          "OCR T012 merges two separate dimensions; T020 merges handwritten text with the CHG heading.",
+          "The reference notes are longer than the sheet's notes zone; they were placed in free space on the sheet."
+        ],
+        "part_sha256": "86da9677216a8c61905aed0c7b8662634195c6c30235c2e8415ee35aa3e24227",
+        "candidate_summary": [
+          {
+            "artifact_id": "pdf_0ed5aa38ac00340dbcd4",
+            "filename": "A040281E.pdf",
+            "confidence": 0.99,
+            "link": "recorded_source_hash",
+            "needs_confirmation": false
+          }
+        ],
+        "matched_runs": [
+          "A040281E"
+        ],
+        "quality": {
+          "ok": true,
+          "views": 3,
+          "annotations": 23,
+          "required_annotations": 23,
+          "located": 23,
+          "located_from_text_evidence": 19,
+          "uncertain": 0,
+          "notes": 18
+        },
+        "geometry_check": {
+          "status": "compatible",
+          "compared": 16,
+          "matched": 11,
+          "ratio": 0.688,
+          "overall_extents_found": 3,
+          "overall_extents_total": 3,
+          "note": "A mismatch detector, not proof of identity: it checks that printed dimensions exist among the model's sizes, hole diameters and hole positions."
+        }
+      },
+      "verification": {
+        "status": "review_required",
+        "coverage": {
+          "matched": 11,
+          "total": 26,
+          "unresolved": [
+            {
+              "id": "L002",
+              "ref_id": "A002",
+              "kind": "angular",
+              "text": "30\u00b0 TYP.",
+              "required": true,
+              "status": "unresolved_requirement",
+              "reason": "angular dimensions are not generated by this pipeline",
+              "severity": "medium"
+            },
+            {
+              "id": "L003",
+              "ref_id": "A003",
+              "kind": "radius",
+              "text": ".03 R.\nBLEND\nSMOOTH",
+              "required": true,
+              "status": "missing",
+              "expected": "0.03 inch",
+              "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+              "severity": "high"
+            },
+            {
+              "id": "L004",
+              "ref_id": "A004",
+              "kind": "linear",
+              "text": ".62\nTYP.",
+              "required": true,
+              "status": "value_differs",
+              "native_id": "top/RD1",
+              "expected": "0.62 inch",
+              "observed": "0.5800 inch",
+              "reason": "the reference prints 0.62 inch but the model's true value is 0.5800 inch; the true value is shown, nothing was overridden",
+              "severity": "high"
+            },
+            {
+              "id": "L007",
+              "ref_id": "A007",
+              "kind": "linear",
+              "text": ".172\u00b1.005",
+              "required": true,
+              "status": "missing",
+              "expected": "0.172 inch",
+              "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+              "severity": "high"
+            },
+            {
+              "id": "L011",
+              "ref_id": "A011",
+              "kind": "linear",
+              "text": ".080",
+              "required": true,
+              "status": "missing",
+              "expected": "0.08 inch",
+              "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+              "severity": "high"
+            },
+            {
+              "id": "L012",
+              "ref_id": "A012",
+              "kind": "radius",
+              "text": ".020 R. MAX.",
+              "required": true,
+              "status": "missing",
+              "expected": "0.02 inch",
+              "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+              "severity": "high"
+            },
+            {
+              "id": "L013",
+              "ref_id": "A013",
+              "kind": "linear",
+              "text": ".25",
+              "required": true,
+              "status": "value_differs",
+              "native_id": "front/RD3",
+              "expected": "0.25 inch",
+              "observed": "0.2810 inch",
+              "reason": "the reference prints 0.25 inch but the model's true value is 0.2810 inch; the true value is shown, nothing was overridden",
+              "severity": "high"
+            },
+            {
+              "id": "L014",
+              "ref_id": "A014",
+              "kind": "linear",
+              "text": ".344 +.000\n\u2212.010",
+              "required": true,
+              "status": "value_differs",
+              "native_id": "section_A/RD1",
+              "expected": "0.344 inch",
+              "observed": "0.3300 inch",
+              "reason": "the reference prints 0.344 inch but the model's true value is 0.3300 inch; the true value is shown, nothing was overridden",
+              "severity": "high"
+            },
+            {
+              "id": "L015",
+              "ref_id": "A015",
+              "kind": "linear",
+              "text": "1.188",
+              "required": true,
+              "status": "value_differs",
+              "native_id": "right/RD3",
+              "expected": "1.188 inch",
+              "observed": "1.1680 inch",
+              "reason": "the reference prints 1.188 inch but the model's true value is 1.1680 inch; the true value is shown, nothing was overridden",
+              "severity": "high"
+            },
+            {
+              "id": "L018",
+              "ref_id": "A018",
+              "kind": "finish",
+              "text": "63",
+              "required": true,
+              "status": "missing",
+              "expected": "63 inch",
+              "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+              "severity": "medium"
+            },
+            {
+              "id": "L019",
+              "ref_id": "A019",
+              "kind": "finish",
+              "text": "63",
+              "required": true,
+              "status": "missing",
+              "expected": "63 inch",
+              "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+              "severity": "medium"
+            },
+            {
+              "id": "L020",
+              "ref_id": "A020",
+              "kind": "finish",
+              "text": "125",
+              "required": true,
+              "status": "missing",
+              "expected": "125 inch",
+              "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+              "severity": "medium"
+            },
+            {
+              "id": "L021",
+              "ref_id": "A021",
+              "kind": "finish",
+              "text": "125",
+              "required": true,
+              "status": "missing",
+              "expected": "125 inch",
+              "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+              "severity": "medium"
+            },
+            {
+              "id": "L022",
+              "ref_id": "A022",
+              "kind": "finish",
+              "text": "125",
+              "required": true,
+              "status": "missing",
+              "expected": "125 inch",
+              "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+              "severity": "medium"
+            },
+            {
+              "id": "L023",
+              "ref_id": "A023",
+              "kind": "finish",
+              "text": "125",
+              "required": true,
+              "status": "missing",
+              "expected": "125 inch",
+              "reason": "no dimension of this value exists on the generated drawing (the model has no such geometry, or this pipeline did not dimension it)",
+              "severity": "medium"
+            }
+          ],
+          "basis": "required reference items (dimensions, hole callouts, notes) vs the generated drawing"
+        },
+        "collisions": {
+          "count": 2,
+          "by_kind": {
+            "text_stroke": 2
+          },
+          "clearance_mm": 1.5,
+          "items": [
+            {
+              "kind": "text_stroke",
+              "page": 1,
+              "a": "p1t11_1",
+              "severity": "high",
+              "a_text": "0.384",
+              "box_a_mm": [
+                184.18,
+                133.77,
+                187.64,
+                147.99
+              ],
+              "detail": "a drawn line runs through this text"
+            },
+            {
+              "kind": "text_stroke",
+              "page": 1,
+              "a": "p1t15_0",
+              "severity": "high",
+              "a_text": "SCALE 1 : 1",
+              "box_a_mm": [
+                88.11,
+                4.92,
+                112.68,
+                8.37
+              ],
+              "detail": "a drawn line runs through this text"
+            }
+          ],
+          "advisory": [],
+          "truncated": 0,
+          "exemptions": [
+            "strokes touching a text box edge (leader tip / extension line) are not collisions",
+            "shaded isometric fills are not strokes",
+            "the template's own title block and border are part of the sheet format"
+          ],
+          "texts": 41,
+          "strokes": 773
+        },
+        "comparison": {
+          "semantic": {
+            "counts": {
+              "matched": 6,
+              "matched_shared": 2,
+              "missing": 10,
+              "not_applicable": 15,
+              "preserved_note": 3,
+              "unresolved_requirement": 1,
+              "value_differs": 4
+            },
+            "material": {
+              "reference": "1018",
+              "native": null,
+              "status": "reference_only",
+              "note": "The reference prints a material but the model has none assigned; the drawing title block says NOT SPECIFIED (never guessed)."
+            },
+            "views": [
+              {
+                "ref_view": "V1",
+                "type": "Front",
+                "reference_scale": "",
+                "present": true,
+                "native_roles": [
+                  "front"
+                ],
+                "note": ""
+              },
+              {
+                "ref_view": "V2",
+                "type": "Top",
+                "reference_scale": "",
+                "present": true,
+                "native_roles": [
+                  "top"
+                ],
+                "note": ""
+              },
+              {
+                "ref_view": "V3",
+                "type": "Right",
+                "reference_scale": "",
+                "present": true,
+                "native_roles": [
+                  "right",
+                  "right"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          "spatial": {
+            "views_compared": 3,
+            "views_within_target": 2,
+            "view_median_mm": 0.2,
+            "annotations_compared": 8,
+            "annotations_within_target": 0,
+            "annotation_median_mm": 92.7,
+            "annotation_max_mm": 240.5,
+            "targets_note": "Spatial targets (1 mm views, 2 mm annotations) are drafting-comparison targets, not manufacturing tolerances. Positions from a scan are OCR/model estimates with the stated position_source; the reference page proportions may differ from the supported sheet formats (see sheet deviation)."
+          }
+        },
+        "iterations": {
+          "used": 1,
+          "max": 3,
+          "history": [
+            {
+              "iteration": 0,
+              "what": "as laid out",
+              "collisions": 2,
+              "spatial_mean_mm": 89.91
+            },
+            {
+              "iteration": 1,
+              "what": "moved toward reference anchors",
+              "moved": 6,
+              "collisions": 4,
+              "spatial_mean_mm": 35.04,
+              "moves": [
+                {
+                  "annotation": "top/RD1",
+                  "ref": "A017",
+                  "delta_mm": [
+                    170.0,
+                    -170.2
+                  ]
+                },
+                {
+                  "annotation": "front/RD4",
+                  "ref": "A016",
+                  "delta_mm": [
+                    157.3,
+                    -8.6
+                  ]
+                },
+                {
+                  "annotation": "front/RD1",
+                  "ref": "A010",
+                  "delta_mm": [
+                    -3.6,
+                    -93.1
+                  ]
+                },
+                {
+                  "annotation": "front/RD5",
+                  "ref": "A006",
+                  "delta_mm": [
+                    -6.2,
+                    91.9
+                  ]
+                },
+                {
+                  "annotation": "front/RD4",
+                  "ref": "A009",
+                  "delta_mm": [
+                    88.9,
+                    -8.5
+                  ]
+                },
+                {
+                  "annotation": "front/RD2",
+                  "ref": "A008",
+                  "delta_mm": [
+                    -17.3,
+                    0.2
+                  ]
+                }
+              ],
+              "skipped": [
+                {
+                  "annotation": "front/RD3",
+                  "ref": "A001",
+                  "why": "the reference position would collide with other text, a view or the title block; relocated placement kept"
+                },
+                {
+                  "annotation": "front/RD4",
+                  "ref": "A005",
+                  "why": "the reference position would collide with other text, a view or the title block; relocated placement kept"
+                }
+              ],
+              "rejected": "no measured improvement without adding collisions; positions restored to the best revision"
+            }
+          ],
+          "layout": {
+            "max_iterations": 3,
+            "iterations_used": 2,
+            "best": "native Auto Arrange",
+            "history": [
+              {
+                "iteration": 0,
+                "what": "as generated",
+                "collisions": 3,
+                "score": 9.0
+              },
+              {
+                "iteration": 0,
+                "what": "native Auto Arrange",
+                "collisions": 2,
+                "score": 6.0,
+                "accepted": true
+              },
+              {
+                "iteration": 1,
+                "what": "collision-aware moves",
+                "moved": 1,
+                "moves": [
+                  {
+                    "annotation": "right/RD4",
+                    "text": "0.384",
+                    "delta_mm": [
+                      4.0,
+                      0.0
+                    ],
+                    "kind": "dimension"
+                  }
+                ],
+                "collisions": 2,
+                "score": 6.0,
+                "rejected": "did not improve the measured layout (or repeated an earlier arrangement); positions restored to the best revision"
+              },
+              {
+                "iteration": 2,
+                "what": "collision-aware moves",
+                "moved": 1,
+                "moves": [
+                  {
+                    "annotation": "right/RD4",
+                    "text": "0.384",
+                    "delta_mm": [
+                      4.0,
+                      0.0
+                    ],
+                    "kind": "dimension"
+                  }
+                ],
+                "collisions": 2,
+                "score": 6.0,
+                "rejected": "did not improve the measured layout (or repeated an earlier arrangement); positions restored to the best revision"
+              }
+            ]
+          }
+        },
+        "standards": {
+          "iso_shaded_with_edges": true,
+          "iso_shading_in_pdf": true,
+          "black_text": true,
+          "broken_leaders": {
+            "applied": 2,
+            "failed": 0,
+            "not_applicable": 10,
+            "note": "No leadered notes are generated: broken leaders do not exist for notes in the 2025 API."
+          },
+          "arrange": {
+            "accepted": true,
+            "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+            "moved": 10,
+            "integrity": {
+              "ok": true,
+              "lost": [],
+              "added": [],
+              "value_changed": [],
+              "dangling": [],
+              "count_before": 12,
+              "count_after": 12
+            },
+            "collisions_before": 3,
+            "collisions_after": 2
+          },
+          "licence_watermark": true
+        },
+        "issues_by_severity": {
+          "high": 12,
+          "info": 1,
+          "low": 1,
+          "medium": 1
+        },
+        "hard_failures": [
+          "COLLISION_TEXT_STROKE",
+          "COLLISION_TEXT_STROKE",
+          "TEXT_OVERLAPS",
+          "TEXT_OVERLAPS",
+          "TEXT_OVERLAPS",
+          "TEXT_OVERLAPS",
+          "TEXT_OVERLAPS"
+        ],
+        "note": "Software QA is not engineering approval. A reference match is not an approval either; the drawing stays PRELIMINARY / FOR REVIEW."
+      },
+      "files": {
+        "model.stl": {
+          "bytes": 20884,
+          "url_path": "4028-B_ir/active/model.stl"
+        },
+        "drawing.slddrw": {
+          "bytes": 107991,
+          "url_path": "4028-B_ir/active/drawing.slddrw"
+        },
+        "drawing.pdf": {
+          "bytes": 52801,
+          "url_path": "4028-B_ir/active/drawing.pdf"
+        },
+        "inventory.json": {
+          "bytes": 11953,
+          "url_path": "4028-B_ir/active/inventory.json"
+        },
+        "drawing_plan.json": {
+          "bytes": 3974,
+          "url_path": "4028-B_ir/active/drawing_plan.json"
+        },
+        "dimension_coverage.json": {
+          "bytes": 8764,
+          "url_path": "4028-B_ir/active/dimension_coverage.json"
+        },
+        "stl_validation.json": {
+          "bytes": 545,
+          "url_path": "4028-B_ir/active/stl_validation.json"
+        },
+        "pdf_check.json": {
+          "bytes": 1194,
+          "url_path": "4028-B_ir/active/pdf_check.json"
+        },
+        "reopen_check.json": {
+          "bytes": 628,
+          "url_path": "4028-B_ir/active/reopen_check.json"
+        },
+        "layout_report.json": {
+          "bytes": 11247,
+          "url_path": "4028-B_ir/active/layout_report.json"
+        },
+        "qa.json": {
+          "bytes": 29776,
+          "url_path": "4028-B_ir/active/qa.json"
+        },
+        "verification.json": {
+          "bytes": 18196,
+          "url_path": "4028-B_ir/active/verification.json"
+        },
+        "4028-B_ir.SLDPRT": {
+          "bytes": 92402,
+          "url_path": "4028-B_ir/active/4028-B_ir.SLDPRT"
+        },
+        "reference/geometry_check.json": {
+          "bytes": 306,
+          "url_path": "4028-B_ir/active/reference/geometry_check.json"
+        },
+        "reference/reference_extraction.json": {
+          "bytes": 29952,
+          "url_path": "4028-B_ir/active/reference/reference_extraction.json"
+        },
+        "reference/resolution.json": {
+          "bytes": 1302,
+          "url_path": "4028-B_ir/active/reference/resolution.json"
+        },
+        "reference/source.pdf": {
+          "bytes": 279730,
+          "url_path": "4028-B_ir/active/reference/source.pdf"
+        },
+        "comparison/collisions-overlay.png": {
+          "bytes": 116438,
+          "url_path": "4028-B_ir/active/comparison/collisions-overlay.png"
+        },
+        "comparison/comparison.json": {
+          "bytes": 31612,
+          "url_path": "4028-B_ir/active/comparison/comparison.json"
+        },
+        "comparison/page-001.png": {
+          "bytes": 494194,
+          "url_path": "4028-B_ir/active/comparison/page-001.png"
+        },
+        "preview/page-001.png": {
+          "bytes": 146275,
+          "url_path": "4028-B_ir/active/preview/page-001.png"
+        },
+        "manifest.json": {
+          "bytes": 5280,
+          "url_path": "4028-B_ir/active/manifest.json"
+        },
+        "slddrw": {
+          "bytes": 107991,
+          "url_path": "4028-B_ir/active/drawing.slddrw",
+          "available": true
+        },
+        "pdf": {
+          "bytes": 52801,
+          "url_path": "4028-B_ir/active/drawing.pdf",
+          "available": true
+        },
+        "source_pdf": {
+          "bytes": 279730,
+          "url_path": "4028-B_ir/active/reference/source.pdf",
+          "available": true
+        },
+        "stl": {
+          "bytes": 20884,
+          "url_path": "4028-B_ir/active/model.stl",
+          "available": true
+        },
+        "qa_json": {
+          "bytes": 29776,
+          "url_path": "4028-B_ir/active/qa.json",
+          "available": true
+        },
+        "comparison_images": {
+          "files": [
+            {
+              "name": "comparison/collisions-overlay.png",
+              "bytes": 116438,
+              "url_path": "4028-B_ir/active/comparison/collisions-overlay.png"
+            },
+            {
+              "name": "comparison/page-001.png",
+              "bytes": 494194,
+              "url_path": "4028-B_ir/active/comparison/page-001.png"
+            }
+          ],
+          "available": true
+        }
+      },
+      "files_availability": {
+        "slddrw": true,
+        "pdf": true,
+        "source_pdf": true,
+        "stl": true,
+        "qa_json": true,
+        "comparison_images": true
+      }
+    }
+  ],
+  "summary_state": "review_required",
+  "progress": {
+    "stages_done": 10,
+    "stages_total": 10,
+    "fraction": 1.0,
+    "parts_done": 1,
+    "parts_total": 1
+  },
+  "stage_labels": {
+    "preflight": "Preflight",
+    "stl_export": "STL export",
+    "reference_resolution": "Reference resolution",
+    "extraction": "Reference extraction",
+    "view_planning": "View planning",
+    "native_drawing": "Native drawing",
+    "dimensioning_layout": "Dimensions and layout",
+    "comparison_correction": "Comparison and correction",
+    "verification": "Verification",
+    "publish": "Publish",
+    "mesh_export": "STL export",
+    "inventory": "Geometry inventory",
+    "planning": "View planning",
+    "drawing": "Native drawing",
+    "dimensioning": "Dimensions",
+    "publishing": "Publish"
+  },
+  "stage_order": [
+    "preflight",
+    "stl_export",
+    "reference_resolution",
+    "extraction",
+    "view_planning",
+    "native_drawing",
+    "dimensioning_layout",
+    "comparison_correction",
+    "verification",
+    "publish"
+  ],
+  "reference_stages": [
+    "reference_resolution",
+    "extraction",
+    "comparison_correction"
+  ]
+}

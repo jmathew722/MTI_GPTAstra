@@ -1,0 +1,48 @@
+{
+  "schema": "ReferenceResolution/1",
+  "mode": "match",
+  "status": "resolved",
+  "source_kind": "upload",
+  "filename": "c5619ea3bff0.pdf",
+  "sha256": "c5619ea3bff0182cfbd11ecaeca4d0d63085ccad4ab9889221358547e9ffd80d",
+  "pages": 1,
+  "link": null,
+  "confidence": null,
+  "reasons": [
+    "explicitly uploaded by the user (overrides any history)"
+  ],
+  "extraction_cache": "none",
+  "extraction_id": "",
+  "extraction_schema": "",
+  "api_usage": {
+    "tokens": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "usd": 0.0,
+    "calls": 0,
+    "incremental": true,
+    "historical_usd": null
+  },
+  "warnings": [
+    "The uploaded drawing differs from the drawing this part was generated from (A001151E.pdf, linked by forward_run). The upload was used because uploads override history; verify it is the right drawing."
+  ],
+  "part_sha256": "d04499e690cd20221f8fda82005fdbc605e1d050b24aef0a641e5b64f04a1753",
+  "history_conflict": {
+    "filename": "A001151E.pdf",
+    "sha256": "bd55705bb60d4bdbb8607b06d5f9d2b703b546aee53520a09b860fd6a119bf10"
+  },
+  "candidate_summary": [
+    {
+      "artifact_id": "pdf_bd55705bb60d4bdbb860",
+      "filename": "A001151E.pdf",
+      "confidence": 0.95,
+      "link": "forward_run",
+      "needs_confirmation": false
+    }
+  ],
+  "matched_runs": [
+    "A001151E"
+  ],
+  "configuration": "Default",
+  "pdfSha256": "c5619ea3bff0182cfbd11ecaeca4d0d63085ccad4ab9889221358547e9ffd80d"
+}

@@ -1,0 +1,193 @@
+{
+  "profile": "us_third_angle_inch",
+  "projection": "third",
+  "units": "inch",
+  "sheet_size": "ANSI_B",
+  "paper": "ANSI B (17x11 in)",
+  "front_view": "*Top",
+  "views": {
+    "front": "*Top",
+    "top": "*Back",
+    "right": "*Right",
+    "iso": "*Isometric"
+  },
+  "scale": {
+    "num": 1,
+    "den": 1,
+    "label": "1:1"
+  },
+  "scale_fits": true,
+  "rects_m": {
+    "front": [
+      0.068494,
+      0.081498,
+      0.132294,
+      0.138948
+    ],
+    "top": [
+      0.068494,
+      0.208257,
+      0.132294,
+      0.235989
+    ],
+    "right": [
+      0.177293,
+      0.096357,
+      0.234743,
+      0.124089
+    ],
+    "iso": [
+      0.32137,
+      0.181207,
+      0.40295,
+      0.25055
+    ]
+  },
+  "iso_scale": 1.0,
+  "regions_m": {
+    "sheet": [
+      0,
+      0,
+      0.4318,
+      0.2794
+    ],
+    "usable": [
+      0.0127,
+      0.00635,
+      0.42545,
+      0.27305
+    ],
+    "title_block": [
+      0.26035,
+      0.00635,
+      0.42545,
+      0.04699
+    ],
+    "notes": [
+      0.15875,
+      0.00635,
+      0.26035,
+      0.04699
+    ]
+  },
+  "sheets": [
+    {
+      "index": 1,
+      "name": "Sheet1",
+      "contents": [
+        "front",
+        "top",
+        "right",
+        "iso"
+      ]
+    }
+  ],
+  "needs_section": false,
+  "bbox_m": [
+    0.0508,
+    0.014731999999999999,
+    0.044449999999999996
+  ],
+  "hole_axes": {
+    "x": 2,
+    "y": 2,
+    "z": 0
+  },
+  "notes": [],
+  "basis": "front chosen for the largest silhouette (ties: the model's own Front); scale = largest standard scale that fits without collisions",
+  "reference_layout": {
+    "applied": true,
+    "transform": {
+      "x": "nx * W",
+      "y": "(1 - ny) * H",
+      "W_m": 0.4318,
+      "H_m": 0.2794,
+      "origin": "sheet lower-left (SOLIDWORKS)"
+    },
+    "views": {
+      "front": {
+        "matched_by": "silhouette proportions",
+        "reference_view": "V1",
+        "type": "Front",
+        "reference_center_m": [
+          0.100394,
+          0.110223
+        ],
+        "target_center_m": [
+          0.100394,
+          0.110223
+        ],
+        "status": "placed_from_reference"
+      },
+      "top": {
+        "matched_by": "silhouette proportions",
+        "reference_view": "V2",
+        "type": "Top",
+        "reference_center_m": [
+          0.100609,
+          0.222123
+        ],
+        "target_center_m": [
+          0.100394,
+          0.222123
+        ],
+        "status": "placed_from_reference"
+      },
+      "right": {
+        "status": "placed_from_reference",
+        "note": "no reference view has this view's silhouette; the planner's position is kept",
+        "target_center_m": [
+          0.206018,
+          0.110223
+        ]
+      },
+      "iso": {
+        "status": "no_reference_view",
+        "type": "Isometric",
+        "note": "The reference has no isometric view (this pipeline always adds one, Shaded With Edges); placed by the planner."
+      }
+    },
+    "deviations": [
+      "The reference scale could not be read; the largest scale that fits was used."
+    ],
+    "reference_scale": "1\"=1\"",
+    "moved": {
+      "front": [
+        0.100394,
+        0.110223
+      ],
+      "top": [
+        0.100394,
+        0.222123
+      ],
+      "right": [
+        0.206018,
+        0.110223
+      ]
+    },
+    "sheet_deviations": [
+      "The reference scale could not be read; the largest scale that fits was used."
+    ]
+  },
+  "extra_views": [],
+  "sections": [
+    {
+      "label": "A",
+      "parent": "front",
+      "hole_ids": [
+        "H003",
+        "H004"
+      ],
+      "fits": true,
+      "role": "section_A",
+      "name": "Section View A-A",
+      "cut": {
+        "axis": "y",
+        "entry_side": "+",
+        "cut_along": "x",
+        "at_axis": "z",
+        "at_m": -0.012318999999999997
+      }
+    }
+  ]
+}

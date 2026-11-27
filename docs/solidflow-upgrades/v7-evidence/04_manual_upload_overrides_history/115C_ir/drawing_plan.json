@@ -1,0 +1,231 @@
+{
+  "profile": "us_third_angle_inch_c",
+  "projection": "third",
+  "units": "inch",
+  "sheet_size": "ANSI_C",
+  "paper": "ANSI C (22x17 in)",
+  "front_view": "*Top",
+  "views": {
+    "front": "*Top",
+    "top": "*Back",
+    "right": "*Right",
+    "iso": "*Isometric"
+  },
+  "scale": {
+    "num": 1,
+    "den": 2,
+    "label": "1:2"
+  },
+  "scale_fits": true,
+  "rects_m": {
+    "front": [
+      0.153634,
+      0.242242,
+      0.207909,
+      0.290167
+    ],
+    "top": [
+      0.153634,
+      0.154752,
+      0.207909,
+      0.186802
+    ],
+    "right": [
+      0.252909,
+      0.25018,
+      0.300834,
+      0.28223
+    ],
+    "iso": [
+      0.461229,
+      0.344537,
+      0.52995,
+      0.40295
+    ]
+  },
+  "iso_scale": 0.5,
+  "regions_m": {
+    "sheet": [
+      0,
+      0,
+      0.5588,
+      0.4318
+    ],
+    "usable": [
+      0.0127,
+      0.00635,
+      0.55245,
+      0.42545
+    ],
+    "title_block": [
+      0.38735,
+      0.00635,
+      0.55245,
+      0.04699
+    ],
+    "notes": [
+      0.28575,
+      0.00635,
+      0.38735,
+      0.04699
+    ]
+  },
+  "sheets": [
+    {
+      "index": 1,
+      "name": "Sheet1",
+      "contents": [
+        "front",
+        "top",
+        "right",
+        "iso"
+      ]
+    }
+  ],
+  "needs_section": false,
+  "bbox_m": [
+    0.08255,
+    0.038099999999999995,
+    0.06985
+  ],
+  "hole_axes": {
+    "x": 1,
+    "y": 6,
+    "z": 0
+  },
+  "notes": [],
+  "basis": "front chosen for the largest silhouette (ties: the model's own Front); scale = largest standard scale that fits without collisions",
+  "reference_layout": {
+    "applied": true,
+    "transform": {
+      "x": "nx * W",
+      "y": "(1 - ny) * H",
+      "W_m": 0.5588,
+      "H_m": 0.4318,
+      "origin": "sheet lower-left (SOLIDWORKS)"
+    },
+    "views": {
+      "front": {
+        "matched_by": "silhouette proportions and type",
+        "reference_view": "V1",
+        "type": "Top",
+        "reference_center_m": [
+          0.180772,
+          0.266205
+        ],
+        "target_center_m": [
+          0.180772,
+          0.266205
+        ],
+        "status": "placed_from_reference"
+      },
+      "top": {
+        "matched_by": "silhouette proportions",
+        "reference_view": "V2",
+        "type": "Front",
+        "reference_center_m": [
+          0.181889,
+          0.170777
+        ],
+        "target_center_m": [
+          0.180772,
+          0.170777
+        ],
+        "status": "placed_from_reference"
+      },
+      "right": {
+        "status": "placed_from_reference",
+        "note": "no reference view has this view's silhouette; the planner's position is kept",
+        "target_center_m": [
+          0.276872,
+          0.266205
+        ]
+      },
+      "iso": {
+        "status": "no_reference_view",
+        "type": "Isometric",
+        "note": "The reference has no isometric view (this pipeline always adds one, Shaded With Edges); placed by the planner."
+      }
+    },
+    "deviations": [
+      "Sheet format ANSI_C was chosen from the reference page proportions (aspect 1.351); the requested profile used ANSI_B.",
+      "Template changed to Solid Flow ANSI C landscape (22x17 in), third angle so the sheet format matches the reference."
+    ],
+    "reference_scale": "HALF",
+    "moved": {
+      "front": [
+        0.180772,
+        0.266205
+      ],
+      "top": [
+        0.180772,
+        0.170777
+      ],
+      "right": [
+        0.276872,
+        0.266205
+      ]
+    },
+    "sheet_deviations": [
+      "Sheet format ANSI_C was chosen from the reference page proportions (aspect 1.351); the requested profile used ANSI_B.",
+      "Template changed to Solid Flow ANSI C landscape (22x17 in), third angle so the sheet format matches the reference."
+    ]
+  },
+  "extra_views": [
+    {
+      "role": "extra_bottom",
+      "sw_view": "*Bottom",
+      "center": [
+        0.3978124999999999,
+        0.3789875
+      ],
+      "fits": true,
+      "rect": [
+        0.370675,
+        0.355025,
+        0.42495,
+        0.40295
+      ],
+      "scale": 0.5
+    }
+  ],
+  "sections": [
+    {
+      "label": "A",
+      "parent": "extra_bottom",
+      "hole_ids": [
+        "H004",
+        "H005"
+      ],
+      "fits": true,
+      "role": "section_A",
+      "name": "Section View A-A",
+      "cut": {
+        "axis": "y",
+        "entry_side": "-",
+        "cut_along": "x",
+        "at_axis": "z",
+        "at_m": 0.0
+      }
+    },
+    {
+      "label": "B",
+      "parent": "right",
+      "hole_ids": [
+        "H001"
+      ],
+      "fits": true,
+      "role": "section_B",
+      "alignment_locked": true,
+      "scale": 0.5,
+      "name": "Section View B-B",
+      "cut": {
+        "axis": "x",
+        "entry_side": "+",
+        "cut_along": "y",
+        "at_axis": "z",
+        "at_m": 0.0
+      }
+    }
+  ]
+}

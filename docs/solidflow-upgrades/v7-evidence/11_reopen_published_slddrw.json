@@ -1,0 +1,44 @@
+{
+  "opened": true,
+  "errors": 0,
+  "views": [
+    {
+      "name": "Drawing View1",
+      "ref": "115C_ir.SLDPRT",
+      "model_loaded": true,
+      "dims": 7
+    },
+    {
+      "name": "Drawing View2",
+      "ref": "115C_ir.SLDPRT",
+      "model_loaded": true,
+      "dims": 1
+    },
+    {
+      "name": "Drawing View3",
+      "ref": "115C_ir.SLDPRT",
+      "model_loaded": true,
+      "dims": 3
+    },
+    {
+      "name": "Drawing View4",
+      "ref": "115C_ir.SLDPRT",
+      "model_loaded": true,
+      "dims": 0
+    },
+    {
+      "name": "Drawing View5",
+      "ref": "115C_ir.SLDPRT",
+      "model_loaded": true,
+      "dims": 4
+    },
+    {
+      "name": "Section View A-A",
+      "ref": "115C_ir.SLDPRT",
+      "model_loaded": true,
+      "dims": 3
+    }
+  ],
+  "sheets": 1,
+  "pdf_export": null
+}

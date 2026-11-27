@@ -1,0 +1,573 @@
+{
+  "max_iterations": 3,
+  "history": [
+    {
+      "iteration": 0,
+      "what": "as generated",
+      "collisions": 5,
+      "score": 15.0
+    },
+    {
+      "iteration": 0,
+      "what": "native Auto Arrange",
+      "collisions": 0,
+      "score": 0,
+      "accepted": true
+    }
+  ],
+  "arrange": {
+    "views": [
+      {
+        "view": "front",
+        "dimensions": 7,
+        "selected": 7,
+        "returned": true,
+        "error": null
+      },
+      {
+        "view": "top",
+        "dimensions": 1,
+        "selected": 0,
+        "returned": null,
+        "error": null,
+        "skipped": "fewer than two dimensions: nothing to arrange"
+      },
+      {
+        "view": "right",
+        "dimensions": 3,
+        "selected": 3,
+        "returned": true,
+        "error": null
+      },
+      {
+        "view": "extra_bottom",
+        "dimensions": 4,
+        "selected": 4,
+        "returned": true,
+        "error": null
+      },
+      {
+        "view": "section_A",
+        "dimensions": 3,
+        "selected": 3,
+        "returned": true,
+        "error": null
+      },
+      {
+        "view": "section_B",
+        "dimensions": 1,
+        "selected": 0,
+        "returned": null,
+        "error": null,
+        "skipped": "fewer than two dimensions: nothing to arrange"
+      }
+    ],
+    "moved": 17,
+    "integrity": {
+      "ok": true,
+      "lost": [],
+      "added": [],
+      "value_changed": [],
+      "dangling": [],
+      "count_before": 19,
+      "count_after": 19
+    },
+    "collisions_before": 5,
+    "collisions_after": 0,
+    "score_before": 15.0,
+    "score_after": 0,
+    "accepted": true,
+    "decision": "kept: measured collisions did not increase and every dimension id, value and attachment is intact",
+    "inventory_before": [
+      {
+        "id": "front/RD1",
+        "value_m": 0.08255,
+        "position_m": [
+          0.180772,
+          0.305303
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD2",
+        "value_m": 0.06985,
+        "position_m": [
+          0.138498,
+          0.266205
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD3",
+        "value_m": 0.01031875,
+        "position_m": [
+          0.223045,
+          0.284111
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD4",
+        "value_m": 0.0111125,
+        "position_m": [
+          0.162912,
+          0.227106
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD5",
+        "value_m": 0.060325,
+        "position_m": [
+          0.180772,
+          0.216106
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD6",
+        "value_m": 0.0111125,
+        "position_m": [
+          0.127498,
+          0.25152
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD7",
+        "value_m": 0.047625,
+        "position_m": [
+          0.116498,
+          0.266204
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "top/RD1",
+        "value_m": 0.0381,
+        "position_m": [
+          0.138498,
+          0.170777
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD1",
+        "value_m": 0.014684375,
+        "position_m": [
+          0.308033,
+          0.272205
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "right/RD2",
+        "value_m": 0.01905,
+        "position_m": [
+          0.272109,
+          0.227106
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD3",
+        "value_m": 0.034925,
+        "position_m": [
+          0.24571,
+          0.257473
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD1",
+        "value_m": 0.014684375,
+        "position_m": [
+          0.440086,
+          0.384988
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD2",
+        "value_m": 0.0238125,
+        "position_m": [
+          0.383128,
+          0.339889
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD3",
+        "value_m": 0.034925,
+        "position_m": [
+          0.397812,
+          0.328889
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD4",
+        "value_m": 0.034925,
+        "position_m": [
+          0.355539,
+          0.370256
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD1",
+        "value_m": 0.0254508,
+        "position_m": [
+          0.389081,
+          0.323025
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD2",
+        "value_m": 0.0028194,
+        "position_m": [
+          0.355539,
+          0.283044
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD3",
+        "value_m": 0.028575,
+        "position_m": [
+          0.344539,
+          0.289483
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_B/RD1",
+        "value_m": 0.060325,
+        "position_m": [
+          0.496869,
+          0.305303
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      }
+    ],
+    "inventory_after": [
+      {
+        "id": "front/RD1",
+        "value_m": 0.08255,
+        "position_m": [
+          0.180772,
+          0.293667
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD2",
+        "value_m": 0.06985,
+        "position_m": [
+          0.138134,
+          0.266204
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD3",
+        "value_m": 0.01031875,
+        "position_m": [
+          0.229409,
+          0.296472
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "front/RD4",
+        "value_m": 0.0111125,
+        "position_m": [
+          0.146672,
+          0.220742
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD5",
+        "value_m": 0.060325,
+        "position_m": [
+          0.180772,
+          0.238742
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD6",
+        "value_m": 0.0111125,
+        "position_m": [
+          0.150134,
+          0.23528
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "front/RD7",
+        "value_m": 0.047625,
+        "position_m": [
+          0.144134,
+          0.266204
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "top/RD1",
+        "value_m": 0.0381,
+        "position_m": [
+          0.138498,
+          0.170777
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD1",
+        "value_m": 0.014684375,
+        "position_m": [
+          0.306148,
+          0.288534
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "right/RD2",
+        "value_m": 0.01905,
+        "position_m": [
+          0.253885,
+          0.232742
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "right/RD3",
+        "value_m": 0.034925,
+        "position_m": [
+          0.257346,
+          0.257473
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD1",
+        "value_m": 0.014684375,
+        "position_m": [
+          0.441562,
+          0.403699
+        ],
+        "attached_entities": 1,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD2",
+        "value_m": 0.0238125,
+        "position_m": [
+          0.363713,
+          0.345525
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD3",
+        "value_m": 0.034925,
+        "position_m": [
+          0.397812,
+          0.351525
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "extra_bottom/RD4",
+        "value_m": 0.034925,
+        "position_m": [
+          0.367175,
+          0.370256
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD1",
+        "value_m": 0.0254508,
+        "position_m": [
+          0.366618,
+          0.311389
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD2",
+        "value_m": 0.0028194,
+        "position_m": [
+          0.367175,
+          0.268877
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_A/RD3",
+        "value_m": 0.028575,
+        "position_m": [
+          0.361175,
+          0.289483
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      },
+      {
+        "id": "section_B/RD1",
+        "value_m": 0.060325,
+        "position_m": [
+          0.496869,
+          0.305303
+        ],
+        "attached_entities": 2,
+        "dangling": false
+      }
+    ]
+  },
+  "moves": [],
+  "views": {
+    "moved": [],
+    "unresolved": []
+  },
+  "before": {
+    "count": 5,
+    "by_kind": {
+      "text_stroke": 5
+    },
+    "clearance_mm": 1.5,
+    "items": [
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t4_0",
+        "severity": "high",
+        "a_text": "0.438",
+        "box_a_mm": [
+          155.8,
+          228.12,
+          170.02,
+          231.57
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t6_0",
+        "severity": "high",
+        "a_text": "0.438",
+        "box_a_mm": [
+          123.03,
+          244.41,
+          126.48,
+          258.63
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t10_0",
+        "severity": "high",
+        "a_text": "0.750",
+        "box_a_mm": [
+          265.0,
+          228.12,
+          279.22,
+          231.57
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t15_0",
+        "severity": "high",
+        "a_text": "0.938",
+        "box_a_mm": [
+          376.02,
+          340.9,
+          390.24,
+          344.36
+        ],
+        "detail": "a drawn line runs through this text"
+      },
+      {
+        "kind": "text_stroke",
+        "page": 1,
+        "a": "p1t20_0",
+        "severity": "high",
+        "a_text": "0.111",
+        "box_a_mm": [
+          351.07,
+          275.93,
+          354.53,
+          290.16
+        ],
+        "detail": "a drawn line runs through this text"
+      }
+    ],
+    "advisory": [],
+    "truncated": 0,
+    "exemptions": [
+      "strokes touching a text box edge (leader tip / extension line) are not collisions",
+      "shaded isometric fills are not strokes",
+      "the template's own title block and border are part of the sheet format"
+    ]
+  },
+  "after": {
+    "count": 0,
+    "by_kind": {},
+    "clearance_mm": 1.5,
+    "items": [],
+    "advisory": [],
+    "truncated": 0,
+    "exemptions": [
+      "strokes touching a text box edge (leader tip / extension line) are not collisions",
+      "shaded isometric fills are not strokes",
+      "the template's own title block and border are part of the sheet format"
+    ]
+  },
+  "best": "native Auto Arrange",
+  "iterations_used": 0,
+  "unresolved": []
+}
