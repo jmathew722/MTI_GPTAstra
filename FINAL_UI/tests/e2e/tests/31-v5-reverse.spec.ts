@@ -36,7 +36,7 @@ async function open(page: Page, job: string, part = '', w = 1440, h = 900) {
 const stlReady = (page: Page) => expect(page.locator('#rv-3d .rv-vempty')).toBeHidden({ timeout: 15_000 });
 const pdfReady = (page: Page) => expect(page.locator('#rv-2d .rv-paperwrap')).toBeVisible({ timeout: 15_000 });
 const nonWhite = (page: Page) => page.evaluate(() => {
-  const c = document.querySelector('canvas.rv-paper') as HTMLCanvasElement; if (!c || !c.width) return false;
+  const c = document.querySelector('#rv-2d canvas.rv-paper') as HTMLCanvasElement; if (!c || !c.width) return false;
   const d = c.getContext('2d')!.getImageData(0, 0, c.width, c.height).data;
   for (let i = 0; i < d.length; i += 4 * 7) if (d[i] < 200) return true;
   return false;
@@ -104,12 +104,12 @@ test.describe('v5: 3D -> 2D', () => {
   test('93 review required: both viewers load, issues show severity label + icon, actions need a note and are audited', async ({ page }) => {
     await open(page, J_MIX, 'bracket');
     await stlReady(page); await pdfReady(page);
-    await expect(page.locator('.rv-pagelbl')).toHaveText('Sheet 1 of 2');
+    await expect(page.locator('#rv-2d .rv-pagelbl')).toHaveText('Sheet 1 of 2');
     expect(await nonWhite(page)).toBe(true);
     await expect(page.locator('#rv-2d .rv-draft')).toContainText('Draft: review required');
     await expect(page.locator('.rv-draft-note')).toContainText('PRELIMINARY / FOR REVIEW - not approved for manufacture');
     await page.locator('#rv-2d button[aria-label="Next sheet"]').click();
-    await expect(page.locator('.rv-pagelbl')).toHaveText('Sheet 2 of 2');
+    await expect(page.locator('#rv-2d .rv-pagelbl')).toHaveText('Sheet 2 of 2');
     await page.locator('#rv-tab-review').click();
     const cards = page.locator('.rv-issue');
     await expect(cards).toHaveCount(3);
@@ -137,10 +137,10 @@ test.describe('v5: 3D -> 2D', () => {
     await sev.locator('button[data-action="reject"]').click();
     await expect(page.locator('.rv-issue[data-disp="rejected"] .rv-hist li').last()).toContainText('Rejected by');
     // the review overlay is separate: the PDF canvas itself never changes
-    const before = await page.evaluate(() => (document.querySelector('canvas.rv-paper') as HTMLCanvasElement).toDataURL().length);
+    const before = await page.evaluate(() => (document.querySelector('#rv-2d canvas.rv-paper') as HTMLCanvasElement).toDataURL().length);
     await page.locator('#rv-2d button[aria-label="Review overlay"]').click();
     await expect(page.locator('.rv-overlay')).toContainText('Review overlay');
-    expect(await page.evaluate(() => (document.querySelector('canvas.rv-paper') as HTMLCanvasElement).toDataURL().length)).toBe(before);
+    expect(await page.evaluate(() => (document.querySelector('#rv-2d canvas.rv-paper') as HTMLCanvasElement).toDataURL().length)).toBe(before);
     await page.locator('#rv-2d button[aria-label="Review overlay"]').click();
     for (const w of [1280, 1440, 1920]) { await open(page, J_MIX, 'bracket', w, w === 1920 ? 1080 : 900); await stlReady(page); await pdfReady(page); await page.locator('#rv-tab-review').click(); await page.waitForTimeout(500); await shot(page, `review-required-${w}.png`);
       await page.evaluate(() => { const m = document.getElementById('main'); if (m) m.scrollTop = m.scrollHeight; }); await page.waitForTimeout(200); fs.mkdirSync(VERIFY, { recursive: true }); await page.screenshot({ path: path.join(VERIFY, `review-required-issues-${w}.png`) }); }
@@ -218,7 +218,7 @@ test.describe('v5: 3D -> 2D', () => {
 
   test('97 part and template pickers; Run disabled only with a concrete reason; nothing is submitted', async ({ page }) => {
     await open(page, J_DONE, 'flange');
-    await expect(page.locator('fieldset.rv-fs legend', { hasText: 'Drawing template' })).toBeVisible();
+    await expect(page.locator('#rv-acc-tpl-btn')).toContainText('Drawing template');                       // v7: the template is an accordion (selected + Change)
     await expect(page.locator('#rv-run-sel')).toBeDisabled();
     await expect(page.locator('#rv-run-why')).toContainText('Choose one or more');
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rvpick-'));
@@ -226,11 +226,11 @@ test.describe('v5: 3D -> 2D', () => {
     for (const f of ['top/A.SLDPRT', 'top/B.sldprt', 'top/sub/a.sldprt', 'top/c.sldasm', 'top/readme.txt']) fs.writeFileSync(path.join(dir, f), 'x'.repeat(30));
     await page.setInputFiles('#rv-dir', path.join(dir, 'top'));
     await expect(page.locator('.rv-picked li')).toHaveCount(2);
-    await expect(page.locator('.rv-fs').filter({ hasText: 'Parts' })).toContainText('2 parts selected; 2 non-part files ignored');
+    await expect(page.locator('#rv-pk-sum')).toContainText('2 parts selected; 2 non-part files ignored');
     await expect(page.locator('.rv-picked .badge-c', { hasText: 'Duplicate name' })).toHaveCount(0);
     await page.locator('#rv-rec').check();
     await expect(page.locator('.rv-picked li')).toHaveCount(3);
-    await expect(page.locator('.rv-fs').filter({ hasText: 'Parts' })).toContainText('3 parts selected (2 with duplicate names; each runs separately)');
+    await expect(page.locator('#rv-pk-sum')).toContainText('3 parts selected (2 with duplicate names; each runs separately)');
     await expect(page.locator('.rv-picked .badge-c', { hasText: 'Duplicate name' })).toHaveCount(2);
     await page.locator('#rv-rec').uncheck();
     await expect(page.locator('.rv-picked li')).toHaveCount(2);
@@ -246,9 +246,10 @@ test.describe('v5: 3D -> 2D', () => {
       await expect(page.locator('#rv-run-sel')).toBeDisabled();
       await expect(page.locator('#rv-run-why')).toContainText('template');
     }
-    await expect(page.locator('#rv-est')).toContainText(/Estimated runtime for \d+ part/);
+    await expect(page.locator('#rv-est')).toContainText(/Estimated for \d+ part/);
     await expect(page.locator('#rv-est')).toContainText(/Not enough data|About|checking|unavailable/);
     // server folder control: disabled until text, refuses unauthorized folders (never submits)
+    await page.locator('#rv-acc-adv-btn').click();                                              // v7: the server-folder run lives under Advanced settings
     await page.locator('.rv-sf summary').click();
     await expect(page.locator('.rv-sf button')).toBeDisabled();
     await page.locator('.rv-picked button[aria-label^="Remove"]').first().click();
@@ -266,9 +267,10 @@ test.describe('v5: 3D -> 2D', () => {
       { id: 'stock-default', name: 'SOLIDWORKS stock drawing template', source: 'stock', available: true, own_sheet_format: false, paper: 'as installed', has_preview: false, validation: { ok: null, errors: [] } }],
       default_id: 'solidflow-ansi-b', task: { id: 't1', kind: 'generate', state: 'running', label: 'Generating solidflow-ansi-b' } } }) : r.continue());
     await open(page, J_DONE, 'flange');
+    await page.locator('#rv-acc-tpl-btn').click();                                              // v7: template details are behind "Change"
     await expect(page.getByRole('button', { name: /Generate default/ })).toBeDisabled();
     await expect(page.getByRole('button', { name: /Generate default/ })).toHaveAttribute('title', /template task is running/);
-    await expect(page.locator('label[for="rv-tpl-file"]')).toHaveAttribute('aria-disabled', 'true');
+    await expect(page.locator('#rv-tpl-upload')).toBeDisabled();
     await expect(page.locator('.rv-task')).toContainText('Generating solidflow-ansi-b');
     const items = page.locator('.rv-tpl');
     await expect(items).toHaveCount(3);

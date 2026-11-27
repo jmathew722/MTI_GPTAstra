@@ -315,14 +315,14 @@
     v.buttons.forEach(function (b) {
       var ic = b.kind === 'zip' ? 'files' : 'download';
       row.append(h('button', { class: 'btn secondary sm', type: 'button', id: 'rv-exp-' + b.kind, 'data-kind': b.kind, disabled: b.enabled ? null : true, title: b.enabled ? b.label + (b.filename ? ' (' + b.filename + ')' : '') : b.reason,
-        onclick: function () { doExport(b.kind); } }, icon(ic, 14), b.label.replace('Download ', '')));
+        onclick: function () { doExport(b.kind); } }, icon(ic, 14), b.label));
     });
     box.append(row);
     if (v.ready && v.needsAck && v.any) {
       var cb = h('input', { type: 'checkbox', id: 'rv-exp-ack', 'aria-describedby': 'rv-exp-why', onchange: function () { S.ack = cb.checked; renderExport(); } }); cb.checked = !!S.ack;
       box.append(h('label', { class: 'chk rv-exp-ack', for: 'rv-exp-ack' }, cb, h('span', { text: 'I understand this is an unapproved draft for engineering review, not approved for manufacture.' })));
       box.append(h('p', { class: 'reason', id: 'rv-exp-why', text: v.status.reasons.join(' ') }));
-    } else if (v.ready) box.append(h('p', { class: 'reason', id: 'rv-exp-why', text: v.any ? 'PRELIMINARY / FOR REVIEW. Not approved for manufacture.' : (v.buttons.map(function (b) { return b.reason; }).filter(Boolean)[0] || 'Nothing to export yet.') }));
+    } else if (v.ready) box.append(h('p', { class: 'reason', id: 'rv-exp-why', hidden: v.any ? true : null, text: v.any ? 'PRELIMINARY / FOR REVIEW. Not approved for manufacture.' : (v.buttons.map(function (b) { return b.reason; }).filter(Boolean)[0] || 'Nothing to export yet.') }));
     else box.append(h('p', { class: 'reason', id: 'rv-exp-why', text: 'Select a part from a run to export its drawing.' }));
   }
   function refreshExport() {

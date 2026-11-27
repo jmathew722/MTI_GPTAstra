@@ -112,3 +112,13 @@ layout looks old after an update, hard-refresh once (Ctrl+F5). Action buttons us
 Uploaded parts are copied to `<data>/uploads/3d-to-2d/`; a server-local folder is accepted only inside the roots listed in `SOLIDFLOW_REVERSE_ROOTS` (path-separator list). The UI never starts SOLIDWORKS itself and shows
 a drawing or model only when the server lists the file. Drawings are PRELIMINARY / FOR REVIEW; review actions are audited (who, when, note). Browser tests need the server on an isolated `MCAGENT_DATA`
 (`tests/e2e/run31.sh`); fixture jobs are labelled test stand-ins, not native CAD output.
+
+#### v7: reference drawing, Source PDF and export
+
+- **Setup rail** (right side, scrolls itself; Run and Export stay at its bottom): Drawing template, Part selection, Reference drawing (Standard | Match reference), Advanced settings, Runtime and cost, Run, Export. Accordions are buttons with
+  `aria-expanded` / `aria-controls`; they only toggle `hidden`, so a poll or a re-render never resets them. Reference matching is a per-part decision made before the run: Auto-find / Upload PDF / Select saved source, a one-line status,
+  and an explicit Confirm for ambiguous candidates. A part with no reference is blocked unless the user chooses Standard for that row. If the backend has no reference support (`GET /api/reverse/capabilities`) Match is disabled with the reason.
+- **Source PDF**: beside the `3D Model (STL)` title a `3D Model | Source PDF` toggle shows the real original reference PDF the run used (never the generated one). Source PDF is disabled with a tooltip for Standard, blocked or unfinished parts.
+- **Export** (`GET /api/reverse/jobs/{job}/parts/{part}/export[/slddrw|pdf|zip]`): the server resolves the artifact, checks containment, serves `application/pdf` / `application/octet-stream` / `application/zip` as an attachment with a sanitised
+  name, and returns 404 (missing), 409 (stale `expect`, canceled, still running, or acknowledgement missing). Unapproved drafts need `ack=1` (the UI asks for an explicit acknowledgement). A drawing is never labelled approved.
+- Routes added by `server/reverse_v7.py`: `/capabilities`, `/stage`, `/reference/candidates`, `/reference/confirm`, `/reference/upload`. Browser tests: `tests/e2e/run_v7_all.sh` (spec `34-v7-reverse-reference`); report `docs/verification/v7/WORKSPACE_V7_REPORT.md`.

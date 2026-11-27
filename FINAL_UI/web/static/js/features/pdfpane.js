@@ -14,7 +14,7 @@
     var P = { doc: null, page: 1, zoom: 1, task: null, rendering: false, again: false, key: '', ready: false, token: 0 };
     var paper = h('canvas', { class: 'rv-paper', 'aria-label': (opts.label || 'PDF') + ' sheet' });
     var wrap = h('div', { class: 'rv-paperwrap rv-pan', tabindex: '0', role: 'region', 'aria-label': (opts.label || 'PDF') + ' sheet (scrollable; drag to pan)', hidden: true }, paper);
-    var box = h('div', { class: 'vp-empty rv-vempty' });
+    var box = h('div', { class: 'vp-empty rv-pempty' });
     var el = h('div', { class: 'rv-pdfpane' }, wrap, box);
     var pageLbl = h('span', { class: 'rv-pagelbl', 'aria-live': 'polite' }), zoomLbl = h('span', { class: 'rv-zoomlbl' });
     function tb(attrs, ic, label, fn) { return h('button', Object.assign({ class: 'ibtn', type: 'button', title: label, 'aria-label': label, onclick: fn }, attrs || {}), icon(ic, 18)); }

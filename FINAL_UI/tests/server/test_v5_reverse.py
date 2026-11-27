@@ -33,6 +33,8 @@ import reverse_fixtures as fx  # noqa: E402
 from reverse import engine, state, worker  # noqa: E402
 
 client = TestClient(appmod.app)
+MESH = next(x for x in state.STAGES if x in ("mesh_export", "stl_export"))          # stage names follow the backend vocabulary (v7 renamed them)
+PLAN = next(x for x in state.STAGES if x in ("planning", "view_planning"))
 GATE = threading.Event()
 ATTEMPTS: dict = {}
 
@@ -62,7 +64,7 @@ def fake_run(self):
             return
         state.begin_stage(p, stage)
         self.store.save(self.job)
-        if "slow" in name and stage == "mesh_export":
+        if "slow" in name and stage == MESH:
             for _ in range(100):
                 if GATE.is_set() or self.cancel():
                     break
@@ -72,14 +74,14 @@ def fake_run(self):
                 state.finish(p, "canceled")
                 self.store.save(self.job)
                 return
-        if "fail" in name and stage == "planning" or ("flaky" in name and ATTEMPTS[p.part_id] == 1 and stage == "planning"):
+        if "fail" in name and stage == PLAN or ("flaky" in name and ATTEMPTS[p.part_id] == 1 and stage == PLAN):
             state.end_stage(p, stage, "failed", errors=["boom"])
             state.finish(p, "failed", f"RuntimeError: layout failed for {self.src}")      # an absolute path on purpose: the API must scrub it
             self.store.save(self.job)
             return
         state.end_stage(p, stage)
         self.store.save(self.job)
-        if stage == "mesh_export":
+        if stage == MESH:
             fx.write_part_files(self.store.dir(self.job.job_id), p, pdf=False, qa=False)
             self.store.save(self.job)
     fx.write_part_files(self.store.dir(self.job.job_id), p, issues=[])
@@ -326,7 +328,7 @@ def test_cancel_stops_the_running_part_and_the_queued_ones(isolated):
     r = submit([sld("slow.SLDPRT"), sld("second.SLDPRT")])
     jid = r.json()["job_id"]
     for _ in range(100):
-        if client.get(f"/api/reverse/jobs/{jid}").json()["parts"][0]["state"] == "mesh_export":
+        if client.get(f"/api/reverse/jobs/{jid}").json()["parts"][0]["state"] == MESH:
             break
         time.sleep(0.05)
     assert client.post(f"/api/reverse/jobs/{jid}/cancel").status_code == 200
@@ -340,7 +342,7 @@ def test_cannot_delete_or_review_a_running_job_but_can_delete_a_finished_one(iso
     r = submit([sld("slow.SLDPRT")])
     jid = r.json()["job_id"]
     for _ in range(100):
-        if client.get(f"/api/reverse/jobs/{jid}").json()["parts"][0]["state"] == "mesh_export":
+        if client.get(f"/api/reverse/jobs/{jid}").json()["parts"][0]["state"] == MESH:
             break
         time.sleep(0.05)
     assert client.delete(f"/api/reverse/jobs/{jid}").status_code == 409

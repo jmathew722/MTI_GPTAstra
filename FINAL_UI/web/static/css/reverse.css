@@ -46,7 +46,7 @@
 .rv-sheetbody { background: var(--well); display: flex; }
 .rv-paperwrap { position: absolute; inset: 0; overflow: auto; display: grid; place-items: center; padding: 12px; outline-offset: -3px; }
 .rv-paper { display: block; background: var(--paper); box-shadow: 0 2px 14px rgba(0, 0, 0, .5); max-width: none; }
-.rv-vempty { background: transparent; }
+.rv-vempty, .rv-pempty { background: transparent; }
 .rv-spin svg { animation: trk-spin 1s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .rv-spin svg { animation: none; } }
 .rv-overlay { padding: 10px 14px; border-top: 1px solid var(--line-soft); background: var(--surface); max-height: 160px; overflow: auto; font-size: var(--fs-small); }
@@ -137,8 +137,9 @@
 .rv-export { display: flex; flex-direction: column; gap: 6px; }
 .rv-exp-h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .rv-exp-h .rv-draft { white-space: normal; text-align: left; line-height: 1.25; }
-.rv-exp-b { display: flex; gap: 6px; flex-wrap: wrap; }
-.rv-exp-b .btn { flex: 1 1 auto; justify-content: center; }
+.rv-exp-b { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.rv-exp-b .btn { justify-content: center; white-space: nowrap; }
+.rv-exp-b .btn[data-kind="zip"] { grid-column: 1 / -1; }
 .rv-exp-ack { align-items: flex-start; font-size: 12px; line-height: 1.35; }
 .rv-exp-ack input { margin-top: 1px; }
 .rv-qref { display: flex; align-items: center; gap: 4px; margin-top: 2px; font-size: 12px; color: var(--ink-3); }
@@ -169,7 +170,7 @@
 .rv-tpl-err { color: var(--err-text); }
 .rv-task[data-state="failed"] { color: var(--err-text); } .rv-task[data-state="done"] { color: var(--ok-text); }
 .btn.is-disabled { opacity: .5; pointer-events: none; }
-.rv-picked { display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow: auto; margin: 0; padding: 0; list-style: none; }
+.rv-picked { display: flex; flex-direction: column; gap: 4px; max-height: 112px; overflow: auto; margin: 0; padding: 0; list-style: none; }
 .rv-picked li { display: flex; align-items: center; gap: 6px; justify-content: space-between; padding: 2px 4px; border-radius: 6px; }
 .rv-picked .chk { min-width: 0; flex: 1 1 auto; }
 .rv-pk-n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
