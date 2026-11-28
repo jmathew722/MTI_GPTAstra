@@ -37,14 +37,27 @@ Windows + SolidWorks. Every paid model call goes through a hard **$20 budget gua
 
 ## Repository layout
 
+Full map with every component: [REPOSITORY_MAP.md](REPOSITORY_MAP.md). Documentation index: [docs/README.md](docs/README.md).
+
 | Path | What's there |
 |---|---|
 | [`2D-3D-CAD-Test-Generation/`](2D-3D-CAD-Test-Generation/) | All code: `main.py` CLI, `pipeline/`, `utils/`, `tests/`, generated `output/` and hand-off `Deliverables/`. Detailed usage is in its [README](2D-3D-CAD-Test-Generation/README.md) |
+| [`FINAL_UI/`](FINAL_UI/) | Solid Flow UI: FastAPI `server/`, vanilla-JS `web/`, browser/server/unit `tests/` |
+| `FINAL_OUTPUTs/` | Live generated parts shown in the UI |
 | `data/inputs/drawing_pdfs/` | Source PDFs for 115-C, 116-C, 117-C and 135-A |
 | `data/inputs/view_defined_drawings/` | Clean multi-view drawings, one folder per part (A040911E, A040921E, SB11033, SB11780, SB11842) |
 | `data/inputs/verified_drawings/` | 12 more parts. ⚠️ Many `_front_view` / `_side_view` images are **not** views of the named part; label them by hand before use |
-| [`docs/`](docs/) | [SolidWorks macro error log](docs/solidworks/solidworks-macro-error-log.md) and design specs |
+| `data/inputs/simple_parts/`, `mti_test_set.csv` | Simple MTI parts (drawing + model) and the 63-part test-set table |
+| [`docs/`](docs/) | Organised by topic. [SolidWorks macro error log](docs/solidworks/solidworks-macro-error-log.md) and design specs |
 | [`graphify-out/`](graphify-out/) | Knowledge graph of the repo. Open `graph.html` in a browser; the summary is in [`GRAPH_REPORT.md`](graphify-out/GRAPH_REPORT.md) |
+
+## Launch the UI
+
+```powershell
+powershell -ExecutionPolicy Bypass -File FINAL_UI\start-ui.ps1      # http://127.0.0.1:8200
+```
+
+Put `OPENAI_API_KEY` in `2D-3D-CAD-Test-Generation/.env` first (template: `.env.example`).
 
 ## Quick start
 
@@ -80,8 +93,8 @@ python -m pytest tests/ -v                                               # tests
 
 # Build into FINAL_OUTPUTs/ with per-part cost tracking (see FINAL_OUTPUTs/costs.txt).
 # Refreshes costs after every part and stops the run if one part exceeds $5.
-python make_part.py "../Simple Parts/A001151E.PDF"
-python make_part.py "../Simple Parts/A001151E.PDF" "../Simple Parts/A001821E.PDF"
+python make_part.py "../data/inputs/simple_parts/A001151E.PDF"
+python make_part.py "../data/inputs/simple_parts/A001151E.PDF" "../data/inputs/simple_parts/A001821E.PDF"
 python final_costs.py                                                    # rewrite costs.txt only
 ```
 

@@ -16,29 +16,32 @@ Read it before starting non-trivial work.
 
 ## Repo layout
 
+Full map: [REPOSITORY_MAP.md](REPOSITORY_MAP.md) (what moved: [FILE_MIGRATION_REPORT.md](FILE_MIGRATION_REPORT.md)). Reorganised 2026-11-27 (branch `ImprovementsV8`).
+
 ```
-mti-2d-3d/
-├── README.md, CLAUDE.md, STATE.md ← start here
-├── 2D-3D-CAD-Test-Generation/     ← all code (run commands from this dir)
-│   ├── main.py                    CLI: --drawing | --from-json | --batch | --views-folder
-│   ├── run_models.py              end-to-end COM batch driver (auto-resolves ambiguities!)
-│   ├── pipeline/                  extractor → schema → validator → macro_generator/solidworks_builder
-│   ├── utils/                     image_prep, unit_converter, logger
+SolidFlow/                         (repo root, folder UI_Astra)
+├── README.md, CLAUDE.md, STATE.md, CHANGELOG.md, REPOSITORY_MAP.md ← start here
+├── .env.example                   template only; the real .env is 2D-3D-CAD-Test-Generation/.env (gitignored)
+├── 2D-3D-CAD-Test-Generation/     ← all pipeline code (run commands from this dir)
+│   ├── main.py, ir_run.py, ...    CLI entry points
+│   ├── pipeline/                  2D->3D: extractor -> schema -> validator -> planner/ir -> macro_generator | solidworks_builder
+│   ├── reverse/                   3D->2D: reference matching, layout, drawing, dimensioning, comparison, replication, costs
+│   ├── bench/                     benchmark prep + scoring
+│   ├── utils/paths.py             CENTRAL PATHS - use it, never the cwd
+│   ├── config/                    models.json, pricing.json, materials/, drawing_templates/, mti/ (confidential, gitignored)
 │   ├── tests/                     pytest suite + golden macro snapshots
-│   ├── output/<Part>/             generated packages (extraction, report, macros, .SLDPRT)
+│   ├── output/<Part>/             CLI run packages (extraction, report, macros, .SLDPRT)
 │   └── Deliverables/<Part>/       hand-off copies (.SLDPRT + design decisions)
-├── data/inputs/drawing_pdfs/                   source drawings (PDF)
-├── data/inputs/verified_drawings/           source drawings, flat: <part>.png, <part>_front_view.png, <part>_side_view.png
-├── data/inputs/view_defined_drawings/           source drawings, one folder per part (<part>_front/_side/.png)
-├── docs/
-│   ├── test-reports/                   ← dated test-day records (results, failures, costs, decisions)
-│   ├── PRD.md                          ← product requirements (goals, requirements, success targets)
-│   ├── PRD-aws.md, PRD-azure.md        ← the two hosting options (same sections, compare side by side)
-│   ├── solidworks-macro-error-log.md   ← every runtime failure + the generator rule it produced
-│   ├── mti-modeling-standards.md       ← MTI's modeling practices + feature guide, and pipeline status
-│   └── superpowers/specs/              design specs (dated)
+├── FINAL_UI/                      Solid Flow UI (server/ FastAPI, web/ vanilla JS, tests/)
+├── FINAL_OUTPUTs/                 live generated parts shown in the UI (stored records point here: do not relocate casually)
+├── data/inputs/                   source drawings: drawing_pdfs/, verified_drawings/, view_defined_drawings/, simple_parts/, mti_test_set.csv
+├── docs/                          by topic: product/, guides/, mti/, scoring/, solidworks/, solidflow-upgrades/, superpowers/, test-reports/, reorg/ (index: docs/README.md)
+├── scripts/maintenance/           check_md_links.py (run after moving any doc)
+├── archive/                       superseded files, see ARCHIVE_MANIFEST.md
 └── graphify-out/                  knowledge graph of the repo (GRAPH_REPORT.md, graph.html)
 ```
+
+Conventions: no `new/final/copy/updated` names; part numbers, revisions and original drawing filenames are kept as-is for traceability; inputs go under `data/inputs/`, generated files under `output/` or `FINAL_OUTPUTs/`, never beside source. When you move a file, update every reference, run `python scripts/maintenance/check_md_links.py`, and record the move in `FILE_MIGRATION_REPORT.md`. `utils/paths.py::resolve_input` maps the pre-v8 folder names (`DrawingPDFs`, `Simple Parts`, ...) to their new locations.
 
 ## Pipeline in one line
 
@@ -218,8 +221,8 @@ MTI's own practices: `docs/mti/mti-modeling-standards.md`; design and phases:
   443 files (186 PDF, 142 DWG, 114 SLDPRT, 1 SLDASM).
 - **Test set: 63 parts with both a drawing and a model** (34 A, 27 SB, 2 Other; 39 PDF and 24
   DWG drawings). The drawing is the input; the existing SLDPRT is the ground truth.
-  - Listed in **`2D-3D-CAD-Test-Generation/bench/mti_test_set.csv`** (identical copy at the repo root,
-    `test_set.csv`): series, part number, drawing format,
+  - Listed in **`2D-3D-CAD-Test-Generation/bench/mti_test_set.csv`** (identical copy at
+    `data/inputs/mti_test_set.csv`): series, part number, drawing format,
     Drive paths, Drive file ids, notes.
   - 2 folders have a model but no drawing: A00687E and A09126 (an assembly).
 

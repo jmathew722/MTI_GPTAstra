@@ -1,5 +1,13 @@
 # Changelog
 
+## v8 reorganisation (2026-11-27, branch `ImprovementsV8`): repository structure only, no feature changes
+
+- Input drawings moved to `data/inputs/` (`drawing_pdfs`, `verified_drawings`, `view_defined_drawings`, `simple_parts`, `mti_test_set.csv`); docs grouped by topic (`product`, `guides`, `mti`, `scoring`, `solidworks`); two legacy extractions and a stray job id moved to `archive/`.
+- New `utils/paths.py` (central locations, `resolve_input` for the pre-v8 folder names), `scripts/maintenance/check_md_links.py` (0 broken links), `docs/README.md`, root `.env.example`.
+- 18 tracked SolidWorks lock/autosave files untracked and gitignored.
+- New deliverables: `REPOSITORY_MAP.md`, `FILE_MIGRATION_REPORT.md`, `ARCHIVE_MANIFEST.md`, `REGRESSION_TEST_REPORT.md`; `CLAUDE.md` and `README.md` updated.
+- Deliberately not moved: the Python packages, `FINAL_UI/`, `FINAL_OUTPUTs/` (see `FILE_MIGRATION_REPORT.md`).
+
 ## v8 (2026-11-27, on `ImprovementsV7`): drawing replication and cost accounting
 ### Added
 - **Replication:** sheet at the source's physical size; title-block scale equals the source (root cause: creating a view resets the sheet scale, now re-applied before every save and export); source-coordinate placement with rotation/crop transforms; verbatim editable notes and title block; multi-sheet reconstruction; mixed view scales; versioned `drawingspec/1`; closed loop with side-by-side, overlay and difference images; statuses Verified / Needs Review / Blocked / Failed. Nothing reached Verified in the live runs (ring, 4028-B, counterbores): see `docs/solidflow-upgrades/V8_BACKEND_REPORT.md`.

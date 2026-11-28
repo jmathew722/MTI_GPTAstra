@@ -1,0 +1,17 @@
+.gitignore
+.vscode
+2D-3D-CAD-Test-Generation
+CHANGELOG.md
+CLAUDE.md
+DrawingPDFs
+FINAL_OUTPUTs
+FINAL_UI
+NewVerifiedDrawings
+README.md
+STATE.md
+Simple Parts
+ViewDefinedDrawings
+docs
+graphify-out
+jid.txt
+test_set.csv
