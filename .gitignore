@@ -250,3 +250,10 @@ docs/phase1-evidence/**/*.sldmat
 
 # upstream reference repos, inspected only (never vendored)
 reference-repos/
+
+# --- v8 reorganisation additions ---
+# SolidWorks lock/autosave files (disposable)
+~$*
+AUTOSAVE_*
+# local scratch and root-level job ids
+archive/misc/jid.txt

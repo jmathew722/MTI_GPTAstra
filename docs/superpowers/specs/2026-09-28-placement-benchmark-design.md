@@ -24,8 +24,8 @@ comparability. **The headline metrics are placement metrics.**
 | Split | Parts | Rationale |
 |---|---|---|
 | **dev** (prompt/IR tuning allowed) | 115-C, 116-C, 117-C, 135-A | Already used to harden the generator (error log E001–E010); they can't be "unseen" |
-| **held-out** (never tuned on) | A040911E, A040921E, SB11033, SB11780, SB11842 | Clean multi-view drawings in `ViewDefinedDrawings/`; they cover turned, flanged, bolt-circle, bearing and tie-rod geometry |
-| **held-out, later** | curated `NewVerifiedDrawings/` parts | Only after human view labeling (see STATE.md §2) |
+| **held-out** (never tuned on) | A040911E, A040921E, SB11033, SB11780, SB11842 | Clean multi-view drawings in `data/inputs/view_defined_drawings/`; they cover turned, flanged, bolt-circle, bearing and tie-rod geometry |
+| **held-out, later** | curated `data/inputs/verified_drawings/` parts | Only after human view labeling (see STATE.md §2) |
 
 The split is **fixed in `bench/manifest.yaml` before any tuning** and changed only
 by a reviewed PR.

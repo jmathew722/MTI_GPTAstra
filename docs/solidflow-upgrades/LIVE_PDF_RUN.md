@@ -1,9 +1,9 @@
 # Live run: original PDF -> OpenAI extraction -> native part with material -> regenerated drawing
 
-Date 2026-11-26. Part: `DrawingPDFs/A001151E.PDF` (an authorized drawing already in this repository). SOLIDWORKS 2025 SP5 (33.5.0). Evidence: `docs/phase1-evidence/live_pdf_A001151E/`.
+Date 2026-11-26. Part: `data/inputs/drawing_pdfs/A001151E.PDF` (an authorized drawing already in this repository). SOLIDWORKS 2025 SP5 (33.5.0). Evidence: `docs/phase1-evidence/live_pdf_A001151E/`.
 Command (from `2D-3D-CAD-Test-Generation/`):
 ```
-SOLIDFLOW_MATERIAL_SETTINGS=<settings.json> python main.py --drawing ../DrawingPDFs/A001151E.PDF --ir --engine com --output <dir>
+SOLIDFLOW_MATERIAL_SETTINGS=<settings.json> python main.py --drawing ../data/inputs/drawing_pdfs/A001151E.PDF --ir --engine com --output <dir>
 python -m reverse.cli fixtures --src <folder holding the built 116-C_ir.SLDPRT> --out <dir> --template <abs .DRWDOT> --own-sheet-format
 ```
 

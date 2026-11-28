@@ -1,7 +1,7 @@
 """Hole Wizard acceptance matrix generator and live runner (Stage 4, task 4.13).
 
 ``--plan`` (no SolidWorks): one row per registry variant (all 81), each built from an exemplar intent and taken through
-selection -> catalog resolution -> reference geometry. Writes ``docs/hole-wizard/matrix-results.json``.
+selection -> catalog resolution -> reference geometry. Writes ``docs/solidworks/hole-wizard/matrix-results.json``.
 
 ``--live``: additionally runs each non-legacy variant in a CHILD process with a watchdog (``InitializeHole`` can block
 forever, error log E037): new part, block, create through the typed adapter, read the definition back, compare removed
@@ -11,7 +11,7 @@ refused, null or blocked, the rest are recorded ``blocked_by_preflight`` instead
 A variant is ``verified`` only when creation, definition readback, geometry, save/reopen AND the drawing-callout round
 trip all passed. The callout round trip needs a drawing document and the Hole Callout API and is NOT implemented here,
 so this tool can never set ``verified``: the best it can report is ``implemented_not_live_verified`` plus the live
-columns it did pass. That is deliberate (see docs/hole-wizard/support-status.md).
+columns it did pass. That is deliberate (see docs/solidworks/hole-wizard/support-status.md).
 """
 from __future__ import annotations
 

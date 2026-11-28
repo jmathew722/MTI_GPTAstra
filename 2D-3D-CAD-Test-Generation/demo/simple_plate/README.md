@@ -43,7 +43,7 @@ Each arm's folder has the `.SLDPRT`, an isometric `.png` and a `.step`.
 
 Astra read the drawing correctly on the first try: every position, diameter and the
 chamfer, plus closed dimension chains. Two **pipeline** bugs stood in the way, and
-both are fixed and tested (`docs/solidworks-macro-error-log.md`):
+both are fixed and tested (`docs/solidworks/solidworks-macro-error-log.md`):
 
 - **E014.** The verification gate BLOCKED the 2×2 hole grid as a "240 mm row" (4 × 80
   pitch). It now checks the real extents of the explicit instance positions.

@@ -6,7 +6,7 @@ Branch `Improvements_2`. Machine: SOLIDWORKS 2025 SP5 (revision 33.5.0), Windows
 
 - Before: Hole Wizard folder -> `C:\SOLIDWORKS Data` (2026 data, database 29.01, expected 28.00): `HW_DATABASE_VERSION_MISMATCH`.
 - With the user's go-ahead the preference `swHoleWizardToolBoxFolder` was set to `C:\SOLIDWORKS Data (2)` (2025 data). No database was touched.
-- Now: `python tools/sw_preflight.py` -> `ready` (database 28.00 = expected, Toolbox index 33.5.0.53, catalog enumerable). Record: `docs/hole-wizard/preflight-result.json`.
+- Now: `python tools/sw_preflight.py` -> `ready` (database 28.00 = expected, Toolbox index 33.5.0.53, catalog enumerable). Record: `docs/solidworks/hole-wizard/preflight-result.json`.
 
 ## Live matrix (`python tools/run_hole_wizard_matrix.py --live`, one child process + watchdog per variant)
 

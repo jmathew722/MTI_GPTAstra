@@ -2,7 +2,7 @@
 
 **Date:** 2026-10-11
 **Status:** Phase 1 implemented and verified. Phases 2–4 proposed.
-**Inputs:** MTI's *Modeling Best Practices*, *SolidWorks Feature Guide*, six MTI macros, and MTI Std 202.02.0003. These are summarized, with per-item status, in [docs/mti-modeling-standards.md](../../mti-modeling-standards.md).
+**Inputs:** MTI's *Modeling Best Practices*, *SolidWorks Feature Guide*, six MTI macros, and MTI Std 202.02.0003. These are summarized, with per-item status, in [docs/mti/mti-modeling-standards.md](../../mti/mti-modeling-standards.md).
 
 ## Problem
 

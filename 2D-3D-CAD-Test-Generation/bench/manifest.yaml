@@ -34,47 +34,47 @@ splits:
   dev:
     - part: A040911E
       family: flanged bearing (counterbored bolt circle, cropped 2-hole callout)
-      views: ViewDefinedDrawings/A040911E-20260618T093212Z-3-001/A040911E
+      views: data/inputs/view_defined_drawings/A040911E-20260618T093212Z-3-001/A040911E
       units: inch
       reference_step: null      # MTI to supply
     - part: A040921E
       family: spacer ring with end slot
-      views: ViewDefinedDrawings/A040921E-20260618T093224Z-3-001/A040921E
+      views: data/inputs/view_defined_drawings/A040921E-20260618T093224Z-3-001/A040921E
       units: inch
       reference_step: null
     - part: SB11033
       family: flange + stacked boss + bolt circle + edge breaks
-      views: ViewDefinedDrawings/SB11033-20260618T093243Z-3-001/SB11033
+      views: data/inputs/view_defined_drawings/SB11033-20260618T093243Z-3-001/SB11033
       units: inch
       reference_step: null
     - part: SB11780
       family: turned tie rod (necks, keyway, journals)
-      views: ViewDefinedDrawings/SB11780-20260618T093317Z-3-001/SB11780
+      views: data/inputs/view_defined_drawings/SB11780-20260618T093317Z-3-001/SB11780
       units: inch
       reference_step: null
     - part: SB11842
       family: spindle back-up flange (counterbored bolt circle)
-      views: ViewDefinedDrawings/SB11842-20260618T093328Z-3-001/SB11842
+      views: data/inputs/view_defined_drawings/SB11842-20260618T093328Z-3-001/SB11842
       units: inch
       reference_step: null
     - part: 115-C
       family: plate (check bypass)
-      views: DrawingPDFs/A001171E.PDF
+      views: data/inputs/drawing_pdfs/A001171E.PDF
       units: inch
       reference_step: null
     - part: 116-C
       family: plate, 2x2 grid (check valve eliminator)
-      views: DrawingPDFs/A001151E.PDF
+      views: data/inputs/drawing_pdfs/A001151E.PDF
       units: inch
       reference_step: null
     - part: 117-C
       family: plate, 14-hole callout (check valve adaptor)
-      views: DrawingPDFs/A001131E.PDF
+      views: data/inputs/drawing_pdfs/A001131E.PDF
       units: inch
       reference_step: null
     - part: 135-A
       family: key
-      views: DrawingPDFs/A001351E.PDF
+      views: data/inputs/drawing_pdfs/A001351E.PDF
       units: inch
       reference_step: null
     - {part: A050381E, source: mti_bench, family: "mounting pad block, 4 tapped blind", units: inch, complexity: simple, reference_step: reference.step}

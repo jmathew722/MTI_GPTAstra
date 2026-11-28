@@ -1,7 +1,7 @@
 # AI CAD Roadmap — Design (umbrella)
 
 **Date:** 2026-09-28 · **Status:** preliminary. Approved in brainstorming; specs A–C written, D is a placeholder; awaiting collaborator review.
-**PRD for review:** [docs/PRD.md](../../PRD.md)
+**PRD for review:** [docs/product/PRD.md](../../product/PRD.md)
 **Author:** ggould (MalteseWarrior) with Claude · **Builds on:** [2026-06-11 pipeline design](2026-06-11-2d-to-3d-solidworks-pipeline-design.md)
 
 ## Problem
@@ -116,7 +116,7 @@ Each gets its own spec → implementation plan → implementation cycle, in this
 ## Prerequisites
 
 - MTI reference models for the benchmark parts, exported to **STEP**.
-- A human-curated view labeling for `NewVerifiedDrawings/`. Many `_front_view` /
+- A human-curated view labeling for `data/inputs/verified_drawings/`. Many `_front_view` /
   `_side_view` files are unrelated components (`STATE.md` §2).
 - API access: Anthropic (Opus 5.5), OpenAI (`gpt-6-astra`), TypeSafe (Jev).
 - `pip install cadquery` (brings in OCP) on dev machines, plus the existing

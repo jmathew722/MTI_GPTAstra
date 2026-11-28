@@ -1,6 +1,6 @@
 """Static self-validation of generated VBA macros (Phase 7 + Phase 10).
 
-Every error logged in ``docs/solidworks-macro-error-log.md`` (E001-E010) taught a
+Every error logged in ``docs/solidworks/solidworks-macro-error-log.md`` (E001-E010) taught a
 rule. Unit tests guard some of them, but only on hand-written fixtures. This
 module turns those rules into a **static auditor that runs over EVERY generated
 package** — so a known failure mode can never silently ship again, regardless of

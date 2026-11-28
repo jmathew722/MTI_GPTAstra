@@ -626,9 +626,9 @@ class ReferenceServices:
 
 
 def default_roots() -> list[Path]:
-    """History roots searched read-only: SF_REFERENCE_ROOTS (os.pathsep separated) or the repo's FINAL_OUTPUTs, FINAL_UI/data and DrawingPDFs."""
+    """History roots searched read-only: SF_REFERENCE_ROOTS (os.pathsep separated) or the repo's FINAL_OUTPUTs, FINAL_UI/data and data/inputs/drawing_pdfs (plus the pre-reorganisation DrawingPDFs name if it exists)."""
     env = os.environ.get("SF_REFERENCE_ROOTS")
     if env:
         return [Path(x) for x in env.split(os.pathsep) if x.strip()]
     repo = Path(__file__).resolve().parents[2]
-    return [repo / "FINAL_OUTPUTs", repo / "FINAL_UI" / "data", repo / "DrawingPDFs"]
+    return [repo / "FINAL_OUTPUTs", repo / "FINAL_UI" / "data", repo / "data" / "inputs" / "drawing_pdfs", repo / "DrawingPDFs"]

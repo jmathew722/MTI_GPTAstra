@@ -9,7 +9,7 @@ built part can be scored. Free: no API calls, no SolidWorks session.
 
 Six categories (weights in bench/fidelity_config.yaml): build integrity, overall size, feature coverage, hole and bore
 accuracy, placement and patterns, extraction reliability. A category with nothing checkable is dropped and the rest are
-rescaled (coverage is reported). Critical issues cap the total. Spec: docs/scoring-rubric-emf.md.
+rescaled (coverage is reported). Critical issues cap the total. Spec: docs/scoring/scoring-rubric-emf.md.
 """
 from __future__ import annotations
 

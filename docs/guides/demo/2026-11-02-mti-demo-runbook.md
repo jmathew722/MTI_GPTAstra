@@ -14,7 +14,7 @@ room costs about $1 (see "Live option").
 | **Hero** | **2N2664, re-plan of 2026-11-02** | Turned hub: 10-station turned profile, Hole Wizard taps and counterbores (1/4-20, 1/4 SHCS), **a radial cross-hole at 240°**, 6 fillets and chamfers | All 16 built features verified; **1 question** (the recess end: it asks instead of guessing); 3 default rules shown | **overlap 0.996**, volume 1.003, mean surface distance 0.15 mm | ~2 min |
 | Fallback | 2N2664, earlier plan | The same hub, with the recess built and no radial hole | 21 planned, all built features verified; 0 questions; 4 default rules | overlap 0.993, volume 1.006, mean 0.10 mm | ~5 min |
 | **Backup** | **A00122E** | Plate: 19 features, 7 Hole Wizard features (three clearance sizes + #8-32 taps) | 19/19 verified; 0 questions | overlap 0.987, mean **0.06 mm**, max **0.21 mm** | ~45 s |
-| Wow, with caveat | SB14306 | 546 mm collet: 28 features, 9 native circular patterns, 8 Hole Wizard taps | 26/28 (2 MTI questions) | 0.74: **MTI's model doesn't match its drawing** (see `docs/mti-questions/`) | ~15 min |
+| Wow, with caveat | SB14306 | 546 mm collet: 28 features, 9 native circular patterns, 8 Hole Wizard taps | 26/28 (2 MTI questions) | 0.74: **MTI's model doesn't match its drawing** (see `docs/mti/mti-questions/`) | ~15 min |
 
 ## Before the meeting
 

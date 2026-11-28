@@ -53,7 +53,7 @@ That is MTI's "patterned holes sit on sketch geometry" and "fewer features" in o
 
 ## 4. Failures and fixes
 
-All are in [error log E022](../solidworks-macro-error-log.md).
+All are in [error log E022](../solidworks/solidworks-macro-error-log.md).
 
 1. **Taps ignore option changes after creation.** The cosmetic-thread option is passed in `HoleWizard5` (`Value7`).
 2. **Taps carry a cosmetic-thread sub-feature that isn't a sketch.** The placement search now keeps `ProfileFeature` only.

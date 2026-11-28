@@ -74,7 +74,7 @@ Setup, migration, tests and launch for the four v4 areas. Nothing here makes a p
 
 The Scoring tab grades what the drawing's extraction asked for against the **real SolidWorks part**, out of 100, colour banded
 (green 90+, amber 75+, orange 60+, red below), with a list of issues and warnings by severity. It is measured on the STL that SolidWorks exported
-from the SLDPRT, needs **no answer key**, and is free. Spec: `docs/scoring-rubric-emf.md`. Engine: `2D-3D-CAD-Test-Generation/bench/fidelity.py`
+from the SLDPRT, needs **no answer key**, and is free. Spec: `docs/scoring/scoring-rubric-emf.md`. Engine: `2D-3D-CAD-Test-Generation/bench/fidelity.py`
 (`python -m bench.fidelity <part_dir>`); the pipeline writes `fidelity_score.json` after every run. The answer-key benchmark (`bench.score`) is an
 optional second measure shown separately. A part with no STL is Incomplete, a failed build is its own state, and neither is ever scored 0.
 

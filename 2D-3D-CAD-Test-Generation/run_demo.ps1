@@ -1,4 +1,4 @@
-# Starts the MTI demo (docs/demo/2026-11-02-mti-demo-runbook.md) in this window.
+# Starts the MTI demo (docs/guides/demo/2026-11-02-mti-demo-runbook.md) in this window.
 # Usage: .\run_demo.ps1 [hero|fallback|backup]   (default hero; replay mode, $0)
 param([string]$Which = "hero")
 $env:PYTHONUTF8 = "1"

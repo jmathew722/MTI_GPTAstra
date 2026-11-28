@@ -23,7 +23,7 @@ MTI files live outside git in `MTI_BENCH_DATA` (read via python-dotenv). The spl
 - **Python:** `$PY = "C:\Users\USER\mti-2d-3d\.claude\worktrees\repro-sw2024\2D-3D-CAD-Test-Generation\.venv\Scripts\python.exe"` (this worktree has no venv; same requirements).
 - **Environment:** always set `$env:PYTHONUTF8=1`. Blank API keys while testing: `$env:OPENAI_API_KEY=''; $env:ANTHROPIC_API_KEY=''`. Nothing in this plan calls an API.
 - **Commits:** local only, with the attribution line. **Never push.** Never `git add -A`. Add the exact files listed.
-  - **Do not stage** the pre-existing uncommitted files: `pipeline/solidworks_builder.py`, `docs/solidworks-macro-error-log.md`, `tests/test_save_model.py` (the E025 save fix, deliberately left uncommitted).
+  - **Do not stage** the pre-existing uncommitted files: `pipeline/solidworks_builder.py`, `docs/solidworks/solidworks-macro-error-log.md`, `tests/test_save_model.py` (the E025 save fix, deliberately left uncommitted).
   - **Do not stage** anything under `output/sw2024_check/`.
 - **SolidWorks** (Tasks 10, 13): start `SLDWORKS.exe` by hand-off (`Start-Process`) and wait until `GetActiveObject('SldWorks.Application')` succeeds before running. COM drops after idle minutes, so run batches promptly.
 - **Confidential data:** never copy anything from `MTI_BENCH_DATA` into the repo.

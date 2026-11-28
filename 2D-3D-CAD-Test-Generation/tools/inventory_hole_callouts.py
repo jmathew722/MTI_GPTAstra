@@ -4,7 +4,7 @@ Reads only local files (no network, no model call): ``plan.json`` ``source_callo
 structured ``hole_callouts`` of ``*_extraction.json``. Writes a sanitized report: only text the parser classifies
 as a hole/thread callout is quoted, never general notes.
 
-    python tools/inventory_hole_callouts.py --root .. --out ../docs/hole-wizard/callout-inventory.md
+    python tools/inventory_hole_callouts.py --root .. --out ../docs/solidworks/hole-wizard/callout-inventory.md
 """
 from __future__ import annotations
 
@@ -96,7 +96,7 @@ def render(info: dict, res: dict) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--root", type=Path, default=Path(".."))
-    ap.add_argument("--out", type=Path, default=Path("../docs/hole-wizard/callout-inventory.md"))
+    ap.add_argument("--out", type=Path, default=Path("../docs/solidworks/hole-wizard/callout-inventory.md"))
     a = ap.parse_args()
     info = collect(a.root)
     res = classify(info["callouts"])

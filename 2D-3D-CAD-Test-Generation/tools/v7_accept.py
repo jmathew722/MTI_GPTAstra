@@ -25,7 +25,7 @@ from reverse import refextract, safety  # noqa: E402
 
 EVID = REPO / "docs" / "solidflow-upgrades" / "v7-evidence"
 FO = REPO / "FINAL_OUTPUTs"
-DP = REPO / "DrawingPDFs"
+DP = REPO / "data" / "inputs" / "drawing_pdfs"
 SMALL = 5 * 1024 * 1024
 
 PART_115 = FO / "A001151E" / "115C_ir.SLDPRT"

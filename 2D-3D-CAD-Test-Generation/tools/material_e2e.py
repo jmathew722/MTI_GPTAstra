@@ -45,7 +45,7 @@ def main() -> int:
     a = ap.parse_args()
 
     from pipeline.ir_pipeline import PartSpec, connect_sw, run_part
-    drawing = a.drawing or (CODE.parent / "DrawingPDFs" / f"{a.part}.PDF")
+    drawing = a.drawing or (CODE.parent / "data" / "inputs" / "drawing_pdfs" / f"{a.part}.PDF")
     sw = connect_sw()
     app = sw[0] if isinstance(sw, tuple) else sw
     rows = []

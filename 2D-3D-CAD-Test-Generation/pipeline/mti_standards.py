@@ -1,6 +1,6 @@
 """MTI Standard 202.02.0003 (tap and hole specifications): the shop's own table.
 
-MTI's modeling practice (docs/mti-modeling-standards.md) is Hole Wizard for every bolt
+MTI's modeling practice (docs/mti/mti-modeling-standards.md) is Hole Wizard for every bolt
 hole, and many legacy prints give only a plain diameter ("Ø.281 THRU") without saying
 "clearance for 1/4 SHCS". This module answers which screw a plain hole is for, from
 MTI's table: a diameter that equals a clearance, tap-drill or counterbore size.

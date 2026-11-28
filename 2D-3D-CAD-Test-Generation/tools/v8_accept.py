@@ -25,7 +25,7 @@ from reverse import safety  # noqa: E402
 
 EVID = REPO / "docs" / "solidflow-upgrades" / "v8-evidence"
 FO = REPO / "FINAL_OUTPUTs"
-SP = REPO / "Simple Parts"
+SP = REPO / "data" / "inputs" / "simple_parts"
 SMALL = 5 * 1024 * 1024
 
 CASES = {

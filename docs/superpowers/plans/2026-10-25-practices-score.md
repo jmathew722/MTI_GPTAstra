@@ -4,7 +4,7 @@
 
 **Goal:** a separate 0–100 practices score per part (spec 2b), with blame and per-check reasons, read from the SolidWorks feature tree plus `ir_report.json` / `plan.json`. No API cost.
 
-**Spec:** `docs/superpowers/specs/2026-10-25-practices-score-design.md`. The big problems that stay out of the score are in `docs/mti-practices-big-problems.md`.
+**Spec:** `docs/superpowers/specs/2026-10-25-practices-score-design.md`. The big problems that stay out of the score are in `docs/mti/mti-practices-big-problems.md`.
 
 ## Conventions
 

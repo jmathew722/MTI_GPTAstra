@@ -17,7 +17,7 @@
 >   type library, callout parser (+ corpus inventory). **No variant is `verified`.** Hole Wizard creation does not work through the API in
 >   this SolidWorks session (E037: `HoleWizard5` refused, `InitializeHole` blocks, `IHoleStandardsData` empty; Student Edition, cause
 >   unconfirmed). Not done: IR + migration, catalog resolver, creation adapters, placement policy, readback, callout round trip, matrix.
->   See `docs/hole-wizard/support-status.md`.
+>   See `docs/solidworks/hole-wizard/support-status.md`.
 > - Tests: Python 1162 passed / 66 skipped (baseline 1019); FINAL_UI server 48; UI unit 150/153 and Playwright 31 pass / 13 fail, both
 >   with the **same pre-existing failures as the pre-change commit** (missing `part_full.log` fixture; stale tests after the rebrand).
 >
@@ -36,7 +36,7 @@
 > - **E034:** checked, serial booleans make scores trustworthy.
 > - $0. Tests 1018 passed. Test report `docs/test-reports/2026-11-02-test-report.md`.
 >
-> **2026-11-02: MTI demo ready** (`docs/demo/2026-11-02-mti-demo-runbook.md`, $0 replay).
+> **2026-11-02: MTI demo ready** (`docs/guides/demo/2026-11-02-mti-demo-runbook.md`, $0 replay).
 > - Hero: the 2N2664 re-plan, a turned hub with Hole Wizard taps, a radial cross-hole at 240°
 >   and one honest question. IoU **0.9957** vs MTI's own model.
 > - Backup: A00122E (19/19 built, 0.21 mm max).
@@ -146,7 +146,7 @@
 > - **Where it reads:** the SLDPRT feature tree (`bench/sw_tree.py`, cached as `feature_tree.json`, existing
 >   APIs only), plus `ir_report.json` (C1/C2, self-reported) and `plan.json` (C6).
 > - **Big problems:** the five practices the pipeline breaks by design are kept out of the score and recorded in
->   [docs/mti-practices-big-problems.md](docs/mti-practices-big-problems.md).
+>   [docs/mti/mti-practices-big-problems.md](docs/mti/mti-practices-big-problems.md).
 > - **Golden parts:** mean practices score 84.6. Three of the four put a fillet or chamfer before a cut (C4).
 > - **Validation on MTI's own models was limited.** The 15 simple-part SLDPRTs MTI delivered have **no feature
 >   history** (one body; the tree is material, planes and origin only; last saved in SW 2025). Only the 3
@@ -194,7 +194,7 @@
 > holes. All 9 dev parts and 5 golden plans still build and verify ($0). A deterministic
 > review proposes Hole Wizard sizes from MTI's own table, which is kept local because it is
 > confidential. What MTI asked for, item by item, with status:
-> [docs/mti-modeling-standards.md](docs/mti-modeling-standards.md). Record:
+> [docs/mti/mti-modeling-standards.md](docs/mti/mti-modeling-standards.md). Record:
 > [docs/test-reports/2026-10-11-test-report.md](docs/test-reports/2026-10-11-test-report.md).
 > **Phase 2a, same day:** bolt holes (clearance and SHCS counterbore) are now real **Hole Wizard**
 > features sized from MTI's standard (13 features, 25 holes on the dev set). Identical holes on a
@@ -332,17 +332,17 @@ dropping the chain. Both records exist; the CSV is stale.
 | 116-C Rev90B | READY | Hand-patched (E009, E010) |
 | 117-C RevB | READY | Hand-patched (E009, E010); 14-hole callout collapses unless re-extracted with `instance_positions` |
 
-Source drawings for these four are in `DrawingPDFs/`: A001131E = 117-C
+Source drawings for these four are in `data/inputs/drawing_pdfs/`: A001131E = 117-C
 (check valve adaptor), A001151E = 116-C (check valve eliminator), A001171E =
 115-C (check bypass), A001351E = 135-A (key). The three 90B parts are one plate family.
 
 ### Drawings not yet processed
 
-- `NewVerifiedDrawings/` — 12 parts (0014630E, 16247, A001211E, A001271E,
+- `data/inputs/verified_drawings/` — 12 parts (0014630E, 16247, A001211E, A001271E,
   A001291E, A001561E, A001581E, A001591E, A001601E, A001621E, A001821M, A001901E).
   Several are missing a front or side view.
 
-> ⚠️ **Data-quality problem in `NewVerifiedDrawings/` — curate before use.**
+> ⚠️ **Data-quality problem in `data/inputs/verified_drawings/` — curate before use.**
 > Files named `<part>_front_view` / `<part>_side_view` are often **not views of
 > that part**. They look like separate detail components cropped from
 > multi-detail sheets. Confirmed by eye (2026-09-28):
@@ -360,7 +360,7 @@ Source drawings for these four are in `DrawingPDFs/`: A001131E = 117-C
 >
 > Feeding these folders to `run_models.py` merges unrelated components into one
 > part. Each image needs a manual label (which part, which view, or "separate
-> detail") before it is extracted or used as benchmark data. `ViewDefinedDrawings/`
+> detail") before it is extracted or used as benchmark data. `data/inputs/view_defined_drawings/`
 > (5 parts) did not show this problem.
 
 **No ground-truth 3D models are in the repo.** Any benchmark needs reference
@@ -589,8 +589,8 @@ Key decisions:
 - Ground truth is **MTI reference models**.
 - The pipeline is **evolved in place**.
 - **Model: GPT-6 Astra only** (decided 2026-10-04; published CAD benchmarks favour it).
-- **Hosting is still open:** [AWS](docs/PRD-aws.md) (Bedrock + AgentCore) vs
-  [Azure](docs/PRD-azure.md) (Foundry + Azure Functions). Both host GPT-6 Astra; the code
+- **Hosting is still open:** [AWS](docs/product/PRD-aws.md) (Bedrock + AgentCore) vs
+  [Azure](docs/product/PRD-azure.md) (Foundry + Azure Functions). Both host GPT-6 Astra; the code
   stays the same apart from the provider backend.
 
 Why BenchCAD isn't enough: Astra's 95.9% (Opus 5 82.1%, Fable 5.1 84.3%) is scored
@@ -615,8 +615,8 @@ by volume IoU and Chamfer distance, which barely penalize a misplaced hole.
 | Question | Look at |
 |---|---|
 | How do I run it / what are the rules? | [CLAUDE.md](CLAUDE.md) |
-| How does MTI want parts modeled? | [docs/mti-modeling-standards.md](docs/mti-modeling-standards.md) |
-| Why is the generator written this way? | [docs/solidworks-macro-error-log.md](docs/solidworks-macro-error-log.md) |
+| How does MTI want parts modeled? | [docs/mti/mti-modeling-standards.md](docs/mti/mti-modeling-standards.md) |
+| Why is the generator written this way? | [docs/solidworks/solidworks-macro-error-log.md](docs/solidworks/solidworks-macro-error-log.md) |
 | Original design | [docs/superpowers/specs/2026-06-11-2d-to-3d-solidworks-pipeline-design.md](docs/superpowers/specs/2026-06-11-2d-to-3d-solidworks-pipeline-design.md) |
 | Repo structure / cross-file connections | [graphify-out/GRAPH_REPORT.md](graphify-out/GRAPH_REPORT.md), `graphify-out/graph.html` |
 | Schema (the contract) | `2D-3D-CAD-Test-Generation/pipeline/schema.py` |
@@ -628,7 +628,7 @@ Offline chain built and tested (1208 passed): hole-intent IR + migration, catalo
 CadQuery reference, acceptance-matrix generator/runner, loud (not silent) plain-cut substitution. 47 of 81 variants are
 `implemented_not_live_verified`, 34 `not_implemented` (10 legacy, 24 slots). **No variant is `verified`**: the live matrix is blocked at preflight
 (`InitializeHole` never returns on this SolidWorks 2025 Student session; E037), and the Hole Callout round trip is not implemented.
-See `docs/hole-wizard/support-status.md` and `matrix-results.json`.
+See `docs/solidworks/hole-wizard/support-status.md` and `matrix-results.json`.
 
 ## Stage 4 update, SOLIDWORKS 2025 gate (2026-11-18, branch Improvements_2)
 
@@ -636,7 +636,7 @@ See `docs/hole-wizard/support-status.md` and `matrix-results.json`.
   (database **29.01**, Toolbox 34.3.2); 2025 expects **28.00**, and a 2025 root (`SOLIDWORKS Data (2)`, database 28.00) exists unused. The causal
   link to the `InitializeHole` hang is inferred, not demonstrated (not tested by repointing: that changes SOLIDWORKS configuration).
 * **Environment gate** (`pipeline/ir/solidworks/sw_preflight.py`, `tools/sw_preflight.py`): revision 33.x, database version, Toolbox index family, modal
-  dialogs, catalog, timeout. Live result `docs/hole-wizard/preflight-result.json`: **`HW_DATABASE_VERSION_MISMATCH`**. The compiler no longer calls
+  dialogs, catalog, timeout. Live result `docs/solidworks/hole-wizard/preflight-result.json`: **`HW_DATABASE_VERSION_MISMATCH`**. The compiler no longer calls
   `HoleWizard5` in that state (loud plain cut / strict failure); the live matrix starts no child process.
 * **`HoleIntentV2`**, multi-line callout grouping, tolerances, NPT/decimal threads, the five regression fixtures (`tests/test_hole_callouts_fixtures.py`),
   catalog cache + ranked matching, 2025 status vocabulary (47 `SUPPORTED_BY_ADAPTER_NOT_INSTALLED`, 34 `UNSUPPORTED_WITH_REASON`, 0 verified),
@@ -663,7 +663,7 @@ save/reopen, drawing Hole Callout round trip): hole blind/thru, counterbore blin
 blind/thru, counterbore slot blind/thru, plain slot blind, countersink slot blind/thru. 2 pipe taps are created and read back but their tapered
 geometry has no reference yet. 56 are `failed_verification` with the exact mismatch recorded (near/mid/far countersink treatments, head-clearance
 countersinks, plain taps, plain through slot); 10 legacy have no adapter. Advanced Hole: element data and face selection work, `AdvancedHole2` still
-reports incorrect parameters; Hole Series: no creation API. See `docs/hole-wizard/support-status.md` and `matrix-results.json`.
+reports incorrect parameters; Hole Series: no creation API. See `docs/solidworks/hole-wizard/support-status.md` and `matrix-results.json`.
 
 ## SolidWorks build recording: "Record Pipeline Run" (2026-11-19, branch `Improvements_2`)
 
@@ -683,7 +683,7 @@ ledger. Details: `docs/test-reports/2026-11-25-v4-report.md`, `FINAL_UI/README.m
 
 ## Scoring rubric: Extraction-to-Model Fidelity (2026-11-25, branch `Improvementsv4`)
 
-New primary scorer `bench/fidelity.py` (spec `docs/scoring-rubric-emf.md`): extraction vs the real SolidWorks part (STL exported from the SLDPRT), 100 points
+New primary scorer `bench/fidelity.py` (spec `docs/scoring/scoring-rubric-emf.md`): extraction vs the real SolidWorks part (STL exported from the SLDPRT), 100 points
 in six categories, colour bands, severity-ranked issues, no answer key. Scores of the 19 `FINAL_OUTPUTs` parts: 4 green, several red because their
 STL is not their own mesh (A040501E holds A040691E's), 5 Incomplete (no exported STL), 1 no part. Open item found by it: fix the STL export so each
 run's STL belongs to its SLDPRT (the rubric flags it as a critical `STL_NOT_THIS_BUILD`).

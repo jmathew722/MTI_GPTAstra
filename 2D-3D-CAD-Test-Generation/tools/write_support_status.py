@@ -1,7 +1,7 @@
-"""Regenerate docs/hole-wizard/support-status.md from files and code (Stage 4, task 4.14 / slice K).
+"""Regenerate docs/solidworks/hole-wizard/support-status.md from files and code (Stage 4, task 4.14 / slice K).
 
-Every number and result comes from: docs/hole-wizard/matrix-results.json (run tools/run_hole_wizard_matrix.py first),
-docs/hole-wizard/preflight-result.json (tools/sw_preflight.py), the registry, and the five regression fixtures parsed live
+Every number and result comes from: docs/solidworks/hole-wizard/matrix-results.json (run tools/run_hole_wizard_matrix.py first),
+docs/solidworks/hole-wizard/preflight-result.json (tools/sw_preflight.py), the registry, and the five regression fixtures parsed live
 at generation time. Nothing about support is typed in by hand.
 """
 import json

@@ -3,8 +3,8 @@
 **Date:** 2026-09-28 · **Author:** ggould (MalteseWarrior) · **Status:** preliminary, open for collaborator review
 
 > Review through a PR. Comment on lines, propose priority or target changes, and
-> tick open questions as they're answered. Related: [STATE.md](../STATE.md),
-> [roadmap spec](superpowers/specs/2026-09-28-ai-cad-roadmap-design.md).
+> tick open questions as they're answered. Related: [STATE.md](../../STATE.md),
+> [roadmap spec](../superpowers/specs/2026-09-28-ai-cad-roadmap-design.md).
 
 ## Problem statement
 
@@ -37,7 +37,7 @@ The existing pipeline (first built June 2026) runs in five steps:
 3. The pipeline generates numbered SolidWorks VBA macros, or drives SolidWorks
    directly over COM.
 4. A static audit bans SolidWorks API calls that don't exist.
-5. Ten runtime failures on real machines ([error log](solidworks-macro-error-log.md)
+5. Ten runtime failures on real machines ([error log](../solidworks/solidworks-macro-error-log.md)
    E001–E010) have hardened the generator.
 
 Measured results on the five parts built to `.SLDPRT` (June 18, 2026):
@@ -50,7 +50,7 @@ Measured results on the five parts built to `.SLDPRT` (June 18, 2026):
 | SB11780 | 76.88 in tie rod, turned shoulders | 1 of 5 | PASSED |
 | SB11842 | Spindle back-up flange | 2 of 5 | PASSED |
 
-> **Progress update, 2026-10-04** (details: [STATE.md §2–§3.0](../STATE.md)).
+> **Progress update, 2026-10-04** (details: [STATE.md §2–§3.0](../../STATE.md)).
 > Measured on SolidWorks 2025 SP5, same five parts:
 > - **Feature completeness:** 22 of 26 (85%) from the June extractions, after
 >   placement fixes in the COM builder. GPT-6 Astra's extractions are richer
@@ -76,7 +76,7 @@ Where it breaks (as of June 2026):
   ambiguous dimensions.
 - **Schema.** Hole positions mix two coordinate frames, part center and lower-left
   corner.
-- **Data quality.** In `NewVerifiedDrawings/`, many images named as front or side
+- **Data quality.** In `data/inputs/verified_drawings/`, many images named as front or side
   views show unrelated components. That set must be labeled by hand before use.
 
 ## Goals and non-goals
@@ -233,21 +233,21 @@ gate) or escalate it to a person. Every attempt is written to the part's audit l
 - **Feature IR v2 (sub-project A).** A typed build plan with one part frame and named
   datums. Every coordinate is written as an expression over drawing dimensions. It
   compiles to CadQuery for the reference and to SolidWorks for delivery.
-  [Spec](superpowers/specs/2026-09-28-feature-ir-v2-design.md)
+  [Spec](../superpowers/specs/2026-09-28-feature-ir-v2-design.md)
 - **Auditor loop (B).** Deterministic checks come first and can't be overruled. Jev
   answers bounded yes/no and choice questions over callout text. A pinned vision
   model reviews the plan drawn over each drawing view.
-  [Spec](superpowers/specs/2026-09-28-auditor-loop-design.md)
+  [Spec](../superpowers/specs/2026-09-28-auditor-loop-design.md)
 - **Jev's role.** Jev takes text and returns typed probabilities. It is documented as
   weak with numbers, so it never judges a dimension, and every tolerance check stays
   in code.
 - **Benchmark (C).** Scores the CadQuery reference against MTI's own model on
   placement, relative placement, dimensions and completeness. Opus 5.5 and GPT-6
   Astra are each run raw and audited.
-  [Spec](superpowers/specs/2026-09-28-placement-benchmark-design.md)
+  [Spec](../superpowers/specs/2026-09-28-placement-benchmark-design.md)
 - **MCP connector (D).** Thin tools over the same functions. A core server runs on any
   OS, and a SolidWorks worker runs on the Windows host.
-  [Roadmap §D](superpowers/specs/2026-09-28-ai-cad-roadmap-design.md)
+  [Roadmap §D](../superpowers/specs/2026-09-28-ai-cad-roadmap-design.md)
 
 ## Deployment options
 
@@ -305,7 +305,7 @@ SolidWorks track.
 | CadQuery (with OCP) installed alongside the current requirements | AILOT team | A | Not started |
 | Reference models exported to STEP for the 9 benchmark parts | MTI | C | Not started |
 | Decision on whether the drawings and reference models are confidential | MTI | C | Not started |
-| Hand labeling of `NewVerifiedDrawings/` views (which part, which view, or separate detail) | AILOT team, MTI | C (later parts) | Not started |
+| Hand labeling of `data/inputs/verified_drawings/` views (which part, which view, or separate detail) | AILOT team, MTI | C (later parts) | Not started |
 | API access: Anthropic (Opus 5.5), OpenAI (`gpt-6-astra`), TypeSafe (Jev) | AILOT team | B, C | Not started |
 | Windows + SolidWorks 2024 host for recorded-macro checks and the SolidWorks track | MTI or AILOT team | A (verification), C | Not started |
 
@@ -320,7 +320,7 @@ SolidWorks track.
 | The auditor's reviewer model favors plans from its own vendor | Biased benchmark | Deterministic checks dominate the verdict, and a reviewer-swap run is reported. |
 | Tuning on the same parts we score | Inflated results | The held-out split is fixed before tuning, and changing it requires a reviewed PR. |
 | New SolidWorks API calls (revolve, select by point) fail on real machines | SolidWorks builds break | Each call is confirmed with a recorded macro on SolidWorks 2024 first. Failures go into the error log, with a regression test. |
-| Mislabeled drawing views feed unrelated components into one part | Impossible parts, bad benchmark data | Only human-labeled folders are used, and `NewVerifiedDrawings/` is excluded until it is curated. |
+| Mislabeled drawing views feed unrelated components into one part | Impossible parts, bad benchmark data | Only human-labeled folders are used, and `data/inputs/verified_drawings/` is excluded until it is curated. |
 
 ## Open questions for reviewers
 
@@ -342,15 +342,15 @@ Tick each one once it has an answer, and write the answer beside it in the PR.
 
 **In this repository**
 
-- [README.md](../README.md): project overview and quick start
-- [STATE.md](../STATE.md): current status, per-part results, data-quality warning
-- [CLAUDE.md](../CLAUDE.md): how to run the pipeline, hard rules, conventions
-- [solidworks-macro-error-log.md](solidworks-macro-error-log.md): runtime failures E001–E010 and the rules they produced
-- [Roadmap](superpowers/specs/2026-09-28-ai-cad-roadmap-design.md): decisions and architecture
-- [Feature IR v2](superpowers/specs/2026-09-28-feature-ir-v2-design.md): sub-project A
-- [Auditor loop](superpowers/specs/2026-09-28-auditor-loop-design.md): sub-project B
-- [Placement benchmark](superpowers/specs/2026-09-28-placement-benchmark-design.md): sub-project C
-- [GRAPH_REPORT.md](../graphify-out/GRAPH_REPORT.md): knowledge graph of code, docs and drawings
+- [README.md](../../README.md): project overview and quick start
+- [STATE.md](../../STATE.md): current status, per-part results, data-quality warning
+- [CLAUDE.md](../../CLAUDE.md): how to run the pipeline, hard rules, conventions
+- [solidworks-macro-error-log.md](../solidworks/solidworks-macro-error-log.md): runtime failures E001–E010 and the rules they produced
+- [Roadmap](../superpowers/specs/2026-09-28-ai-cad-roadmap-design.md): decisions and architecture
+- [Feature IR v2](../superpowers/specs/2026-09-28-feature-ir-v2-design.md): sub-project A
+- [Auditor loop](../superpowers/specs/2026-09-28-auditor-loop-design.md): sub-project B
+- [Placement benchmark](../superpowers/specs/2026-09-28-placement-benchmark-design.md): sub-project C
+- [GRAPH_REPORT.md](../../graphify-out/GRAPH_REPORT.md): knowledge graph of code, docs and drawings
 
 **External sources**
 

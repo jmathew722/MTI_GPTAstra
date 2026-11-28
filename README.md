@@ -15,7 +15,7 @@ MTI by the iNDustry Labs AILOT team.
 >
 > **2026-10-11:** parts are now modeled to **MTI's own standards**: origin centered on the
 > base body, base sketch on the Top plane, and Up To Next through holes. Hole Wizard sizes are
-> proposed from MTI's hole standard. See [docs/mti-modeling-standards.md](docs/mti-modeling-standards.md).
+> proposed from MTI's hole standard. See [docs/mti/mti-modeling-standards.md](docs/mti/mti-modeling-standards.md).
 
 ## How it works
 
@@ -40,10 +40,10 @@ Windows + SolidWorks. Every paid model call goes through a hard **$20 budget gua
 | Path | What's there |
 |---|---|
 | [`2D-3D-CAD-Test-Generation/`](2D-3D-CAD-Test-Generation/) | All code: `main.py` CLI, `pipeline/`, `utils/`, `tests/`, generated `output/` and hand-off `Deliverables/`. Detailed usage is in its [README](2D-3D-CAD-Test-Generation/README.md) |
-| `DrawingPDFs/` | Source PDFs for 115-C, 116-C, 117-C and 135-A |
-| `ViewDefinedDrawings/` | Clean multi-view drawings, one folder per part (A040911E, A040921E, SB11033, SB11780, SB11842) |
-| `NewVerifiedDrawings/` | 12 more parts. ⚠️ Many `_front_view` / `_side_view` images are **not** views of the named part; label them by hand before use |
-| [`docs/`](docs/) | [SolidWorks macro error log](docs/solidworks-macro-error-log.md) and design specs |
+| `data/inputs/drawing_pdfs/` | Source PDFs for 115-C, 116-C, 117-C and 135-A |
+| `data/inputs/view_defined_drawings/` | Clean multi-view drawings, one folder per part (A040911E, A040921E, SB11033, SB11780, SB11842) |
+| `data/inputs/verified_drawings/` | 12 more parts. ⚠️ Many `_front_view` / `_side_view` images are **not** views of the named part; label them by hand before use |
+| [`docs/`](docs/) | [SolidWorks macro error log](docs/solidworks/solidworks-macro-error-log.md) and design specs |
 | [`graphify-out/`](graphify-out/) | Knowledge graph of the repo. Open `graph.html` in a browser; the summary is in [`GRAPH_REPORT.md`](graphify-out/GRAPH_REPORT.md) |
 
 ## Quick start
@@ -149,14 +149,14 @@ and date. A price that isn't confirmed is `null`, and those rows show as
 |---|---|
 | [STATE.md](STATE.md) | Where the project stands: results, gaps, open decisions |
 | [docs/test-reports/](docs/test-reports/) | Dated test-day records: every run, success, failure, cost and decision |
-| [docs/mti-modeling-standards.md](docs/mti-modeling-standards.md) | MTI's modeling practices and feature guide, and what the pipeline does about each |
-| [docs/demo-guide.md](docs/demo-guide.md) | Live meeting demo: checklist, talking points, fallbacks (`demo.py`) |
+| [docs/mti/mti-modeling-standards.md](docs/mti/mti-modeling-standards.md) | MTI's modeling practices and feature guide, and what the pipeline does about each |
+| [docs/guides/demo-guide.md](docs/guides/demo-guide.md) | Live meeting demo: checklist, talking points, fallbacks (`demo.py`) |
 | [CLAUDE.md](CLAUDE.md) | Working rules for humans and Claude: commands, hard rules, conventions |
-| [docs/solidworks-macro-error-log.md](docs/solidworks-macro-error-log.md) | Every real SolidWorks failure and the generator rule it produced |
+| [docs/solidworks/solidworks-macro-error-log.md](docs/solidworks/solidworks-macro-error-log.md) | Every real SolidWorks failure and the generator rule it produced |
 | [Roadmap](docs/superpowers/specs/2026-09-28-ai-cad-roadmap-design.md) | Next-phase decisions and architecture, plus specs for [A: Feature IR v2](docs/superpowers/specs/2026-09-28-feature-ir-v2-design.md), [B: auditor loop](docs/superpowers/specs/2026-09-28-auditor-loop-design.md) and [C: placement benchmark](docs/superpowers/specs/2026-09-28-placement-benchmark-design.md) |
 | [June 2026 pipeline design](docs/superpowers/specs/2026-06-11-2d-to-3d-solidworks-pipeline-design.md) | Original design of the current pipeline |
-| [docs/PRD.md](docs/PRD.md) | Product requirements: problem, goals, requirements, success targets, open questions for review |
-| [docs/PRD-aws.md](docs/PRD-aws.md) · [docs/PRD-azure.md](docs/PRD-azure.md) | The two hosting options for the MCP connector and model access (Bedrock + AgentCore vs Foundry + Azure Functions) |
+| [docs/product/PRD.md](docs/product/PRD.md) | Product requirements: problem, goals, requirements, success targets, open questions for review |
+| [docs/product/PRD-aws.md](docs/product/PRD-aws.md) · [docs/product/PRD-azure.md](docs/product/PRD-azure.md) | The two hosting options for the MCP connector and model access (Bedrock + AgentCore vs Foundry + Azure Functions) |
 
 ## Knowledge graph
 

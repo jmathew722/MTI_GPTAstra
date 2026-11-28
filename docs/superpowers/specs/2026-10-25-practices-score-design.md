@@ -21,7 +21,7 @@ MTI calls these "general best practices, not hard rules". So the score is advice
 pipeline, not a pass/fail gate.
 
 **User rule.** A practice that the pipeline violates *systematically, by design* is **not scored**. It is
-recorded as a "real big problem" in [docs/mti-practices-big-problems.md](../../mti-practices-big-problems.md)
+recorded as a "real big problem" in [docs/mti/mti-practices-big-problems.md](../../mti/mti-practices-big-problems.md)
 to fix in the pipeline later.
 
 ## Practices: scored, excluded or deferred

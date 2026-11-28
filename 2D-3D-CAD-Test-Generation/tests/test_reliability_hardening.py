@@ -1,6 +1,6 @@
 """Regression tests for the reliability-hardening pass.
 
-Covers four failure classes from docs/solidworks-macro-error-log.md:
+Covers four failure classes from docs/solidworks/solidworks-macro-error-log.md:
   * E010 — verbose applies_to labels silently miss the canonical envelope/profile.
   * E004/E006 — banned/nonexistent APIs must never ship (static auditor).
   * E008 — a paid extraction must be persisted even when BLOCKED.

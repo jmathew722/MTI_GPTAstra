@@ -29,7 +29,7 @@
 - Every part is scored against MTI's model with `mti_score.py`: IoU, volume, size, and surface
   deviation in mm.
 
-**Compiler and reference fixes** (each logged in `docs/solidworks-macro-error-log.md`):
+**Compiler and reference fixes** (each logged in `docs/solidworks/solidworks-macro-error-log.md`):
 
 | Entry | Fix |
 |---|---|
@@ -62,7 +62,7 @@
 - Merged smcanuff's benchmark scorer (`bench/`) from `main`. Error-log numbers were reconciled:
   ours are E028–E032; E026/E027 are reserved for smcanuff.
 - PR #6 has its title and description; review was requested from smcanuff-sudo.
-- MTI model-vs-drawing summary written: `docs/mti-questions/2026-10-28-model-vs-drawing-mismatches.md`.
+- MTI model-vs-drawing summary written: `docs/mti/mti-questions/2026-10-28-model-vs-drawing-mismatches.md`.
 - Rule recorded: **the 2D drawing is the ground truth.** Production runs only get the drawing.
 - Budget raised by the user: $20 → $40 → $50. An expired OpenAI key was replaced on 2026-10-28.
 - **Tests:** 1008 passing, 66 skipped (they need `MTI_BENCH_DATA`).
@@ -101,7 +101,7 @@ These are in the worktree only:
 7. **Re-plan SB12059, SB12054 and 2N2664** (~$2.10) so their radial holes get real angles. These
    plans were written before the angle field existed.
 
-**Needs MTI** (send `docs/mti-questions/2026-10-28-model-vs-drawing-mismatches.md`):
+**Needs MTI** (send `docs/mti/mti-questions/2026-10-28-model-vs-drawing-mismatches.md`):
 
 8. Swap back the SB12050/SB12051 models, or confirm.
 9. Is the drawing or the model current for SB12009, SB14306 and A00161E?

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Build one or more drawings into FINAL_OUTPUTs, refreshing costs.txt after each part.
 
-    python make_part.py "../Simple Parts/A001151E.PDF"
-    python make_part.py "../Simple Parts/A001151E.PDF" "../DrawingPDFs/A001171E.PDF"
+    python make_part.py "../data/inputs/simple_parts/A001151E.PDF"
+    python make_part.py "../data/inputs/simple_parts/A001151E.PDF" "../data/inputs/drawing_pdfs/A001171E.PDF"
     python make_part.py --no-solidworks <drawing>      # stop after the CadQuery reference
     python make_part.py --validate-only <drawing>      # paid extraction, no build
 

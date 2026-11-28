@@ -32,7 +32,7 @@
 - **Commits:** local only, **never push**. Stage only the task's files.
 - **Never stage:**
   - `pipeline/solidworks_builder.py`
-  - `../docs/solidworks-macro-error-log.md`
+  - `../docs/solidworks/solidworks-macro-error-log.md`
   - `tests/test_save_model.py`
   - `output/`
   - `swxJRNL.*`

@@ -6,7 +6,7 @@
 **API spend today: $0.00.** All builds reused saved GPT-6 Astra plans. The ledger is unchanged at $11.70 of the $20 cap (`~/.mti-2d-3d/budget_ledger.jsonl`).
 
 > **Trigger.** After the live demo, MTI's lead engineer sent their modeling practices, feature guide, six macros and Std 202.02.0003 (tap and hole specifications).
-> What MTI wants, item by item: [docs/mti-modeling-standards.md](../mti-modeling-standards.md).
+> What MTI wants, item by item: [docs/mti/mti-modeling-standards.md](../mti/mti-modeling-standards.md).
 > Design: [specs/2026-10-11-mti-modeling-standards-design.md](../superpowers/specs/2026-10-11-mti-modeling-standards-design.md).
 
 ## 1. Overall statement
@@ -61,7 +61,7 @@ All of it is verified feature by feature against the CadQuery reference. **All 9
 
 **Fix:** the compiler sets `SketchManager.AddToDB = True` (no inference) for the whole build. Regression test added.
 
-**Lesson:** centering the origin puts many features near it; programmatic sketches must never rely on inference. Full entry: [error log E020](../solidworks-macro-error-log.md).
+**Lesson:** centering the origin puts many features near it; programmatic sketches must never rely on inference. Full entry: [error log E020](../solidworks/solidworks-macro-error-log.md).
 
 ## 4. What changed (code)
 

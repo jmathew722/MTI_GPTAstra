@@ -21,7 +21,7 @@ EVID = REPO / "docs" / "solidflow-upgrades" / "v8-evidence"
 
 def make_multipage() -> Path:
     import fitz
-    src = REPO / "Simple Parts" / "A001651E.PDF"
+    src = REPO / "data" / "inputs" / "simple_parts" / "A001651E.PDF"
     out = EVID / "_fixtures" / "ring_2page.pdf"
     out.parent.mkdir(parents=True, exist_ok=True)
     doc = fitz.open()

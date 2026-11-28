@@ -7,7 +7,7 @@
 - six of MTI's SolidWorks macros (`SelectPlane1/2/3`, `SelectPlaneNext`, `SelectFaces`, `ToggleCosmeticThreads`);
 - MTI Standard **202.02.0003** *Tap and Hole Specifications*.
 
-**Design:** [specs/2026-10-11-mti-modeling-standards-design.md](superpowers/specs/2026-10-11-mti-modeling-standards-design.md).
+**Design:** [specs/2026-10-11-mti-modeling-standards-design.md](../superpowers/specs/2026-10-11-mti-modeling-standards-design.md).
 
 > MTI's own framing: these are *general best practices, not hard and fast rules*.
 > The engineer decides case by case. The pipeline therefore **applies** a practice
@@ -72,7 +72,7 @@ The pipeline's prohibited list (CLAUDE.md rule 7) already covers the solid-model
 
 This standard is **proprietary and confidential**, so it is **not in the repository**.
 
-- **Local copy.** A transcription lives at `2D-3D-CAD-Test-Generation/config/mti/202.02.0003.local.json`. It is gitignored, and a test checks that it stays ignored. See [config/mti/README.md](../2D-3D-CAD-Test-Generation/config/mti/README.md).
+- **Local copy.** A transcription lives at `2D-3D-CAD-Test-Generation/config/mti/202.02.0003.local.json`. It is gitignored, and a test checks that it stays ignored. See [config/mti/README.md](../../2D-3D-CAD-Test-Generation/config/mti/README.md).
 - **Who uses it.** Only deterministic local code reads it: `pipeline/mti_standards.py`, the counterbore fallback in `run_models.py`, and the MTI review. It is never put into a model prompt; the planner still sees only the generic SHCS chart.
 - **Contents.** Inch rows #6 to 1-1/2, and metric rows M3 to M48. Columns: pitch, preferred, hex key, tap drill, standard tap depth, clearance (normal and loose), FHCS countersink, counterbore diameter and depth, SHCS countersink.
 - **Where MTI differs from the generic chart.** MTI's SHCS counterbores are **deeper** than the generic "depth = nominal" rule (the values stay in the local file). When the local table is present, MTI's values win; a depth printed on the drawing still wins over both.

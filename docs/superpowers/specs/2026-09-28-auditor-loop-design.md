@@ -152,7 +152,7 @@ while True:
   auditor's share of spend and the cost of each retry.
 - `python -m pipeline.audit.rollup` → `docs/audit-rejections.md`: the most
   frequent checks, by planner model and by part family. This is the
-  institutional-memory successor to `docs/solidworks-macro-error-log.md`, the
+  institutional-memory successor to `docs/solidworks/solidworks-macro-error-log.md`, the
   same way E001–E010 hardened the generator. Recurring rejection classes drive
   prompt and IR changes.
 

@@ -27,9 +27,9 @@ mti-2d-3d/
 │   ├── tests/                     pytest suite + golden macro snapshots
 │   ├── output/<Part>/             generated packages (extraction, report, macros, .SLDPRT)
 │   └── Deliverables/<Part>/       hand-off copies (.SLDPRT + design decisions)
-├── DrawingPDFs/                   source drawings (PDF)
-├── NewVerifiedDrawings/           source drawings, flat: <part>.png, <part>_front_view.png, <part>_side_view.png
-├── ViewDefinedDrawings/           source drawings, one folder per part (<part>_front/_side/.png)
+├── data/inputs/drawing_pdfs/                   source drawings (PDF)
+├── data/inputs/verified_drawings/           source drawings, flat: <part>.png, <part>_front_view.png, <part>_side_view.png
+├── data/inputs/view_defined_drawings/           source drawings, one folder per part (<part>_front/_side/.png)
 ├── docs/
 │   ├── test-reports/                   ← dated test-day records (results, failures, costs, decisions)
 │   ├── PRD.md                          ← product requirements (goals, requirements, success targets)
@@ -72,7 +72,7 @@ python -m pytest tests/ -v                                   # tests (1308 passi
 python -m bench.prep status                                  # benchmark data (needs MTI_BENCH_DATA + ODA_CONVERTER in .env)
 python -m bench.prep <copy|dxf|pdf|step|keys|check|link|review|accept|signoff|profile>  # benchmark prep (no API cost)
 python -m bench.score <run_dir> [--keys-dir DIR] [--no-sw]   # geometry score 0-100 + stage blame, plus a separate MTI practices score -> scores.json, report.html (no API cost)
-python -m bench.fidelity <part_dir|--all run_dir>            # Extraction-to-Model Fidelity 0-100 of the REAL SolidWorks part (STL) vs the extraction; no key, no API cost -> fidelity_score.json (docs/scoring-rubric-emf.md)
+python -m bench.fidelity <part_dir|--all run_dir>            # Extraction-to-Model Fidelity 0-100 of the REAL SolidWorks part (STL) vs the extraction; no key, no API cost -> fidelity_score.json (docs/scoring/scoring-rubric-emf.md)
 python -m bench.calibrate                                    # planted-error table on real parts; tune bench/score_config.yaml
 UPDATE_GOLDEN=1 python -m pytest tests/test_golden_macros.py # accept an intended macro change
 python -m pipeline.token_report ./output --html output/usage/usage_report.html  # token & cost report
@@ -96,7 +96,7 @@ Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KE
 (2576), `MACRO_READINESS_THRESHOLD`, `SOLIDWORKS_TEMPLATE_PATH`, `MTI_CALLOUT_DEFAULTS` (`1` default;
 `0` leaves vague callouts unresolved, see `pipeline/ir/defaults.py`). Never commit `.env`.
 
-## Hard rules (learned the hard way — see docs/solidworks-macro-error-log.md)
+## Hard rules (learned the hard way — see docs/solidworks/solidworks-macro-error-log.md)
 
 1. **No invented SolidWorks APIs.** Every API call must be verified against the
    SW API docs or a recorded macro. `macro_audit.py` bans known offenders
@@ -110,7 +110,7 @@ Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KE
    base sketch on the **Top plane**, Mid Plane base, **Up To Next** through cuts,
    each verified by volume with a logged fallback (`convention="mti"`, default).
    The VBA path still uses the lower-left-corner origin. See
-   `docs/mti-modeling-standards.md`.
+   `docs/mti/mti-modeling-standards.md`.
 4. **Never select reference geometry by a single hard-coded name.** Always
    provide a position-in-tree fallback (E002; `select_ref_plane`, MTI's
    `SelectPlane` macro pattern).
@@ -144,7 +144,7 @@ Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KE
 
 ## When a macro fails on a real SolidWorks machine
 
-1. Log it in `docs/solidworks-macro-error-log.md` FIRST (next E-number, symptom,
+1. Log it in `docs/solidworks/solidworks-macro-error-log.md` FIRST (next E-number, symptom,
    root cause, fix, generator rule, test name).
 2. Fix `pipeline/macro_generator.py` — never hand-edit a generated `.vba`.
 3. Add a regression test in `tests/test_macro_generator.py`.
@@ -170,7 +170,7 @@ Env vars: `EXTRACTION_PROVIDER` (`openai` default | `anthropic`), `OPENAI_API_KE
 
 ## MTI modeling standards (2026-10-11)
 
-MTI's own practices: `docs/mti-modeling-standards.md`; design and phases:
+MTI's own practices: `docs/mti/mti-modeling-standards.md`; design and phases:
 `docs/superpowers/specs/2026-10-11-mti-modeling-standards-design.md`.
 
 - **"General best practices, not hard and fast rules."** Apply what the compiler

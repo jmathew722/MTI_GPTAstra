@@ -4,7 +4,7 @@
 summarised here, not copied) and a code audit of the Feature-IR pipeline on `feat/mti-benchmark`.
 
 **User rule:** a practice the pipeline violates systematically is not a scoring detail. It is excluded from the
-practices score ([spec 2b](superpowers/specs/2026-10-25-practices-score-design.md)) and fixed in the pipeline.
+practices score ([spec 2b](../superpowers/specs/2026-10-25-practices-score-design.md)) and fixed in the pipeline.
 Each entry gives the practice, what the pipeline does, the cause, and a fix sketch. `cs` is
 `2D-3D-CAD-Test-Generation/pipeline/ir/compile_solidworks.py`; line numbers are as of 2026-10-25.
 
@@ -26,7 +26,7 @@ Each entry gives the practice, what the pipeline does, the cause, and a fix sket
   - In the compiler, open each non-base sketch on its actual start face. Ray-select the face, as
     `hole_wizard` already does at cs:584, and use a From Sketch Plane start.
   - Dimension from that face's model edges.
-  - The choice of datum edges is still an open question (docs/mti-modeling-standards.md, Q5).
+  - The choice of datum edges is still an open question (docs/mti/mti-modeling-standards.md, Q5).
 
 ## 2. Through cuts are not "Up To Next" (P7)
 

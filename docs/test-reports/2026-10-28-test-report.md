@@ -205,7 +205,7 @@ the key was replaced it ran clean. **Results:** `output/mti_audit_batch3/`.
   the file in MTI's SB12050 folder.
 - Our SB12050 (2.12") scores **0.996** against the file in the SB12051 folder.
 - So both of our parts are right, and SB12050 is no longer a drawing-vs-model mismatch.
-- The summary for MTI (`docs/mti-questions/`) is updated.
+- The summary for MTI (`docs/mti/mti-questions/`) is updated.
 
 **SB12059 is four separate pieces by design (E031).**
 
@@ -332,7 +332,7 @@ included angle), so it would change no current part.
 - **Demo:**
   - `demo.py` now runs MTI audit parts (`--part P --from <dir>`), shows the callout defaults, and
     scores the result against MTI's own model.
-  - Runbook: `docs/demo/2026-11-02-mti-demo-runbook.md`.
+  - Runbook: `docs/guides/demo/2026-11-02-mti-demo-runbook.md`.
   - Rehearsed: 2N2664, A00122E (19/19, 0.21 mm max, 45 s) and the 2N2664 re-plan.
 - **2N2664 re-plan** ($0.86; ledger **$47.54 of $50**):
   - The planner used the radial-hole convention: F017 at u = 240°, matching "30° left of

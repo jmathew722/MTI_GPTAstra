@@ -1,7 +1,7 @@
 # Token Tracker — Design
 
 **Date:** 2026-10-01 · **Status:** approved; implemented on `feat/token-tracker`
-**Related:** [PRD](../../PRD.md) (non-functional requirement "Cost visibility"), [auditor loop](2026-09-28-auditor-loop-design.md), [benchmark](2026-09-28-placement-benchmark-design.md)
+**Related:** [PRD](../../product/PRD.md) (non-functional requirement "Cost visibility"), [auditor loop](2026-09-28-auditor-loop-design.md), [benchmark](2026-09-28-placement-benchmark-design.md)
 
 ## Goal
 

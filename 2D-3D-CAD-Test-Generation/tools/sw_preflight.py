@@ -1,6 +1,6 @@
 """Run the SOLIDWORKS 2025 environment gate against the running session (read-only) and write a path-free result.
 
-    python tools/sw_preflight.py [--out docs/hole-wizard/preflight-result.json]
+    python tools/sw_preflight.py [--out docs/solidworks/hole-wizard/preflight-result.json]
 
 Never clicks a dialog, edits a database or changes a SolidWorks setting. Exit code 0 = ready, 3 = preflight failed.
 """

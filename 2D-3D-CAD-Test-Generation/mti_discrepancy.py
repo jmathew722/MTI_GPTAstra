@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 
 MIN_PIECE_IN3 = 0.0005      # ignore slivers below this
-# MTI's model differs from its own drawing, or the files are swapped (docs/mti-questions/):
+# MTI's model differs from its own drawing, or the files are swapped (docs/mti/mti-questions/):
 # their gaps are data questions for MTI, not pipeline causes, so they stay out of the ranking.
 MODEL_MISMATCH = {"SB12009", "SB14306", "A00161E", "SB12050", "SB12051"}
 RING_THIN_IN = 0.1          # a ring is thin in one direction...

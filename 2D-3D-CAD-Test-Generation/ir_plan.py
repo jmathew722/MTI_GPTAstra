@@ -18,7 +18,7 @@ REPO = Path(__file__).resolve().parent.parent
 
 def images_for(part: str) -> list[tuple[str, str]]:
     from utils.image_prep import prepare_image
-    folder = next((p for p in (REPO / "ViewDefinedDrawings").glob(f"{part}*/{part}")), None)
+    folder = next((p for p in (REPO / "data" / "inputs" / "view_defined_drawings").glob(f"{part}*/{part}")), None)
     if folder is None:
         raise FileNotFoundError(f"no drawing folder for {part}")
     order = [(f"{part}.png", "FULL SHEET"), (f"{part}_front.png", "FRONT VIEW (crop)"),

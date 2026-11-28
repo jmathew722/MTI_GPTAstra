@@ -8,7 +8,7 @@
 > This report is the permanent record of what was run, what worked, what failed, and what it
 > cost. Numbers come from the files named next to them. Live status lives in
 > [STATE.md](../../STATE.md); the runtime failures are in the
-> [error log](../solidworks-macro-error-log.md) (E011–E019).
+> [error log](../solidworks/solidworks-macro-error-log.md) (E011–E019).
 
 ---
 
@@ -253,7 +253,7 @@ shared across runs. Never tripped today; **$8.30 remains**.
    (hole centers, diameters, depths from the feature map), and retry the planner with specific
    findings (≤ 2 retries).
 3. **Flip the default** to the IR path in `main.py` once the team agrees.
-4. **More parts:** curate `NewVerifiedDrawings/` (mislabeled views) and get MTI reference STEP to
+4. **More parts:** curate `data/inputs/verified_drawings/` (mislabeled views) and get MTI reference STEP to
    freeze a held-out set.
 5. **Housekeeping:** confirm the OpenAI price; finish the full `/graphify` semantic refresh; emit
    VBA from the IR; compile slot/polygon profiles and circular prism patterns in SolidWorks; add CI.
@@ -263,7 +263,7 @@ shared across runs. Never tripped today; **$8.30 remains**.
 | What | Where |
 |---|---|
 | Live status, root causes, results tables | `STATE.md` (§2.1, §3.0, §4.1, §4.2) |
-| Runtime failures and the rules they produced | `docs/solidworks-macro-error-log.md` (E011–E019) |
+| Runtime failures and the rules they produced | `docs/solidworks/solidworks-macro-error-log.md` (E011–E019) |
 | Feature IR plan and status | `docs/superpowers/plans/2026-10-04-feature-ir-v2.md` |
 | Golden plans (hand-checked answers) | `2D-3D-CAD-Test-Generation/tests/golden/ir/` |
 | End-to-end outputs per part (extraction, plan, STEP, SLDPRT, report) | `output/ir_runs/<part>/` |

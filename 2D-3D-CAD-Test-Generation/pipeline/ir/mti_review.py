@@ -1,4 +1,4 @@
-"""MTI modeling-practice review of a BuildPlan (docs/mti-modeling-standards.md).
+"""MTI modeling-practice review of a BuildPlan (docs/mti/mti-modeling-standards.md).
 
 Deterministic and advisory: findings are ``info`` / ``warning`` (codes ``mti_*``) for
 the reviewing engineer and never block a build. MTI's practices are "general best
